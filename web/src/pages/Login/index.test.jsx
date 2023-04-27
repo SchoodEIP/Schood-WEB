@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Login from './';
-import { shallow } from 'enzyme';
 
 describe('Login', () => {
   it('renders email and password inputs', () => {

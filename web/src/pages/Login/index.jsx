@@ -19,6 +19,12 @@ export default function Login() {
             return;
         }
 
+        // Vérifier qu'un password a été entré avant de faire la requête
+        if (!password) {
+          setMessage("Password is empty");
+          return;
+        }
+
         const payload = {
             email: email,
             password: password
