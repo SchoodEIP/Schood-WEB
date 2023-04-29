@@ -1,10 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './styles/sidebar.scss';
 import Sidebar from './pages/Sidebar';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Sidebar />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Sidebar} />
+      </Switch>
+    </Router>
+  );
+}
