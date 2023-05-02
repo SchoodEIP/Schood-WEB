@@ -1,0 +1,12 @@
+.page-body {
+    position: relative;
+}
+
+.left-half {
+    position: fixed;
+    left: 0px
+}
+
+.right-half {
+  right: 10px;
+}

@@ -1,0 +1,16 @@
+.account-creation {
+    background: white;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    position: relative;
+    border-color: black;
+    border-radius: 5px;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+label {
+    color: rgb(79, 35, 226);
+}

@@ -1,0 +1,29 @@
+import React from 'react';
+import Logo from '../../assets/schood.png';
+import PowerIcon2 from '../../assets/powerIcon2.png';
+import userIcon from '../../assets/userIcon.png';
+import './HeaderComp.css';
+
+export default function HeaderComp() {
+
+    function handleClickLogout() {
+        localStorage.removeItem("token");
+        console.log("you are logged out");
+    }
+
+    return (
+        <header>
+            <div className="headerComp">
+                <div>
+                    <img src={Logo} alt="logo"/>
+                </div>
+                <div>
+                    <img className="user-icon" src={userIcon} alt="User"/>
+                    <a href="http://localhost:3000/login" onClick={handleClickLogout}>
+                        <img className="power-icon" src={PowerIcon2} alt="Disconnect"/>
+                    </a>
+                </div>
+            </div>
+        </header>
+    );
+}
