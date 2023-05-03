@@ -7,21 +7,27 @@ export default function AdmAccountCreation() {
             <div>
                 <div>
                     <div>
-                        <label>Prénom</label>
+                        <label>Prénom
+                            <br/>
+                            <input type="text" id="firstname" placeholder="John"/>
+                        </label>
                     </div>
-                    <input type="text" id="firstname" placeholder="John"/>
                 </div>
                 <div>
                     <div>
-                        <label>Nom</label>
+                        <label>Nom
+                            <br />
+                            <input type="text" id="lastname" placeholder="Doe"/>
+                        </label>
                     </div>
-                    <input type="text" id="lastname" placeholder="Doe"/>
                 </div>
                 <div>
                     <div>
-                        <label>Email</label>
+                        <label>Email
+                            <br/>
+                            <input type="email" id="email" placeholder="john.doe@example.com"/>
+                        </label>
                     </div>
-                    <input type="email" id="email" placeholder="john.doe@example.com"/>
                 </div>
             </div>
             <div className="creation-button">

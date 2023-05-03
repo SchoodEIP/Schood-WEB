@@ -6,36 +6,36 @@ export default function AdmAccountsTable() {
 
     // get request for account list
     async function getAccountList() {
-        // const baseUrl = "http://localhost:3000/administration/admin";
-        // const token = sessionStorage.getItem("token");
+        const baseUrl = "http://localhost:3000/administration/admin";
+        const token = sessionStorage.getItem("token");
 
-        // const resp = await fetch(baseUrl, {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         "x-auth-token": token,
-        //     }
-        // })
-        // const data = await resp.json();
-        // if (resp.status === 200) {
-        //     console.log(data)
-        //     console.log(resp.statusText);
-        // } else {
-        //     console.log(resp)
-        //     console.log(resp.statusText);
-        // }
-        const data = [
-            {
-                'firstName': 'Harry',
-                'lastName': 'Dresden',
-                'email': 'harry.dresden@epitech.eu'
-            },
-            {
-                'firstName': 'John',
-                'lastName': 'Wick',
-                'email': 'john.wick@epitech.eu'
+        const resp = await fetch(baseUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-auth-token": token,
             }
-        ];
+        })
+        const data = await resp.json();
+        if (resp.status === 200) {
+            console.log(data)
+            console.log(resp.statusText);
+        } else {
+            console.log(resp)
+            console.log(resp.statusText);
+        }
+        // const data = [
+        //     {
+        //         'firstName': 'Harry',
+        //         'lastName': 'Dresden',
+        //         'email': 'harry.dresden@epitech.eu'
+        //     },
+        //     {
+        //         'firstName': 'John',
+        //         'lastName': 'Wick',
+        //         'email': 'john.wick@epitech.eu'
+        //     }
+        // ];
         setAccountList(data);
     }
 
