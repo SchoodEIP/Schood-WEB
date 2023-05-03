@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AdmAccountCreation from "./AdmAccountCreation";
 import './AdmAccountsTable.css';
 
 export default function AdmAccountsTable() {
@@ -29,12 +28,12 @@ export default function AdmAccountsTable() {
             {
                 'firstName': 'Harry',
                 'lastName': 'Dresden',
-                email: 'harry.dresden@epitech.eu'
+                'email': 'harry.dresden@epitech.eu'
             },
             {
                 'firstName': 'John',
                 'lastName': 'Wick',
-                email: 'john.wick@epitech.eu'
+                'email': 'john.wick@epitech.eu'
             }
         ];
         setAccountList(data);
@@ -68,9 +67,6 @@ export default function AdmAccountsTable() {
                     }
                     </tbody>
                 </table>
-            </div>
-            <div className="account-creation-space">
-                <AdmAccountCreation/>
             </div>
         </div>
     )

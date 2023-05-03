@@ -13,13 +13,13 @@ export default function AdmAccountCreation() {
                 </div>
                 <div>
                     <div>
-                        <label>Prénom</label>
+                        <label>Nom</label>
                     </div>
                     <input type="text" id="lastname" placeholder="Doe"/>
                 </div>
                 <div>
                     <div>
-                        <label>Prénom</label>
+                        <label>Email</label>
                     </div>
                     <input type="email" id="email" placeholder="john.doe@example.com"/>
                 </div>

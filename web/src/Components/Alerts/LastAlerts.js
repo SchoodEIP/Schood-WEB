@@ -2,6 +2,7 @@ import { React } from 'react';
 import "./LastAlerts.css";
 
 export function LastAlerts() {
+
     return (
         <div className="alert-box">
             <div className="alert-header">
