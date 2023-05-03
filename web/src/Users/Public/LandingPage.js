@@ -5,11 +5,11 @@ import './LandingPage.scss';
 
 export default function LandingPage() {
     return (
-        <div className="Login-page">
+        <div className="Landing-page">
             <div id={"background-part"}>
                 <img id="childrenImg" src={childrenLogin} alt="children" />
             </div>
-            <div id={"login-part"}>
+            <div id={"landing-part"}>
                 <img id="schoodLogo" src={logoSchood} alt="Schood" />
                 <div>
                     <h3 className='sous-titre'>Pour une école plus sûre, une meilleure entente et un plus bel avenir pour les adultes de demain.</h3>
@@ -27,7 +27,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                     <a href="http://localhost:3000/login">
-                        <button id={"login-button"}>Se connecter</button>
+                        <button id={"connection-button"}>Se connecter</button>
                     </a>
                 </div>
             </div>

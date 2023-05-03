@@ -7,6 +7,7 @@ import AdmAccountsPage from './Users/Admin/AdmAccountsPage';
 import SchoolAdmHomePage from './Users/SchoolAdmin/SchoolAdmHomePage';
 import SchoolAdmAccountsPage from './Users/SchoolAdmin/SchoolAdmAccountsPage';
 import LandingPage from './Users/Public/LandingPage';
+import ForgottenPasswordPage from './Users/Public/ForgottenPasswordPage';
 
 const rootElement = document.getElementById('root');
 
@@ -20,6 +21,7 @@ if (rootElement) {
         <Route exact path="/Adm/Accounts" component={AdmAccountsPage} />
         <Route exact path="/School/Home" component={SchoolAdmHomePage} />
         <Route exact path="/School/Accounts" component={SchoolAdmAccountsPage} />
+        <Route exact path="/request" component={ForgottenPasswordPage} />
       </Switch>
     </Router>
   );
