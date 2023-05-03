@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeaderComp from '../Components/Header/HeaderComp';
 
@@ -20,7 +20,7 @@ describe('HeaderComp', () => {
         fireEvent.click(screen.getByAltText('Disconnect'));
 
         expect(handleClickLogoutMock).toHaveBeenCalled();
-        // expect(localStorage.getItem('token')).toBeNull();
+        expect(localStorage.getItem('token')).toBeNull();
         window.location.assign.mockRestore();
     });
 });

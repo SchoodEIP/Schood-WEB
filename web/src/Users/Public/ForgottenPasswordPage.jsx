@@ -11,7 +11,7 @@ export default function ForgottenPasswordPage() {
 
     const baseUrl = "http://localhost:8080/user/requestPassword";
 
-    const handleLogin = async (event) => {
+    const handleRequest = async (event) => {
         event.preventDefault();
 
         if (!validateEmail(email)) {
@@ -69,7 +69,7 @@ export default function ForgottenPasswordPage() {
                     </form>
                 </div>
                 <div>
-                    <button onClick={handleLogin} type={"submit"} id={"request-button"}>Demander un nouveau mot de passe</button>
+                    <button onClick={handleRequest} type={"submit"} id={"request-button"}>Demander un nouveau mot de passe</button>
                 </div>
                 <div>
                     <p id="errorMessage">{message}</p>
