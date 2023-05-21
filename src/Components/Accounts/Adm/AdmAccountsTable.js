@@ -24,18 +24,6 @@ export default function AdmAccountsTable() {
             console.log(resp)
             console.log(resp.statusText);
         }
-        // const data = [
-        //     {
-        //         'firstName': 'Harry',
-        //         'lastName': 'Dresden',
-        //         'email': 'harry.dresden@epitech.eu'
-        //     },
-        //     {
-        //         'firstName': 'John',
-        //         'lastName': 'Wick',
-        //         'email': 'john.wick@epitech.eu'
-        //     }
-        // ];
         setAccountList(data);
     }
 
