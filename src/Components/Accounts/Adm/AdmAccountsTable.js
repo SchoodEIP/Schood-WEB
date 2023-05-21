@@ -18,11 +18,9 @@ export default function AdmAccountsTable() {
         })
         const data = await resp.json();
         if (resp.status === 200) {
-            console.log(data)
-            console.log(resp.statusText);
+            // do stuff with the data
         } else {
-            console.log(resp)
-            console.log(resp.statusText);
+            // do stuff with the data
         }
         setAccountList(data);
     }
