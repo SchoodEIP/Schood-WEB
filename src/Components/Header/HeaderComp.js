@@ -8,7 +8,6 @@ export default function HeaderComp() {
 
     function handleClickLogout() {
         localStorage.removeItem("token");
-        console.log("you are logged out");
     }
 
     return (
