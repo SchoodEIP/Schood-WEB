@@ -1,0 +1,14 @@
+.account-creation {
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+    border-color: black;
+    border-radius: 100px;
+    margin-top: 25%;
+}
+
+label {
+    color: rgb(79, 35, 226);
+}

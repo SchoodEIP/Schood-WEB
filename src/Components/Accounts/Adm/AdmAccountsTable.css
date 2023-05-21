@@ -1,0 +1,58 @@
+.AccountsTable {
+    background-color: white;
+    display: flexbox;
+    flex-direction: column;
+}
+
+#titleTable {
+    margin: auto;
+    text-align: center;
+    display: flex block;
+}
+
+#valHead1, #valHead2, #valHead3, #valHead4, #valHead5 {
+    color: white;
+}
+
+#tableBlock {
+    float: right;
+    position: relative;
+    display: flex;
+    background-color: white;
+    margin-top: 10%;
+    margin-right: 30%;
+    justify-content: center;
+}
+
+th {
+    background: rgb(79, 35, 226);
+}
+
+table, td, th {
+    text-align: center;
+}
+
+td, th {
+    border: 1px solid black;
+    min-width: 100px;
+}
+
+th {
+    border: 1px solid black;
+    min-width: 100px;
+}
+
+table {
+    margin: auto;
+    display: block;
+    align-items: center;
+    border-collapse: collapse;
+}
+
+.account-creation-space {
+    background: white;
+    float: right;
+    display: block;
+    margin-top: 10%;
+    justify-content: center;
+}
