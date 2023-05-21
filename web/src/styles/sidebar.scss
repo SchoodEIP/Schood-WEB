@@ -1,136 +1,61 @@
 .sidebar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 16.6666666667%; // 1/6th of the window width
-    background-color: #1e1e1e;
-  
-    .sidebar-menu {
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-  
-      .sidebar-menu-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 80px;
-        transition: background-color 0.2s ease;
-  
-        &:hover {
-          background-color: #2f2f2f;
-        }
-  
-        a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          text-decoration: none;
-  
-          .sidebar-menu-item-icon {
-            margin-right: 10px;
-          }
-        }
-      }
+  width: 60px;
+  height: calc(100% - 40px); /* Ajustement de la hauteur pour tenir compte de la marge en haut et en bas */
+  background-color: #4f23e2;
+  transition: width 0.3s ease;
+  margin-top: 20px; /* Ajout de la marge en haut */
+  margin-bottom: 20px; /* Ajout de la marge en bas */
+
+  &.expanded {
+    width: 200px;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #4f23e2;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+
+    &.expanded {
+      transform: rotate(180deg);
     }
-  
-    .sidebar-menu-horizontal {
-      display: none;
-    }
-  
-    .sidebar-menu-collapser {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
+  }
+
+  .sidebar-menu {
+    padding: 0;
+    list-style-type: none;
+    margin-top: 20px;
+
+    .sidebar-menu-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #1e1e1e;
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  }
-  
-  .sidebar-container.minimized {
-    width: 25%;
-    .sidebar-menu {
-      display: none;
-    }
-  
-    .sidebar-menu-horizontal {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-      width: 25%; // 1/4th of the non-minimized sidebar width
-      background-color: #1e1e1e;
-  
-      .sidebar-menu-item-horizontal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 80px;
-        transition: background-color 0.2s ease;
-  
-        &:hover {
-          background-color: #2f2f2f;
-        }
-  
-        a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          text-decoration: none;
-  
-          .sidebar-menu-item-icon-horizontal {
-            margin-right: 10px;
-          }
-  
-          .sidebar-menu-item-label-horizontal {
-            display: none;
-          }
-        }
+      padding: 10px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #37404b;
       }
-    }
-  
-    .sidebar-menu-collapser {
+
+      a {
         display: flex;
-        justify-content: center;
         align-items: center;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 30px;
-        background-color: #2d3142;
+        text-decoration: none;
         color: #fff;
-        font-size: 1.2rem;
-        cursor: pointer;
-      
-        @media (min-width: 768px) {
-          display: none;
+        font-size: 20px; /* Ajustement de la taille de police */
+        margin-left: 10px; /* Ajout d'une marge entre l'icône et le texte */
+
+        .sidebar-menu-item-icon {
+          margin-right: 10px;
+          font-size: 24px; /* Ajustement de la taille de l'icône */
         }
       }
-           
-  }
-  
-  .background {
-    position: relative;
-  
-    .sidebar-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      transition: width 0.2s ease;
     }
   }
-  
+}
