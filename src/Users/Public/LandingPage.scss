@@ -1,0 +1,57 @@
+
+.titre, .sous-titre {
+    justify-content: center;
+    display: flex;
+    color: rgb(79, 35, 226);
+}
+
+body {
+    margin: 0;
+    font: georgia;
+  }
+
+  #Landing-page {
+    display: inline-block;
+  }
+
+  #background-part {
+    height: 100vh;
+    top: 0;
+    background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
+    background-size: cover;
+    width: 65%;
+    float: left;
+    #childrenImg {
+      display: block;
+      margin: 0 auto;
+      width: 75%;
+      height: 75%;
+      align-self: center;
+      float: center;
+    }
+  }
+
+  #landing-part {
+    background-color: white;
+    text-align: center;
+    float: right;
+    height: 100vh;
+    top: 0;
+    width: 35%;
+    #schoodLogo {
+      display: block;
+      margin: 0 auto;
+      width: 70%;
+      height: 25%;
+    }
+    #connection-button {
+      font-weight: 500;
+      font-size: large;
+      margin-top: 10px;
+      width: 80%;
+      height: 8vh;
+      background-color: rgb(79, 35, 226);
+      color: white;
+      border: 0;
+    }
+  }
