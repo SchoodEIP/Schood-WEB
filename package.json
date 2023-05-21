@@ -20,6 +20,16 @@
     "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"
   },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
