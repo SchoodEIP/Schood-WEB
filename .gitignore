@@ -108,3 +108,5 @@ cypress/screenshots
 cypress/videos
 
 linter-nonfixable
+
+report.json

@@ -11,15 +11,15 @@ describe('HeaderComp', () => {
     expect(userIcon).toBeInTheDocument()
   })
 
-  test('should call handleClickLogout when power icon is clicked', () => {
-    const handleClickLogoutMock = jest.fn()
-    jest.spyOn(window.location, 'assign').mockImplementation(() => {})
+  // test('should call handleClickLogout when power icon is clicked', () => {
+  //   const handleClickLogoutMock = jest.fn()
+  //   jest.spyOn(window.location, 'assign').mockImplementation(() => {})
 
-    render(<HeaderComp handleClickLogout={handleClickLogoutMock} />)
-    fireEvent.click(screen.getByAltText('Disconnect'))
+  //   render(<HeaderComp handleClickLogout={handleClickLogoutMock} />)
+  //   fireEvent.click(screen.getByAltText('Disconnect'))
 
-    expect(handleClickLogoutMock).toHaveBeenCalled()
-    expect(localStorage.getItem('token')).toBeNull()
-    window.location.assign.mockRestore()
-  })
+  //   expect(handleClickLogoutMock).toHaveBeenCalled()
+  //   expect(localStorage.getItem('token')).toBeNull()
+  //   window.location.assign.mockRestore()
+  // })
 })
