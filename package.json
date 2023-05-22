@@ -35,7 +35,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ci:test": "react-scripts test --watchAll=false",
     "coverage": "react-scripts test --coverage --watchAll=false",
     "linter": "standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage"
   },
