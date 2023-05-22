@@ -17,5 +17,5 @@ jobs:
 
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          test-script: npm ci:test
+          test-script: npm run ci:test
           working-directory: src/
