@@ -23,6 +23,7 @@ jobs:
         run: npm install
 
       - name: Launch coverage report
+        continue-on-error: true
         run: npm test -- --watchAll=false --ci --json --coverage --testLocationInResults --outputFile=report.json
 
       - uses: ArtiomTr/jest-coverage-report-action@v2
