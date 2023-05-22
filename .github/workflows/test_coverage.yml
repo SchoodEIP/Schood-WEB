@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install packages
+        run: npm install
+
       - name: Launch coverage report
         run: npm test -- --watchAll=false --ci --json --coverage --testLocationInResults --outputFile=report.json
 
