@@ -1,0 +1,32 @@
+name: 'Tests and Coverage'
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  pull_request:
+
+jobs:
+  Tests_and_Coverage:
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    name: Tests and Coverage report
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install packages
+        run: npm install
+
+      - name: Launch coverage report
+        continue-on-error: true
+        run: npm test -- --watchAll=false --ci --json --coverage --testLocationInResults --outputFile=report.json
+
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          coverage-file: report.json
+          base-coverage-file: report.json

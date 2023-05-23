@@ -1,0 +1,59 @@
+name: PLD feature
+description: Create a feature issue from the pld
+title: '[Feature]: '
+labels:
+  - enhancement
+body:
+  - type: input
+    id: featureName
+    attributes:
+      label: Feature name
+    validations:
+      required: true
+  - type: dropdown
+    id: accesslevel
+    attributes:
+      label: As
+      description: Set the access level of the feature
+      multiple: true
+      options:
+        - Student
+        - Teacher
+        - School administrator
+        - Administrator
+    validations:
+      required: true
+  - type: textarea
+    id: iwant
+    attributes:
+      label: I want
+      description: In a few word, tell us what you want for the feature
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Description of the feature
+    validations:
+      required: true
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of done
+      description: Fully describe the content of the feature as it will be at the end
+    validations:
+      required: true
+  - type: textarea
+    id: load
+    attributes:
+      label: Estimated load
+      description: The estimated load of work in man days
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: I read the Code Of Conduct
+      options:
+        - label: I read the Code Of Conduct and I comply to it
+          required: true

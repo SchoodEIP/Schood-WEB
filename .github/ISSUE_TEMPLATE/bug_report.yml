@@ -1,0 +1,38 @@
+name: Report a bug
+description: Report a bug
+title: '[Bug]: '
+labels:
+  - bug
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: 'Operating System'
+      description: What is your Operating System? Windows, Linux, Mac
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: LOG
+      description: If you have log, please send it to us!
+  - type: checkboxes
+    attributes:
+      label: I read the Code Of Conduct
+      options:
+        - label: I read the Code Of Conduct and I comply to it
+          required: true
