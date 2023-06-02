@@ -74,7 +74,7 @@ export default function ForgottenPasswordPage () {
           <p id='errorMessage'>{message}</p>
         </div>
         <div>
-          <a href='/'>Retour à l'accueil</a>
+          <a href='login'>Retour à l'accueil</a>
         </div>
       </div>
     </div>
