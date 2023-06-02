@@ -45,12 +45,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: -20px;
     margin-bottom: 10px;
+    margin-left: -20px;
+    margin-right: -20px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #4f23e2; /* Couleur de fond du header */
+    color: white; /* Couleur du texte */
+    padding: 10px;
   }
   
   .section-title {
     font-weight: bold;
     font-size: 18px;
+    margin: 0;
     /* Styles supplémentaires pour le titre de section */
   }
   
@@ -58,6 +68,7 @@
     /* ... */
     flex-grow: 2; /* Évolution occupe plus d'espace en hauteur */
     flex-shrink: 0; /* Empêche Évolution de rétrécir */
+    margin-top: 0;
     margin-bottom: 20px;
     margin-right: 20px;
     flex-basis: calc(60% + 10px); /* Largeur de 60% plus 10px */
