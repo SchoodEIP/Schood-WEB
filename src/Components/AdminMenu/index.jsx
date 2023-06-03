@@ -24,8 +24,8 @@ const Sidebar = () => {
   }, []);
 
   const pages = [
-    { id: 'home', path: '/Adm/Home', icon: <FaHome size={24} />, label: 'Accueil' },
-    { id: 'accounts', path: '/Adm/Accounts', icon: <FaQuestion size={24} />, label: 'Accounts' },
+    { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+    { id: 'accounts', path: '/accounts', icon: <FaQuestion size={24} />, label: 'Accounts' },
     { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
     { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
     { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
