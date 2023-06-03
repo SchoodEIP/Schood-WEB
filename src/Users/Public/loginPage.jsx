@@ -51,8 +51,8 @@ export default function Login() {
         }
 
         const payload = {
-            email: email,
-            password: password
+            email: 'student2@schood.fr',
+            password: 'student123'
         };
 
         try {
@@ -65,7 +65,7 @@ export default function Login() {
             });
 
             const data = await response.json();
-
+            console.log(data);
             if (response.ok) {
                 sessionStorage.setItem("token", data.token);
                 localStorage.setItem("token", data.token);

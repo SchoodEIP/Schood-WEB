@@ -1,6 +1,6 @@
 import './dashboard_teacher.scss';
 import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/AdminMenu/index'
+import Sidebar from '../../Components/Sidebar/Sidebar'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
 import { GraphSpace } from '../../Components/Graph/GraphSpace'
 import { LastAlerts } from '../../Components/Alerts/LastAlerts'
