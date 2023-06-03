@@ -13,7 +13,6 @@ describe('ForgottenPasswordPage', () => {
   it('check email when request button is clicked', () => {
     render(<ForgottenPasswordPage />)
     const requestButton = screen.getByText('Demander un nouveau mot de passe')
-    console.log(requestButton)
     fireEvent.click(requestButton)
     expect(screen.getByText('Email is not valid')).toBeInTheDocument()
   })
@@ -27,4 +26,17 @@ describe('ForgottenPasswordPage', () => {
     const errorMessage = screen.getByText('Email is not valid')
     expect(errorMessage).toBeInTheDocument()
   })
+
+  // it('sends an wrong email to database', () => {
+  //   jest.spyOn(global, 'fetch').mockResolvedValue({
+  //     json: jest.fn().mockResolvedValue({email: 'test@example.com'}),
+  //     status: 200,
+  //     statusText: 'OK'
+  //   })
+  //   await act(async () => {
+  //     render(<ForgottenPasswordPage />)
+  //   })
+  //   const errorMessage = screen.getByText('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
+  //   expect(errorMessage).toBeInTheDocument()
+  // });
 })
