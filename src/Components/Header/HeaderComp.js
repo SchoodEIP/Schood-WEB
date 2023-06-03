@@ -20,7 +20,7 @@ export default function HeaderComp () {
         </div>
         <div>
           <img className='user-icon' src={userIcon} alt='User' />
-          <a href='http://localhost:3000/login' onClick={handleClickLogout}>
+          <a href='/login' onClick={handleClickLogout}>
             <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
           </a>
         </div>

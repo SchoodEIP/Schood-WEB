@@ -27,8 +27,10 @@ if (rootElement) {
           </>
         )}
         {sessionStorage.getItem('role') !== null && (
-          <Route path='/login' element={<Navigate to='/' replace />} />,
-          <Route path='/forgot' element={<Navigate to='/' replace />} />
+          <>
+            <Route path='/login' element={<Navigate to='/' replace />} />
+            <Route path='/forgot' element={<Navigate to='/' replace />} />
+          </>
         )}
         {sessionStorage.getItem('role') === 'admin' && (
           <>
