@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers } from 'react-icons/fa';
 import '../../styles/sidebar.scss';
 
 const Sidebar = () => {
@@ -23,13 +23,25 @@ const Sidebar = () => {
     };
   }, []);
 
-  const pages = [
-    { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-    { id: 'questionnaire', path: '/questionnaire', icon: <FaQuestion size={24} />, label: 'Questionnaire' },
-    { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
-    { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-    { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
-  ];
+  let pages = [];
+
+  if (sessionStorage.getItem('role') === 'student' || sessionStorage.getItem('role') ===  'teacher') {
+    pages = [
+      { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+      { id: 'questionnaire', path: '/questionnaire', icon: <FaQuestion size={24} />, label: 'Questionnaire' },
+      { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+      { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+    ];
+  } else {
+    pages = [
+      { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Accounts' },
+      { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+      { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+    ];
+  }
 
   return (
     <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
