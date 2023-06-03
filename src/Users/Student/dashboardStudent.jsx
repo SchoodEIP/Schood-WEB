@@ -1,6 +1,9 @@
 import './dashboard_student.scss';
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/AdminMenu/index'
+import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
+import { GraphSpace } from '../../Components/Graph/GraphSpace'
+import { LastAlerts } from '../../Components/Alerts/LastAlerts'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -38,27 +41,16 @@ const Dashboard = () => {
           <Sidebar/>
         </div>
         <div className='right-half'>
-          <div className="column column-1">
-            <div className="section evolution">
-              <div className="section-header">
-                <div className="section-title">Évolution</div>
-              </div>
-              {/* Contenu de la section d'évolution */}
+          <div>
+            <div>
+                <GraphSpace/>
             </div>
-            <div className="section questionnaires">
-              <div className="section-header">
-                <div className="section-title">Questionnaires</div>
-              </div>
-              {/* Contenu de la section des questionnaires */}
+            <div>
+              <QuestSpace/>
             </div>
           </div>
-          <div className="column-2">
-            <div className="section alerts">
-              <div className="section-header">
-                <div className="section-title">Alertes</div>
-              </div>
-              {/* Contenu de la section des alertes */}
-            </div>
+          <div>
+            <LastAlerts/>
           </div>
         </div>
       </div>

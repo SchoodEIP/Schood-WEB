@@ -18,8 +18,14 @@
 }
 
 .right-half {
-  position: fixed;
+  position: absolute;
+  display: flex;
   right: 10px;
+}
+
+.middle-half {
+  position: fixed;
+  right: 5px;
 }
   
   .column {
