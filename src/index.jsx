@@ -30,12 +30,12 @@ if (rootElement) {
           <Route path='/login' element={<Navigate to='/' replace />} />,
           <Route path='/forgot' element={<Navigate to='/' replace />} />
         )}
-        {/* {sessionStorage.getItem('role') === 'admin' && (
+        {sessionStorage.getItem('role') === 'admin' && (
           <>
             <Route path='/' element={<AdmHomePage />} />
             <Route path='/accounts' element={<AdmAccountsPage />} />
           </>
-        )} */}
+        )}
         {sessionStorage.getItem('role') === 'administration' && (
           <>
             <Route path='/' element={<SchoolAdmHomePage />} />
