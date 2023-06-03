@@ -1,4 +1,4 @@
-import './dashboard_student.scss';
+import './dashboard_teacher.scss';
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/AdminMenu/index'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
@@ -7,7 +7,7 @@ import { LastAlerts } from '../../Components/Alerts/LastAlerts'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const StudentHomePage = () => {
+const TeacherHomePage = () => {
   const [moodData, setMoodData] = useState([]);
   const [questionnairesData, setQuestionnairesData] = useState([]);
   const [alertsData, setAlertsData] = useState([]);
@@ -58,4 +58,4 @@ const StudentHomePage = () => {
   );
 };
 
-export default StudentHomePage;
+export default TeacherHomePage;

@@ -30,6 +30,9 @@
         "lines": 70,
         "statements": 70
       }
+    },
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
     }
   },
   "scripts": {

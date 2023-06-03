@@ -10,7 +10,8 @@ import SchoolAdmAccountsPage from './Users/SchoolAdmin/SchoolAdmAccountsPage'
 import LandingPage from './Users/Public/LandingPage'
 import ForgottenPasswordPage from './Users/Public/ForgottenPasswordPage'
 import NoPage from './Users/Public/NoPage'
-import Dashboard from './Users/Student/dashboardStudent'
+import StudentHomePage from './Users/Student/dashboardStudent'
+import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 
 const rootElement = document.getElementById('root')
 
@@ -26,7 +27,8 @@ if (rootElement) {
         <Route path='/School/Home' element={<SchoolAdmHomePage />} />
         <Route path='/School/Accounts' element={<SchoolAdmAccountsPage />} />
         <Route path='/request' element={<ForgottenPasswordPage />} />
-        <Route path='/Student/Home' element={<Dashboard/>} />
+        <Route path='/Student/Home' element={<StudentHomePage/>} />
+        <Route path='/Teacher/Home' element={<TeacherHomePage/>} />
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>

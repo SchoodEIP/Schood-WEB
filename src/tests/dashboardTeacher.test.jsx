@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, act } from '@testing-library/react';
 import axios from 'axios';
-import StudentHomePage from '../Users/Student/dashboardStudent';
+import TeacherHomePage from '../Users/Teacher/dashboardTeacher';
 
 jest.mock('axios');
 
@@ -21,7 +21,7 @@ describe('Dashboard component', () => {
     let getByText;
 
     await act(async () => {
-      const { getByText: getByTextFn } = render(<StudentHomePage />);
+      const { getByText: getByTextFn } = render(<TeacherHomePage />);
       getByText = getByTextFn;
     });
 
