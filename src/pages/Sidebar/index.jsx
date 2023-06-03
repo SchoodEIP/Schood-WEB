@@ -1,81 +1,59 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle } from 'react-icons/fa'
-import '../../styles/sidebar.scss'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle } from 'react-icons/fa';
+import '../../styles/sidebar.scss';
 
-const Sidebar = ({ pages = [] }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true)
+const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [sidebarHeight, setSidebarHeight] = useState(window.innerHeight);
 
   const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+    setIsCollapsed(!isCollapsed);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const pages = [
+    { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+    { id: 'questionnaire', path: '/questionnaire', icon: <FaQuestion size={24} />, label: 'Questionnaire' },
+    { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+    { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+    { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+  ];
 
   return (
-    <div className='sidebar-container'>
-      <button className='sidebar-toggle' onClick={toggleSidebar}>
-        {isCollapsed ? <FaBars /> : <FaTimes />}
+    <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
+      <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
+        {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} />}
       </button>
-      {isCollapsed
-        ? (
-          <ul className='sidebar-menu'>
-            {pages &&
-            pages.length &&
-            pages.map((page) => (
-              <li key={page.id} className='sidebar-menu-item'>
-                <Link to={page.path}>
-                  <span className='sidebar-menu-item-icon'>{page.icon}</span>
-                  <span className='sidebar-menu-item-label'>{page.label}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          )
-        : (
-          <ul className='sidebar-menu'>
-            <li key='home' className='sidebar-menu-item'>
-              <Link to='/'>
-                <span className='sidebar-menu-item-icon'>
-                  <FaHome />
+      <div className="sidebar-menu-container">
+        <ul className="sidebar-menu">
+          {pages.map((page) => (
+            <li key={page.id} className="sidebar-menu-item">
+              <Link to={page.path}>
+                <span className="sidebar-menu-item-icon">
+                  {isCollapsed ? page.icon : <span>{page.icon}</span>}
                 </span>
-                <span className='sidebar-menu-item-label'>Accueil</span>
+                {!isCollapsed && (
+                  <span className="sidebar-menu-item-label">{page.label}</span>
+                )}
               </Link>
             </li>
-            <li key='questionnaire' className='sidebar-menu-item'>
-              <Link to='/questionnaire'>
-                <span className='sidebar-menu-item-icon'>
-                  <FaQuestion />
-                </span>
-                <span className='sidebar-menu-item-label'>Questionnaire</span>
-              </Link>
-            </li>
-            <li key='statistiques' className='sidebar-menu-item'>
-              <Link to='/statistiques'>
-                <span className='sidebar-menu-item-icon'>
-                  <FaChartBar />
-                </span>
-                <span className='sidebar-menu-item-label'>Statistiques</span>
-              </Link>
-            </li>
-            <li key='messages' className='sidebar-menu-item'>
-              <Link to='/messages'>
-                <span className='sidebar-menu-item-icon'>
-                  <FaEnvelope />
-                </span>
-                <span className='sidebar-menu-item-label'>Messages</span>
-              </Link>
-            </li>
-            <li key='aides' className='sidebar-menu-item'>
-              <Link to='/aides'>
-                <span className='sidebar-menu-item-icon'>
-                  <FaQuestionCircle />
-                </span>
-                <span className='sidebar-menu-item-label'>Aides</span>
-              </Link>
-            </li>
-          </ul>
-          )}
+          ))}
+        </ul>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
