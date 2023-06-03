@@ -40,8 +40,8 @@ export default function Login() {
             });
 
             const data = await response.json();
-
-            if (response.ok) {
+            console.log(data);
+            if (response.ok) {;
                 sessionStorage.setItem("token", data.token);
                 localStorage.setItem("token", data.token);
                 sessionStorage.setItem("role", data.role);
@@ -70,7 +70,7 @@ export default function Login() {
 
     return (
         <div className="Login-page">
-            <div id={"background-part"}>
+            <div id="login-background-part">
                 <img id="childrenImg" src={childrenLogin} alt="children" />
             </div>
             <div id={"login-part"}>

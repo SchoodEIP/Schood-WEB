@@ -2,12 +2,12 @@ body {
     margin: 0;
     font: georgia;
   }
-  
+
   #Login-page {
     display: inline-block;
   }
-  
-  #background-part {
+
+  #login-background-part {
     height: 100vh;
     top: 0;
     background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
@@ -23,7 +23,7 @@ body {
       float: center;
     }
   }
-  
+
   #login-part {
     background-color: white;
     text-align: center;
