@@ -10,6 +10,31 @@ export default function Login() {
 
     const baseUrl = "http://localhost:8080/user/login";
 
+    const getRole = async(role) => {
+        const authUrl = "http://localhost:8080/user/profile";
+
+        try {
+            const response = await fetch(authUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "x-auth-token": sessionStorage.getItem('token'),
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                sessionStorage.setItem("role", data.role);
+                localStorage.setItem("role", data.role);
+            } else {
+                setMessage(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            setMessage(`Error: ${error}`);
+        }
+    }
+
     const handleLogin = async (event) => {
         event.preventDefault();
 
@@ -40,12 +65,11 @@ export default function Login() {
             });
 
             const data = await response.json();
-            console.log(data);
-            if (response.ok) {;
+
+            if (response.ok) {
                 sessionStorage.setItem("token", data.token);
                 localStorage.setItem("token", data.token);
-                sessionStorage.setItem("role", data.role);
-                localStorage.setItem("role", data.role);
+                getRole(data.token);
             } else {
                 setMessage(`Error: ${data.message}`);
             }
@@ -97,7 +121,7 @@ export default function Login() {
                     <p id="errorMessage">{message}</p>
                 </div>
                 <div>
-                    <p id="signUpRedirect">Forgot your password? <a href="/request">Reset here.</a></p>
+                    <p id="signUpRedirect">Forgot your password? <a href="/forgot">Reset here.</a></p>
                 </div>
             </div>
         </div>

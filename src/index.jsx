@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './styles/sidebar.scss'
 import Login from './Users/Public/loginPage'
 import AdmHomePage from './Users/Admin/AdmHomePage'
@@ -20,15 +20,45 @@ if (rootElement) {
   root.render(
     <Router>
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/Adm/Home' element={<AdmHomePage />} />
-        <Route path='/Adm/Accounts' element={<AdmAccountsPage />} />
-        <Route path='/School/Home' element={<SchoolAdmHomePage />} />
-        <Route path='/School/Accounts' element={<SchoolAdmAccountsPage />} />
-        <Route path='/request' element={<ForgottenPasswordPage />} />
-        <Route path='/Student/Home' element={<StudentHomePage/>} />
-        <Route path='/Teacher/Home' element={<TeacherHomePage/>} />
+        {sessionStorage.getItem('role') === null && (
+          <>
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/forgot' element={<ForgottenPasswordPage />} />
+          </>
+        )}
+        {sessionStorage.getItem('role') !== null && (
+          <Route
+            path='/login'
+            element={<Navigate to='/' replace />}
+          />,
+          <Route
+            path='/forgot'
+            element={<Navigate to='/' replace />}
+          />
+        )}
+        {sessionStorage.getItem('role') === 'admin' && (
+          <>
+            <Route path='/' element={<AdmHomePage />} />
+            <Route exact path='/accounts' element={<AdmAccountsPage />} />
+          </>
+        )}
+        {sessionStorage.getItem('role') === 'administration' && (
+          <>
+            <Route path='/' element={<SchoolAdmHomePage />} />
+            <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
+          </>
+        )}
+        {sessionStorage.getItem('role') === 'teacher' && (
+          <>
+            <Route path='/' element={<StudentHomePage/>} />
+          </>
+        )}
+        {sessionStorage.getItem('role') === 'student' && (
+          <>
+            <Route path='/' element={<TeacherHomePage/>} />
+          </>
+        )}
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>
