@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './styles/sidebar.scss'
+import Login from './Users/Public/loginPage'
 import AdmHomePage from './Users/Admin/AdmHomePage'
 import AdmAccountsPage from './Users/Admin/AdmAccountsPage'
 import SchoolAdmHomePage from './Users/SchoolAdmin/SchoolAdmHomePage'
@@ -18,6 +19,7 @@ if (rootElement) {
     <Router>
       <Routes>
         <Route path='/' element={<LandingPage />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/Adm/Home' element={<AdmHomePage />} />
         <Route path='/Adm/Accounts' element={<AdmAccountsPage />} />
         <Route path='/School/Home' element={<SchoolAdmHomePage />} />

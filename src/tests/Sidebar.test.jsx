@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import Sidebar from '../../web/src/pages/Sidebar';
+import Sidebar from '../pages/Sidebar/index';
 
 let container = null;
 
