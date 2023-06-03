@@ -97,7 +97,7 @@ export default function Login() {
                     <p id="errorMessage">{message}</p>
                 </div>
                 <div>
-                    <p id="signUpRedirect">Forgot your password? <a href="/#">Reset here.</a></p>
+                    <p id="signUpRedirect">Forgot your password? <a href="/request">Reset here.</a></p>
                 </div>
             </div>
         </div>
