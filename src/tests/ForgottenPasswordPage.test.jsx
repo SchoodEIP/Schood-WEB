@@ -1,18 +1,17 @@
 import '@testing-library/jest-dom'
 import ForgottenPasswordPage from '../Users/Public/ForgottenPasswordPage'
-import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-
+import React from 'react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 
 beforeEach(() => {
   jest.spyOn(window, 'fetch').mockResolvedValue({
     status: 200,
-    json: jest.fn().mockResolvedValue({}),
-  });
+    json: jest.fn().mockResolvedValue({})
+  })
 })
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  jest.restoreAllMocks()
 })
 
 describe('ForgottenPasswordPage', () => {
@@ -41,16 +40,16 @@ describe('ForgottenPasswordPage', () => {
   })
 
   it('validates email and displays success message for valid email', async () => {
-    render(<ForgottenPasswordPage />);
+    render(<ForgottenPasswordPage />)
 
-    const emailInput = screen.getByPlaceholderText('Email');
-    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } });
+    const emailInput = screen.getByPlaceholderText('Email')
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
-    const submitButton = screen.getByText('Demander un nouveau mot de passe');
-    fireEvent.click(submitButton);
+    const submitButton = screen.getByText('Demander un nouveau mot de passe')
+    fireEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(screen.getByText('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')).toBeInTheDocument();
-    });
-  });
+      expect(screen.getByText('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')).toBeInTheDocument()
+    })
+  })
 })
