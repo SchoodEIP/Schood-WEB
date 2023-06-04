@@ -25,8 +25,8 @@ it('renders sidebar with collapsed state', () => {
         <Sidebar />
       </BrowserRouter>,
       container
-    );
-  });
+    )
+  })
 
   const sidebarContainer = container.querySelector('.sidebar-container')
   expect(sidebarContainer.classList.contains('collapsed')).toBe(true)
@@ -46,13 +46,13 @@ it('renders sidebar with expanded state', () => {
         <Sidebar />
       </BrowserRouter>,
       container
-    );
-  });
+    )
+  })
 
   const sidebarToggle = container.querySelector('.sidebar-toggle')
   act(() => {
     // click to change the state of the sidebar
-    fireEvent.click(sidebarToggle);
+    fireEvent.click(sidebarToggle)
   })
 
   // Check if the sidebar is rendered with the expanded state
