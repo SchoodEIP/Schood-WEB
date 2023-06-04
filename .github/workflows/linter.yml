@@ -67,3 +67,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "[LINT] Applied linter fix"
+
+      - name: Set error if file
+        if: steps.check_files.outputs.files_exists == 'true'
+        run: exit 1
