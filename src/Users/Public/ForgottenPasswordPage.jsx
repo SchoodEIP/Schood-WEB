@@ -8,7 +8,7 @@ export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
-  const baseUrl = 'http://localhost:8080/user/requestPassword'
+  const baseUrl = 'http://localhost:8080/user/forgottenPassword'
 
   const handleRequest = async (event) => {
     event.preventDefault()
@@ -31,12 +31,13 @@ export default function ForgottenPasswordPage () {
         body: JSON.stringify(payload)
       })
 
-      const data = await response.json()
-
-      if (response.ok) {
-        setMessage(`${data.message}`)
+      // const data = await response.json();
+      console.log(response)
+      // console.log("????");
+      if (response.status === 200) {
+        setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
       } else {
-        setMessage(`Error: ${data.message}`)
+        setMessage(`Error: ${response.statusText}`)
       }
     } catch (error) {
       setMessage(`Error: ${error}`)
@@ -74,7 +75,7 @@ export default function ForgottenPasswordPage () {
           <p id='errorMessage'>{message}</p>
         </div>
         <div>
-          <a href='/'>Retour à l'accueil</a>
+          <a href='login'>Retour à l'accueil</a>
         </div>
       </div>
     </div>

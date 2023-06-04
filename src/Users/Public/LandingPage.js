@@ -27,7 +27,7 @@ export default function LandingPage () {
           <p>Mettre en place une écoute et une synthèse des ressentis des jeunes de manière hebdomadaire et accessible.</p>
         </div>
         <div>
-          <a href='http://localhost:3000/login'>
+          <a href='login'>
             <button id='connection-button'>Se connecter</button>
           </a>
         </div>

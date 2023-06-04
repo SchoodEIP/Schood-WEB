@@ -1,14 +1,14 @@
-import React from 'react'
-import { LastAlerts } from '../../Components/Alerts/LastAlerts'
+import './dashboard_student.scss'
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/Sidebar/Sidebar'
-import './SchoolAdmHomePage.css'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
 import { GraphSpace } from '../../Components/Graph/GraphSpace'
+import { LastAlerts } from '../../Components/Alerts/LastAlerts'
+import React from 'react'
 
-export default function SchoolAdmHomePage () {
+const StudentHomePage = () => {
   return (
-    <div>
+    <div className='dashboard'>
       <div>
         <HeaderComp />
       </div>
@@ -33,3 +33,5 @@ export default function SchoolAdmHomePage () {
     </div>
   )
 }
+
+export default StudentHomePage

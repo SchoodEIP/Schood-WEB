@@ -1,6 +1,6 @@
 import React from 'react'
 import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/AdminMenu/index'
+import Sidebar from '../../Components/Sidebar/Sidebar'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/SchoolAccountsTable'
 import './SchoolAdmAccountsPage.css'
 

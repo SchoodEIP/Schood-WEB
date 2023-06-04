@@ -6,7 +6,7 @@ export default function AdmAccountsTable () {
 
   // get request for account list
   async function getAccountList () {
-    const baseUrl = 'http://localhost:3000/administration/admin'
+    const baseUrl = 'http://localhost:8080/administration/admin'
     const token = sessionStorage.getItem('token')
 
     const resp = await fetch(baseUrl, {
@@ -17,11 +17,6 @@ export default function AdmAccountsTable () {
       }
     })
     const data = await resp.json()
-    if (resp.status === 200) {
-      // do stuff with the data
-    } else {
-      // do stuff with the data
-    }
     setAccountList(data)
   }
 

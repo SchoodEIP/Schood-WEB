@@ -11,15 +11,25 @@ describe('HeaderComp', () => {
     expect(userIcon).toBeInTheDocument()
   })
 
-  // test('should call handleClickLogout when power icon is clicked', () => {
-  //   const handleClickLogoutMock = jest.fn()
-  //   jest.spyOn(window.location, 'assign').mockImplementation(() => {})
+  test('should empty localStorage and sessionStorage', async () => {
+    render(<HeaderComp />)
+    const logout = screen.getByTestId('logout-button')
+    expect(logout.tagName).toBe('A')
 
-  //   render(<HeaderComp handleClickLogout={handleClickLogoutMock} />)
-  //   fireEvent.click(screen.getByAltText('Disconnect'))
+    window.localStorage.setItem('token', 'falseToken')
+    window.localStorage.setItem('role', 'admin')
+    window.sessionStorage.setItem('token', 'falseToken')
+    window.sessionStorage.setItem('role', 'admin')
+    expect(window.localStorage.getItem('token')).toBe('falseToken')
+    expect(window.localStorage.getItem('role')).toBe('admin')
+    expect(window.sessionStorage.getItem('token')).toBe('falseToken')
+    expect(window.sessionStorage.getItem('role')).toBe('admin')
 
-  //   expect(handleClickLogoutMock).toHaveBeenCalled()
-  //   expect(localStorage.getItem('token')).toBeNull()
-  //   window.location.assign.mockRestore()
-  // })
+    fireEvent.click(screen.getByAltText('Disconnect'))
+
+    expect(window.localStorage.getItem('token')).toBe(null)
+    expect(window.localStorage.getItem('role')).toBe(null)
+    expect(window.sessionStorage.getItem('token')).toBe(null)
+    expect(window.sessionStorage.getItem('role')).toBe(null)
+  })
 })

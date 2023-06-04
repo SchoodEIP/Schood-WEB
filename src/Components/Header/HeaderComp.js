@@ -7,6 +7,9 @@ import './HeaderComp.css'
 export default function HeaderComp () {
   function handleClickLogout () {
     localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('role')
   }
 
   return (
@@ -17,7 +20,7 @@ export default function HeaderComp () {
         </div>
         <div>
           <img className='user-icon' src={userIcon} alt='User' />
-          <a href='http://localhost:3000/login' onClick={handleClickLogout}>
+          <a href='/login' data-testid='logout-button' onClick={handleClickLogout}>
             <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
           </a>
         </div>
