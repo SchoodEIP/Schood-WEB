@@ -78,7 +78,6 @@ it('renders sidebar with expanded state', () => {
       container
     )
   })
-  console.log(container)
   expect(container.querySelectorAll('#questionnaire'))
   window.sessionStorage.removeItem('role');
 })

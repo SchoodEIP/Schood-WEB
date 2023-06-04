@@ -6,7 +6,6 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 
 beforeEach(() => {
-  // jest.spyOn(window, 'fetch').mockImplementation(mockFetch)
   jest.spyOn(window, 'fetch').mockResolvedValue({
     status: 200,
     json: jest.fn().mockResolvedValue({}),

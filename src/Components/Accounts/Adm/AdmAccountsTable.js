@@ -17,11 +17,6 @@ export default function AdmAccountsTable () {
       }
     })
     const data = await resp.json()
-    if (resp.status === 200) {
-      // do stuff with the data
-    } else {
-      // do stuff with the data
-    }
     setAccountList(data)
   }
 

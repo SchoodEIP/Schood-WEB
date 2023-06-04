@@ -1,13 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Login from '../Users/Public/loginPage'
-
-global.fetch = jest.fn(() => Promise.resolve({
-  json: () => Promise.resolve({
-    token: 'falseToken',
-    role: 'admin'
-  })
-}))
 
 describe('Login', () => {
   it('renders email and password inputs', () => {
@@ -49,17 +42,52 @@ describe('Login', () => {
     expect(errorMessage).toBeInTheDocument()
   })
 
-  // it('valid credentials', async () => {
-  //   render(<Login />)
-  //   const emailInput = screen.getByPlaceholderText('Email')
-  //   const passInput = screen.getByPlaceholderText('********')
-  //   const loginButton = screen.getByText('Login')
-  //   fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
-  //   fireEvent.change(passInput, { target: { value: 'admin123' } })
-  //   await act(async () => fireEvent.click(loginButton))
-  //   expect(window.localStorage.getItem('token')).toBe('falseToken')
-  //   expect(window.localStorage.getItem('role')).toBe('admin')
-  //   expect(window.sessionStorage.getItem('token')).toBe('falseToken')
-  //   expect(window.sessionStorage.getItem('role')).toBe('admin')
-  // })
+  it('validates password and displays error message for empty password', async () => {
+    render(<Login />);
+
+    const emailInput = screen.getByPlaceholderText('Email');
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } });
+
+    const submitButton = screen.getByText('Login');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Password is empty')).toBeInTheDocument();
+    });
+  });
+
+  it('sends login request and sets token on successful login', async () => {
+    render(<Login />);
+
+    const emailInput = screen.getByPlaceholderText('Email');
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } });
+
+    const passwordInput = screen.getByPlaceholderText('********');
+    fireEvent.change(passwordInput, { target: { value: 'admin123' } });
+
+    window.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({ token: 'mock-token' }),
+    });
+
+    const submitButton = screen.getByText('Login');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(sessionStorage.getItem('token')).toBe('mock-token');
+      expect(localStorage.getItem('token')).toBe('mock-token');
+    });
+
+    expect(window.fetch).toHaveBeenCalledTimes(2);
+    expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'admin@schood.fr',
+        password: 'admin123',
+      }),
+    });
+  });
 })
