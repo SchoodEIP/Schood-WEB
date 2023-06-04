@@ -1,15 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import ForgottenPasswordPage from '../Users/Public/ForgottenPasswordPage'
-import mockFetch from './mocks/mockFetch';
+import mockFetch from './mocks/mockFetch'
 
 beforeEach(() => {
-  jest.spyOn(window, "fetch").mockImplementation(mockFetch);
-});
+  jest.spyOn(window, 'fetch').mockImplementation(mockFetch)
+})
 
 afterEach(() => {
   jest.restoreAllMocks()
-});
+})
 
 describe('ForgottenPasswordPage', () => {
   it('updates email state when input value changes', () => {
