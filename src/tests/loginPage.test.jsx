@@ -43,51 +43,51 @@ describe('Login', () => {
   })
 
   it('validates password and displays error message for empty password', async () => {
-    render(<Login />);
+    render(<Login />)
 
-    const emailInput = screen.getByPlaceholderText('Email');
-    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } });
+    const emailInput = screen.getByPlaceholderText('Email')
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
-    const submitButton = screen.getByText('Login');
-    fireEvent.click(submitButton);
+    const submitButton = screen.getByText('Login')
+    fireEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(screen.getByText('Password is empty')).toBeInTheDocument();
-    });
-  });
+      expect(screen.getByText('Password is empty')).toBeInTheDocument()
+    })
+  })
 
   it('sends login request and sets token on successful login', async () => {
-    render(<Login />);
+    render(<Login />)
 
-    const emailInput = screen.getByPlaceholderText('Email');
-    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } });
+    const emailInput = screen.getByPlaceholderText('Email')
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
-    const passwordInput = screen.getByPlaceholderText('********');
-    fireEvent.change(passwordInput, { target: { value: 'admin123' } });
+    const passwordInput = screen.getByPlaceholderText('********')
+    fireEvent.change(passwordInput, { target: { value: 'admin123' } })
 
     window.fetch = jest.fn().mockResolvedValue({
       ok: true,
-      json: jest.fn().mockResolvedValue({ token: 'mock-token' }),
-    });
+      json: jest.fn().mockResolvedValue({ token: 'mock-token' })
+    })
 
-    const submitButton = screen.getByText('Login');
-    fireEvent.click(submitButton);
+    const submitButton = screen.getByText('Login')
+    fireEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(sessionStorage.getItem('token')).toBe('mock-token');
-      expect(localStorage.getItem('token')).toBe('mock-token');
-    });
+      expect(sessionStorage.getItem('token')).toBe('mock-token')
+      expect(localStorage.getItem('token')).toBe('mock-token')
+    })
 
-    expect(window.fetch).toHaveBeenCalledTimes(2);
+    expect(window.fetch).toHaveBeenCalledTimes(2)
     expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/user/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email: 'admin@schood.fr',
-        password: 'admin123',
-      }),
-    });
-  });
+        password: 'admin123'
+      })
+    })
+  })
 })
