@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { act } from 'react-dom/test-utils'
+import { act, MouseEvent } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
 
 let container = null
