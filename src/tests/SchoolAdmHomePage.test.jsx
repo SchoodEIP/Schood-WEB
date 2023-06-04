@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import SchoolAdmHomePage from '../Users/SchoolAdmin/SchoolAdmHomePage'
 import { BrowserRouter } from 'react-router-dom'
+
 describe('SchoolAdmHomePage', () => {
   test('renders the LastAlerts component', () => {
     render(

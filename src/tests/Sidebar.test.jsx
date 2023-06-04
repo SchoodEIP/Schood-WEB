@@ -1,9 +1,9 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
-import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom'
-import { act, screen } from 'react-dom/test-utils'
+import { BrowserRouter } from 'react-router-dom'
+import { act } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
-import { fireEvent, getAllByLabelText } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 let container = null
 

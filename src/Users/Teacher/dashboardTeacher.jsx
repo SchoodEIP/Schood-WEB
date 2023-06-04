@@ -4,7 +4,7 @@ import Sidebar from '../../Components/Sidebar/Sidebar'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
 import { GraphSpace } from '../../Components/Graph/GraphSpace'
 import { LastAlerts } from '../../Components/Alerts/LastAlerts'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 const TeacherHomePage = () => {
   return (

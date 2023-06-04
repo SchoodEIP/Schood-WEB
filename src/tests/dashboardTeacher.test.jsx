@@ -1,11 +1,8 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, act } from '@testing-library/react'
-import axios from 'axios'
 import TeacherHomePage from '../Users/Teacher/dashboardTeacher'
 import { BrowserRouter } from 'react-router-dom'
-
-jest.mock('axios')
 
 describe('Dashboard Teachercomponent', () => {
   it('should render sections', async () => {
