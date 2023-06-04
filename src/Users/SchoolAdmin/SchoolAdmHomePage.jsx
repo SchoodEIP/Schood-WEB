@@ -13,20 +13,20 @@ export default function SchoolAdmHomePage () {
         <HeaderComp />
       </div>
       <div className='page-body'>
-        <div className="left-half">
-          <Sidebar/>
+        <div className='left-half'>
+          <Sidebar />
         </div>
         <div className='right-half'>
           <div>
             <div>
-                <GraphSpace/>
+              <GraphSpace />
             </div>
             <div>
-              <QuestSpace/>
+              <QuestSpace />
             </div>
           </div>
           <div>
-            <LastAlerts/>
+            <LastAlerts />
           </div>
         </div>
       </div>

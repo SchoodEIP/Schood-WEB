@@ -46,12 +46,12 @@ if (rootElement) {
         )}
         {sessionStorage.getItem('role') === 'teacher' && (
           <>
-            <Route path='/' element={<StudentHomePage/>} />
+            <Route path='/' element={<StudentHomePage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'student' && (
           <>
-            <Route path='/' element={<TeacherHomePage/>} />
+            <Route path='/' element={<TeacherHomePage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />

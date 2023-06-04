@@ -6,10 +6,10 @@ import './HeaderComp.css'
 
 export default function HeaderComp () {
   function handleClickLogout () {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('role')
   }
 
   return (
