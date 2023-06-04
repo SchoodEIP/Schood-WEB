@@ -18,14 +18,18 @@ afterEach(() => {
 })
 
 it('renders sidebar with collapsed state', () => {
-  act(() => {
-    render(
-      <BrowserRouter>
-        <Sidebar />
-      </BrowserRouter>,
-      container
-    )
-  })
+  render(
+    <BrowserRouter>
+      <Sidebar />
+    </BrowserRouter>
+  )
+  // act(() => {
+  //   render(
+  //     <BrowserRouter>
+  //       <Sidebar />
+  //     </BrowserRouter>,
+  //   )
+  // })
 
   // Vérifie si la sidebar est rendue avec l'état rétracté
   const sidebarContainer = container.querySelector('.sidebar-container')
