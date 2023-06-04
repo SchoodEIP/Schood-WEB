@@ -7,13 +7,11 @@ import Sidebar from '../Components/Sidebar/Sidebar'
 let container = null
 
 beforeEach(() => {
-  // Crée un élément DOM en tant que cible de rendu
   container = document.createElement('div')
   document.body.appendChild(container)
 })
 
 afterEach(() => {
-  // Nettoie en sortie de test
   unmountComponentAtNode(container)
   container.remove()
   container = null

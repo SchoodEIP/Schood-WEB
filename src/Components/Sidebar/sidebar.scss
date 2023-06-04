@@ -1,10 +1,10 @@
 .sidebar-container {
   width: 60px;
-  height: calc(100% - 40px); /* Ajustement de la hauteur pour tenir compte de la marge en haut et en bas */
+  height: calc(100% - 40px);
   background-color: #4f23e2;
   transition: width 0.3s ease;
-  margin-top: 20px; /* Ajout de la marge en haut */
-  margin-bottom: 20px; /* Ajout de la marge en bas */
+  margin-top: 20px;
+  margin-bottom: 20px;
 
   &.expanded {
     width: 200px;
@@ -48,12 +48,12 @@
         align-items: center;
         text-decoration: none;
         color: #fff;
-        font-size: 20px; /* Ajustement de la taille de police */
-        margin-left: 10px; /* Ajout d'une marge entre l'icône et le texte */
+        font-size: 20px;
+        margin-left: 10px;
 
         .sidebar-menu-item-icon {
           margin-right: 10px;
-          font-size: 24px; /* Ajustement de la taille de l'icône */
+          font-size: 24px;
         }
       }
     }
