@@ -8,7 +8,7 @@ describe('SchoolAdmHomePage', () => {
       <BrowserRouter>
         <SchoolAdmHomePage />
       </BrowserRouter>
-      )
+    )
     const lastAlertsTitle = screen.getByText('Mes Dernières Alertes')
     expect(lastAlertsTitle).toBeInTheDocument()
   })
@@ -18,7 +18,7 @@ describe('SchoolAdmHomePage', () => {
       <BrowserRouter>
         <SchoolAdmHomePage />
       </BrowserRouter>
-      )
+    )
     const lastAlertsTitle = screen.getByText("Evolution semestrielle de l'humeur de mon établissement")
     expect(lastAlertsTitle).toBeInTheDocument()
   })
@@ -28,7 +28,7 @@ describe('SchoolAdmHomePage', () => {
       <BrowserRouter>
         <SchoolAdmHomePage />
       </BrowserRouter>
-      )
+    )
     const lastAlertsTitle = screen.getByText('Mes Questionnaires')
     expect(lastAlertsTitle).toBeInTheDocument()
   })
