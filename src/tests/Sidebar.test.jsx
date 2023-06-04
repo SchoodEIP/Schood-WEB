@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom'
 import { act, MouseEvent } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
 
@@ -22,9 +22,9 @@ afterEach(() => {
 it('renders sidebar with collapsed state', () => {
   act(() => {
     render(
-      <Router>
+      <BrowserRouter>
         <Sidebar />
-      </Router>,
+      </BrowserRouter>,
       container
     )
   })
@@ -45,9 +45,9 @@ it('renders sidebar with collapsed state', () => {
 it('renders sidebar with expanded state', () => {
   act(() => {
     render(
-      <Router>
+      <BrowserRouter>
         <Sidebar />
-      </Router>,
+      </BrowserRouter>,
       container
     )
   })

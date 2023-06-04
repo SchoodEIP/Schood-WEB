@@ -2,7 +2,15 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Login from '../Users/Public/loginPage'
 
+global.fetch = jest.fn(() => Promise.resolve({
+  json: () => Promise.resolve({
+    token: 'falseToken',
+    role: 'admin',
+  })
+}));
+
 describe('Login', () => {
+
   it('renders email and password inputs', () => {
     render(<Login />)
     const emailInput = screen.getByPlaceholderText('Email')
@@ -28,7 +36,6 @@ describe('Login', () => {
   it('check email when login button is clicked', () => {
     render(<Login />)
     const loginButton = screen.getByText('Login')
-    console.log(loginButton)
     fireEvent.click(loginButton)
     expect(screen.getByText('Email is not valid')).toBeInTheDocument()
   })
@@ -42,4 +49,18 @@ describe('Login', () => {
     const errorMessage = screen.getByText('Email is not valid')
     expect(errorMessage).toBeInTheDocument()
   })
+
+  // it('valid credentials', async () => {
+  //   render(<Login />)
+  //   const emailInput = screen.getByPlaceholderText('Email')
+  //   const passInput = screen.getByPlaceholderText('********')
+  //   const loginButton = screen.getByText('Login')
+  //   fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
+  //   fireEvent.change(passInput, { target: { value: 'admin123' } })
+  //   await act(async () => fireEvent.click(loginButton))
+  //   expect(window.localStorage.getItem('token')).toBe('falseToken')
+  //   expect(window.localStorage.getItem('role')).toBe('admin')
+  //   expect(window.sessionStorage.getItem('token')).toBe('falseToken')
+  //   expect(window.sessionStorage.getItem('role')).toBe('admin')
+  // })
 })
