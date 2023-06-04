@@ -1,10 +1,10 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom'
-import { act, MouseEvent } from 'react-dom/test-utils'
+import { act, screen } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
-import { fireEvent } from '@testing-library/react'
-
+import { fireEvent, getAllByLabelText } from '@testing-library/react'
+import '@testing-library/jest-dom'
 let container = null
 
 beforeEach(() => {
@@ -66,4 +66,19 @@ it('renders sidebar with expanded state', () => {
   // Check if names are visible
   const sidebarLabels = container.querySelectorAll('.sidebar-menu-item-label')
   expect(sidebarLabels.length).toBeGreaterThan(0)
+})
+
+it('renders sidebar with expanded state', () => {
+  window.sessionStorage.setItem('role', 'student');
+  act(() => {
+    render(
+      <BrowserRouter>
+        <Sidebar />
+      </BrowserRouter>,
+      container
+    )
+  })
+  console.log(container)
+  expect(container.querySelectorAll('#questionnaire'))
+  window.sessionStorage.removeItem('role');
 })
