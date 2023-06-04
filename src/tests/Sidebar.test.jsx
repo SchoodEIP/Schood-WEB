@@ -3,6 +3,7 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom'
 import { act, MouseEvent } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
+import { fireEvent } from '@testing-library/react'
 
 let container = null
 
@@ -18,28 +19,22 @@ afterEach(() => {
 })
 
 it('renders sidebar with collapsed state', () => {
-  render(
-    <BrowserRouter>
-      <Sidebar />
-    </BrowserRouter>
-  )
-  // act(() => {
-  //   render(
-  //     <BrowserRouter>
-  //       <Sidebar />
-  //     </BrowserRouter>,
-  //   )
-  // })
+  act(() => {
+    render(
+      <BrowserRouter>
+        <Sidebar />
+      </BrowserRouter>,
+      container
+    );
+  });
 
-  // Vérifie si la sidebar est rendue avec l'état rétracté
   const sidebarContainer = container.querySelector('.sidebar-container')
   expect(sidebarContainer.classList.contains('collapsed')).toBe(true)
 
-  // Vérifie si les icônes sont visibles
   const sidebarIcons = container.querySelectorAll('.sidebar-menu-item-icon')
   expect(sidebarIcons.length).toBeGreaterThan(0)
 
-  // Vérifie si les noms des onglets ne sont pas visibles
+  // Check if names are visible
   const sidebarLabels = container.querySelectorAll('.sidebar-menu-item-label')
   expect(sidebarLabels.length).toBe(0)
 })
@@ -51,24 +46,24 @@ it('renders sidebar with expanded state', () => {
         <Sidebar />
       </BrowserRouter>,
       container
-    )
-  })
+    );
+  });
 
   const sidebarToggle = container.querySelector('.sidebar-toggle')
   act(() => {
-    // Clique pour basculer l'état de la sidebar
-    sidebarToggle.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    // click to change the state of the sidebar
+    fireEvent.click(sidebarToggle);
   })
 
-  // Vérifie si la sidebar est rendue avec l'état non rétracté
+  // Check if the sidebar is rendered with the expanded state
   const sidebarContainer = container.querySelector('.sidebar-container')
   expect(sidebarContainer.classList.contains('expanded')).toBe(true)
 
-  // Vérifie si les icônes sont visibles
+  // Check if icons are visible
   const sidebarIcons = container.querySelectorAll('.sidebar-menu-item-icon')
   expect(sidebarIcons.length).toBeGreaterThan(0)
 
-  // Vérifie si les noms des onglets sont visibles
+  // Check if names are visible
   const sidebarLabels = container.querySelectorAll('.sidebar-menu-item-label')
   expect(sidebarLabels.length).toBeGreaterThan(0)
 })

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers } from 'react-icons/fa'
 import './sidebar.scss'
 
-const Sidebar = () => {
+export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [sidebarHeight, setSidebarHeight] = useState(window.innerHeight)
 
@@ -44,6 +44,7 @@ const Sidebar = () => {
   }
 
   return (
+    <>
     <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
       <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
         {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} />}
@@ -65,7 +66,6 @@ const Sidebar = () => {
         </ul>
       </div>
     </div>
+    </>
   )
 }
-
-export default Sidebar
