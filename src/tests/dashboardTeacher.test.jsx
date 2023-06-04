@@ -9,7 +9,6 @@ jest.mock('axios')
 
 describe('Dashboard Teachercomponent', () => {
   it('should render sections', async () => {
-
     let getByText
 
     await act(async () => {
