@@ -5,12 +5,11 @@ import Login from '../Users/Public/loginPage'
 global.fetch = jest.fn(() => Promise.resolve({
   json: () => Promise.resolve({
     token: 'falseToken',
-    role: 'admin',
+    role: 'admin'
   })
-}));
+}))
 
 describe('Login', () => {
-
   it('renders email and password inputs', () => {
     render(<Login />)
     const emailInput = screen.getByPlaceholderText('Email')

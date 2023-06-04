@@ -7,7 +7,7 @@ describe('AdmAccountsPage', () => {
   test('renders the page', () => {
     render(
       <BrowserRouter>
-          <AdmAccountsPage />
+        <AdmAccountsPage />
       </BrowserRouter>
     )
   })
