@@ -1,7 +1,6 @@
 import { React } from 'react'
 import './AdmAccountCreation.css'
 
-
 export default function AdmAccountCreation () {
   return (
     <div className='account-creation'>
