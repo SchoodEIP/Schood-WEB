@@ -6,8 +6,7 @@ describe('SchoolAdmAccountPage', () => {
   it('renders the table', () => {
     render(<SchoolAccountsTable />)
     // const table = screen.getByRole('table')
-    const table = screen.getByText('School accounts table');
+    const table = screen.getByText('School accounts table')
     expect(table).toBeInTheDocument()
   })
-
 })

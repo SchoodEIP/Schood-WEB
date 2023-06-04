@@ -28,11 +28,11 @@ export default function ForgottenPasswordPage () {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       })
 
       // const data = await response.json();
-      console.log(response);
+      console.log(response)
       // console.log("????");
       if (response.status === 200) {
         setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
