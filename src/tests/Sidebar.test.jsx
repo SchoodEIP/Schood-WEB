@@ -69,7 +69,7 @@ it('renders sidebar with expanded state', () => {
 })
 
 it('renders sidebar with expanded state', () => {
-  window.sessionStorage.setItem('role', 'student');
+  window.sessionStorage.setItem('role', 'student')
   act(() => {
     render(
       <BrowserRouter>
@@ -80,5 +80,5 @@ it('renders sidebar with expanded state', () => {
   })
   console.log(container)
   expect(container.querySelectorAll('#questionnaire'))
-  window.sessionStorage.removeItem('role');
+  window.sessionStorage.removeItem('role')
 })
