@@ -8,10 +8,10 @@ export default function Login () {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
 
-  const baseUrl = 'http://localhost:8080/user/login'
+  const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/login'
 
   const getRole = async (role) => {
-    const authUrl = 'http://localhost:8080/user/profile'
+    const authUrl = process.env.REACT_APP_BACKEND_URL + '/user/profile'
 
     try {
       const response = await fetch(authUrl, {

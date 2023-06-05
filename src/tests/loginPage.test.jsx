@@ -79,7 +79,7 @@ describe('Login', () => {
     })
 
     expect(window.fetch).toHaveBeenCalledTimes(2)
-    expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/user/login', {
+    expect(window.fetch).toHaveBeenCalledWith(process.env.REACT_APP_BACKEND_URL + '/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

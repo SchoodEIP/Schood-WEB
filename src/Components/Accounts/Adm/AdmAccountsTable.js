@@ -6,7 +6,7 @@ export default function AdmAccountsTable () {
 
   // get request for account list
   async function getAccountList () {
-    const baseUrl = 'http://localhost:8080/administration/admin'
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/administration/admin'
     const token = sessionStorage.getItem('token')
 
     const resp = await fetch(baseUrl, {

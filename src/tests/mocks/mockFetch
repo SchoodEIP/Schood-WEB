@@ -1,7 +1,7 @@
 export default async function mockFetch(url) {
     console.log('here the url is ', url)
     switch(url) {
-        case "http://localhost:8080/user/forgottenPassword": {
+        case process.env.REACT_APP_BACKEND_URL + "/user/forgottenPassword": {
             return {
                 ok: true,
                 status: 200,
