@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from '../../assets/schood.png'
 import PowerIcon2 from '../../assets/powerIcon2.png'
 import userIcon from '../../assets/userIcon.png'
-import './HeaderComp.css'
+import '../../css/Components/Header/HeaderComp.css'
 
 export default function HeaderComp () {
   function handleClickLogout () {

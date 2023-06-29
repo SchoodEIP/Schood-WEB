@@ -1,7 +1,7 @@
 import { React } from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import childrenLogin from '../../assets/children_login.png'
-import './LandingPage.scss'
+import '../../css/Users/Public/LandingPage.scss'
 
 export default function LandingPage () {
   return (

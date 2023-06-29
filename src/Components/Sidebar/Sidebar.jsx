@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers } from 'react-icons/fa'
-import './sidebar.scss'
+import '../../css/Components/Sidebar/sidebar.scss'
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)

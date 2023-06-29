@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './loginPage.scss'
+import '../../css/Users/Public/loginPage.scss'
 import childrenLogin from '../../assets/children_login.png'
 import logoSchood from '../../assets/logo_schood.png'
 

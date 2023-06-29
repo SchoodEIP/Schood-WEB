@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import './ForgottenPasswordPage.scss'
+import '../../css/Users/Public/ForgottenPasswordPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
 import childrenLogin from '../../assets/children_login.png'
 
