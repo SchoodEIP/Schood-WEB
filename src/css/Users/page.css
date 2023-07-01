@@ -80,11 +80,9 @@
     flex-grow: 1;
     flex-shrink: 0;
     flex-basis: calc(30% + 10px);
-
   }
 
   .section.alerts {
-    /* ... */
     margin-left: 40px;
     flex-basis: 100%;
     width: calc(40% - 10px);
