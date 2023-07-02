@@ -2,7 +2,7 @@ import React from 'react'
 import { LastAlerts } from '../../Components/Alerts/LastAlerts'
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/Sidebar/Sidebar'
-import '../../css/Users/SchoolAdmin/SchoolAdmHomePage.css'
+import '../../css/pages/homePage.css'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
 import { GraphSpace } from '../../Components/Graph/GraphSpace'
 

@@ -1,11 +1,11 @@
 import { React } from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import childrenLogin from '../../assets/children_login.png'
-import '../../css/Users/Public/LandingPage.scss'
+import '../../css/pages/authPage.scss'
 
 export default function LandingPage () {
   return (
-    <div className='Landing-page'>
+    <div className='auth-page'>
       <div id='background-part'>
         <img id='childrenImg' src={childrenLogin} alt='children' />
       </div>
@@ -28,7 +28,7 @@ export default function LandingPage () {
         </div>
         <div>
           <a href='login'>
-            <button id='connection-button'>Se connecter</button>
+            <button id='submit-button'>Se connecter</button>
           </a>
         </div>
       </div>

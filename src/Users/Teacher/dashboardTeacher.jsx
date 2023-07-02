@@ -1,4 +1,4 @@
-import '../../css/Users/Teacher/dashboard_teacher.scss'
+import '../../css/pages/homePage.css'
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/Sidebar/Sidebar'
 import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
