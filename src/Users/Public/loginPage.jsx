@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import childrenLogin from '../../assets/children_login.png'
 import logoSchood from '../../assets/logo_schood.png'
