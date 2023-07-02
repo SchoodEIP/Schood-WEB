@@ -123,7 +123,7 @@ export default function AdmAccountCreation () {
         isOpenSingle && <Popup
           handleClose={toggleSingleAccount}
           content={
-            <div class="pop-content">
+            <div className="pop-content">
               <div className="pop-header">
                 <h2>Création d'un compte Administrateur Scolaire</h2>
               </div>
@@ -143,7 +143,7 @@ export default function AdmAccountCreation () {
         isOpenMany && <Popup
           handleClose={toggleManyAccounts}
           content={
-            <div class="pop-content">
+            <div className="pop-content">
               <div className="pop-header">
                 <h2>Création d'une liste de comptes Administrateur Scolaire</h2>
               </div>
@@ -153,7 +153,7 @@ export default function AdmAccountCreation () {
                 </form>
                 <div className="pop-info">
                   <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                  <p >firstName:lastName:email</p>
+                  <p >firstName,lastName,email</p>
                 </div>
                 <button className="account-submit-btn" type="submit" onClick={csvAccountCreation}>Créer de nouveaux comptes</button>
               </div>
