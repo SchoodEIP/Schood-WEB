@@ -92,16 +92,15 @@ export default function AdmAccountCreation () {
     event.preventDefault()
     const formData = new FormData();
 
-    formData.append('file', fileName);
+    formData.append('csv', fileName);
 
     try {
       const response = await fetch(csvCreationUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'x-auth-token': sessionStorage.getItem('token')
         },
-        body: fileName
+        body: formData
       })
 
       const data = await response.json()
