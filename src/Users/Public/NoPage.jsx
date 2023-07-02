@@ -1,5 +1,5 @@
 import { React } from 'react'
-import '../../css/Users/Public/NoPage.scss'
+import '../../css/pages/NoPage.scss'
 
 export default function NoPage () {
   return (
