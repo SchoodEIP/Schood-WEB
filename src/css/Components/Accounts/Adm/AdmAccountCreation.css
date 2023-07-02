@@ -1,14 +1,49 @@
-.account-creation {
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items:center;
-    flex-direction: column;
-    border-color: black;
-    border-radius: 100px;
-    margin-top: 25%;
+.pop-header {
+    background-color: rgb(79, 35, 226);
+    color: white;
+    text-align: center;
 }
 
-label {
-    color: rgb(79, 35, 226);
+.pop-content {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 }
+
+.pop-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pop-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pop-input {
+    font-size: large;
+    margin-top: 1.5rem;
+    width: 25rem;
+    height: 4rem;
+    background-color: rgb(230,230,230);
+    border: 0;
+    padding-left: 1rem;
+}
+
+.pop-info {
+    text-align: center;
+    font-size: large;
+}
+
+.pop-input-file {
+    font-size: large;
+    margin-top: 1.5rem;
+    width: 25rem;
+    height: 4rem;
+    background-color: rgb(230,230,230);
+    border: 0;
+    padding-left: 1rem;
+    padding-top: 2rem;
+  }

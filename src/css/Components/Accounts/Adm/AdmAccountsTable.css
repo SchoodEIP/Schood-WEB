@@ -34,12 +34,12 @@ table, td, th {
 
 td, th {
     border: 1px solid black;
-    min-width: 100px;
+    height: 3.5rem;
 }
 
 th {
     border: 1px solid black;
-    min-width: 100px;
+    width: 12rem;
 }
 
 table {

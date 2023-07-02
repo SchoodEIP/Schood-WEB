@@ -1,5 +1,4 @@
 import { React, useState } from 'react';
-import '../../../css/Components/Accounts/Adm/AdmAccountCreation.css';
 import '../../../css/Components/Buttons/AccountCreationPopup.css';
 import '../../../css/Components/Buttons/AccountSubmitButton.css';
 import Popup from '../../Popup/Popup';
@@ -10,15 +9,19 @@ export default function AdmAccountCreation () {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [classe, setClasse] = useState('');
   const [fileName, setFile] = useState();
-  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/admin/register';
-  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/admin/csvRegisterUser';
+  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
+  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser';
 
   const toggleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle);
     setFirstName('');
     setName('');
     setEmail('');
+    setRole('');
+    setClasse('');
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany);
     }
@@ -44,18 +47,21 @@ export default function AdmAccountCreation () {
     setEmail(event.target.value)
   }
 
+  const handleRoleChange = (event) => {
+    setRole(event.target.value)
+  }
+
+  const handleClasseChange = (event) => {
+    setClasse(event.target.value)
+  }
+
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   }
 
   const singleAccountCreation = async (event) => {
       event.preventDefault()
-
-      const payload = {
-        firstName,
-        name,
-        email
-      }
 
       try {
         const response = await fetch(singleCreationUrl, {
@@ -64,12 +70,20 @@ export default function AdmAccountCreation () {
             'Content-Type': 'application/json',
             'x-auth-token': sessionStorage.getItem('token')
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            'firstName': firstName,
+            'lastName': name,
+            'email': email,
+            'role': role,
+            'classe': classe
+          })
         })
 
         const data = await response.json()
+        console.log('it worked ?')
         console.log(data);
       } catch (e) {
+        console.log('nope, it doesnt work');
         console.log(e);
       }
   }
@@ -87,7 +101,7 @@ export default function AdmAccountCreation () {
           'Content-Type': 'application/json',
           'x-auth-token': sessionStorage.getItem('token')
         },
-        body: formData
+        body: fileName
       })
 
       const data = await response.json()
@@ -96,7 +110,6 @@ export default function AdmAccountCreation () {
       console.log(e);
     }
 }
-
   return (
     <div>
       <div>
@@ -125,13 +138,15 @@ export default function AdmAccountCreation () {
           content={
             <div class="pop-content">
               <div className="pop-header">
-                <h2>Création d'un compte Administrateur Scolaire</h2>
+                <h2>Création d'un compte Etudiant/Professeur</h2>
               </div>
               <div className='pop-body'>
                 <form className="pop-form">
-                  <input className="pop-input" placeholder="Prénom" onChange={handleFirstNameChange}></input>
-                  <input className="pop-input" placeholder="Nom"on onChange={handleNameChange}></input>
-                  <input className="pop-input" placeholder="Email" onChange={handleEmailChange}></input>
+                  <input className="pop-input" name="firstName" placeholder="Prénom" onChange={handleFirstNameChange}></input>
+                  <input className="pop-input" name="lastName" placeholder="Nom" onChange={handleNameChange}></input>
+                  <input className="pop-input" name="email" placeholder="Email" onChange={handleEmailChange}></input>
+                  <input className="pop-input" name="role" placeholder="Rôle" onChange={handleRoleChange}></input>
+                  <input className="pop-input" name="classe" placeholder="Classe" onChange={handleClasseChange}></input>
                 </form>
                   <button className="account-submit-btn" type="submit" onClick={singleAccountCreation}>Créer un nouveau compte</button>
               </div>
@@ -145,7 +160,7 @@ export default function AdmAccountCreation () {
           content={
             <div class="pop-content">
               <div className="pop-header">
-                <h2>Création d'une liste de comptes Administrateur Scolaire</h2>
+                <h2>Création d'une liste de comptes Etudiant/Professeur</h2>
               </div>
               <div className='pop-body'>
                 <form className="pop-form">
@@ -153,7 +168,7 @@ export default function AdmAccountCreation () {
                 </form>
                 <div className="pop-info">
                   <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                  <p >firstName:lastName:email</p>
+                  <p>firstName:lastName:email:role:classe</p>
                 </div>
                 <button className="account-submit-btn" type="submit" onClick={csvAccountCreation}>Créer de nouveaux comptes</button>
               </div>
