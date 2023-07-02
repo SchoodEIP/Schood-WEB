@@ -10,7 +10,7 @@ export default function PreviousPage () {
 
     return (
         <div>
-            <button onClick={returnToPreviousPage} id='previous-page-btn'>Back</button>
+            <button onClick={returnToPreviousPage} id='previous-page-btn' label="Back">Back</button>
         </div>
     );
 }
