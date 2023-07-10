@@ -1,5 +1,5 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
@@ -29,7 +29,7 @@ it('renders sidebar with collapsed state', () => {
     root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
+      </BrowserRouter>
     )
   })
 
@@ -49,7 +49,7 @@ it('renders sidebar with expanded state', () => {
     root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
+      </BrowserRouter>
     )
   })
 
@@ -78,7 +78,7 @@ it('renders sidebar with expanded state', () => {
     root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
+      </BrowserRouter>
     )
   })
   expect(container.querySelectorAll('#questionnaire'))
