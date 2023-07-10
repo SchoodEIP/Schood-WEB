@@ -1,30 +1,35 @@
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
 import Sidebar from '../Components/Sidebar/Sidebar'
 import { fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 let container = null
+let root = null
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
+
+  root = createRoot(container)
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
+  act(() => {
+    root.unmount()
+    root = null
+  })
 })
 
 it('renders sidebar with collapsed state', () => {
   act(() => {
-    render(
+    root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
-      container
+      </BrowserRouter>
     )
   })
 
@@ -41,11 +46,10 @@ it('renders sidebar with collapsed state', () => {
 
 it('renders sidebar with expanded state', () => {
   act(() => {
-    render(
+    root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
-      container
+      </BrowserRouter>
     )
   })
 
@@ -71,11 +75,10 @@ it('renders sidebar with expanded state', () => {
 it('renders sidebar with expanded state', () => {
   window.sessionStorage.setItem('role', 'student')
   act(() => {
-    render(
+    root.render(
       <BrowserRouter>
         <Sidebar />
-      </BrowserRouter>,
-      container
+      </BrowserRouter>
     )
   })
   expect(container.querySelectorAll('#questionnaire'))
