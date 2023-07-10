@@ -7,6 +7,7 @@ on:
 
 jobs:
   StandardJS:
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,12 +26,12 @@ jobs:
       - name: Standard Fix
         working-directory: ./src
         continue-on-error: true
-        run: standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage
+        run: standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll
 
       - name: Get Non fixable auto
         working-directory: ./src
         continue-on-error: true
-        run: standard --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage > linter-nonfixable
+        run: standard --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll > linter-nonfixable
 
       - name: Delete empty file linter-nonfixable
         working-directory: ./src
@@ -50,14 +51,18 @@ jobs:
           sed -i '1s/^/Non fixable linter problems:\n\n/' linter-nonfixable
 
       - name: Comment non fixable
-        if: steps.check_files.outputs.files_exists == 'true'
+        if: |
+          steps.check_files.outputs.files_exists == 'true' &&
+          github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: ./src/linter-nonfixable
           comment_tag: linternonfixable
 
       - name: Comment empty
-        if: steps.check_files.outputs.files_exists == 'false'
+        if: |
+          steps.check_files.outputs.files_exists == 'false' &&
+          github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: "Non fixable linter problems:"
@@ -65,6 +70,8 @@ jobs:
           create_if_not_exists: false
 
       - uses: stefanzweifel/git-auto-commit-action@v4
+        if: |
+          github.event_name == 'pull_request'
         with:
           commit_message: "[LINT] Applied linter fix"
 
