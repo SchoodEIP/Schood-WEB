@@ -19,9 +19,8 @@
     position: relative;
     display: flex;
     background-color: white;
-    margin-top: 10%;
-    margin-right: 30%;
     justify-content: center;
+    margin: 2rem;
 }
 
 th {
@@ -53,6 +52,5 @@ table {
     background: white;
     float: right;
     display: block;
-    margin-top: 10%;
     justify-content: center;
 }

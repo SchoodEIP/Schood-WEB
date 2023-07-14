@@ -3,7 +3,7 @@ import HeaderComp from '../../Components/Header/HeaderComp';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/SchoolAccountsTable';
 import SchoolAdmAccountCreation from '../../Components/Accounts/SchoolAdm/SchoolAdmAccountCreation';
-import '../../css/Users/SchoolAdmin/SchoolAdmAccountsPage.css'
+import '../../css/pages/accountsPage.scss'
 
 export default function SchoolAdmAccountsPage () {
   return (
@@ -11,20 +11,14 @@ export default function SchoolAdmAccountsPage () {
       <div>
         <HeaderComp />
       </div>
-      <div
-        className='page-body' style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          height: '100vh'
-        }}
-      >
-        <div className='left-half' style={{ gridColumn: '1 / 2' }}>
+      <div className='page-content'>
+        <div>
           <Sidebar />
         </div>
-        <div className='center-half' style={{ gridColumn: '2 / 3' }}>
+        <div className="table-div">
           <SchoolAccountsTable />
         </div>
-        <div className='right-half' style={{ gridColumn: '3 / 4' }}>
+        <div className="account-div">
           <SchoolAdmAccountCreation />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import '../../../css/Components/Accounts/Adm/AdmAccountsTable.css'
+import '../../../css/Components/Accounts/AccountsTable.css'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
@@ -12,7 +12,6 @@ export default function AdmAccountsTable () {
     // const resp = await fetch(baseUrl, {
     //   method: 'GET',
     //   headers: {
-    //     'Content-Type': 'application/json',
     //     'x-auth-token': token
     //   }
     // })

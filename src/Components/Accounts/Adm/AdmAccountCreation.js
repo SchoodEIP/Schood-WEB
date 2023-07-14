@@ -11,8 +11,8 @@ export default function AdmAccountCreation () {
   const [firstName, setFirstName] = useState('');
   const [name, setName] = useState('');
   const [fileName, setFile] = useState();
-  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/admin/register';
-  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/admin/csvRegisterUser';
+  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
+  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser';
 
   const toggleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle);
@@ -61,16 +61,15 @@ export default function AdmAccountCreation () {
         const response = await fetch(singleCreationUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'x-auth-token': sessionStorage.getItem('token')
           },
           body: JSON.stringify(payload)
         })
 
         const data = await response.json()
-        console.log(data);
+        console.log(data.message);
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
       }
   }
 
@@ -84,16 +83,15 @@ export default function AdmAccountCreation () {
       const response = await fetch(csvCreationUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'x-auth-token': sessionStorage.getItem('token')
         },
         body: formData
       })
 
       const data = await response.json()
-      console.log(data);
+      console.log(data.message);
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
     }
 }
 

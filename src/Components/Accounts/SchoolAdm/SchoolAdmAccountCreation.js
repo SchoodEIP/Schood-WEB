@@ -74,8 +74,8 @@ export default function AdmAccountCreation () {
             'x-auth-token': sessionStorage.getItem('token')
           },
           body: JSON.stringify({
-            'firstName': firstName,
-            'lastName': name,
+            'firstname': firstName,
+            'lastname': name,
             'email': email,
             'role': role,
             'classe': classe
@@ -85,7 +85,7 @@ export default function AdmAccountCreation () {
         const data = await response.json()
         setErrMessage(data.message);
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
       }
   }
 
@@ -105,9 +105,9 @@ export default function AdmAccountCreation () {
       })
 
       const data = await response.json()
-      console.log('here is the data');
-      console.log(data);
-      setErrMessage(data);
+
+      console.log(data.message);
+      setErrMessage(data.message);
     } catch (e) {
       console.log(e);
     }
@@ -136,10 +136,10 @@ export default function AdmAccountCreation () {
       </div>
       {
         isOpenSingle && <Popup
-          handleClose={toggleSingleAccount}
           content={
             <div className="pop-content">
               <div className="pop-header">
+                <button className="btn-close" onClick={toggleSingleAccount}>x</button>
                 <h2>Création d'un compte Etudiant/Professeur</h2>
               </div>
               <div className='pop-body'>
@@ -159,10 +159,10 @@ export default function AdmAccountCreation () {
       }
       {
         isOpenMany && <Popup
-          handleClose={toggleManyAccounts}
           content={
             <div className="pop-content">
               <div className="pop-header">
+                <button className="btn-close" onClick={toggleManyAccounts}>x</button>
                 <h2>Création d'une liste de comptes Etudiant/Professeur</h2>
               </div>
               <div className='pop-body'>

@@ -1,5 +1,9 @@
 #popup-box {
     background-color: white;
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    width: 45rem;
 }
 
 #p-box {
