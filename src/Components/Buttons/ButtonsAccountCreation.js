@@ -1,15 +1,14 @@
 import { React } from 'react';
-import '../../../css/Components/Accounts/Adm/AdmAccountCreation.css';
-import '../../../css/Components/Buttons/AccountCreationPopup.css';
-import '../../../css/Components/Buttons/AccountSubmitButton.css';
+import '../../css/Components/Buttons/AccountCreationPopup.css';
+import '../../css/Components/Buttons/AccountSubmitButton.css';
 
-export default function AdmAccountCreation (props) {
+export default function ButtonsAccountCreation (props) {
   return (
     <div>
       <div>
         <button
           className="account-pop-up-btn"
-          id="single-account-btn"
+          data-testid="single-account-btn"
           onClick={props.toggleSingleAccount}
           style={{ backgroundColor: props.isOpenSingle ? "#8c52ff" : "#4f23e2" }}
           >
@@ -19,7 +18,7 @@ export default function AdmAccountCreation (props) {
       <div>
         <button
           className="account-pop-up-btn"
-          id="many-account-btn"
+          data-testid="many-account-btn"
           onClick={props.toggleManyAccounts}
           style={{ backgroundColor: props.isOpenMany ? "#8c52ff" : "#4f23e2" }}
           >

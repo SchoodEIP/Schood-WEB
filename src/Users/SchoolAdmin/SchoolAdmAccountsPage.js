@@ -2,10 +2,11 @@ import {React, useState} from 'react';
 import HeaderComp from '../../Components/Header/HeaderComp';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/SchoolAccountsTable';
-import SchoolAdmAccountCreation from '../../Components/Accounts/SchoolAdm/SchoolAdmAccountCreation';
+import ButtonsAccountCreation from '../../Components/Buttons/ButtonsAccountCreation';
 import '../../css/pages/accountsPage.scss';
 import Popup from '../../Components/Popup/Popup';
-;
+import "../../css/Components/Popup/Popup.css";
+
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false);
@@ -129,10 +130,9 @@ export default function SchoolAdmAccountsPage () {
         </div>
         <div className="table-div">
           <SchoolAccountsTable />
-          {/* must adapt to size of parent div */}
         </div>
         <div className="account-div">
-          <SchoolAdmAccountCreation
+          <ButtonsAccountCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
             toggleSingleAccount={toggleSingleAccount}

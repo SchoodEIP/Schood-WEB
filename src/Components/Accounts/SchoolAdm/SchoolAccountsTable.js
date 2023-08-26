@@ -16,9 +16,7 @@ export default function SchoolAccountsTable () {
         'x-auth-token': token
       }
     })
-    console.log(resp);
     const data = await resp.json();
-    console.log(data);
 
     setAccountList(data);
   }
@@ -53,17 +51,6 @@ export default function SchoolAccountsTable () {
                 </tr>
               )
             }
-            {/* {
-              studentAccountList.map((data, index) =>
-                <tr key={index}>
-                  <td>{data.firstName}</td>
-                  <td>{data.lastName}</td>
-                  <td>{data.email}</td>
-                  <td>{data.role}</td>
-                  <td>{data.classe}</td>
-                </tr>
-              )
-            } */}
           </tbody>
         </table>
       </div>

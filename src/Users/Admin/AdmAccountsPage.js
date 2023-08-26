@@ -2,7 +2,7 @@ import {React, useState} from 'react'
 import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/Sidebar/Sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/AdmAccountsTable.js'
-import AdmAccountCreation from '../../Components/Accounts/Adm/AdmAccountCreation.js'
+import ButtonsAccountCreation from '../../Components/Buttons/ButtonsAccountCreation.js'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/Popup';
 
@@ -116,7 +116,7 @@ const csvAccountCreation = async (event) => {
           <AdmAccountsTable />
         </div>
         <div className="account-div">
-          <AdmAccountCreation
+          <ButtonsAccountCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
             toggleSingleAccount={toggleSingleAccount}
@@ -135,7 +135,7 @@ const csvAccountCreation = async (event) => {
             <div>
               <form className="pop-form">
                 <input className="pop-input" placeholder="Prénom" onChange={handleFirstNameChange}></input>
-                <input className="pop-input" placeholder="Nom"on onChange={handleNameChange}></input>
+                <input className="pop-input" placeholder="Nom" onChange={handleNameChange}></input>
                 <input className="pop-input" placeholder="Email" onChange={handleEmailChange}></input>
               </form>
             </div>

@@ -50,13 +50,13 @@ describe('AdmAccountsTable', () => {
   test('renders account list incorrectly', async () => {
     const mockAccountList = [
       {
-        firstName: 'Harry',
-        lastName: 'Dresden',
+        firstname: 'Harry',
+        lastname: 'Dresden',
         email: 'harry.dresden@epitech.eu'
       },
       {
-        firstName: 'John',
-        lastName: 'Wick',
+        firstname: 'John',
+        lastname: 'Wick',
         email: 'john.wick@epitech.eu'
       }
     ]

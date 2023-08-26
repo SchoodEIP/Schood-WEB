@@ -1,7 +1,5 @@
 .AccountsTable {
     background-color: white;
-    display: flexbox;
-    flex-direction: column;
 }
 
 #titleTable {

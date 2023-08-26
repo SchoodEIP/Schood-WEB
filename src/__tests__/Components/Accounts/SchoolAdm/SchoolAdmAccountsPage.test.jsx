@@ -11,7 +11,7 @@ describe('SchoolAdmAccountPage', () => {
       </BrowserRouter>
     )
 
-    const table = screen.getByText('School accounts table')
-    expect(table).toBeInTheDocument()
+    const table = screen.getByText('Prénom');
+    expect(table).toBeInTheDocument();
   })
 })

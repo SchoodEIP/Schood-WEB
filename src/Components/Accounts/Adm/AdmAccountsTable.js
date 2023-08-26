@@ -9,21 +9,21 @@ export default function AdmAccountsTable () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all';
     const token = sessionStorage.getItem('token');
 
-    // const resp = await fetch(baseUrl, {
-    //   method: 'GET',
-    //   headers: {
-    //     'x-auth-token': token
-    //   }
-    // })
-    // const data = await resp.json();
-    // console.log(data);
-    const data = [
-      {
-        'firstname': 'adm',
-        'lastname': 'schood',
-        'email': 'adm@schood.fr'
+    const resp = await fetch(baseUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': token
       }
-    ];
+    })
+    const data = await resp.json();
+    // console.log(data);
+    // const data = [
+    //   {
+    //     'firstname': 'adm',
+    //     'lastname': 'schood',
+    //     'email': 'adm@schood.fr'
+    //   }
+    // ];
     setAccountList(data);
   }
 
