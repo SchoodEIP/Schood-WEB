@@ -13,11 +13,6 @@
   margin-right: 2rem;
 }
 
-/* .middle-half {
-  position: fixed;
-  right: 5px;
-} */
-
   .column {
     flex: 1;
     display: flex;
