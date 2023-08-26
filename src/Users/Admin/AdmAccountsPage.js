@@ -15,6 +15,7 @@ export default function AdmAccountsPage () {
   const [firstName, setFirstName] = useState('');
   const [name, setName] = useState('');
   const [fileName, setFile] = useState();
+  const [errMessage, setErrMessage] = useState('');
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser';
 
@@ -24,6 +25,7 @@ export default function AdmAccountsPage () {
     setFirstName('');
     setName('');
     setEmail('');
+    setErrMessage('');
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany);
     }
@@ -32,6 +34,7 @@ export default function AdmAccountsPage () {
   const toggleManyAccounts = () => {
     setIsOpenMany(!isOpenMany);
     setFile();
+    setErrMessage('');
     if (isOpenSingle) {
       setIsOpenSingle(!isOpenSingle);
     }
@@ -71,10 +74,10 @@ export default function AdmAccountsPage () {
         body: JSON.stringify(payload)
       })
 
-      const data = await response.json()
-      console.log(data.message);
+      const data = await response.json();
+      setErrMessage(data.message);
     } catch (e) {
-      console.log(e.message);
+      setErrMessage(e.message);
     }
 }
 
@@ -93,10 +96,10 @@ const csvAccountCreation = async (event) => {
       body: formData
     })
 
-    const data = await response.json()
-    console.log(data.message);
+    const data = await response.json();
+    setErrMessage(data.message);
   } catch (e) {
-    console.log(e.message);
+    setErrMessage(e.message);
   }
 }
 
@@ -125,7 +128,7 @@ const csvAccountCreation = async (event) => {
         isOpenSingle && <Popup
           toggle={toggleSingleAccount}
           title={"Création d'un compte Administrateur Scolaire"}
-          errMessage={"errMessage"}
+          errMessage={errMessage}
           accountCreation={singleAccountCreation}
           btn_text={"Créer un nouveau compte"}
           content={
@@ -143,7 +146,7 @@ const csvAccountCreation = async (event) => {
         isOpenMany && <Popup
           toggle={toggleManyAccounts}
           title={"Création d'une liste de comptes Administrateur Scolaire"}
-          errMessage={"errMessage"}
+          errMessage={errMessage}
           accountCreation={csvAccountCreation}
           btn_text={"Créer de nouveaux comptes"}
           handleClose={toggleManyAccounts}

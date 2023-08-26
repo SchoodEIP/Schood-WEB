@@ -89,7 +89,7 @@ export default function SchoolAdmAccountsPage () {
         const data = await response.json()
         setErrMessage(data.message);
       } catch (e) {
-        console.log(e.message);
+        setErrMessage(e.message);
       }
   }
 
@@ -113,7 +113,7 @@ export default function SchoolAdmAccountsPage () {
       console.log(data.message);
       setErrMessage(data.message);
     } catch (e) {
-      console.log(e);
+      setErrMessage(e.message);
     }
   }
 
