@@ -14,8 +14,8 @@ export default function SchoolAdmAccountsPage () {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [name, setName] = useState('');
-  const [role, setRole] = useState('');
-  const [classe, setClasse] = useState('');
+  const [role, setRole] = useState('student');
+  const [classes, setClasses] = useState([]);
   const [fileName, setFile] = useState();
   const [errMessage, setErrMessage] = useState('');
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
@@ -27,7 +27,7 @@ export default function SchoolAdmAccountsPage () {
     setName('');
     setEmail('');
     setRole('');
-    setClasse('');
+    setClasses([]);
     setErrMessage('');
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany);
@@ -57,10 +57,12 @@ export default function SchoolAdmAccountsPage () {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value)
+    console.log(role)
   }
 
   const handleClasseChange = (event) => {
-    setClasse(event.target.value)
+    setClasses(oldArray => [...oldArray, event.target.value])
+    console.log(classes)
   }
 
 
@@ -83,7 +85,7 @@ export default function SchoolAdmAccountsPage () {
             'lastname': name,
             'email': email,
             'role': role,
-            'classe': classe
+            'classes': classes
           })
         })
 
@@ -152,7 +154,11 @@ export default function SchoolAdmAccountsPage () {
               <input className="pop-input" name="firstName" placeholder="Prénom" onChange={handleFirstNameChange}></input>
               <input className="pop-input" name="lastName" placeholder="Nom" onChange={handleNameChange}></input>
               <input className="pop-input" name="email" placeholder="Email" onChange={handleEmailChange}></input>
-              <input className="pop-input" name="role" placeholder="Rôle" onChange={handleRoleChange}></input>
+              <select defaultValue={"student"} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                <option value="student" >Etudiant</option>
+                <option value="teacher">Professeur</option>
+              </select>
+              {/* <input className="pop-input" name="role" placeholder="Rôle" onChange={handleRoleChange}></input> */}
               <input className="pop-input" name="classe" placeholder="Classe" onChange={handleClasseChange}></input>
             </form>
           }

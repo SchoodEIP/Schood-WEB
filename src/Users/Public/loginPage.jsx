@@ -25,8 +25,9 @@ export default function Login () {
       const data = await response.json()
 
       if (response.ok) {
-        sessionStorage.setItem('role', data.role)
-        localStorage.setItem('role', data.role)
+        sessionStorage.setItem('role', data.role.name)
+        localStorage.setItem('role', data.role.name)
+        console.log(data.role.name)
         window.location.href = '/'
       } else {
         setMessage(`Error: ${data.message}`)

@@ -12,8 +12,8 @@ export default function AdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false);
   const [isOpenMany, setIsOpenMany] = useState(false);
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [name, setName] = useState('');
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setName] = useState('');
   const [fileName, setFile] = useState();
   const [errMessage, setErrMessage] = useState('');
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
@@ -60,16 +60,19 @@ export default function AdmAccountsPage () {
     event.preventDefault()
 
     const payload = {
-      firstName,
-      name,
-      email
+      firstname,
+      lastname,
+      email,
+      role: "administration",
+      classes: []
     }
 
     try {
       const response = await fetch(singleCreationUrl, {
         method: 'POST',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token')
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       })
