@@ -3,20 +3,20 @@
 }
 
 .left-half {
-  position: fixed;
-  left: 0px
+  padding-left: 15px;
 }
 
 .right-half {
-  position: absolute;
   display: flex;
-  right: 10px;
+  flex-direction: column;
+  right: 0;
+  margin-right: 2rem;
 }
 
-.middle-half {
+/* .middle-half {
   position: fixed;
   right: 5px;
-}
+} */
 
   .column {
     flex: 1;

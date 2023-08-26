@@ -12,23 +12,21 @@ const TeacherHomePage = () => {
       <div>
         <HeaderComp />
       </div>
-      <div className='page-body'>
-        <div className='left-half'>
+      <div className='page-content'>
+        <div>
           <Sidebar />
         </div>
-        <div className='right-half'>
+        <div className='left-half'>
           <div>
-            <div>
-              <GraphSpace />
-            </div>
-            <div>
-              <QuestSpace />
-            </div>
+            <GraphSpace />
           </div>
           <div>
-            <LastAlerts />
+            <QuestSpace />
           </div>
         </div>
+        <div className="right-half">
+            <LastAlerts />
+          </div>
       </div>
     </div>
   )

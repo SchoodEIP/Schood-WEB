@@ -10,11 +10,11 @@ export default function AdmHomePage () {
       <div>
         <HeaderComp />
       </div>
-      <div className='page-body'>
-        <div className='left-half'>
+      <div className='page-content'>
+        <div>
           <Sidebar />
         </div>
-        <div className='right-half'>
+        <div>
           <LastAlerts />
         </div>
       </div>

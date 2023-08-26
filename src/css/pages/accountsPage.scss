@@ -1,6 +1,7 @@
 .page-content {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .table-div {
@@ -13,5 +14,4 @@
     right: 0;
     padding-top: 2rem;
     margin-right: 2rem;
-    // position: absolute;
 }
