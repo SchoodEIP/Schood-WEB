@@ -10,5 +10,8 @@
 .account-div {
     display: flex;
     flex-direction: column;
+    right: 0;
     padding-top: 2rem;
+    margin-right: 2rem;
+    position: absolute;
 }

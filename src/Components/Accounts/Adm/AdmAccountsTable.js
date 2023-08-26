@@ -6,8 +6,8 @@ export default function AdmAccountsTable () {
 
   // get request for account list
   async function getAccountList () {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/administration/admin'
-    const token = sessionStorage.getItem('token')
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all';
+    const token = sessionStorage.getItem('token');
 
     // const resp = await fetch(baseUrl, {
     //   method: 'GET',
@@ -15,15 +15,16 @@ export default function AdmAccountsTable () {
     //     'x-auth-token': token
     //   }
     // })
-    // const data = await resp.json()
+    // const data = await resp.json();
+    // console.log(data);
     const data = [
       {
-        'firstName': 'adm',
-        'lastName': '',
+        'firstname': 'adm',
+        'lastname': 'schood',
         'email': 'adm@schood.fr'
       }
     ];
-    setAccountList(data)
+    setAccountList(data);
   }
 
   // account list request on mounted
@@ -44,14 +45,14 @@ export default function AdmAccountsTable () {
           </thead>
           <tbody id='tableBody'>
             {
-                        accountList.map((data, index) =>
-                          <tr key={index}>
-                            <td>{data.firstName}</td>
-                            <td>{data.lastName}</td>
-                            <td>{data.email}</td>
-                          </tr>
-                        )
-                    }
+              accountList.map((data, index) =>
+                <tr key={index}>
+                  <td>{data.firstname}</td>
+                  <td>{data.lastname}</td>
+                  <td>{data.email}</td>
+                </tr>
+              )
+            }
           </tbody>
         </table>
       </div>
