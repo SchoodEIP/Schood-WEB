@@ -33,10 +33,7 @@ export default function SchoolAdmAccountsPage () {
           'Content-Type': 'application/json'
         }
       }).then(response => response.json())
-        .then(data => {
-          setClassesList(data)
-          console.log(classesList)
-        })
+        .then(data => setClassesList(data))
         .catch(error => setErrMessage(error.message))
     } catch (e) {
       setErrMessage(e.message)
