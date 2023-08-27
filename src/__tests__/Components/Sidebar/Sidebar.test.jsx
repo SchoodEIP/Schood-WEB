@@ -2,7 +2,7 @@ import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
-import Sidebar from '../Components/Sidebar/Sidebar'
+import Sidebar from '../../../Components/Sidebar/Sidebar'
 import { fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 let container = null

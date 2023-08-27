@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import AdmAccountCreation from '../Components/Accounts/Adm/AdmAccountCreation'
+import AdmAccountCreation from '../../../../Components/Accounts/Adm/AdmAccountCreation'
 
 describe('AdmAccountCreation', () => {
   it('should render input fields and a button', () => {

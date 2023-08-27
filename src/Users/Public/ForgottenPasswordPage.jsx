@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import './ForgottenPasswordPage.scss'
+import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
 import childrenLogin from '../../assets/children_login.png'
 
@@ -55,21 +55,21 @@ export default function ForgottenPasswordPage () {
   }
 
   return (
-    <div className='request-page'>
-      <div id='background-part'>
+    <div className='auth-page'>
+      <div id='auth-background-part'>
         <img id='childrenImg' src={childrenLogin} alt='children' />
       </div>
-      <div id='request-part'>
+      <div id='auth-part'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
-        <div id='request-form'>
+        <div id='auth-form'>
           <form>
             <div>
-              <input id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <input className="auth-input" id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
             </div>
           </form>
         </div>
         <div>
-          <button onClick={handleRequest} type='submit' id='request-button'>Demander un nouveau mot de passe</button>
+          <button onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>

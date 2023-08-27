@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Login from '../Users/Public/loginPage'
+import Login from '../../../Users/Public/loginPage'
 
 describe('Login', () => {
   it('renders email and password inputs', () => {

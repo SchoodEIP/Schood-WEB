@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import NoPage from '../Users/Public/NoPage'
+import NoPage from '../../../Users/Public/NoPage'
 
 describe('NoPage', () => {
   test('should render error message', () => {

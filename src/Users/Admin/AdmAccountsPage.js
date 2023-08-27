@@ -3,7 +3,7 @@ import HeaderComp from '../../Components/Header/HeaderComp'
 import Sidebar from '../../Components/Sidebar/Sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/AdmAccountsTable.js'
 import AdmAccountCreation from '../../Components/Accounts/Adm/AdmAccountCreation.js'
-import './AdmAccountsPage.css'
+import '../../css/Users/Admin/AdmAccountsPage.css'
 
 export default function AdmAccountsPage () {
   return (

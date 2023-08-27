@@ -1,5 +1,5 @@
 import { React } from 'react'
-import './LastAlerts.css'
+import '../../css/Components/Alerts/LastAlerts.css'
 
 export function LastAlerts () {
   return (

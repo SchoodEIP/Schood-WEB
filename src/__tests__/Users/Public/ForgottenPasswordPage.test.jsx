@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import ForgottenPasswordPage from '../Users/Public/ForgottenPasswordPage'
+import ForgottenPasswordPage from '../../../Users/Public/ForgottenPasswordPage'
 import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './AdmAccountsTable.css'
+import '../../../css/Components/Accounts/Adm/AdmAccountsTable.css'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts

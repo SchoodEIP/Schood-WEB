@@ -1,5 +1,5 @@
 import { React } from 'react'
-import './AdmAccountCreation.css'
+import '../../../css/Components/Accounts/Adm/AdmAccountCreation.css'
 
 export default function AdmAccountCreation () {
   return (

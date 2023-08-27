@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import SchoolAdmHomePage from '../Users/SchoolAdmin/SchoolAdmHomePage'
+import SchoolAdmHomePage from '../../../Users/SchoolAdmin/SchoolAdmHomePage'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('SchoolAdmHomePage', () => {

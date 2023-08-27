@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, act } from '@testing-library/react'
-import StudentHomePage from '../Users/Student/dashboardStudent'
+import StudentHomePage from '../../../Users/Student/dashboardStudent'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('Dashboard Student component', () => {
