@@ -27,7 +27,6 @@ export default function Login () {
       if (response.ok) {
         sessionStorage.setItem('role', data.role.name)
         localStorage.setItem('role', data.role.name)
-        console.log(data.role.name)
         window.location.href = '/'
       } else {
         setMessage(`Error: ${data.message}`)
