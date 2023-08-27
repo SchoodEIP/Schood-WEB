@@ -24,9 +24,9 @@ const TeacherHomePage = () => {
             <QuestSpace />
           </div>
         </div>
-        <div className="right-half">
-            <LastAlerts />
-          </div>
+        <div className='right-half'>
+          <LastAlerts />
+        </div>
       </div>
     </div>
   )

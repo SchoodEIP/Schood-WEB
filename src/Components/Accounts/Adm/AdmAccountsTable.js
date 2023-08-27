@@ -6,8 +6,8 @@ export default function AdmAccountsTable () {
 
   // get request for account list
   async function getAccountList () {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all';
-    const token = sessionStorage.getItem('token');
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
+    const token = sessionStorage.getItem('token')
 
     const resp = await fetch(baseUrl, {
       method: 'GET',
@@ -15,7 +15,7 @@ export default function AdmAccountsTable () {
         'x-auth-token': token
       }
     })
-    const data = await resp.json();
+    const data = await resp.json()
     // console.log(data);
     // const data = [
     //   {
@@ -24,7 +24,7 @@ export default function AdmAccountsTable () {
     //     'email': 'adm@schood.fr'
     //   }
     // ];
-    setAccountList(data);
+    setAccountList(data)
   }
 
   // account list request on mounted
