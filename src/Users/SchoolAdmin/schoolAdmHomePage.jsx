@@ -24,9 +24,9 @@ export default function SchoolAdmHomePage () {
             <QuestSpace />
           </div>
         </div>
-        <div className="right-half">
-            <LastAlerts />
-          </div>
+        <div className='right-half'>
+          <LastAlerts />
+        </div>
       </div>
     </div>
   )

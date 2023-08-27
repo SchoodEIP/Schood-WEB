@@ -2,8 +2,7 @@ import '../../../css/Components/Accounts/accountsTable.css'
 import { React, useState, useEffect } from 'react'
 
 export default function SchoolAccountsTable () {
-  const [accountList, setAccountList] = useState([]); // list of accounts
-
+  const [accountList, setAccountList] = useState([]) // list of accounts
 
   // get request for account list
   async function getAccountList () {
@@ -16,9 +15,9 @@ export default function SchoolAccountsTable () {
         'x-auth-token': token
       }
     })
-    const data = await resp.json();
+    const data = await resp.json()
 
-    setAccountList(data);
+    setAccountList(data)
   }
 
   // account list request on mounted

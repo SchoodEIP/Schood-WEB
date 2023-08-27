@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "axios": "^1.4.0",
     "bootstrap-switch": "^3.4.0",
     "enzyme": "^3.11.0",
@@ -18,12 +18,12 @@
     "react-modal": "^3.16.1",
     "react-native-web": "^0.19.4",
     "react-navigation": "^4.4.4",
-    "react-router-dom": "^6.11.2",
+    "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "react-switch-input": "^1.1.0",
-    "sass": "^1.62.1",
-    "styled-components": "^5.3.11",
-    "web-vitals": "^3.3.1"
+    "sass": "^1.66.1",
+    "styled-components": "^6.0.7",
+    "web-vitals": "^3.3.2"
   },
   "jest": {
     "coverageThreshold": {
@@ -46,7 +46,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll=false",
+    "coverage": "react-scripts test --coverage --watchAll=false --runInBand",
     "linter": "standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage"
   },
   "eslintConfig": {
@@ -69,8 +69,8 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^12.13.0",
+    "cypress": "^12.17.4",
     "jest": "^29.5.0",
-    "msw": "^1.2.1"
+    "msw": "^1.2.3"
   }
 }

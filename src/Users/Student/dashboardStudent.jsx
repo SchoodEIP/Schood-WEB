@@ -24,7 +24,7 @@ const StudentHomePage = () => {
             <QuestSpace />
           </div>
         </div>
-        <div className="right-half">
+        <div className='right-half'>
           <LastAlerts />
         </div>
       </div>

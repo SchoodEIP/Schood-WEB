@@ -20,5 +20,4 @@ describe('PreviousPage', () => {
     expect(history.location.pathname).toBe('/previous-page');
 
   })
-
 })
