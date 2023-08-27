@@ -33,8 +33,10 @@ export default function SchoolAdmAccountsPage () {
           'Content-Type': 'application/json'
         }
       }).then(response => response.json())
-        .then(data => {setClassesList(data);
-        console.log(classesList);})
+        .then(data => {
+          setClassesList(data)
+          console.log(classesList)
+        })
         .catch(error => setErrMessage(error.message))
     } catch (e) {
       setErrMessage(e.message)
@@ -100,17 +102,16 @@ export default function SchoolAdmAccountsPage () {
   }
 
   const handleClasseChange = (event) => { // je suis en train de travailler sur le select je pense que c'est bon pour le moment à voir plus tard
-    const selectedValue = event.target.value;
+    const selectedValue = event.target.value
 
-  if (classes.includes(selectedValue)) {
+    if (classes.includes(selectedValue)) {
     // If the value is already in the array, filter it out and update the state
-    const updatedClasses = classes.filter(item => item !== selectedValue);
-    setClasses(updatedClasses);
-  } else {
+      const updatedClasses = classes.filter(item => item !== selectedValue)
+      setClasses(updatedClasses)
+    } else {
     // If the value is not in the array, add it and update the state
-    setClasses(oldArray => [...oldArray, selectedValue]);
-  }
-
+      setClasses(oldArray => [...oldArray, selectedValue])
+    }
   }
 
   const handleFileChange = (event) => {
