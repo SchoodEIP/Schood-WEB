@@ -64,7 +64,7 @@ export default function ForgottenPasswordPage () {
         <div id='auth-form'>
           <form>
             <div>
-              <input className="auth-input" id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <input className='auth-input' id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
             </div>
           </form>
         </div>

@@ -103,10 +103,10 @@ export default function Login () {
         <div id='auth-form'>
           <form>
             <div>
-              <input className="auth-input" id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <input className='auth-input' id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
             </div>
             <div>
-              <input className="auth-input" id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
+              <input className='auth-input' id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
             </div>
           </form>
         </div>
