@@ -32,5 +32,6 @@ jobs:
 
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
+          test-script: npm test -- --watchAll=false --ci --json --coverage --testLocationInResults --outputFile=report.json
           coverage-file: report.json
           base-coverage-file: report.json
