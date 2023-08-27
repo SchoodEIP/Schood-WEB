@@ -1,33 +1,31 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
 import ButtonsAccountCreation from '../../Components/Buttons/buttonsAccountCreation.js'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/popup';
-
+import Popup from '../../Components/Popup/popup'
 
 export default function AdmAccountsPage () {
-
-  const [isOpenSingle, setIsOpenSingle] = useState(false);
-  const [isOpenMany, setIsOpenMany] = useState(false);
-  const [isOpenFacility, setIsOpenFacility] = useState(false);
-  const [email, setEmail] = useState('');
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [fileName, setFile] = useState('');
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [level, setLevel] = useState(0);
-  const [rolesList, setRolesList] = useState([]);
-  const [errMessage, setErrMessage] = useState('');
-  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
-  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser';
-  const facilityUrl = process.env.REACT_APP_BACKEND_URL + '/admin/facility/register';
+  const [isOpenSingle, setIsOpenSingle] = useState(false)
+  const [isOpenMany, setIsOpenMany] = useState(false)
+  const [isOpenFacility, setIsOpenFacility] = useState(false)
+  const [email, setEmail] = useState('')
+  const [firstname, setFirstName] = useState('')
+  const [lastname, setLastName] = useState('')
+  const [fileName, setFile] = useState('')
+  const [name, setName] = useState('')
+  const [address, setAddress] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [level, setLevel] = useState(0)
+  const [rolesList, setRolesList] = useState([])
+  const [errMessage, setErrMessage] = useState('')
+  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
+  const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
+  const facilityUrl = process.env.REACT_APP_BACKEND_URL + '/admin/facility/register'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList';
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
 
     try {
       fetch(rolesUrl, {
@@ -35,53 +33,52 @@ export default function AdmAccountsPage () {
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
-        },
+        }
       }).then(response => response.json())
-      .then(data => setRolesList(data.roles))
-      .catch(error => setErrMessage(error.message));
-
+        .then(data => setRolesList(data.roles))
+        .catch(error => setErrMessage(error.message))
     } catch (e) {
-      setErrMessage(e.message);
+      setErrMessage(e.message)
     }
-  }, []);
+  }, [])
 
   const toggleFacility = () => {
-    setIsOpenFacility(!isOpenFacility);
-    setName('');
-    setAddress('');
-    setTelephone('');
-    setLevel(0);
+    setIsOpenFacility(!isOpenFacility)
+    setName('')
+    setAddress('')
+    setTelephone('')
+    setLevel(0)
     if (isOpenMany) {
-      setIsOpenMany(false);
+      setIsOpenMany(false)
     }
     if (isOpenSingle) {
-      setIsOpenSingle(false);
+      setIsOpenSingle(false)
     }
   }
 
   const toggleSingleAccount = () => {
-    setIsOpenSingle(!isOpenSingle);
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setErrMessage('');
+    setIsOpenSingle(!isOpenSingle)
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setErrMessage('')
     if (isOpenMany) {
-      setIsOpenMany(false);
+      setIsOpenMany(false)
     }
     if (isOpenFacility) {
-      setIsOpenFacility(false);
+      setIsOpenFacility(false)
     }
   }
 
   const toggleManyAccounts = () => {
-    setIsOpenMany(!isOpenMany);
-    setFile();
-    setErrMessage('');
+    setIsOpenMany(!isOpenMany)
+    setFile()
+    setErrMessage('')
     if (isOpenSingle) {
-      setIsOpenSingle(false);
+      setIsOpenSingle(false)
     }
     if (isOpenFacility) {
-      setIsOpenFacility(false);
+      setIsOpenFacility(false)
     }
   }
 
@@ -98,7 +95,7 @@ export default function AdmAccountsPage () {
   }
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    setFile(event.target.files[0])
   }
 
   const handleNameChange = (event) => {
@@ -120,8 +117,8 @@ export default function AdmAccountsPage () {
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
-    const filteredArray = rolesList.filter(item => item.levelOfAccess === 2);
-    const roleId = filteredArray.map(item => item._id);
+    const filteredArray = rolesList.filter(item => item.levelOfAccess === 2)
+    const roleId = filteredArray.map(item => item._id)
 
     const payload = {
       firstname,
@@ -143,75 +140,74 @@ export default function AdmAccountsPage () {
         if (response.ok) {
           window.location.reload()
         } else {
-          const data = response.json();
+          const data = response.json()
 
-          setErrMessage(data.message);
+          setErrMessage(data.message)
         }
       })
     } catch (e) {
-      setErrMessage(e.message);
+      setErrMessage(e.message)
     }
-}
-
-const csvAccountCreation = async (event) => {
-  event.preventDefault()
-  const formData = new FormData();
-
-  formData.append('file', fileName);
-
-  try {
-    await fetch(csvCreationUrl, {
-      method: 'POST',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token')
-      },
-      body: formData
-    }).then(response => {
-      if (response.ok) {
-        window.location.reload()
-      } else {
-        const data = response.json();
-
-        setErrMessage(data.message);
-      }
-    })
-  } catch (e) {
-    setErrMessage(e.message);
-  }
-}
-
-
-const facilityRegister = async (event) => {
-  event.preventDefault()
-
-  const payload = {
-    name,
-    address,
-    telephone,
-    level,
   }
 
-  try {
-    await fetch(facilityUrl, {
-      method: 'POST',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }).then(response => {
-      if (response.ok) {
-        window.location.reload()
-      } else {
-        const data = response.json();
+  const csvAccountCreation = async (event) => {
+    event.preventDefault()
+    const formData = new FormData()
 
-        setErrMessage(data.message);
-      }
-    })
-  } catch (e) {
-    setErrMessage(e.message);
+    formData.append('file', fileName)
+
+    try {
+      await fetch(csvCreationUrl, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        },
+        body: formData
+      }).then(response => {
+        if (response.ok) {
+          window.location.reload()
+        } else {
+          const data = response.json()
+
+          setErrMessage(data.message)
+        }
+      })
+    } catch (e) {
+      setErrMessage(e.message)
+    }
   }
-}
+
+  const facilityRegister = async (event) => {
+    event.preventDefault()
+
+    const payload = {
+      name,
+      address,
+      telephone,
+      level
+    }
+
+    try {
+      await fetch(facilityUrl, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }).then(response => {
+        if (response.ok) {
+          window.location.reload()
+        } else {
+          const data = response.json()
+
+          setErrMessage(data.message)
+        }
+      })
+    } catch (e) {
+      setErrMessage(e.message)
+    }
+  }
 
   return (
     <div>
@@ -222,23 +218,23 @@ const facilityRegister = async (event) => {
         <div>
           <Sidebar />
         </div>
-        <div className="table-div">
+        <div className='table-div'>
           <div className='establishment-banner'>
-            <span className="banner-text">Établissement : SchoodTmp</span>
+            <span className='banner-text'>Établissement : SchoodTmp</span>
             <div className='banner-btn'>
               <button
-                className="account-pop-up-btn"
-                data-testid="facility-account-btn"
+                className='account-pop-up-btn'
+                data-testid='facility-account-btn'
                 onClick={toggleFacility}
-                style={{ backgroundColor: isOpenFacility ? "#8c52ff" : "#4f23e2" }}
-                >
-                  Modifier les informations
+                style={{ backgroundColor: isOpenFacility ? '#8c52ff' : '#4f23e2' }}
+              >
+                Modifier les informations
               </button>
             </div>
           </div>
           <AdmAccountsTable />
         </div>
-        <div className="account-div">
+        <div className='account-div'>
           <ButtonsAccountCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
@@ -253,24 +249,24 @@ const facilityRegister = async (event) => {
           title={"Informations de l'établissement"}
           errMessage={errMessage}
           handleCreation={facilityRegister}
-          btn_text={"Modifier"}
+          btn_text='Modifier'
           content={
             <div>
-              <form className="pop-form">
-                <input className="pop-input" placeholder="Nom" onChange={handleNameChange}></input>
-                <input className="pop-input" placeholder="Addresse" onChange={handleAddressChange}></input>
-                <input className="pop-input" placeholder="Telephone" onChange={handleTelephoneChange}></input>
-                <select className="pop-input" placeholder="Level" onChange={handleLevelChange}>
-                  <option value="0">Primaire</option>
-                  <option value="1">Collège</option>
-                  <option value="2">Lycée</option>
-                  <option value="3">Supérieur</option>
-                  <option value="4">Autre</option>
+              <form className='pop-form'>
+                <input className='pop-input' placeholder='Nom' onChange={handleNameChange} />
+                <input className='pop-input' placeholder='Addresse' onChange={handleAddressChange} />
+                <input className='pop-input' placeholder='Telephone' onChange={handleTelephoneChange} />
+                <select className='pop-input' placeholder='Level' onChange={handleLevelChange}>
+                  <option value='0'>Primaire</option>
+                  <option value='1'>Collège</option>
+                  <option value='2'>Lycée</option>
+                  <option value='3'>Supérieur</option>
+                  <option value='4'>Autre</option>
                 </select>
               </form>
             </div>
           }
-        />
+                          />
       }
       {
         isOpenSingle && <Popup
@@ -278,17 +274,17 @@ const facilityRegister = async (event) => {
           title={"Création d'un compte Administrateur Scolaire"}
           errMessage={errMessage}
           handleCreation={singleAccountCreation}
-          btn_text={"Créer un nouveau compte"}
+          btn_text='Créer un nouveau compte'
           content={
             <div>
-              <form className="pop-form">
-                <input className="pop-input" placeholder="Prénom" onChange={handleFirstNameChange}></input>
-                <input className="pop-input" placeholder="Nom" onChange={handleLastNameChange}></input>
-                <input className="pop-input" placeholder="Email" onChange={handleEmailChange}></input>
+              <form className='pop-form'>
+                <input className='pop-input' placeholder='Prénom' onChange={handleFirstNameChange} />
+                <input className='pop-input' placeholder='Nom' onChange={handleLastNameChange} />
+                <input className='pop-input' placeholder='Email' onChange={handleEmailChange} />
               </form>
             </div>
           }
-        />
+                        />
       }
       {
         isOpenMany && <Popup
@@ -296,19 +292,19 @@ const facilityRegister = async (event) => {
           title={"Création d'une liste de comptes Administrateur Scolaire"}
           errMessage={errMessage}
           handleCreation={csvAccountCreation}
-          btn_text={"Créer de nouveaux comptes"}
+          btn_text='Créer de nouveaux comptes'
           content={
             <div>
-              <form className="pop-form">
-                <input className="pop-input-file" placeholder="exemple.csv" onChange={handleFileChange} type="file" accept='.csv'></input>
+              <form className='pop-form'>
+                <input className='pop-input-file' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
               </form>
-              <div className="pop-info">
+              <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p >firstName,lastName,email</p>
+                <p>firstName,lastName,email</p>
               </div>
             </div>
           }
-        />
+                      />
       }
     </div>
   )
