@@ -1,6 +1,6 @@
 import { React } from 'react';
-import '../../css/Components/Buttons/AccountCreationPopup.css';
-import '../../css/Components/Buttons/AccountSubmitButton.css';
+import '../../css/Components/Buttons/accountCreationPopup.css';
+import '../../css/Components/Buttons/accountSubmitButton.css';
 
 export default function ButtonsAccountCreation (props) {
   return (

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ButtonsAccountCreation from '../../../Components/Buttons/ButtonsAccountCreation'
+import ButtonsAccountCreation from '../../../Components/Buttons/buttonsAccountCreation'
 
 describe('ButtonsAccountCreation', () => {
   const mockToggleSingleAccount = jest.fn();

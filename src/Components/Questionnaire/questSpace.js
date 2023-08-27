@@ -1,5 +1,5 @@
 import { React } from 'react'
-import '../../css/Components/Questionnaire/QuestSpace.css'
+import '../../css/Components/Questionnaire/questSpace.css'
 
 export function QuestSpace () {
   return (

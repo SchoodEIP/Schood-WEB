@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import HeaderComp from '../../../Components/Header/HeaderComp'
+import HeaderComp from '../../../Components/Header/headerComp'
 
 describe('HeaderComp', () => {
   test('should render logo and user icon', () => {

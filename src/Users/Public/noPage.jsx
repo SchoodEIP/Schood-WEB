@@ -1,6 +1,6 @@
 import { React } from 'react';
-import '../../css/pages/NoPage.scss';
-import PreviousPage from '../../Components/Buttons/PreviousPage';
+import '../../css/pages/noPage.scss';
+import PreviousPage from '../../Components/Buttons/previousPage';
 
 export default function NoPage () {
   return (

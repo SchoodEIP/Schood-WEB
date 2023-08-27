@@ -1,6 +1,6 @@
 import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import AdmAccountsTable from '../../../../Components/Accounts/Adm/AdmAccountsTable'
+import AdmAccountsTable from '../../../../Components/Accounts/Adm/admAccountsTable'
 
 describe('AdmAccountsTable', () => {
   it('renders the table', () => {

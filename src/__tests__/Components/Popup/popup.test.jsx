@@ -1,18 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Popup from '../../../Components/Popup/Popup'
+import Popup from '../../../Components/Popup/popup'
 
 describe('Popup', () => {
   const mockToggle = jest.fn();
   const mockAccountCreation = jest.fn();
 
   const mockProps = {
-    toggle: mockToggle,
+    handleClose: mockToggle,
     title: 'Test Popup',
     content: <div>Test Content</div>,
     errMessage: 'Test Error Message',
     btn_text: 'Submit',
-    accountCreation: mockAccountCreation,
+    handleCreation: mockAccountCreation,
   };
 
   test('renders popup with correct content and handles actions', () => {

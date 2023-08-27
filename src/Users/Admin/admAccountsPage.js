@@ -1,10 +1,10 @@
 import {React, useState, useEffect} from 'react'
-import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import AdmAccountsTable from '../../Components/Accounts/Adm/AdmAccountsTable.js'
-import ButtonsAccountCreation from '../../Components/Buttons/ButtonsAccountCreation.js'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
+import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
+import ButtonsAccountCreation from '../../Components/Buttons/buttonsAccountCreation.js'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/Popup';
+import Popup from '../../Components/Popup/popup';
 
 
 export default function AdmAccountsPage () {
@@ -190,7 +190,7 @@ const facilityRegister = async (event) => {
     telephone,
     level,
   }
-  console.log(payload);
+
   try {
     await fetch(facilityUrl, {
       method: 'POST',
@@ -249,10 +249,10 @@ const facilityRegister = async (event) => {
       </div>
       {
         isOpenFacility && <Popup
-          toggle={toggleFacility}
+          handleClose={toggleFacility}
           title={"Informations de l'établissement"}
           errMessage={errMessage}
-          accountCreation={facilityRegister}
+          handleCreation={facilityRegister}
           btn_text={"Modifier"}
           content={
             <div>
@@ -274,10 +274,10 @@ const facilityRegister = async (event) => {
       }
       {
         isOpenSingle && <Popup
-          toggle={toggleSingleAccount}
+          handleClose={toggleSingleAccount}
           title={"Création d'un compte Administrateur Scolaire"}
           errMessage={errMessage}
-          accountCreation={singleAccountCreation}
+          handleCreation={singleAccountCreation}
           btn_text={"Créer un nouveau compte"}
           content={
             <div>
@@ -292,12 +292,11 @@ const facilityRegister = async (event) => {
       }
       {
         isOpenMany && <Popup
-          toggle={toggleManyAccounts}
+          handleClose={toggleManyAccounts}
           title={"Création d'une liste de comptes Administrateur Scolaire"}
           errMessage={errMessage}
-          accountCreation={csvAccountCreation}
+          handleCreation={csvAccountCreation}
           btn_text={"Créer de nouveaux comptes"}
-          handleClose={toggleManyAccounts}
           content={
             <div>
               <form className="pop-form">

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import LandingPage from '../../../Users/Public/LandingPage'
+import LandingPage from '../../../Users/Public/landingPage'
 
 describe('LandingPage', () => {
   test('should render text content', () => {

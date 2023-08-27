@@ -1,7 +1,7 @@
 import React from 'react'
-import { LastAlerts } from '../../Components/Alerts/LastAlerts'
-import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/Sidebar/Sidebar'
+import { LastAlerts } from '../../Components/Alerts/lastAlerts'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar.jsx'
 import '../../css/pages/homePage.css'
 
 export default function AdmHomePage () {

@@ -1,9 +1,9 @@
 import '../../css/pages/homePage.css'
-import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
-import { GraphSpace } from '../../Components/Graph/GraphSpace'
-import { LastAlerts } from '../../Components/Alerts/LastAlerts'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
+import { QuestSpace } from '../../Components/Questionnaire/questSpace'
+import { GraphSpace } from '../../Components/Graph/graphSpace'
+import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import React from 'react'
 
 const StudentHomePage = () => {

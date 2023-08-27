@@ -1,5 +1,5 @@
 import { React } from 'react'
-import '../../css/Components/Graph/GraphSpace.css'
+import '../../css/Components/Graph/graphSpace.css'
 
 export function GraphSpace () {
   return (

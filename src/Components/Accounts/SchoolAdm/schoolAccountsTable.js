@@ -1,4 +1,4 @@
-import '../../../css/Components/Accounts/AccountsTable.css'
+import '../../../css/Components/Accounts/accountsTable.css'
 import { React, useState, useEffect } from 'react'
 
 export default function SchoolAccountsTable () {

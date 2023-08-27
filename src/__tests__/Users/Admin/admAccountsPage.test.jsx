@@ -1,11 +1,11 @@
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import SchoolAdmAccountsPage from '../../../Users/SchoolAdmin/SchoolAdmAccountsPage'
+import AdmAccountsPage from '../../../Users/Admin/admAccountsPage'
 import { BrowserRouter } from 'react-router-dom'
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-describe('SchoolAdmAccountsPage', () => {
+describe('AdmAccountsPage', () => {
 
   let container;
 
@@ -36,7 +36,7 @@ describe('SchoolAdmAccountsPage', () => {
   test('renders the page', () => {
     render(
       <BrowserRouter>
-        <SchoolAdmAccountsPage />
+        <AdmAccountsPage />
       </BrowserRouter>
     )
 
@@ -52,38 +52,31 @@ describe('SchoolAdmAccountsPage', () => {
   test('allows creation of new account', () => {
     render(
       <BrowserRouter>
-        <SchoolAdmAccountsPage />
+        <AdmAccountsPage />
       </BrowserRouter>
     )
 
     const singleAccountButton = screen.getByText('Ajouter un compte');
 
     fireEvent.click(singleAccountButton);
-    expect(screen.getByText("Création d'un compte Etudiant/Professeur")).toBeInTheDocument()
+    expect(screen.getByText("Création d'un compte Administrateur Scolaire")).toBeInTheDocument()
 
     const firstNameInput = screen.getByPlaceholderText('Prénom')
     const lastNameInput = screen.getByPlaceholderText('Nom')
     const emailInput = screen.getByPlaceholderText('Email')
-    const roleInput = screen.getByPlaceholderText('Rôle')
-    const classInput = screen.getByPlaceholderText('Classe')
 
     expect(firstNameInput).toHaveValue('')
     expect(lastNameInput).toHaveValue('')
     expect(emailInput).toHaveValue('')
-    expect(roleInput).toHaveValue('')
-    expect(classInput).toHaveValue('')
+
 
     fireEvent.change(firstNameInput, { target: { value: 'John' } })
     fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
     fireEvent.change(emailInput, { target: { value: 'john.doe@example.com' } })
-    fireEvent.change(roleInput, { target: { value: 'student' } })
-    fireEvent.change(classInput, { target: { value: '1S' } })
 
     expect(firstNameInput).toHaveValue('John')
     expect(lastNameInput).toHaveValue('Doe')
     expect(emailInput).toHaveValue('john.doe@example.com')
-    expect(roleInput).toHaveValue('student')
-    expect(classInput).toHaveValue('1S')
 
     const newAccountBtn = screen.getByText("Créer un nouveau compte")
     fireEvent.click(newAccountBtn);
@@ -96,7 +89,7 @@ describe('SchoolAdmAccountsPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <AdmAccountsPage />
         </BrowserRouter>
       )
     });
@@ -106,10 +99,10 @@ describe('SchoolAdmAccountsPage', () => {
     act(() => {
       fireEvent.click(manyAccountButton);
     });
-    expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
+    expect(screen.getByText("Création d'une liste de comptes Administrateur Scolaire")).toBeInTheDocument()
 
     const fileInput = screen.getByPlaceholderText('exemple.csv')
-    const file = new File(['firstName,lastName,email,role,classe'], 'example.csv', { type: 'text/csv' });
+    const file = new File(['firstName,lastName,email'], 'example.csv', { type: 'text/csv' });
     act(() => {
       fireEvent.change(fileInput, { target: { files: [file] } });
     });

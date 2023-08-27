@@ -1,11 +1,11 @@
-import {React, useState} from 'react';
-import HeaderComp from '../../Components/Header/HeaderComp';
-import Sidebar from '../../Components/Sidebar/Sidebar';
-import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/SchoolAccountsTable';
-import ButtonsAccountCreation from '../../Components/Buttons/ButtonsAccountCreation';
+import {React, useState, useEffect} from 'react';
+import HeaderComp from '../../Components/Header/headerComp';
+import Sidebar from '../../Components/Sidebar/sidebar';
+import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable';
+import ButtonsAccountCreation from '../../Components/Buttons/buttonsAccountCreation';
 import '../../css/pages/accountsPage.scss';
-import Popup from '../../Components/Popup/Popup';
-import "../../css/Components/Popup/Popup.css";
+import Popup from '../../Components/Popup/popup';
+import "../../css/Components/Popup/popup.css";
 
 
 export default function SchoolAdmAccountsPage () {
@@ -14,19 +14,41 @@ export default function SchoolAdmAccountsPage () {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [name, setName] = useState('');
-  const [role, setRole] = useState('student');
+  const [role, setRole] = useState('');
   const [classes, setClasses] = useState([]);
   const [fileName, setFile] = useState();
   const [errMessage, setErrMessage] = useState('');
+  const [rolesList, setRolesList] = useState([]);
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser';
+
+  useEffect(() => {
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList';
+
+    try {
+      fetch(rolesUrl, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+      }).then(response => response.json())
+      .then(data => {
+        setRolesList(data.roles);
+      })
+      .catch(error => setErrMessage(error.message));
+
+    } catch (e) {
+      setErrMessage(e.message);
+    }
+  }, []);
 
   const toggleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle);
     setFirstName('');
     setName('');
     setEmail('');
-    setRole('');
+    setRole(rolesList[0]._id);
     setClasses([]);
     setErrMessage('');
     if (isOpenMany) {
@@ -57,12 +79,15 @@ export default function SchoolAdmAccountsPage () {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value)
-    console.log(role)
   }
 
   const handleClasseChange = (event) => {
-    setClasses(oldArray => [...oldArray, event.target.value])
-    console.log(classes)
+    const symbol = ";";
+    const inputString = event.target.value.split(symbol)
+                          .map(word => word.trim())
+                          .filter(word => word !== '');
+
+    setClasses(inputString)
   }
 
 
@@ -113,7 +138,6 @@ export default function SchoolAdmAccountsPage () {
 
       const data = await response.json()
 
-      console.log(data.message);
       setErrMessage(data.message);
     } catch (e) {
       setErrMessage(e.message);
@@ -144,19 +168,19 @@ export default function SchoolAdmAccountsPage () {
       </div>
       {
         isOpenSingle && <Popup
-          toggle={toggleSingleAccount}
+          handleClose={toggleSingleAccount}
           title={"Création d'un compte Etudiant/Professeur"}
           errMessage={errMessage}
-          accountCreation={singleAccountCreation}
+          handleCreation={singleAccountCreation}
           btn_text={"Créer un nouveau compte"}
           content={
             <form className="pop-form">
               <input className="pop-input" name="firstName" placeholder="Prénom" onChange={handleFirstNameChange}></input>
               <input className="pop-input" name="lastName" placeholder="Nom" onChange={handleNameChange}></input>
               <input className="pop-input" name="email" placeholder="Email" onChange={handleEmailChange}></input>
-              <select defaultValue={"student"} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                <option value="student" >Etudiant</option>
-                <option value="teacher">Professeur</option>
+              <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                <option value={rolesList[0]._id} >{rolesList[0].name}</option>
+                <option value={rolesList[1]._id}>{rolesList[1].name}</option>
               </select>
               {/* <input className="pop-input" name="role" placeholder="Rôle" onChange={handleRoleChange}></input> */}
               <input className="pop-input" name="classe" placeholder="Classe" onChange={handleClasseChange}></input>
@@ -166,10 +190,10 @@ export default function SchoolAdmAccountsPage () {
       }
       {
         isOpenMany && <Popup
-          toggle={toggleManyAccounts}
+          handleClose={toggleManyAccounts}
           title={"Création d'une liste de comptes Etudiant/Professeur"}
           errMessage={errMessage}
-          accountCreation={csvAccountCreation}
+          handleCreation={csvAccountCreation}
           btn_text={"Créer de nouveaux comptes"}
           content={
             <div>
