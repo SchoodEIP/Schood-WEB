@@ -17,9 +17,29 @@ export default function SchoolAdmAccountsPage () {
   const [classes, setClasses] = useState([])
   const [fileName, setFile] = useState()
   const [errMessage, setErrMessage] = useState('')
+  const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
+
+  useEffect(() => {
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/classes'
+
+    try {
+      fetch(rolesUrl, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json())
+        .then(data => {setClassesList(data);
+        console.log(classesList);})
+        .catch(error => setErrMessage(error.message))
+    } catch (e) {
+      setErrMessage(e.message)
+    }
+  }, [])
 
   useEffect(() => {
     const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
@@ -79,13 +99,18 @@ export default function SchoolAdmAccountsPage () {
     setRole(event.target.value)
   }
 
-  const handleClasseChange = (event) => {
-    const symbol = ';'
-    const inputString = event.target.value.split(symbol)
-      .map(word => word.trim())
-      .filter(word => word !== '')
+  const handleClasseChange = (event) => { // je suis en train de travailler sur le select je pense que c'est bon pour le moment à voir plus tard
+    const selectedValue = event.target.value;
 
-    setClasses(inputString)
+  if (classes.includes(selectedValue)) {
+    // If the value is already in the array, filter it out and update the state
+    const updatedClasses = classes.filter(item => item !== selectedValue);
+    setClasses(updatedClasses);
+  } else {
+    // If the value is not in the array, add it and update the state
+    setClasses(oldArray => [...oldArray, selectedValue]);
+  }
+
   }
 
   const handleFileChange = (event) => {
@@ -178,8 +203,13 @@ export default function SchoolAdmAccountsPage () {
                 <option value={rolesList[0]._id}>{rolesList[0].name}</option>
                 <option value={rolesList[1]._id}>{rolesList[1].name}</option>
               </select>
-              {/* <input className="pop-input" name="role" placeholder="Rôle" onChange={handleRoleChange}></input> */}
-              <input className='pop-input' name='classe' placeholder='Classe' onChange={handleClasseChange} />
+              <select multiple value={classes} className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
+                {classesList.map((classe_) => (
+                  <option key={classe_._id} value={classe_._id}>
+                    {classe_.name}
+                  </option>
+                ))}
+              </select>
             </form>
           }
                         />
