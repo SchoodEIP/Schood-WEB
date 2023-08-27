@@ -16,14 +16,7 @@ export default function AdmAccountsTable () {
       }
     })
     const data = await resp.json()
-    // console.log(data);
-    // const data = [
-    //   {
-    //     'firstname': 'adm',
-    //     'lastname': 'schood',
-    //     'email': 'adm@schood.fr'
-    //   }
-    // ];
+
     setAccountList(data)
   }
 
