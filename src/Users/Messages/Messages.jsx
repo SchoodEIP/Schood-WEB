@@ -18,7 +18,8 @@ const Sidebar = ({
   conversations,
   currentConversation,
   setCurrentConversation,
-  clearMessageAndError
+  clearMessageAndError,
+  openCreateConversationPopup
 }) => {
   const handleClick = (conversation) => {
     setCurrentConversation(conversation);
@@ -39,6 +40,69 @@ const Sidebar = ({
           </li>
         ))}
       </ul>
+      <button onClick={openCreateConversationPopup}>
+        Nouvelle conversation
+      </button>
+    </div>
+  );
+};
+
+const CreateConversationPopup = ({
+  contacts,
+  createConversation,
+  closeCreateConversationPopup
+}) => {
+  const [searchInput, setSearchInput] = useState("");
+  const [selectedContacts, setSelectedContacts] = useState([]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleContactSelection = (contactId) => {
+    setSelectedContacts((prevSelectedContacts) => {
+      if (prevSelectedContacts.includes(contactId)) {
+        return prevSelectedContacts.filter((id) => id !== contactId);
+      } else {
+        return [...prevSelectedContacts, contactId];
+      }
+    });
+  };
+
+  const handleCreateConversation = () => {
+    const newConversationName = searchInput.trim();
+    if (newConversationName === "") {
+      return;
+    }
+
+    createConversation(newConversationName);
+    closeCreateConversationPopup();
+  };
+
+  return (
+    <div className="popup">
+      <div className="popup-content">
+        <h2>Nouvelle conversation</h2>
+        <input
+          type="text"
+          placeholder="Rechercher un contact"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        />
+        <ul>
+          {contacts.map((contact) => (
+            <li
+              key={contact.id}
+              className={selectedContacts.includes(contact.id) ? "selected" : ""}
+              onClick={() => handleContactSelection(contact.id)}
+            >
+              {contact.name}
+            </li>
+          ))}
+        </ul>
+        <button onClick={handleCreateConversation}>Créer la conversation</button>
+        <button onClick={closeCreateConversationPopup}>Annuler</button>
+      </div>
     </div>
   );
 };
@@ -54,6 +118,10 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [error, setError] = useState("");
+  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(
+    false
+  );
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     // Effectuer une requête GET pour récupérer les messages de la conversation actuelle
@@ -71,6 +139,21 @@ const Messages = () => {
 
     fetchMessages();
   }, [currentConversation]);
+
+  useEffect(() => {
+    // Effectuer une requête GET pour récupérer la liste des contacts
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch("/api/contacts");
+        const data = await response.json();
+        setContacts(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des contacts :", error);
+      }
+    };
+
+    fetchContacts();
+  }, []);
 
   const sendMessage = async () => {
     if (newMessage.trim() === "") {
@@ -136,6 +219,22 @@ const Messages = () => {
     setError("");
   };
 
+  const openCreateConversationPopup = () => {
+    setShowCreateConversationPopup(true);
+  };
+
+  const closeCreateConversationPopup = () => {
+    setShowCreateConversationPopup(false);
+  };
+
+  const createConversation = (conversationName) => {
+    const newConversation = {
+      id: conversations.length + 1,
+      name: conversationName
+    };
+    setConversations([...conversations, newConversation]);
+  };
+
   return (
     <div className="messaging-page">
       <Sidebar
@@ -143,6 +242,7 @@ const Messages = () => {
         currentConversation={currentConversation}
         setCurrentConversation={setCurrentConversation}
         clearMessageAndError={clearMessageAndError}
+        openCreateConversationPopup={openCreateConversationPopup}
       />
       <div className="chat">
         {currentConversation ? (
@@ -169,6 +269,13 @@ const Messages = () => {
           <div>Aucune conversation sélectionnée.</div>
         )}
       </div>
+      {showCreateConversationPopup && (
+        <CreateConversationPopup
+          contacts={contacts}
+          createConversation={createConversation}
+          closeCreateConversationPopup={closeCreateConversationPopup}
+        />
+      )}
     </div>
   );
 };

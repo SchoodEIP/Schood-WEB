@@ -99,7 +99,8 @@ body {
   outline: none;
 }
 
-.message-input button {
+.message-input button,
+.popup-content button {
   margin-left: 10px;
   padding: 8px 16px;
   border: none;
@@ -110,11 +111,13 @@ body {
   cursor: pointer;
 }
 
-.message-input button:hover {
-  background-color: #4f23e2;
+.message-input button:hover,
+.popup-content button:hover {
+  background-color: #3c1eaa;
 }
 
-.message-input button:focus {
+.message-input button:focus,
+.popup-content button:focus {
   outline: none;
 }
 
