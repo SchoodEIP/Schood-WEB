@@ -123,7 +123,7 @@ export default function AdmAccountsPage () {
         body: formData
       }).then(response => {
         if (response.ok) {
-          setErrMessage("this is fine")
+          setErrMessage('this is fine')
         } else {
           const data = response.json()
 
