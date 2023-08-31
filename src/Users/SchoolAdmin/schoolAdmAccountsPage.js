@@ -98,7 +98,7 @@ export default function SchoolAdmAccountsPage () {
     setRole(event.target.value)
   }
 
-  const handleClasseChange = (event) => { // je suis en train de travailler sur le select je pense que c'est bon pour le moment à voir plus tard
+  const handleClasseChange = (event) => {
     const selectedValue = event.target.value
 
     if (classes.includes(selectedValue)) {
@@ -226,7 +226,9 @@ export default function SchoolAdmAccountsPage () {
               </form>
               <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p>firstName,lastName,email,role,classe</p>
+                <p>firstname,lastname,email,role,class</p>
+                <p>jeanne,dupont,jeanne@schood.fr,student,200</p>
+                <p>jean,dupond,jean@schood.fr,teacher,200:201</p>
               </div>
             </div>
           }
