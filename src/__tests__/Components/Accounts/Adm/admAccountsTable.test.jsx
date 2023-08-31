@@ -3,14 +3,52 @@ import '@testing-library/jest-dom'
 import AdmAccountsTable from '../../../../Components/Accounts/Adm/admAccountsTable'
 
 describe('AdmAccountsTable', () => {
-  it('renders the table', () => {
-    render(<AdmAccountsTable />)
+  it('renders the table', async () => {
+    const mockAccountList = [
+      {
+        firstname: 'Harry',
+        lastname: 'Dresden',
+        email: 'harry.dresden@epitech.eu'
+      },
+      {
+        firstname: 'John',
+        lastname: 'Wick',
+        email: 'john.wick@epitech.eu'
+      }
+    ]
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockAccountList),
+      status: 200,
+      statusText: 'OK'
+    })
+    await act(async () => {
+      render(<AdmAccountsTable />)
+    })
     const table = screen.getByRole('table')
     expect(table).toBeInTheDocument()
   })
 
   test('renders table headers correctly', async () => {
-    render(<AdmAccountsTable />)
+    const mockAccountList = [
+      {
+        firstname: 'Harry',
+        lastname: 'Dresden',
+        email: 'harry.dresden@epitech.eu'
+      },
+      {
+        firstname: 'John',
+        lastname: 'Wick',
+        email: 'john.wick@epitech.eu'
+      }
+    ]
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockAccountList),
+      status: 200,
+      statusText: 'OK'
+    })
+    await act(async () => {
+      render(<AdmAccountsTable />)
+    })
     const tableHeaders = await screen.findAllByRole('columnheader')
     expect(tableHeaders[0]).toHaveTextContent('Prénom')
     expect(tableHeaders[1]).toHaveTextContent('Nom')
