@@ -3,8 +3,8 @@ import '@testing-library/jest-dom'
 import ButtonsAccountCreation from '../../../Components/Buttons/buttonsAccountCreation'
 
 describe('ButtonsAccountCreation', () => {
-  const mockToggleSingleAccount = jest.fn()
-  const mockToggleManyAccounts = jest.fn()
+  const mockHandleSingleAccount = jest.fn()
+  const mockHandleManyAccounts = jest.fn()
 
   test('renders component with correct button colors and click behavior', () => {
     const isOpenSingle = true
@@ -14,8 +14,8 @@ describe('ButtonsAccountCreation', () => {
       <ButtonsAccountCreation
         isOpenSingle={isOpenSingle}
         isOpenMany={isOpenMany}
-        toggleSingleAccount={mockToggleSingleAccount}
-        toggleManyAccounts={mockToggleManyAccounts}
+        handleSingleAccount={mockHandleSingleAccount}
+        handleManyAccounts={mockHandleManyAccounts}
       />
     )
 
@@ -26,9 +26,9 @@ describe('ButtonsAccountCreation', () => {
     expect(manyAccountButton).toHaveStyle('background-color: rgb(79, 35, 226)')
 
     fireEvent.click(singleAccountButton)
-    expect(mockToggleSingleAccount).toHaveBeenCalled()
+    expect(mockHandleSingleAccount).toHaveBeenCalled()
 
     fireEvent.click(manyAccountButton)
-    expect(mockToggleManyAccounts).toHaveBeenCalled()
+    expect(mockHandleManyAccounts).toHaveBeenCalled()
   })
 })

@@ -60,7 +60,7 @@ export default function SchoolAdmAccountsPage () {
     }
   }, [])
 
-  const toggleSingleAccount = () => {
+  const handleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle)
     setFirstName('')
     setName('')
@@ -73,7 +73,7 @@ export default function SchoolAdmAccountsPage () {
     }
   }
 
-  const toggleManyAccounts = () => {
+  const handleManyAccounts = () => {
     setIsOpenMany(!isOpenMany)
     setErrMessage('')
     setFile()
@@ -180,14 +180,14 @@ export default function SchoolAdmAccountsPage () {
           <ButtonsAccountCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
-            toggleSingleAccount={toggleSingleAccount}
-            toggleManyAccounts={toggleManyAccounts}
+            handleSingleAccount={handleSingleAccount}
+            handleManyAccounts={handleManyAccounts}
           />
         </div>
       </div>
       {
         isOpenSingle && <Popup
-          handleClose={toggleSingleAccount}
+          handleClose={handleSingleAccount}
           title={"Création d'un compte Etudiant/Professeur"}
           errMessage={errMessage}
           handleCreation={singleAccountCreation}
@@ -214,7 +214,7 @@ export default function SchoolAdmAccountsPage () {
       }
       {
         isOpenMany && <Popup
-          handleClose={toggleManyAccounts}
+          handleClose={handleManyAccounts}
           title={"Création d'une liste de comptes Etudiant/Professeur"}
           errMessage={errMessage}
           handleCreation={csvAccountCreation}

@@ -9,7 +9,7 @@ export default function ButtonsAccountCreation (props) {
         <button
           className='account-pop-up-btn'
           data-testid='single-account-btn'
-          onClick={props.toggleSingleAccount}
+          onClick={props.handleSingleAccount}
           style={{ backgroundColor: props.isOpenSingle ? '#8c52ff' : '#4f23e2' }}
         >
           Ajouter un compte
@@ -19,7 +19,7 @@ export default function ButtonsAccountCreation (props) {
         <button
           className='account-pop-up-btn'
           data-testid='many-account-btn'
-          onClick={props.toggleManyAccounts}
+          onClick={props.handleManyAccounts}
           style={{ backgroundColor: props.isOpenMany ? '#8c52ff' : '#4f23e2' }}
         >
           Ajouter une liste de comptes

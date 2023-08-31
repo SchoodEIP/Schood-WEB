@@ -36,7 +36,7 @@ export default function AdmAccountsPage () {
     }
   }, [])
 
-  const toggleSingleAccount = () => {
+  const handleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle)
     setFirstName('')
     setLastName('')
@@ -47,7 +47,7 @@ export default function AdmAccountsPage () {
     }
   }
 
-  const toggleManyAccounts = () => {
+  const handleManyAccounts = () => {
     setIsOpenMany(!isOpenMany)
     setFile()
     setErrMessage('')
@@ -151,14 +151,14 @@ export default function AdmAccountsPage () {
           <ButtonsAccountCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
-            toggleSingleAccount={toggleSingleAccount}
-            toggleManyAccounts={toggleManyAccounts}
+            handleSingleAccount={handleSingleAccount}
+            handleManyAccounts={handleManyAccounts}
           />
         </div>
       </div>
       {
         isOpenSingle && <Popup
-          handleClose={toggleSingleAccount}
+          handleClose={handleSingleAccount}
           title={"Création d'un compte Administrateur Scolaire"}
           errMessage={errMessage}
           handleCreation={singleAccountCreation}
@@ -176,7 +176,7 @@ export default function AdmAccountsPage () {
       }
       {
         isOpenMany && <Popup
-          handleClose={toggleManyAccounts}
+          handleClose={handleManyAccounts}
           title={"Création d'une liste de comptes Administrateur Scolaire"}
           errMessage={errMessage}
           handleCreation={csvAccountCreation}
