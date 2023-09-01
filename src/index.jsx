@@ -14,7 +14,6 @@ import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import NewFormPage from './Users/Teacher/newFormPage'
 import FormListPage from './Users/Teacher/formListPage'
 
-
 const rootElement = document.getElementById('root')
 
 if (rootElement) {
