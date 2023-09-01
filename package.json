@@ -21,7 +21,7 @@
     "react-switch-input": "^1.1.0",
     "sass": "^1.66.1",
     "styled-components": "^6.0.7",
-    "web-vitals": "^3.3.2"
+    "web-vitals": "^3.4.0"
   },
   "jest": {
     "coverageThreshold": {
