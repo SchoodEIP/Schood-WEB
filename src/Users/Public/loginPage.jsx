@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import childrenLogin from '../../assets/children_login.png'
 import logoSchood from '../../assets/logo_schood.png'
@@ -25,8 +25,8 @@ export default function Login () {
       const data = await response.json()
 
       if (response.ok) {
-        sessionStorage.setItem('role', data.role)
-        localStorage.setItem('role', data.role)
+        sessionStorage.setItem('role', data.role.name)
+        localStorage.setItem('role', data.role.name)
         window.location.href = '/'
       } else {
         setMessage(`Error: ${data.message}`)
@@ -103,10 +103,10 @@ export default function Login () {
         <div id='auth-form'>
           <form>
             <div>
-              <input className="auth-input" id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <input className='auth-input' id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
             </div>
             <div>
-              <input className="auth-input" id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
+              <input className='auth-input' id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
             </div>
           </form>
         </div>
