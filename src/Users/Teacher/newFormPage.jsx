@@ -6,7 +6,7 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0);
-  const [idList, setIdList] = useState([0]);
+  const [idList, setIdList] = useState([]);
 
   function postQuestions() {
     const array = [];
@@ -33,7 +33,7 @@ const NewFormPage = () => {
           body: JSON.stringify({
             title: title,
             date: date,
-            questions: array
+            questions: array,
           })
         }).then(response => response.json())
           .then(data =>
@@ -54,7 +54,7 @@ const NewFormPage = () => {
 
     const num = idList.length;
     const numbering = document.createElement('h2');
-    numbering.textContent = 'Question n° ' + (num) + ' :';
+    numbering.textContent = 'Question n° ' + (num + 1) + ' :';
 
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
@@ -93,6 +93,31 @@ const NewFormPage = () => {
     setIdList(oldArray => [...oldArray, (questionInc)]);
   }
 
+  function removeLastQuestion() {
+    const questionRow = document.getElementById('question-row');
+
+    const lastChild = questionRow.lastChild;
+    if (lastChild) {
+        questionRow.removeChild(lastChild);
+    }
+    setQuestionInc(questionInc - 1);
+    setIdList(oldArray => {
+      if (oldArray.length > 1) {
+        return oldArray.slice(0, -1);
+      }
+    });
+  }
+
+  function QuestionRemovalButton(props) {
+    if (props.shouldShowButton) {
+      return (
+        <button className="button-css questionnaire-btn" onClick={removeLastQuestion}>Enlever une Question</button>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div className='form-page'>
       <div>
@@ -111,7 +136,8 @@ const NewFormPage = () => {
                     </div>
                     <div id='question-row'>
                     </div>
-                    <div>
+                    <div className='confirmation-form-container'>
+                      <QuestionRemovalButton shouldShowButton={(questionInc > 1)}/>
                       <button className="button-css questionnaire-btn" onClick={addNewQuestion}>Ajouter une Question</button>
                     </div>
                     <div className='confirmation-form-container'>
