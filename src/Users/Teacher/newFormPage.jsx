@@ -6,19 +6,18 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0);
-  const [idList, setIdList] = useState([]);
 
   function postQuestions() {
     const array = [];
-    idList.forEach(id => {
-      const question = document.getElementById('question-' + id).value;
-      const type = document.getElementById('select-' + id).value;
+    for (let i = 0; i < questionInc; i++) {
+      const question = document.getElementById('question-' + i).value;
+      const type = document.getElementById('select-' + i).value;
       const qObject = {
         question: question,
         type: type,
       };
       array.push(qObject);
-    });
+    }
     const title = document.getElementById('form-title').value;
     const date = document.getElementById('parution-date').value;
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire';
@@ -38,9 +37,9 @@ const NewFormPage = () => {
         }).then(response => response.json())
           .then(data =>
             console.log(data.message))
-          // .catch(error => setErrMessage(error.message))
+          .catch(error => console.error(error.message))
       } catch (e) {
-        // setErrMessage(e.message)
+        console.error(e.message)
       }
   }
 
@@ -52,9 +51,8 @@ const NewFormPage = () => {
     container.id = 'container-' + questionInc;
     container.classList.add('questions-container');
 
-    const num = idList.length;
     const numbering = document.createElement('h2');
-    numbering.textContent = 'Question n° ' + (num + 1) + ' :';
+    numbering.textContent = 'Question n° ' + (questionInc + 1) + ' :';
 
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
@@ -90,7 +88,6 @@ const NewFormPage = () => {
     container.appendChild(answerRow);
     questionRow.appendChild(container);
     setQuestionInc(questionInc + 1);
-    setIdList(oldArray => [...oldArray, (questionInc)]);
   }
 
   function removeLastQuestion() {
@@ -101,21 +98,6 @@ const NewFormPage = () => {
         questionRow.removeChild(lastChild);
     }
     setQuestionInc(questionInc - 1);
-    setIdList(oldArray => {
-      if (oldArray.length > 1) {
-        return oldArray.slice(0, -1);
-      }
-    });
-  }
-
-  function QuestionRemovalButton(props) {
-    if (props.shouldShowButton) {
-      return (
-        <button className="button-css questionnaire-btn" onClick={removeLastQuestion}>Enlever une Question</button>
-      );
-    } else {
-      return null;
-    }
   }
 
   return (
@@ -137,15 +119,15 @@ const NewFormPage = () => {
                     <div id='question-row'>
                     </div>
                     <div className='confirmation-form-container'>
-                      <QuestionRemovalButton shouldShowButton={(questionInc > 1)}/>
+                      {(questionInc > 1) ? <button className="button-css questionnaire-btn" onClick={removeLastQuestion}>Enlever une Question</button> : ''}
                       <button className="button-css questionnaire-btn" onClick={addNewQuestion}>Ajouter une Question</button>
                     </div>
                     <div className='confirmation-form-container'>
                         <label id="parution-date-container">
                             Date de parution:
-                            <input className='date-input' name="parution-date" id="parution-date" type='date'></input>
+                            <input className='date-input' name="parution-date" data-testid="parution-date" id="parution-date" type='date'></input>
                         </label>
-                        <button className="button-css questionnaire-btn" style={{alignSelf: "center", marginTop: "2.5rem"}} type='submit' onClick={postQuestions}>Créer un Questionnaire</button>
+                        <button className="button-css questionnaire-btn" style={{alignSelf: "center", marginTop: "2.5rem"}}  onClick={postQuestions}>Créer un Questionnaire</button>
                     </div>
                 </div>
             </div>
