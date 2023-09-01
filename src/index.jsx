@@ -11,6 +11,8 @@ import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
 import NoPage from './Users/Public/noPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
+import NewFormPage from './Users/Teacher/newFormPage'
+import FormListPage from './Users/Teacher/formListPage'
 
 const rootElement = document.getElementById('root')
 
@@ -44,14 +46,16 @@ if (rootElement) {
             <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
           </>
         )}
-        {sessionStorage.getItem('role') === 'teacher' && (
+        {sessionStorage.getItem('role') === 'student' && (
           <>
             <Route path='/' element={<StudentHomePage />} />
           </>
         )}
-        {sessionStorage.getItem('role') === 'student' && (
+        {sessionStorage.getItem('role') === 'teacher' && (
           <>
             <Route path='/' element={<TeacherHomePage />} />
+            <Route path='/questionnaires' element={<FormListPage />} />
+            <Route path='/questionnaire' element={<NewFormPage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />
