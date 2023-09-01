@@ -6,8 +6,8 @@ import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('NewFormPage', () => {
-    const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire';
-    let container = null;
+  const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
+  let container = null
 
   beforeEach(() => {
     container = document.createElement('div')
@@ -41,7 +41,7 @@ describe('NewFormPage', () => {
   })
 
   test('add and remove a question', async () => {
-    act( () => {
+    act(() => {
       render(
         <BrowserRouter>
           <NewFormPage />
@@ -51,24 +51,23 @@ describe('NewFormPage', () => {
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
 
-    act( () =>  {
-        fireEvent.click(addQuestionBtn)
+    act(() => {
+      fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
 
-    act( () =>  {
-        fireEvent.click(addQuestionBtn)
+    act(() => {
+      fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 2 :')).toBeInTheDocument()
 
     const removeQuestionBtn = screen.getByText('Enlever une Question')
 
-    act(() =>  {
-        fireEvent.click(removeQuestionBtn)
+    act(() => {
+      fireEvent.click(removeQuestionBtn)
     })
 
     expect(screen.queryByText('Question n° 2 :')).toBeNull()
     expect(screen.queryByText('Enlever une Question')).toBeNull()
-
   })
 })
