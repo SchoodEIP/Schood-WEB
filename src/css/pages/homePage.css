@@ -3,14 +3,19 @@
 }
 
 .left-half {
-  padding-left: 15px;
+  position: fixed;
+  left: 0px
 }
 
 .right-half {
+  position: absolute;
   display: flex;
-  flex-direction: column;
-  right: 0;
-  margin-right: 2rem;
+  right: 10px;
+}
+
+.middle-half {
+  position: fixed;
+  right: 5px;
 }
 
   .column {

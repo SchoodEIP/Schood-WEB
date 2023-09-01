@@ -51,18 +51,14 @@ jobs:
           sed -i '1s/^/Non fixable linter problems:\n\n/' linter-nonfixable
 
       - name: Comment non fixable
-        if: |
-          steps.check_files.outputs.files_exists == 'true' &&
-          github.event_name == 'pull_request'
+        if: steps.check_files.outputs.files_exists == 'true'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: ./src/linter-nonfixable
           comment_tag: linternonfixable
 
       - name: Comment empty
-        if: |
-          steps.check_files.outputs.files_exists == 'false' &&
-          github.event_name == 'pull_request'
+        if: steps.check_files.outputs.files_exists == 'false'
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: "Non fixable linter problems:"
@@ -70,8 +66,6 @@ jobs:
           create_if_not_exists: false
 
       - uses: stefanzweifel/git-auto-commit-action@v4
-        if: |
-          github.event_name == 'pull_request'
         with:
           commit_message: "[LINT] Applied linter fix"
 
