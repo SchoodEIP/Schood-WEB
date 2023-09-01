@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
+import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0);
@@ -44,20 +45,26 @@ const NewFormPage = () => {
   }
 
   function addNewQuestion() {
-    setIdList(oldArray => [...oldArray, (questionInc + 1)]);
 
     const questionRow = document.getElementById('question-row');
 
     const container = document.createElement('div');
-    container.id = 'container-' + (questionInc + 1);
+    container.id = 'container-' + questionInc;
+    container.classList.add('questions-container');
+
+    const num = idList.length;
+    const numbering = document.createElement('h2');
+    numbering.textContent = 'Question n° ' + (num) + ' :';
 
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
-    questionInput.id = 'question-' + (questionInc + 1);
+    questionInput.id = 'question-' + questionInc;
     questionInput.placeholder = "Quelle est votre question ?";
+    questionInput.classList.add('form-input');
 
     const typeSelect = document.createElement('select');
-    typeSelect.id = 'select-' + (questionInc + 1);
+    typeSelect.id = 'select-' + questionInc;
+    typeSelect.classList.add('pop-input');
 
     const textOption = document.createElement('option');
     textOption.value = "text";
@@ -72,8 +79,9 @@ const NewFormPage = () => {
     multiOption.textContent = "Multiple";
 
     const answerRow = document.createElement('div');
-    answerRow.id = "answers-" + (questionInc + 1);
+    answerRow.id = "answers-" + questionInc;
 
+    container.appendChild(numbering);
     container.appendChild(questionInput);
     container.appendChild(typeSelect);
     typeSelect.appendChild(textOption);
@@ -82,6 +90,7 @@ const NewFormPage = () => {
     container.appendChild(answerRow);
     questionRow.appendChild(container);
     setQuestionInc(questionInc + 1);
+    setIdList(oldArray => [...oldArray, (questionInc)]);
   }
 
   return (
@@ -98,25 +107,19 @@ const NewFormPage = () => {
                 <div className='form-header'><h1 className='form-header-title'>Création de Questionnaire</h1></div>
                 <div className='form-content-container'>
                     <div>
-                        <input className='form-title-input' name="form-title" id="form-title" placeholder='Titre du questionnaire'></input>
+                        <input className='form-input' style={{width: '80%'}} name="form-title" id="form-title" placeholder='Titre du questionnaire'></input>
                     </div>
-                    <div className='questions-container' id='question-row'>
-                      <input id="question-0" type="text" placeholder='Quelle est votre question ?'></input>
-                      <select id="select-0">
-                        <option value="text">Texte</option>
-                        <option value='emoji'>Emoticône</option>
-                        <option value="multiple">Multiple</option>
-                      </select>
+                    <div id='question-row'>
                     </div>
                     <div>
-                      <button onClick={addNewQuestion}>Ajouter une Question</button>
+                      <button className="button-css questionnaire-btn" onClick={addNewQuestion}>Ajouter une Question</button>
                     </div>
-                    <div>
-                        <label>
+                    <div className='confirmation-form-container'>
+                        <label id="parution-date-container">
                             Date de parution:
-                            <input name="parution-date" id="parution-date" type='date'></input>
+                            <input className='date-input' name="parution-date" id="parution-date" type='date'></input>
                         </label>
-                        <button type='submit' onClick={postQuestions}>Créer un Questionnaire</button>
+                        <button className="button-css questionnaire-btn" style={{alignSelf: "center", marginTop: "2.5rem"}} type='submit' onClick={postQuestions}>Créer un Questionnaire</button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 .form-container {
     background-color: white;
     border-radius: 5px;
-    width: 100vh;
+    width: calc(100vw - 225px);
     display: grid;
     flex-direction: column;
     margin-top: 15px;
@@ -32,4 +32,39 @@
 .questions-container {
     display: flex;
     flex-direction: column;
+}
+
+.form-content-container {
+    margin: 25px;
+}
+
+.confirmation-form-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+
+#parution-date-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+}
+
+.date-input {
+    font-size: large;
+    width: 9rem;
+    height: 4rem;
+    background-color: rgb(230, 230, 230);
+    border: 0;
+    padding-left: 1rem;
+}
+
+.form-input {
+    font-size: large;
+    height: 4rem;
+    background-color: rgb(230, 230, 230);
+    border: 0;
+    padding-left: 1rem;
+    border-radius: 5px;
 }

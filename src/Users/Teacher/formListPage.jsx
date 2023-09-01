@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
+import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const FormListPage = () => {
 
@@ -25,7 +26,7 @@ const FormListPage = () => {
                 </div>
                 <div className='form-content-container'>
                     <div>
-                      <button className="button-css" onClick={createNewForm}>Créer un Nouveau Questionnaire<h1>+</h1></button>
+                      <button className="button-css questionnaire-btn" style={{width: "400px"}} onClick={createNewForm}>Créer un Nouveau Questionnaire +</button>
                     </div>
                 </div>
             </div>

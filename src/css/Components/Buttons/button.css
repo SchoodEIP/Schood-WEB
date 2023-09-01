@@ -14,4 +14,6 @@
     font-size: large;
     font-weight: bold;
     background-color: #8c52ff;
+    border: 0;
+    cursor: pointer;
 }
