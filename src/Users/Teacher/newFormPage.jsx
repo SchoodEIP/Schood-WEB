@@ -14,87 +14,86 @@ const NewFormPage = () => {
       const type = document.getElementById('select-' + i).value
       const qObject = {
         title: question,
-        type: type,
-      };
-      array.push(qObject);
+        type
+      }
+      array.push(qObject)
     }
     const title = document.getElementById('form-title').value
     const date = document.getElementById('parution-date').value
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
 
     try {
-        fetch(questionnaireUrl, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: title,
-            date: date,
-            questions: array,
-          })
-        }).then(response => response.json())
-          .then(data => console.log(data))
-          .catch(error => console.error(error.message))
-      } catch (e) {
-        console.error(e.message)
-      }
+      fetch(questionnaireUrl, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          date,
+          questions: array
+        })
+      }).then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error.message))
+    } catch (e) {
+      console.error(e.message)
+    }
   }
 
-  function addNewQuestion() {
+  function addNewQuestion () {
+    const questionRow = document.getElementById('question-row')
 
-    const questionRow = document.getElementById('question-row');
+    const container = document.createElement('div')
+    container.id = 'container-' + questionInc
+    container.classList.add('questions-container')
 
-    const container = document.createElement('div');
-    container.id = 'container-' + questionInc;
-    container.classList.add('questions-container');
+    const numbering = document.createElement('h2')
+    numbering.textContent = 'Question n° ' + (questionInc + 1) + ' :'
 
-    const numbering = document.createElement('h2');
-    numbering.textContent = 'Question n° ' + (questionInc + 1) + ' :';
+    const questionInput = document.createElement('input')
+    questionInput.type = 'text'
+    questionInput.id = 'question-' + questionInc
+    questionInput.placeholder = 'Quelle est votre question ?'
+    questionInput.classList.add('form-input')
 
-    const questionInput = document.createElement('input');
-    questionInput.type = 'text';
-    questionInput.id = 'question-' + questionInc;
-    questionInput.placeholder = "Quelle est votre question ?";
-    questionInput.classList.add('form-input');
+    const typeSelect = document.createElement('select')
+    typeSelect.id = 'select-' + questionInc
+    typeSelect.classList.add('pop-input')
 
-    const typeSelect = document.createElement('select');
-    typeSelect.id = 'select-' + questionInc;
-    typeSelect.classList.add('pop-input');
+    const textOption = document.createElement('option')
+    textOption.value = 'text'
+    textOption.textContent = 'Texte'
 
-    const textOption = document.createElement('option');
-    textOption.value = "text";
-    textOption.textContent = "Texte";
+    const emojiOption = document.createElement('option')
+    emojiOption.value = 'emoji'
+    emojiOption.textContent = 'Emoticône'
 
-    const emojiOption = document.createElement('option');
-    emojiOption.value = "emoji";
-    emojiOption.textContent = "Emoticône";
+    const multiOption = document.createElement('option')
+    multiOption.value = 'multiple'
+    multiOption.textContent = 'Multiple'
 
-    const multiOption = document.createElement('option');
-    multiOption.value = "multiple";
-    multiOption.textContent = "Multiple";
+    const answerRow = document.createElement('div')
+    answerRow.id = 'answers-' + questionInc
 
-    const answerRow = document.createElement('div');
-    answerRow.id = "answers-" + questionInc;
-
-    container.appendChild(numbering);
-    container.appendChild(questionInput);
-    container.appendChild(typeSelect);
-    typeSelect.appendChild(textOption);
-    typeSelect.appendChild(emojiOption);
-    typeSelect.appendChild(multiOption);
-    container.appendChild(answerRow);
-    questionRow.appendChild(container);
-    setQuestionInc(questionInc + 1);
+    container.appendChild(numbering)
+    container.appendChild(questionInput)
+    container.appendChild(typeSelect)
+    typeSelect.appendChild(textOption)
+    typeSelect.appendChild(emojiOption)
+    typeSelect.appendChild(multiOption)
+    container.appendChild(answerRow)
+    questionRow.appendChild(container)
+    setQuestionInc(questionInc + 1)
   }
 
-  function removeLastQuestion() {
-    const questionRow = document.getElementById('question-row');
+  function removeLastQuestion () {
+    const questionRow = document.getElementById('question-row')
 
-    const lastChild = questionRow.lastChild;
+    const lastChild = questionRow.lastChild
     if (lastChild) {
-        questionRow.removeChild(lastChild);
+      questionRow.removeChild(lastChild)
     }
     setQuestionInc(questionInc - 1)
   }
