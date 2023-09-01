@@ -1,0 +1,35 @@
+.form-container {
+    background-color: white;
+    border-radius: 5px;
+    width: 100vh;
+    display: grid;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.form-header {
+    background-color: blue;
+    border-radius: 5px;
+    width: 80%;
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 15px;
+
+
+    .form-header-title {
+        color: white;
+        display: flex;
+        justify-content: content;
+    }
+}
+
+.different-page-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.questions-container {
+    display: flex;
+    flex-direction: column;
+}

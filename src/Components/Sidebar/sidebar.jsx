@@ -28,7 +28,7 @@ export default function Sidebar () {
   if (sessionStorage.getItem('role') === 'student' || sessionStorage.getItem('role') === 'teacher') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'questionnaire', path: '/questionnaire', icon: <FaQuestion size={24} />, label: 'Questionnaire' },
+      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
