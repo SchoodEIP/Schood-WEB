@@ -151,6 +151,18 @@ describe('SchoolAdmAccountsPage', () => {
     expect(roleInput).toHaveValue('0')
     await waitFor(() => { expect(classInput).toHaveValue(['0']) })
 
+    await act(async () => {
+      fireEvent.change(classInput, { target: { value: 1 } })
+    })
+
+    await waitFor(() => { expect(classInput).toHaveValue(['0', '1']) })
+
+    await act(async () => {
+      fireEvent.change(classInput, { target: { value: 1 } })
+    })
+
+    await waitFor(() => { expect(classInput).toHaveValue(['0']) })
+
     const newAccountBtn = screen.getByText('Créer un nouveau compte')
     await act(async () => {
       fireEvent.click(newAccountBtn)
