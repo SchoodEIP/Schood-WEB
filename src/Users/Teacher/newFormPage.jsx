@@ -13,7 +13,7 @@ const NewFormPage = () => {
       const question = document.getElementById('question-' + i).value;
       const type = document.getElementById('select-' + i).value;
       const qObject = {
-        question: question,
+        title: question,
         type: type,
       };
       array.push(qObject);
@@ -35,8 +35,7 @@ const NewFormPage = () => {
             questions: array,
           })
         }).then(response => response.json())
-          .then(data =>
-            console.log(data.message))
+          .then(data => console.log(data))
           .catch(error => console.error(error.message))
       } catch (e) {
         console.error(e.message)
