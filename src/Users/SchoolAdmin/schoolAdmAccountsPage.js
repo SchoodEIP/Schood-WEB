@@ -133,9 +133,13 @@ export default function SchoolAdmAccountsPage () {
           classes
         })
       })
+      if (response.ok) {
+        setErrMessage('Compte créé avec succès')
+      } else {
+        const data = response.json()
 
-      const data = await response.json()
-      setErrMessage(data.message)
+        setErrMessage(data.message)
+      }
     } catch (e) {
       setErrMessage(e.message)
     }
@@ -155,10 +159,13 @@ export default function SchoolAdmAccountsPage () {
         },
         body: formData
       })
+      if (response.ok) {
+        setErrMessage('Compte(s) créé(s) avec succès')
+      } else {
+        const data = response.json()
 
-      const data = await response.json()
-
-      setErrMessage(data.message)
+        setErrMessage(data.message)
+      }
     } catch (e) {
       setErrMessage(e.message)
     }

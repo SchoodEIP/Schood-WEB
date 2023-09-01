@@ -96,7 +96,7 @@ export default function AdmAccountsPage () {
         body: JSON.stringify(payload)
       }).then(response => {
         if (response.ok) {
-          window.location.reload()
+          setErrMessage('Compte créé avec succès')
         } else {
           const data = response.json()
 
@@ -123,7 +123,7 @@ export default function AdmAccountsPage () {
         body: formData
       }).then(response => {
         if (response.ok) {
-          setErrMessage('this is fine')
+          setErrMessage('Compte(s) créé(s) avec succès')
         } else {
           const data = response.json()
 
