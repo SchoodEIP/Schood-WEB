@@ -27,9 +27,6 @@ jobs:
         continue-on-error: true
         run: npm test -- --watchAll=false --ci --json --coverage --testLocationInResults --outputFile=report.json
 
-      - name: ls
-        run: ls
-
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           coverage-file: report.json
