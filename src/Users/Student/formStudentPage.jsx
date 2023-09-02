@@ -3,15 +3,17 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import PreviousPage from '../../Components/Buttons/previousPage'
 import IconFace0 from '../../assets/icon_face_0.png'
 import IconFace1 from '../../assets/icon_face_1.png'
 import IconFace2 from '../../assets/icon_face_2.png'
+import { useParams } from 'react-router-dom'
 
 const FormStudentPage = () => {
+  const {id} = useParams()
+  console.log(id)
   // create questionnaire on load
   useEffect(() => {
-    const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
+    const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
     const imgImports = [IconFace0, IconFace1, IconFace2];
     const exemple = {
         _id: "64f2f862b0975ae4340acafa",
@@ -60,14 +62,15 @@ const FormStudentPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
+          console.log(data)
           const titleContainer = document.getElementById('title-container');
 
           const formTitle = document.createElement('h1');
           formTitle.classList.add("form-header-title");
-          formTitle.innerText = exemple.title;
+          formTitle.innerText = data.title;
           titleContainer.appendChild(formTitle);
 
-          exemple.questions.forEach((question, index) => {
+          data.questions.forEach((question, index) => {
             const questionRow = document.getElementById('question-row')
 
             const container = document.createElement('div')
