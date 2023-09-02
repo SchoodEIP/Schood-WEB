@@ -148,10 +148,6 @@ const FormStudentPage = () => {
     }
   }, [])
 
-  function validateForm() {
-    console.log('validate');
-  }
-
   return (
     <div className='form-page'>
       <div>
@@ -169,8 +165,8 @@ const FormStudentPage = () => {
             <div className='form-content-container'>
               <div id="question-row"></div>
             </div>
-            <div>
-              <button className='button-css questionnaire-btn' onClick={validateForm}>Valider le Questionnaire</button>
+            <div className='validate-btn-container'>
+              <button className='button-css questionnaire-btn'>Valider le Questionnaire</button>
             </div>
           </div>
         </div>
