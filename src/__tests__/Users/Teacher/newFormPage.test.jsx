@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
