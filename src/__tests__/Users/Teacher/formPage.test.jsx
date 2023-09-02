@@ -24,8 +24,8 @@ describe('FormPage', () => {
   })
 
   test('renders the page', async () => {
-    const testId = '123';
-     act( () => {
+    const testId = '123'
+    act(() => {
       render(
         <BrowserRouter initialEntries={[`/questionnaire/${testId}`]}>
           <FormPage />
@@ -34,7 +34,7 @@ describe('FormPage', () => {
     })
 
     await waitFor(() => {
-        expect(screen.getByText(`Affiche le questionnaire ici`, { selector: 'p' })).toBeInTheDocument();
+      expect(screen.getByText('Affiche le questionnaire ici', { selector: 'p' })).toBeInTheDocument()
     })
     expect(screen.getByText('Back')).toBeInTheDocument()
   })

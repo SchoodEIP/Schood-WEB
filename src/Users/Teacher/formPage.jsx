@@ -6,9 +6,8 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 import { useParams } from 'react-router-dom'
 import PreviousPage from '../../Components/Buttons/previousPage'
 
-
 const FormPage = () => {
-  const {id} = useParams();
+  const { id } = useParams()
 
   return (
     <div className='form-page'>
@@ -22,12 +21,12 @@ const FormPage = () => {
         <div className='left-half'>
           <div className='form-container'>
             <p>Affiche le questionnaire ici</p>
-            <PreviousPage/>
+            <PreviousPage />
           </div>
         </div>
       </div>
     </div>
   )
-  }
+}
 
-  export default FormPage;
+export default FormPage
