@@ -83,7 +83,7 @@ const FormStudentPage = () => {
           formTitle.innerText = data.title;
           titleContainer.appendChild(formTitle);
 
-          exemple.questions.forEach((question, index) => {
+          data.questions.forEach((question, index) => {
             const questionRow = document.getElementById('question-row')
 
             const container = document.createElement('div')
