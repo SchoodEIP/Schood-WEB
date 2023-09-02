@@ -78,7 +78,7 @@ describe('FormListPage', () => {
       )
     })
 
-    expect(screen.getByText('Y accéder')).toBeInTheDocument()
+    expect(screen.getByText('Y Accéder')).toBeInTheDocument()
     expect(screen.getByText('Test')).toBeInTheDocument()
   })
 
@@ -99,7 +99,7 @@ describe('FormListPage', () => {
       href: ''
     }
 
-    const accessFormBtn = screen.getByText('Y accéder')
+    const accessFormBtn = screen.getByText('Y Accéder')
 
     await act(async () => {
       fireEvent.click(accessFormBtn)

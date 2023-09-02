@@ -13,7 +13,7 @@ describe('NewFormPage', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
-    fetchMock.get(questionnaireUrl, { })
+    fetchMock.post(questionnaireUrl, { })
   })
 
   afterEach(() => {
