@@ -13,6 +13,7 @@ import StudentHomePage from './Users/Student/dashboardStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import NewFormPage from './Users/Teacher/newFormPage'
 import FormListPage from './Users/Teacher/formListPage'
+import FormPage from './Users/Teacher/formPage'
 
 const rootElement = document.getElementById('root')
 
@@ -56,6 +57,7 @@ if (rootElement) {
             <Route path='/' element={<TeacherHomePage />} />
             <Route path='/questionnaires' element={<FormListPage />} />
             <Route path='/questionnaire' element={<NewFormPage />} />
+            <Route path='/questionnaire/:id' element={<FormPage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />

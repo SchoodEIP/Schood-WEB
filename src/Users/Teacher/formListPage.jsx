@@ -1,12 +1,61 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const FormListPage = () => {
+  const [ errMessage, setErrMessage ] = useState('');
+  const [ formsList, setFormsList ] = useState([]);
+
   function createNewForm () {
     window.location.href = '/questionnaire'
+  }
+
+  useEffect(() => {
+    const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
+
+    try {
+      fetch(questionnaireUrl, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json())
+        .then(data => {
+          const titleRows = document.getElementById('title-rows');
+
+          data.forEach((questionnaire, index) => {
+            const container = document.createElement('div');
+            container.id = 'questionnaire-' + index;
+            container.classList.add('title-container');
+
+            const spanText = document.createElement('span');
+            spanText.textContent = questionnaire.title;
+
+            const accessBtn = document.createElement('button');
+            accessBtn.textContent = "Y Accéder";
+            accessBtn.classList.add('button-css');
+            accessBtn.classList.add('questionnaire-btn');
+            accessBtn.style.marginBottom = '10px';
+            accessBtn.addEventListener('click', function() {
+              accessForm(questionnaire._id);
+            });
+
+            container.appendChild(spanText);
+            container.appendChild(accessBtn);
+            titleRows.appendChild(container);
+          })
+        })
+        .catch(error => setErrMessage(error.message))
+    } catch (e) {
+      setErrMessage(e.message)
+    }
+  }, [])
+
+  function accessForm(id) {
+    window.location.href = '/questionnaire/' + id;
   }
 
   return (
@@ -27,6 +76,7 @@ const FormListPage = () => {
               <div>
                 <button className='button-css questionnaire-btn' style={{ width: '400px' }} onClick={createNewForm}>Créer un Nouveau Questionnaire +</button>
               </div>
+              <div id="title-rows"></div>
             </div>
           </div>
         </div>
