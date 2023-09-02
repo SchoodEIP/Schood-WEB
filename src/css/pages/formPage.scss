@@ -100,6 +100,14 @@
     min-width: 300px;
 }
 
+.new-answer-row {
+    display: flex;
+    flex-direction: column;
+    align-self: normal;
+    gap: 10px;
+    margin: 10px;
+}
+
 .emoji-row {
     display: flex;
     flex-direction: row;

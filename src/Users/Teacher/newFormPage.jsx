@@ -62,8 +62,12 @@ const NewFormPage = () => {
     } else {
       answerBtnContainer.style.display = "flex"
       const firstAnswerInput = document.createElement('input')
+      firstAnswerInput.classList.add('form-input')
+      firstAnswerInput.placeholder = "Choix possible"
       answerRow.appendChild(firstAnswerInput)
       const secondAnswerInput = document.createElement('input')
+      secondAnswerInput.classList.add('form-input')
+      secondAnswerInput.placeholder = "Choix possible"
       answerRow.appendChild(secondAnswerInput)
     }
   }
@@ -72,11 +76,13 @@ const NewFormPage = () => {
     const answerRow = document.getElementById('answer-row-' + id)
     const allAnswers = answerRow.querySelectorAll('input')
 
-    if (allAnswers.length > 2) {
+    if (allAnswers.length === 2) {
       const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
       removeAnswerBtn.style.display = "block";
     }
     const answerInput = document.createElement('input')
+    answerInput.classList.add('form-input')
+    answerInput.placeholder = "Choix possible"
     answerRow.appendChild(answerInput)
   }
 
@@ -84,12 +90,11 @@ const NewFormPage = () => {
     const answerRow = document.getElementById('answer-row-' + id)
     const allAnswers = answerRow.querySelectorAll('input')
 
-    if (allAnswers.length === 2) {
+    if (allAnswers.length === 3) {
       const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
       removeAnswerBtn.style.display = "none";
-    } else {
-      answerRow.removeChild(allAnswers[0]);
     }
+    answerRow.removeChild(allAnswers[0]);
   }
 
   function addNewQuestion () {
@@ -129,6 +134,8 @@ const NewFormPage = () => {
 
     const answerRow = document.createElement('div')
     answerRow.id = 'answer-row-' + questionInc
+    answerRow.classList.add('answer-row')
+    answerRow.classList.add('new-answer-row')
 
     const answerBtnContainer = document.createElement('div')
     answerBtnContainer.id = 'answer-btn-container-' + questionInc
