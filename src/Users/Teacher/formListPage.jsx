@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const FormListPage = () => {
-  const [ errMessage, setErrMessage ] = useState('');
-  const [ formsList, setFormsList ] = useState([]);
 
   function createNewForm () {
     window.location.href = '/questionnaire'
@@ -48,9 +46,9 @@ const FormListPage = () => {
             titleRows.appendChild(container);
           })
         })
-        .catch(error => setErrMessage(error.message))
+        .catch(error => console.error(error.message))
     } catch (e) {
-      setErrMessage(e.message)
+      console.error(e.message)
     }
   }, [])
 

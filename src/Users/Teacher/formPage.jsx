@@ -3,12 +3,10 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import { useParams } from 'react-router-dom'
 import PreviousPage from '../../Components/Buttons/previousPage'
 
 
 const FormPage = () => {
-  const {id} = useParams();
 
   return (
     <div className='form-page'>
