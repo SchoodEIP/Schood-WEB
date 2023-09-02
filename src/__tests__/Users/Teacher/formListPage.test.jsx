@@ -6,14 +6,14 @@ import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('FormListPage', () => {
-  const formUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire';
+  const formUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
   let container = null
   const forms = [
     {
       _id: '123',
       title: 'Test'
     }
-  ];
+  ]
 
   beforeEach(() => {
     container = document.createElement('div')
@@ -69,7 +69,6 @@ describe('FormListPage', () => {
   })
 
   test('recuperation of forms', async () => {
-
     await act(async () => {
       render(
         <BrowserRouter>
@@ -83,7 +82,6 @@ describe('FormListPage', () => {
   })
 
   test('redirect to specific form', async () => {
-
     await act(async () => {
       render(
         <BrowserRouter>

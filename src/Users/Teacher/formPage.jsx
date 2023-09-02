@@ -5,7 +5,6 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import PreviousPage from '../../Components/Buttons/previousPage'
 
-
 const FormPage = () => {
 
   return (
@@ -20,12 +19,12 @@ const FormPage = () => {
         <div className='left-half'>
           <div className='form-container'>
             <p>Affiche le questionnaire ici</p>
-            <PreviousPage/>
+            <PreviousPage />
           </div>
         </div>
       </div>
     </div>
   )
-  }
+}
 
-  export default FormPage;
+export default FormPage

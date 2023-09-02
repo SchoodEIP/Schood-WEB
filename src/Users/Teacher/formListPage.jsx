@@ -22,28 +22,28 @@ const FormListPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          const titleRows = document.getElementById('title-rows');
+          const titleRows = document.getElementById('title-rows')
 
           data.forEach((questionnaire, index) => {
-            const container = document.createElement('div');
-            container.id = 'questionnaire-' + index;
-            container.classList.add('title-container');
+            const container = document.createElement('div')
+            container.id = 'questionnaire-' + index
+            container.classList.add('title-container')
 
-            const spanText = document.createElement('span');
-            spanText.textContent = questionnaire.title;
+            const spanText = document.createElement('span')
+            spanText.textContent = questionnaire.title
 
-            const accessBtn = document.createElement('button');
-            accessBtn.textContent = "Y Accéder";
-            accessBtn.classList.add('button-css');
-            accessBtn.classList.add('questionnaire-btn');
-            accessBtn.style.marginBottom = '10px';
-            accessBtn.addEventListener('click', function() {
-              accessForm(questionnaire._id);
-            });
+            const accessBtn = document.createElement('button')
+            accessBtn.textContent = 'Y Accéder'
+            accessBtn.classList.add('button-css')
+            accessBtn.classList.add('questionnaire-btn')
+            accessBtn.style.marginBottom = '10px'
+            accessBtn.addEventListener('click', function () {
+              accessForm(questionnaire._id)
+            })
 
-            container.appendChild(spanText);
-            container.appendChild(accessBtn);
-            titleRows.appendChild(container);
+            container.appendChild(spanText)
+            container.appendChild(accessBtn)
+            titleRows.appendChild(container)
           })
         })
         .catch(error => console.error(error.message))
@@ -52,8 +52,8 @@ const FormListPage = () => {
     }
   }, [])
 
-  function accessForm(id) {
-    window.location.href = '/questionnaire/' + id;
+  function accessForm (id) {
+    window.location.href = '/questionnaire/' + id
   }
 
   return (
@@ -74,7 +74,7 @@ const FormListPage = () => {
               <div>
                 <button className='button-css questionnaire-btn' style={{ width: '400px' }} onClick={createNewForm}>Créer un Nouveau Questionnaire +</button>
               </div>
-              <div id="title-rows"></div>
+              <div id='title-rows' />
             </div>
           </div>
         </div>
