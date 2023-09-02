@@ -5,7 +5,6 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const FormListPage = () => {
-
   function createNewForm () {
     window.location.href = '/questionnaire'
   }

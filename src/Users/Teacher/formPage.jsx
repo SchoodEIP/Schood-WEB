@@ -6,7 +6,6 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 import PreviousPage from '../../Components/Buttons/previousPage'
 
 const FormPage = () => {
-
   return (
     <div className='form-page'>
       <div>
