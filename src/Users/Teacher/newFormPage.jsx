@@ -16,7 +16,11 @@ const NewFormPage = () => {
       const allAnswers = answerRow.querySelectorAll('input')
       const answers = []
       for (let j = 0; j < allAnswers.length; j++) {
-        answers.push(allAnswers[j].value)
+        const answer = {
+          title: allAnswers[j].value,
+          position: j
+        }
+        answers.push(answer)
       }
       const qObject = {
         title: question,

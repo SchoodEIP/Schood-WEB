@@ -46,7 +46,20 @@ const FormStudentPage = () => {
           {
             title: 'How do you feel ?',
             type: 'multiple',
-            answers: ['sad', 'normal', 'happy']
+            answers: [
+              {
+                title: 'sad',
+                position: 0
+              },
+              {
+                title: 'normal',
+                position: 1
+              },
+              {
+                title: 'happy',
+                position: 2
+              }
+            ]
           }
         ],
         fromDate: "2023-08-27T00:00:00.000Z",
@@ -70,7 +83,7 @@ const FormStudentPage = () => {
           formTitle.innerText = data.title;
           titleContainer.appendChild(formTitle);
 
-          data.questions.forEach((question, index) => {
+          exemple.questions.forEach((question, index) => {
             const questionRow = document.getElementById('question-row')
 
             const container = document.createElement('div')
@@ -130,7 +143,7 @@ const FormStudentPage = () => {
                     li.appendChild(multipleInput)
 
                     const multipleText = document.createElement('span')
-                    multipleText.textContent = question.answers[i]
+                    multipleText.textContent = question.answers[i].title
                     li.style.listStyle = "none"
                     li.appendChild(multipleText)
                   }
