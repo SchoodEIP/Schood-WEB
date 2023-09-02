@@ -1,11 +1,11 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, act, screen, fireEvent } from '@testing-library/react'
-import FormListPage from '../../../Users/Teacher/formListPage'
+import FormListTeacherPage from '../../../Users/Teacher/formListTeacherPage'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
-describe('FormListPage', () => {
+describe('FormListTeacherPage', () => {
   const formUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
   let container = null
   const forms = [
@@ -33,7 +33,7 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <FormListTeacherPage />
         </BrowserRouter>
       )
     })
@@ -45,7 +45,7 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <FormListTeacherPage />
         </BrowserRouter>
       )
     })
@@ -72,7 +72,7 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <FormListTeacherPage />
         </BrowserRouter>
       )
     })
@@ -85,7 +85,7 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <FormListTeacherPage />
         </BrowserRouter>
       )
     })

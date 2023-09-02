@@ -12,8 +12,10 @@ import NoPage from './Users/Public/noPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import NewFormPage from './Users/Teacher/newFormPage'
-import FormListPage from './Users/Teacher/formListPage'
-import FormPage from './Users/Teacher/formPage'
+import FormListStudentPage from './Users/Student/formListStudentPage'
+import FormStudentPage from './Users/Student/formStudentPage'
+import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
+import FormTeacherPage from './Users/Teacher/formTeacherPage'
 
 const rootElement = document.getElementById('root')
 
@@ -50,14 +52,16 @@ if (rootElement) {
         {sessionStorage.getItem('role') === 'student' && (
           <>
             <Route path='/' element={<StudentHomePage />} />
+            <Route path='/questionnaires' element={<FormListStudentPage />} />
+            <Route path='/questionnaire/:id' element={<FormStudentPage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'teacher' && (
           <>
             <Route path='/' element={<TeacherHomePage />} />
-            <Route path='/questionnaires' element={<FormListPage />} />
+            <Route path='/questionnaires' element={<FormListTeacherPage />} />
             <Route path='/questionnaire' element={<NewFormPage />} />
-            <Route path='/questionnaire/:id' element={<FormPage />} />
+            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />
