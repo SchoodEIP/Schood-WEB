@@ -76,6 +76,7 @@ const FormStudentPage = () => {
 
             const questionContainer = document.createElement('div')
             questionContainer.id = 'question-container-' + index
+            questionContainer.classList.add("question-container")
 
             const questionText = document.createElement('h2')
             questionText.innerText = (index + 1) + '. ' + question.title
@@ -88,19 +89,23 @@ const FormStudentPage = () => {
               case 'text':
                   const textAnswer = document.createElement('textArea');
                   textAnswer.id = 'answer-' + index + '-0'
+                  textAnswer.classList.add('answer-text')
                   answerRow.appendChild(textAnswer)
                 break;
               case 'emoji':
                   const emojiRow = document.createElement('div');
                   emojiRow.classList.add('emoji-row')
                   answerRow.appendChild(emojiRow)
+
                   for (let i = 0; i < 3; i++) {
                     const emojiContainer = document.createElement('div');
                     emojiContainer.classList.add('emoji-container')
                     emojiRow.appendChild(emojiContainer)
+
                     const emojiImg = document.createElement('img')
                     emojiImg.src = imgImports[i]
                     emojiContainer.appendChild(emojiImg)
+
                     const emojiInput = document.createElement('input')
                     emojiInput.type = "checkbox"
                     emojiInput.id = "answer-" + index + "-" + i
@@ -112,6 +117,8 @@ const FormStudentPage = () => {
                   answerRow.appendChild(ul);
                   for (let i = 0; i < question.answers.length; i++) {
                     const li = document.createElement('li');
+                    li.style.gap = "25px"
+                    li.style.display = "flex"
                     ul.appendChild(li);
 
                     const multipleInput = document.createElement('input')
@@ -121,6 +128,7 @@ const FormStudentPage = () => {
 
                     const multipleText = document.createElement('span')
                     multipleText.textContent = question.answers[i]
+                    li.style.listStyle = "none"
                     li.appendChild(multipleText)
                   }
                 break;
@@ -140,6 +148,10 @@ const FormStudentPage = () => {
     }
   }, [])
 
+  function validateForm() {
+    console.log('validate');
+  }
+
   return (
     <div className='form-page'>
       <div>
@@ -157,7 +169,9 @@ const FormStudentPage = () => {
             <div className='form-content-container'>
               <div id="question-row"></div>
             </div>
-            <PreviousPage />
+            <div>
+              <button className='button-css questionnaire-btn' onClick={validateForm}>Valider le Questionnaire</button>
+            </div>
           </div>
         </div>
       </div>
