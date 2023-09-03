@@ -104,7 +104,6 @@ describe('NewFormPage', () => {
     })
 
     const removeAnswerBtn = screen.getByText('Enlever une Réponse')
-    expect(removeAnswerBtn).toBeInTheDocument()
 
     const inputElements1 = screen.getAllByPlaceholderText('Choix possible');
 
@@ -115,7 +114,6 @@ describe('NewFormPage', () => {
     })
 
     const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
-
     expect(inputElements2.length).toBe(2)
 
     act(() => {

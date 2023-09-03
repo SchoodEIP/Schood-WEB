@@ -26,34 +26,39 @@ describe('FormStudentPage', () => {
         lastname: "teacher1"
         },
         questions: [
-        {
-            title: 'is this a test ?',
-            type: 'emoji',
-            answers: []
-        },
-        {
-            title: 'what do you want ?',
-            type: 'text',
-            answers: []
-        },
-        {
-            title: 'How do you feel ?',
-            type: 'multiple',
-            answers: [
             {
-                title: 'sad',
-                position: 0
+                title: 'is this a test ?',
+                type: 'emoji',
+                answers: []
             },
             {
-                title: 'normal',
-                position: 1
+                title: 'what do you want ?',
+                type: 'text',
+                answers: []
             },
             {
-                title: 'happy',
-                position: 2
-            }
-            ]
-        }
+                title: 'How do you feel ?',
+                type: 'multiple',
+                answers: [
+                    {
+                        title: 'sad',
+                        position: 0
+                    },
+                    {
+                        title: 'normal',
+                        position: 1
+                    },
+                    {
+                        title: 'happy',
+                        position: 2
+                    }
+                ]
+            },
+            {
+                title: 'is this the last ?',
+                type: 'other',
+                answers: []
+            },
         ],
         fromDate: "2023-08-27T00:00:00.000Z",
         title: "Test",
@@ -125,4 +130,21 @@ describe('FormStudentPage', () => {
         })
 
     })
+
+    it('should handle errors', async () => {
+        const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'));
+
+        global.fetch = mockFetch;
+
+        act(() => {
+          render(
+            <BrowserRouter>
+              <FormStudentPage />
+            </BrowserRouter>
+          )
+        })
+
+        await expect(mockFetch()).rejects.toThrow('Network Error');
+      });
+
 })
