@@ -33,66 +33,66 @@ const NewFormPage = () => {
     const date = document.getElementById('parution-date').value
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
 
-      fetch(questionnaireUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          title,
-          date,
-          questions: array
-        })
-      }).then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error.message))
+    fetch(questionnaireUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title,
+        date,
+        questions: array
+      })
+    }).then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error.message))
   }
 
-  function changeAnswerBtnStatus(id) {
+  function changeAnswerBtnStatus (id) {
     const answerSelect = document.getElementById('select-' + id)
     const answerRow = document.getElementById('answer-row-' + id)
     const answerBtnContainer = document.getElementById('answer-btn-container-' + id)
     const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
 
     if (answerSelect.value !== 'multiple') {
-      answerRow.innerHTML = ""
-      answerBtnContainer.style.display = "none"
-      removeAnswerBtn.style.display = "none"
+      answerRow.innerHTML = ''
+      answerBtnContainer.style.display = 'none'
+      removeAnswerBtn.style.display = 'none'
     } else {
-      answerBtnContainer.style.display = "flex"
+      answerBtnContainer.style.display = 'flex'
       for (let i = 0; i < 2; i++) {
         const firstAnswerInput = document.createElement('input')
         firstAnswerInput.classList.add('form-input')
-        firstAnswerInput.placeholder = "Choix possible"
+        firstAnswerInput.placeholder = 'Choix possible'
         answerRow.appendChild(firstAnswerInput)
       }
     }
   }
 
-  function addAnswer(id) {
+  function addAnswer (id) {
     const answerRow = document.getElementById('answer-row-' + id)
     const allAnswers = answerRow.querySelectorAll('input')
 
     if (allAnswers.length === 2) {
       const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
-      removeAnswerBtn.style.display = "block";
+      removeAnswerBtn.style.display = 'block'
     }
     const answerInput = document.createElement('input')
     answerInput.classList.add('form-input')
-    answerInput.placeholder = "Choix possible"
+    answerInput.placeholder = 'Choix possible'
     answerRow.appendChild(answerInput)
   }
 
-  function removeAnswer(id) {
+  function removeAnswer (id) {
     const answerRow = document.getElementById('answer-row-' + id)
     const allAnswers = answerRow.querySelectorAll('input')
 
     if (allAnswers.length === 3) {
       const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
-      removeAnswerBtn.style.display = "none";
+      removeAnswerBtn.style.display = 'none'
     }
-    answerRow.removeChild(allAnswers[0]);
+    answerRow.removeChild(allAnswers[0])
   }
 
   function addNewQuestion () {
@@ -113,7 +113,7 @@ const NewFormPage = () => {
 
     const typeSelect = document.createElement('select')
     typeSelect.id = 'select-' + questionInc
-    typeSelect.setAttribute('data-testId', 'select-' + questionInc);
+    typeSelect.setAttribute('data-testId', 'select-' + questionInc)
     typeSelect.addEventListener('change', function () {
       changeAnswerBtnStatus(questionInc)
     })
@@ -133,27 +133,27 @@ const NewFormPage = () => {
 
     const answerRow = document.createElement('div')
     answerRow.id = 'answer-row-' + questionInc
-    answerRow.setAttribute('data-testId', 'answer-row-' + questionInc);
+    answerRow.setAttribute('data-testId', 'answer-row-' + questionInc)
     answerRow.classList.add('answer-row')
     answerRow.classList.add('new-answer-row')
 
     const answerBtnContainer = document.createElement('div')
     answerBtnContainer.id = 'answer-btn-container-' + questionInc
     answerBtnContainer.classList.add('confirmation-form-container')
-    answerBtnContainer.style.display = "none"
+    answerBtnContainer.style.display = 'none'
 
     const removeAnswerBtn = document.createElement('button')
-    removeAnswerBtn.textContent = "Enlever une Réponse"
+    removeAnswerBtn.textContent = 'Enlever une Réponse'
     removeAnswerBtn.id = 'add-answer-btn-' + questionInc
     removeAnswerBtn.classList.add('button-css')
     removeAnswerBtn.classList.add('questionnaire-btn')
-    removeAnswerBtn.style.display = "none"
+    removeAnswerBtn.style.display = 'none'
     removeAnswerBtn.addEventListener('click', function () {
       removeAnswer(questionInc)
     })
 
     const addAnswerBtn = document.createElement('button')
-    addAnswerBtn.textContent = "Ajouter une Réponse"
+    addAnswerBtn.textContent = 'Ajouter une Réponse'
     addAnswerBtn.id = 'add-answer-btn-' + questionInc
     addAnswerBtn.classList.add('button-css')
     addAnswerBtn.classList.add('questionnaire-btn')

@@ -9,10 +9,10 @@ import IconFace2 from '../../assets/icon_face_2.png'
 import { useParams } from 'react-router-dom'
 
 const FormStudentPage = () => {
-  const {id} = useParams();
-  const [data, setData] = useState({});
-  const [error, setError] = useState(null);
-  const imgImports = [IconFace0, IconFace1, IconFace2];
+  const { id } = useParams()
+  const [data, setData] = useState({})
+  const [error, setError] = useState(null)
+  const imgImports = [IconFace0, IconFace1, IconFace2]
 
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
@@ -25,12 +25,12 @@ const FormStudentPage = () => {
       }
     }).then(response => response.json())
       .then(data => {
-          if (data.title) {
-            setData(data)
-          } else {
-            setError(data.message)
-          }
-        })
+        if (data.title) {
+          setData(data)
+        } else {
+          setError(data.message)
+        }
+      })
       .catch(error => setError(error.message))
   }, [id])
 
@@ -45,22 +45,23 @@ const FormStudentPage = () => {
         </div>
         <div className='left-half'>
           <div className='form-container'>
-            <div className='form-header' id="title-container">
-              <h1 className='form-header-title' id="form-header-title" data-testid="form-header-title">
+            <div className='form-header' id='title-container'>
+              <h1 className='form-header-title' id='form-header-title' data-testid='form-header-title'>
                 {(!data | !data.questions) ? 'Erreur' : data.title}
               </h1>
             </div>
             <div className='form-content-container'>
-                {(!data | !data.questions) ? <div>{error}</div> :
-                data.questions.map((question, index) => (
+              {(!data | !data.questions)
+                ? <div>{error}</div>
+                : data.questions.map((question, index) => (
                   <div key={index} className='questions-container' id={`container-${index}`}>
-                    <div className="question-container" data-testid={`question-container-${index}`}>
-                      <div id="question-row">
+                    <div className='question-container' data-testid={`question-container-${index}`}>
+                      <div id='question-row'>
                         <h2>{`${index + 1}. ${question.title}`}</h2>
                       </div>
                     </div>
 
-                    <div className='answer-row' id={"answers-" + index}>
+                    <div className='answer-row' id={'answers-' + index}>
                       {question.type === 'text' && (
                         <textarea
                           id={`answer-${index}-0`}
@@ -74,7 +75,7 @@ const FormStudentPage = () => {
                             <div key={i} className='emoji-container'>
                               <img src={imgSrc} alt={imgSrc} />
                               <input
-                                type="checkbox"
+                                type='checkbox'
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                               />
@@ -87,7 +88,7 @@ const FormStudentPage = () => {
                           {question.answers.map((answer, i) => (
                             <li key={i} style={{ gap: '25px', display: 'flex' }}>
                               <input
-                                type="checkbox"
+                                type='checkbox'
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                               />
@@ -107,7 +108,7 @@ const FormStudentPage = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default FormStudentPage

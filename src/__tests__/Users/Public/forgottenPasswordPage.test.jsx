@@ -54,9 +54,9 @@ describe('ForgottenPasswordPage', () => {
   })
 
   it('checks error handling Network Error', async () => {
-    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'));
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
 
-    global.fetch = mockFetch;
+    global.fetch = mockFetch
 
     render(<ForgottenPasswordPage />)
 
@@ -66,19 +66,18 @@ describe('ForgottenPasswordPage', () => {
     const submitButton = screen.getByText('Demander un nouveau mot de passe')
     fireEvent.click(submitButton)
 
-    await act(async() => {
-      await expect(mockFetch()).rejects.toThrow('Network Error');
+    await act(async () => {
+      await expect(mockFetch()).rejects.toThrow('Network Error')
     })
-
   })
 
   it('checks error handling Error 400', async () => {
     const mockFetch = jest.fn().mockResolvedValue({
       status: 400,
-      json: async () => ({ error: 'Bad Request' }),
-    });
+      json: async () => ({ error: 'Bad Request' })
+    })
 
-    global.fetch = mockFetch;
+    global.fetch = mockFetch
 
     render(<ForgottenPasswordPage />)
 
@@ -88,11 +87,10 @@ describe('ForgottenPasswordPage', () => {
     const submitButton = screen.getByText('Demander un nouveau mot de passe')
     fireEvent.click(submitButton)
 
-    await act( async () => {
+    await act(async () => {
       const response = await mockFetch()
-      const responseData = await response.json();
-      expect(responseData.error).toEqual("Bad Request");
+      const responseData = await response.json()
+      expect(responseData.error).toEqual('Bad Request')
     })
-
   })
 })

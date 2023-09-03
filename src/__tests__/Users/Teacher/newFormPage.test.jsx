@@ -105,7 +105,7 @@ describe('NewFormPage', () => {
 
     const removeAnswerBtn = screen.getByText('Enlever une Réponse')
 
-    const inputElements1 = screen.getAllByPlaceholderText('Choix possible');
+    const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
 
     expect(inputElements1.length).toBe(3)
 
@@ -127,30 +127,30 @@ describe('NewFormPage', () => {
 
   it('should post questions to the backend', async () => {
     const fakeData = {
-      "title":"Test Input",
-      "date":"",
-      "questions": [
+      title: 'Test Input',
+      date: '',
+      questions: [
         {
-          "title": "Does this test work ?",
-          "type": "multiple",
-          "answers": [
+          title: 'Does this test work ?',
+          type: 'multiple',
+          answers: [
             {
-              "title": "",
-              "position": 0
+              title: '',
+              position: 0
             },
             {
-              "title": "",
-              "position": 1
+              title: '',
+              position: 1
             }
           ]
         }
       ]
-    };
+    }
     const mockFetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(fakeData),
-    });
+      json: jest.fn().mockResolvedValue(fakeData)
+    })
 
-    global.fetch = mockFetch;
+    global.fetch = mockFetch
 
     act(() => {
       render(
@@ -159,8 +159,8 @@ describe('NewFormPage', () => {
         </BrowserRouter>
       )
     })
-    const inputField = screen.getByPlaceholderText('Titre du questionnaire');
-    fireEvent.change(inputField, { target: { value: 'Test Input' } });
+    const inputField = screen.getByPlaceholderText('Titre du questionnaire')
+    fireEvent.change(inputField, { target: { value: 'Test Input' } })
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
     fireEvent.click(addQuestionBtn)
@@ -176,18 +176,18 @@ describe('NewFormPage', () => {
     expect(questionInput).toHaveValue('Does this test work ?')
     expect(selectType).toHaveValue('multiple')
 
-    const postButton = screen.getByText('Créer un Questionnaire');
-    fireEvent.click(postButton);
+    const postButton = screen.getByText('Créer un Questionnaire')
+    fireEvent.click(postButton)
 
-    const response = await mockFetch();
+    const response = await mockFetch()
 
-    expect(await response.json()).toEqual(fakeData);
-  });
+    expect(await response.json()).toEqual(fakeData)
+  })
 
   it('should handle errors', async () => {
-    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'));
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
 
-    global.fetch = mockFetch;
+    global.fetch = mockFetch
 
     act(() => {
       render(
@@ -197,9 +197,9 @@ describe('NewFormPage', () => {
       )
     })
 
-    const postButton = screen.getByText('Créer un Questionnaire');
-    fireEvent.click(postButton);
+    const postButton = screen.getByText('Créer un Questionnaire')
+    fireEvent.click(postButton)
 
-    await expect(mockFetch()).rejects.toThrow('Network Error');
-  });
+    await expect(mockFetch()).rejects.toThrow('Network Error')
+  })
 })
