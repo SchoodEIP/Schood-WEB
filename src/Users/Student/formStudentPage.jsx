@@ -10,62 +10,11 @@ import { useParams } from 'react-router-dom'
 
 const FormStudentPage = () => {
   const {id} = useParams()
-  console.log(id)
-  // create questionnaire on load
+
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
     const imgImports = [IconFace0, IconFace1, IconFace2];
-    const exemple = {
-        _id: "64f2f862b0975ae4340acafa",
-        classes: [
-          {
-            _id: "64f2f829b0975ae4340acad6",
-            name: "200"
-          },
-          {
-          _id: "64f2f829b0975ae4340acad7",
-          name: "201"
-        }],
-        createdBy: {
-          _id: "64f2f829b0975ae4340acae4",
-          email: "teacher1@schood.fr",
-          firstname: "teacher1",
-          lastname: "teacher1"
-        },
-        questions: [
-          {
-            title: 'is this a test ?',
-            type: 'emoji',
-            answers: []
-          },
-          {
-            title: 'what do you want ?',
-            type: 'text',
-            answers: []
-          },
-          {
-            title: 'How do you feel ?',
-            type: 'multiple',
-            answers: [
-              {
-                title: 'sad',
-                position: 0
-              },
-              {
-                title: 'normal',
-                position: 1
-              },
-              {
-                title: 'happy',
-                position: 2
-              }
-            ]
-          }
-        ],
-        fromDate: "2023-08-27T00:00:00.000Z",
-        title: "Test",
-        toDate: "2023-09-02T00:00:00.000Z"
-      };
+
     try {
       fetch(questionnaireUrl, {
         method: 'GET',
@@ -162,7 +111,7 @@ const FormStudentPage = () => {
     } catch (e) {
       console.error(e.message)
     }
-  }, [])
+  }, [id])
 
   return (
     <div className='form-page'>

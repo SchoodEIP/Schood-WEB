@@ -119,6 +119,7 @@ const NewFormPage = () => {
 
     const typeSelect = document.createElement('select')
     typeSelect.id = 'select-' + questionInc
+    typeSelect.setAttribute('data-testId', 'select-' + questionInc);
     typeSelect.addEventListener('change', function () {
       changeAnswerBtnStatus(questionInc)
     })
@@ -138,6 +139,7 @@ const NewFormPage = () => {
 
     const answerRow = document.createElement('div')
     answerRow.id = 'answer-row-' + questionInc
+    answerRow.setAttribute('data-testId', 'answer-row-' + questionInc);
     answerRow.classList.add('answer-row')
     answerRow.classList.add('new-answer-row')
 
