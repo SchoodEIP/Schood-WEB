@@ -15,111 +15,106 @@ const FormStudentPage = () => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
     const imgImports = [IconFace0, IconFace1, IconFace2];
 
-    try {
-      fetch(questionnaireUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          console.log(data)
-          const titleContainer = document.getElementById('title-container');
+    fetch(questionnaireUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        const titleContainer = document.getElementById('title-container');
 
-          const formTitle = document.createElement('h1');
-          formTitle.classList.add("form-header-title");
-          formTitle.innerText = data.title;
-          titleContainer.appendChild(formTitle);
+        const formTitle = document.createElement('h1');
+        formTitle.classList.add("form-header-title");
+        formTitle.innerText = data.title;
+        titleContainer.appendChild(formTitle);
 
-          data.questions.forEach((question, index) => {
-            const questionRow = document.getElementById('question-row')
+        data.questions.forEach((question, index) => {
+          const questionRow = document.getElementById('question-row')
 
-            const container = document.createElement('div')
-            container.id = 'container-' + index
-            container.classList.add('questions-container')
+          const container = document.createElement('div')
+          container.id = 'container-' + index
+          container.classList.add('questions-container')
 
-            const questionContainer = document.createElement('div')
-            questionContainer.id = 'question-container-' + index
-            questionContainer.setAttribute('data-testid', 'question-container-' + index);
+          const questionContainer = document.createElement('div')
+          questionContainer.id = 'question-container-' + index
+          questionContainer.setAttribute('data-testid', 'question-container-' + index);
 
 
-            questionContainer.classList.add("question-container")
+          questionContainer.classList.add("question-container")
 
-            const questionText = document.createElement('h2')
-            questionText.innerText = (index + 1) + '. ' + question.title
+          const questionText = document.createElement('h2')
+          questionText.innerText = (index + 1) + '. ' + question.title
 
-            const answerRow = document.createElement('div')
-            answerRow.id = 'answers-' + index
-            answerRow.classList.add('answer-row')
+          const answerRow = document.createElement('div')
+          answerRow.id = 'answers-' + index
+          answerRow.classList.add('answer-row')
 
-            switch (question.type) {
-              case 'text':
-                  const textAnswer = document.createElement('textArea');
-                  textAnswer.id = 'answer-' + index + '-0'
-                  textAnswer.classList.add('answer-text')
-                  textAnswer.setAttribute('data-testid', 'answer-' + index + '-0');
+          switch (question.type) {
+            case 'text':
+                const textAnswer = document.createElement('textArea');
+                textAnswer.id = 'answer-' + index + '-0'
+                textAnswer.classList.add('answer-text')
+                textAnswer.setAttribute('data-testid', 'answer-' + index + '-0');
 
-                  answerRow.appendChild(textAnswer)
-                break;
-              case 'emoji':
-                  const emojiRow = document.createElement('div');
-                  emojiRow.classList.add('emoji-row')
-                  answerRow.appendChild(emojiRow)
+                answerRow.appendChild(textAnswer)
+              break;
+            case 'emoji':
+                const emojiRow = document.createElement('div');
+                emojiRow.classList.add('emoji-row')
+                answerRow.appendChild(emojiRow)
 
-                  for (let i = 0; i < 3; i++) {
-                    const emojiContainer = document.createElement('div');
-                    emojiContainer.classList.add('emoji-container')
-                    emojiRow.appendChild(emojiContainer)
+                for (let i = 0; i < 3; i++) {
+                  const emojiContainer = document.createElement('div');
+                  emojiContainer.classList.add('emoji-container')
+                  emojiRow.appendChild(emojiContainer)
 
-                    const emojiImg = document.createElement('img')
-                    emojiImg.src = imgImports[i]
-                    emojiContainer.appendChild(emojiImg)
+                  const emojiImg = document.createElement('img')
+                  emojiImg.src = imgImports[i]
+                  emojiContainer.appendChild(emojiImg)
 
-                    const emojiInput = document.createElement('input')
-                    emojiInput.type = "checkbox"
-                    emojiInput.id = "answer-" + index + "-" + i
-                    emojiInput.setAttribute('data-testid', 'answer-' + index + '-' + i);
+                  const emojiInput = document.createElement('input')
+                  emojiInput.type = "checkbox"
+                  emojiInput.id = "answer-" + index + "-" + i
+                  emojiInput.setAttribute('data-testid', 'answer-' + index + '-' + i);
 
-                    emojiContainer.appendChild(emojiInput)
-                  }
-                break;
-                case 'multiple':
-                  const ul = document.createElement('ul');
-                  answerRow.appendChild(ul);
-                  for (let i = 0; i < question.answers.length; i++) {
-                    const li = document.createElement('li');
-                    li.style.gap = "25px"
-                    li.style.display = "flex"
-                    ul.appendChild(li);
+                  emojiContainer.appendChild(emojiInput)
+                }
+              break;
+              case 'multiple':
+                const ul = document.createElement('ul');
+                answerRow.appendChild(ul);
+                for (let i = 0; i < question.answers.length; i++) {
+                  const li = document.createElement('li');
+                  li.style.gap = "25px"
+                  li.style.display = "flex"
+                  ul.appendChild(li);
 
-                    const multipleInput = document.createElement('input')
-                    multipleInput.type = "checkbox"
-                    multipleInput.id = "answer-" + index + "-" + i
-                    multipleInput.setAttribute('data-testid', "answer-" + index + "-" + i);
+                  const multipleInput = document.createElement('input')
+                  multipleInput.type = "checkbox"
+                  multipleInput.id = "answer-" + index + "-" + i
+                  multipleInput.setAttribute('data-testid', "answer-" + index + "-" + i);
 
-                    li.appendChild(multipleInput)
+                  li.appendChild(multipleInput)
 
-                    const multipleText = document.createElement('span')
-                    multipleText.textContent = question.answers[i].title
-                    li.style.listStyle = "none"
-                    li.appendChild(multipleText)
-                  }
-                break;
-              default:
-                break;
-            }
+                  const multipleText = document.createElement('span')
+                  multipleText.textContent = question.answers[i].title
+                  li.style.listStyle = "none"
+                  li.appendChild(multipleText)
+                }
+              break;
+            default:
+              break;
+          }
 
-            container.appendChild(questionContainer)
-            questionContainer.appendChild(questionText)
-            container.appendChild(answerRow)
-            questionRow.appendChild(container)
-          })
+          container.appendChild(questionContainer)
+          questionContainer.appendChild(questionText)
+          container.appendChild(answerRow)
+          questionRow.appendChild(container)
         })
-        .catch(error => console.error(error.message))
-    } catch (e) {
-      console.error(e.message)
-    }
+      })
+      .catch(error => console.log(error.message))
   }, [id])
 
   return (

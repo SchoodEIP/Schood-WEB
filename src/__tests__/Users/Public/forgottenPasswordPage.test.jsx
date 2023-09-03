@@ -1,20 +1,20 @@
 import '@testing-library/jest-dom'
 import ForgottenPasswordPage from '../../../Users/Public/forgottenPasswordPage'
 import React from 'react'
-import { render, fireEvent, waitFor, screen } from '@testing-library/react'
-
-beforeEach(() => {
-  jest.spyOn(window, 'fetch').mockResolvedValue({
-    status: 200,
-    json: jest.fn().mockResolvedValue({})
-  })
-})
-
-afterEach(() => {
-  jest.restoreAllMocks()
-})
+import { render, act, fireEvent, waitFor, screen } from '@testing-library/react'
 
 describe('ForgottenPasswordPage', () => {
+  beforeEach(() => {
+    jest.spyOn(window, 'fetch').mockResolvedValue({
+      status: 200,
+      json: jest.fn().mockResolvedValue({})
+    })
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   it('updates email state when input value changes', () => {
     render(<ForgottenPasswordPage />)
     const emailInput = screen.getByPlaceholderText('Email')
@@ -51,5 +51,48 @@ describe('ForgottenPasswordPage', () => {
     await waitFor(() => {
       expect(screen.getByText('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')).toBeInTheDocument()
     })
+  })
+
+  it('checks error handling Network Error', async () => {
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'));
+
+    global.fetch = mockFetch;
+
+    render(<ForgottenPasswordPage />)
+
+    const emailInput = screen.getByPlaceholderText('Email')
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
+
+    const submitButton = screen.getByText('Demander un nouveau mot de passe')
+    fireEvent.click(submitButton)
+
+    await act(async() => {
+      await expect(mockFetch()).rejects.toThrow('Network Error');
+    })
+
+  })
+
+  it('checks error handling Error 400', async () => {
+    const mockFetch = jest.fn().mockResolvedValue({
+      status: 400,
+      json: async () => ({ error: 'Bad Request' }),
+    });
+
+    global.fetch = mockFetch;
+
+    render(<ForgottenPasswordPage />)
+
+    const emailInput = screen.getByPlaceholderText('Email')
+    fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
+
+    const submitButton = screen.getByText('Demander un nouveau mot de passe')
+    fireEvent.click(submitButton)
+
+    await act( async () => {
+      const response = await mockFetch()
+      const responseData = await response.json();
+      expect(responseData.error).toEqual("Bad Request");
+    })
+
   })
 })
