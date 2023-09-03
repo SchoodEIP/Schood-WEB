@@ -75,22 +75,54 @@ describe('FormStudentPage', () => {
         fetchMock.restore()
     })
 
-    test('renders the page', async () => {
-        const id = '64f2f862b0975ae4340acafa'
+    test('retrives data', async () => {
+        const mockFetch = jest.fn().mockResolvedValue({
+            json: jest.fn().mockResolvedValue(exemple),
+          });
+
+          global.fetch = mockFetch;
+
         await act( async () => {
             render(
-                <BrowserRouter initialEntries={[`/questionnaire/${id}`]}>
+                <BrowserRouter initialEntries={[`/questionnaire/64f2f862b0975ae4340acafa`]}>
                     <FormStudentPage />
                 </BrowserRouter>
             )
         })
+        const response = await mockFetch();
+        expect(await response.json()).toEqual(exemple);
+
+        expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByTestId('question-container-0')).toBeInTheDocument()
+        })
+        await waitFor(() => {
+            expect(screen.getByTestId('answer-0-0')).toBeInTheDocument()
+        })
 
         await waitFor(() => {
-            expect(screen.getByText('Test', { selector: 'h1' })).toBeInTheDocument()
+            expect(screen.getByTestId('answer-0-1')).toBeInTheDocument()
         })
-        expect(screen.getByText('1. is this a test ?', { selector: 'h2' })).toBeInTheDocument()
-        expect(screen.getByText('2. what do you want ?', { selector: 'h2' })).toBeInTheDocument()
-        expect(screen.getByText('3. How do you feel ?', { selector: 'h2' })).toBeInTheDocument()
+
+        await waitFor(() => {
+            expect(screen.getByTestId('answer-0-2')).toBeInTheDocument()
+        })
+
+        await waitFor(() => {
+            expect(screen.getByTestId('question-container-1')).toBeInTheDocument()
+        })
+
+        await waitFor(() => {
+            expect(screen.getByTestId('answer-1-0')).toBeInTheDocument()
+        })
+
+        await waitFor(() => {
+            expect(screen.getByTestId('question-container-2')).toBeInTheDocument()
+        })
+
+        await waitFor(() => {
+            expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
+        })
 
     })
 })

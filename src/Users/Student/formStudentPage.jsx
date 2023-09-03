@@ -41,6 +41,9 @@ const FormStudentPage = () => {
 
             const questionContainer = document.createElement('div')
             questionContainer.id = 'question-container-' + index
+            questionContainer.setAttribute('data-testid', 'question-container-' + index);
+
+
             questionContainer.classList.add("question-container")
 
             const questionText = document.createElement('h2')
@@ -55,6 +58,8 @@ const FormStudentPage = () => {
                   const textAnswer = document.createElement('textArea');
                   textAnswer.id = 'answer-' + index + '-0'
                   textAnswer.classList.add('answer-text')
+                  textAnswer.setAttribute('data-testid', 'answer-' + index + '-0');
+
                   answerRow.appendChild(textAnswer)
                 break;
               case 'emoji':
@@ -74,6 +79,8 @@ const FormStudentPage = () => {
                     const emojiInput = document.createElement('input')
                     emojiInput.type = "checkbox"
                     emojiInput.id = "answer-" + index + "-" + i
+                    emojiInput.setAttribute('data-testid', 'answer-' + index + '-' + i);
+
                     emojiContainer.appendChild(emojiInput)
                   }
                 break;
@@ -89,6 +96,8 @@ const FormStudentPage = () => {
                     const multipleInput = document.createElement('input')
                     multipleInput.type = "checkbox"
                     multipleInput.id = "answer-" + index + "-" + i
+                    multipleInput.setAttribute('data-testid', "answer-" + index + "-" + i);
+
                     li.appendChild(multipleInput)
 
                     const multipleText = document.createElement('span')
@@ -125,7 +134,7 @@ const FormStudentPage = () => {
         <div className='left-half'>
           <div className='form-container'>
             <div className='form-header' id="title-container">
-              <h1 className='form-header-title' id="form-header-title"></h1>
+              <h1 className='form-header-title' id="form-header-title" data-testid="form-header-title">Questionnaire</h1>
             </div>
             <div className='form-content-container'>
               <div id="question-row"></div>

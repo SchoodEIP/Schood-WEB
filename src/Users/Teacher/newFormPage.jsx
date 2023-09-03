@@ -33,7 +33,6 @@ const NewFormPage = () => {
     const date = document.getElementById('parution-date').value
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
 
-    try {
       fetch(questionnaireUrl, {
         method: 'POST',
         headers: {
@@ -48,9 +47,6 @@ const NewFormPage = () => {
       }).then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error(error.message))
-    } catch (e) {
-      console.error(e.message)
-    }
   }
 
   function changeAnswerBtnStatus(id) {
@@ -65,14 +61,12 @@ const NewFormPage = () => {
       removeAnswerBtn.style.display = "none"
     } else {
       answerBtnContainer.style.display = "flex"
-      const firstAnswerInput = document.createElement('input')
-      firstAnswerInput.classList.add('form-input')
-      firstAnswerInput.placeholder = "Choix possible"
-      answerRow.appendChild(firstAnswerInput)
-      const secondAnswerInput = document.createElement('input')
-      secondAnswerInput.classList.add('form-input')
-      secondAnswerInput.placeholder = "Choix possible"
-      answerRow.appendChild(secondAnswerInput)
+      for (let i = 0; i < 2; i++) {
+        const firstAnswerInput = document.createElement('input')
+        firstAnswerInput.classList.add('form-input')
+        firstAnswerInput.placeholder = "Choix possible"
+        answerRow.appendChild(firstAnswerInput)
+      }
     }
   }
 
