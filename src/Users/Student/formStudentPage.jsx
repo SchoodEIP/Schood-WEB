@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
@@ -9,11 +9,13 @@ import IconFace2 from '../../assets/icon_face_2.png'
 import { useParams } from 'react-router-dom'
 
 const FormStudentPage = () => {
-  const {id} = useParams()
+  const {id} = useParams();
+  const [data, setData] = useState({});
+  const [error, setError] = useState(null);
+  const imgImports = [IconFace0, IconFace1, IconFace2];
 
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
-    const imgImports = [IconFace0, IconFace1, IconFace2];
 
     fetch(questionnaireUrl, {
       method: 'GET',
@@ -23,98 +25,13 @@ const FormStudentPage = () => {
       }
     }).then(response => response.json())
       .then(data => {
-        const titleContainer = document.getElementById('title-container');
-
-        const formTitle = document.createElement('h1');
-        formTitle.classList.add("form-header-title");
-        formTitle.innerText = data.title;
-        titleContainer.appendChild(formTitle);
-
-        data.questions.forEach((question, index) => {
-          const questionRow = document.getElementById('question-row')
-
-          const container = document.createElement('div')
-          container.id = 'container-' + index
-          container.classList.add('questions-container')
-
-          const questionContainer = document.createElement('div')
-          questionContainer.id = 'question-container-' + index
-          questionContainer.setAttribute('data-testid', 'question-container-' + index);
-
-
-          questionContainer.classList.add("question-container")
-
-          const questionText = document.createElement('h2')
-          questionText.innerText = (index + 1) + '. ' + question.title
-
-          const answerRow = document.createElement('div')
-          answerRow.id = 'answers-' + index
-          answerRow.classList.add('answer-row')
-
-          switch (question.type) {
-            case 'text':
-                const textAnswer = document.createElement('textArea');
-                textAnswer.id = 'answer-' + index + '-0'
-                textAnswer.classList.add('answer-text')
-                textAnswer.setAttribute('data-testid', 'answer-' + index + '-0');
-
-                answerRow.appendChild(textAnswer)
-              break;
-            case 'emoji':
-                const emojiRow = document.createElement('div');
-                emojiRow.classList.add('emoji-row')
-                answerRow.appendChild(emojiRow)
-
-                for (let i = 0; i < 3; i++) {
-                  const emojiContainer = document.createElement('div');
-                  emojiContainer.classList.add('emoji-container')
-                  emojiRow.appendChild(emojiContainer)
-
-                  const emojiImg = document.createElement('img')
-                  emojiImg.src = imgImports[i]
-                  emojiContainer.appendChild(emojiImg)
-
-                  const emojiInput = document.createElement('input')
-                  emojiInput.type = "checkbox"
-                  emojiInput.id = "answer-" + index + "-" + i
-                  emojiInput.setAttribute('data-testid', 'answer-' + index + '-' + i);
-
-                  emojiContainer.appendChild(emojiInput)
-                }
-              break;
-              case 'multiple':
-                const ul = document.createElement('ul');
-                answerRow.appendChild(ul);
-                for (let i = 0; i < question.answers.length; i++) {
-                  const li = document.createElement('li');
-                  li.style.gap = "25px"
-                  li.style.display = "flex"
-                  ul.appendChild(li);
-
-                  const multipleInput = document.createElement('input')
-                  multipleInput.type = "checkbox"
-                  multipleInput.id = "answer-" + index + "-" + i
-                  multipleInput.setAttribute('data-testid', "answer-" + index + "-" + i);
-
-                  li.appendChild(multipleInput)
-
-                  const multipleText = document.createElement('span')
-                  multipleText.textContent = question.answers[i].title
-                  li.style.listStyle = "none"
-                  li.appendChild(multipleText)
-                }
-              break;
-            default:
-              break;
+          if (data.title) {
+            setData(data)
+          } else {
+            setError(data.message)
           }
-
-          container.appendChild(questionContainer)
-          questionContainer.appendChild(questionText)
-          container.appendChild(answerRow)
-          questionRow.appendChild(container)
         })
-      })
-      .catch(error => console.log(error.message))
+      .catch(error => setError(error.message))
   }, [id])
 
   return (
@@ -129,10 +46,59 @@ const FormStudentPage = () => {
         <div className='left-half'>
           <div className='form-container'>
             <div className='form-header' id="title-container">
-              <h1 className='form-header-title' id="form-header-title" data-testid="form-header-title">Questionnaire</h1>
+              <h1 className='form-header-title' id="form-header-title" data-testid="form-header-title">
+                {(!data | !data.questions) ? 'Erreur' : data.title}
+              </h1>
             </div>
             <div className='form-content-container'>
-              <div id="question-row"></div>
+                {(!data | !data.questions) ? <div>{error}</div> :
+                data.questions.map((question, index) => (
+                  <div key={index} className='questions-container' id={`container-${index}`}>
+                    <div className="question-container" data-testid={`question-container-${index}`}>
+                      <div id="question-row">
+                        <h2>{`${index + 1}. ${question.title}`}</h2>
+                      </div>
+                    </div>
+
+                    <div className='answer-row' id={"answers-" + index}>
+                      {question.type === 'text' && (
+                        <textarea
+                          id={`answer-${index}-0`}
+                          className='answer-text'
+                          data-testid={`answer-${index}-0`}
+                        />
+                      )}
+                      {question.type === 'emoji' && (
+                        <div className='emoji-row'>
+                          {imgImports.map((imgSrc, i) => (
+                            <div key={i} className='emoji-container'>
+                              <img src={imgSrc} alt={imgSrc} />
+                              <input
+                                type="checkbox"
+                                id={`answer-${index}-${i}`}
+                                data-testid={`answer-${index}-${i}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {question.type === 'multiple' && (
+                        <ul>
+                          {question.answers.map((answer, i) => (
+                            <li key={i} style={{ gap: '25px', display: 'flex' }}>
+                              <input
+                                type="checkbox"
+                                id={`answer-${index}-${i}`}
+                                data-testid={`answer-${index}-${i}`}
+                              />
+                              <span style={{ listStyle: 'none' }}>{answer.title}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                ))}
             </div>
             <div className='validate-btn-container'>
               <button className='button-css questionnaire-btn'>Valider le Questionnaire</button>
@@ -141,7 +107,7 @@ const FormStudentPage = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default FormStudentPage

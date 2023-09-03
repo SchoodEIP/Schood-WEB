@@ -143,8 +143,9 @@ describe('FormStudentPage', () => {
             </BrowserRouter>
           )
         })
-
-        await expect(mockFetch()).rejects.toThrow('Network Error');
+        await act(async () => {
+            await expect(mockFetch()).rejects.toThrow('Network Error');
+        })
       });
 
 })
