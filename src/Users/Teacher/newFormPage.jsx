@@ -6,15 +6,27 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0)
+  const [errMessage, setErrMessage] = useState('')
 
   function postQuestions () {
     const array = []
     for (let i = 0; i < questionInc; i++) {
       const question = document.getElementById('question-' + i).value
       const type = document.getElementById('select-' + i).value
+      const answerRow = document.getElementById('answer-row-' + i)
+      const allAnswers = answerRow.querySelectorAll('input')
+      const answers = []
+      for (let j = 0; j < allAnswers.length; j++) {
+        const answer = {
+          title: allAnswers[j].value,
+          position: j
+        }
+        answers.push(answer)
+      }
       const qObject = {
         title: question,
-        type
+        type,
+        answers
       }
       array.push(qObject)
     }
@@ -22,24 +34,65 @@ const NewFormPage = () => {
     const date = document.getElementById('parution-date').value
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
 
-    try {
-      fetch(questionnaireUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          title,
-          date,
-          questions: array
-        })
-      }).then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error.message))
-    } catch (e) {
-      console.error(e.message)
+    fetch(questionnaireUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title,
+        date,
+        questions: array
+      })
+    }).then(response => (response.status !== 200) ? setErrMessage(response.status + ' error : ' + response.statusText) : 'Le questionnaire a été créé')
+      .catch(error => setErrMessage(error.message))
+  }
+
+  function changeAnswerBtnStatus (id) {
+    const answerSelect = document.getElementById('select-' + id)
+    const answerRow = document.getElementById('answer-row-' + id)
+    const answerBtnContainer = document.getElementById('answer-btn-container-' + id)
+    const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+
+    if (answerSelect.value !== 'multiple') {
+      answerRow.innerHTML = ''
+      answerBtnContainer.style.display = 'none'
+      removeAnswerBtn.style.display = 'none'
+    } else {
+      answerBtnContainer.style.display = 'flex'
+      for (let i = 0; i < 2; i++) {
+        const firstAnswerInput = document.createElement('input')
+        firstAnswerInput.classList.add('form-input')
+        firstAnswerInput.placeholder = 'Choix possible'
+        answerRow.appendChild(firstAnswerInput)
+      }
     }
+  }
+
+  function addAnswer (id) {
+    const answerRow = document.getElementById('answer-row-' + id)
+    const allAnswers = answerRow.querySelectorAll('input')
+
+    if (allAnswers.length === 2) {
+      const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+      removeAnswerBtn.style.display = 'block'
+    }
+    const answerInput = document.createElement('input')
+    answerInput.classList.add('form-input')
+    answerInput.placeholder = 'Choix possible'
+    answerRow.appendChild(answerInput)
+  }
+
+  function removeAnswer (id) {
+    const answerRow = document.getElementById('answer-row-' + id)
+    const allAnswers = answerRow.querySelectorAll('input')
+
+    if (allAnswers.length === 3) {
+      const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+      removeAnswerBtn.style.display = 'none'
+    }
+    answerRow.removeChild(allAnswers[0])
   }
 
   function addNewQuestion () {
@@ -60,6 +113,10 @@ const NewFormPage = () => {
 
     const typeSelect = document.createElement('select')
     typeSelect.id = 'select-' + questionInc
+    typeSelect.setAttribute('data-testId', 'select-' + questionInc)
+    typeSelect.addEventListener('change', function () {
+      changeAnswerBtnStatus(questionInc)
+    })
     typeSelect.classList.add('pop-input')
 
     const textOption = document.createElement('option')
@@ -75,7 +132,34 @@ const NewFormPage = () => {
     multiOption.textContent = 'Multiple'
 
     const answerRow = document.createElement('div')
-    answerRow.id = 'answers-' + questionInc
+    answerRow.id = 'answer-row-' + questionInc
+    answerRow.setAttribute('data-testId', 'answer-row-' + questionInc)
+    answerRow.classList.add('answer-row')
+    answerRow.classList.add('new-answer-row')
+
+    const answerBtnContainer = document.createElement('div')
+    answerBtnContainer.id = 'answer-btn-container-' + questionInc
+    answerBtnContainer.classList.add('confirmation-form-container')
+    answerBtnContainer.style.display = 'none'
+
+    const removeAnswerBtn = document.createElement('button')
+    removeAnswerBtn.textContent = 'Enlever une Réponse'
+    removeAnswerBtn.id = 'add-answer-btn-' + questionInc
+    removeAnswerBtn.classList.add('button-css')
+    removeAnswerBtn.classList.add('questionnaire-btn')
+    removeAnswerBtn.style.display = 'none'
+    removeAnswerBtn.addEventListener('click', function () {
+      removeAnswer(questionInc)
+    })
+
+    const addAnswerBtn = document.createElement('button')
+    addAnswerBtn.textContent = 'Ajouter une Réponse'
+    addAnswerBtn.id = 'add-answer-btn-' + questionInc
+    addAnswerBtn.classList.add('button-css')
+    addAnswerBtn.classList.add('questionnaire-btn')
+    addAnswerBtn.addEventListener('click', function () {
+      addAnswer(questionInc)
+    })
 
     container.appendChild(numbering)
     container.appendChild(questionInput)
@@ -84,6 +168,9 @@ const NewFormPage = () => {
     typeSelect.appendChild(emojiOption)
     typeSelect.appendChild(multiOption)
     container.appendChild(answerRow)
+    container.appendChild(answerBtnContainer)
+    answerBtnContainer.appendChild(removeAnswerBtn)
+    answerBtnContainer.appendChild(addAnswerBtn)
     questionRow.appendChild(container)
     setQuestionInc(questionInc + 1)
   }
@@ -124,7 +211,10 @@ const NewFormPage = () => {
                   Date de parution:
                   <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
                 </label>
-                <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                <div style={{}}>
+                  <p data-testid='error-message'>{errMessage}</p>
+                  <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                </div>
               </div>
             </div>
           </div>

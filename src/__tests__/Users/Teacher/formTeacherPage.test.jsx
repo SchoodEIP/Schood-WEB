@@ -2,10 +2,10 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
-import FormPage from '../../../Users/Teacher/formPage'
+import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { BrowserRouter } from 'react-router-dom'
 
-describe('FormPage', () => {
+describe('FormTeacherPage', () => {
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
   let container = null
 
@@ -28,7 +28,7 @@ describe('FormPage', () => {
     act(() => {
       render(
         <BrowserRouter initialEntries={[`/questionnaire/${testId}`]}>
-          <FormPage />
+          <FormTeacherPage />
         </BrowserRouter>
       )
     })

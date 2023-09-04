@@ -4,7 +4,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
-const FormListPage = () => {
+const FormListTeacherPage = () => {
   function createNewForm () {
     window.location.href = '/questionnaire'
   }
@@ -82,4 +82,4 @@ const FormListPage = () => {
   )
 }
 
-export default FormListPage
+export default FormListTeacherPage

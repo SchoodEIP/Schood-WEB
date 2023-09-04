@@ -2,6 +2,7 @@
     background-color: white;
     border-radius: 5px;
     width: calc(100vw - 225px);
+    min-width: 490px;
     display: grid;
     flex-direction: column;
     margin-top: 15px;
@@ -82,4 +83,55 @@
     padding-left: 25px;
     padding-right: 25px;
     margin-top: 10px;
+}
+
+.question-container {
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    padding-left: 15px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.answer-row {
+    padding-left: 10px;
+    align-self: center;
+    width: calc(70vw - 200px);
+    min-width: 300px;
+}
+
+.new-answer-row {
+    display: flex;
+    flex-direction: column;
+    align-self: normal;
+    gap: 10px;
+    margin: 10px;
+}
+
+.emoji-row {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    margin-bottom: -15px;
+}
+
+.emoji-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+}
+
+.answer-text {
+    width: calc(70vw - 200px);
+    min-width: 300px;
+}
+
+.validate-btn-container {
+    margin-bottom: 25px;
+    display: inline-grid;
+    justify-content: center;
+    margin-top: -10px;
 }
