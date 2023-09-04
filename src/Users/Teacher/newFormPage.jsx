@@ -45,7 +45,7 @@ const NewFormPage = () => {
         date,
         questions: array
       })
-    }).then(response => (response.status !== 200) ? setErrMessage(response.status + " error : " + response.statusText) : 'Le questionnaire a été créé')
+    }).then(response => (response.status !== 200) ? setErrMessage(response.status + ' error : ' + response.statusText) : 'Le questionnaire a été créé')
       .catch(error => setErrMessage(error.message))
   }
 
@@ -212,7 +212,7 @@ const NewFormPage = () => {
                   <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
                 </label>
                 <div style={{}}>
-                  <p data-testid="error-message">{errMessage}</p>
+                  <p data-testid='error-message'>{errMessage}</p>
                   <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
                 </div>
               </div>

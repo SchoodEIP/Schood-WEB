@@ -178,7 +178,7 @@ describe('NewFormPage', () => {
 
     const postButton = screen.getByText('Créer un Questionnaire')
 
-    await act( async () => {
+    await act(async () => {
       fireEvent.click(postButton)
       const response = await mockFetch()
       expect(await response.json()).toEqual(fakeData)
