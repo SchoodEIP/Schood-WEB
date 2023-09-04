@@ -2,16 +2,21 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Users/Public/loginPage'
-import AdmHomePage from './Users/Admin/AdmHomePage'
-import AdmAccountsPage from './Users/Admin/AdmAccountsPage'
-import SchoolAdmHomePage from './Users/SchoolAdmin/SchoolAdmHomePage'
-import SchoolAdmAccountsPage from './Users/SchoolAdmin/SchoolAdmAccountsPage'
-import LandingPage from './Users/Public/LandingPage'
-import ForgottenPasswordPage from './Users/Public/ForgottenPasswordPage'
-import NoPage from './Users/Public/NoPage'
+import AdmHomePage from './Users/Admin/admHomePage'
+import AdmAccountsPage from './Users/Admin/admAccountsPage'
+import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
+import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
+import LandingPage from './Users/Public/landingPage'
+import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
+import NoPage from './Users/Public/noPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import Messages from './Users/Messages/index'
+import NewFormPage from './Users/Teacher/newFormPage'
+import FormListStudentPage from './Users/Student/formListStudentPage'
+import FormStudentPage from './Users/Student/formStudentPage'
+import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
+import FormTeacherPage from './Users/Teacher/formTeacherPage'
 
 const rootElement = document.getElementById('root')
 
@@ -49,16 +54,20 @@ if (rootElement) {
             <Route path='/messages' element={<Messages />} />
           </>
         )}
-        {sessionStorage.getItem('role') === 'teacher' && (
+        {sessionStorage.getItem('role') === 'student' && (
           <>
             <Route path='/' element={<StudentHomePage />} />
-            <Route path='/messages' element={<Messages />} />
+            <Route path='/questionnaires' element={<FormListStudentPage />} />
+            <Route path='/questionnaire/:id' element={<FormStudentPage />} />
           </>
         )}
-        {sessionStorage.getItem('role') === 'student' && (
+        {sessionStorage.getItem('role') === 'teacher' && (
           <>
             <Route path='/' element={<TeacherHomePage />} />
             <Route path='/messages' element={<Messages />} />
+            <Route path='/questionnaires' element={<FormListTeacherPage />} />
+            <Route path='/questionnaire' element={<NewFormPage />} />
+            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />
