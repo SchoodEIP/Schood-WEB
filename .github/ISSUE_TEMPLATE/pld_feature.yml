@@ -21,6 +21,7 @@ body:
         - Teacher
         - School administrator
         - Administrator
+        - Software Editor
     validations:
       required: true
   - type: textarea

@@ -6,6 +6,7 @@ on:
 
 jobs:
   Tests_and_Coverage:
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     permissions:
       checks: write
       pull-requests: write
