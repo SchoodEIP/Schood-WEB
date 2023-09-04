@@ -30,7 +30,6 @@ if (rootElement) {
             <Route path='/' element={<LandingPage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/forgot' element={<ForgottenPasswordPage />} />
-            <Route path='/messages' element={<Messages />} />
           </>
         )}
         {sessionStorage.getItem('role') !== null && (

@@ -1,6 +1,6 @@
 import './Messages.scss'
-import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/Sidebar/Sidebar'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
 import Messages from './Messages'
 import React from 'react'
 
