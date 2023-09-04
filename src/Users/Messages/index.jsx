@@ -6,15 +6,15 @@ import React from 'react'
 
 const Messagerie = () => {
   return (
-    <div>
+    <div className='form-page'>
       <div>
         <HeaderComp />
       </div>
-      <div className='page-body'>
-        <div className='left-half'>
+      <div className='different-page-content'>
+        <div>
           <Sidebar />
         </div>
-        <div className='right'>
+        <div className='left-half'>
           <div><Messages /></div>
         </div>
       </div>
