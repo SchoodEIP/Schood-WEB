@@ -177,11 +177,12 @@ describe('NewFormPage', () => {
     expect(selectType).toHaveValue('multiple')
 
     const postButton = screen.getByText('Créer un Questionnaire')
-    fireEvent.click(postButton)
 
-    const response = await mockFetch()
-
-    expect(await response.json()).toEqual(fakeData)
+    await act( async () => {
+      fireEvent.click(postButton)
+      const response = await mockFetch()
+      expect(await response.json()).toEqual(fakeData)
+    })
   })
 
   it('should handle errors', async () => {
@@ -198,8 +199,10 @@ describe('NewFormPage', () => {
     })
 
     const postButton = screen.getByText('Créer un Questionnaire')
-    fireEvent.click(postButton)
 
-    await expect(mockFetch()).rejects.toThrow('Network Error')
+    await act(async () => {
+      fireEvent.click(postButton)
+      await expect(mockFetch()).rejects.toThrow('Network Error')
+    })
   })
 })

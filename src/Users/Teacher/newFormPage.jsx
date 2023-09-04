@@ -6,6 +6,7 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0)
+  const [errMessage, setErrMessage] = useState('')
 
   function postQuestions () {
     const array = []
@@ -44,9 +45,8 @@ const NewFormPage = () => {
         date,
         questions: array
       })
-    }).then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error.message))
+    }).then(response => (response.status !== 200) ? setErrMessage(response.status + " error : " + response.statusText) : 'Le questionnaire a été créé')
+      .catch(error => setErrMessage(error.message))
   }
 
   function changeAnswerBtnStatus (id) {
@@ -211,7 +211,10 @@ const NewFormPage = () => {
                   Date de parution:
                   <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
                 </label>
-                <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                <div style={{}}>
+                  <p data-testid="error-message">{errMessage}</p>
+                  <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                </div>
               </div>
             </div>
           </div>
