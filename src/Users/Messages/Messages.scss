@@ -99,8 +99,36 @@ body {
   outline: none;
 }
 
-.message-input button,
-.popup-content button {
+.message-input label.file-input-label {
+  position: relative;
+}
+
+.message-input input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.message-input .file-input-button {
+  margin-left: 10px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #4f23e2;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.message-input .file-input-button:hover {
+  background-color: #3c1eaa;
+}
+
+.message-input .file-input-button:focus {
+  outline: none;
+}
+
+/* Styles pour les boutons */
+button.new-conversation-button,
+button.send-button {
   margin-left: 10px;
   padding: 8px 16px;
   border: none;
@@ -111,13 +139,13 @@ body {
   cursor: pointer;
 }
 
-.message-input button:hover,
-.popup-content button:hover {
+button.new-conversation-button:hover,
+button.send-button:hover {
   background-color: #3c1eaa;
 }
 
-.message-input button:focus,
-.popup-content button:focus {
+button.new-conversation-button:focus,
+button.send-button:focus {
   outline: none;
 }
 

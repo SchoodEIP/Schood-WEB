@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Messages.scss";
 
-// Composant pour un message individuel
 const Message = ({ message }) => {
   return (
     <div className="message">
@@ -9,7 +8,15 @@ const Message = ({ message }) => {
         <span className="message-username">{message.username}</span>
         <span className="message-time">{message.time}</span>
       </div>
-      <div className="message-content">{message.content}</div>
+      <div className="message-content">
+        {message.contentType === "text" ? (
+          message.content
+        ) : (
+          <a href={message.fileUrl} target="_blank" rel="noopener noreferrer">
+            Fichier joint
+          </a>
+        )}
+      </div>
     </div>
   );
 };
@@ -40,7 +47,7 @@ const Sidebar = ({
           </li>
         ))}
       </ul>
-      <button onClick={openCreateConversationPopup}>
+      <button className="new-conversation-button" onClick={openCreateConversationPopup}>
         Nouvelle conversation
       </button>
     </div>
@@ -100,8 +107,12 @@ const CreateConversationPopup = ({
             </li>
           ))}
         </ul>
-        <button onClick={handleCreateConversation}>Créer la conversation</button>
-        <button onClick={closeCreateConversationPopup}>Annuler</button>
+        <button className="new-conversation-button" onClick={handleCreateConversation}>
+          Créer la conversation
+        </button>
+        <button className="new-conversation-button" onClick={closeCreateConversationPopup}>
+          Annuler
+        </button>
       </div>
     </div>
   );
@@ -118,13 +129,12 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [error, setError] = useState("");
-  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(
-    false
-  );
+  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false);
   const [contacts, setContacts] = useState([]);
+  const [file, setFile] = useState(null);
+  const [fileType, setFileType] = useState("text");
 
   useEffect(() => {
-    // Effectuer une requête GET pour récupérer les messages de la conversation actuelle
     const fetchMessages = async () => {
       try {
         const response = await fetch(
@@ -141,7 +151,6 @@ const Messages = () => {
   }, [currentConversation]);
 
   useEffect(() => {
-    // Effectuer une requête GET pour récupérer la liste des contacts
     const fetchContacts = async () => {
       try {
         const response = await fetch("/api/contacts");
@@ -156,7 +165,7 @@ const Messages = () => {
   }, []);
 
   const sendMessage = async () => {
-    if (newMessage.trim() === "") {
+    if (newMessage.trim() === "" && !file) {
       return;
     }
 
@@ -167,15 +176,19 @@ const Messages = () => {
     const username = "User";
     const content = newMessage;
 
-    const messageData = { username, time, content };
+    const messageData = { username, time, content, contentType: fileType };
 
     try {
+      const formData = new FormData();
+      if (file) {
+        formData.append("file", file);
+      }
+
+      formData.append("messageData", JSON.stringify(messageData));
+
       const response = await fetch("/api/messages", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(messageData)
+        body: formData
       });
 
       if (!response.ok) {
@@ -187,11 +200,12 @@ const Messages = () => {
       setMessages(updatedMessages);
       setNewMessage("");
       setError("");
+      setFileType("text");
+      setFile(null);
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
       setError("Erreur lors de l'envoi du message. Veuillez réessayer.");
 
-      // Ajouter le message avec indication d'erreur dans la liste des messages locaux
       const time = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
@@ -200,11 +214,14 @@ const Messages = () => {
         username: "User",
         time,
         content: newMessage,
+        contentType: fileType,
         error: true
       };
       const updatedMessages = [...messages, message];
       setMessages(updatedMessages);
       setNewMessage("");
+      setFileType("text");
+      setFile(null);
     }
   };
 
@@ -235,6 +252,29 @@ const Messages = () => {
     setConversations([...conversations, newConversation]);
   };
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
+      switch (fileExtension) {
+        case "jpg":
+        case "jpeg":
+        case "png":
+          setFileType("image");
+          break;
+        case "pdf":
+          setFileType("pdf");
+          break;
+        case "zip":
+          setFileType("zip");
+          break;
+        default:
+          setFileType("other");
+      }
+    }
+  };
+
   return (
     <div className="messaging-page">
       <Sidebar
@@ -262,7 +302,17 @@ const Messages = () => {
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
-              <button onClick={sendMessage}>Envoyer</button>
+              <label className="file-input-label">
+                <input
+                  type="file"
+                  accept=".jpg, .jpeg, .png, .pdf, .zip, .txt"
+                  onChange={handleFileChange}
+                />
+                <span className="file-input-button">+</span>
+              </label>
+              <button className="send-button" onClick={sendMessage}>
+                Envoyer
+              </button>
             </div>
           </div>
         ) : (
