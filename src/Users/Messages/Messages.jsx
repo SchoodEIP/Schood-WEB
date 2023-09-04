@@ -157,7 +157,12 @@ const Messages = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`,{
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }})
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des contacts.");
         }
