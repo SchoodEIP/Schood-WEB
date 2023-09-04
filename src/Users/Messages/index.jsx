@@ -7,17 +7,17 @@ import React from 'react'
 const Messagerie = () => {
   return (
     <div>
-        <div>
-            <HeaderComp />
+      <div>
+        <HeaderComp />
+      </div>
+      <div className='page-body'>
+        <div className='left-half'>
+          <Sidebar />
         </div>
-        <div className='page-body'>
-            <div className='left-half'>
-                <Sidebar />
-            </div>
-            <div className='right'>
-                    <div><Messages /></div>
-            </div>
+        <div className='right'>
+          <div><Messages /></div>
         </div>
+      </div>
     </div>
   )
 }
