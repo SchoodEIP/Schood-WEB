@@ -43,7 +43,7 @@ const Sidebar = ({
             className={conversation === currentConversation ? "active" : ""}
             onClick={() => handleClick(conversation)}
           >
-            {conversation.name}
+            {conversation.firstname + " " + conversation.lastname}
           </li>
         ))}
       </ul>
@@ -99,11 +99,11 @@ const CreateConversationPopup = ({
         <ul>
           {contacts.map((contact) => (
             <li
-              key={contact.id}
-              className={selectedContacts.includes(contact.id) ? "selected" : ""}
-              onClick={() => handleContactSelection(contact.id)}
+              key={contact._id}
+              className={selectedContacts.includes(contact._id) ? "selected" : ""}
+              onClick={() => handleContactSelection(contact._id)}
             >
-              {contact.name}
+              {contact.firstname + " " + contact.lastname}
             </li>
           ))}
         </ul>
@@ -120,8 +120,8 @@ const CreateConversationPopup = ({
 
 const Messages = () => {
   const [conversations, setConversations] = useState([
-    { id: 1, name: "Adrien" },
-    { id: 2, name: "Nathan" }
+    { _id: 1, firstname: "Adrien", lastname: "Busnel" },
+    { _id: 2, firstname: "Nathan", lastname: "Duschene" }
   ]);
   const [currentConversation, setCurrentConversation] = useState(
     conversations[conversations.length - 1]
