@@ -69,7 +69,7 @@ const CreateConversationPopup = ({
   }
 
   const handleContactSelection = (contactId) => {
-    console.log(contactId);
+    console.log(contactId)
     // we need to automatically fill the input with the name of the select contact
     setSelectedContacts((prevSelectedContacts) => {
       if (prevSelectedContacts.includes(contactId)) {
@@ -105,7 +105,7 @@ const CreateConversationPopup = ({
         <ul> {/** maybe use a datalist instead of a list */}
           {contacts.map((contact) => (
             <li
-              style={{"cursor":"pointer"}}
+              style={{ cursor: 'pointer' }}
               key={contact._id}
               className={selectedContacts.includes(contact._id) ? 'selected' : ''}
               onClick={() => handleContactSelection(contact._id)}
@@ -139,13 +139,13 @@ const Messages = () => {
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
-        },
+        }
       })
 
       const data = await response.json()
       console.log(data)
-    };
-    fetchConversations();
+    }
+    fetchConversations()
   }, [setConversations])
   const [currentConversation, setCurrentConversation] = useState(
     conversations[conversations.length - 1]
@@ -299,7 +299,7 @@ const Messages = () => {
       const participants_array = [
         user_id,
         selectedContacts[0]
-      ];
+      ]
       console.log(participants_array)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
@@ -365,7 +365,7 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.firstname + " " + currentConversation.lastname}</h2>
+              <h2>Conversation : {currentConversation.firstname + ' ' + currentConversation.lastname}</h2>
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
