@@ -123,7 +123,6 @@ const CreateConversationPopup = ({
 }
 
 const Messages = () => {
-  
   const [conversations, setConversations] = useState([])
 
   useEffect(() => {
@@ -132,17 +131,17 @@ const Messages = () => {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const data = await response.json();
-      for (let i = 0; i < data.length; i++ ) {
-        let conv_name = ""
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const data = await response.json()
+      for (let i = 0; i < data.length; i++) {
+        let conv_name = ''
         for (let j = 0; j < (data[i].participants.length); j++) {
-          conv_name += data[i].participants[j].firstname + " " + data[i].participants[j].lastname
+          conv_name += data[i].participants[j].firstname + ' ' + data[i].participants[j].lastname
           if (j < (data[i].participants.length - 1)) {
-            conv_name += ", "
+            conv_name += ', '
           }
         }
         conversations.push({
@@ -150,10 +149,9 @@ const Messages = () => {
           name: conv_name
         })
       }
-
-    };
-    fetchConversations();
-  }, [conversations]);
+    }
+    fetchConversations()
+  }, [conversations])
   const [currentConversation, setCurrentConversation] = useState(
     conversations[conversations.length - 1]
   )
@@ -180,7 +178,7 @@ const Messages = () => {
           throw new Error('Erreur lors de la récupération des messages.')
         }
         const data = await response.json()
-        let message_data = [];
+        const message_data = []
         for (let i = 0; i < data.length; i++) {
           message_data.push({
             contentType: 'text',
@@ -249,7 +247,7 @@ const Messages = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({content: newMessage})
+        body: JSON.stringify({ content: newMessage })
       })
 
       if (!response.ok) {
