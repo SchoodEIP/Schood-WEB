@@ -45,7 +45,7 @@ const Sidebar = ({
             className={conversation === currentConversation ? 'active' : ''}
             onClick={() => handleClick(conversation)}
           >
-            {conversation.firstname + ' ' + conversation.lastname}
+            {conversation.name}
           </li>
         ))}
       </ul>
@@ -126,10 +126,7 @@ const CreateConversationPopup = ({
 }
 
 const Messages = () => {
-  // const [conversations, setConversations] = useState([
-  //   { _id: 1, firstname: 'Adrien', lastname: 'Busnel' },
-  //   { _id: 2, firstname: 'Nathan', lastname: 'Duschene' }
-  // ])
+  
   const [conversations, setConversations] = useState([])
 
   useEffect(() => {
@@ -138,15 +135,28 @@ const Messages = () => {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const data = await response.json();
+      for (let i = 0; i < data.length; i++ ) {
+        let conv_name = ""
+        for (let j = 0; j < (data[i].participants.length); j++) {
+          conv_name += data[i].participants[j].firstname + " " + data[i].participants[j].lastname
+          if (j < (data[i].participants.length - 1)) {
+            conv_name += ", "
+          }
         }
-      })
+        conversations.push({
+          _id: data[i]._id,
+          name: conv_name
+        })
+      }
 
-      const data = await response.json()
-      console.log(data)
-    }
-    fetchConversations()
-  }, [setConversations])
+    };
+    fetchConversations();
+  }, [conversations]);
   const [currentConversation, setCurrentConversation] = useState(
     conversations[conversations.length - 1]
   )
@@ -162,7 +172,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation.id}/messages`, {
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`, {
             method: 'GET',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
@@ -173,7 +183,15 @@ const Messages = () => {
           throw new Error('Erreur lors de la récupération des messages.')
         }
         const data = await response.json()
-        setMessages(data)
+        let message_data = [];
+        for (let i = 0; i < data.length; i++) {
+          message_data.push({
+            contentType: 'text',
+            content: data[i].content
+          })
+        }
+        console.log(data)
+        setMessages(message_data)
       } catch (error) {
         console.error('Erreur lors de la récupération des messages :', error)
         // Gérer l'erreur de récupération des messages ici
@@ -230,13 +248,13 @@ const Messages = () => {
 
       formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation.id}/newMessage`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
         method: 'POST',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify({content: newMessage})
       })
 
       if (!response.ok) {
@@ -244,6 +262,7 @@ const Messages = () => {
       }
 
       const data = await response.json()
+      console.log(data)
       const updatedMessages = [...messages, data]
       setMessages(updatedMessages)
       setNewMessage('')
@@ -361,11 +380,12 @@ const Messages = () => {
         clearMessageAndError={clearMessageAndError}
         openCreateConversationPopup={openCreateConversationPopup}
       />
+
       <div className='chat'>
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.firstname + ' ' + currentConversation.lastname}</h2>
+              <h2>Conversation : {currentConversation.name}</h2>
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
