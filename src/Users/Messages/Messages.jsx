@@ -69,6 +69,8 @@ const CreateConversationPopup = ({
   }
 
   const handleContactSelection = (contactId) => {
+    console.log(contactId);
+    // we need to automatically fill the input with the name of the select contact
     setSelectedContacts((prevSelectedContacts) => {
       if (prevSelectedContacts.includes(contactId)) {
         return prevSelectedContacts.filter((id) => id !== contactId)
@@ -80,11 +82,13 @@ const CreateConversationPopup = ({
 
   const handleCreateConversation = () => {
     const newConversationName = searchInput.trim()
+    console.log(newConversationName)
     if (newConversationName === '') {
       return
     }
+    console.log(selectedContacts)
 
-    createConversation(newConversationName)
+    createConversation(newConversationName, selectedContacts)
     closeCreateConversationPopup()
   }
 
@@ -98,9 +102,10 @@ const CreateConversationPopup = ({
           value={searchInput}
           onChange={handleSearchInputChange}
         />
-        <ul>
+        <ul> {/** maybe use a datalist instead of a list */}
           {contacts.map((contact) => (
             <li
+              style={{"cursor":"pointer"}}
               key={contact._id}
               className={selectedContacts.includes(contact._id) ? 'selected' : ''}
               onClick={() => handleContactSelection(contact._id)}
@@ -121,10 +126,27 @@ const CreateConversationPopup = ({
 }
 
 const Messages = () => {
-  const [conversations, setConversations] = useState([
-    { _id: 1, firstname: 'Adrien', lastname: 'Busnel' },
-    { _id: 2, firstname: 'Nathan', lastname: 'Duschene' }
-  ])
+  // const [conversations, setConversations] = useState([
+  //   { _id: 1, firstname: 'Adrien', lastname: 'Busnel' },
+  //   { _id: 2, firstname: 'Nathan', lastname: 'Duschene' }
+  // ])
+  const [conversations, setConversations] = useState([])
+
+  useEffect(() => {
+    const fetchConversations = async () => {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+      })
+
+      const data = await response.json()
+      console.log(data)
+    };
+    fetchConversations();
+  }, [setConversations])
   const [currentConversation, setCurrentConversation] = useState(
     conversations[conversations.length - 1]
   )
@@ -140,8 +162,13 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation.id}/messages`
-        )
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation.id}/messages`, {
+            method: 'GET',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json'
+            }
+          })
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des messages.')
         }
@@ -170,6 +197,7 @@ const Messages = () => {
           throw new Error('Erreur lors de la récupération des contacts.')
         }
         const data = await response.json()
+        console.log(data)
         setContacts(data)
       } catch (error) {
         console.error('Erreur lors de la récupération des contacts :', error)
@@ -200,10 +228,14 @@ const Messages = () => {
         formData.append('file', file)
       }
 
-      formData.append('messageData', JSON.stringify(messageData))
+      formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation.id}/newMessage`, {
         method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
         body: formData
       })
 
@@ -260,23 +292,34 @@ const Messages = () => {
     setShowCreateConversationPopup(false)
   }
 
-  const createConversation = async (conversationName) => {
+  const createConversation = async (conversationName, selectedContacts) => {
     try {
+      const user_id = localStorage.getItem('id')
+      console.log(conversationName)
+      const participants_array = [
+        user_id,
+        selectedContacts[0]
+      ];
+      console.log(participants_array)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name: conversationName })
+        body: JSON.stringify({ // not sure which id belongs to which participant voir avec quentin
+          participants: participants_array
+        })
       })
 
+      console.log(response)
       if (!response.ok) {
         throw new Error('Erreur lors de la création de la conversation.')
       }
 
       const data = await response.json()
       const newConversation = {
-        id: data.id,
+        id: data._id,
         name: conversationName
       }
       setConversations([...conversations, newConversation])
@@ -322,7 +365,7 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.name}</h2>
+              <h2>Conversation : {currentConversation.firstname + " " + currentConversation.lastname}</h2>
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
