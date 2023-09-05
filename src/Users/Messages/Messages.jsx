@@ -69,7 +69,6 @@ const CreateConversationPopup = ({
   }
 
   const handleContactSelection = (contactId) => {
-    console.log(contactId)
     // we need to automatically fill the input with the name of the select contact
     setSelectedContacts((prevSelectedContacts) => {
       if (prevSelectedContacts.includes(contactId)) {
@@ -82,11 +81,9 @@ const CreateConversationPopup = ({
 
   const handleCreateConversation = () => {
     const newConversationName = searchInput.trim()
-    console.log(newConversationName)
     if (newConversationName === '') {
       return
     }
-    console.log(selectedContacts)
 
     createConversation(newConversationName, selectedContacts)
     closeCreateConversationPopup()
@@ -190,7 +187,6 @@ const Messages = () => {
             content: data[i].content
           })
         }
-        console.log(data)
         setMessages(message_data)
       } catch (error) {
         console.error('Erreur lors de la récupération des messages :', error)
@@ -215,7 +211,6 @@ const Messages = () => {
           throw new Error('Erreur lors de la récupération des contacts.')
         }
         const data = await response.json()
-        console.log(data)
         setContacts(data)
       } catch (error) {
         console.error('Erreur lors de la récupération des contacts :', error)
@@ -262,7 +257,6 @@ const Messages = () => {
       }
 
       const data = await response.json()
-      console.log(data)
       const updatedMessages = [...messages, data]
       setMessages(updatedMessages)
       setNewMessage('')
@@ -314,12 +308,10 @@ const Messages = () => {
   const createConversation = async (conversationName, selectedContacts) => {
     try {
       const user_id = localStorage.getItem('id')
-      console.log(conversationName)
       const participants_array = [
         user_id,
         selectedContacts[0]
       ]
-      console.log(participants_array)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -331,7 +323,6 @@ const Messages = () => {
         })
       })
 
-      console.log(response)
       if (!response.ok) {
         throw new Error('Erreur lors de la création de la conversation.')
       }
