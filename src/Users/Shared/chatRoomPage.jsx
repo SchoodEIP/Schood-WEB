@@ -22,4 +22,4 @@ const ChatRoomPage = () => {
   )
 }
 
-export default ChatRoomPage;
+export default ChatRoomPage
