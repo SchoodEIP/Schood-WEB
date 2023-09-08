@@ -1,126 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import './Messages.scss'
-
-const Message = ({ message }) => {
-  return (
-    <div className='message'>
-      <div className='message-header'>
-        <span className='message-username'>{message.username}</span>
-        <span className='message-time'>{message.time}</span>
-      </div>
-      <div className='message-content'>
-        {message.contentType === 'text'
-          ? (
-              message.content
-            )
-          : (
-            <a href={message.fileUrl} target='_blank' rel='noopener noreferrer'>
-              Fichier joint
-            </a>
-            )}
-      </div>
-    </div>
-  )
-}
-
-const Sidebar = ({
-  conversations,
-  currentConversation,
-  setCurrentConversation,
-  clearMessageAndError,
-  openCreateConversationPopup
-}) => {
-  const handleClick = (conversation) => {
-    setCurrentConversation(conversation)
-    clearMessageAndError()
-  }
-
-  return (
-    <div className='sidebar'>
-      <h2>Mes messages</h2>
-      <ul>
-        {conversations.map((conversation, index) => (
-          <li
-            key={index}
-            className={conversation === currentConversation ? 'active' : ''}
-            onClick={() => handleClick(conversation)}
-          >
-            {conversation.name}
-          </li>
-        ))}
-      </ul>
-      <button className='new-conversation-button' onClick={openCreateConversationPopup}>
-        Nouvelle conversation
-      </button>
-    </div>
-  )
-}
-
-const CreateConversationPopup = ({
-  contacts,
-  createConversation,
-  closeCreateConversationPopup
-}) => {
-  const [searchInput, setSearchInput] = useState('')
-  const [selectedContacts, setSelectedContacts] = useState([])
-
-  const handleSearchInputChange = (e) => {
-    setSearchInput(e.target.value)
-  }
-
-  const handleContactSelection = (contactId) => {
-    // we need to automatically fill the input with the name of the select contact
-    setSelectedContacts((prevSelectedContacts) => {
-      if (prevSelectedContacts.includes(contactId)) {
-        return prevSelectedContacts.filter((id) => id !== contactId)
-      } else {
-        return [...prevSelectedContacts, contactId]
-      }
-    })
-  }
-
-  const handleCreateConversation = () => {
-    const newConversationName = searchInput.trim()
-    if (newConversationName === '') {
-      return
-    }
-
-    createConversation(newConversationName, selectedContacts)
-    closeCreateConversationPopup()
-  }
-
-  return (
-    <div className='popup'>
-      <div className='popup-content'>
-        <h2>Nouvelle conversation</h2>
-        <input
-          type='text'
-          placeholder='Rechercher un contact'
-          value={searchInput}
-          onChange={handleSearchInputChange}
-        />
-        <ul> {/** maybe use a datalist instead of a list */}
-          {contacts.map((contact) => (
-            <li
-              style={{ cursor: 'pointer' }}
-              key={contact._id}
-              className={selectedContacts.includes(contact._id) ? 'selected' : ''}
-              onClick={() => handleContactSelection(contact._id)}
-            >
-              {contact.firstname + ' ' + contact.lastname}
-            </li>
-          ))}
-        </ul>
-        <button className='new-conversation-button' onClick={handleCreateConversation}>
-          Créer la conversation
-        </button>
-        <button className='new-conversation-button' onClick={closeCreateConversationPopup}>
-          Annuler
-        </button>
-      </div>
-    </div>
-  )
-}
+import '../../css/pages/chatRoomPage.scss'
+import Message from './message'
+import ChatRoomSidebar from './chatRoomSidebar'
+import CreateConversationPopup from './createConversationPopup'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -362,7 +244,7 @@ const Messages = () => {
 
   return (
     <div className='messaging-page'>
-      <Sidebar
+      <ChatRoomSidebar
         conversations={conversations}
         currentConversation={currentConversation}
         setCurrentConversation={setCurrentConversation}

@@ -1,10 +1,10 @@
-import './Messages.scss'
+import '../../css/pages/chatRoomPage.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
-import Messages from './Messages'
+import ChatRoom from '../../Components/ChatRoom/chatRoom'
 import React from 'react'
 
-const Messagerie = () => {
+const ChatRoomPage = () => {
   return (
     <div className='form-page'>
       <div>
@@ -15,11 +15,11 @@ const Messagerie = () => {
           <Sidebar />
         </div>
         <div className='left-half'>
-          <div><Messages /></div>
+          <div><ChatRoom /></div>
         </div>
       </div>
     </div>
   )
 }
 
-export default Messagerie
+export default ChatRoomPage;
