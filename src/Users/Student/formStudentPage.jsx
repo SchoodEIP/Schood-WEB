@@ -27,12 +27,83 @@ const FormStudentPage = () => {
       .then(data => {
         if (data.title) {
           setData(data)
+          console.log(data)
         } else {
           setError(data.message)
         }
       })
       .catch(error => setError(error.message))
   }, [id])
+
+  function getFormAnswers() {
+    const formAnswers = [];
+    data.questions.map((question, index) => {
+      let result = null
+      // const result = []
+      switch (question.type) {
+        case 'text':
+          result = document.getElementById('answer-' + index + '-0').value
+          // result.push(document.getElementById('answer-' + index + '-0').value)
+          break;
+        case 'emoji':
+          result = '-1'
+          for (let i = 0; i < 3; i++) {
+            if (document.getElementById('answer-' + index + '-' + i).checked) {
+              result = `${i}`
+            }
+          //   result.push({
+          //     index: i,
+          //     answer: document.getElementById('answer-' + index + '-' + i).checked
+          //   })
+          }
+          break;
+        case 'multiple':
+          result = '-1'
+          question.answers.map((multipleAnswer, i) => {
+            if (document.getElementById('answer-' + index + '-' + i).checked) {
+              result = `${i}`
+            }
+
+          //   result.push({
+          //     index: i,
+          //     answer: document.getElementById('answer-' + index + '-' + i).checked
+          //   })
+            return multipleAnswer
+          })
+          break;
+        default:
+          break;
+      }
+      let answerFormat  = {
+        question: question._id,
+        answer: result
+      }
+      return formAnswers.push(answerFormat)
+    });
+    return formAnswers
+  }
+
+  function sendAnswers() {
+    const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + "/student/questionnaire/" + id;
+    const data = getFormAnswers()
+    console.log(data)
+    fetch(sendAnswerUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({answers: data})
+    }).then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          setError(data.message)
+        } else {
+          window.location.href = '/questionnaires'
+        }
+      })
+      .catch(error => setError(error.message))
+  }
 
   return (
     <div className='form-page'>
@@ -102,7 +173,7 @@ const FormStudentPage = () => {
                 ))}
             </div>
             <div className='validate-btn-container'>
-              <button className='button-css questionnaire-btn'>Valider le Questionnaire</button>
+              <button className='button-css questionnaire-btn' type="submit" onClick={sendAnswers}>Valider le Questionnaire</button>
             </div>
           </div>
         </div>
