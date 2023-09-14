@@ -19,16 +19,16 @@ const Messages = () => {
 
       const data = await response.json()
       for (let i = 0; i < data.length; i++) {
-        let conv_name = ''
+        let convName = ''
         for (let j = 0; j < (data[i].participants.length); j++) {
-          conv_name += data[i].participants[j].firstname + ' ' + data[i].participants[j].lastname
+          convName += data[i].participants[j].firstname + ' ' + data[i].participants[j].lastname
           if (j < (data[i].participants.length - 1)) {
-            conv_name += ', '
+            convName += ', '
           }
         }
         conversations.push({
           _id: data[i]._id,
-          name: conv_name
+          name: convName
         })
       }
     }
@@ -60,14 +60,14 @@ const Messages = () => {
           throw new Error('Erreur lors de la récupération des messages.')
         }
         const data = await response.json()
-        const message_data = []
+        const messageData = []
         for (let i = 0; i < data.length; i++) {
-          message_data.push({
+          messageData.push({
             contentType: 'text',
             content: data[i].content
           })
         }
-        setMessages(message_data)
+        setMessages(messageData)
       } catch (error) {
         console.error('Erreur lors de la récupération des messages :', error)
         // Gérer l'erreur de récupération des messages ici
@@ -187,9 +187,9 @@ const Messages = () => {
 
   const createConversation = async (conversationName, selectedContacts) => {
     try {
-      const user_id = localStorage.getItem('id')
-      const participants_array = [
-        user_id,
+      const userId = localStorage.getItem('id')
+      const participantsArray = [
+        userId,
         selectedContacts[0]
       ]
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
@@ -199,7 +199,7 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ // not sure which id belongs to which participant voir avec quentin
-          participants: participants_array
+          participants: participantsArray
         })
       })
 

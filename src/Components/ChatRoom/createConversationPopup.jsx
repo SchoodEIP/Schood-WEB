@@ -37,24 +37,28 @@ const CreateConversationPopup = ({
     <div className='popup'>
       <div className='popup-content'>
         <h2>Nouvelle conversation</h2>
+        <label htmlFor="contact-input">Rechercher un contact:</label>
         <input
           type='text'
+          list="contact-list"
+          id="contact-input"
           placeholder='Rechercher un contact'
           value={searchInput}
           onChange={handleSearchInputChange}
         />
-        <ul> {/** maybe use a datalist instead of a list */}
-          {contacts.map((contact) => (
-            <li
-              style={{ cursor: 'pointer' }}
+        <datalist id="contact-list">
+        {contacts.map((contact) => (
+            <option
               key={contact._id}
+              value={contact.firstname + ' ' + contact.lastname}
               className={selectedContacts.includes(contact._id) ? 'selected' : ''}
               onClick={() => handleContactSelection(contact._id)}
             >
               {contact.firstname + ' ' + contact.lastname}
-            </li>
+            </option>
           ))}
-        </ul>
+        </datalist>
+
         <button className='new-conversation-button' onClick={handleCreateConversation}>
           Créer la conversation
         </button>
