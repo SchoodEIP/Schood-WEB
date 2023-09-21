@@ -1,9 +1,10 @@
+import '@testing-library/jest-dom'
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+
 describe('FormTeacherPage', () => {
   const id = 123
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
@@ -102,13 +103,11 @@ describe('FormTeacherPage', () => {
   afterEach(() => {
     document.body.removeChild(container)
     container = null
-    jest.clearAllMocks()
     fetchMock.restore()
   })
 
   test('renders the page', async () => {
     await act(async () => {
-      // jest.spyOn(ReactRouterDOM, 'useParams').mockReturnValue({ id: '123' });
       render(
         <MemoryRouter initialEntries={['/questionnaire/123']}>
           <Routes>
