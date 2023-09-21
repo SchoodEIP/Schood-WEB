@@ -87,9 +87,9 @@ const FormTeacherPage = () => {
 
     function getAnswers(originForm, studentsArray) {
       for (let i = 0; i < studentsArray.length; i++) {
-        const studentListUrl = process.env.REACT_APP_BACKEND_URL + "/teacher/questionnaire/" + originForm._id + "/answers/" + studentsArray[i]._id
+        const answerListUrl = process.env.REACT_APP_BACKEND_URL + "/teacher/questionnaire/" + originForm._id + "/answers/" + studentsArray[i]._id
 
-        fetch(studentListUrl, {
+        fetch(answerListUrl, {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
