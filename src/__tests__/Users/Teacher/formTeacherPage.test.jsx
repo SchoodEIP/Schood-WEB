@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
-import { BrowserRouter, useParams, MemoryRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 describe('FormTeacherPage', () => {
   const id = 123
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
