@@ -6,6 +6,8 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 import IconFace0 from '../../assets/icon_face_0.png'
 import IconFace1 from '../../assets/icon_face_1.png'
 import IconFace2 from '../../assets/icon_face_2.png'
+import ArrowUp from '../../assets/up_arrow_icon.png'
+import ArrowDown from '../../assets/down_arrow_icon.png'
 import { useParams } from 'react-router-dom'
 
 const FormTeacherPage = () => {
@@ -81,7 +83,6 @@ const FormTeacherPage = () => {
         return studentAnswer
       })
       setFormData(ultimateResponse)
-      console.log(ultimateResponse)
     }
 
     function getAnswers(originForm, studentsArray) {
@@ -96,7 +97,6 @@ const FormTeacherPage = () => {
           }
         }).then(response => response.json())
           .then(data => {
-            console.log(data)
             if (data[0]._id) {
               createFormContent(originForm, data)
             } else {
@@ -118,7 +118,6 @@ const FormTeacherPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          console.log(data)
           if (data[0].users) {
             getAnswers(originForm, data[0].users)
           } else {
@@ -150,12 +149,14 @@ const FormTeacherPage = () => {
 
   const showHideAnswer = (index) => {
     const answer = document.getElementById('answers-' + index)
-    console.log(index)
+    const arrow = document.getElementById('extend-retract-' + index)
 
     if (answer.style.display === 'none') {
       answer.style.display = "flex"
+      arrow.src = ArrowDown
     } else {
       answer.style.display = 'none'
+      arrow.src = ArrowUp
     }
   }
 
@@ -181,8 +182,9 @@ const FormTeacherPage = () => {
                 : formData.questions.map((question, index) => (
                   <div key={index} className='questions-container' id={`container-${index}`} >
                     <div className='question-container' style={{cursor:"pointer"}} data-testid={`question-container-${index}`} onClick={() => showHideAnswer(`${index}`)}>
-                      <div id='question-row'>
+                      <div style={{display:"flex", justifyContent:"space-between"}} id='question-row'>
                         <h2>{`${index + 1}. ${question.title}`}</h2>
+                        <img style={{width:'75px'}} id={'extend-retract-' + index} src={ArrowUp} alt={ArrowUp} />
                       </div>
                     </div>
 
