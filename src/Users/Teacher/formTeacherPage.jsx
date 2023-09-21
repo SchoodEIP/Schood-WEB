@@ -148,6 +148,17 @@ const FormTeacherPage = () => {
       .catch(error => setError(error.message))
   }, [id])
 
+  const showHideAnswer = (index) => {
+    const answer = document.getElementById('answers-' + index)
+    console.log(index)
+
+    if (answer.style.display === 'none') {
+      answer.style.display = "flex"
+    } else {
+      answer.style.display = 'none'
+    }
+  }
+
   return (
     <div className='form-page'>
       <div>
@@ -168,14 +179,14 @@ const FormTeacherPage = () => {
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
-                  <div key={index} className='questions-container' id={`container-${index}`}>
-                    <div className='question-container' data-testid={`question-container-${index}`}>
+                  <div key={index} className='questions-container' id={`container-${index}`} >
+                    <div className='question-container' style={{cursor:"pointer"}} data-testid={`question-container-${index}`} onClick={() => showHideAnswer(`${index}`)}>
                       <div id='question-row'>
                         <h2>{`${index + 1}. ${question.title}`}</h2>
                       </div>
                     </div>
 
-                    <div className='answer-row' id={'answers-' + index}>
+                    <div className='answer-row' id={'answers-' + index} style={{display:"none"}}>
                       {question.type === 'text' && (
                         <ul>
                           {question.answers.map((answer, answerIndex) => (
@@ -192,6 +203,7 @@ const FormTeacherPage = () => {
                                 if (i === j) {
                                   return answer.count
                                 }
+                                return ""
                               })}</p>
                             </div>
                           ))}
