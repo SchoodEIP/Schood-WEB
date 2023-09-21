@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
@@ -17,20 +17,19 @@ const FormTeacherPage = () => {
   const imgImports = [IconFace0, IconFace1, IconFace2]
 
   useEffect(() => {
-
-    function createFormContent(originForm, answeredForm) {
-      let ultimateResponse = {
+    function createFormContent (originForm, answeredForm) {
+      const ultimateResponse = {
         questions: [],
-        title: originForm.title,
+        title: originForm.title
       }
       originForm.questions.map((question, index) => {
-        let quest = {
+        const quest = {
           _id: question._id,
           title: question.title,
           type: question.type,
           answers: []
         }
-        if (question.type === "multiple") {
+        if (question.type === 'multiple') {
           question.answers.map((answer, i) =>
             quest.answers.push({
               _id: answer._id,
@@ -39,7 +38,7 @@ const FormTeacherPage = () => {
               count: 0
             })
           )
-        } else if (question.type === "emoji") {
+        } else if (question.type === 'emoji') {
           quest.answers.push({
             position: 0,
             count: 0
@@ -60,16 +59,16 @@ const FormTeacherPage = () => {
       answeredForm.map((studentAnswer, index) => {
         studentAnswer.answers.map((answer, i) => {
           if (ultimateResponse.questions[i]._id === answer.question) {
-            if (ultimateResponse.questions[i].type === "text") {
+            if (ultimateResponse.questions[i].type === 'text') {
               ultimateResponse.questions[i].answers.push(answer.answer)
-            } else if (ultimateResponse.questions[i].type === "emoji") {
+            } else if (ultimateResponse.questions[i].type === 'emoji') {
               ultimateResponse.questions[i].answers.map((options, j) => {
                 if (options.position === parseInt(answer.answer)) {
                   options.count += 1
                 }
                 return options
               })
-            } else if (ultimateResponse.questions[i].type === "multiple") {
+            } else if (ultimateResponse.questions[i].type === 'multiple') {
               ultimateResponse.questions[i].answers.map((options, j) => {
                 if ((options.position) === parseInt(answer.answer)) {
                   options.count += 1
@@ -85,9 +84,9 @@ const FormTeacherPage = () => {
       setFormData(ultimateResponse)
     }
 
-    function getAnswers(originForm, studentsArray) {
+    function getAnswers (originForm, studentsArray) {
       for (let i = 0; i < studentsArray.length; i++) {
-        const answerListUrl = process.env.REACT_APP_BACKEND_URL + "/teacher/questionnaire/" + originForm._id + "/answers/" + studentsArray[i]._id
+        const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/answers/' + studentsArray[i]._id
 
         fetch(answerListUrl, {
           method: 'GET',
@@ -107,8 +106,8 @@ const FormTeacherPage = () => {
       }
     }
 
-    function getStudents(originForm) {
-      const studentListUrl = process.env.REACT_APP_BACKEND_URL + "/teacher/questionnaire/" + originForm._id + "/students"
+    function getStudents (originForm) {
+      const studentListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/students'
 
       fetch(studentListUrl, {
         method: 'GET',
@@ -152,7 +151,7 @@ const FormTeacherPage = () => {
     const arrow = document.getElementById('extend-retract-' + index)
 
     if (answer.style.display === 'none') {
-      answer.style.display = "flex"
+      answer.style.display = 'flex'
       arrow.src = ArrowDown
     } else {
       answer.style.display = 'none'
@@ -180,15 +179,15 @@ const FormTeacherPage = () => {
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
-                  <div key={index} className='questions-container' id={`container-${index}`} >
-                    <div className='question-container' style={{cursor:"pointer"}} data-testid={`question-container-${index}`} onClick={() => showHideAnswer(`${index}`)}>
-                      <div style={{display:"flex", justifyContent:"space-between"}} id='question-row'>
+                  <div key={index} className='questions-container' id={`container-${index}`}>
+                    <div className='question-container' style={{ cursor: 'pointer' }} data-testid={`question-container-${index}`} onClick={() => showHideAnswer(`${index}`)}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }} id='question-row'>
                         <h2>{`${index + 1}. ${question.title}`}</h2>
-                        <img style={{width:'75px'}} id={'extend-retract-' + index} src={ArrowUp} alt={ArrowUp} />
+                        <img style={{ width: '75px' }} id={'extend-retract-' + index} src={ArrowUp} alt={ArrowUp} />
                       </div>
                     </div>
 
-                    <div className='answer-row' id={'answers-' + index} style={{display:"none"}}>
+                    <div className='answer-row' id={'answers-' + index} style={{ display: 'none' }}>
                       {question.type === 'text' && (
                         <ul>
                           {question.answers.map((answer, answerIndex) => (
@@ -205,8 +204,9 @@ const FormTeacherPage = () => {
                                 if (i === j) {
                                   return answer.count
                                 }
-                                return ""
-                              })}</p>
+                                return ''
+                              })}
+                              </p>
                             </div>
                           ))}
                         </div>
