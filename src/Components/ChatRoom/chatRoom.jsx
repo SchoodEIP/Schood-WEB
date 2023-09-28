@@ -49,7 +49,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         if (!currentConversation) {
-          return;
+          return
         }
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`, {
