@@ -1,8 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-
 import { render, act, screen, fireEvent } from '@testing-library/react'
-import FormListPage from '../../../Users/Teacher/formListPage'
+import FormListPage from '../../../Users/Teacher/formListTeacherPage'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('FormListPage', () => {
