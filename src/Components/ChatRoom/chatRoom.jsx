@@ -6,6 +6,7 @@ import CreateConversationPopup from './createConversationPopup'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
+  const [currentConversation, setCurrentConversation] = useState('')
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -18,6 +19,7 @@ const Messages = () => {
       })
 
       const data = await response.json()
+      setCurrentConversation(data[0])
       for (let i = 0; i < data.length; i++) {
         let convName = ''
         for (let j = 0; j < (data[i].participants.length); j++) {
@@ -33,10 +35,7 @@ const Messages = () => {
       }
     }
     fetchConversations()
-  }, [conversations])
-  const [currentConversation, setCurrentConversation] = useState(
-    conversations[conversations.length - 1]
-  )
+  }, [])
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [error, setError] = useState('')
@@ -75,7 +74,7 @@ const Messages = () => {
     }
 
     fetchMessages()
-  }, [currentConversation])
+  }, [currentConversation, conversations])
 
   useEffect(() => {
     const fetchContacts = async () => {
