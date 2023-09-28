@@ -14,7 +14,7 @@ const CreateConversationPopup = ({
     // et set le selected contact avec l'id
   }
 
-// on a peut etre pas besoin de cette fonction
+  // on a peut etre pas besoin de cette fonction
   const handleContactSelection = () => {
     const contactId = document.getElementById('contact-input').value
     // we need to automatically fill the input with the name of the select contact
