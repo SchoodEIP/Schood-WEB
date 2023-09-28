@@ -213,6 +213,7 @@ const Messages = () => {
         name: conversationName
       }
       setConversations([...conversations, newConversation])
+      window.location.reload()
     } catch (error) {
       console.error('Erreur lors de la création de la conversation :', error)
       // Gérer l'erreur de création de la conversation ici
