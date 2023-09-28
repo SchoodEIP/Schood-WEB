@@ -241,9 +241,7 @@ describe('NewFormPage', () => {
     window.location = originalLocation
   })
 
-
   test('fail to create questionnaire', async () => {
-
     window.fetch = jest.fn().mockResolvedValue({
       status: 400,
       json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
