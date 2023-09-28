@@ -6,6 +6,7 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(0)
+  const [errorMessage, setErrorMessage] = useState('')
 
   function postQuestions () {
     const array = []
@@ -34,11 +35,19 @@ const NewFormPage = () => {
           date,
           questions: array
         })
-      }).then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error.message))
+      }).then(response => {
+        if (response.status === 200) {
+          window.location.href = '/questionnaires'
+        } else {
+          return response.json()
+        }
+      })
+        .then(data => {
+          setErrorMessage(data.message)
+        })
+        .catch(error => setErrorMessage(error.message))
     } catch (e) {
-      console.error(e.message)
+      setErrorMessage(e.message)
     }
   }
 
@@ -125,6 +134,9 @@ const NewFormPage = () => {
                   <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
                 </label>
                 <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+              </div>
+              <div>
+                <p style={{color:"red"}}>{errorMessage}</p>
               </div>
             </div>
           </div>

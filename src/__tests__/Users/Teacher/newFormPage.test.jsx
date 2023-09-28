@@ -1,5 +1,6 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
+
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
@@ -13,7 +14,7 @@ describe('NewFormPage', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
-    fetchMock.get(questionnaireUrl, { })
+    fetchMock.post(questionnaireUrl, { message: 'Wrong date' })
   })
 
   afterEach(() => {
@@ -70,4 +71,83 @@ describe('NewFormPage', () => {
     expect(screen.queryByText('Question n° 2 :')).toBeNull()
     expect(screen.queryByText('Enlever une Question')).toBeNull()
   })
+
+  test('create questionnaire', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaires')
+
+    window.location = originalLocation
+  })
+
+
+  test('fail to create questionnaire', async () => {
+
+    window.fetch = jest.fn().mockResolvedValue({
+      status: 400,
+      json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
+    })
+
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaire')
+
+    window.location = originalLocation
+
+    expect(screen.getByText('Wrong Date')).toBeInTheDocument()
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+  })
+
 })
