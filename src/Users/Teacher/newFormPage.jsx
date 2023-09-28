@@ -45,7 +45,13 @@ const NewFormPage = () => {
         date,
         questions: array
       })
-    }).then(response => (response.status !== 200) ? setErrMessage(response.status + ' error : ' + response.statusText) : window.location.href = '/questionnaires')
+    }).then(response => {
+        if (response.status !== 200) {
+          setErrMessage(response.status + ' error : ' + response.statusText)
+        }  else {
+          window.location.href = '/questionnaires'
+        }
+      })
       .catch(error => setErrMessage(error.message))
   }
 
