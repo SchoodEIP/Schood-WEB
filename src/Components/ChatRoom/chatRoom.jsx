@@ -134,15 +134,24 @@ const Messages = () => {
         body: JSON.stringify({ content: newMessage })
       })
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Erreur lors de l'envoi du message.")
       }
 
-      const data = await response.json()
-      const updatedMessages = [...messages, data]
+      const time = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+      const message = {
+        username: 'User',
+        time,
+        content: newMessage,
+        contentType: fileType,
+        error: true
+      }
+      const updatedMessages = [...messages, message]
       setMessages(updatedMessages)
       setNewMessage('')
-      setError('')
       setFileType('text')
       setFile(null)
     } catch (error) {
