@@ -7,9 +7,9 @@ import fetchMock from 'fetch-mock'
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve([]),
-    ok: true,
+    ok: true
   })
-);
+)
 
 describe('Messages Component', () => {
   const id = 123
@@ -39,39 +39,39 @@ describe('Messages Component', () => {
     })
 
     // Ensure that the component renders
-    const composeMessageInput = screen.getByPlaceholderText('Composez votre message');
-    expect(composeMessageInput).toBeInTheDocument();
+    const composeMessageInput = screen.getByPlaceholderText('Composez votre message')
+    expect(composeMessageInput).toBeInTheDocument()
 
     // Simulate sending a message
-    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } });
-    fireEvent.click(screen.getByText('Envoyer'));
+    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
+    fireEvent.click(screen.getByText('Envoyer'))
 
     // Wait for message to be sent
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledTimes(1);
-    });
-  });
+      expect(fetch).toHaveBeenCalledTimes(1)
+    })
+  })
 
   it('displays an error message when message sending fails', async () => {
     // Mock a failed fetch request
     fetch.mockImplementationOnce(() =>
       Promise.reject(new Error('Failed to send message'))
-    );
+    )
 
     await act(async () => {
       render(<Messages />)
     })
 
-    const composeMessageInput = screen.getByPlaceholderText('Composez votre message');
-    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } });
-    fireEvent.click(screen.getByText('Envoyer'));
+    const composeMessageInput = screen.getByPlaceholderText('Composez votre message')
+    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
+    fireEvent.click(screen.getByText('Envoyer'))
 
     // Wait for error message to be displayed
     await waitFor(() => {
-      const errorMessage = screen.getByText("Erreur lors de l'envoi du message. Veuillez réessayer.");
-      expect(errorMessage).toBeInTheDocument();
-    });
-  });
+      const errorMessage = screen.getByText("Erreur lors de l'envoi du message. Veuillez réessayer.")
+      expect(errorMessage).toBeInTheDocument()
+    })
+  })
 
   // Add more test cases to cover other parts of the component
 
@@ -83,10 +83,10 @@ describe('Messages Component', () => {
     })
 
     // Ensure that the popup is initially closed
-    expect(screen.queryByText('Nouvelle conversation')).not.toBeInTheDocument();
+    expect(screen.queryByText('Nouvelle conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
-    fireEvent.click(screen.getByText('Nouvelle conversation'));
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
 
     // Wait for the popup to be displayed
     await waitFor(() => {
