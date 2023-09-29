@@ -4,7 +4,6 @@ import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
 
-
 // Mock fetch
 global.fetch = jest.fn(() =>
   Promise.resolve({
