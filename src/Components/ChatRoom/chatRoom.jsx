@@ -130,7 +130,7 @@ const Messages = () => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
           method: 'POST',
           headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
+            'x-auth-token': sessionStorage.getItem('token')
           },
           body: fileData
         })
