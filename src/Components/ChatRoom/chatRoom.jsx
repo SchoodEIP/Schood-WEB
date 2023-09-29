@@ -119,24 +119,20 @@ const Messages = () => {
 
     try {
       const formData = new FormData()
+      // a voir avec quentin pour le prochain sprint
       formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
 
       if (file) {
-        formData.append('file', file)
-        console.log(file)
-
-        const newFileData = {
-          'file': file,
-          'content': newMessage
-        }
+        const fileData = new FormData()
+        fileData.append('file', file)
+        fileData.append('content', newMessage)
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
           method: 'POST',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(newFileData)
+          body: fileData
         })
 
         if (response.status !== 200) {
