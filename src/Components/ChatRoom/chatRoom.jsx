@@ -19,7 +19,6 @@ const Messages = () => {
       })
 
       const data = await response.json()
-      console.log(data)
       setCurrentConversation(data[0])
       for (let i = 0; i < data.length; i++) {
         let convName = ''
@@ -243,6 +242,7 @@ const Messages = () => {
       }
 
       const data = await response.json()
+      console.log(data)
       const newConversation = {
         id: data._id,
         name: conversationName
