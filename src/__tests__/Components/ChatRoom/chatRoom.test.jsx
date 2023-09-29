@@ -1,6 +1,7 @@
 import Messages from '../../../Components/ChatRoom/chatRoom'
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
+import fetchMock from 'fetch-mock'
 
 // Mock fetch
 global.fetch = jest.fn(() =>
@@ -11,12 +12,31 @@ global.fetch = jest.fn(() =>
 );
 
 describe('Messages Component', () => {
+  const id = 123
+  const chatUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat`
+  const chatMessagesUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/messages`
+  const contactUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/users`
+  const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
+  const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
   beforeEach(() => {
-    fetch.mockClear();
-  });
+    fetchMock.reset()
+    fetchMock.post(chatUrl, { })
+    fetchMock.post(chatMessagesUrl, { })
+    fetchMock.post(contactUrl, { })
+    fetchMock.post(newFile, { })
+    fetchMock.post(newMessage, { })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    fetchMock.restore()
+  })
 
   it('renders the Messages component', async () => {
-    render(<Messages />);
+
+    await act(async () => {
+      render(<Messages />)
+    })
 
     // Ensure that the component renders
     const composeMessageInput = screen.getByPlaceholderText('Composez votre message');
@@ -38,7 +58,9 @@ describe('Messages Component', () => {
       Promise.reject(new Error('Failed to send message'))
     );
 
-    render(<Messages />);
+    await act(async () => {
+      render(<Messages />)
+    })
 
     const composeMessageInput = screen.getByPlaceholderText('Composez votre message');
     fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } });
@@ -55,7 +77,10 @@ describe('Messages Component', () => {
 
   // Example test for opening create conversation popup
   it('opens the create conversation popup when the button is clicked', async () => {
-    render(<Messages />);
+
+    await act(async () => {
+      render(<Messages />)
+    })
 
     // Ensure that the popup is initially closed
     expect(screen.queryByText('Nouvelle conversation')).not.toBeInTheDocument();
@@ -69,4 +94,20 @@ describe('Messages Component', () => {
       expect(popupTitle).toBeInTheDocument();
     });
   });
+
+
+  it('sends a message- in chatroom', async () => {
+
+    await act(async () => {
+      render(<Messages />)
+    })
+    const input = screen.getByPlaceholderText('Composez votre message')
+
+    // Type a message in the input field
+    fireEvent.change(input, { target: { value: 'Hello, world!' } })
+
+    // Click the "Envoyer" button to send the message
+    fireEvent.click(screen.getByText('Envoyer'))
+  })
+
 });
