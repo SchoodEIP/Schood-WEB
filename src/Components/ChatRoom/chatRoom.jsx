@@ -119,23 +119,43 @@ const Messages = () => {
 
     try {
       const formData = new FormData()
-      if (file) {
-        formData.append('file', file)
-      }
-
       formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: newMessage })
-      })
+      if (file) {
+        formData.append('file', file)
+        console.log(file)
 
-      if (response.status !== 200) {
-        throw new Error("Erreur lors de l'envoi du message.")
+        const newFileData = {
+          'file': file,
+          'content': newMessage
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newFileData)
+        })
+
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de l'envoi du message.")
+        }
+
+      } else {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ content: newMessage })
+        })
+
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de l'envoi du message.")
+        }
       }
 
       const time = new Date().toLocaleTimeString([], {
