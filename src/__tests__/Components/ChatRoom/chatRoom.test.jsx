@@ -21,8 +21,8 @@ describe('Messages Component', () => {
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(chatUrl, {
-      _id: "123",
-      createdBy: "0",
+      _id: '123',
+      createdBy: '0',
       date: '2023-09-29T10:13:56.756Z',
       facility: '0',
       participants: [
@@ -59,39 +59,39 @@ describe('Messages Component', () => {
       {
         _id: '0',
         firstname: 'teacher1',
-        lastname:'teacher1',
+        lastname: 'teacher1',
         role: {
           _id: '0',
           name: 'teacher',
-          levelOfAccess:'2'
+          levelOfAccess: '2'
         }
       },
       {
         _id: '1',
         firstname: 'teacher2',
-        lastname:'teacher2',
+        lastname: 'teacher2',
         role: {
           _id: '0',
           name: 'teacher',
-          levelOfAccess:'2'
+          levelOfAccess: '2'
         }
       },
       {
         _id: '2',
         firstname: 'student1',
-        lastname:'student1',
+        lastname: 'student1',
         role: {
           _id: '1',
           name: 'student',
-          levelOfAccess:'1'
+          levelOfAccess: '1'
         }
       }
     ])
     fetchMock.post(newFile, { })
     fetchMock.post(newMessage, { })
     fetchMock.post(chatUrl, {
-      _id: "1234",
-      createdBy: "0",
+      _id: '1234',
+      createdBy: '0',
       date: '2023-10-29T10:13:56.756Z',
       facility: '0',
       participants: [
