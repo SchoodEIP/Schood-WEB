@@ -126,8 +126,8 @@ const Messages = () => {
         console.log(file)
 
         const newFileData = {
-          'file': file,
-          'content': newMessage
+          file,
+          content: newMessage
         }
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
@@ -142,7 +142,6 @@ const Messages = () => {
         if (response.status !== 200) {
           throw new Error("Erreur lors de l'envoi du message.")
         }
-
       } else {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
           method: 'POST',
