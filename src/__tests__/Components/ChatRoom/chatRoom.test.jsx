@@ -1,6 +1,6 @@
 import Messages from '../../../Components/ChatRoom/chatRoom'
-import React from 'react';
-import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
+import React from 'react'
+import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 
 // Mock fetch
@@ -117,7 +117,6 @@ describe('Messages Component', () => {
   })
 
   it('renders the Messages component', async () => {
-
     await act(async () => {
       render(<Messages />)
     })
@@ -163,7 +162,6 @@ describe('Messages Component', () => {
 
   // Example test for opening create conversation popup
   it('opens the create conversation popup when the button is clicked', async () => {
-
     await act(async () => {
       render(<Messages />)
     })
@@ -176,14 +174,12 @@ describe('Messages Component', () => {
 
     // Wait for the popup to be displayed
     await waitFor(() => {
-      const popupTitle = screen.getByText('Nouvelle conversation');
-      expect(popupTitle).toBeInTheDocument();
-    });
-  });
-
+      const popupTitle = screen.getByText('Nouvelle conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
+  })
 
   it('sends a message- in chatroom', async () => {
-
     await act(async () => {
       render(<Messages />)
     })
@@ -195,5 +191,4 @@ describe('Messages Component', () => {
     // Click the "Envoyer" button to send the message
     fireEvent.click(screen.getByText('Envoyer'))
   })
-
-});
+})
