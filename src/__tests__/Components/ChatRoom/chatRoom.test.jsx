@@ -172,7 +172,6 @@ describe('Messages Component', () => {
       render(<Messages />)
     })
 
-
     // Ensure that the popup is initially closed
     expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
@@ -211,7 +210,6 @@ describe('Messages Component', () => {
     await act(async () => {
       render(<Messages />)
     })
-
 
     // Ensure that the popup is initially closed
     expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
@@ -253,5 +251,4 @@ describe('Messages Component', () => {
       expect(clearedMessageElement).not.toBeInTheDocument()
     })
   })
-
 })
