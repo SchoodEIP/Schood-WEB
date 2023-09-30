@@ -253,7 +253,10 @@ describe('createConversationPopup Component', () => {
 
     // Mock the contact selection (you may need to adjust the selector)
     const contactOption = screen.getByText('teacher1 teacher1')
-    fireEvent.click(contactOption)
+
+    act( async () => {
+      fireEvent.click(contactOption)
+    })
 
     // Ensure that the contact is selected
     expect(contactInput.value).toBe('teacher1')
