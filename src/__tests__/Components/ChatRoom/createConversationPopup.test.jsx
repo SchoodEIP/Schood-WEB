@@ -182,12 +182,12 @@ describe('createConversationPopup Component', () => {
       const popupTitle = screen.getByText('Créer la conversation')
       expect(popupTitle).toBeInTheDocument()
     })
-    render(
-      <CreateConversationPopup
-        contacts={contacts}
-        createConversation={chatUrl}
-      />
-    )
+    // render(
+    //   <CreateConversationPopup
+    //     contacts={contacts}
+    //     createConversation={chatUrl}
+    //   />
+    // )
 
     const inputElement = screen.getByPlaceholderText('Rechercher un contact')
     fireEvent.change(inputElement, { target: { value: 'teacher1' } })
@@ -212,13 +212,13 @@ describe('createConversationPopup Component', () => {
       expect(popupTitle).toBeInTheDocument()
     })
 
-    render(
-      <CreateConversationPopup
-        contacts={contacts}
-        createConversation={chatUrl}
-        closeCreateConversationPopup={closeCreateConversationPopup}
-      />
-    )
+    // render(
+    //   <CreateConversationPopup
+    //     contacts={contacts}
+    //     createConversation={chatUrl}
+    //     closeCreateConversationPopup={closeCreateConversationPopup}
+    //   />
+    // )
 
     const cancelButtonElement = screen.getByText('Annuler')
     fireEvent.click(cancelButtonElement)
