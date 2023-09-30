@@ -189,12 +189,12 @@ describe('Messages Component', () => {
     })
 
     // Simulate user typing a message and pressing Enter
-    const messageInput = screen.getByPlaceholderText('Composez votre message');
-    fireEvent.change(messageInput, { target: { value: 'New Message' } });
+    const messageInput = screen.getByPlaceholderText('Composez votre message')
+    fireEvent.change(messageInput, { target: { value: 'New Message' } })
     await act(async () => {
-      fireEvent.keyPress(messageInput, { key: 'Enter', code: 13, charCode: 13 });
+      fireEvent.keyPress(messageInput, { key: 'Enter', code: 13, charCode: 13 })
     })
-  });
+  })
 
   it('calls clearMessageAndError when clearing messages and error', async () => {
     await act(async () => {
@@ -208,7 +208,7 @@ describe('Messages Component', () => {
     expect(messageElement).toBeInTheDocument()
 
     // Call clearMessageAndError
-    fireEvent.click(screen.getByText('Clear Messages')); // Adjust the text as needed
+    fireEvent.click(screen.getByText('Clear Messages')) // Adjust the text as needed
 
     // Ensure that error and messages are cleared
     await waitFor(() => {
@@ -231,7 +231,7 @@ describe('Messages Component', () => {
     expect(screen.queryByText('Create Conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
-    fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed
+    fireEvent.click(screen.getByText('Open Create Conversation Popup')) // Adjust the text as needed
 
     // Wait for the popup to be displayed
     await waitFor(() => {
@@ -240,7 +240,7 @@ describe('Messages Component', () => {
     })
 
     // Click the button to close the popup
-    fireEvent.click(screen.getByText('Close Create Conversation Popup')); // Adjust the text as needed
+    fireEvent.click(screen.getByText('Close Create Conversation Popup')) // Adjust the text as needed
 
     // Wait for the popup to be closed
     await waitFor(() => {
@@ -255,14 +255,13 @@ describe('Messages Component', () => {
     })
 
     // Click the button to open the popup
-    fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed
+    fireEvent.click(screen.getByText('Open Create Conversation Popup')) // Adjust the text as needed
 
     // Simulate user input and submission in the create conversation popup
     const conversationInput = screen.getByPlaceholderText('Conversation Name') // Adjust the text as needed
     fireEvent.change(conversationInput, { target: { value: 'New Conversation' } })
 
     // Trigger the conversation creation (you may need to add your assertions based on the createConversation implementation)
-    fireEvent.click(screen.getByText('Create Conversation')); // Adjust the text as needed
-
-  });
+    fireEvent.click(screen.getByText('Create Conversation')) // Adjust the text as needed
+  })
 })
