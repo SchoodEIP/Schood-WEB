@@ -241,7 +241,6 @@ const Messages = () => {
       }
 
       const data = await response.json()
-      console.log(data)
       const newConversation = {
         id: data._id,
         name: conversationName

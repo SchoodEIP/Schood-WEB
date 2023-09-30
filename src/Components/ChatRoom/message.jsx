@@ -25,7 +25,6 @@ const Message = ({ message }) => {
     if (message.contentType === 'file') {
       getFile(message.file)
         .then((data) => {
-          console.log(data)
           setImageURL(data)
         })
         .catch((error) => {
