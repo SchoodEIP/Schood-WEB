@@ -35,7 +35,7 @@ const Messages = () => {
       }
     }
     fetchConversations()
-  }, [])
+  }, [conversations])
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [error, setError] = useState('')
