@@ -256,7 +256,7 @@ describe('createConversationPopup Component', () => {
     fireEvent.click(contactOption)
 
     // Ensure that the contact is selected
-    expect(contactInput.value).toBe('teacher1 teacher1')
+    expect(contactInput.value).toBe('teacher1')
   })
 
   it('handles create conversation button click', async () => {
