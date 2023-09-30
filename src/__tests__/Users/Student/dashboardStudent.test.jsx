@@ -1,6 +1,5 @@
-import React from 'react'
 import '@testing-library/jest-dom'
-
+import React from 'react'
 import { render, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
 import { BrowserRouter } from 'react-router-dom'
