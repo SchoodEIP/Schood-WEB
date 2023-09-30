@@ -25,19 +25,16 @@ export default function SchoolAdmAccountsPage () {
   useEffect(() => {
     const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/classes'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => setClassesList(data))
-        .catch(error => setErrMessage(error.message))
-    } catch (e) {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => setClassesList(data))
+      .catch(error => setErrMessage(error.message))
+
   }, [])
 
   useEffect(() => {
