@@ -53,7 +53,7 @@ describe('Messages Component', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         status: 200,
-        url: 'https://example.com/image.jpg',
+        url: 'https://example.com/image.jpg'
       })
     )
 
