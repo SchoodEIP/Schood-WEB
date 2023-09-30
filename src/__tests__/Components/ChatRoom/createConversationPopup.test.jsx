@@ -112,85 +112,85 @@ describe('createConversationPopup Component', () => {
   })
 
   it('opens the create conversation popup when the button is clicked', async () => {
-      await act(async () => {
-        render(<Messages />)
-      })
-
-      // Ensure that the popup is initially closed
-      expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
-
-      // Click the button to open the popup
-      fireEvent.click(screen.getByText('Nouvelle conversation'))
-
-      // Wait for the popup to be displayed
-      await waitFor(() => {
-        const popupTitle = screen.getByText('Créer la conversation')
-        expect(popupTitle).toBeInTheDocument()
-      })
-
-      await waitFor(() => {
-        const labelElement = screen.getByText('Rechercher un contact:')
-        expect(labelElement).toBeInTheDocument()
-      })
+    await act(async () => {
+      render(<Messages />)
     })
 
-    it('handles search input change', async () => {
-      await act(async () => {
-        render(<Messages />)
-      })
+    // Ensure that the popup is initially closed
+    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
 
-      // Ensure that the popup is initially closed
-      expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+    // Click the button to open the popup
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
 
-      // Click the button to open the popup
-      fireEvent.click(screen.getByText('Nouvelle conversation'))
-
-      // Wait for the popup to be displayed
-      await waitFor(() => {
-        const popupTitle = screen.getByText('Créer la conversation')
-        expect(popupTitle).toBeInTheDocument()
-      })
-      render(
-        <CreateConversationPopup
-          contacts={contactUrl}
-          createConversation={chatUrl}
-        />
-      )
-  
-      const inputElement = screen.getByPlaceholderText('Rechercher un contact')
-      fireEvent.change(inputElement, { target: { value: 'teacher1' } })
-  
-      expect(inputElement.value).toBe('teacher1')
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
     })
 
-    it('handles cancel button click', async () => {
-      await act(async () => {
-        render(<Messages />)
-      })
-
-      // Ensure that the popup is initially closed
-      expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
-
-      // Click the button to open the popup
-      fireEvent.click(screen.getByText('Nouvelle conversation'))
-
-      // Wait for the popup to be displayed
-      await waitFor(() => {
-        const popupTitle = screen.getByText('Créer la conversation')
-        expect(popupTitle).toBeInTheDocument()
-      })
-      
-      render(
-        <CreateConversationPopup
-          contacts={contactUrl}
-          createConversation={chatUrl}
-          closeCreateConversationPopup={closeCreateConversationPopup}
-        />
-      )
-  
-      const cancelButtonElement = screen.getByText('Annuler')
-      fireEvent.click(cancelButtonElement)
-  
-      expect(closeCreateConversationPopup).toHaveBeenCalled()
+    await waitFor(() => {
+      const labelElement = screen.getByText('Rechercher un contact:')
+      expect(labelElement).toBeInTheDocument()
     })
+  })
+
+  it('handles search input change', async () => {
+    await act(async () => {
+      render(<Messages />)
+    })
+
+    // Ensure that the popup is initially closed
+    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+
+    // Click the button to open the popup
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
+
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
+    render(
+      <CreateConversationPopup
+        contacts={contactUrl}
+        createConversation={chatUrl}
+      />
+    )
+
+    const inputElement = screen.getByPlaceholderText('Rechercher un contact')
+    fireEvent.change(inputElement, { target: { value: 'teacher1' } })
+
+    expect(inputElement.value).toBe('teacher1')
+  })
+
+  it('handles cancel button click', async () => {
+    await act(async () => {
+      render(<Messages />)
+    })
+
+    // Ensure that the popup is initially closed
+    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+
+    // Click the button to open the popup
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
+
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
+
+    render(
+      <CreateConversationPopup
+        contacts={contactUrl}
+        createConversation={chatUrl}
+        closeCreateConversationPopup={closeCreateConversationPopup}
+      />
+    )
+
+    const cancelButtonElement = screen.getByText('Annuler')
+    fireEvent.click(cancelButtonElement)
+
+    expect(closeCreateConversationPopup).toHaveBeenCalled()
+  })
 })
