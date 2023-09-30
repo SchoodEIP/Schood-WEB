@@ -13,7 +13,7 @@ describe('createConversationPopup Component', () => {
   const contactUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/users`
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
-  beforeEach(() => {message
+  beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(chatUrl, {
       _id: '123',
