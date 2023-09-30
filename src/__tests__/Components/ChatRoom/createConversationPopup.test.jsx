@@ -254,7 +254,7 @@ describe('createConversationPopup Component', () => {
     // Mock the contact selection (you may need to adjust the selector)
     const contactOption = screen.getByText('teacher1 teacher1')
 
-    act( async () => {
+    act(async () => {
       fireEvent.click(contactOption)
     })
 
