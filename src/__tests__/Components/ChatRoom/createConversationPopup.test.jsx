@@ -45,9 +45,10 @@ describe('createConversationPopup Component', () => {
   const contactUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/users`
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
+  const getFileUrl =  `${process.env.REACT_APP_BACKEND_URL}/user/file/0`
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.get(chatUrl, {
+    fetchMock.get(chatUrl, [{
       _id: '123',
       createdBy: '0',
       date: '2023-09-29T10:13:56.756Z',
@@ -66,7 +67,7 @@ describe('createConversationPopup Component', () => {
           lastname: 'teacher2'
         }
       ]
-    })
+    }])
     fetchMock.get(chatMessagesUrl, [
       {
         _id: '0',
@@ -136,6 +137,7 @@ describe('createConversationPopup Component', () => {
         }
       ]
     })
+    fetchMock.get(getFileUrl, { body:"image"})
   })
 
   afterEach(() => {
@@ -182,12 +184,6 @@ describe('createConversationPopup Component', () => {
       const popupTitle = screen.getByText('Créer la conversation')
       expect(popupTitle).toBeInTheDocument()
     })
-    // render(
-    //   <CreateConversationPopup
-    //     contacts={contacts}
-    //     createConversation={chatUrl}
-    //   />
-    // )
 
     const inputElement = screen.getByPlaceholderText('Rechercher un contact')
     fireEvent.change(inputElement, { target: { value: 'teacher1' } })
@@ -211,14 +207,6 @@ describe('createConversationPopup Component', () => {
       const popupTitle = screen.getByText('Créer la conversation')
       expect(popupTitle).toBeInTheDocument()
     })
-
-    // render(
-    //   <CreateConversationPopup
-    //     contacts={contacts}
-    //     createConversation={chatUrl}
-    //     closeCreateConversationPopup={closeCreateConversationPopup}
-    //   />
-    // )
 
     const cancelButtonElement = screen.getByText('Annuler')
     fireEvent.click(cancelButtonElement)
@@ -281,22 +269,25 @@ describe('createConversationPopup Component', () => {
       expect(popupTitle).toBeInTheDocument()
     })
 
+    // Mock the create conversation button click for no contact
+    const createConversationButton = screen.getByText('Créer la conversation')
+    await act(async () => {
+      fireEvent.click(createConversationButton)
+    })
+
     // Mock the input values
     const contactInput = screen.getByPlaceholderText('Rechercher un contact')
     fireEvent.change(contactInput, { target: { value: 'teacher1' } })
 
     // Mock the contact selection (you may need to adjust the selector)
     const contactOption = screen.getByText('teacher1 teacher1')
-    fireEvent.click(contactOption)
+    await act(async () => {
+      fireEvent.click(contactOption)
+    })
 
     // Mock the create conversation button click
-    const createConversationButton = screen.getByText('Créer la conversation')
     await act(async () => {
       fireEvent.click(createConversationButton)
     })
-
-    // // Assert that the createConversation and closeCreateConversationPopup functions are called
-    // expect(createConversationPopup).toHaveBeenCalledWith('teacher1 teacher1', ['0']) // You may need to adjust the arguments
-    // expect(closeCreateConversationPopup).toHaveBeenCalled()
   })
 })

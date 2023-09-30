@@ -19,11 +19,12 @@ const CreateConversationPopup = ({
     const contactId = document.getElementById('contact-input').value
     // we need to automatically fill the input with the name of the select contact
     setSelectedContacts((prevSelectedContacts) => {
-      if (prevSelectedContacts.includes(contactId)) {
-        return prevSelectedContacts.filter((id) => id !== contactId)
-      } else {
-        return [...prevSelectedContacts, contactId]
-      }
+      return [...prevSelectedContacts, contactId]
+      // if (prevSelectedContacts.includes(contactId)) {
+      //   return prevSelectedContacts.filter((id) => id !== contactId)
+      // } else {
+      //   return [...prevSelectedContacts, contactId]
+      // }
     })
   }
 
@@ -55,7 +56,6 @@ const CreateConversationPopup = ({
             <option
               key={contact._id}
               value={contact._id}
-              className={selectedContacts.includes(contact._id) ? 'selected' : ''}
               onClick={() => handleContactSelection(contact._id)}
             >
               {contact.firstname + ' ' + contact.lastname}
