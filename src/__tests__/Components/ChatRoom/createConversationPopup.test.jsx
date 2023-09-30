@@ -1,4 +1,3 @@
-import CreateConversationPopup from '../../../Components/ChatRoom/createConversationPopup'
 import React from 'react'
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
@@ -7,39 +6,6 @@ import '@testing-library/jest-dom/'
 
 describe('createConversationPopup Component', () => {
   const id = 123
-  const closeCreateConversationPopup = jest.fn()
-  const contacts = [
-    {
-      _id: '0',
-      firstname: 'teacher1',
-      lastname: 'teacher1',
-      role: {
-        _id: '0',
-        name: 'teacher',
-        levelOfAccess: '2'
-      }
-    },
-    {
-      _id: '1',
-      firstname: 'teacher2',
-      lastname: 'teacher2',
-      role: {
-        _id: '0',
-        name: 'teacher',
-        levelOfAccess: '2'
-      }
-    },
-    {
-      _id: '2',
-      firstname: 'student1',
-      lastname: 'student1',
-      role: {
-        _id: '1',
-        name: 'student',
-        levelOfAccess: '1'
-      }
-    }
-  ]
   const chatUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat`
   const chatMessagesUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/messages`
   const contactUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/users`
