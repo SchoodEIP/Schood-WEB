@@ -2,13 +2,12 @@ import ChatRoomSidebar from '../../../Components/ChatRoom/chatRoomSidebar'
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 
-
 describe('ChatRoomSidebar', () => {
   it('renders the component with conversations', () => {
     const conversations = [
       { name: 'Conversation 1' },
       { name: 'Conversation 2' },
-      { name: 'Conversation 3' },
+      { name: 'Conversation 3' }
     ]
     const currentConversation = conversations[0]
     const setCurrentConversation = jest.fn()
@@ -16,13 +15,13 @@ describe('ChatRoomSidebar', () => {
     const openCreateConversationPopup = jest.fn()
 
     render(
-        <ChatRoomSidebar
-          conversations={conversations}
-          currentConversation={currentConversation}
-          setCurrentConversation={setCurrentConversation}
-          clearMessageAndError={clearMessageAndError}
-          openCreateConversationPopup={openCreateConversationPopup}
-        />
+      <ChatRoomSidebar
+        conversations={conversations}
+        currentConversation={currentConversation}
+        setCurrentConversation={setCurrentConversation}
+        clearMessageAndError={clearMessageAndError}
+        openCreateConversationPopup={openCreateConversationPopup}
+      />
     )
 
     // Check if the component renders with the correct conversations
@@ -44,7 +43,7 @@ describe('ChatRoomSidebar', () => {
     const conversations = [
       { name: 'Conversation 1' },
       { name: 'Conversation 2' },
-      { name: 'Conversation 3' },
+      { name: 'Conversation 3' }
     ]
     const currentConversation = conversations[0]
     const setCurrentConversation = jest.fn()
@@ -52,13 +51,13 @@ describe('ChatRoomSidebar', () => {
     const openCreateConversationPopup = jest.fn()
 
     render(
-        <ChatRoomSidebar
-          conversations={conversations}
-          currentConversation={currentConversation}
-          setCurrentConversation={setCurrentConversation}
-          clearMessageAndError={clearMessageAndError}
-          openCreateConversationPopup={openCreateConversationPopup}
-        />
+      <ChatRoomSidebar
+        conversations={conversations}
+        currentConversation={currentConversation}
+        setCurrentConversation={setCurrentConversation}
+        clearMessageAndError={clearMessageAndError}
+        openCreateConversationPopup={openCreateConversationPopup}
+      />
     )
 
     // Click on a conversation
@@ -80,13 +79,13 @@ describe('ChatRoomSidebar', () => {
     const openCreateConversationPopup = jest.fn()
 
     render(
-        <ChatRoomSidebar
-          conversations={conversations}
-          currentConversation={currentConversation}
-          setCurrentConversation={setCurrentConversation}
-          clearMessageAndError={clearMessageAndError}
-          openCreateConversationPopup={openCreateConversationPopup}
-        />
+      <ChatRoomSidebar
+        conversations={conversations}
+        currentConversation={currentConversation}
+        setCurrentConversation={setCurrentConversation}
+        clearMessageAndError={clearMessageAndError}
+        openCreateConversationPopup={openCreateConversationPopup}
+      />
     )
 
     // Click on the "Nouvelle conversation" button
