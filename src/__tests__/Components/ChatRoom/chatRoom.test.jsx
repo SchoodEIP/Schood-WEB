@@ -189,12 +189,12 @@ describe('Messages Component', () => {
     })
 
     // Simulate user typing a message and pressing Enter
-    const messageInput = screen.getByPlaceholderText('Composez votre message');
-    fireEvent.change(messageInput, { target: { value: 'New Message' } });
+    const messageInput = screen.getByPlaceholderText('Composez votre message')
+    fireEvent.change(messageInput, { target: { value: 'New Message' } })
     await act(async () => {
-      fireEvent.keyPress(messageInput, { key: 'Enter', code: 13, charCode: 13 });
+      fireEvent.keyPress(messageInput, { key: 'Enter', code: 13, charCode: 13 })
     })
-  });
+  })
 
   it('calls clearMessageAndError when clearing messages and error', async () => {
     await act(async () => {
