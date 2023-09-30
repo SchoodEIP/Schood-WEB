@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent, screen, act } from '@testing-library/react'
 import Messages from '../../../Components/ChatRoom/message'
+import '@testing-library/jest-dom/'
 
 // Mock the fetch function
 global.fetch = jest.fn(() =>

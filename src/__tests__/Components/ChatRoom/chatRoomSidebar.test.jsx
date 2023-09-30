@@ -1,6 +1,7 @@
 import ChatRoomSidebar from '../../../Components/ChatRoom/chatRoomSidebar'
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/'
 
 describe('ChatRoomSidebar', () => {
   it('renders the component with conversations', () => {
