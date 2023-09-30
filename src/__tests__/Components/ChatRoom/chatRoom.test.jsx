@@ -24,27 +24,27 @@ describe('Messages Component', () => {
     fetchMock.reset()
     fetchMock.get(chatUrl, {
       body: [{
-      _id: '123',
-      createdBy: '0',
-      date: '2023-09-29T10:13:56.756Z',
-      facility: '0',
-      participants: [
-        {
-          _id: '0',
-          email: 'teacher1@schood.fr',
-          firstname: 'teacher1',
-          lastname: 'teacher1'
-        },
-        {
-          _id: '1',
-          email: 'teacher2@schood.fr',
-          firstname: 'teacher2',
-          lastname: 'teacher2'
-        }
-      ]
-    }],
-    status: 200
-  })
+        _id: '123',
+        createdBy: '0',
+        date: '2023-09-29T10:13:56.756Z',
+        facility: '0',
+        participants: [
+          {
+            _id: '0',
+            email: 'teacher1@schood.fr',
+            firstname: 'teacher1',
+            lastname: 'teacher1'
+          },
+          {
+            _id: '1',
+            email: 'teacher2@schood.fr',
+            firstname: 'teacher2',
+            lastname: 'teacher2'
+          }
+        ]
+      }],
+      status: 200
+    })
     fetchMock.get(chatMessagesUrl, [
       {
         _id: '0',
@@ -114,7 +114,7 @@ describe('Messages Component', () => {
         }
       ]
     })
-    fetchMock.get(getFileUrl, { body: "image"})
+    fetchMock.get(getFileUrl, { body: 'image' })
   })
 
   afterEach(() => {
@@ -151,7 +151,6 @@ describe('Messages Component', () => {
   // })
 
   it('displays an error message when message sending fails', async () => {
-
     await act(async () => {
       render(<Messages />)
     })
@@ -175,7 +174,6 @@ describe('Messages Component', () => {
     })
   })
 
-
   it('sends a message- in chatroom', async () => {
     await act(async () => {
       render(<Messages />)
@@ -190,7 +188,7 @@ describe('Messages Component', () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('Hello, world!')).toBeInTheDocument()
     })
   })
