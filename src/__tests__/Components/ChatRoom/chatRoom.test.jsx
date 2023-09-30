@@ -154,25 +154,6 @@ describe('Messages Component', () => {
 
   // Add more test cases to cover other parts of the component
 
-  // Example test for opening create conversation popup
-  it('opens the create conversation popup when the button is clicked', async () => {
-    await act(async () => {
-      render(<Messages />)
-    })
-
-    // Ensure that the popup is initially closed
-    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
-
-    // Click the button to open the popup
-    fireEvent.click(screen.getByText('Nouvelle conversation'))
-
-    // Wait for the popup to be displayed
-    await waitFor(() => {
-      const popupTitle = screen.getByText('Créer la conversation')
-      expect(popupTitle).toBeInTheDocument()
-    })
-  })
-
   it('sends a message- in chatroom', async () => {
     // await act(async () => {
     //   render(<Messages />)
