@@ -271,7 +271,9 @@ describe('createConversationPopup Component', () => {
     expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
-    fireEvent.click(screen.getByText('Nouvelle conversation'))
+    await act(async () => {
+      fireEvent.click(screen.getByText('Nouvelle conversation'))
+    })
 
     // Wait for the popup to be displayed
     await waitFor(() => {
