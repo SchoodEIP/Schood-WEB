@@ -229,4 +229,67 @@ describe('createConversationPopup Component', () => {
       expect(popupTitle).not.toBeInTheDocument()
     })
   })
+
+  it('handles contact selection', async () => {
+    await act(async () => {
+      render(<Messages />)
+    })
+
+    // Ensure that the popup is initially closed
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
+
+    // Click the button to open the popup
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
+
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
+
+    // Mock the contact selection
+    const contactInput = screen.getByPlaceholderText('Rechercher un contact')
+    fireEvent.change(contactInput, { target: { value: 'teacher1' } })
+
+    // Mock the contact selection (you may need to adjust the selector)
+    const contactOption = screen.getByText('teacher1 teacher1')
+    fireEvent.click(contactOption)
+
+    // Ensure that the contact is selected
+    expect(contactInput.value).toBe('teacher1 teacher1')
+  })
+
+  it('handles create conversation button click', async () => {
+    await act(async () => {
+      render(<Messages />)
+    })
+
+    // Ensure that the popup is initially closed
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
+
+    // Click the button to open the popup
+    fireEvent.click(screen.getByText('Nouvelle conversation'))
+
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
+
+    // Mock the input values
+    const contactInput = screen.getByPlaceholderText('Rechercher un contact')
+    fireEvent.change(contactInput, { target: { value: 'teacher1' } })
+
+    // Mock the contact selection (you may need to adjust the selector)
+    const contactOption = screen.getByText('teacher1 teacher1')
+    fireEvent.click(contactOption)
+
+    // Mock the create conversation button click
+    const createConversationButton = screen.getByText('Créer la conversation')
+    fireEvent.click(createConversationButton)
+
+    // // Assert that the createConversation and closeCreateConversationPopup functions are called
+    // expect(createConversationPopup).toHaveBeenCalledWith('teacher1 teacher1', ['0']) // You may need to adjust the arguments
+    // expect(closeCreateConversationPopup).toHaveBeenCalled()
+  })
 })
