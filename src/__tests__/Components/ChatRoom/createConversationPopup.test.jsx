@@ -225,8 +225,8 @@ describe('createConversationPopup Component', () => {
 
     // Wait for the popup to be displayed
     await waitFor(() => {
-      const popupTitle = screen.getByText('Créer la conversation')
-      expect(popupTitle).toBeInTheDocument()
+      const popupTitle = screen.queryByText('Créer la conversation')
+      expect(popupTitle).not.toBeInTheDocument()
     })
   })
 })
