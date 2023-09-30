@@ -1,0 +1,48 @@
+.aide-page {
+    background-color: #fff; // Rectangle blanc de base
+    padding: 20px; // Marge intérieure pour l'espace autour des éléments
+    border: 1px solid #ccc; // Bordure grise autour du rectangle
+    border-radius: 5px; // Coins arrondis
+  
+    header {
+      font-size: 24px; // Taille de police du titre
+      margin-bottom: 20px; // Marge inférieure pour séparer le titre des catégories
+    }
+  
+    .categories-section {
+      background-color: #f5f5f5; // Arrière-plan gris clair pour les catégories
+      padding: 10px; // Marge intérieure pour l'espace autour des catégories
+      border-radius: 5px; // Coins arrondis
+      width: 30%; // Largeur de la section des catégories
+      float: left; // Aligner à gauche
+    }
+  
+    .contacts-section {
+      width: 65%; // Largeur de la section des numéros d'aide
+      float: left; // Aligner à droite
+    }
+  
+    ul {
+      list-style-type: none; // Supprimer les puces de liste
+      padding: 0; // Supprimer la marge intérieure de la liste
+    }
+  
+    li {
+      margin-bottom: 10px; // Marge inférieure pour séparer les éléments de la liste
+    }
+  
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px; // Taille de police pour les boutons de catégorie
+      color: #0074cc; // Couleur du texte pour les boutons de catégorie
+    }
+  }
+  
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
