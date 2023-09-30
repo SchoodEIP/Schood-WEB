@@ -186,7 +186,7 @@ describe('NewFormPage', () => {
   })
 
   it('should handle errors', async () => {
-    const mockFetch = jest.fn().mockResolvedValue({ status: 400, statusText: 'Error'})
+    const mockFetch = jest.fn().mockResolvedValue({ status: 400, statusText: 'Error' })
 
     global.fetch = mockFetch
 

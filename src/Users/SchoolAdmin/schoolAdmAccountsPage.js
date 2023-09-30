@@ -34,7 +34,6 @@ export default function SchoolAdmAccountsPage () {
     }).then(response => response.json())
       .then(data => setClassesList(data))
       .catch(error => setErrMessage(error.message))
-
   }, [])
 
   useEffect(() => {
