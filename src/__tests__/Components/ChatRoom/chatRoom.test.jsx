@@ -209,7 +209,7 @@ describe('Messages Component', () => {
 
     // Call clearMessageAndError
     await act(async () => {
-      fireEvent.click(screen.getByText('Clear Messages')); // Adjust the text as needed
+      fireEvent.click(screen.getByText('Clear Messages')) // Adjust the text as needed
     })
 
     // Ensure that error and messages are cleared
@@ -234,7 +234,7 @@ describe('Messages Component', () => {
 
     // Click the button to open the popup
     await act(async () => {
-      fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed      
+      fireEvent.click(screen.getByText('Open Create Conversation Popup')) // Adjust the text as needed
     })
 
     // Wait for the popup to be displayed
@@ -245,7 +245,7 @@ describe('Messages Component', () => {
 
     // Click the button to close the popup
     await act(async () => {
-      fireEvent.click(screen.getByText('Close Create Conversation Popup')); // Adjust the text as needed
+      fireEvent.click(screen.getByText('Close Create Conversation Popup')) // Adjust the text as needed
     })
 
     // Wait for the popup to be closed
@@ -262,7 +262,7 @@ describe('Messages Component', () => {
 
     // Click the button to open the popup
     await act(async () => {
-      fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed      
+      fireEvent.click(screen.getByText('Open Create Conversation Popup')) // Adjust the text as needed
     })
 
     // Simulate user input and submission in the create conversation popup
@@ -271,8 +271,7 @@ describe('Messages Component', () => {
 
     // Trigger the conversation creation (you may need to add your assertions based on the createConversation implementation)
     await act(async () => {
-      fireEvent.click(screen.getByText('Create Conversation')); // Adjust the text as needed      
+      fireEvent.click(screen.getByText('Create Conversation')) // Adjust the text as needed
     })
-
-  });
+  })
 })
