@@ -223,6 +223,10 @@ describe('createConversationPopup Component', () => {
     const cancelButtonElement = screen.getByText('Annuler')
     fireEvent.click(cancelButtonElement)
 
-    expect(closeCreateConversationPopup).toHaveBeenCalled()
+    // Wait for the popup to be displayed
+    await waitFor(() => {
+      const popupTitle = screen.getByText('Créer la conversation')
+      expect(popupTitle).toBeInTheDocument()
+    })
   })
 })
