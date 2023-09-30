@@ -1,5 +1,5 @@
+import '@testing-library/jest-dom'
 import React from 'react'
-import '@testing-library/jest-dom/'
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
