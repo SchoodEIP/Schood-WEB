@@ -13,7 +13,7 @@ describe('createConversationPopup Component', () => {
   const contactUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/users`
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
-  beforeEach(() => {
+  beforeEach(() => {message
     fetchMock.reset()
     fetchMock.get(chatUrl, {
       _id: '123',
@@ -117,7 +117,7 @@ describe('createConversationPopup Component', () => {
     })
 
     // Ensure that the popup is initially closed
-    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
     fireEvent.click(screen.getByText('Nouvelle conversation'))
@@ -140,7 +140,7 @@ describe('createConversationPopup Component', () => {
     })
 
     // Ensure that the popup is initially closed
-    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
     fireEvent.click(screen.getByText('Nouvelle conversation'))
@@ -169,7 +169,7 @@ describe('createConversationPopup Component', () => {
     })
 
     // Ensure that the popup is initially closed
-    expect(screen.queryAllByText('Créer la conversation')).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
     fireEvent.click(screen.getByText('Nouvelle conversation'))
