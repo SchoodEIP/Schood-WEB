@@ -125,7 +125,7 @@ describe('SchoolAdmAccountsPage', () => {
     })
     expect(screen.getByText("Création d'un compte Etudiant/Professeur")).toBeInTheDocument()
 
-    jest.spyOn(global, 'fetch').mockRejectedValueOnce({message: 'error'});
+    jest.spyOn(global, 'fetch').mockRejectedValueOnce({ message: 'error' })
 
     const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
 
@@ -146,7 +146,7 @@ describe('SchoolAdmAccountsPage', () => {
     })
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(screen.getByText("error")).toBeInTheDocument()
+    expect(screen.getByText('error')).toBeInTheDocument()
   })
 
   test('allows creation of new account', async () => {
