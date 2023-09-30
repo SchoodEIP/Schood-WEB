@@ -17,7 +17,7 @@ const Message = ({ message }) => {
         return response.url
       }
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
