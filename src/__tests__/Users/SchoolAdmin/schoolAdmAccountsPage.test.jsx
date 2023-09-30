@@ -109,6 +109,46 @@ describe('SchoolAdmAccountsPage', () => {
     expect(screen.getByTestId('many-account-btn')).toBeInTheDocument()
   })
 
+  test('allows errors', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <SchoolAdmAccountsPage />
+        </BrowserRouter>
+      )
+    })
+
+    const singleAccountButton = screen.getByText('Ajouter un compte')
+
+    await act(async () => {
+      fireEvent.click(singleAccountButton)
+    })
+    expect(screen.getByText("Création d'un compte Etudiant/Professeur")).toBeInTheDocument()
+
+    jest.spyOn(global, 'fetch').mockRejectedValueOnce({ message: 'error' })
+
+    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+
+    await act(async () => {
+      fireEvent.click(manyAccountButton)
+    })
+    expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
+
+    const fileInput = screen.getByPlaceholderText('exemple.csv')
+    const file = new File(['firstname,lastname,email,role,class'], 'example.csv', { type: 'text/csv' })
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [file] } })
+    })
+
+    const newAccountBtn = screen.getByText('Créer de nouveaux comptes')
+    await act(async () => {
+      fireEvent.click(newAccountBtn)
+    })
+    const errMessage = screen.getByTestId('err-message')
+    expect(errMessage).toBeInTheDocument()
+    expect(screen.getByText('error')).toBeInTheDocument()
+  })
+
   test('allows creation of new account', async () => {
     await act(async () => {
       render(

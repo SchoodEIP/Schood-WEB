@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
@@ -186,7 +186,7 @@ describe('NewFormPage', () => {
   })
 
   it('should handle errors', async () => {
-    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+    const mockFetch = jest.fn().mockResolvedValue({ status: 400, statusText: 'Error' })
 
     global.fetch = mockFetch
 
@@ -202,7 +202,22 @@ describe('NewFormPage', () => {
 
     await act(async () => {
       fireEvent.click(postButton)
-      await expect(mockFetch()).rejects.toThrow('Network Error')
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('400 error : Error')).toBeInTheDocument()
+    })
+
+    const otherFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+    global.fetch = otherFetch
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Network Error')).toBeInTheDocument()
     })
   })
 })

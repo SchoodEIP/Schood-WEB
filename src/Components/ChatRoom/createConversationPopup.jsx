@@ -6,25 +6,11 @@ const CreateConversationPopup = ({
   closeCreateConversationPopup
 }) => {
   const [searchInput, setSearchInput] = useState('')
-  const [selectedContacts, setSelectedContacts] = useState([])
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value)
     // il faudrait qu'on verifie dans la liste à qui appartient l'id et afficher leur nom
     // et set le selected contact avec l'id
-  }
-
-  // on a peut etre pas besoin de cette fonction
-  const handleContactSelection = () => {
-    const contactId = document.getElementById('contact-input').value
-    // we need to automatically fill the input with the name of the select contact
-    setSelectedContacts((prevSelectedContacts) => {
-      if (prevSelectedContacts.includes(contactId)) {
-        return prevSelectedContacts.filter((id) => id !== contactId)
-      } else {
-        return [...prevSelectedContacts, contactId]
-      }
-    })
   }
 
   const handleCreateConversation = () => {
@@ -55,8 +41,6 @@ const CreateConversationPopup = ({
             <option
               key={contact._id}
               value={contact._id}
-              className={selectedContacts.includes(contact._id) ? 'selected' : ''}
-              onClick={() => handleContactSelection(contact._id)}
             >
               {contact.firstname + ' ' + contact.lastname}
             </option>

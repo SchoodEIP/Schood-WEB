@@ -178,7 +178,6 @@ const Messages = () => {
       setFileType('text')
       setFile(null)
     } catch (error) {
-      console.error("Erreur lors de l'envoi du message :", error)
       setError("Erreur lors de l'envoi du message. Veuillez réessayer.")
 
       const time = new Date().toLocaleTimeString([], {
@@ -242,15 +241,13 @@ const Messages = () => {
       }
 
       const data = await response.json()
-      console.log(data)
       const newConversation = {
         id: data._id,
         name: conversationName
       }
       setConversations([...conversations, newConversation])
     } catch (error) {
-      console.error('Erreur lors de la création de la conversation :', error)
-      // Gérer l'erreur de création de la conversation ici
+      setError('Erreur lors de la création de la conversation')
     }
   }
 
