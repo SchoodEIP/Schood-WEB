@@ -220,4 +220,80 @@ describe('NewFormPage', () => {
       expect(screen.getByText('Network Error')).toBeInTheDocument()
     })
   })
+
+  test('create questionnaire', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaires')
+
+    window.location = originalLocation
+  })
+
+  test('fail to create questionnaire', async () => {
+    window.fetch = jest.fn().mockResolvedValue({
+      status: 400,
+      json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
+    })
+
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaire')
+
+    window.location = originalLocation
+
+    expect(screen.getByText('400 error : undefined')).toBeInTheDocument()
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+  })
 })
