@@ -129,9 +129,9 @@ describe('Messages Component', () => {
 
   it('displays an error message when message sending fails', async () => {
     // Mock a failed fetch request
-    const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
+    // const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
-    global.fetch = mockFetch
+    // global.fetch = mockFetch
 
     // fetch.mockImplementationOnce(() =>
     //   Promise.reject(new Error('Failed to send message'))

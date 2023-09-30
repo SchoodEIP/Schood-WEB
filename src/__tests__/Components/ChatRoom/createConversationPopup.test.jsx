@@ -2,7 +2,7 @@ import CreateConversationPopup from '../../../Components/ChatRoom/createConversa
 import React from 'react'
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
-import Messages from '../../../Components/ChatRoom/message'
+import Messages from '../../../Components/ChatRoom/chatRoom'
 import '@testing-library/jest-dom/'
 
 describe('createConversationPopup Component', () => {
