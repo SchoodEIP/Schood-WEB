@@ -254,7 +254,7 @@ describe('createConversationPopup Component', () => {
     // Mock the contact selection (you may need to adjust the selector)
     const contactOption = screen.getByText('teacher1 teacher1')
 
-    act(async () => {
+    await act(async () => {
       fireEvent.click(contactOption)
     })
 
@@ -291,7 +291,9 @@ describe('createConversationPopup Component', () => {
 
     // Mock the create conversation button click
     const createConversationButton = screen.getByText('Créer la conversation')
-    fireEvent.click(createConversationButton)
+    await act(async () => {
+      fireEvent.click(createConversationButton)
+    })
 
     // // Assert that the createConversation and closeCreateConversationPopup functions are called
     // expect(createConversationPopup).toHaveBeenCalledWith('teacher1 teacher1', ['0']) // You may need to adjust the arguments
