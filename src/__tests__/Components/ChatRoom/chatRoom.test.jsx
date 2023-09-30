@@ -169,24 +169,24 @@ describe('Messages Component', () => {
 
   it('handles file uploading', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
+      render(<Messages />)
+    })
 
     // Ensure that file input is present
-    const fileInput = screen.getByLabelText('+');
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } });
+    const fileInput = screen.getByLabelText('+')
+    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
 
     // Ensure that file type is set
     await waitFor(() => {
-      const fileTypeElement = screen.getByText('image');
-      expect(fileTypeElement).toBeInTheDocument();
-    });
-  });
+      const fileTypeElement = screen.getByText('image')
+      expect(fileTypeElement).toBeInTheDocument()
+    })
+  })
 
   it('calls sendMessage when Enter key is pressed', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
+      render(<Messages />)
+    })
 
     // Simulate user typing a message and pressing Enter
     const messageInput = screen.getByPlaceholderText('Composez votre message');
@@ -198,81 +198,71 @@ describe('Messages Component', () => {
 
   it('calls clearMessageAndError when clearing messages and error', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
+      render(<Messages />)
+    })
 
     // Ensure that error and messages are displayed
-    const errorElement = screen.getByText('Error Message'); // Adjust the text as needed
-    expect(errorElement).toBeInTheDocument();
-    const messageElement = screen.getByText('Message Content'); // Adjust the text as needed
-    expect(messageElement).toBeInTheDocument();
+    const errorElement = screen.getByText('Error Message') // Adjust the text as needed
+    expect(errorElement).toBeInTheDocument()
+    const messageElement = screen.getByText('Message Content') // Adjust the text as needed
+    expect(messageElement).toBeInTheDocument()
 
     // Call clearMessageAndError
-    await act(async () => {
-      fireEvent.click(screen.getByText('Clear Messages')); // Adjust the text as needed
-    })
+    fireEvent.click(screen.getByText('Clear Messages')); // Adjust the text as needed
 
     // Ensure that error and messages are cleared
     await waitFor(() => {
-      const clearedErrorElement = screen.queryByText('Error Message'); // Adjust the text as needed
-      expect(clearedErrorElement).not.toBeInTheDocument();
-    });
+      const clearedErrorElement = screen.queryByText('Error Message') // Adjust the text as needed
+      expect(clearedErrorElement).not.toBeInTheDocument()
+    })
 
     await waitFor(() => {
-      const clearedMessageElement = screen.queryByText('Message Content'); // Adjust the text as needed
-      expect(clearedMessageElement).not.toBeInTheDocument();
+      const clearedMessageElement = screen.queryByText('Message Content') // Adjust the text as needed
+      expect(clearedMessageElement).not.toBeInTheDocument()
     })
-  });
+  })
 
   it('opens and closes create conversation popup', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
+      render(<Messages />)
+    })
 
     // Ensure that the popup is initially closed
-    expect(screen.queryByText('Create Conversation')).not.toBeInTheDocument();
+    expect(screen.queryByText('Create Conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
-    await act(async () => {
-      fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed      
-    })
+    fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed
 
     // Wait for the popup to be displayed
     await waitFor(() => {
-      const popupTitle = screen.getByText('Create Conversation'); // Adjust the text as needed
-      expect(popupTitle).toBeInTheDocument();
-    });
+      const popupTitle = screen.getByText('Create Conversation') // Adjust the text as needed
+      expect(popupTitle).toBeInTheDocument()
+    })
 
     // Click the button to close the popup
-    await act(async () => {
-      fireEvent.click(screen.getByText('Close Create Conversation Popup')); // Adjust the text as needed      
-    })
+    fireEvent.click(screen.getByText('Close Create Conversation Popup')); // Adjust the text as needed
 
     // Wait for the popup to be closed
     await waitFor(() => {
-      const popupTitle = screen.queryByText('Create Conversation'); // Adjust the text as needed
-      expect(popupTitle).not.toBeInTheDocument();
-    });
-  });
+      const popupTitle = screen.queryByText('Create Conversation') // Adjust the text as needed
+      expect(popupTitle).not.toBeInTheDocument()
+    })
+  })
 
   it('calls createConversation when creating a new conversation', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
+      render(<Messages />)
+    })
 
     // Click the button to open the popup
-    await act(async () => {
-      fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed
-    })
+    fireEvent.click(screen.getByText('Open Create Conversation Popup')); // Adjust the text as needed
 
     // Simulate user input and submission in the create conversation popup
-    const conversationInput = screen.getByPlaceholderText('Conversation Name'); // Adjust the text as needed
-    fireEvent.change(conversationInput, { target: { value: 'New Conversation' } });
+    const conversationInput = screen.getByPlaceholderText('Conversation Name') // Adjust the text as needed
+    fireEvent.change(conversationInput, { target: { value: 'New Conversation' } })
 
     // Trigger the conversation creation (you may need to add your assertions based on the createConversation implementation)
-    await act(async () => { 
-      fireEvent.click(screen.getByText('Create Conversation')); // Adjust the text as needed
-    })
+    fireEvent.click(screen.getByText('Create Conversation')); // Adjust the text as needed
 
   });
 })
