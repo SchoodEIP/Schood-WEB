@@ -157,7 +157,7 @@ describe('Messages Component', () => {
     })
 
     // Ensure that the popup is initially closed
-    expect(screen.getByText('Créer la conversation')).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer la conversation')).not.toBeInTheDocument()
 
     // Click the button to open the popup
     fireEvent.click(screen.getByText('Nouvelle conversation'))
