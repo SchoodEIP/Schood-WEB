@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Adm', () => {
+describe('Admin', () => {
     beforeEach(() => {
         cy.visit('http://localhost:3000/login')
     })
@@ -11,8 +11,8 @@ describe('Adm', () => {
     })
 
     it('checks admin part works', () => {
-        cy.get('#userInput').type('adm@schood.fr')
-        cy.get('#passInput').type('adm123')
+        cy.get('#userInput').type('admin@schood.fr')
+        cy.get('#passInput').type('admin123')
         cy.get('#submit-button').click()
         cy.should(() => {
             expect(localStorage.getItem('role')).to.eq('admin')
