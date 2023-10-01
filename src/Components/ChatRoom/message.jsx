@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from 'react'
 
 const Message = ({ message }) => {
-  const [imageURL, setImageURL] = useState(null)
+  const [fileURL, setFileURL] = useState(null);
+
+  useEffect(() => {
+    if (message.contentType === 'file') {
+      getFile(message.file)
+        .then((data) => {
+          setFileURL(data);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération du fichier :', error);
+        });
+    }
+  }, [message]);
 
   const getFile = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
         method: 'GET',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        }
-      })
+          'x-auth-token': sessionStorage.getItem('token'),
+        },
+      });
       if (response.status !== 200) {
-        throw new Error("Erreur lors de l'envoi du message.")
+        throw new Error("Erreur lors de la récupération du fichier.");
       } else {
-        return response.url
+        const blob = await response.blob();
+        const objectURL = URL.createObjectURL(blob);
+        return objectURL;
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
-
-  useEffect(() => {
-    if (message.contentType === 'file') {
-      getFile(message.file)
-        .then((data) => {
-          setImageURL(data)
-        })
-        .catch((error) => {
-          console.error('Error fetching file:', error)
-        })
-    }
-  }, [message])
+  };
 
   return (
     <div className='message'>
@@ -40,25 +42,24 @@ const Message = ({ message }) => {
         <span className='message-time'>{message.time}</span>
       </div>
       <div className='message-content'>
-        {message.contentType === 'text'
-          ? (
-              message.content
-            )
-          : (
-            <div>
-              {imageURL
-                ? (
-                  <img src={imageURL} alt='Error : Unable to load Image' />
-                  )
-                : (
-                  <p>Loading image...</p>
-                  )}
-              <p>{message.content}</p>
-            </div>
+        {message.contentType === 'text' ? (
+          message.content
+        ) : (
+          <div>
+            {fileURL ? (
+              <a href={fileURL} target="_blank" rel="noopener noreferrer">
+                Télécharger le fichier
+              </a>
+            ) : (
+              <p>Chargement du fichier...</p>
             )}
+            <p>{message.content}</p>
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
+
 
 export default Message
