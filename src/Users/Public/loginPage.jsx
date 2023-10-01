@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './loginPage.scss'
+import { React, useState } from 'react'
+import '../../css/pages/authPage.scss'
 import childrenLogin from '../../assets/children_login.png'
 import logoSchood from '../../assets/logo_schood.png'
 
@@ -25,8 +25,9 @@ export default function Login () {
       const data = await response.json()
 
       if (response.ok) {
-        sessionStorage.setItem('role', data.role)
-        localStorage.setItem('role', data.role)
+        localStorage.setItem('id', data._id)
+        sessionStorage.setItem('role', data.role.name)
+        localStorage.setItem('role', data.role.name)
         window.location.href = '/'
       } else {
         setMessage(`Error: ${data.message}`)
@@ -94,19 +95,19 @@ export default function Login () {
   }
 
   return (
-    <div className='Login-page'>
-      <div id='login-background-part'>
+    <div className='auth-page'>
+      <div id='auth-background-part'>
         <img id='childrenImg' src={childrenLogin} alt='children' />
       </div>
-      <div id='login-part'>
+      <div id='auth-part'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
-        <div id='login-form'>
+        <div id='auth-form'>
           <form>
             <div>
-              <input id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <input className='auth-input' id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
             </div>
             <div>
-              <input id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
+              <input className='auth-input' id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
             </div>
           </form>
         </div>
@@ -116,7 +117,7 @@ export default function Login () {
           </label>
         </div>
         <div>
-          <button onClick={handleLogin} type='submit' id='login-button'>Login</button>
+          <button onClick={handleLogin} type='submit' id='submit-button'>Login</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>

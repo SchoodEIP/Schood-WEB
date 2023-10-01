@@ -1,0 +1,114 @@
+.titre, .sous-titre {
+  justify-content: center;
+  display: flex;
+  color: rgb(79, 35, 226);
+}
+
+body {
+    margin: 0;
+    font: georgia;
+  }
+
+  #auth-page {
+    display: inline-block;
+  }
+
+  #auth-background-part {
+    height: 100vh;
+    top: 0;
+    background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
+    background-size: cover;
+    width: 70%;
+    float: left;
+    #childrenImg {
+      display: block;
+      margin: 0 auto;
+      width: 80%;
+      height: 80%;
+      align-self: center;
+      float: center;
+    }
+  }
+
+  #background-part {
+    height: 100vh;
+    top: 0;
+    background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
+    background-size: cover;
+    width: 65%;
+    float: left;
+    #childrenImg {
+      display: block;
+      margin: 0 auto;
+      width: 75%;
+      height: 75%;
+      align-self: center;
+      float: center;
+    }
+  }
+
+  #landing-part {
+    background-color: white;
+    text-align: center;
+    float: right;
+    height: 100vh;
+    top: 0;
+    width: 35%;
+    #schoodLogo {
+      display: block;
+      margin: 0 auto;
+      width: 70%;
+      height: 25%;
+    }
+  }
+
+  #submit-button {
+    font-weight: 500;
+    font-size: large;
+    margin-top: 10px;
+    width: 80%;
+    height: 8vh;
+    background-color: rgb(79, 35, 226);
+    color: white;
+    border: 0;
+  }
+
+  #auth-part {
+    background-color: white;
+    text-align: center;
+    float: right;
+    height: 100vh;
+    top: 0;
+    width: 30%;
+    #schoodLogo {
+      display: block;
+      margin: 0 auto;
+      width: 90%;
+      height: 30%;
+    }
+    .auth-input {
+      font-size: large;
+      margin-top: 10px;
+      width: 80%;
+      height: 8vh;
+      background-color: rgb(230,230,230);
+      border: 0;
+    }
+    #rememberLabel {
+      color: rgb(192,192,192);
+      margin-top: 10px;
+      margin-left: 10%;
+      float: left;
+    }
+    #rememberCheckbox {
+      float: left;
+    }
+    #errorMessage {
+      margin-top: 10px;
+      color: red;
+    }
+    #signUpRedirect {
+      position: bottom;
+      color: rgb(192,192,192);
+    }
+  }

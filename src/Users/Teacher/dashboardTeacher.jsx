@@ -1,9 +1,9 @@
-import './dashboard_teacher.scss'
-import HeaderComp from '../../Components/Header/HeaderComp'
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import { QuestSpace } from '../../Components/Questionnaire/QuestSpace'
-import { GraphSpace } from '../../Components/Graph/GraphSpace'
-import { LastAlerts } from '../../Components/Alerts/LastAlerts'
+import '../../css/pages/homePage.css'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
+import { QuestSpace } from '../../Components/Questionnaire/questSpace'
+import { GraphSpace } from '../../Components/Graph/graphSpace'
+import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import React from 'react'
 
 const TeacherHomePage = () => {
@@ -12,22 +12,20 @@ const TeacherHomePage = () => {
       <div>
         <HeaderComp />
       </div>
-      <div className='page-body'>
-        <div className='left-half'>
+      <div className='page-content'>
+        <div>
           <Sidebar />
         </div>
+        <div className='left-half'>
+          <div>
+            <GraphSpace />
+          </div>
+          <div>
+            <QuestSpace />
+          </div>
+        </div>
         <div className='right-half'>
-          <div>
-            <div>
-              <GraphSpace />
-            </div>
-            <div>
-              <QuestSpace />
-            </div>
-          </div>
-          <div>
-            <LastAlerts />
-          </div>
+          <LastAlerts />
         </div>
       </div>
     </div>
