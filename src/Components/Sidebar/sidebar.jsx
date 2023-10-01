@@ -52,7 +52,7 @@ export default function Sidebar () {
         <div className='sidebar-menu-container'>
           <ul className='sidebar-menu'>
             {pages.map((page, index) => (
-              <li key={page.id} className='sidebar-menu-item' id={"sidebar-item-" + index}>
+              <li key={page.id} className='sidebar-menu-item' id={'sidebar-item-' + index}>
                 <Link to={page.path}>
                   <span className='sidebar-menu-item-icon'>
                     {isCollapsed ? page.icon : <span>{page.icon}</span>}

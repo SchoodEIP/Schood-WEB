@@ -61,8 +61,7 @@ export default function SchoolAdmAccountsPage () {
     setFirstName('')
     setName('')
     setEmail('')
-    if (rolesList[0] !== undefined)
-      setRole(rolesList[0]._id)
+    if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
     setClasses([])
     setErrMessage('')
     if (isOpenMany) {
@@ -202,16 +201,18 @@ export default function SchoolAdmAccountsPage () {
               <input className='pop-input' name='lastName' placeholder='Nom' onChange={handleNameChange} />
               <input className='pop-input' name='email' placeholder='Email' onChange={handleEmailChange} />
               {
-                (rolesList[0] !== undefined) ? (
-                  <div>
+                (rolesList[0] !== undefined)
+                  ? (
+                    <div>
                       <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
                         <option value={rolesList[0]._id}>{rolesList[0].name}</option>
                         <option value={rolesList[1]._id}>{rolesList[1].name}</option>
                       </select>
-                  </div>
-                ) : ''
+                    </div>
+                    )
+                  : ''
               }
-              <select multiple value={classes} id="classe-select" className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
+              <select multiple value={classes} id='classe-select' className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
                 {classesList.map((classe_) => (
                   <option key={classe_._id} value={classe_._id}>
                     {classe_.name}

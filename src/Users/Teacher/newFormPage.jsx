@@ -211,8 +211,8 @@ const NewFormPage = () => {
               </div>
               <div id='question-row' />
               <div className='confirmation-form-container'>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id="remove-question-btn" onClick={removeLastQuestion}>Enlever une Question</button> : ''}
-                <button className='button-css questionnaire-btn' id="add-question-btn" onClick={addNewQuestion}>Ajouter une Question</button>
+                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
+                <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
               </div>
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
@@ -221,7 +221,7 @@ const NewFormPage = () => {
                 </label>
                 <div style={{}}>
                   <p data-testid='error-message'>{errMessage}</p>
-                  <button className='button-css questionnaire-btn' id="new-form-btn" style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                  <button className='button-css questionnaire-btn' id='new-form-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
                 </div>
               </div>
             </div>
