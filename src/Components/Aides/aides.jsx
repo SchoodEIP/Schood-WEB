@@ -16,8 +16,8 @@ export default function AidePage() {
 
     // Numéros de contact en dur
     const contactsData = [
-      { id: 1, name: 'Aide contre le harcèlement', phoneNumber: '123-456-7890', category: 'Harcèlement' },
-      { id: 2, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' },
+      { id: 3, name: 'Aide contre le harcèlement', phoneNumber: '123-456-7890', category: 'Harcèlement' },
+      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' },
       // Ajoutez d'autres numéros de contact ici
     ];
 
@@ -50,7 +50,7 @@ export default function AidePage() {
         <ul>
           {categories.map((category) => (
             <li key={category.id}>
-              <button onClick={() => filterContactsByCategory(category.name)}>
+              <button data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category.name)}>
                 {category.name}
               </button>
             </li>
@@ -64,9 +64,9 @@ export default function AidePage() {
         <ul>
           {filteredContacts.map((contact) => (
             <li key={contact.id}>
-              <strong>Nom: </strong>{contact.name}<br />
-              <strong>Numéro: </strong>{contact.phoneNumber}<br />
-              <strong>Catégorie: </strong>{contact.category}
+              <strong>Nom: </strong><span>{contact.name}</span><br />
+              <strong>Numéro: </strong><span>{contact.phoneNumber}</span><br />
+              <strong>Catégorie: </strong><span>{contact.category}</span>
             </li>
           ))}
         </ul>
