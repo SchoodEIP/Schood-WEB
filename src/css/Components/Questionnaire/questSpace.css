@@ -1,40 +1,8 @@
 .quest-box {
     margin: 10px;
-    justify-content: center;
+    display: flex;
     flex-direction: column;
-    display: flex;
-    min-height: 20%;
-    min-width: 10%;
-    max-height: 80%;
-    max-width: 75%;
-    width: 75%;
-    background: white;
-    border-color: black;
-    border-radius: 5px;
-    float: right;
-    position: relative;
-}
-
-.quest-header {
-    background: rgb(79, 35, 226);
-    min-height: 50px;
-    justify-content: center;
-    display: flex;
-}
-
-.title {
-    color: white;
-}
-
-.quest-body {
-    min-height: 30px;;
-}
-
-.quest-box {
-    margin: 10px;
-    justify-content: space-between; /* Modifier pour aligner les deux rectangles côte à côte */
-    flex-direction: row; /* Modifier pour aligner les deux rectangles côte à côte */
-    display: flex;
+    align-items: center; /* Aligner horizontalement */
     min-height: 20%;
     min-width: 10%;
     max-height: 80%;
@@ -53,6 +21,8 @@
     display: flex;
     align-items: center; /* Centrez le texte verticalement */
     padding: 0 10px; /* Ajoutez un peu d'espace autour du texte */
+    justify-content: space-between; /* Pour espacer le texte horizontalement */
+    width: 100%; /* Remplit l'espace disponible horizontalement */
   }
   
   .title {
@@ -68,7 +38,7 @@
   
   .quest-previous,
   .quest-current {
-    flex: 1; /* Les rectangles occupent une part égale de l'espace disponible horizontalement */
+    flex: 1;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
