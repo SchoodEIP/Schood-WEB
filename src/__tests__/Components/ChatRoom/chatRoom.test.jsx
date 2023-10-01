@@ -232,31 +232,31 @@ describe('Messages Component', () => {
       const errorMessage = screen.queryByText("Erreur lors de l'envoi du message. Veuillez réessayer.")
       expect(errorMessage).not.toBeInTheDocument()
     })
-  })  
+  })
 
   it('creates a new conversation', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
-  
+      render(<Messages />)
+    })
+
     // Trigger the creation of a new conversation (you may need to add a button or UI element for this)
     // Ensure that the new conversation appears in the conversations list
-  
+
     await waitFor(() => {
-      const newConversationButton = screen.getByText('Nouvelle conversation', { selector: 'button' });
-      expect(newConversationButton).toBeInTheDocument();
-    });    
-  });
+      const newConversationButton = screen.getByText('Nouvelle conversation', { selector: 'button' })
+      expect(newConversationButton).toBeInTheDocument()
+    })
+  })
 
   it('sets file type to "pdf" for a PDF file', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
-  
+      render(<Messages />)
+    })
+
     // Simulate selecting a PDF file
-    const fileInput = screen.getByLabelText('+');
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } });
-  
+    const fileInput = screen.getByLabelText('+')
+    fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } })
+
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -266,17 +266,17 @@ describe('Messages Component', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
-  });
-  
+  })
+
   it('sets file type to "other" for a other file', async () => {
     await act(async () => {
-      render(<Messages />);
-    });
-  
+      render(<Messages />)
+    })
+
     // Simulate selecting a PDF file
-    const fileInput = screen.getByLabelText('+');
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } });
-  
+    const fileInput = screen.getByLabelText('+')
+    fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } })
+
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -286,5 +286,5 @@ describe('Messages Component', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
-  });  
+  })
 })
