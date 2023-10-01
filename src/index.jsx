@@ -17,6 +17,7 @@ import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import HelpPage from './Users/Shared/helpPage'
+import ChatRoomPage from './Users/Shared/chatRoomPage'
 
 const rootElement = document.getElementById('root')
 
@@ -36,6 +37,7 @@ if (rootElement) {
           <>
             <Route path='/login' element={<Navigate to='/' replace />} />
             <Route path='/forgot' element={<Navigate to='/' replace />} />
+            <Route path='/messages' element={<ChatRoomPage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'admin' && (
@@ -43,6 +45,7 @@ if (rootElement) {
             <Route path='/' element={<AdmHomePage />} />
             <Route path='/accounts' element={<AdmAccountsPage />} />
             <Route path='/aides' element={<HelpPage />} />
+            <Route path='/messages' element={<ChatRoomPage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'administration' && (
@@ -50,6 +53,7 @@ if (rootElement) {
             <Route path='/' element={<SchoolAdmHomePage />} />
             <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
             <Route path='/aides' element={<HelpPage />} />
+            <Route path='/messages' element={<ChatRoomPage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'student' && (
@@ -63,6 +67,7 @@ if (rootElement) {
         {sessionStorage.getItem('role') === 'teacher' && (
           <>
             <Route path='/' element={<TeacherHomePage />} />
+            <Route path='/messages' element={<ChatRoomPage />} />
             <Route path='/questionnaires' element={<FormListTeacherPage />} />
             <Route path='/questionnaire' element={<NewFormPage />} />
             <Route path='/questionnaire/:id' element={<FormTeacherPage />} />

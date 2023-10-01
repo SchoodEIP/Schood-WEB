@@ -1,5 +1,5 @@
-import React from 'react'
 import '@testing-library/jest-dom'
+import React from 'react'
 import { render, act, screen, fireEvent } from '@testing-library/react'
 import FormListTeacherPage from '../../../Users/Teacher/formListTeacherPage'
 import { BrowserRouter } from 'react-router-dom'
@@ -25,7 +25,6 @@ describe('FormListTeacherPage', () => {
   afterEach(() => {
     document.body.removeChild(container)
     container = null
-    jest.clearAllMocks()
     fetchMock.restore()
   })
 
