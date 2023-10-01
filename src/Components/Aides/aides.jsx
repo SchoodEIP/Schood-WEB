@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../css/Components/Aides/aides.scss'
 
 export default function AidePage() {
   const [categories, setCategories] = useState([]);
@@ -40,11 +41,11 @@ export default function AidePage() {
   };
 
   return (
-    <div>
-      <h1>Numéros de Contact</h1>
+    <div className='aide-page'>
+      <header>Numéros de Contact</header>
 
       {/* Afficher la liste des catégories */}
-      <div>
+      <div className='categories-section'>
         <h2>Catégories</h2>
         <ul>
           {categories.map((category) => (
@@ -58,7 +59,7 @@ export default function AidePage() {
       </div>
 
       {/* Afficher les numéros de contact en fonction de la catégorie sélectionnée */}
-      <div>
+      <div className='contacts-section'>
         <h2>Numéros de Contact</h2>
         <ul>
           {filteredContacts.map((contact) => (
@@ -70,6 +71,7 @@ export default function AidePage() {
           ))}
         </ul>
       </div>
+      <div className='clearfix'></div>
     </div>
   );
 }
