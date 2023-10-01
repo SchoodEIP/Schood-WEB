@@ -64,8 +64,7 @@ describe('Messages Component', () => {
     const usernameElement = screen.getByText('User')
     expect(usernameElement).toBeInTheDocument()
 
-    // // Wait for the image to load
-    // await screen.findByAltText('Error : Unable to load Image')
+    // Wait for the image to load
 
     const contentElement = screen.getByText('File: Image.jpg')
     expect(contentElement).toBeInTheDocument()
@@ -76,7 +75,7 @@ describe('Messages Component', () => {
       content: 'File: Image.jpg',
       username: 'User',
       contentType: 'file',
-      file: '12345' // Replace with a valid file ID
+      file: '12345'
     }
 
     // Mock the fetch function to reject with an error
@@ -89,8 +88,7 @@ describe('Messages Component', () => {
     const usernameElement = screen.getByText('User')
     expect(usernameElement).toBeInTheDocument()
 
-    // // Wait for the error message to appear
-    // await screen.findByText('Error fetching file:')
+    // Wait for the error message to appear
 
     const contentElement = screen.getByText('File: Image.jpg')
     expect(contentElement).toBeInTheDocument()

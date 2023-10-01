@@ -4,14 +4,6 @@ import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
 
-// Mock fetch
-// global.fetch = jest.fn(() =>
-//   Promise.resolve({
-//     json: () => Promise.resolve([]),
-//     ok: true
-//   })
-// )
-
 describe('Messages Component', () => {
   const id = 123
   const chatUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat`
@@ -131,24 +123,6 @@ describe('Messages Component', () => {
     const composeMessageInput = screen.queryByText('teacher1 teacher1, teacher2 teacher2')
     expect(composeMessageInput).toBeInTheDocument()
   })
-
-  // it('renders the Messages component', async () => {
-  //   jest.clearAllMocks()
-  //   fetchMock.restore()
-
-  //    // Mock a failed fetch request
-  //    const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
-
-  //    global.fetch = mockFetch
-
-  //   await act(async () => {
-  //     render(<Messages />)
-  //   })
-
-  //   // Ensure that the component renders
-  //   const composeMessageInput = screen.getByText('Aucune conversation sélectionnée.')
-  //   expect(composeMessageInput).toBeInTheDocument()
-  // })
 
   it('displays an error message when message sending fails', async () => {
     await act(async () => {
