@@ -9,6 +9,7 @@ export default function ButtonsAccountCreation (props) {
         <button
           className='account-pop-up-btn'
           data-testid='single-account-btn'
+          id='single-account-btn'
           onClick={props.handleSingleAccount}
           style={{ backgroundColor: props.isOpenSingle ? '#8c52ff' : '#4f23e2' }}
         >
@@ -19,6 +20,7 @@ export default function ButtonsAccountCreation (props) {
         <button
           className='account-pop-up-btn'
           data-testid='many-account-btn'
+          id='many-account-btn'
           onClick={props.handleManyAccounts}
           style={{ backgroundColor: props.isOpenMany ? '#8c52ff' : '#4f23e2' }}
         >
