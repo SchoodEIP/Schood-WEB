@@ -17,7 +17,7 @@ export default function AidePage () {
     // Numéros de contact en dur
     const contactsData = [
       { id: 3, name: 'Aide contre le harcèlement', phoneNumber: '123-456-7890', category: 'Harcèlement' },
-      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' },
+      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' }
       // Ajoutez d'autres numéros de contact ici
     ]
 
