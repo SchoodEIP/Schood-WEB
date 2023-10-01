@@ -7,7 +7,6 @@ import AidePage from '../../../Components/Aides/aides'
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f())
 
 describe('AidePage component', () => {
-
   it('displays categories and contacts', () => {
     render(<AidePage />)
 
