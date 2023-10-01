@@ -15,9 +15,9 @@ const HelpPage = () => {
           <Sidebar />
         </div>
         <div className='left-half'>
-            <div>
-                <AidePage />
-            </div>
+          <div>
+            <AidePage />
+          </div>
         </div>
       </div>
     </div>
