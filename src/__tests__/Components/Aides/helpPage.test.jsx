@@ -7,10 +7,9 @@ import { MemoryRouter } from 'react-router-dom'
 test('renders HelpPage component', async () => {
   await act(async () => {
     render(
-      <MemoryRouter> {/* Enveloppez votre composant dans MemoryRouter */}
+      <MemoryRouter> {}
         <HelpPage />
       </MemoryRouter>
     )
   })
-  // Vous pouvez ajouter d'autres assertions en fonction de votre code
 })

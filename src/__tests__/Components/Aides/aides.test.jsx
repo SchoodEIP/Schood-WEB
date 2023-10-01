@@ -7,11 +7,6 @@ import AidePage from '../../../Components/Aides/aides'
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f())
 
 describe('AidePage component', () => {
-  //  it('renders without errors', () => {
-  //    render(<AidePage />);
-  //    // Vérifie que le composant s'affiche sans erreurs
-  //    expect(screen.queryByText('Numéros de Contact')).toBeInTheDocument();
-  // });
 
   it('displays categories and contacts', () => {
     render(<AidePage />)
@@ -21,11 +16,8 @@ describe('AidePage component', () => {
     expect(screen.getByTestId('category-btn-1')).toBeInTheDocument()
     expect(screen.getByTestId('category-btn-2')).toBeInTheDocument()
 
-    const categorie = screen.getByText('Aide contre le harcèlement')
-
     // Vérifie que les numéros de contact sont affichés
-    // expect(screen.getByText('Numéros de Contact')).toBeInTheDocument();
-    expect(categorie).toBeInTheDocument()
+    expect(screen.getByText('Aide contre le harcèlement')).toBeInTheDocument()
     expect(screen.getByText("Ligne d'urgence pour les victimes de violence familiale")).toBeInTheDocument()
   })
 
