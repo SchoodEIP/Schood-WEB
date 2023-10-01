@@ -48,7 +48,7 @@ const Message = ({ message }) => {
           <div>
             {fileURL ? (
               <a href={fileURL} target="_blank" rel="noopener noreferrer">
-                Télécharger le fichier
+                Ouvrir le fichier
               </a>
             ) : (
               <p>Chargement du fichier...</p>
