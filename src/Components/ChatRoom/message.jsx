@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from 'react'
 
 const Message = ({ message }) => {
-  const [fileURL, setFileURL] = useState(null);
+  const [fileURL, setFileURL] = useState(null)
 
   useEffect(() => {
     if (message.contentType === 'file') {
       getFile(message.file)
         .then((data) => {
-          setFileURL(data);
+          setFileURL(data)
         })
         .catch((error) => {
-          console.error('Erreur lors de la récupération du fichier :', error);
-        });
+          console.error('Erreur lors de la récupération du fichier :', error)
+        })
     }
-  }, [message]);
+  }, [message])
 
   const getFile = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
         method: 'GET',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-        },
-      });
+          'x-auth-token': sessionStorage.getItem('token')
+        }
+      })
       if (response.status !== 200) {
-        throw new Error("Erreur lors de la récupération du fichier.");
+        throw new Error('Erreur lors de la récupération du fichier.')
       } else {
-        const blob = await response.blob();
-        const objectURL = URL.createObjectURL(blob);
-        return objectURL;
+        const blob = await response.blob()
+        const objectURL = URL.createObjectURL(blob)
+        return objectURL
       }
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
-  };
+  }
 
   return (
     <div className='message'>
@@ -42,24 +42,27 @@ const Message = ({ message }) => {
         <span className='message-time'>{message.time}</span>
       </div>
       <div className='message-content'>
-        {message.contentType === 'text' ? (
-          message.content
-        ) : (
-          <div>
-            {fileURL ? (
-              <a href={fileURL} target="_blank" rel="noopener noreferrer">
-                Ouvrir le fichier
-              </a>
-            ) : (
-              <p>Chargement du fichier...</p>
+        {message.contentType === 'text'
+          ? (
+              message.content
+            )
+          : (
+            <div>
+              {fileURL
+                ? (
+                  <a href={fileURL} target='_blank' rel='noopener noreferrer'>
+                    Ouvrir le fichier
+                  </a>
+                  )
+                : (
+                  <p>Chargement du fichier...</p>
+                  )}
+              <p>{message.content}</p>
+            </div>
             )}
-            <p>{message.content}</p>
-          </div>
-        )}
       </div>
     </div>
-  );
-};
-
+  )
+}
 
 export default Message
