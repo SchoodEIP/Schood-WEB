@@ -228,7 +228,7 @@ const Messages = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           participants: participantsArray
         })
       })
