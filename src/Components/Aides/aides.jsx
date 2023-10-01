@@ -16,7 +16,7 @@ export default function AidePage () {
     // Numéros de contact en dur
     const contactsData = [
       { id: 3, name: 'Aide contre le harcèlement', phoneNumber: '123-456-7890', category: 'Harcèlement' },
-      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' },
+      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' }
       // Ajoutez d'autres numéros de contact ici
     ]
 
@@ -27,7 +27,6 @@ export default function AidePage () {
 
   // Fonction pour filtrer les numéros de contact par catégorie
   const filterContactsByCategory = (category) => {
-
     // Filtrer les numéros de contact en fonction de la catégorie sélectionnée
     if (category) {
       const filtered = contacts.filter((contact) => contact.category === category)
