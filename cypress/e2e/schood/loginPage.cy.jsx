@@ -1,14 +1,14 @@
 /// <reference types="cypress" />
 
 describe('Login Page', () => {
-    beforeEach(() => {
-        cy.visit('http://localhost:3000/login')
-    })
+  beforeEach(() => {
+    cy.visit('http://localhost:3000/login')
+  })
 
-    afterEach(() => {
-        cy.clearAllLocalStorage()
-        cy.clearAllSessionStorage()
-    })
+  afterEach(() => {
+    cy.clearAllLocalStorage()
+    cy.clearAllSessionStorage()
+  })
 
     it('checks login works', () => {
         cy.get('#userInput').type('admin@schood.fr')
