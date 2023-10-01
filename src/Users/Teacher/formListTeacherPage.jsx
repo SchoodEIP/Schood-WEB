@@ -35,6 +35,7 @@ const FormListTeacherPage = () => {
             accessBtn.textContent = 'Y Accéder'
             accessBtn.classList.add('button-css')
             accessBtn.classList.add('questionnaire-btn')
+            accessBtn.id = 'access-btn-' + index
             accessBtn.style.marginBottom = '10px'
             accessBtn.addEventListener('click', function () {
               accessForm(questionnaire._id)
