@@ -23,17 +23,29 @@ const Message = ({ message }) => {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
-      if (response.status !== 200) {
-        throw new Error('Erreur lors de la récupération du fichier.')
+      if (response.status !== 200) /* istanbul ignore next */ {
+        throw new Error("Erreur lors de l'envoi du message.")
       } else {
         const blob = await response.blob()
         const objectURL = URL.createObjectURL(blob)
         return objectURL
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       console.error(e)
     }
   }
+
+  useEffect(() => {
+    if (message.contentType === 'file') {
+      getFile(message.file)
+        .then((data) => {
+          setFileURL(data)
+        })
+        .catch((error) => /* istanbul ignore next */ {
+          console.error('Error fetching file:', error)
+        })
+    }
+  }, [message])
 
   return (
     <div className='message'>

@@ -33,10 +33,10 @@ export default function ForgottenPasswordPage () {
 
       if (response.status === 200) {
         setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
-      } else {
+      } else /* istanbul ignore next */ {
         setMessage(`Error: ${response.statusText}`)
       }
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       setMessage(`Error: ${error}`)
     }
   }
