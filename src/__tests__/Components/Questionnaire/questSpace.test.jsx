@@ -1,7 +1,7 @@
-import React from 'react';
-import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx';
-import { render, screen, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import React from 'react'
+import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx'
+import { render, screen, act } from '@testing-library/react'
+import '@testing-library/jest-dom'
 import fetchMock from 'fetch-mock'
 
 describe('QuestSpace Component', () => {
@@ -10,8 +10,8 @@ describe('QuestSpace Component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.get(previousUrl, { body: {status: 'completed'} })
-    fetchMock.get(currentUrl, { body: {status: 'in_progress'} })
+    fetchMock.get(previousUrl, { body: { status: 'completed' } })
+    fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
   })
 
   afterEach(() => {
@@ -40,9 +40,9 @@ describe('QuestSpace Component', () => {
     await act(async () => {
       render(<QuestSpace />)
     })
-    const titleElement = screen.getByText('Mes Questionnaires');
-    expect(titleElement).toBeInTheDocument();
-  });
+    const titleElement = screen.getByText('Mes Questionnaires')
+    expect(titleElement).toBeInTheDocument()
+  })
 
   it('goes to the form', async () => {
     await act(async () => {
@@ -51,7 +51,7 @@ describe('QuestSpace Component', () => {
     const previousformStatus = screen.queryByText('Ce questionnaire est fini.')
     expect(previousformStatus).toBeInTheDocument()
 
-    const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.');
-    expect(currentformStatus).toBeInTheDocument();
-  });
-});
+    const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.')
+    expect(currentformStatus).toBeInTheDocument()
+  })
+})
