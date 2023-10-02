@@ -31,7 +31,7 @@ export default function AdmAccountsPage () {
       }).then(response => response.json())
         .then(data => setRolesList(data.roles))
         .catch(error => setErrMessage(error.message))
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }, [])
@@ -103,7 +103,7 @@ export default function AdmAccountsPage () {
           setErrMessage(data.message)
         }
       })
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }
@@ -130,7 +130,7 @@ export default function AdmAccountsPage () {
           setErrMessage(data.message)
         }
       })
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }

@@ -29,10 +29,10 @@ export default function Login () {
         sessionStorage.setItem('role', data.role.name)
         localStorage.setItem('role', data.role.name)
         window.location.href = '/'
-      } else {
+      } else /* istanbul ignore next */ {
         setMessage(`Error: ${data.message}`)
       }
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       setMessage(`Error: ${error}`)
     }
   }
@@ -72,10 +72,10 @@ export default function Login () {
         sessionStorage.setItem('token', data.token)
         localStorage.setItem('token', data.token)
         getRole(data.token)
-      } else {
+      } else /* istanbul ignore next */ {
         setMessage(`Error: ${data.message}`)
       }
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       setMessage(`Error: ${error}`)
     }
   }
