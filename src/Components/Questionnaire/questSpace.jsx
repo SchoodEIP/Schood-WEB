@@ -82,7 +82,7 @@ export function QuestSpace() {
             )}
             {currentQuestStatus === 'not_started' && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={() => window.location.href = '/questionnaires'}>
+                <button className='orange-button' data-testid="form-access-btn" onClick={() => window.location.href = '/questionnaires'}>
                   Terminer le questionnaire
                 </button>
               </div>
