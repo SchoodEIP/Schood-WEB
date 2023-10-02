@@ -38,7 +38,7 @@ export function QuestSpace() {
             <p>Questionnaire précédent</p>
             {previousQuestStatus === 'not_started' && (
               <div className='quest-start'>
-                <button className='green-button' onClick={() => window.location.href = '/questionnaires'}>
+                <button className='green-button' onClick={() => {window.location.href = '/questionnaires'}}>
                   Lancer le questionnaire
                 </button>
               </div>
@@ -55,7 +55,7 @@ export function QuestSpace() {
             )}
             {previousQuestStatus === 'completed' && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={() => window.location.href = '/questionnaires'}>
+                <button className='orange-button' onClick={() => {window.location.href = '/questionnaires'}}>
                   Terminer le questionnaire
                 </button>
               </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx';
 import { render, screen, act } from '@testing-library/react';
-import 'regenerator-runtime/runtime'; // Ajout de cette ligne pour gérer les appels asynchrones
 import '@testing-library/jest-dom';
 import fetchMock from 'fetch-mock'
 
@@ -15,18 +14,15 @@ describe('QuestSpace Component', () => {
     global.fetch = require('node-fetch');
   });
 
-  // Effacer les mocks après les tests
-  afterAll(() => {
-    jest.unmock('node-fetch');
-  });
+  afterEach(() => {
+    fetchMock.restore()
+  })
 
-  // Mock des réponses de l'API
   beforeEach(() => {
-    global.fetch.mockClear();
-    global.fetch.mockResolvedValue({
-      json: () => Promise.resolve({ body: {status: 'not_started'} }),
-    });
-  });
+    fetchMock.reset()
+    fetchMock.get(previousUrl, { body: {status: 'completed'} })
+    fetchMock.get(currentUrl, { body: {status: 'in_progress'} })
+  })
 
   it('shows the component QuestSpace', async () => {
     await act(async () =>  {
@@ -54,13 +50,6 @@ describe('QuestSpace Component', () => {
     expect(titleElement).toBeInTheDocument();
   });
 
-
-  beforeEach(() => {
-    fetchMock.reset()
-    fetchMock.get(previousUrl, { body: {status: 'completed'} })
-    fetchMock.get(currentUrl, { body: {status: 'in_progress'} })
-  })
-
   it('goes to the form', async () => {
     await act(async () =>  {
       render(<QuestSpace />);
@@ -71,8 +60,4 @@ describe('QuestSpace Component', () => {
     const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.');
     expect(currentformStatus).toBeInTheDocument();
   });
-
-  afterEach(() => {
-    fetchMock.restore()
-  })
 });
