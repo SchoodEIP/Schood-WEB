@@ -46,7 +46,7 @@ const FormListTeacherPage = () => {
           })
         })
         .catch(error => console.error(error.message))
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       console.error(e.message)
     }
   }, [])

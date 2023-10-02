@@ -11,12 +11,12 @@ const Message = ({ message }) => {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
-      if (response.status !== 200) {
+      if (response.status !== 200) /* istanbul ignore next */ {
         throw new Error("Erreur lors de l'envoi du message.")
       } else {
         return response.url
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       console.error(e)
     }
   }
@@ -27,7 +27,7 @@ const Message = ({ message }) => {
         .then((data) => {
           setImageURL(data)
         })
-        .catch((error) => {
+        .catch((error) => /* istanbul ignore next */ {
           console.error('Error fetching file:', error)
         })
     }

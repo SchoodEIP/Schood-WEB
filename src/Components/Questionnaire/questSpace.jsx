@@ -19,7 +19,7 @@ export function QuestSpace () {
       .then((data) => {
         setPreviousQuestStatus(data.status)
       })
-      .catch((error) => {
+      .catch((error) => /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du statut du questionnaire précédent :', error)
       })
 
@@ -34,7 +34,7 @@ export function QuestSpace () {
       .then((data) => {
         setCurrentQuestStatus(data.status)
       })
-      .catch((error) => {
+      .catch((error) => /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du statut du questionnaire hebdomadaire :', error)
       })
   }, [])

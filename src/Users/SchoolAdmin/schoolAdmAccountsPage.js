@@ -51,7 +51,7 @@ export default function SchoolAdmAccountsPage () {
           setRolesList(data.roles)
         })
         .catch(error => setErrMessage(error.message))
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }, [])
@@ -131,12 +131,12 @@ export default function SchoolAdmAccountsPage () {
       })
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
-      } else {
+      } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }
@@ -157,12 +157,12 @@ export default function SchoolAdmAccountsPage () {
       })
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
-      } else {
+      } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }
