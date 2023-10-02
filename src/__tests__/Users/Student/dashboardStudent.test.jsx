@@ -4,6 +4,7 @@ import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Dashboard Student component', () => {
   const previousUrl = 'http://localhost:8080/shared/questionnaire/previous'
@@ -22,9 +23,9 @@ describe('Dashboard Student component', () => {
   it('should render the homepage', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <StudentHomePage />
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
     expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()

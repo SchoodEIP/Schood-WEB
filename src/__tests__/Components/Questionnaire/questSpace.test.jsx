@@ -1,7 +1,8 @@
 import React from 'react';
 import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx';
-import { render, screen, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, act, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom';
 import fetchMock from 'fetch-mock'
 
 describe('QuestSpace Component', () => {
@@ -20,7 +21,11 @@ describe('QuestSpace Component', () => {
 
   it('shows the component QuestSpace', async () => {
     await act(async () => {
-      render(<QuestSpace />)
+      render(
+        <MemoryRouter>
+          <QuestSpace />
+        </MemoryRouter>
+      )
     })
     const questSpaceElement = screen.getByTestId('quest-space') // Utilisation de getByTestId
     expect(questSpaceElement).toBeInTheDocument()
@@ -28,7 +33,11 @@ describe('QuestSpace Component', () => {
 
   it('shows the tile of Mes Questionnaires', async () => {
     await act(async () => {
-      render(<QuestSpace />)
+      render(
+        <MemoryRouter>
+          <QuestSpace />
+        </MemoryRouter>
+      )
     })
     const titleElement = screen.getByText('Mes Questionnaires')
     expect(titleElement).toBeInTheDocument()
@@ -38,7 +47,11 @@ describe('QuestSpace Component', () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
 
     await act(async () => {
-      render(<QuestSpace />)
+      render(
+        <MemoryRouter>
+          <QuestSpace />
+        </MemoryRouter>
+      )
     })
     const titleElement = screen.getByText('Mes Questionnaires');
     expect(titleElement).toBeInTheDocument();
@@ -46,12 +59,21 @@ describe('QuestSpace Component', () => {
 
   it('goes to the form', async () => {
     await act(async () => {
-      render(<QuestSpace />)
+      render(
+        <MemoryRouter>
+          <QuestSpace />
+        </MemoryRouter>
+      )
     })
-    const previousformStatus = screen.queryByText('Ce questionnaire est fini.')
-    expect(previousformStatus).toBeInTheDocument()
 
-    const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.');
-    expect(currentformStatus).toBeInTheDocument();
+    await waitFor(() => {
+      const previousformStatus = screen.queryByText('Ce questionnaire est fini.')
+      expect(previousformStatus).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.');
+      expect(currentformStatus).toBeInTheDocument();
+    })
   });
 });

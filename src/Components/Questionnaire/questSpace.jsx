@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/Components/Questionnaire/questSpace.css'
+import { useNavigate } from 'react-router-dom'
 
 export function QuestSpace () {
   const [previousQuestStatus, setPreviousQuestStatus] = useState('') // Statut du questionnaire précédent
   const [currentQuestStatus, setCurrentQuestStatus] = useState('') // Statut du questionnaire hebdomadaire
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Effectuer une requête GET pour récupérer le statut du questionnaire précédent
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+        }
+      })
       .then((response) => response.json())
       .then((data) => {
         setPreviousQuestStatus(data.status)
@@ -17,7 +24,12 @@ export function QuestSpace () {
       })
 
     // Effectuer une requête GET pour récupérer le statut du questionnaire hebdomadaire
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+        }
+      })
       .then((response) => response.json())
       .then((data) => {
         setCurrentQuestStatus(data.status)
@@ -26,6 +38,14 @@ export function QuestSpace () {
         console.error('Erreur lors de la récupération du statut du questionnaire hebdomadaire :', error)
       })
   }, [])
+
+  const handlePreviousClick = () => {
+    navigate('/questionnaires')
+  }
+
+  const handleCurrentClick = () => {
+    navigate('/questionnaires')
+  }
 
   return (
     <div data-testid='quest-space' className='quest-box'>
@@ -38,7 +58,7 @@ export function QuestSpace () {
             <p>Questionnaire précédent</p>
             {previousQuestStatus === 'not_started' && (
               <div className='quest-start'>
-                <button className='green-button' onClick={() => {window.location.href = '/questionnaires'}}>
+                <button className='green-button' onClick={handlePreviousClick}>
                   Lancer le questionnaire
                 </button>
               </div>
@@ -55,7 +75,7 @@ export function QuestSpace () {
             )}
             {previousQuestStatus === 'completed' && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={() => {window.location.href = '/questionnaires'}}>
+                <button className='orange-button' onClick={handleCurrentClick}>
                   Terminer le questionnaire
                 </button>
               </div>
