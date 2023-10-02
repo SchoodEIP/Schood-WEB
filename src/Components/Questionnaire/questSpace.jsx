@@ -28,7 +28,7 @@ export function QuestSpace() {
   }, []);
 
   return (
-    <div className='quest-box'>
+    <div data-testid="quest-space" className='quest-box'>
       <div className='quest-header'>
         <p className='title'>Mes Questionnaires</p>
       </div>
@@ -49,7 +49,7 @@ export function QuestSpace() {
               </div>
             )}
             {previousQuestStatus === 'completed' && (
-              <div className='quest-start'>
+              <div data-testid="previous-quest-status" className='quest-start'>
                 Ce questionnaire est fini.
               </div>
             )}
@@ -71,12 +71,12 @@ export function QuestSpace() {
               </div>
             )}
             {currentQuestStatus === 'in_progress' && (
-              <div className='quest-start'>
+              <div data-testid="current-quest-status" className='quest-start'>
                 Ce questionnaire a été commencé.
               </div>
             )}
             {currentQuestStatus === 'completed' && (
-              <div className='quest-start'>
+              <div data-testid="current-quest-status" className='quest-start'>
                 Ce questionnaire est fini.
               </div>
             )}
@@ -93,3 +93,5 @@ export function QuestSpace() {
     </div>
   );
 }
+
+export default QuestSpace;
