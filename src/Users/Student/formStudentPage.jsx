@@ -6,13 +6,14 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 import IconFace0 from '../../assets/icon_face_0.png'
 import IconFace1 from '../../assets/icon_face_1.png'
 import IconFace2 from '../../assets/icon_face_2.png'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const FormStudentPage = () => {
   const { id } = useParams()
   const [data, setData] = useState({})
   const [error, setError] = useState(null)
   const imgImports = [IconFace0, IconFace1, IconFace2]
+  const navigate = useNavigate()
 
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
@@ -39,11 +40,9 @@ const FormStudentPage = () => {
     const formAnswers = [];
     data.questions.map((question, index) => {
       let result = null
-      // const result = []
       switch (question.type) {
         case 'text':
           result = document.getElementById('answer-' + index + '-0').value
-          // result.push(document.getElementById('answer-' + index + '-0').value)
           break;
         case 'emoji':
           result = '-1'
@@ -51,10 +50,6 @@ const FormStudentPage = () => {
             if (document.getElementById('answer-' + index + '-' + i).checked) {
               result = `${i}`
             }
-          //   result.push({
-          //     index: i,
-          //     answer: document.getElementById('answer-' + index + '-' + i).checked
-          //   })
           }
           break;
         case 'multiple':
@@ -63,11 +58,6 @@ const FormStudentPage = () => {
             if (document.getElementById('answer-' + index + '-' + i).checked) {
               result = `${i}`
             }
-
-          //   result.push({
-          //     index: i,
-          //     answer: document.getElementById('answer-' + index + '-' + i).checked
-          //   })
             return multipleAnswer
           })
           break;
@@ -91,7 +81,6 @@ const FormStudentPage = () => {
       method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
       },
       body: JSON.stringify({answers: data})
     }).then(response => response.json())
@@ -99,7 +88,7 @@ const FormStudentPage = () => {
         if (data.message) {
           setError(data.message)
         } else {
-          window.location.href = '/questionnaires'
+          navigate('/questionnaires')
         }
       })
       .catch(error => setError(error.message))
