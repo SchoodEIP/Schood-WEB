@@ -39,7 +39,7 @@ const Message = ({ message }) => {
     if (message.contentType === 'file') {
       getFile(message.file)
         .then((data) => {
-          setImageURL(data)
+          setFileURL(data)
         })
         .catch((error) => /* istanbul ignore next */ {
           console.error('Error fetching file:', error)
