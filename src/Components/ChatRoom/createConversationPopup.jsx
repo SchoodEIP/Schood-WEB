@@ -9,8 +9,6 @@ const CreateConversationPopup = ({
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value)
-    // il faudrait qu'on verifie dans la liste à qui appartient l'id et afficher leur nom
-    // et set le selected contact avec l'id
   }
 
   const handleCreateConversation = () => {

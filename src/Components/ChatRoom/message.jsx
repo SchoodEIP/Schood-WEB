@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
 const Message = ({ message }) => {
-  const [imageURL, setImageURL] = useState(null)
+  const [fileURL, setFileURL] = useState(null)
+
+  useEffect(() => {
+    if (message.contentType === 'file') {
+      getFile(message.file)
+        .then((data) => {
+          setFileURL(data)
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération du fichier :', error)
+        })
+    }
+  }, [message])
 
   const getFile = async (id) => {
     try {
@@ -14,7 +26,9 @@ const Message = ({ message }) => {
       if (response.status !== 200) /* istanbul ignore next */ {
         throw new Error("Erreur lors de l'envoi du message.")
       } else {
-        return response.url
+        const blob = await response.blob()
+        const objectURL = URL.createObjectURL(blob)
+        return objectURL
       }
     } catch (e) /* istanbul ignore next */ {
       console.error(e)
@@ -46,12 +60,14 @@ const Message = ({ message }) => {
             )
           : (
             <div>
-              {imageURL
+              {fileURL
                 ? (
-                  <img src={imageURL} alt='Error : Unable to load Image' />
+                  <a href={fileURL} target='_blank' rel='noopener noreferrer'>
+                    Ouvrir le fichier
+                  </a>
                   )
                 : (
-                  <p>Loading image...</p>
+                  <p>Chargement du fichier...</p>
                   )}
               <p>{message.content}</p>
             </div>

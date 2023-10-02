@@ -35,6 +35,7 @@ const FormListTeacherPage = () => {
             accessBtn.textContent = 'Y Accéder'
             accessBtn.classList.add('button-css')
             accessBtn.classList.add('questionnaire-btn')
+            accessBtn.id = 'access-btn-' + index
             accessBtn.style.marginBottom = '10px'
             accessBtn.addEventListener('click', function () {
               accessForm(questionnaire._id)
@@ -71,7 +72,7 @@ const FormListTeacherPage = () => {
             </div>
             <div className='form-content-container'>
               <div>
-                <button className='button-css questionnaire-btn' style={{ width: '400px' }} onClick={createNewForm}>Créer un Nouveau Questionnaire +</button>
+                <button id='form-create-btn' className='button-css questionnaire-btn' style={{ width: '400px' }} onClick={createNewForm}>Créer un Nouveau Questionnaire +</button>
               </div>
               <div id='title-rows' />
             </div>

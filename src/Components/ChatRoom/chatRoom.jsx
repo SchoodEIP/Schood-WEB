@@ -80,7 +80,6 @@ const Messages = () => {
         setMessages(messageData)
       } catch (error) /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération des messages :', error)
-        // Gérer l'erreur de récupération des messages ici
       }
     }
 
@@ -104,7 +103,6 @@ const Messages = () => {
         setContacts(data)
       } catch (error) /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération des contacts :', error)
-        // Gérer l'erreur de récupération des contacts ici
       }
     }
 
@@ -127,7 +125,6 @@ const Messages = () => {
 
     try {
       const formData = new FormData()
-      // a voir avec quentin pour le prochain sprint
       formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
 
       if (file) {
@@ -231,7 +228,7 @@ const Messages = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ // not sure which id belongs to which participant voir avec quentin
+        body: JSON.stringify({
           participants: participantsArray
         })
       })
