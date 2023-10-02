@@ -2,8 +2,8 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
+import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
-import { MemoryRouter } from 'react-router-dom';
 
 describe('Dashboard Student component', () => {
   const previousUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`
