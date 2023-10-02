@@ -2,9 +2,8 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
-import { MemoryRouter } from 'react-router-dom';
 
 describe('Dashboard Student component', () => {
   const previousUrl = 'http://localhost:8080/shared/questionnaire/previous'

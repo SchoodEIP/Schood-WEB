@@ -10,11 +10,11 @@ export function QuestSpace () {
   useEffect(() => {
     // Effectuer une requête GET pour récupérer le statut du questionnaire précédent
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-        }
-      })
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setPreviousQuestStatus(data.status)
@@ -25,11 +25,11 @@ export function QuestSpace () {
 
     // Effectuer une requête GET pour récupérer le statut du questionnaire hebdomadaire
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-        }
-      })
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setCurrentQuestStatus(data.status)
@@ -75,7 +75,7 @@ export function QuestSpace () {
             )}
             {previousQuestStatus === 'completed' && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={() => {window.location.href = '/questionnaires'}}>
+                <button className='orange-button' onClick={() => { window.location.href = '/questionnaires' }}>
                   Terminer le questionnaire
                 </button>
               </div>

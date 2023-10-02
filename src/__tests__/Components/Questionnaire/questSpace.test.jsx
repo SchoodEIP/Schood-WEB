@@ -1,8 +1,8 @@
-import React from 'react';
-import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import React from 'react'
+import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx'
+import { render, screen, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('QuestSpace Component', () => {
@@ -72,8 +72,8 @@ describe('QuestSpace Component', () => {
     })
 
     await waitFor(() => {
-      const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.');
-      expect(currentformStatus).toBeInTheDocument();
+      const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.')
+      expect(currentformStatus).toBeInTheDocument()
     })
-  });
-});
+  })
+})
