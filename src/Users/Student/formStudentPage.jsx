@@ -35,14 +35,14 @@ const FormStudentPage = () => {
       .catch(error => setError(error.message))
   }, [id])
 
-  function getFormAnswers() {
-    const formAnswers = [];
+  function getFormAnswers () {
+    const formAnswers = []
     data.questions.map((question, index) => {
       let result = null
       switch (question.type) {
         case 'text':
           result = document.getElementById('answer-' + index + '-0').value
-          break;
+          break
         case 'emoji':
           result = '-1'
           for (let i = 0; i < 3; i++) {
@@ -50,7 +50,7 @@ const FormStudentPage = () => {
               result = `${i}`
             }
           }
-          break;
+          break
         case 'multiple':
           result = '-1'
           question.answers.map((multipleAnswer, i) => {
@@ -59,28 +59,28 @@ const FormStudentPage = () => {
             }
             return multipleAnswer
           })
-          break;
+          break
         default:
-          break;
+          break
       }
-      let answerFormat  = {
+      const answerFormat = {
         question: question._id,
         answer: result
       }
       return formAnswers.push(answerFormat)
-    });
+    })
     return formAnswers
   }
 
-  function sendAnswers() {
-    const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + "/student/questionnaire/" + id;
+  function sendAnswers () {
+    const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
     const data = getFormAnswers()
     fetch(sendAnswerUrl, {
       method: 'POST',
       headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
+        'x-auth-token': sessionStorage.getItem('token')
       },
-      body: JSON.stringify({answers: data})
+      body: JSON.stringify({ answers: data })
     }).then(response => response.json())
       .then(data => {
         if (data.message) {
@@ -160,7 +160,7 @@ const FormStudentPage = () => {
                 ))}
             </div>
             <div className='validate-btn-container'>
-              <button className='button-css questionnaire-btn' type="submit" onClick={sendAnswers}>Valider le Questionnaire</button>
+              <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>
             </div>
           </div>
         </div>
