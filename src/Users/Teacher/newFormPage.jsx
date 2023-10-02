@@ -45,7 +45,13 @@ const NewFormPage = () => {
         date,
         questions: array
       })
-    }).then(response => (response.status !== 200) ? setErrMessage(response.status + ' error : ' + response.statusText) : 'Le questionnaire a été créé')
+    }).then(response => {
+      if (response.status !== 200) {
+        setErrMessage(response.status + ' error : ' + response.statusText)
+      } else {
+        window.location.href = '/questionnaires'
+      }
+    })
       .catch(error => setErrMessage(error.message))
   }
 

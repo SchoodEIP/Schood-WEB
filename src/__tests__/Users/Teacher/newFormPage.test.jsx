@@ -1,6 +1,6 @@
+import '@testing-library/jest-dom'
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
@@ -186,7 +186,7 @@ describe('NewFormPage', () => {
   })
 
   it('should handle errors', async () => {
-    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+    const mockFetch = jest.fn().mockResolvedValue({ status: 400, statusText: 'Error' })
 
     global.fetch = mockFetch
 
@@ -202,7 +202,98 @@ describe('NewFormPage', () => {
 
     await act(async () => {
       fireEvent.click(postButton)
-      await expect(mockFetch()).rejects.toThrow('Network Error')
     })
+
+    await waitFor(() => {
+      expect(screen.getByText('400 error : Error')).toBeInTheDocument()
+    })
+
+    const otherFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+    global.fetch = otherFetch
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Network Error')).toBeInTheDocument()
+    })
+  })
+
+  test('create questionnaire', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaires')
+
+    window.location = originalLocation
+  })
+
+  test('fail to create questionnaire', async () => {
+    window.fetch = jest.fn().mockResolvedValue({
+      status: 400,
+      json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
+    })
+
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    const originalLocation = window.location
+
+    delete window.location
+    window.location = {
+      href: '/questionnaire'
+    }
+
+    const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+    act(() => {
+      fireEvent.click(addQuestionBtn)
+    })
+    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+
+    const createFormBtn = screen.getByText('Créer un Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(createFormBtn)
+    })
+
+    expect(window.location.href).toBe('/questionnaire')
+
+    window.location = originalLocation
+
+    expect(screen.getByText('400 error : undefined')).toBeInTheDocument()
+    expect(window.fetch).toHaveBeenCalledTimes(1)
   })
 })
