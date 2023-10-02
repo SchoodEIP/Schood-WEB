@@ -28,7 +28,6 @@ const FormStudentPage = () => {
       .then(data => {
         if (data.title) {
           setData(data)
-          console.log(data)
         } else {
           setError(data.message)
         }
