@@ -2,13 +2,12 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Dashboard Student component', () => {
-  const previousUrl = 'http://localhost:8080/shared/questionnaire/previous'
-  const currentUrl = 'http://localhost:8080/shared/questionnaire/current'
+  const previousUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`
+  const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
 
   beforeEach(() => {
     fetchMock.reset()

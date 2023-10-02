@@ -85,7 +85,7 @@ export function QuestSpace () {
             <p>Questionnaire hebdomadaire</p>
             {currentQuestStatus === 'not_started' && (
               <div className='quest-start'>
-                <button className='green-button' onClick={() => window.location.href = '/questionnaires'}>
+                <button className='green-button' onClick={handlePreviousClick}>
                   Lancer le questionnaire
                 </button>
               </div>
@@ -102,7 +102,7 @@ export function QuestSpace () {
             )}
             {currentQuestStatus === 'not_started' && (
               <div className='quest-terminate'>
-                <button className='orange-button' data-testid='form-access-btn' onClick={() => window.location.href = '/questionnaires'}>
+                <button className='orange-button' data-testid='form-access-btn' onClick={handleCurrentClick}>
                   Terminer le questionnaire
                 </button>
               </div>
