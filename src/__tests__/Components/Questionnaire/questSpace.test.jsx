@@ -11,8 +11,8 @@ describe('QuestSpace Component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.get(previousUrl, { body: {status: 'completed'} })
-    fetchMock.get(currentUrl, { body: {status: 'in_progress'} })
+    fetchMock.get(previousUrl, { body: { status: 'completed' } })
+    fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
   })
 
   afterEach(() => {
@@ -53,9 +53,9 @@ describe('QuestSpace Component', () => {
         </MemoryRouter>
       )
     })
-    const titleElement = screen.getByText('Mes Questionnaires');
-    expect(titleElement).toBeInTheDocument();
-  });
+    const titleElement = screen.getByText('Mes Questionnaires')
+    expect(titleElement).toBeInTheDocument()
+  })
 
   it('goes to the form', async () => {
     await act(async () => {

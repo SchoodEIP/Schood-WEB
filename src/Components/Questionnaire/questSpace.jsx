@@ -75,7 +75,7 @@ export function QuestSpace () {
             )}
             {previousQuestStatus === 'completed' && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={handleCurrentClick}>
+                <button className='orange-button' onClick={() => {window.location.href = '/questionnaires'}}>
                   Terminer le questionnaire
                 </button>
               </div>
