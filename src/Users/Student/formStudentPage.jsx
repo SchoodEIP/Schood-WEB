@@ -76,7 +76,6 @@ const FormStudentPage = () => {
   function sendAnswers() {
     const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + "/student/questionnaire/" + id;
     const data = getFormAnswers()
-    console.log(data)
     fetch(sendAnswerUrl, {
       method: 'POST',
       headers: {
