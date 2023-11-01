@@ -3,7 +3,7 @@ import React from 'react'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormStudentPage from '../../../Users/Student/formStudentPage'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
 describe('FormStudentPage', () => {
   const id = '64f2f862b0975ae4340acafa'
@@ -154,7 +154,9 @@ describe('FormStudentPage', () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
-          <FormStudentPage />
+          <Routes>
+            <Route path="/questionnaire/:id" element={<FormStudentPage />} />
+          </Routes>
         </MemoryRouter>
       )
     })
