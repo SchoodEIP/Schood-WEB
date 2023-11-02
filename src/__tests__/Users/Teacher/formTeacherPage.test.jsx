@@ -92,7 +92,7 @@ describe('FormTeacherPage', () => {
   ]
 
   beforeEach(() => {
-    fetchMock.config.overwriteRoutes = true;
+    fetchMock.config.overwriteRoutes = true
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
@@ -144,7 +144,7 @@ describe('FormTeacherPage', () => {
   })
 
   it('should handle messages from questionnaire', async () => {
-    fetchMock.get(questionnaireUrl, {message: 'this should work'})
+    fetchMock.get(questionnaireUrl, { message: 'this should work' })
 
     await act(() => {
       render(
@@ -156,7 +156,7 @@ describe('FormTeacherPage', () => {
       )
     })
     await act(async () => {
-      await expect(screen.getByText('Erreur', {selector: 'h1'})).toBeInTheDocument()
+      await expect(screen.getByText('Erreur', { selector: 'h1' })).toBeInTheDocument()
     })
   })
 })
