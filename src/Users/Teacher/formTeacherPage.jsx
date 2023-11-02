@@ -99,6 +99,7 @@ const FormTeacherPage = () => {
             if (data[0]._id) {
               createFormContent(originForm, data)
             } else {
+              console.log('here')
               setError(data.message)
             }
           })
@@ -176,7 +177,7 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
-              {(!formData | !formData.questions)
+              {(!formData | !formData.questions | error)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
                   <div key={index} className='questions-container' id={`container-${index}`}>

@@ -92,6 +92,7 @@ describe('FormTeacherPage', () => {
   ]
 
   beforeEach(() => {
+    fetchMock.config.overwriteRoutes = true;
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
@@ -120,6 +121,42 @@ describe('FormTeacherPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Questionnaire test', { selector: 'h1' })).toBeInTheDocument()
+    })
+  })
+
+  it('should handle errors', async () => {
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+    global.fetch = mockFetch
+
+    await act(() => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <Routes>
+            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+          </Routes>
+        </MemoryRouter>
+      )
+    })
+    await act(async () => {
+      await expect(mockFetch()).rejects.toThrow('Network Error')
+    })
+  })
+
+  it('should handle messages from questionnaire', async () => {
+    fetchMock.get(questionnaireUrl, {message: 'this should work'})
+
+    await act(() => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <Routes>
+            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+          </Routes>
+        </MemoryRouter>
+      )
+    })
+    await act(async () => {
+      await expect(screen.getByText('Erreur', {selector: 'h1'})).toBeInTheDocument()
     })
   })
 })
