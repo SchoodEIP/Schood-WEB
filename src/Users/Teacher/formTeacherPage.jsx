@@ -177,7 +177,7 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
-              {(!formData | !formData.questions | error)
+              {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
                   <div key={index} className='questions-container' id={`container-${index}`}>
