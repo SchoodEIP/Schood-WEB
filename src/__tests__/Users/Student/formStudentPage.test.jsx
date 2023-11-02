@@ -150,12 +150,12 @@ describe('FormStudentPage', () => {
     })
   })
 
-  it('should answer form', async() => {
+  it('should answer form', async () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
           <Routes>
-            <Route path="/questionnaire/:id" element={<FormStudentPage />} />
+            <Route path='/questionnaire/:id' element={<FormStudentPage />} />
           </Routes>
         </MemoryRouter>
       )
