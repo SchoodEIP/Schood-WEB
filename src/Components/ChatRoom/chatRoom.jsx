@@ -64,18 +64,10 @@ const Messages = () => {
         const data = await response.json()
         const messageData = []
         for (let i = 0; i < data.length; i++) {
-          if (!data[i].file) {
-            messageData.push({
-              contentType: 'text',
-              content: data[i].content
-            })
-          } else {
-            messageData.push({
-              contentType: 'file',
-              content: data[i].content,
-              file: data[i].file
-            })
-          }
+          messageData.push({
+            contentType: !data[i].file ? 'text' : 'file',
+            ...data[i]
+          })
         }
         setMessages(messageData)
       } catch (error) /* istanbul ignore next */ {
