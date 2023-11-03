@@ -114,14 +114,14 @@ const Messages = () => {
       return
     }
 
-    const time = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-    const username = 'User'
-    const content = newMessage
-
-    const messageData = { username, time, content, contentType: fileType }
+    const currentTime = new Date();
+    const messageData = {
+      username: 'User',
+      time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      date: currentTime.toLocaleDateString(),
+      content: newMessage,
+      contentType: fileType
+    };
 
     try {
       const formData = new FormData()
