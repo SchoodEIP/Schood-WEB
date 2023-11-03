@@ -74,6 +74,7 @@ describe('Messages Component', () => {
     const fileMessage = {
       content: 'File: Image.jpg',
       username: 'User',
+      date: '0000',
       contentType: 'file',
       file: '12345'
     }
@@ -87,6 +88,9 @@ describe('Messages Component', () => {
 
     const usernameElement = screen.getByText('User')
     expect(usernameElement).toBeInTheDocument()
+
+    const dateElement = screen.getByText('0000')
+    expect(dateElement).toBeInTheDocument()
 
     // Wait for the error message to appear
 
