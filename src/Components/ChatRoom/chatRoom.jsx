@@ -106,14 +106,14 @@ const Messages = () => {
       return
     }
 
-    const currentTime = new Date();
+    const currentTime = new Date()
     const messageData = {
       username: 'User',
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
       contentType: fileType
-    };
+    }
 
     try {
       const formData = new FormData()
