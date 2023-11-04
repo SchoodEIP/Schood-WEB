@@ -180,7 +180,6 @@ describe('Messages Component', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
-
   })
 
   it('handles file error', async () => {

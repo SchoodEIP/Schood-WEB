@@ -3,7 +3,7 @@ import '../../css/pages/chatRoomPage.scss'
 import Message from './message'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
-import ReportButton from './reportButton';
+import ReportButton from './reportButton'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])

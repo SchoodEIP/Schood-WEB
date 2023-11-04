@@ -27,7 +27,7 @@ describe('Messages Component', () => {
     const textMessage = {
       user: 'User',
       content: 'Hello, World!',
-      contentType: 'text',
+      contentType: 'text'
     }
 
     await act(async () => {
@@ -37,8 +37,8 @@ describe('Messages Component', () => {
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-    const userElement = screen.getByText('User');
-    expect(userElement).toBeInTheDocument();
+    const userElement = screen.getByText('User')
+    expect(userElement).toBeInTheDocument()
   })
 
   it('renders a file message with image', async () => {
@@ -61,7 +61,7 @@ describe('Messages Component', () => {
       render(<Messages message={fileMessage} />)
     })
 
-    screen.debug();
+    screen.debug()
 
     // Wait for the image to load
 
