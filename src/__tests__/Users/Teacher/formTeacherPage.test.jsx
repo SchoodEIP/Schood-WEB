@@ -57,34 +57,34 @@ describe('FormTeacherPage', () => {
   }
 
   const studentsResponse = {
-      _id: 1,
-      users: [
-        {
-          _id: '64f72b4e06c0818813902624',
-          classes: ['64f72b4d06c0818813902612'],
-          email: 'student1@schood.fr',
-          firstname: 'student1',
-          lastname: 'student1'
-        }
-      ]
-    }
-
-  const answersResponse = {
-      _id: '64fb242c19b9a22c8a0cde63',
-      answers: [
-        { question: '64fb230269a0b02380ee32a7', answer: ['1'], _id: '64fb242c19b9a22c8a0cde64' },
-        { question: '64fb230269a0b02380ee32a8', answer: ['Bof'], _id: '64fb242c19b9a22c8a0cde65' },
-        { question: '64fb230269a0b02380ee32a9', answer: ['0'], _id: '64fb242c19b9a22c8a0cde66' }
-      ],
-      createdBy: {
+    _id: 1,
+    users: [
+      {
         _id: '64f72b4e06c0818813902624',
+        classes: ['64f72b4d06c0818813902612'],
         email: 'student1@schood.fr',
         firstname: 'student1',
         lastname: 'student1'
-      },
-      date: '2023-09-08T00:00:00.000Z',
-      questionnaire: '123'
-    }
+      }
+    ]
+  }
+
+  const answersResponse = {
+    _id: '64fb242c19b9a22c8a0cde63',
+    answers: [
+      { question: '64fb230269a0b02380ee32a7', answer: ['1'], _id: '64fb242c19b9a22c8a0cde64' },
+      { question: '64fb230269a0b02380ee32a8', answer: ['Bof'], _id: '64fb242c19b9a22c8a0cde65' },
+      { question: '64fb230269a0b02380ee32a9', answer: ['0'], _id: '64fb242c19b9a22c8a0cde66' }
+    ],
+    createdBy: {
+      _id: '64f72b4e06c0818813902624',
+      email: 'student1@schood.fr',
+      firstname: 'student1',
+      lastname: 'student1'
+    },
+    date: '2023-09-08T00:00:00.000Z',
+    questionnaire: '123'
+  }
 
   beforeEach(() => {
     fetchMock.config.overwriteRoutes = true
@@ -121,7 +121,7 @@ describe('FormTeacherPage', () => {
       expect(screen.getByText('1. Comment te sens-tu à propos de ce test ?', { selector: 'h2' })).toBeInTheDocument()
     })
 
-    let emojiButton = screen.getByTestId('question-container-0')
+    const emojiButton = screen.getByTestId('question-container-0')
 
     await act(async () => {
       fireEvent.click(emojiButton)
@@ -131,7 +131,7 @@ describe('FormTeacherPage', () => {
       expect(screen.getByText('2. Elabores sur ta réponse à la question précédente', { selector: 'h2' })).toBeInTheDocument()
     })
 
-    let textButton = screen.getByTestId('question-container-1')
+    const textButton = screen.getByTestId('question-container-1')
 
     await act(async () => {
       fireEvent.click(textButton)
@@ -141,7 +141,7 @@ describe('FormTeacherPage', () => {
       expect(screen.getByText('3. Est-ce que le texte fonctionne ?', { selector: 'h2' })).toBeInTheDocument()
     })
 
-    let multiButton = screen.getByTestId('question-container-2')
+    const multiButton = screen.getByTestId('question-container-2')
 
     await act(async () => {
       fireEvent.click(multiButton)
