@@ -55,31 +55,27 @@ const FormTeacherPage = () => {
         ultimateResponse.questions.push(quest)
         return ultimateResponse
       })
-
-      answeredForm.map((studentAnswer, index) => {
-        studentAnswer.answers.map((answer, i) => {
-          if (ultimateResponse.questions[i]._id === answer.question) {
-            if (ultimateResponse.questions[i].type === 'text') {
-              ultimateResponse.questions[i].answers.push(answer.answer)
-            } else if (ultimateResponse.questions[i].type === 'emoji') {
-              ultimateResponse.questions[i].answers.map((options, j) => {
-                if (options.position === parseInt(answer.answer)) {
-                  options.count += 1
-                }
-                return options
-              })
-            } else if (ultimateResponse.questions[i].type === 'multiple') {
-              ultimateResponse.questions[i].answers.map((options, j) => {
-                if ((options.position) === parseInt(answer.answer)) {
-                  options.count += 1
-                }
-                return options
-              })
-            }
+      answeredForm.answers.map((answer, i) => {
+        if (ultimateResponse.questions[i]._id === answer.question) {
+          if (ultimateResponse.questions[i].type === 'text') {
+            ultimateResponse.questions[i].answers.push(answer.answer)
+          } else if (ultimateResponse.questions[i].type === 'emoji') {
+            ultimateResponse.questions[i].answers.map((options, j) => {
+              if (options.position === parseInt(answer.answer)) {
+                options.count += 1
+              }
+              return options
+            })
+          } else if (ultimateResponse.questions[i].type === 'multiple') {
+            ultimateResponse.questions[i].answers.map((options, j) => {
+              if ((options.position) === parseInt(answer.answer)) {
+                options.count += 1
+              }
+              return options
+            })
           }
-          return answer
-        })
-        return studentAnswer
+        }
+        return answer
       })
       setFormData(ultimateResponse)
     }
@@ -96,10 +92,9 @@ const FormTeacherPage = () => {
           }
         }).then(response => response.json())
           .then(data => {
-            if (data[0]._id) {
+            if (data._id) {
               createFormContent(originForm, data)
             } else {
-              console.log('here')
               setError(data.message)
             }
           })
@@ -118,8 +113,8 @@ const FormTeacherPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          if (data[0].users) {
-            getAnswers(originForm, data[0].users)
+          if (data.users) {
+            getAnswers(originForm, data.users)
           } else {
             setError(data.message)
           }

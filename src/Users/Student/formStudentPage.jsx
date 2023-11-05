@@ -73,23 +73,26 @@ const FormStudentPage = () => {
   }
 
   function sendAnswers () {
-    const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
     const data = getFormAnswers()
+    const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
+
     fetch(sendAnswerUrl, {
       method: 'POST',
       headers: {
-        'x-auth-token': sessionStorage.getItem('token')
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ answers: data })
+      body: JSON.stringify({ "answers": data })
     }).then(response => response.json())
       .then(data => {
-        if (data.message) {
-          setError(data.message)
-        } else {
+        if (!data.message) {
           navigate('/questionnaires')
+        } else {
+          setError(data.message)
         }
       })
       .catch(error => setError(error.message))
+
   }
 
   return (
@@ -158,6 +161,9 @@ const FormStudentPage = () => {
                     </div>
                   </div>
                 ))}
+            </div>
+            <div>
+              <p id="form-error-message">{error}</p>
             </div>
             <div className='validate-btn-container'>
               <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>
