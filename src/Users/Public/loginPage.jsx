@@ -96,34 +96,32 @@ export default function Login () {
 
   return (
     <div className='auth-page'>
-      <div id='auth-background-part'>
-        <img id='childrenImg' src={childrenLogin} alt='children' />
-      </div>
       <div id='auth-part'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
         <div id='auth-form'>
           <form>
             <div>
-              <input className='auth-input' id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <label className='input-label'>
+                Email
+                <input className='auth-input' id='userInput' type='text' placeholder='email' onChange={handleEmailChange} value={email} required />
+              </label>
             </div>
             <div>
-              <input className='auth-input' id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
+              <label className='input-label'>
+                Mot de Passe
+                <input className='auth-input' id='passInput' type='password' placeholder='mot de passe' onChange={handlePasswordChange} value={password} required />
+              </label>
             </div>
           </form>
         </div>
         <div>
-          <label id='rememberLabel'>
-            <input id='rememberCheckbox' type='checkbox' /> Remember me
-          </label>
+          <p id='signUpRedirect'>Mot de passe oublié ? <a href='/forgot'>Cliquez ici.</a></p>
         </div>
         <div>
-          <button onClick={handleLogin} type='submit' id='submit-button'>Login</button>
+          <button onClick={handleLogin} type='submit' id='submit-button'>Connexion</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>
-        </div>
-        <div>
-          <p id='signUpRedirect'>Forgot your password? <a href='/forgot'>Reset here.</a></p>
         </div>
       </div>
     </div>
