@@ -4,10 +4,13 @@
     left: 20%;
     top: 15%;
     width: 45rem;
+    border-radius: 15px;
 }
 
 #p-box {
     background-color: white;
+    border-radius: 15px;
+    border: 1px solid rgb(79, 35, 226);
 }
 
 
@@ -37,6 +40,7 @@
     background-color: rgb(230,230,230);
     border: 0;
     padding-left: 1rem;
+    border-radius: 15px;
 }
 
 .pop-info {
@@ -53,6 +57,7 @@
     border: 0;
     padding-left: 1rem;
     padding-top: 2rem;
+    border-radius: 15px;
   }
 
   .pop-header {
@@ -60,8 +65,15 @@
     color: white;
     text-align: center;
     display: grid;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 }
 
 .btn-close {
     justify-self: end;
+    background: transparent;
+    color: white;
+    border: transparent;
+    border-radius: 15px;
+    cursor: pointer;
 }

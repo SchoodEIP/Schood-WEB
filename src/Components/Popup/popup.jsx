@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../css/Components/Popup/popup.css'
+import {FaTimes} from "react-icons/fa"
 
 export default function Popup (props) {
   return (
@@ -7,7 +8,7 @@ export default function Popup (props) {
       <div id='p-box'>
         <div className='pop-content'>
           <div className='pop-header'>
-            <button className='btn-close' onClick={props.handleClose}>x</button>
+            <button className='btn-close' onClick={props.handleClose}><FaTimes size={24} /></button>
             <h2>{props.title}</h2>
           </div>
           <div className='pop-body'>

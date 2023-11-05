@@ -19,23 +19,26 @@
     background-color: white;
     justify-content: center;
     margin: 2rem;
+    border-radius: 15px;
 }
 
 th {
     background: rgb(79, 35, 226);
 }
 
-table, td, th {
+table,
+td,
+th {
     text-align: center;
 }
 
 td, th {
-    border: 1px solid black;
+    border: 1px solid rgb(79, 35, 226);
     height: 3.5rem;
 }
 
 th {
-    border: 1px solid black;
+    border: 1px solid white;
     width: 12rem;
 }
 
