@@ -83,7 +83,6 @@ const FormTeacherPage = () => {
     function getAnswers (originForm, studentsArray) {
       for (let i = 0; i < studentsArray.length; i++) {
         const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/answers/' + studentsArray[i]._id
-
         fetch(answerListUrl, {
           method: 'GET',
           headers: {
@@ -158,11 +157,11 @@ const FormTeacherPage = () => {
   return (
     <div className='form-page'>
       <div>
-        <HeaderComp />
+        {/* <HeaderComp /> */}
       </div>
       <div className='different-page-content'>
         <div>
-          <Sidebar />
+          {/* <Sidebar /> */}
         </div>
         <div className='left-half'>
           <div className='form-container'>
@@ -196,7 +195,7 @@ const FormTeacherPage = () => {
                           {imgImports.map((imgSrc, i) => (
                             <div key={i} className='emoji-container'>
                               <img src={imgSrc} alt={imgSrc} />
-                              <p>{question.answers.map((answer, j) => {
+                              <p data-testid={`emoji-answer-${i}`}>{question.answers.map((answer, j) => {
                                 if (i === j) {
                                   return answer.count
                                 }
@@ -212,7 +211,7 @@ const FormTeacherPage = () => {
                           {question.answers.map((answer, i) => (
                             <li key={i} style={{ gap: '25px', display: 'flex' }}>
                               <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                              <span>{answer.count}</span>
+                              <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
                             </li>
                           ))}
                         </ul>

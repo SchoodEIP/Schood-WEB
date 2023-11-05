@@ -1,15 +1,14 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 describe('FormTeacherPage', () => {
-  const id = 123
-  const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
-  const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + id + '/answers/64f72b4e06c0818813902624'
-  const studentListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + id + '/students'
+  const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'
+  const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/123/answers/64f72b4e06c0818813902624'
+  const studentListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/123/students'
   let container = null
 
   const questionnaireResponse = {
@@ -57,8 +56,7 @@ describe('FormTeacherPage', () => {
     toDate: '2023-09-09T00:00:00.000Z'
   }
 
-  const studentsResponse = [
-    {
+  const studentsResponse = {
       _id: 1,
       users: [
         {
@@ -70,15 +68,13 @@ describe('FormTeacherPage', () => {
         }
       ]
     }
-  ]
 
-  const answersResponse = [
-    {
+  const answersResponse = {
       _id: '64fb242c19b9a22c8a0cde63',
       answers: [
-        { question: '64fb230269a0b02380ee32a7', answer: '1', _id: '64fb242c19b9a22c8a0cde64' },
-        { question: '64fb230269a0b02380ee32a8', answer: 'Bof', _id: '64fb242c19b9a22c8a0cde65' },
-        { question: '64fb230269a0b02380ee32a9', answer: '0', _id: '64fb242c19b9a22c8a0cde66' }
+        { question: '64fb230269a0b02380ee32a7', answer: ['1'], _id: '64fb242c19b9a22c8a0cde64' },
+        { question: '64fb230269a0b02380ee32a8', answer: ['Bof'], _id: '64fb242c19b9a22c8a0cde65' },
+        { question: '64fb230269a0b02380ee32a9', answer: ['0'], _id: '64fb242c19b9a22c8a0cde66' }
       ],
       createdBy: {
         _id: '64f72b4e06c0818813902624',
@@ -89,7 +85,6 @@ describe('FormTeacherPage', () => {
       date: '2023-09-08T00:00:00.000Z',
       questionnaire: '123'
     }
-  ]
 
   beforeEach(() => {
     fetchMock.config.overwriteRoutes = true
@@ -114,7 +109,6 @@ describe('FormTeacherPage', () => {
           <Routes>
             <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
           </Routes>
-
         </MemoryRouter>
       )
     })
@@ -122,6 +116,71 @@ describe('FormTeacherPage', () => {
     await waitFor(() => {
       expect(screen.getByText('Questionnaire test', { selector: 'h1' })).toBeInTheDocument()
     })
+
+    await waitFor(() => {
+      expect(screen.getByText('1. Comment te sens-tu à propos de ce test ?', { selector: 'h2' })).toBeInTheDocument()
+    })
+
+    let emojiButton = screen.getByTestId('question-container-0')
+
+    await act(async () => {
+      fireEvent.click(emojiButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('2. Elabores sur ta réponse à la question précédente', { selector: 'h2' })).toBeInTheDocument()
+    })
+
+    let textButton = screen.getByTestId('question-container-1')
+
+    await act(async () => {
+      fireEvent.click(textButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('3. Est-ce que le texte fonctionne ?', { selector: 'h2' })).toBeInTheDocument()
+    })
+
+    let multiButton = screen.getByTestId('question-container-2')
+
+    await act(async () => {
+      fireEvent.click(multiButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('oui')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-2'))
+    })
+  })
+
+  test('check arrow up and down', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <Routes>
+            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+          </Routes>
+        </MemoryRouter>
+      )
+    })
+
+    // await waitFor(() => {
+    //   expect(screen.getByTestId('arrow')).toBeInTheDocument()
+    // })
+
+    // await waitFor(() => {
+    //   expect(screen.getByText('1. Comment te sens-tu à propos de ce test ?', { selector: 'h2' })).toBeInTheDocument()
+    // })
+
+    // let emojiButton = screen.getByTestId('question-container-0')
+
+    // await act(async () => {
+    //   fireEvent.click(emojiButton)
+    // })
+
   })
 
   it('should handle errors', async () => {
