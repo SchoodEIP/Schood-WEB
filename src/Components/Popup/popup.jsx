@@ -8,7 +8,7 @@ export default function Popup (props) {
       <div id='p-box'>
         <div className='pop-content'>
           <div className='pop-header'>
-            <button className='btn-close' onClick={props.handleClose}><FaTimes size={24} /></button>
+            <button className='btn-close' data-testid="popup-close-btn" onClick={props.handleClose}><FaTimes size={24} /></button>
             <h2>{props.title}</h2>
           </div>
           <div className='pop-body'>

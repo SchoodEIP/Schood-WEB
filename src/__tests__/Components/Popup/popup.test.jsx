@@ -18,7 +18,7 @@ describe('Popup', () => {
   test('renders popup with correct content and handles actions', () => {
     render(<Popup {...mockProps} />)
 
-    const closeButton = screen.getByText('x')
+    const closeButton = screen.getByTestId('popup-close-btn')
     const title = screen.getByText('Test Popup')
     const content = screen.getByText('Test Content')
     const errorMessage = screen.getByText('Test Error Message')

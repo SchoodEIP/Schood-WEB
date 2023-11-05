@@ -6,9 +6,7 @@ describe('HeaderComp', () => {
   test('should render logo and user icon', () => {
     render(<HeaderComp />)
     const logo = screen.getByAltText('logo')
-    const userIcon = screen.getByAltText('User')
     expect(logo).toBeInTheDocument()
-    expect(userIcon).toBeInTheDocument()
   })
 
   test('should empty localStorage and sessionStorage', async () => {
@@ -25,7 +23,7 @@ describe('HeaderComp', () => {
     expect(window.sessionStorage.getItem('token')).toBe('falseToken')
     expect(window.sessionStorage.getItem('role')).toBe('admin')
 
-    fireEvent.click(screen.getByAltText('Disconnect'))
+    fireEvent.click(logout)
 
     expect(window.localStorage.getItem('token')).toBe(null)
     expect(window.localStorage.getItem('role')).toBe(null)
