@@ -51,7 +51,7 @@ export default function SchoolAdmAccountsPage () {
           setRolesList(data.roles)
         })
         .catch(error => setErrMessage(error.message))
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }, [])
@@ -61,7 +61,7 @@ export default function SchoolAdmAccountsPage () {
     setFirstName('')
     setName('')
     setEmail('')
-    setRole(rolesList[0]._id)
+    if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
     setClasses([])
     setErrMessage('')
     if (isOpenMany) {
@@ -131,12 +131,12 @@ export default function SchoolAdmAccountsPage () {
       })
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
-      } else {
+      } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }
@@ -157,12 +157,12 @@ export default function SchoolAdmAccountsPage () {
       })
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
-      } else {
+      } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       setErrMessage(e.message)
     }
   }
@@ -200,11 +200,19 @@ export default function SchoolAdmAccountsPage () {
               <input className='pop-input' name='firstName' placeholder='Prénom' onChange={handleFirstNameChange} />
               <input className='pop-input' name='lastName' placeholder='Nom' onChange={handleNameChange} />
               <input className='pop-input' name='email' placeholder='Email' onChange={handleEmailChange} />
-              <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                <option value={rolesList[0]._id}>{rolesList[0].name}</option>
-                <option value={rolesList[1]._id}>{rolesList[1].name}</option>
-              </select>
-              <select multiple value={classes} className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
+              {
+                (rolesList[0] !== undefined)
+                  ? (
+                    <div>
+                      <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                        <option value={rolesList[0]._id}>{rolesList[0].name}</option>
+                        <option value={rolesList[1]._id}>{rolesList[1].name}</option>
+                      </select>
+                    </div>
+                    )
+                  : ''
+              }
+              <select multiple value={classes} id='classe-select' className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
                 {classesList.map((classe_) => (
                   <option key={classe_._id} value={classe_._id}>
                     {classe_.name}

@@ -59,7 +59,7 @@ const NewFormPage = () => {
     const answerSelect = document.getElementById('select-' + id)
     const answerRow = document.getElementById('answer-row-' + id)
     const answerBtnContainer = document.getElementById('answer-btn-container-' + id)
-    const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+    const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
 
     if (answerSelect.value !== 'multiple') {
       answerRow.innerHTML = ''
@@ -70,6 +70,7 @@ const NewFormPage = () => {
       for (let i = 0; i < 2; i++) {
         const firstAnswerInput = document.createElement('input')
         firstAnswerInput.classList.add('form-input')
+        firstAnswerInput.id = 'form-input-' + id + '-' + i
         firstAnswerInput.placeholder = 'Choix possible'
         answerRow.appendChild(firstAnswerInput)
       }
@@ -81,11 +82,12 @@ const NewFormPage = () => {
     const allAnswers = answerRow.querySelectorAll('input')
 
     if (allAnswers.length === 2) {
-      const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+      const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
       removeAnswerBtn.style.display = 'block'
     }
     const answerInput = document.createElement('input')
     answerInput.classList.add('form-input')
+    answerInput.id = 'form-input-' + id + '-' + allAnswers.length
     answerInput.placeholder = 'Choix possible'
     answerRow.appendChild(answerInput)
   }
@@ -95,10 +97,10 @@ const NewFormPage = () => {
     const allAnswers = answerRow.querySelectorAll('input')
 
     if (allAnswers.length === 3) {
-      const removeAnswerBtn = document.getElementById('add-answer-btn-' + id)
+      const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
       removeAnswerBtn.style.display = 'none'
     }
-    answerRow.removeChild(allAnswers[0])
+    answerRow.removeChild(allAnswers[allAnswers.length - 1])
   }
 
   function addNewQuestion () {
@@ -150,7 +152,7 @@ const NewFormPage = () => {
 
     const removeAnswerBtn = document.createElement('button')
     removeAnswerBtn.textContent = 'Enlever une Réponse'
-    removeAnswerBtn.id = 'add-answer-btn-' + questionInc
+    removeAnswerBtn.id = 'remove-answer-btn-' + questionInc
     removeAnswerBtn.classList.add('button-css')
     removeAnswerBtn.classList.add('questionnaire-btn')
     removeAnswerBtn.style.display = 'none'
@@ -209,8 +211,8 @@ const NewFormPage = () => {
               </div>
               <div id='question-row' />
               <div className='confirmation-form-container'>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
-                <button className='button-css questionnaire-btn' onClick={addNewQuestion}>Ajouter une Question</button>
+                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
+                <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
               </div>
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
@@ -219,7 +221,7 @@ const NewFormPage = () => {
                 </label>
                 <div style={{}}>
                   <p data-testid='error-message'>{errMessage}</p>
-                  <button className='button-css questionnaire-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
+                  <button className='button-css questionnaire-btn' id='new-form-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
                 </div>
               </div>
             </div>
