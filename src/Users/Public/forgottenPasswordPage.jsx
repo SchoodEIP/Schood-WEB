@@ -53,20 +53,20 @@ export default function ForgottenPasswordPage () {
 
   return (
     <div className='auth-page'>
-      <div id='auth-background-part'>
-        <img id='childrenImg' src={childrenLogin} alt='children' />
-      </div>
       <div id='auth-part'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
         <div id='auth-form'>
           <form>
             <div>
-              <input className='auth-input' id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              <label>
+                Email
+                <input className='auth-input' id='mailInput' type='text' placeholder='email' onChange={handleEmailChange} value={email} required />
+              </label>
             </div>
           </form>
         </div>
         <div>
-          <button onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
+          <button onClick={handleRequest} type='submit' id='submit-button'>Envoyer</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>
