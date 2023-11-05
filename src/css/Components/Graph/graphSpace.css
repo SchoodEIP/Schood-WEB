@@ -10,16 +10,19 @@
     width: 75%;
     background: white;
     border-color: black;
-    border-radius: 5px;
+    border-radius: 15px;
     float: right;
     position: relative;
+    background: rgb(79, 35, 226);
+
 }
 
 .graph-header {
-    background: rgb(79, 35, 226);
     min-height: 50px;
     justify-content: center;
     display: flex;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
 .title {
@@ -27,5 +30,7 @@
 }
 
 .graph-body {
-    min-height: 30px;;
+    min-height: 30px;
+    color: white;
+    margin-left: 10px;
 }

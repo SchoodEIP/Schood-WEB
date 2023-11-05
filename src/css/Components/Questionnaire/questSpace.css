@@ -2,54 +2,59 @@
     margin: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Aligner horizontalement */
+    align-items: center;
     min-height: 20%;
     min-width: 10%;
     max-height: 80%;
     max-width: 75%;
     width: 75%;
-    background: white;
+    background: rgb(79, 35, 226);
     border-color: black;
-    border-radius: 5px;
+    border-radius: 15px;
     float: right;
     position: relative;
   }
-  
+
   .quest-header {
-    background: rgb(79, 35, 226);
     min-height: 50px;
     display: flex;
-    align-items: center; /* Centrez le texte verticalement */
-    padding: 0 10px; /* Ajoutez un peu d'espace autour du texte */
-    justify-content: space-between; /* Pour espacer le texte horizontalement */
-    width: 100%; /* Remplit l'espace disponible horizontalement */
+    align-items: center;
+    padding: 0 10px;
+    justify-content: space-between;
+    width: 100%;
   }
-  
+
   .title {
     color: white;
+    margin-left: 10px;
+    font-weight: bold;
   }
-  
+
   .quest-body {
-    display: flex; /* Pour aligner les rectangles à l'intérieur côte à côte */
+    display: flex;
     min-height: 30px;
-    width: 100%; /* Remplit l'espace disponible horizontalement */
-    justify-content: space-between; /* Aligner les rectangles à l'extrémité droite */
+    width: 100%;
+    justify-content: space-between;
   }
-  
+
   .quest-previous,
   .quest-current {
     flex: 1;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
+    background-color: white;
+    border-radius: 15px;
   }
-  
+
   .quest-start,
   .quest-terminate {
     text-align: center;
     margin-top: 10px;
+    background-color: white;
+    border-radius: 15px;
   }
-  
+
   .green-button {
     background-color: green;
     color: white;
@@ -57,7 +62,7 @@
     padding: 10px 20px;
     cursor: pointer;
   }
-  
+
   .orange-button {
     background-color: orange;
     color: white;
@@ -65,4 +70,3 @@
     padding: 10px 20px;
     cursor: pointer;
   }
-  
