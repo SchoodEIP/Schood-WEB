@@ -1,8 +1,6 @@
 import React from 'react'
-import Logo from '../../assets/schood.png'
-import PowerIcon2 from '../../assets/powerIcon2.png'
-import userIcon from '../../assets/userIcon.png'
 import '../../css/Components/Header/headerComp.css'
+import logoSchood from '../../assets/logo_schood_slim.png'
 
 export default function HeaderComp () {
   function handleClickLogout () {
@@ -14,14 +12,10 @@ export default function HeaderComp () {
 
   return (
     <header>
-      <div className='headerComp'>
+      <div>
         <div>
-          <img src={Logo} alt='logo' />
-        </div>
-        <div>
-          <img className='user-icon' src={userIcon} alt='User' />
           <a href='/login' data-testid='logout-button' id='logout-button' onClick={handleClickLogout}>
-            <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
+            <img src={logoSchood} alt='logo' />
           </a>
         </div>
       </div>

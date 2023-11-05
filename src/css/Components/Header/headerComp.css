@@ -1,7 +1,8 @@
 header {
     height:10%;
-    width: 100%;
-    background: rgb(79, 35, 226);
+    width: 20%;
+    padding-left: 90%;
+    padding-top: 1%;
 }
 
 html, body {
@@ -18,25 +19,6 @@ html, body {
     align-items: center;
     background: rgb(79, 35, 226);
 
-}
-
-.user-icon {
-    object-fit:scale-down, contain;
-    height: 7%;
-    width: 7%;
-    display: flexbox;
-    margin-right: 3%;
-    margin-left: 80%;
-    justify-content: right;
-}
-
-.power-icon {
-    object-fit:scale-down, contain;
-    height: 7%;
-    width: 7%;
-    display: flexbox;
-    margin-right: 0%;
-    justify-content: right;
 }
 
 img {
