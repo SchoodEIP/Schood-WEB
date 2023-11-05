@@ -82,7 +82,7 @@ const FormStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ "answers": data })
+      body: JSON.stringify({ answers: data })
     }).then(response => response.json())
       .then(data => {
         if (!data.message) {
@@ -92,7 +92,6 @@ const FormStudentPage = () => {
         }
       })
       .catch(error => setError(error.message))
-
   }
 
   return (
@@ -163,7 +162,7 @@ const FormStudentPage = () => {
                 ))}
             </div>
             <div>
-              <p id="form-error-message">{error}</p>
+              <p id='form-error-message'>{error}</p>
             </div>
             <div className='validate-btn-container'>
               <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>
