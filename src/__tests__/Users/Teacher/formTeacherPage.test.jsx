@@ -156,33 +156,6 @@ describe('FormTeacherPage', () => {
     })
   })
 
-  test('check arrow up and down', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter initialEntries={['/questionnaire/123']}>
-          <Routes>
-            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
-          </Routes>
-        </MemoryRouter>
-      )
-    })
-
-    // await waitFor(() => {
-    //   expect(screen.getByTestId('arrow')).toBeInTheDocument()
-    // })
-
-    // await waitFor(() => {
-    //   expect(screen.getByText('1. Comment te sens-tu à propos de ce test ?', { selector: 'h2' })).toBeInTheDocument()
-    // })
-
-    // let emojiButton = screen.getByTestId('question-container-0')
-
-    // await act(async () => {
-    //   fireEvent.click(emojiButton)
-    // })
-
-  })
-
   it('should handle errors', async () => {
     const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
 

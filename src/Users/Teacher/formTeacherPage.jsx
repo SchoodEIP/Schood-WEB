@@ -157,11 +157,11 @@ const FormTeacherPage = () => {
   return (
     <div className='form-page'>
       <div>
-        {/* <HeaderComp /> */}
+        <HeaderComp />
       </div>
       <div className='different-page-content'>
         <div>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </div>
         <div className='left-half'>
           <div className='form-container'>
