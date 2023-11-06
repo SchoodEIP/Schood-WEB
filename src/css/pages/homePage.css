@@ -82,3 +82,8 @@
     flex-basis: 100%;
     width: calc(40% - 10px);
   }
+
+  .header-container {
+    display: flex;
+    justify-content: flex-end;
+  }

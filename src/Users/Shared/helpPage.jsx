@@ -7,7 +7,7 @@ import React from 'react'
 const HelpPage = () => {
   return (
     <div className='dashboard'>
-      <div>
+      <div className="header-container">
         <HeaderComp />
       </div>
       <div className='page-content'>

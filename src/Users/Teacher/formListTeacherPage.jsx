@@ -58,7 +58,7 @@ const FormListTeacherPage = () => {
 
   return (
     <div className='form-page'>
-      <div>
+      <div className="header-container">
         <HeaderComp />
       </div>
       <div className='different-page-content'>

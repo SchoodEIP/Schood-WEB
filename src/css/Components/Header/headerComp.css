@@ -1,8 +1,6 @@
 header {
     height:10%;
-    width: 20%;
-    padding-left: 90%;
-    padding-top: 1%;
+    width: 10%;
 }
 
 html, body {
@@ -10,19 +8,7 @@ html, body {
     margin:0%;
 }
 
-.headerComp {
-    height:5%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    background: rgb(79, 35, 226);
-
-}
-
 img {
     object-fit:scale-down, contain;
-    height: 35%;
-    width: 35%;
+    width: 100%;
 }

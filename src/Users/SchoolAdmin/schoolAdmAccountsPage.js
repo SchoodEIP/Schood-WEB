@@ -169,7 +169,7 @@ export default function SchoolAdmAccountsPage () {
 
   return (
     <div>
-      <div>
+      <div className="header-container">
         <HeaderComp />
       </div>
       <div className='page-content'>
