@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import '../../css/pages/chatRoomPage.scss'
-import Message from './message'
-import ChatRoomSidebar from './chatRoomSidebar'
-import CreateConversationPopup from './createConversationPopup'
-import ReportButton from './reportButton'
+import React, { useEffect, useState } from 'react';
+import '../../css/pages/chatRoomPage.scss';
+import ChatRoomSidebar from './chatRoomSidebar';
+import CreateConversationPopup from './createConversationPopup';
+import Message from './message';
+import ReportButton from './reportButton';
 
 const Messages = () => {
-  const [conversations, setConversations] = useState([])
-  const [currentConversation, setCurrentConversation] = useState('')
+  const [conversations, setConversations] = useState([]);
+  const [currentConversation, setCurrentConversation] = useState('');
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -15,69 +15,65 @@ const Messages = () => {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+          'Content-Type': 'application/json',
+        },
+      });
 
-      const data = await response.json()
-      setCurrentConversation(data[0])
-      for (let i = 0; i < data.length; i++) {
-        let convName = ''
-        for (let j = 0; j < (data[i].participants.length); j++) {
-          convName += data[i].participants[j].firstname + ' ' + data[i].participants[j].lastname
-          if (j < (data[i].participants.length - 1)) {
-            convName += ', '
-          }
-        }
-        conversations.push({
-          _id: data[i]._id,
-          name: convName
-        })
-      }
-    }
-    fetchConversations()
-  }, [conversations])
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState('')
-  const [error, setError] = useState('')
-  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false)
-  const [contacts, setContacts] = useState([])
-  const [file, setFile] = useState(null)
-  const [fileType, setFileType] = useState('text')
+      const data = await response.json();
+      setCurrentConversation(data[0]);
+      const conversationData = data.map((conversation) => {
+        const firstParticipant = conversation.participants[0];
+        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`;
+        return {
+          _id: conversation._id,
+          name: convName,
+        };
+      });
+      setConversations(conversationData);
+    };
+    fetchConversations();
+  }, []);
+
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [error, setError] = useState('');
+  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false);
+  const [contacts, setContacts] = useState([]);
+  const [file, setFile] = useState(null);
+  const [fileType, setFileType] = useState('text');
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         if (!currentConversation) {
-          return
+          return;
         }
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`, {
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
+          {
             method: 'GET',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json'
-            }
-          })
-        if (!response.ok) /* istanbul ignore next */ {
-          throw new Error('Erreur lors de la récupération des messages.')
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des messages.');
         }
-        const data = await response.json()
-        const messageData = []
-        for (let i = 0; i < data.length; i++) {
-          messageData.push({
-            contentType: !data[i].file ? 'text' : 'file',
-            ...data[i]
-          })
-        }
-        setMessages(messageData)
-      } catch (error) /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération des messages :', error)
+        const data = await response.json();
+        const messageData = data.map((message) => ({
+          contentType: !message.file ? 'text' : 'file',
+          ...message,
+        }));
+        setMessages(messageData);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des messages :', error);
       }
-    }
+    };
 
-    fetchMessages()
-  }, [currentConversation, conversations])
+    fetchMessages();
+  }, [currentConversation]);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -86,183 +82,186 @@ const Messages = () => {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          }
-        })
-        if (!response.ok) /* istanbul ignore next */ {
-          throw new Error('Erreur lors de la récupération des contacts.')
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des contacts.');
         }
-        const data = await response.json()
-        setContacts(data)
-      } catch (error) /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération des contacts :', error)
+        const data = await response.json();
+        setContacts(data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des contacts :', error);
       }
-    }
+    };
 
-    fetchContacts()
-  }, [])
+    fetchContacts();
+  }, []);
 
   const sendMessage = async () => {
     if (newMessage.trim() === '' && !file) {
-      return
+      return;
     }
 
-    const currentTime = new Date()
+    const currentTime = new Date();
     const messageData = {
       username: 'User',
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
-      contentType: fileType
-    }
+      contentType: fileType,
+    };
 
     try {
-      const formData = new FormData()
-      formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
+      const formData = new FormData();
+      formData.append('messageData', JSON.stringify(messageData));
 
       if (file) {
-        const fileData = new FormData()
-        fileData.append('file', file)
-        fileData.append('content', newMessage)
+        const fileData = new FormData();
+        fileData.append('file', file);
+        fileData.append('content', newMessage);
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token')
-          },
-          body: fileData
-        })
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`,
+          {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+            },
+            body: fileData,
+          }
+        );
 
-        if (response.status !== 200) /* istanbul ignore next */ {
-          throw new Error("Erreur lors de l'envoi du message.")
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de l'envoi du message.");
         }
       } else {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ content: newMessage })
-        })
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
+          {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: newMessage }),
+          }
+        );
 
-        if (response.status !== 200) /* istanbul ignore next */ {
-          throw new Error("Erreur lors de l'envoi du message.")
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de l'envoi du message.");
         }
       }
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit'
-      })
+        minute: '2-digit',
+      });
       const message = {
         username: 'User',
         time,
         content: newMessage,
         contentType: fileType,
-        error: true
-      }
-      const updatedMessages = [...messages, message]
-      setMessages(updatedMessages)
-      setNewMessage('')
-      setFileType('text')
-      setFile(null)
+        error: true,
+      };
+      const updatedMessages = [...messages, message];
+      setMessages(updatedMessages);
+      setNewMessage('');
+      setFileType('text');
+      setFile(null);
     } catch (error) {
-      setError("Erreur lors de l'envoi du message. Veuillez réessayer.")
+      setError("Erreur lors de l'envoi du message. Veuillez réessayer.");
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit'
-      })
+        minute: '2-digit',
+      });
       const message = {
         username: 'User',
         time,
         content: newMessage,
         contentType: fileType,
-        error: true
-      }
-      const updatedMessages = [...messages, message]
-      setMessages(updatedMessages)
-      setNewMessage('')
-      setFileType('text')
-      setFile(null)
+        error: true,
+      };
+      const updatedMessages = [...messages, message];
+      setMessages(updatedMessages);
+      setNewMessage('');
+      setFileType('text');
+      setFile(null);
     }
-  }
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      sendMessage()
+      sendMessage();
     }
-  }
+  };
 
-  const clearMessageAndError = () => /* istanbul ignore next */ {
-    setMessages([])
-    setError('')
-  }
+  const clearMessageAndError = () => {
+    setMessages([]);
+    setError('');
+  };
 
   const openCreateConversationPopup = () => {
-    setShowCreateConversationPopup(true)
-  }
+    setShowCreateConversationPopup(true);
+  };
 
   const closeCreateConversationPopup = () => {
-    setShowCreateConversationPopup(false)
-  }
+    setShowCreateConversationPopup(false);
+  };
 
   const createConversation = async (conversationName, selectedContacts) => {
     try {
-      const userId = localStorage.getItem('id')
-      const participantsArray = [
-        userId,
-        selectedContacts[0]
-      ]
+      const userId = localStorage.getItem('id');
+      const participantsArray = [userId, selectedContacts[0]];
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          participants: participantsArray
-        })
-      })
+          participants: participantsArray,
+        }),
+      });
 
-      if (!response.ok) /* istanbul ignore next */ {
-        throw new Error('Erreur lors de la création de la conversation.')
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la conversation.');
       }
 
-      const data = await response.json()
+      const data = await response.json();
       const newConversation = {
         id: data._id,
-        name: conversationName
-      }
-      setConversations([...conversations, newConversation])
-    } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la création de la conversation')
+        name: conversationName,
+      };
+      setConversations([...conversations, newConversation]);
+    } catch (error) {
+      setError('Erreur lors de la création de la conversation');
     }
-  }
+  };
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]
+    const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setFile(selectedFile)
-      const fileExtension = selectedFile.name.split('.').pop().toLowerCase()
+      setFile(selectedFile);
+      const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
       switch (fileExtension) {
         case 'jpg':
         case 'jpeg':
         case 'png':
-          setFileType('image')
-          break
+          setFileType('image');
+          break;
         case 'pdf':
-          setFileType('pdf')
-          break
+          setFileType('pdf');
+          break;
         case 'zip':
-          setFileType('zip')
-          break
+          setFileType('zip');
+          break;
         default:
-          setFileType('other')
+          setFileType('other');
       }
     }
-  }
+  };
 
   return (
     <div className='messaging-page'>
@@ -278,7 +277,7 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.name}</h2>
+              <h2>Conversation : {currentConversation.name ? currentConversation.name.split(',')[0] : ''}</h2>
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
@@ -323,4 +322,4 @@ const Messages = () => {
   )
 }
 
-export default Messages
+export default Messages;

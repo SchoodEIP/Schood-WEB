@@ -40,16 +40,16 @@ const ReportButton = ({ currentConversation }) => {
 
   return (
     <div>
-      <button onClick={handleReportClick}>Signaler</button>
+      <button onClick={handleReportClick} className='button signal'>Signaler</button>
       {showConfirmation && (
         <div>
-          <select value={reason} onChange={handleReasonChange}>
+          <select value={reason} onChange={handleReasonChange} className='select-reason'>
             <option value=''>Sélectionnez une raison</option>
             <option value='Contenu offensant'>Contenu offensant</option>
             <option value='Spam'>Spam</option>
             <option value='Autre'>Autre</option>
           </select>
-          <button onClick={handleConfirmClick}>Confirmer le signalement</button>
+          <button onClick={handleConfirmClick} className='button confirm'>Confirmer le signalement</button>
           {error && <div className='error-message'>{error}</div>}
         </div>
       )}
