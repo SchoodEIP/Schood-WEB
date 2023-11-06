@@ -7,9 +7,6 @@ import React from 'react'
 const HelpPage = () => {
   return (
     <div className='dashboard'>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
@@ -18,6 +15,9 @@ const HelpPage = () => {
           <div>
             <AidePage />
           </div>
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

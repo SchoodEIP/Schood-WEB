@@ -4,6 +4,7 @@
 
 .left-half {
   padding-left: 15px;
+  padding-top: 15px;
 }
 
 .right-half {
@@ -11,6 +12,7 @@
   flex-direction: column;
   right: 0;
   margin-right: 2rem;
+  padding-top: 15px;
 }
 
   .column {
@@ -83,7 +85,3 @@
     width: calc(40% - 10px);
   }
 
-  .header-container {
-    display: flex;
-    justify-content: flex-end;
-  }

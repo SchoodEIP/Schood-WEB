@@ -7,15 +7,15 @@ import React from 'react'
 const ChatRoomPage = () => {
   return (
     <div className='form-page'>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='different-page-content'>
         <div>
           <Sidebar />
         </div>
         <div className='left-half'>
           <div><ChatRoom /></div>
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

@@ -137,9 +137,6 @@ export default function AdmAccountsPage () {
 
   return (
     <div>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
@@ -154,6 +151,9 @@ export default function AdmAccountsPage () {
             handleSingleAccount={handleSingleAccount}
             handleManyAccounts={handleManyAccounts}
           />
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
       {

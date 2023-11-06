@@ -9,9 +9,6 @@ import { GraphSpace } from '../../Components/Graph/graphSpace'
 export default function SchoolAdmHomePage () {
   return (
     <div>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
@@ -26,6 +23,9 @@ export default function SchoolAdmHomePage () {
         </div>
         <div className='right-half'>
           <LastAlerts />
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

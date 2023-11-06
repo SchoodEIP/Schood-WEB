@@ -9,9 +9,6 @@ import React from 'react'
 const TeacherHomePage = () => {
   return (
     <div className='dashboard'>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
@@ -26,6 +23,9 @@ const TeacherHomePage = () => {
         </div>
         <div className='right-half'>
           <LastAlerts />
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

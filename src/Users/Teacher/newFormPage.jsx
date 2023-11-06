@@ -195,7 +195,7 @@ const NewFormPage = () => {
 
   return (
     <div className='form-page'>
-      <div className="header-container">
+      <div>
         <HeaderComp />
       </div>
       <div className='different-page-content'>
@@ -226,6 +226,9 @@ const NewFormPage = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

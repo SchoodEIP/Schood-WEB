@@ -7,15 +7,15 @@ import '../../css/pages/homePage.css'
 export default function AdmHomePage () {
   return (
     <div>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
         </div>
         <div>
           <LastAlerts />
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

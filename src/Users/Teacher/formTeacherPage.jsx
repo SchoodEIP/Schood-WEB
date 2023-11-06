@@ -161,9 +161,6 @@ const FormTeacherPage = () => {
 
   return (
     <div className='form-page'>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='different-page-content'>
         <div>
           <Sidebar />
@@ -226,6 +223,9 @@ const FormTeacherPage = () => {
                 ))}
             </div>
           </div>
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
     </div>

@@ -36,7 +36,7 @@ const FormStudentPage = () => {
 
   return (
     <div className='form-page'>
-      <div className="header-container">
+      <div>
         <HeaderComp />
       </div>
       <div className='different-page-content'>

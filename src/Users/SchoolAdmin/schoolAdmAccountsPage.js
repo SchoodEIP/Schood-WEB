@@ -169,9 +169,6 @@ export default function SchoolAdmAccountsPage () {
 
   return (
     <div>
-      <div className="header-container">
-        <HeaderComp />
-      </div>
       <div className='page-content'>
         <div>
           <Sidebar />
@@ -186,6 +183,9 @@ export default function SchoolAdmAccountsPage () {
             handleSingleAccount={handleSingleAccount}
             handleManyAccounts={handleManyAccounts}
           />
+        </div>
+        <div>
+          <HeaderComp />
         </div>
       </div>
       {
