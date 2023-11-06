@@ -24,6 +24,8 @@ export default function Login () {
       const data = await response.json()
 
       if (response.ok) {
+        sessionStorage.setItem('firstname', data.firstname)
+        sessionStorage.setItem('lastname', data.lastname)
         localStorage.setItem('id', data._id)
         sessionStorage.setItem('role', data.role.name)
         localStorage.setItem('role', data.role.name)

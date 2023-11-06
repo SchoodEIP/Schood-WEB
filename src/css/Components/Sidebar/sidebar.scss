@@ -11,28 +11,10 @@
     width: 200px;
   }
 
-  .sidebar-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: #FFD2D5;
-    border: none;
-    outline: none;
-    color: #4f23e2;
-    font-size: 20px;
-    transition: transform 0.3s ease;
-
-    &.expanded {
-      transform: rotate(180deg);
-    }
-  }
-
   .sidebar-menu {
     padding: 0;
     list-style-type: none;
-    margin-top: 20px;
+    min-height: 100vh;
 
     .sidebar-menu-item {
       display: flex;
@@ -59,4 +41,36 @@
       }
     }
   }
+}
+
+.horizontal-line {
+  border-top: 2px solid #4f23e2;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px
+}
+
+#sidebar-profile {
+  display: flex;
+  flex-direction: row;
+  padding: 25px;
+  justify-content: space-around;
+}
+
+#profile-icon {
+  width: 60px;
+}
+
+#profile-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  color: #4f23e2
+}
+
+.active {
+  color: #FFD2D5;
+  background: #4f23e2;
+  border-radius: 50px;
 }
