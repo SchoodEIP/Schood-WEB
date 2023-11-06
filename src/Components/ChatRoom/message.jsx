@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FaDownload } from 'react-icons/fa'
 
 const Message = ({ message }) => {
   const [fileURL, setFileURL] = useState(null)
@@ -64,7 +65,7 @@ const Message = ({ message }) => {
               {fileURL
                 ? (
                   <a href={fileURL} target='_blank' rel='noopener noreferrer'>
-                    Ouvrir le fichier
+                    <FaDownload size={24}></FaDownload>
                   </a>
                   )
                 : (
