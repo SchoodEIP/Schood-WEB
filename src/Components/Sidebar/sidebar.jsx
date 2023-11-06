@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers } from 'react-icons/fa'
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaSignOutAlt } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
 
 export default function Sidebar () {
@@ -31,7 +31,8 @@ export default function Sidebar () {
       { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+      { id: 'logout', path: '/login', icon: <FaSignOutAlt size={24} />, label: 'Logout'}
     ]
   } else {
     pages = [
@@ -39,8 +40,17 @@ export default function Sidebar () {
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Accounts' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+      { id: 'logout', path: '/login', icon: <FaSignOutAlt size={24} />, label: 'Déconnexion'}
     ]
+  }
+
+  function handleLogout () {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('role')
+    window.location.reload()
   }
 
   return (
@@ -53,7 +63,7 @@ export default function Sidebar () {
           <ul className='sidebar-menu'>
             {pages.map((page, index) => (
               <li key={page.id} className='sidebar-menu-item' id={'sidebar-item-' + index}>
-                <Link to={page.path}>
+                <Link to={page.path} onClick={page.id === 'logout' ? handleLogout : null }>
                   <span className='sidebar-menu-item-icon'>
                     {isCollapsed ? page.icon : <span>{page.icon}</span>}
                   </span>

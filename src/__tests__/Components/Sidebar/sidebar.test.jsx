@@ -72,7 +72,7 @@ it('renders sidebar with expanded state', () => {
   expect(sidebarLabels.length).toBeGreaterThan(0)
 })
 
-it('renders sidebar with expanded state', () => {
+it('goes to questionnaire', () => {
   window.sessionStorage.setItem('role', 'student')
   act(() => {
     root.render(
