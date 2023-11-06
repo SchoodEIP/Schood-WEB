@@ -17,13 +17,13 @@ const ChatRoomSidebar = ({
       <h2>Mes messages</h2>
       <ul>
         {conversations.map((conversation, index) => (
-          <li
+          <div
             key={index}
-            className={conversation === currentConversation ? 'active' : ''}
+            className={`conversation ${conversation === currentConversation ? 'active-conversation' : ''}`}
             onClick={() => handleClick(conversation)}
           >
             {conversation.name}
-          </li>
+          </div>
         ))}
       </ul>
       <button className='new-conversation-button' onClick={openCreateConversationPopup}>
