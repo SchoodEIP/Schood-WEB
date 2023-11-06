@@ -69,8 +69,8 @@ export default function Sidebar () {
 
   return (
     <>
-      <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
-        <div className='sidebar-menu-container'>
+      <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }} data-testid="sidebar-container">
+        <div className='sidebar-menu-container' >
           <ul className='sidebar-menu'>
             { isCollapsed ? <div style={{"height":"122px"}}/> : <div id="sidebar-profile">
               <div id="profile-icon">
@@ -86,18 +86,18 @@ export default function Sidebar () {
             {pages.map((page, index) => (
               <li key={page.id} className={`sidebar-menu-item ${page.id === activePage ? 'active' : ''}`} id={'sidebar-item-' + index}>
                 <Link to={page.path}>
-                  <span className={`sidebar-menu-item-icon  ${page.id === activePage ? 'active' : ''}`}>
+                  <span className={`sidebar-menu-item-icon  ${page.id === activePage ? 'active' : ''}`} data-testid="menu-icon">
                     {isCollapsed ? page.icon : <span>{page.icon}</span>}
                   </span>
                   {!isCollapsed && (
-                    <span className={`sidebar-menu-item-label ${page.id === activePage ? 'active' : ''}`}>{page.label}</span>
+                    <span className={`sidebar-menu-item-label ${page.id === activePage ? 'active' : ''}`} data-testid='sidebar-menu-item-label'>{page.label}</span>
                   )}
                 </Link>
               </li>
             ))}
             { isCollapsed ? null : <div className="horizontal-line"></div> }
             <li className='sidebar-menu-item' id={'sidebar-item-resize'}>
-              <Link onClick={toggleSidebar} >
+              <Link onClick={toggleSidebar} data-testid="sidebar-resize">
                 <span className='sidebar-menu-item-icon'>
                   {isCollapsed ? < FaAngleDoubleRight size={24} /> : <span>< FaAngleDoubleLeft size={24} /></span>}
                 </span>
@@ -107,7 +107,7 @@ export default function Sidebar () {
               </Link>
             </li>
             <li className='sidebar-menu-item' id={'sidebar-item-logout'}>
-              <Link onClick={handleLogout} >
+              <Link onClick={handleLogout} data-testid="sidebar-logout">
                 <span className='sidebar-menu-item-icon'>
                   {isCollapsed ? <FaSignOutAlt size={24} /> : <span><FaSignOutAlt size={24} /></span>}
                 </span>
