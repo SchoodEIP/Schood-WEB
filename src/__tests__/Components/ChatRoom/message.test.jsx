@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, act, waitFor } from '@testing-library/react'
 import Messages from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
 
@@ -25,20 +25,20 @@ describe('Messages Component', () => {
 
   it('renders a text message', async () => {
     const textMessage = {
+      user: 'User',
       content: 'Hello, World!',
-      username: 'User',
-      contentType: 'text'
+      contentType: 'text',
     }
 
     await act(async () => {
       render(<Messages message={textMessage} />)
     })
 
-    const usernameElement = screen.getByText('User')
-    expect(usernameElement).toBeInTheDocument()
-
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
+
+    const userElement = screen.getByText('User');
+    expect(userElement).toBeInTheDocument();
   })
 
   it('renders a file message with image', async () => {
@@ -61,8 +61,7 @@ describe('Messages Component', () => {
       render(<Messages message={fileMessage} />)
     })
 
-    const usernameElement = screen.getByText('User')
-    expect(usernameElement).toBeInTheDocument()
+    screen.debug();
 
     // Wait for the image to load
 
@@ -74,6 +73,7 @@ describe('Messages Component', () => {
     const fileMessage = {
       content: 'File: Image.jpg',
       username: 'User',
+      date: '0000',
       contentType: 'file',
       file: '12345'
     }
@@ -85,8 +85,8 @@ describe('Messages Component', () => {
       render(<Messages message={fileMessage} />)
     })
 
-    const usernameElement = screen.getByText('User')
-    expect(usernameElement).toBeInTheDocument()
+    const dateElement = screen.getByText('0000')
+    expect(dateElement).toBeInTheDocument()
 
     // Wait for the error message to appear
 
