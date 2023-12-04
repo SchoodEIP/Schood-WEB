@@ -1,23 +1,24 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './Users/Public/loginPage'
-import AdmHomePage from './Users/Admin/admHomePage'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import AdmAccountsPage from './Users/Admin/admAccountsPage'
-import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
-import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
-import LandingPage from './Users/Public/landingPage'
+import AdmHomePage from './Users/Admin/admHomePage'
 import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
+import LandingPage from './Users/Public/landingPage'
+import Login from './Users/Public/loginPage'
 import NoPage from './Users/Public/noPage'
+import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
+import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
+import ChatRoomPage from './Users/Shared/chatRoomPage'
+import CreateAlert from './Users/Shared/createAlerts'
+import HelpPage from './Users/Shared/helpPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
-import TeacherHomePage from './Users/Teacher/dashboardTeacher'
-import NewFormPage from './Users/Teacher/newFormPage'
 import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
+import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
-import HelpPage from './Users/Shared/helpPage'
-import ChatRoomPage from './Users/Shared/chatRoomPage'
+import NewFormPage from './Users/Teacher/newFormPage'
 
 const rootElement = document.getElementById('root')
 
@@ -46,6 +47,7 @@ if (rootElement) {
             <Route path='/accounts' element={<AdmAccountsPage />} />
             <Route path='/aides' element={<HelpPage />} />
             <Route path='/messages' element={<ChatRoomPage />} />
+            <Route path='/alerts' element={<CreateAlert />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'administration' && (
@@ -54,6 +56,7 @@ if (rootElement) {
             <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
             <Route path='/aides' element={<HelpPage />} />
             <Route path='/messages' element={<ChatRoomPage />} />
+            <Route path='/alerts' element={<CreateAlert />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'student' && (
@@ -72,6 +75,7 @@ if (rootElement) {
             <Route path='/questionnaire' element={<NewFormPage />} />
             <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
             <Route path='/aides' element={<HelpPage />} />
+            <Route path='/alerts' element={<CreateAlert />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />

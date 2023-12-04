@@ -1,0 +1,64 @@
+.alert-page {
+    background-color: white;
+    border-radius: 5px;
+    width: calc(100vw - 225px);
+    min-width: 490px;
+    display: grid;
+    flex-direction: column;
+    margin-top: 15px;
+    padding: 20px; /* Ajout du padding */
+  }
+  
+  h1 {
+    color: #4f23e2;
+    margin-bottom: 20px; /* Ajout de la marge en bas */
+  }
+  
+  select,
+  textarea,
+  input {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px; /* Ajustez selon vos préférences */
+  }
+  
+  /* Enlever le padding autour de la checkbox et définir sa taille */
+  .checkbox-item input[type="checkbox"] {
+    margin: 0; /* Enlever le margin par défaut de la checkbox */
+    width: 16px; /* Ajustez selon la taille souhaitée */
+    height: 16px; /* Ajustez selon la taille souhaitée */
+  }
+  
+  button {
+    background-color: #4f23e2;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #3c1eaa;
+  }
+  
+  /* Styles supplémentaires pour l'espacement entre les éléments */
+  .alert-page > * {
+    margin-bottom: 20px;
+  }
+  
+  /* Retirer la marge du dernier élément pour éviter un espace supplémentaire en bas */
+  .alert-page > *:last-child {
+    margin-bottom: 0;
+  }
+  
