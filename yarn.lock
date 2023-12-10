@@ -3366,12 +3366,17 @@ arg@^5.0.2:
   resolved "https://registry.npmjs.org/arg/-/arg-5.0.2.tgz"
   integrity sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==
 
-argparse@^1.0.7, argparse@^2.0.1:
+argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.npmjs.org/argparse/-/argparse-1.0.10.tgz"
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
   dependencies:
     sprintf-js "~1.0.2"
+
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
 aria-query@^5.0.0, aria-query@^5.1.3:
   version "5.3.0"
@@ -7724,7 +7729,18 @@ jest-docblock@^29.7.0:
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-jest-each@^27.5.1, jest-each@^29.7.0:
+jest-each@^27.5.1:
+  version "27.5.1"
+  resolved "https://registry.npmjs.org/jest-each/-/jest-each-27.5.1.tgz"
+  integrity sha512-1Ff6p+FbhT/bXQnEouYy00bkNSY7OUpfIcmdl8vZ31A1UUaurOLPA8a8BbJOF2RDUElwJhmeaV7LnagI+5UwNQ==
+  dependencies:
+    "@jest/types" "^27.5.1"
+    chalk "^4.0.0"
+    jest-get-type "^27.5.1"
+    jest-util "^27.5.1"
+    pretty-format "^27.5.1"
+
+jest-each@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/jest-each/-/jest-each-29.7.0.tgz"
   integrity sha512-gns+Er14+ZrEoC5fhOfYCY1LOHHr0TI+rQUHZS8Ttw2l7gl+80eHc/gFf2Ktkw0+SIACDTeWvpFcv3B04VembQ==
@@ -7930,7 +7946,15 @@ jest-message-util@^29.6.3, jest-message-util@^29.7.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-jest-mock@^27.5.1, jest-mock@^29.6.3, jest-mock@^29.7.0:
+jest-mock@^27.5.1:
+  version "27.5.1"
+  resolved "https://registry.npmjs.org/jest-mock/-/jest-mock-27.5.1.tgz"
+  integrity sha512-K4jKbY1d4ENhbrG2zuPWaQBvDly+iZ2yAW+T1fATN78hc0sInwn7wZB8XtlNnvHug5RMwV897Xm4LqmPM4e2Og==
+  dependencies:
+    "@jest/types" "^27.5.1"
+    "@types/node" "*"
+
+jest-mock@^29.6.3, jest-mock@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/jest-mock/-/jest-mock-29.7.0.tgz"
   integrity sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==
@@ -8066,7 +8090,35 @@ jest-runner@^29.7.0:
     p-limit "^3.1.0"
     source-map-support "0.5.13"
 
-jest-runtime@^27.5.1, jest-runtime@^29.7.0:
+jest-runtime@^27.5.1:
+  version "27.5.1"
+  resolved "https://registry.npmjs.org/jest-runtime/-/jest-runtime-27.5.1.tgz"
+  integrity sha512-o7gxw3Gf+H2IGt8fv0RiyE1+r83FJBRruoA+FXrlHw6xEyBsU8ugA6IPfTdVyA0w8HClpbK+DGJxH59UrNMx8A==
+  dependencies:
+    "@jest/environment" "^27.5.1"
+    "@jest/fake-timers" "^27.5.1"
+    "@jest/globals" "^27.5.1"
+    "@jest/source-map" "^27.5.1"
+    "@jest/test-result" "^27.5.1"
+    "@jest/transform" "^27.5.1"
+    "@jest/types" "^27.5.1"
+    chalk "^4.0.0"
+    cjs-module-lexer "^1.0.0"
+    collect-v8-coverage "^1.0.0"
+    execa "^5.0.0"
+    glob "^7.1.3"
+    graceful-fs "^4.2.9"
+    jest-haste-map "^27.5.1"
+    jest-message-util "^27.5.1"
+    jest-mock "^27.5.1"
+    jest-regex-util "^27.5.1"
+    jest-resolve "^27.5.1"
+    jest-snapshot "^27.5.1"
+    jest-util "^27.5.1"
+    slash "^3.0.0"
+    strip-bom "^4.0.0"
+
+jest-runtime@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/jest-runtime/-/jest-runtime-29.7.0.tgz"
   integrity sha512-gUnLjgwdGqW7B4LvOIkbKs9WGbn+QLqRQQ9juC6HndeDiezIwhDP+mhMwHWCEcfQ5RUXa6OPnFF8BJh5xegwwQ==
@@ -8102,7 +8154,35 @@ jest-serializer@^27.5.1:
     "@types/node" "*"
     graceful-fs "^4.2.9"
 
-jest-snapshot@^27.5.1, jest-snapshot@^29.7.0:
+jest-snapshot@^27.5.1:
+  version "27.5.1"
+  resolved "https://registry.npmjs.org/jest-snapshot/-/jest-snapshot-27.5.1.tgz"
+  integrity sha512-yYykXI5a0I31xX67mgeLw1DZ0bJB+gpq5IpSuCAoyDi0+BhgU/RIrL+RTzDmkNTchvDFWKP8lp+w/42Z3us5sA==
+  dependencies:
+    "@babel/core" "^7.7.2"
+    "@babel/generator" "^7.7.2"
+    "@babel/plugin-syntax-typescript" "^7.7.2"
+    "@babel/traverse" "^7.7.2"
+    "@babel/types" "^7.0.0"
+    "@jest/transform" "^27.5.1"
+    "@jest/types" "^27.5.1"
+    "@types/babel__traverse" "^7.0.4"
+    "@types/prettier" "^2.1.5"
+    babel-preset-current-node-syntax "^1.0.0"
+    chalk "^4.0.0"
+    expect "^27.5.1"
+    graceful-fs "^4.2.9"
+    jest-diff "^27.5.1"
+    jest-get-type "^27.5.1"
+    jest-haste-map "^27.5.1"
+    jest-matcher-utils "^27.5.1"
+    jest-message-util "^27.5.1"
+    jest-util "^27.5.1"
+    natural-compare "^1.4.0"
+    pretty-format "^27.5.1"
+    semver "^7.3.2"
+
+jest-snapshot@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/jest-snapshot/-/jest-snapshot-29.7.0.tgz"
   integrity sha512-Rm0BMWtxBcioHr1/OX5YCP8Uov4riHvKPknOGs804Zg9JGZgmIBkbtlxJC/7Z4msKYVbIJtfU+tKb8xlYNfdkw==
@@ -8494,7 +8574,12 @@ json-parse-even-better-errors@^2.3.0, json-parse-even-better-errors@^2.3.1:
   resolved "https://registry.npmjs.org/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz"
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
 
-json-schema-traverse@^0.4.1, json-schema-traverse@^1.0.0:
+json-schema-traverse@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz"
+  integrity sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
+
+json-schema-traverse@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz"
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
@@ -10762,7 +10847,7 @@ react-devtools-core@^4.27.2:
     shell-quote "^1.6.1"
     ws "^7"
 
-react-dom@^18.0.0, react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=16.8:
+react-dom@^18.0.0, react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=16, react-dom@>=16.8:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -10969,12 +11054,17 @@ react-switch-input@^1.1.0:
   resolved "https://registry.npmjs.org/react-switch-input/-/react-switch-input-1.1.0.tgz"
   integrity sha512-TnT7E8XI7u0rzMrc78OIsNX5nrMAuAm7qzGkQMckQ7+misa1MGEA4rrY6UT+OPg6Z2JehEBBCTR2+G+K/aXGgw==
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16", "react@>= 16.8.0", react@>=0.14.0, react@>=16.8, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16", "react@>= 16.8.0", react@>=0.14.0, react@>=16, react@>=16.8, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
+
+reactjs-popup@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/reactjs-popup/-/reactjs-popup-2.0.6.tgz"
+  integrity sha512-A+tt+x9wdgZiZjv0e2WzYLD3IfFwJALaRaqwrCSXGjo0iQdsry/EtBEbQXRSmQs7cHmOi5eytCiSlOm8k4C+dg==
 
 read-cache@^1.0.0:
   version "1.0.0"
