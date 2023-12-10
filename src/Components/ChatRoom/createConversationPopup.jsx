@@ -1,28 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const CreateConversationPopup = ({
   contacts,
   createConversation,
-  closeCreateConversationPopup
+  closeCreateConversationPopup,
+  isPopupOpen
 }) => {
-  const [searchInput, setSearchInput] = useState('')
+  const [searchInput, setSearchInput] = useState('');
 
   const handleSearchInputChange = (e) => {
-    setSearchInput(e.target.value)
-  }
+    setSearchInput(e.target.value);
+  };
 
   const handleCreateConversation = () => {
-    const newConversationName = searchInput.trim()
+    const newConversationName = searchInput.trim();
     if (newConversationName === '') {
-      return
+      return;
     }
-    const contactId = document.getElementById('contact-input').value
-    createConversation(newConversationName, [contactId])
-    closeCreateConversationPopup()
-  }
+    const contactId = document.getElementById('contact-input').value;
+    createConversation(newConversationName, [contactId]);
+    closeCreateConversationPopup();
+  };
 
   return (
-    <div className='popup'>
+    <div>
       <div className='popup-content'>
         <h2>Nouvelle conversation</h2>
         <label htmlFor='contact-input'>Rechercher un contact:</label>
@@ -36,10 +37,7 @@ const CreateConversationPopup = ({
         />
         <datalist id='contact-list'>
           {contacts.map((contact) => (
-            <option
-              key={contact._id}
-              value={contact._id}
-            >
+            <option key={contact._id} value={contact._id}>
               {contact.firstname + ' ' + contact.lastname}
             </option>
           ))}
@@ -53,7 +51,7 @@ const CreateConversationPopup = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateConversationPopup
+export default CreateConversationPopup;
