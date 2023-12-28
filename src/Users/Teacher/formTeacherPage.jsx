@@ -172,7 +172,7 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
-              <div><p class="bold-underline-text">Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p></div>
+              <div><p class='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p></div>
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (

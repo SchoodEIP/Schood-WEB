@@ -12,8 +12,8 @@ describe('FormListTeacherPage', () => {
     {
       _id: '123',
       title: 'Test',
-      fromDate: "2023-12-24T00:00:00.000Z",
-      toDate: "2023-12-30T00:00:00.000Z"
+      fromDate: '2023-12-24T00:00:00.000Z',
+      toDate: '2023-12-30T00:00:00.000Z'
     }
   ]
 
