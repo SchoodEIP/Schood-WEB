@@ -11,7 +11,9 @@ describe('FormListTeacherPage', () => {
   const forms = [
     {
       _id: '123',
-      title: 'Test'
+      title: 'Test',
+      fromDate: '2023-12-24T00:00:00.000Z',
+      toDate: '2023-12-30T00:00:00.000Z'
     }
   ]
 
@@ -78,6 +80,7 @@ describe('FormListTeacherPage', () => {
 
     expect(screen.getByText('Y Accéder')).toBeInTheDocument()
     expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('Du 24/12/23 au 30/12/23')).toBeInTheDocument()
   })
 
   test('redirect to specific form', async () => {
