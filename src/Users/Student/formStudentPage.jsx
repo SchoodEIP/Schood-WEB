@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
+import moment from 'moment'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import IconFace0 from '../../assets/icon_face_0.png'
@@ -111,6 +112,7 @@ const FormStudentPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
+              <div><p class='bold-underline-text'>Du {moment(data.fromDate).format('DD/MM/YY')} au {moment(data.toDate).format('DD/MM/YY')}</p></div>
               {(!data | !data.questions)
                 ? <div>{error}</div>
                 : data.questions.map((question, index) => (

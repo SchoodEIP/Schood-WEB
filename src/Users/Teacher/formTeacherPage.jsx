@@ -9,6 +9,7 @@ import IconFace2 from '../../assets/icon_face_2.png'
 import ArrowUp from '../../assets/up_arrow_icon.png'
 import ArrowDown from '../../assets/down_arrow_icon.png'
 import { useParams } from 'react-router-dom'
+import moment from 'moment'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
@@ -171,6 +172,7 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
+              <div><p class='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p></div>
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
