@@ -1,9 +1,9 @@
-import {createContext, useContext, useEffect, useRef, useState} from "react";
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 export const WebsocketContext = createContext(false, null, () => {
 })
 
-export const WebsocketProvider = ({children}) => {
+export const WebsocketProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false)
   const [val, setVal] = useState(null)
 
@@ -36,7 +36,7 @@ export const WebsocketConsumer = () => {
 
   useEffect(() => {
     if (ready) {
-      send("test message")
+      send('test message')
     }
   }, [ready, send])
 
