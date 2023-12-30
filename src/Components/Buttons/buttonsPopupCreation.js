@@ -2,7 +2,7 @@ import { React } from 'react'
 import '../../css/Components/Buttons/accountCreationPopup.css'
 import '../../css/Components/Buttons/accountSubmitButton.css'
 
-export default function ButtonsAccountCreation (props) {
+export default function ButtonsPopupCreation (props) {
   return (
     <div>
       <div>
@@ -13,7 +13,7 @@ export default function ButtonsAccountCreation (props) {
           onClick={props.handleSingleAccount}
           style={{ backgroundColor: props.isOpenSingle ? '#8c52ff' : '#4f23e2' }}
         >
-          Ajouter un compte
+          {props.singleContent}
         </button>
       </div>
       <div>
@@ -24,7 +24,7 @@ export default function ButtonsAccountCreation (props) {
           onClick={props.handleManyAccounts}
           style={{ backgroundColor: props.isOpenMany ? '#8c52ff' : '#4f23e2' }}
         >
-          Ajouter une liste de comptes
+          {props.manyContent}
         </button>
       </div>
     </div>

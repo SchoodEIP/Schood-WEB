@@ -4,35 +4,47 @@ import '../../css/Components/Aides/aides.scss'
 export default function AidePage () {
   const [categories, setCategories] = useState([])
   const [contacts, setContacts] = useState([])
-  const [filteredContacts, setFilteredContacts] = useState([]) // Numéros de contact filtrés
+  const [filteredContacts, setFilteredContacts] = useState([])
+  const [errMessage, setErrMessage] = useState('')
+  const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
+  const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
 
   useEffect(() => {
-    // Catégories en dur
-    const categoriesData = [
-      { id: 1, name: 'Harcèlement' },
-      { id: 2, name: 'Problème à la maison' }
-    ]
 
-    // Numéros de contact en dur
-    const contactsData = [
-      { id: 3, name: 'Aide contre le harcèlement', phoneNumber: '123-456-7890', category: 'Harcèlement' },
-      { id: 4, name: 'Ligne d\'urgence pour les victimes de violence familiale', phoneNumber: '987-654-3210', category: 'Problème à la maison' }
-      // Ajoutez d'autres numéros de contact ici
-    ]
+    fetch(categoryUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setCategories(data)
+      })
+      .catch(error => setErrMessage(error.message))
 
-    setCategories(categoriesData)
-    setContacts(contactsData)
-    setFilteredContacts(contactsData) // Afficher tous les numéros par défaut
+    fetch(helpNumbersUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setContacts(data)
+        setFilteredContacts(data)
+      })
+      .catch(error => setErrMessage(error.message))
+
   }, [])
 
-  // Fonction pour filtrer les numéros de contact par catégorie
   const filterContactsByCategory = (category) => {
-    // Filtrer les numéros de contact en fonction de la catégorie sélectionnée
     if (category) {
-      const filtered = contacts.filter((contact) => contact.category === category)
+      const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
       setFilteredContacts(filtered)
     } else {
-      // Si aucune catégorie n'est sélectionnée, afficher tous les numéros
       setFilteredContacts(contacts)
     }
   }
@@ -41,13 +53,12 @@ export default function AidePage () {
     <div className='aide-page'>
       <header>Numéros de Contact</header>
 
-      {/* Afficher la liste des catégories */}
       <div className='categories-section'>
         <h2>Catégories</h2>
         <ul>
           {categories.map((category) => (
-            <li key={category.id}>
-              <button data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category.name)}>
+            <li key={category._id}>
+              <button data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
                 {category.name}
               </button>
             </li>
@@ -55,15 +66,15 @@ export default function AidePage () {
         </ul>
       </div>
 
-      {/* Afficher les numéros de contact en fonction de la catégorie sélectionnée */}
       <div className='contacts-section'>
         <h2>Numéros de Contact</h2>
         <ul>
           {filteredContacts.map((contact) => (
-            <li key={contact.id}>
+            <li key={contact._id}>
               <strong>Nom: </strong><span>{contact.name}</span><br />
-              <strong>Numéro: </strong><span>{contact.phoneNumber}</span><br />
-              <strong>Catégorie: </strong><span>{contact.category}</span>
+              <strong>Numéro: </strong><span>{contact.telephone}</span><br />
+              <strong>Email: </strong><span>{contact.email}</span><br />
+              <strong>Description: </strong><span>{contact.description}</span><br />
             </li>
           ))}
         </ul>

@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable'
-import ButtonsAccountCreation from '../../Components/Buttons/buttonsAccountCreation'
+import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/popup'
 import '../../css/Components/Popup/popup.css'
@@ -180,11 +180,13 @@ export default function SchoolAdmAccountsPage () {
           <SchoolAccountsTable />
         </div>
         <div className='account-div'>
-          <ButtonsAccountCreation
+          <ButtonsPopupCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
             handleSingleAccount={handleSingleAccount}
             handleManyAccounts={handleManyAccounts}
+            singleContent="Ajouter un compte"
+            manyContent="Ajouter une liste de comptes"
           />
         </div>
       </div>

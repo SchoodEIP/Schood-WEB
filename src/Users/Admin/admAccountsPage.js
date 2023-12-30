@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
-import ButtonsAccountCreation from '../../Components/Buttons/buttonsAccountCreation.js'
+import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/popup'
 
@@ -148,11 +148,13 @@ export default function AdmAccountsPage () {
           <AdmAccountsTable />
         </div>
         <div className='account-div'>
-          <ButtonsAccountCreation
+          <ButtonsPopupCreation
             isOpenSingle={isOpenSingle}
             isOpenMany={isOpenMany}
             handleSingleAccount={handleSingleAccount}
             handleManyAccounts={handleManyAccounts}
+            singleContent="Ajouter un compte"
+            manyContent="Ajouter une liste de comptes"
           />
         </div>
       </div>

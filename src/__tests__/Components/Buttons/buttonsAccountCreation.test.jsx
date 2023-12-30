@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ButtonsAccountCreation from '../../../Components/Buttons/buttonsAccountCreation'
+import ButtonsPopupCreation from '../../../Components/Buttons/buttonsPopupCreation'
 
-describe('ButtonsAccountCreation', () => {
+describe('ButtonsPopupCreation', () => {
   const mockHandleSingleAccount = jest.fn()
   const mockHandleManyAccounts = jest.fn()
 
@@ -11,11 +11,13 @@ describe('ButtonsAccountCreation', () => {
     const isOpenMany = false
 
     render(
-      <ButtonsAccountCreation
+      <ButtonsPopupCreation
         isOpenSingle={isOpenSingle}
         isOpenMany={isOpenMany}
         handleSingleAccount={mockHandleSingleAccount}
         handleManyAccounts={mockHandleManyAccounts}
+        singleContent="Ajouter un compte"
+        manyContent="Ajouter une liste de comptes"
       />
     )
 
