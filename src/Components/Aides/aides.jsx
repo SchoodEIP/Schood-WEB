@@ -19,7 +19,6 @@ export default function AidePage () {
       }
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
         setCategories(data)
       })
       .catch(error => setErrMessage(error.message))
@@ -32,7 +31,6 @@ export default function AidePage () {
       }
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
         setContacts(data)
         setFilteredContacts(data)
       })

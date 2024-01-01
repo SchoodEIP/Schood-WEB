@@ -145,7 +145,7 @@ const AdmHelpPage = () => {
             handleSingleAccount={handleCategoryPopup}
             handleManyAccounts={handleNumberPopup}
             singleContent="Ajouter une Catégorie"
-            manyContent="Ajouter un Numéro"
+            manyContent="Ajouter un Contact"
           />
         </div>
       </div>
@@ -166,13 +166,13 @@ const AdmHelpPage = () => {
       {
         isOpenNumber && <Popup
           handleClose={handleNumberPopup}
-          title={"Ajouter un nouveau Numéro à une Catégorie"}
+          title={"Ajouter un nouveau Contact"}
           errMessage={errMessage}
           handleCreation={helpNumberCreation}
-          btn_text='Ajouter le numéro'
+          btn_text='Créer le contact'
           content={
             <form className='pop-form'>
-              <select className='pop-input' value={categoryID} onChange={handleCategoryChange}>
+              <select className='pop-input' data-testid="category-select" value={categoryID} onChange={handleCategoryChange}>
                 {categories.map((option, index) => (
                   <option key={index} value={option._id}>
                     {option.name}

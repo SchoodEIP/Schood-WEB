@@ -241,4 +241,37 @@ describe('SchoolAdmAccountsPage', () => {
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
   })
+
+  it('tests the popups', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <SchoolAdmAccountsPage />
+        </BrowserRouter>
+      )
+    })
+
+    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+
+    await act(async () => {
+      fireEvent.click(manyAccountButton)
+    })
+    expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
+    expect(screen.queryByText("Création d'un compte Etudiant/Professeur")).not.toBeInTheDocument()
+
+    const singleAccountButton = screen.getByText('Ajouter un compte')
+
+    await act(async () => {
+      fireEvent.click(singleAccountButton)
+    })
+    expect(screen.getByText("Création d'un compte Etudiant/Professeur")).toBeInTheDocument()
+    expect(screen.queryByText("Création d'une liste de comptes Etudiant/Professeur")).not.toBeInTheDocument()
+
+    await act(async () => {
+      fireEvent.click(manyAccountButton)
+    })
+    expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
+    expect(screen.queryByText("Création d'un compte Etudiant/Professeur")).not.toBeInTheDocument()
+
+  })
 })
