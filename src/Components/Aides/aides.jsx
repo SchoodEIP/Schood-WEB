@@ -34,7 +34,7 @@ export default function AidePage () {
         setContacts(data)
         setFilteredContacts(data)
       })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => setErrMessage('Erreur ' + error.status + ': ' + error.message))
   }, [])
 
   const filterContactsByCategory = (category) => {
@@ -45,7 +45,7 @@ export default function AidePage () {
   return (
     <div className='aide-page'>
       <header>Numéros de Contact</header>
-
+      <p>{errMessage ? errMessage : ''}</p>
       <div className='categories-section'>
         <h2>Catégories</h2>
         <ul>
