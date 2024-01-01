@@ -45,7 +45,7 @@ export default function AidePage () {
   return (
     <div className='aide-page'>
       <header>Numéros de Contact</header>
-      <p>{errMessage ? errMessage : ''}</p>
+      <p>{errMessage || ''}</p>
       <div className='categories-section'>
         <h2>Catégories</h2>
         <ul>
