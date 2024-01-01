@@ -16,8 +16,8 @@ describe('ButtonsPopupCreation', () => {
         isOpenMany={isOpenMany}
         handleSingleAccount={mockHandleSingleAccount}
         handleManyAccounts={mockHandleManyAccounts}
-        singleContent="Ajouter un compte"
-        manyContent="Ajouter une liste de comptes"
+        singleContent='Ajouter un compte'
+        manyContent='Ajouter une liste de comptes'
       />
     )
 

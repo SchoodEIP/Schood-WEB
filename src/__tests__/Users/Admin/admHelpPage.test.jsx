@@ -6,15 +6,15 @@ import fetchMock from 'fetch-mock'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('AdmHelpPage', () => {
-    const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
-    const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + "/adm/helpNumber/register"
-    const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + "/adm/helpNumbersCategory/register"
-    const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
+  const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
+  const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumber/register'
+  const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumbersCategory/register'
+  const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
 
   const categories = [
     {
       _id: '1',
-      name: "Aide contre le harcèlement"
+      name: 'Aide contre le harcèlement'
     }
   ]
 
@@ -22,9 +22,9 @@ describe('AdmHelpPage', () => {
     {
       _id: '1',
       name: "Ligne d'urgence pour les victimes de violence familiale",
-      telephone: "0289674512",
+      telephone: '0289674512',
       email: 'example@schood.fr',
-      description: "lala",
+      description: 'lala',
       helpNumbersCategory: '2'
     }
   ]
@@ -33,8 +33,8 @@ describe('AdmHelpPage', () => {
     fetchMock.reset()
     fetchMock.get(categoryUrl, categories)
     fetchMock.get(helpNumbersUrl, helpNumbers)
-    fetchMock.post(helpNumberRegisterUrl, {status: 200})
-    fetchMock.post(categoryRegisterUrl, {status: 200})
+    fetchMock.post(helpNumberRegisterUrl, { status: 200 })
+    fetchMock.post(categoryRegisterUrl, { status: 200 })
   })
 
   afterEach(() => {
@@ -43,37 +43,36 @@ describe('AdmHelpPage', () => {
 
   it('displays categories and contacts', async () => {
     await act(async () => {
-        render(
-          <BrowserRouter>
-            <AdmHelpPage />
-          </BrowserRouter>
-        )
-      })
+      render(
+        <BrowserRouter>
+          <AdmHelpPage />
+        </BrowserRouter>
+      )
+    })
 
     expect(screen.getByText('Catégories')).toBeInTheDocument()
     expect(screen.getByText('Ajouter une Catégorie')).toBeInTheDocument()
     expect(screen.getByText('Ajouter un Contact')).toBeInTheDocument()
-
   })
 
   it('allows the creation of a new category', async () => {
     await act(async () => {
-        render(
-            <BrowserRouter>
-            <AdmHelpPage />
-            </BrowserRouter>
-        )
+      render(
+        <BrowserRouter>
+          <AdmHelpPage />
+        </BrowserRouter>
+      )
     })
     const singleAccountButton = screen.getByText('Ajouter une Catégorie')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
     })
-    expect(screen.getByText("Ajouter une nouvelle Catégorie")).toBeInTheDocument()
+    expect(screen.getByText('Ajouter une nouvelle Catégorie')).toBeInTheDocument()
     const nameInput = screen.getByPlaceholderText('Nom')
     expect(nameInput).toHaveValue('')
     await act(async () => {
-        fireEvent.change(nameInput, { target: { value: 'Violence' } })
+      fireEvent.change(nameInput, { target: { value: 'Violence' } })
     })
     expect(nameInput).toHaveValue('Violence')
     const newCategoryBtn = screen.getByText('Créer la catégorie')
@@ -84,18 +83,18 @@ describe('AdmHelpPage', () => {
 
   it('allows the creation of a new contact', async () => {
     await act(async () => {
-        render(
-            <BrowserRouter>
-            <AdmHelpPage />
-            </BrowserRouter>
-        )
+      render(
+        <BrowserRouter>
+          <AdmHelpPage />
+        </BrowserRouter>
+      )
     })
     const singleAccountButton = screen.getByText('Ajouter un Contact')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
     })
-    expect(screen.getByText("Ajouter un nouveau Contact")).toBeInTheDocument()
+    expect(screen.getByText('Ajouter un nouveau Contact')).toBeInTheDocument()
 
     const nameInput = screen.getByPlaceholderText('Nom')
     const telephoneInput = screen.getByPlaceholderText('0000000000')
@@ -108,16 +107,16 @@ describe('AdmHelpPage', () => {
     expect(descriptionInput).toHaveValue('')
 
     await act(async () => {
-        fireEvent.change(nameInput, { target: { value: 'Test' } })
+      fireEvent.change(nameInput, { target: { value: 'Test' } })
     })
     await act(async () => {
-        fireEvent.change(telephoneInput, { target: { value: '0298123712' } })
+      fireEvent.change(telephoneInput, { target: { value: '0298123712' } })
     })
     await act(async () => {
-        fireEvent.change(emailInput, { target: { value: 'test@schood.fr' } })
+      fireEvent.change(emailInput, { target: { value: 'test@schood.fr' } })
     })
     await act(async () => {
-        fireEvent.change(descriptionInput, { target: { value: 'This is just a test' } })
+      fireEvent.change(descriptionInput, { target: { value: 'This is just a test' } })
     })
 
     expect(nameInput).toHaveValue('Test')
@@ -134,11 +133,11 @@ describe('AdmHelpPage', () => {
 
   it('tests the popups', async () => {
     await act(async () => {
-        render(
-            <BrowserRouter>
-            <AdmHelpPage />
-            </BrowserRouter>
-        )
+      render(
+        <BrowserRouter>
+          <AdmHelpPage />
+        </BrowserRouter>
+      )
     })
 
     const categoryButton = screen.getByText('Ajouter une Catégorie')
@@ -146,22 +145,21 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       fireEvent.click(categoryButton)
     })
-    expect(screen.getByText("Ajouter une nouvelle Catégorie")).toBeInTheDocument()
-    expect(screen.queryByText("Ajouter un nouveau Contact")).not.toBeInTheDocument()
+    expect(screen.getByText('Ajouter une nouvelle Catégorie')).toBeInTheDocument()
+    expect(screen.queryByText('Ajouter un nouveau Contact')).not.toBeInTheDocument()
 
     const contactButton = screen.getByText('Ajouter un Contact')
 
     await act(async () => {
       fireEvent.click(contactButton)
     })
-    expect(screen.getByText("Ajouter un nouveau Contact")).toBeInTheDocument()
-    expect(screen.queryByText("Ajouter une nouvelle Catégorie")).not.toBeInTheDocument()
+    expect(screen.getByText('Ajouter un nouveau Contact')).toBeInTheDocument()
+    expect(screen.queryByText('Ajouter une nouvelle Catégorie')).not.toBeInTheDocument()
 
     await act(async () => {
-        fireEvent.click(categoryButton)
-      })
-    expect(screen.getByText("Ajouter une nouvelle Catégorie")).toBeInTheDocument()
-    expect(screen.queryByText("Ajouter un nouveau Contact")).not.toBeInTheDocument()
-
+      fireEvent.click(categoryButton)
+    })
+    expect(screen.getByText('Ajouter une nouvelle Catégorie')).toBeInTheDocument()
+    expect(screen.queryByText('Ajouter un nouveau Contact')).not.toBeInTheDocument()
   })
 })

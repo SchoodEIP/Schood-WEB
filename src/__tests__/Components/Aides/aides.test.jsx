@@ -9,13 +9,13 @@ import { BrowserRouter } from 'react-router-dom'
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f())
 
 describe('AidePage component', () => {
-  const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
-  const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
+  const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
+  const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
 
   const categories = [
     {
       _id: '1',
-      name: "Aide contre le harcèlement"
+      name: 'Aide contre le harcèlement'
     }
   ]
 
@@ -23,9 +23,9 @@ describe('AidePage component', () => {
     {
       _id: '1',
       name: "Ligne d'urgence pour les victimes de violence familiale",
-      telephone: "0289674512",
+      telephone: '0289674512',
       email: 'example@schood.fr',
-      description: "lala",
+      description: 'lala',
       helpNumbersCategory: '2'
     }
   ]
@@ -40,7 +40,7 @@ describe('AidePage component', () => {
     fetchMock.restore()
   })
 
-  it('displays categories and contacts', async() => {
+  it('displays categories and contacts', async () => {
     await act(async () => {
       render(
         <BrowserRouter>

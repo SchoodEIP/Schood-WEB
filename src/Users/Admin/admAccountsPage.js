@@ -153,8 +153,8 @@ export default function AdmAccountsPage () {
             isOpenMany={isOpenMany}
             handleSingleAccount={handleSingleAccount}
             handleManyAccounts={handleManyAccounts}
-            singleContent="Ajouter un compte"
-            manyContent="Ajouter une liste de comptes"
+            singleContent='Ajouter un compte'
+            manyContent='Ajouter une liste de comptes'
           />
         </div>
       </div>

@@ -272,6 +272,5 @@ describe('SchoolAdmAccountsPage', () => {
     })
     expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
     expect(screen.queryByText("Création d'un compte Etudiant/Professeur")).not.toBeInTheDocument()
-
   })
 })

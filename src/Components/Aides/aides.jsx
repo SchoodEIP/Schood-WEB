@@ -8,8 +8,8 @@ export default function AidePage () {
   const [errMessage, setErrMessage] = useState('')
 
   useEffect(() => {
-    const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
-    const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
+    const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
+    const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
 
     fetch(categoryUrl, {
       method: 'GET',
@@ -35,7 +35,6 @@ export default function AidePage () {
         setFilteredContacts(data)
       })
       .catch(error => setErrMessage(error.message))
-
   }, [])
 
   const filterContactsByCategory = (category) => {

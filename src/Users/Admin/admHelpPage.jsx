@@ -6,7 +6,6 @@ import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.
 import { React, useState, useEffect } from 'react'
 import Popup from '../../Components/Popup/popup'
 
-
 const AdmHelpPage = () => {
   const [isOpenCategory, setIsOpenCategory] = useState(false)
   const [isOpenNumber, setIsOpenNumber] = useState(false)
@@ -19,7 +18,7 @@ const AdmHelpPage = () => {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
+    const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
     fetch(categoryUrl, {
       method: 'GET',
       headers: {
@@ -32,7 +31,6 @@ const AdmHelpPage = () => {
         setCategoryID(data[0]._id)
       })
       .catch(error => setErrMessage(error.message))
-
   }, [])
 
   const handleCategoryPopup = () => {
@@ -78,7 +76,7 @@ const AdmHelpPage = () => {
   }
 
   const categoryCreation = async (event) => {
-    const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + "/adm/helpNumbersCategory/register"
+    const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumbersCategory/register'
     const response = await fetch(categoryRegisterUrl, {
       method: 'POST',
       headers: {
@@ -86,7 +84,7 @@ const AdmHelpPage = () => {
         'x-auth-token': sessionStorage.getItem('token')
       },
       body: JSON.stringify({
-        name: name
+        name
       })
     })
     if (response.status === 200) {
@@ -99,7 +97,7 @@ const AdmHelpPage = () => {
   }
 
   const helpNumberCreation = async (event) => {
-    const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + "/adm/helpNumber/register"
+    const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumber/register'
 
     const response = await fetch(helpNumberRegisterUrl, {
       method: 'POST',
@@ -108,11 +106,11 @@ const AdmHelpPage = () => {
         'x-auth-token': sessionStorage.getItem('token')
       },
       body: JSON.stringify({
-        email: email,
-        name: name,
-        telephone: telephone,
+        email,
+        name,
+        telephone,
         helpNumbersCategory: categoryID,
-        description: description
+        description
       })
     })
     if (response.status === 200) {
@@ -144,15 +142,15 @@ const AdmHelpPage = () => {
             isOpenMany={isOpenNumber}
             handleSingleAccount={handleCategoryPopup}
             handleManyAccounts={handleNumberPopup}
-            singleContent="Ajouter une Catégorie"
-            manyContent="Ajouter un Contact"
+            singleContent='Ajouter une Catégorie'
+            manyContent='Ajouter un Contact'
           />
         </div>
       </div>
       {
         isOpenCategory && <Popup
           handleClose={handleCategoryPopup}
-          title={"Ajouter une nouvelle Catégorie"}
+          title='Ajouter une nouvelle Catégorie'
           errMessage={errMessage}
           handleCreation={categoryCreation}
           btn_text='Créer la catégorie'
@@ -161,18 +159,18 @@ const AdmHelpPage = () => {
               <input className='pop-input' name='name' placeholder='Nom' onChange={handleNameChange} />
             </div>
           }
-                        />
+                          />
       }
       {
         isOpenNumber && <Popup
           handleClose={handleNumberPopup}
-          title={"Ajouter un nouveau Contact"}
+          title='Ajouter un nouveau Contact'
           errMessage={errMessage}
           handleCreation={helpNumberCreation}
           btn_text='Créer le contact'
           content={
             <form className='pop-form'>
-              <select className='pop-input' data-testid="category-select" value={categoryID} onChange={handleCategoryChange}>
+              <select className='pop-input' data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
                 {categories.map((option, index) => (
                   <option key={index} value={option._id}>
                     {option.name}
@@ -185,7 +183,7 @@ const AdmHelpPage = () => {
               <textarea className='pop-input' name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
             </form>
           }
-                      />
+                        />
       }
     </div>
   )
