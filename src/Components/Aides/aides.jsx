@@ -6,10 +6,10 @@ export default function AidePage () {
   const [contacts, setContacts] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
   const [errMessage, setErrMessage] = useState('')
-  const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
-  const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
 
   useEffect(() => {
+    const categoryUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbersCategories"
+    const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + "/user/helpNumbers"
 
     fetch(categoryUrl, {
       method: 'GET',
@@ -41,12 +41,8 @@ export default function AidePage () {
   }, [])
 
   const filterContactsByCategory = (category) => {
-    if (category) {
-      const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
-      setFilteredContacts(filtered)
-    } else {
-      setFilteredContacts(contacts)
-    }
+    const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
+    setFilteredContacts(filtered)
   }
 
   return (
