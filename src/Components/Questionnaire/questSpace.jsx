@@ -18,6 +18,7 @@ export function QuestSpace () {
       .then((response) => response.json())
       .then((data) => {
         setPreviousQuestStatus(data.status)
+        console.log(data)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du statut du questionnaire précédent :', error)
