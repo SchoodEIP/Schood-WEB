@@ -56,7 +56,8 @@ export function MoodForm () {
           {errMessage !== '' ? <p>{errMessage}</p> : ''}
           {isAnswered
             ? <p>Votre humeur du jour : {dailyMood}</p>
-            : <div>
+            :
+            <div>
               <button className='moodBtn' onClick={() => handleMood('En colère')}>En colère</button>
               <button className='moodBtn' onClick={() => handleMood('Déprimé')}>Déprimé</button>
               <button className='moodBtn' onClick={() => handleMood('Triste')}>Triste</button>
