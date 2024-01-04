@@ -30,7 +30,6 @@ export function MoodForm () {
   }, [])
 
   const handleMood = (mood) => {
-
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'POST',
       headers: {
@@ -54,18 +53,17 @@ export function MoodForm () {
       </div>
       <div className='graph-body'>
         <div className='graph-content'>
-          { errMessage !== '' ? <p>{errMessage}</p> : ''}
-          { isAnswered ?
-            <p>Votre humeur du jour : {dailyMood}</p> :
-            <div>
-              <button className="moodBtn" onClick={() => handleMood('En colère')}>En colère</button>
-              <button className="moodBtn" onClick={() => handleMood('Déprimé')}>Déprimé</button>
-              <button className="moodBtn" onClick={() => handleMood('Triste')}>Triste</button>
-              <button className="moodBtn" onClick={() => handleMood('Content')}>Content</button>
-              <button className="moodBtn" onClick={() => handleMood('Heureux')}>Heureux</button>
-              <button className="moodBtn" onClick={() => handleMood('Épanoui')}>Épanoui</button>
-            </div>
-          }
+          {errMessage !== '' ? <p>{errMessage}</p> : ''}
+          {isAnswered
+            ? <p>Votre humeur du jour : {dailyMood}</p>
+            : <div>
+              <button className='moodBtn' onClick={() => handleMood('En colère')}>En colère</button>
+              <button className='moodBtn' onClick={() => handleMood('Déprimé')}>Déprimé</button>
+              <button className='moodBtn' onClick={() => handleMood('Triste')}>Triste</button>
+              <button className='moodBtn' onClick={() => handleMood('Content')}>Content</button>
+              <button className='moodBtn' onClick={() => handleMood('Heureux')}>Heureux</button>
+              <button className='moodBtn' onClick={() => handleMood('Épanoui')}>Épanoui</button>
+              </div>}
         </div>
       </div>
     </div>

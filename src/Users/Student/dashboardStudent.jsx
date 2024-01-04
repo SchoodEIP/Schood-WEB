@@ -4,7 +4,7 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import { QuestSpace } from '../../Components/Questionnaire/questSpace'
 import { GraphSpace } from '../../Components/Graph/graphSpace'
 import { LastAlerts } from '../../Components/Alerts/lastAlerts'
-import MoodForm  from '../../Components/Questionnaire/moodForm'
+import MoodForm from '../../Components/Questionnaire/moodForm'
 import React from 'react'
 
 const StudentHomePage = () => {

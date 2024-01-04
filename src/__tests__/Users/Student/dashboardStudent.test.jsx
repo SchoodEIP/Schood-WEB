@@ -13,7 +13,7 @@ describe('Dashboard Student component', () => {
     fetchMock.reset()
     fetchMock.get(previousUrl, { body: { status: 'not_started' } })
     fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
-    fetchMock.get(dailyMood, { moodStatus: true, mood: "Heureux"})
+    fetchMock.get(dailyMood, { moodStatus: true, mood: 'Heureux' })
     fetchMock.post(dailyMood, { })
   })
 
