@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 export function MoodForm () {
   const [isAnswered, setIsAnswered] = useState(false)
   const [dailyMood, setDailyMood] = useState('')
+  const [errMessage, setErrMessage] = useState('')
 
   useEffect(() => {
     // pour mon questionnaire pour l'humeur, j'ai besoin de :
@@ -18,19 +19,17 @@ export function MoodForm () {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.humorStatus === true) {
+        if (data.moodStatus === true) {
           setIsAnswered(true)
-          setDailyMood(data.humor)
+          setDailyMood(data.mood)
         }
       })
       .catch((error) => {
-        console.error('Erreur :', error)
+        setErrMessage('Erreur : ', error)
       })
   }, [])
 
   const handleMood = (mood) => {
-    setIsAnswered(true)
-    setDailyMood(mood)
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'POST',
@@ -44,7 +43,7 @@ export function MoodForm () {
         setDailyMood(mood)
       })
       .catch((error) => {
-        console.error('Erreur :', error)
+        setErrMessage('Erreur : ', error.message)
       })
   }
 
@@ -55,6 +54,7 @@ export function MoodForm () {
       </div>
       <div className='graph-body'>
         <div className='graph-content'>
+          { errMessage !== '' ? <p>{errMessage}</p> : ''}
           { isAnswered ?
             <p>Votre humeur du jour : {dailyMood}</p> :
             <div>

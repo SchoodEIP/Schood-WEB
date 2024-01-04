@@ -8,11 +8,13 @@ import fetchMock from 'fetch-mock'
 describe('Dashboard Student component', () => {
   const previousUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`
   const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
-
+  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(previousUrl, { body: { status: 'not_started' } })
     fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
+    fetchMock.get(dailyMood, { moodStatus: true, mood: "Heureux"})
+    fetchMock.post(dailyMood, { })
   })
 
   afterEach(() => {
