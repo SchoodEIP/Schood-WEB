@@ -63,7 +63,7 @@ export function MoodForm () {
               <button className='moodBtn' onClick={() => handleMood('Content')}>Content</button>
               <button className='moodBtn' onClick={() => handleMood('Heureux')}>Heureux</button>
               <button className='moodBtn' onClick={() => handleMood('Épanoui')}>Épanoui</button>
-              </div>}
+            </div>}
         </div>
       </div>
     </div>
