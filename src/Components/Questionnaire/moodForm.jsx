@@ -57,14 +57,13 @@ export function MoodForm () {
           {isAnswered
             ? <p>Votre humeur du jour : {dailyMood}</p>
             : <div>
-                <button className='moodBtn' onClick={() => handleMood('En colère')}>En colère</button>
-                <button className='moodBtn' onClick={() => handleMood('Déprimé')}>Déprimé</button>
-                <button className='moodBtn' onClick={() => handleMood('Triste')}>Triste</button>
-                <button className='moodBtn' onClick={() => handleMood('Content')}>Content</button>
-                <button className='moodBtn' onClick={() => handleMood('Heureux')}>Heureux</button>
-                <button className='moodBtn' onClick={() => handleMood('Épanoui')}>Épanoui</button>
-              </div>
-          }
+              <button className='moodBtn' onClick={() => handleMood('En colère')}>En colère</button>
+              <button className='moodBtn' onClick={() => handleMood('Déprimé')}>Déprimé</button>
+              <button className='moodBtn' onClick={() => handleMood('Triste')}>Triste</button>
+              <button className='moodBtn' onClick={() => handleMood('Content')}>Content</button>
+              <button className='moodBtn' onClick={() => handleMood('Heureux')}>Heureux</button>
+              <button className='moodBtn' onClick={() => handleMood('Épanoui')}>Épanoui</button>
+              </div>}
         </div>
       </div>
     </div>
