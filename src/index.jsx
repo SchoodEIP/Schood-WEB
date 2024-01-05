@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Users/Public/loginPage'
 import AdmHomePage from './Users/Admin/admHomePage'
+import AdmHelpPage from './Users/Admin/admHelpPage'
 import AdmAccountsPage from './Users/Admin/admAccountsPage'
 import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
 import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
@@ -44,7 +45,7 @@ if (rootElement) {
           <>
             <Route path='/' element={<AdmHomePage />} />
             <Route path='/accounts' element={<AdmAccountsPage />} />
-            <Route path='/aides' element={<HelpPage />} />
+            <Route path='/aides' element={<AdmHelpPage />} />
             <Route path='/messages' element={<ChatRoomPage />} />
           </>
         )}
@@ -52,7 +53,7 @@ if (rootElement) {
           <>
             <Route path='/' element={<SchoolAdmHomePage />} />
             <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
-            <Route path='/aides' element={<HelpPage />} />
+            <Route path='/aides' element={<AdmHelpPage />} />
             <Route path='/messages' element={<ChatRoomPage />} />
           </>
         )}
