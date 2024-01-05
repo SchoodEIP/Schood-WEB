@@ -16,6 +16,7 @@ import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
+import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import HelpPage from './Users/Shared/helpPage'
 import ChatRoomPage from './Users/Shared/chatRoomPage'
 
@@ -71,6 +72,7 @@ if (rootElement) {
             <Route path='/questionnaires' element={<FormListTeacherPage />} />
             <Route path='/questionnaire' element={<NewFormPage />} />
             <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
             <Route path='/aides' element={<HelpPage />} />
           </>
         )}
