@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "../../css/Components/Buttons/button.css"
+import '../../css/Components/Buttons/button.css'
 export function MoodForm () {
   const [isAnswered, setIsAnswered] = useState(false)
   const [dailyMood, setDailyMood] = useState('')
@@ -7,10 +7,10 @@ export function MoodForm () {
   const imagePaths = {
     veryBadMood: require('../../assets/veryBadMood.jpg'),
     badMood: require('../../assets/badMood.jpg'),
-    averageMood: require("../../assets/averageMood.jpg"),
-    happyMood: require("../../assets/happyMood.jpg"),
-    veryHappyMood: require("../../assets/veryHappyMood.jpg"),
-  };
+    averageMood: require('../../assets/averageMood.jpg'),
+    happyMood: require('../../assets/happyMood.jpg'),
+    veryHappyMood: require('../../assets/veryHappyMood.jpg')
+  }
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'GET',
@@ -57,12 +57,12 @@ export function MoodForm () {
       <div className='graph-body'>
         <div>
           {errMessage !== '' ? <p>{errMessage}</p> : ''}
-          <div style={{display:"flex", flexDirection:'row', gap:"25px"}}>
-            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "veryBadMood" ? '2px solid blue' : 'none'}} src={imagePaths.veryBadMood} alt={'Très Mal'} onClick={() => handleMood('veryBadMood')}/>
-            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "badMood" ? '2px solid blue' : 'none'}} src={imagePaths.badMood} alt={'Mal'} onClick={() => handleMood('badMood')}/>
-            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "averageMood" ? '2px solid blue' : 'none'}} src={imagePaths.averageMood} alt={'Bof'} onClick={() => handleMood('averageMood')}/>
-            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "happyMood" ? '2px solid blue' : 'none'}} src={imagePaths.happyMood} alt={'Bien'} onClick={() => handleMood('happyMood')}/>
-            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "veryHappyMood" ? '2px solid blue' : 'none'}} src={imagePaths.veryHappyMood} alt={'Très Bien'} onClick={() => handleMood('veryHappyMood')}/>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <img style={{ height: '100%', cursor: 'pointer', borderRadius: '15px', border: dailyMood === 'veryBadMood' ? '2px solid blue' : 'none' }} src={imagePaths.veryBadMood} alt='Très Mal' onClick={() => handleMood('veryBadMood')} />
+            <img style={{ height: '100%', cursor: 'pointer', borderRadius: '15px', border: dailyMood === 'badMood' ? '2px solid blue' : 'none' }} src={imagePaths.badMood} alt='Mal' onClick={() => handleMood('badMood')} />
+            <img style={{ height: '100%', cursor: 'pointer', borderRadius: '15px', border: dailyMood === 'averageMood' ? '2px solid blue' : 'none' }} src={imagePaths.averageMood} alt='Bof' onClick={() => handleMood('averageMood')} />
+            <img style={{ height: '100%', cursor: 'pointer', borderRadius: '15px', border: dailyMood === 'happyMood' ? '2px solid blue' : 'none' }} src={imagePaths.happyMood} alt='Bien' onClick={() => handleMood('happyMood')} />
+            <img style={{ height: '100%', cursor: 'pointer', borderRadius: '15px', border: dailyMood === 'veryHappyMood' ? '2px solid blue' : 'none' }} src={imagePaths.veryHappyMood} alt='Très Bien' onClick={() => handleMood('veryHappyMood')} />
           </div>
         </div>
       </div>

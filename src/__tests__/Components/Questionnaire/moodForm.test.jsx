@@ -99,6 +99,5 @@ describe('MoodForm Component', () => {
     })
 
     expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
-
   })
 })
