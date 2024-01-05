@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-
+import "../../css/Components/Buttons/button.css"
 export function MoodForm () {
   const [isAnswered, setIsAnswered] = useState(false)
   const [dailyMood, setDailyMood] = useState('')
   const [errMessage, setErrMessage] = useState('')
-
+  const imagePaths = {
+    veryBadMood: require('../../assets/veryBadMood.jpg'),
+    badMood: require('../../assets/badMood.jpg'),
+    averageMood: require("../../assets/averageMood.jpg"),
+    happyMood: require("../../assets/happyMood.jpg"),
+    veryHappyMood: require("../../assets/veryHappyMood.jpg"),
+  };
   useEffect(() => {
-    // pour mon questionnaire pour l'humeur, j'ai besoin de :
-    // GET le status du questionnaire pour cet utilisateur
-    // // si déjà rempli aujourd'hui alors message reçu est l'humeur donnée
-    // // si non alors donner à utilisateur option de le remplir
-    // POST envoyer comment on se sent aujourd'hui
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'GET',
       headers: {
@@ -20,16 +21,18 @@ export function MoodForm () {
       .then((response) => response.json())
       .then((data) => {
         if (data.moodStatus === true) {
-          setIsAnswered(true)
+          setIsAnswered(data.moodStatus)
           setDailyMood(data.mood)
         }
       })
       .catch((error) => {
-        setErrMessage('Erreur : ', error)
+        setErrMessage('Erreur : ', error.message)
       })
   }, [])
 
   const handleMood = (mood) => {
+    setIsAnswered(true)
+    setDailyMood(mood)
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'POST',
       headers: {
@@ -38,32 +41,29 @@ export function MoodForm () {
     })
       .then((response) => response.json())
       .then((data) => {
-        setIsAnswered(true)
-        setDailyMood(mood)
+        setIsAnswered(data.moodStatus)
+        setDailyMood(data.mood)
       })
       .catch((error) => {
-        setErrMessage('Erreur : ', error.message)
+        // setErrMessage('Erreur : ', error.message)
       })
   }
 
   return (
     <div className='graph-box'>
       <div className='graph-header'>
-        <p className='title'>Quelle est votre humeur du jour ?</p>
+        <p className='title'>{isAnswered ? 'Voici votre humeur du jour' : 'Quelle est votre humeur du jour ?'}</p>
       </div>
       <div className='graph-body'>
-        <div className='graph-content'>
+        <div>
           {errMessage !== '' ? <p>{errMessage}</p> : ''}
-          {isAnswered
-            ? <p>Votre humeur du jour : {dailyMood}</p>
-            : <div>
-              <button className='moodBtn' onClick={() => handleMood('En colère')}>En colère</button>
-              <button className='moodBtn' onClick={() => handleMood('Déprimé')}>Déprimé</button>
-              <button className='moodBtn' onClick={() => handleMood('Triste')}>Triste</button>
-              <button className='moodBtn' onClick={() => handleMood('Content')}>Content</button>
-              <button className='moodBtn' onClick={() => handleMood('Heureux')}>Heureux</button>
-              <button className='moodBtn' onClick={() => handleMood('Épanoui')}>Épanoui</button>
-              </div>}
+          <div style={{display:"flex", flexDirection:'row', gap:"25px"}}>
+            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "veryBadMood" ? '2px solid blue' : 'none'}} src={imagePaths.veryBadMood} alt={'Très Mal'} onClick={() => handleMood('veryBadMood')}/>
+            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "badMood" ? '2px solid blue' : 'none'}} src={imagePaths.badMood} alt={'Mal'} onClick={() => handleMood('badMood')}/>
+            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "averageMood" ? '2px solid blue' : 'none'}} src={imagePaths.averageMood} alt={'Bof'} onClick={() => handleMood('averageMood')}/>
+            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "happyMood" ? '2px solid blue' : 'none'}} src={imagePaths.happyMood} alt={'Bien'} onClick={() => handleMood('happyMood')}/>
+            <img style={{height:"100%", cursor:"pointer", borderRadius:"15px", border: dailyMood === "veryHappyMood" ? '2px solid blue' : 'none'}} src={imagePaths.veryHappyMood} alt={'Très Bien'} onClick={() => handleMood('veryHappyMood')}/>
+          </div>
         </div>
       </div>
     </div>

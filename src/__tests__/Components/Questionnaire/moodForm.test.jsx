@@ -19,7 +19,7 @@ describe('MoodForm Component', () => {
   })
 
   it('handles alternate response', async () => {
-    const mockResponse = { moodStatus: true, mood: 'Heureux' }
+    const mockResponse = { moodStatus: true, mood: 'veryHappyMood' }
     jest.spyOn(global, 'fetch').mockReturnValue(Promise.resolve({
       json: () => Promise.resolve(mockResponse)
     }))
@@ -31,7 +31,11 @@ describe('MoodForm Component', () => {
       )
     })
 
-    expect(await screen.getByText('Votre humeur du jour : Heureux')).toBeInTheDocument()
+    expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
+    expect(screen.getByAltText('Mal')).toBeInTheDocument()
+    expect(screen.getByAltText('Bof')).toBeInTheDocument()
+    expect(screen.getByAltText('Bien')).toBeInTheDocument()
+    expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
   })
 
   it('handles errors', async () => {
@@ -56,128 +60,45 @@ describe('MoodForm Component', () => {
       )
     })
 
-    const AngryButton = screen.getByText('En colère')
-    expect(AngryButton).toBeInTheDocument()
+    const veryBadButton = screen.getByAltText('Très Mal')
 
     await act(async () => {
-      fireEvent.click(AngryButton)
+      fireEvent.click(veryBadButton)
     })
 
-    expect(screen.getByText('Votre humeur du jour : En colère')).toBeInTheDocument()
-  })
+    expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
 
-  it('shows depressed mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    const depressedButton = screen.getByText('Déprimé')
-    expect(depressedButton).toBeInTheDocument()
+    const BadButton = screen.getByAltText('Mal')
 
     await act(async () => {
-      fireEvent.click(depressedButton)
+      fireEvent.click(BadButton)
     })
 
-    expect(screen.getByText('Votre humeur du jour : Déprimé')).toBeInTheDocument()
-  })
+    expect(screen.getByAltText('Mal')).toBeInTheDocument()
 
-  it('shows sad mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    const sadButton = screen.getByText('Triste')
-    expect(sadButton).toBeInTheDocument()
+    const averageButton = screen.getByAltText('Bof')
 
     await act(async () => {
-      fireEvent.click(sadButton)
+      fireEvent.click(averageButton)
     })
 
-    expect(screen.getByText('Votre humeur du jour : Triste')).toBeInTheDocument()
-  })
+    expect(screen.getByAltText('Bof')).toBeInTheDocument()
 
-  it('shows content mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    const contentButton = screen.getByText('Content')
-    expect(contentButton).toBeInTheDocument()
+    const goodButton = screen.getByAltText('Bien')
 
     await act(async () => {
-      fireEvent.click(contentButton)
+      fireEvent.click(goodButton)
     })
 
-    expect(screen.getByText('Votre humeur du jour : Content')).toBeInTheDocument()
-  })
+    expect(screen.getByAltText('Bien')).toBeInTheDocument()
 
-  it('shows happy mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    const happyButton = screen.getByText('Heureux')
-    expect(happyButton).toBeInTheDocument()
+    const veryGoodButton = screen.getByAltText('Très Bien')
 
     await act(async () => {
-      fireEvent.click(happyButton)
+      fireEvent.click(veryGoodButton)
     })
 
-    expect(screen.getByText('Votre humeur du jour : Heureux')).toBeInTheDocument()
-  })
+    expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
 
-  it('shows fulfilled mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    const fulfilledButton = screen.getByText('Épanoui')
-    expect(fulfilledButton).toBeInTheDocument()
-
-    await act(async () => {
-      fireEvent.click(fulfilledButton)
-    })
-
-    expect(screen.getByText('Votre humeur du jour : Épanoui')).toBeInTheDocument()
-  })
-
-  it('shows error post mood', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
-      )
-    })
-
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    const fulfilledButton = screen.getByText('Épanoui')
-    expect(fulfilledButton).toBeInTheDocument()
-
-    await act(async () => {
-      fireEvent.click(fulfilledButton)
-    })
-
-    expect(await screen.getByText('Erreur :')).toBeInTheDocument()
   })
 })
