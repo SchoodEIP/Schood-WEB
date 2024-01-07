@@ -45,6 +45,7 @@ export function MoodForm () {
         setDailyMood(data.mood)
       })
       .catch((error) => {
+        console.error(error)
         // setErrMessage('Erreur : ', error.message)
       })
   }
