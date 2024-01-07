@@ -209,13 +209,13 @@ const ModifyFormTeacherPage = () => {
             removeAnswerBtn.style.display = 'none'
         }   else {
             answerBtnContainer.style.display = 'flex'
-        for (let i = 0; i < 2; i++) {
-            const firstAnswerInput = document.createElement('input')
-            firstAnswerInput.classList.add('form-input')
-            firstAnswerInput.id = 'form-input-' + id + '-' + i
-            firstAnswerInput.placeholder = 'Choix possible'
-            answerRow.appendChild(firstAnswerInput)
-        }
+            for (let i = 0; i < 2; i++) {
+                const firstAnswerInput = document.createElement('input')
+                firstAnswerInput.classList.add('form-input')
+                firstAnswerInput.id = 'form-input-' + id + '-' + i
+                firstAnswerInput.placeholder = 'Choix possible'
+                answerRow.appendChild(firstAnswerInput)
+            }
         }
     }
 
@@ -266,7 +266,7 @@ const ModifyFormTeacherPage = () => {
         typeSelect.id = 'select-' + numQ
         typeSelect.setAttribute('data-testId', 'select-' + numQ)
         typeSelect.addEventListener('change', function () {
-        changeAnswerBtnStatus(numQ)
+          changeAnswerBtnStatus(numQ)
         })
         typeSelect.classList.add('pop-input')
 
@@ -300,7 +300,7 @@ const ModifyFormTeacherPage = () => {
         removeAnswerBtn.classList.add('questionnaire-btn')
         removeAnswerBtn.style.display = 'none'
         removeAnswerBtn.addEventListener('click', function () {
-        removeAnswer(numQ)
+          removeAnswer(numQ)
         })
 
         const addAnswerBtn = document.createElement('button')
@@ -309,7 +309,7 @@ const ModifyFormTeacherPage = () => {
         addAnswerBtn.classList.add('button-css')
         addAnswerBtn.classList.add('questionnaire-btn')
         addAnswerBtn.addEventListener('click', function () {
-        addAnswer(numQ)
+          addAnswer(numQ)
         })
 
         container.appendChild(numbering)
@@ -330,7 +330,7 @@ const ModifyFormTeacherPage = () => {
 
         const lastChild = questionRow.lastChild
         if (lastChild) {
-        questionRow.removeChild(lastChild)
+          questionRow.removeChild(lastChild)
         }
     }
 
