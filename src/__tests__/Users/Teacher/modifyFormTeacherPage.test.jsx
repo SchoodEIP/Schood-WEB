@@ -44,6 +44,11 @@ describe('ModifyFormTeacherPage', () => {
               _id: '64fb230269a0b02380ee32ac',
               position: 1,
               title: 'non'
+            },
+            {
+                _id: '64fb230269a0b02380ee32ad',
+                position: 2,
+                title: 'peut-être'
             }
           ],
           title: 'Est-ce que le texte fonctionne ?',
@@ -119,22 +124,17 @@ describe('ModifyFormTeacherPage', () => {
 
         const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
 
-        expect(inputElements1.length).toBe(3)
+        expect(inputElements1.length).toBe(4)
 
         act(() => {
             fireEvent.click(removeAnswerBtn[2])
         })
 
         const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
-        expect(inputElements2.length).toBe(2)
+        expect(inputElements2.length).toBe(3)
     })
 
     it('should handle errors', async () => {
-        // window.fetch = jest.fn().mockResolvedValue({
-        //     status: 400,
-        //     json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
-        //   })
-
         await act(async () => {
             render(
               <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
@@ -208,4 +208,188 @@ describe('ModifyFormTeacherPage', () => {
         expect(window.fetch).toHaveBeenCalledTimes(2)
         window.location = originalLocation
     })
+
+    it('catches an error on the GET', async() => {
+        const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+        global.fetch = mockFetch
+
+        await act(async () => {
+            render(
+              <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+                <Routes>
+                  <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+                </Routes>
+              </MemoryRouter>
+            )
+        })
+
+        await act(async () => {
+            await expect(mockFetch()).rejects.toThrow('Network Error')
+        })
+    })
+
+    it('catches an error on the PATCH', async() => {
+        await act(async () => {
+            render(
+              <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+                <Routes>
+                  <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+                </Routes>
+              </MemoryRouter>
+            )
+        })
+
+        const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+        global.fetch = mockFetch
+
+        const postButton = screen.getByText('Modifier le Questionnaire')
+        expect(postButton).toBeInTheDocument()
+
+        await act(() => {
+            fireEvent.click(postButton)
+        })
+
+        await act(async () => {
+            await expect(mockFetch()).rejects.toThrow('Network Error')
+        })
+    })
+
+    it('changes a select to multiple', async() => {
+        await act(async () => {
+            render(
+              <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+                <Routes>
+                  <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+                </Routes>
+              </MemoryRouter>
+            )
+        })
+
+        const selectType = screen.getByTestId('select-0')
+        await waitFor(() => {
+            expect(selectType).toBeInTheDocument()
+        })
+        await waitFor(() => {
+            expect(selectType).toHaveValue('emoji')
+        })
+
+        await act(() => {
+            fireEvent.change(selectType, { target: { value: 'multiple' } })
+        })
+        await waitFor(() => {
+            expect(selectType).toHaveValue('multiple')
+        })
+
+        const allAnswersInput = screen.getAllByPlaceholderText('Choix possible')
+
+        await waitFor(() => {
+            expect(allAnswersInput[0]).toHaveValue('')
+        })
+    })
+
+    it('adds a new question and removes all questions', async() => {
+        await act(async () => {
+            render(
+              <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+                <Routes>
+                  <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+                </Routes>
+              </MemoryRouter>
+            )
+        })
+
+        const addQuestionBtn = screen.getByText('Ajouter une Question')
+
+        await act(() => {
+            fireEvent.click(addQuestionBtn)
+        })
+        await waitFor(() => {
+            expect(screen.getByText('Question n° 4 :')).toBeInTheDocument()
+        })
+
+        const selectType = screen.getByTestId('select-3')
+        await waitFor(() => {
+            expect(selectType).toBeInTheDocument()
+        })
+        await waitFor(() => {
+            expect(selectType).toHaveValue('text')
+        })
+
+        await act(() => {
+            fireEvent.change(selectType, { target: { value: 'multiple' } })
+        })
+        await waitFor(() => {
+            expect(selectType).toHaveValue('multiple')
+        })
+
+        const addAnswerBtn = screen.getAllByText('Ajouter une Réponse')
+        await waitFor(() => {
+            expect(addAnswerBtn.length).toBe(4)
+        })
+
+        act(() => {
+            fireEvent.click(addAnswerBtn[3])
+        })
+
+        const removeAnswerBtn = screen.getAllByText('Enlever une Réponse')
+
+        const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
+
+        expect(inputElements1.length).toBe(6)
+
+        act(() => {
+            fireEvent.click(removeAnswerBtn[3])
+        })
+
+        const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
+        expect(inputElements2.length).toBe(5)
+
+        const removeQuestionBtn = screen.getByText('Enlever une Question')
+
+        await act(() => {
+            fireEvent.click(removeQuestionBtn)
+        })
+        await waitFor(() => {
+            expect(screen.queryByText('Question n° 4 :')).not.toBeInTheDocument()
+        })
+
+        await act(() => {
+            fireEvent.click(removeQuestionBtn)
+        })
+        await act(() => {
+            fireEvent.click(removeQuestionBtn)
+        })
+        await act(() => {
+            fireEvent.click(removeQuestionBtn)
+        })
+        await act(() => {
+            fireEvent.click(removeQuestionBtn)
+        })
+    })
+
+    it('changes the date', async() => {
+        await act(async () => {
+            render(
+              <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+                <Routes>
+                  <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+                </Routes>
+              </MemoryRouter>
+            )
+        })
+
+        const datetime = screen.getByTestId('parution-date')
+
+        await waitFor(() => {
+            screen.getByTestId('parution-date')
+        })
+
+        act(() => {
+            fireEvent.change(datetime, { target: { value: '2026-02-10' } })
+          })
+        expect(datetime).toHaveValue('2026-02-10')
+    })
+
 })
