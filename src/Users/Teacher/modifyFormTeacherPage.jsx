@@ -66,7 +66,7 @@ const ModifyFormTeacherPage = () => {
       removeAnswerBtn.id = 'remove-answer-btn-' + numQ
       removeAnswerBtn.classList.add('button-css')
       removeAnswerBtn.classList.add('questionnaire-btn')
-      		removeAnswerBtn.style.display = 'none'
+          removeAnswerBtn.style.display = 'none'
       removeAnswerBtn.addEventListener('click', function () {
         removeAnswer(numQ)
       })
