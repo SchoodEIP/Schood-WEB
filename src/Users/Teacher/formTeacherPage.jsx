@@ -123,11 +123,11 @@ const FormTeacherPage = () => {
         .catch(error => setError(error.message))
     }
 
-    function hasDatePassed(targetDate) {
-      const currentDate = new Date();
-      const givenDate = new Date(targetDate);
+    function hasDatePassed (targetDate) {
+      const currentDate = new Date()
+      const givenDate = new Date(targetDate)
 
-      return givenDate < currentDate;
+      return givenDate < currentDate
     }
 
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
@@ -151,7 +151,7 @@ const FormTeacherPage = () => {
       .catch(error => setError(error.message))
   }, [id])
 
-  function handleRedirect() {
+  function handleRedirect () {
     window.location.href = '/questionnaire/' + id + '/modify'
   }
 
@@ -185,11 +185,11 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
-              <div className="div-flex-horizontal">
+              <div className='div-flex-horizontal'>
                 <p className='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p>
-                { isModify ? '' :
-                  <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>
-                }
+                {isModify
+                  ? ''
+                  : <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>}
               </div>
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
