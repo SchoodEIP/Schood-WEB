@@ -40,7 +40,7 @@ const FormListTeacherPage = () => {
 
             const spanText = document.createElement('span')
             spanText.textContent = questionnaire.title
-            console.log(questionnaire)
+
             const accessBtn = document.createElement('button')
             accessBtn.textContent = 'Y Accéder'
             accessBtn.classList.add('button-css')

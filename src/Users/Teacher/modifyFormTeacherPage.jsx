@@ -110,7 +110,7 @@ const ModifyFormTeacherPage = () => {
 			answerRow.appendChild(answerInput)
 		}
 
-    	function fillForm(dataset) {
+    function fillForm(dataset) {
 			document.getElementById('form-title').value = dataset.title
 			dataset.questions.map((question, index) => {
 				addNewQuestion(question.type)
@@ -191,7 +191,7 @@ const ModifyFormTeacherPage = () => {
         if (response.status !== 200) {
             setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
-            window.location.href = '/questionnaires'
+            window.location.href = '/questionnaire/' + id
         }
         })
         .catch(error => setErrMessage(error.message))
