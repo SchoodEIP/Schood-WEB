@@ -22,4 +22,4 @@ describe('StudentStatPage Component', () => {
     const sidebar = getByTestId('sidebar');
     expect(sidebar).toBeInTheDocument();
   });
-});
+})
