@@ -19,17 +19,17 @@ describe('Dashboard Student component', () => {
       role: [],
       createdAt: '2023',
       createdBy: '0921',
-      file: ""
+      file: ''
     },
     {
-        title: 'Mr Math',
-        message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
-        classes: [],
-        role: [],
-        createdAt: '2023',
-        createdBy: '0921',
-        file: "qpfnilguiqdv,qnbjafimgozpemq,lkdiofs"
-    },
+      title: 'Mr Math',
+      message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
+      classes: [],
+      role: [],
+      createdAt: '2023',
+      createdBy: '0921',
+      file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs'
+    }
   ]
 
   beforeEach(() => {

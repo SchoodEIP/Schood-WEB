@@ -12,19 +12,19 @@ export function LastAlerts () {
     //     return userList.find(user => user._id === id);
     // };
 
-    function buildList(dataList) {
-        const alertList = []
-        dataList.forEach((data, index) => {
-            const showAlert = {
-                title: data.title,
-                message: data.message,
-                file: data.file,
-                createdAt: moment(data.createdAt).format('DD/MM/YYYY'),
-                // createdBy: findUserById(data.createdBy),
-            }
-            alertList.push(showAlert)
-        })
-        return alertList
+    function buildList (dataList) {
+      const alertList = []
+      dataList.forEach((data, index) => {
+        const showAlert = {
+          title: data.title,
+          message: data.message,
+          file: data.file,
+          createdAt: moment(data.createdAt).format('DD/MM/YYYY')
+          // createdBy: findUserById(data.createdBy),
+        }
+        alertList.push(showAlert)
+      })
+      return alertList
     }
 
     // fetch(`${process.env.REACT_APP_BACKEND_URL}/user/all/`, {
@@ -51,35 +51,35 @@ export function LastAlerts () {
     })
       .then((response) => response.json())
       .then((data) => {
-            const placeholderList = [
-                {
-                    title: 'Première Alerte',
-                    message: 'Ceci est la première alerte',
-                    classes: [],
-                    role: [],
-                    createdAt: '2023',
-                    createdBy: '0921',
-                    file: ""
-                },
-                {
-                    title: 'Mr Math',
-                    message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
-                    classes: [],
-                    role: [],
-                    createdAt: '2023',
-                    createdBy: '0921',
-                    file: "qpfnilguiqdv,qnbjafimgozpemq,lkdiofs"
-                },
-            ]
-            // setAlerts(buildList(data))
-            setAlerts(buildList(placeholderList))
+        const placeholderList = [
+          {
+            title: 'Première Alerte',
+            message: 'Ceci est la première alerte',
+            classes: [],
+            role: [],
+            createdAt: '2023',
+            createdBy: '0921',
+            file: ''
+          },
+          {
+            title: 'Mr Math',
+            message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
+            classes: [],
+            role: [],
+            createdAt: '2023',
+            createdBy: '0921',
+            file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs'
+          }
+        ]
+        // setAlerts(buildList(data))
+        setAlerts(buildList(placeholderList))
       })
       .catch((error) => {
-            setErrMessage('Erreur : ', error.message)
+        setErrMessage('Erreur : ', error.message)
       })
   }, [])
 
-  async function getFile(e) {
+  async function getFile (e) {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${e.target.id}`, {
         method: 'GET',
@@ -105,20 +105,20 @@ export function LastAlerts () {
         <p className='title'>Mes Dernières Alertes</p>
       </div>
       <div className='alert-body'>
-          {errMessage !== '' ? <p>{errMessage}</p> : ''}
-          {alerts.length > 0 ?
-            <div>
-                {alerts.map((alert, index) => (
-                    <div key={index} className="alert-container">
-                        <div className="alert-title">{alert.title}</div>
-                        <div className="alert-message">{alert.message}</div>
-                        { alert.file ?
-                          <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div> : '' }
-                    </div>
-                ))}
-            </div> :
-            <p>Vous n'avez pas de nouvelle alerte.</p>
-          }
+        {errMessage !== '' ? <p>{errMessage}</p> : ''}
+        {alerts.length > 0
+          ? <div>
+            {alerts.map((alert, index) => (
+              <div key={index} className='alert-container'>
+                <div className='alert-title'>{alert.title}</div>
+                <div className='alert-message'>{alert.message}</div>
+                {alert.file
+                  ? <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div>
+                  : ''}
+              </div>
+            ))}
+          </div>
+          : <p>Vous n'avez pas de nouvelle alerte.</p>}
       </div>
     </div>
   )
