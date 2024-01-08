@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import Messages from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
 
@@ -27,11 +27,7 @@ describe('Messages Component', () => {
     const textMessage = {
       user: 'User',
       content: 'Hello, World!',
-<<<<<<< HEAD
-      contentType: 'text',
-=======
       contentType: 'text'
->>>>>>> Messages_date
     }
 
     await act(async () => {
@@ -41,13 +37,8 @@ describe('Messages Component', () => {
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-<<<<<<< HEAD
-    const userElement = screen.getByText('User');
-    expect(userElement).toBeInTheDocument();
-=======
     const userElement = screen.getByText('User')
     expect(userElement).toBeInTheDocument()
->>>>>>> Messages_date
   })
 
   it('renders a file message with image', async () => {
@@ -70,11 +61,7 @@ describe('Messages Component', () => {
       render(<Messages message={fileMessage} />)
     })
 
-<<<<<<< HEAD
-    screen.debug();
-=======
     screen.debug()
->>>>>>> Messages_date
 
     // Wait for the image to load
 
