@@ -108,15 +108,15 @@ export function LastAlerts () {
         {errMessage !== '' ? <p>{errMessage}</p> : ''}
         {alerts.length > 0
           ? <div>
-              {alerts.map((alert, index) => (
-                <div key={index} className='alert-container'>
-                  <div className='alert-title'>{alert.title}</div>
-                  <div className='alert-message'>{alert.message}</div>
-                  {alert.file
-                    ? <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div>
-                    : ''}
-                </div>
-              ))}
+            {alerts.map((alert, index) => (
+              <div key={index} className='alert-container'>
+                <div className='alert-title'>{alert.title}</div>
+                <div className='alert-message'>{alert.message}</div>
+                {alert.file
+                  ? <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div>
+                  : ''}
+              </div>
+            ))}
             </div>
           : <p>Vous n'avez pas de nouvelle alerte.</p>}
       </div>
