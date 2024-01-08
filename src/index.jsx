@@ -11,12 +11,14 @@ import LandingPage from './Users/Public/landingPage'
 import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
 import NoPage from './Users/Public/noPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
+import StudentStatPage from './Users/Student/statisticsStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import NewFormPage from './Users/Teacher/newFormPage'
 import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
+import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import HelpPage from './Users/Shared/helpPage'
 import ChatRoomPage from './Users/Shared/chatRoomPage'
 
@@ -63,6 +65,7 @@ if (rootElement) {
             <Route path='/questionnaires' element={<FormListStudentPage />} />
             <Route path='/questionnaire/:id' element={<FormStudentPage />} />
             <Route path='/aides' element={<HelpPage />} />
+            <Route path='/statistiques' element={<StudentStatPage />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'teacher' && (
@@ -73,6 +76,7 @@ if (rootElement) {
             <Route path='/questionnaire' element={<NewFormPage />} />
             <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
             <Route path='/aides' element={<HelpPage />} />
+            <Route path='/statistiques' element={<TeacherStatPage />} />
           </>
         )}
         <Route path='*' element={<NoPage />} />
