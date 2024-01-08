@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/'
 import ReportButton from '../../../Components/ChatRoom/reportButton'
 
