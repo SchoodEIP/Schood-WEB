@@ -3,6 +3,7 @@ import '../../css/pages/chatRoomPage.scss'
 import Message from './message'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
+import ReportButton from './reportButton'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -278,6 +279,7 @@ const Messages = () => {
           ? (
             <div>
               <h2>Conversation : {currentConversation.name}</h2>
+              <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
