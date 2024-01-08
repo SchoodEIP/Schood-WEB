@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers } from 'react-icons/fa'
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
 
 export default function Sidebar () {
@@ -31,6 +31,7 @@ export default function Sidebar () {
       { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+      { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
   } else {
@@ -39,6 +40,7 @@ export default function Sidebar () {
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Accounts' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+      { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
   }

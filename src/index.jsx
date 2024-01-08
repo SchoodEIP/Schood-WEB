@@ -19,6 +19,7 @@ import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import HelpPage from './Users/Shared/helpPage'
 import ChatRoomPage from './Users/Shared/chatRoomPage'
+import ReportChecking from './Users/SchoolAdmin/reportChecking'
 
 const rootElement = document.getElementById('root')
 
@@ -55,6 +56,7 @@ if (rootElement) {
             <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
             <Route path='/aides' element={<AdmHelpPage />} />
             <Route path='/messages' element={<ChatRoomPage />} />
+            <Route path='/reports' element={<ReportChecking />} />
           </>
         )}
         {sessionStorage.getItem('role') === 'student' && (
