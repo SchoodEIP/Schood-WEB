@@ -20,29 +20,32 @@ const AlertPage = () => {
         // Requête GET : récupération de la liste des types d’utilisateurs
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`, {
             headers: {
-                'x-auth-token': sessionStorage.getItem('token')
+                'x-auth-token': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
             }
         })
         .then(response => setUserTypes(response.data))
-        .catch(error => console.error('Erreur lors de la récupération des types d\'utilisateurs', error));
+        .catch(error => console.error('Erreur lors de la récupération des types d\'utilisateurs', error.message));
 
         // Requête GET : récupération des classes dont l’utilisateur est en charge
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/all`, {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/all`, { // cette route n'existe pas
             headers: {
-                'x-auth-token': sessionStorage.getItem('token')
+                'x-auth-token': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
             }
         })
         .then(response => setUserClasses(response.data))
-        .catch(error => console.error('Erreur lors de la récupération des classes', error));
+        .catch(error => console.error('Erreur lors de la récupération des classes', error.message));
 
         // Requête GET : liste des questionnaires à venir et en cours
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
             headers: {
-                'x-auth-token': sessionStorage.getItem('token')
+                'x-auth-token': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
             }
         })
         .then(response => setQuestionnaires(response.data))
-        .catch(error => console.error('Erreur lors de la récupération des questionnaires', error));
+        .catch(error => console.error('Erreur lors de la récupération des questionnaires', error.message));
     }, []);
 
     const handleAlertSubmit = () => {
@@ -107,10 +110,11 @@ const AlertPage = () => {
 
             <label>Questionnaire (optionnel):</label>
             <select onChange={(e) => setSelectedQuestionnaire(e.target.value)}>
-                {questionnaires.map(questionnaire => (
-                    <option key={questionnaire.id} value={questionnaire.id}>{questionnaire.name}</option>
+                {questionnaires.map((questionnaire, index) => (
+                    <option key={index} value={questionnaire._id}>{questionnaire.title}</option>
                 ))}
             </select>
+            {}
 
             <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
         </div>
