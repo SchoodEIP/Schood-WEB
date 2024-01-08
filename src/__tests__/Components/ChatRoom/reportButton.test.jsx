@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/'
 import ReportButton from '../../../Components/ChatRoom/reportButton'
 
@@ -38,10 +38,9 @@ describe('ReportButton Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       `${process.env.REACT_APP_BACKEND_URL}/user/chat/report`,
       expect.objectContaining({
-        method: 'POST',
-        body: expect.stringMatching(/conversationId/i),
-        body: expect.stringMatching(/Spam/i)
-      })
+          method: 'POST',
+          body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
+      })    
     )
   })
 
@@ -65,7 +64,7 @@ describe('ReportButton Component', () => {
   })
 
   it('handles network error', async () => {
-    global.fetch = jest.fn(() => Promise.reject('Network error'))
+    global.fetch = jest.fn(() => Promise.reject(new Error('Network error')))
 
     render(<ReportButton currentConversation={{ _id: 'conversationId' }} />)
     const reportButton = screen.getByText('Signaler')
@@ -102,9 +101,8 @@ describe('ReportButton Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       `${process.env.REACT_APP_BACKEND_URL}/user/chat/report`,
       expect.objectContaining({
-        method: 'POST',
-        body: expect.stringMatching(/conversationId/i),
-        body: expect.stringMatching(/Spam/i)
+          method: 'POST',
+          body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
       })
     )
   })
