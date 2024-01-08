@@ -38,9 +38,9 @@ describe('ReportButton Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       `${process.env.REACT_APP_BACKEND_URL}/user/chat/report`,
       expect.objectContaining({
-          method: 'POST',
-          body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
-      })    
+        method: 'POST',
+        body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
+      })
     )
   })
 
@@ -101,8 +101,8 @@ describe('ReportButton Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       `${process.env.REACT_APP_BACKEND_URL}/user/chat/report`,
       expect.objectContaining({
-          method: 'POST',
-          body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
+        method: 'POST',
+        body: expect.stringMatching(/conversationId/i) && expect.stringMatching(/Spam/i)
       })
     )
   })
