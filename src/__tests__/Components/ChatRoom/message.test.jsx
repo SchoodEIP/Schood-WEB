@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import Messages from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
 
