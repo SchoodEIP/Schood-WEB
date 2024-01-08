@@ -3,6 +3,7 @@
     justify-content: center;
     flex-direction: column;
     display: flex;
+    gap: 10px;
     min-width: 10%;
     max-height: 80%;
     max-width: 75%;
@@ -26,5 +27,28 @@
 }
 
 .alert-body {
-    min-height: 30px;;
+    min-height: 80px;
+}
+
+.alert-message {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.alert-title {
+    font-weight: bold;
+    color: white;
+    background-color: blueviolet;
+    width:fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 10px;
+    display: inline-block;
+}
+
+.alert-container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
 }
