@@ -5,12 +5,12 @@ import moment from 'moment'
 export function LastAlerts () {
   const [errMessage, setErrMessage] = useState('')
   const [alerts, setAlerts] = useState([])
-  const [userList, setUserList] = useState([])
+  // const [userList, setUserList] = useState([])
 
   useEffect(() => {
-    const findUserById = (id) => {
-        return userList.find(user => user._id === id);
-    };
+    // const findUserById = (id) => {
+    //     return userList.find(user => user._id === id);
+    // };
 
     function buildList(dataList) {
         const alertList = []
@@ -20,27 +20,27 @@ export function LastAlerts () {
                 message: data.message,
                 file: data.file,
                 createdAt: moment(data.createdAt).format('DD/MM/YYYY'),
-                createdBy: findUserById(data.createdBy),
+                // createdBy: findUserById(data.createdBy),
             }
             alertList.push(showAlert)
         })
         return alertList
     }
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/all/`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-            setUserList(data)
-        })
-        .catch((error) => {
-            setErrMessage('Erreur : ', error)
-        })
+    // fetch(`${process.env.REACT_APP_BACKEND_URL}/user/all/`, {
+    //     method: 'GET',
+    //     headers: {
+    //       'x-auth-token': sessionStorage.getItem('token'),
+    //       'Content-Type': 'application/json'
+    //     }
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //         setUserList(data)
+    //     })
+    //     .catch((error) => {
+    //         setErrMessage('Erreur : ', error)
+    //     })
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/`, {
       method: 'GET',
@@ -75,7 +75,7 @@ export function LastAlerts () {
             setAlerts(buildList(placeholderList))
       })
       .catch((error) => {
-            setErrMessage('Erreur : ', error)
+            setErrMessage('Erreur : ', error.message)
       })
   }, [])
 
