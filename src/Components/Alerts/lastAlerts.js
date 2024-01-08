@@ -117,7 +117,7 @@ export function LastAlerts () {
                   : ''}
               </div>
             ))}
-            </div>
+           </div>
           : <p>Vous n'avez pas de nouvelle alerte.</p>}
       </div>
     </div>
