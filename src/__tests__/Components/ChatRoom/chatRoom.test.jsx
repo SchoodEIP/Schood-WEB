@@ -180,10 +180,6 @@ describe('Messages Component', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
-<<<<<<< HEAD
-
-=======
->>>>>>> Messages_date
   })
 
   it('handles file error', async () => {
