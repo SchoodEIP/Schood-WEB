@@ -45,7 +45,6 @@ const Message = ({ message }) => {
           console.error('Error fetching file:', error)
         })
     }
-    console.log(message)
   }, [message])
 
   return (
