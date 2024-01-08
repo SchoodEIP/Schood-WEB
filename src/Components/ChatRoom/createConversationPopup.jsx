@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const CreateConversationPopup = ({
   contacts,
@@ -6,21 +6,21 @@ const CreateConversationPopup = ({
   closeCreateConversationPopup,
   isPopupOpen
 }) => {
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('')
 
   const handleSearchInputChange = (e) => {
-    setSearchInput(e.target.value);
-  };
+    setSearchInput(e.target.value)
+  }
 
   const handleCreateConversation = () => {
-    const newConversationName = searchInput.trim();
+    const newConversationName = searchInput.trim()
     if (newConversationName === '') {
-      return;
+      return
     }
-    const contactId = document.getElementById('contact-input').value;
-    createConversation(newConversationName, [contactId]);
-    closeCreateConversationPopup();
-  };
+    const contactId = document.getElementById('contact-input').value
+    createConversation(newConversationName, [contactId])
+    closeCreateConversationPopup()
+  }
 
   return (
     <div>
@@ -51,7 +51,7 @@ const CreateConversationPopup = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateConversationPopup;
+export default CreateConversationPopup

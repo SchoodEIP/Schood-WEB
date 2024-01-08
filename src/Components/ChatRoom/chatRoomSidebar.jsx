@@ -6,9 +6,9 @@ const ChatRoomSidebar = ({
   openCreateConversationPopup
 }) => {
   const handleClick = (conversation) => {
-    setCurrentConversation(conversation);
-    clearMessageAndError();
-  };
+    setCurrentConversation(conversation)
+    clearMessageAndError()
+  }
 
   return (
     <div className='sidebar'>
@@ -24,11 +24,11 @@ const ChatRoomSidebar = ({
           </li>
         ))}
       </ul>
-      {<button className='new-conversation-button' onClick={openCreateConversationPopup}>
+      <button className='new-conversation-button' onClick={openCreateConversationPopup}>
         Nouvelle conversation
-      </button>}
+      </button>
     </div>
-  );
-};
+  )
+}
 
-export default ChatRoomSidebar;
+export default ChatRoomSidebar
