@@ -17,3 +17,9 @@
     border: 0;
     cursor: pointer;
 }
+
+.emoji-mood-btn {
+    height:"100%";
+    cursor:"pointer";
+    border-radius:"15px";
+}
