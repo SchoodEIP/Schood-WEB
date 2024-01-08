@@ -106,8 +106,8 @@ export function LastAlerts () {
       </div>
       <div className='alert-body'>
         {errMessage !== '' ? <p>{errMessage}</p> : ''}
-        {alerts.length > 0
-          ? <div>
+        {alerts.length > 0 ?
+          <div>
             {alerts.map((alert, index) => (
               <div key={index} className='alert-container'>
                 <div className='alert-title'>{alert.title}</div>
