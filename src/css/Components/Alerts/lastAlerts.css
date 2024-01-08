@@ -28,15 +28,21 @@
 
 .alert-body {
     min-height: 80px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .alert-message {
     border: 1px solid black;
     padding: 5px;
+    justify-content: center;
+    align-content: center;
+    display: flex;
 }
 
 .alert-title {
     font-weight: bold;
+    font-size: large;
     color: white;
     background-color: blueviolet;
     width:fit-content;
@@ -45,6 +51,19 @@
     padding-left: 5px;
     padding-right: 10px;
     display: inline-block;
+}
+
+.alert-file-btn {
+    font-weight: bold;
+    color: white;
+    background-color: blueviolet;
+    width:fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 10px;
+    align-self: flex-end;
+    cursor: pointer;
 }
 
 .alert-container {

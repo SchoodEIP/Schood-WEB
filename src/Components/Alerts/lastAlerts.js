@@ -59,6 +59,7 @@ export function LastAlerts () {
                     role: [],
                     createdAt: '2023',
                     createdBy: '0921',
+                    file: ""
                 },
                 {
                     title: 'Mr Math',
@@ -67,6 +68,7 @@ export function LastAlerts () {
                     role: [],
                     createdAt: '2023',
                     createdBy: '0921',
+                    file: "qpfnilguiqdv,qnbjafimgozpemq,lkdiofs"
                 },
             ]
             // setAlerts(buildList(data))
@@ -76,6 +78,26 @@ export function LastAlerts () {
             setErrMessage('Erreur : ', error)
       })
   }, [])
+
+  async function getFile(e) {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${e.target.id}`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        }
+      })
+      if (response.status !== 200) {
+        throw new Error("Erreur lors de l'envoi du message.")
+      } else {
+        const blob = await response.blob()
+        const objectURL = URL.createObjectURL(blob)
+        return objectURL
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <div className='alert-box'>
@@ -90,6 +112,8 @@ export function LastAlerts () {
                     <div key={index} className="alert-container">
                         <div className="alert-title">{alert.title}</div>
                         <div className="alert-message">{alert.message}</div>
+                        { alert.file ?
+                          <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div> : '' }
                     </div>
                 ))}
             </div> :
