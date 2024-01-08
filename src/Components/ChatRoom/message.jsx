@@ -45,13 +45,14 @@ const Message = ({ message }) => {
           console.error('Error fetching file:', error)
         })
     }
+    console.log(message)
   }, [message])
 
   return (
     <div className='message'>
       <div className='message-header'>
-        <span className='message-username'>{message.username}</span>
-        <span className='message-time'>{message.time}</span>
+        <span className='message-username'>{message.user}</span>
+        <span className='message-time'>{message.date}</span>
       </div>
       <div className='message-content'>
         {message.contentType === 'text'
