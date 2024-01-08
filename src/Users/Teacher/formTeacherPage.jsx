@@ -9,6 +9,7 @@ import IconFace2 from '../../assets/icon_face_2.png'
 import ArrowUp from '../../assets/up_arrow_icon.png'
 import ArrowDown from '../../assets/down_arrow_icon.png'
 import { useParams } from 'react-router-dom'
+import moment from 'moment'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
@@ -55,31 +56,27 @@ const FormTeacherPage = () => {
         ultimateResponse.questions.push(quest)
         return ultimateResponse
       })
-
-      answeredForm.map((studentAnswer, index) => {
-        studentAnswer.answers.map((answer, i) => {
-          if (ultimateResponse.questions[i]._id === answer.question) {
-            if (ultimateResponse.questions[i].type === 'text') {
-              ultimateResponse.questions[i].answers.push(answer.answer)
-            } else if (ultimateResponse.questions[i].type === 'emoji') {
-              ultimateResponse.questions[i].answers.map((options, j) => {
-                if (options.position === parseInt(answer.answer)) {
-                  options.count += 1
-                }
-                return options
-              })
-            } else if (ultimateResponse.questions[i].type === 'multiple') {
-              ultimateResponse.questions[i].answers.map((options, j) => {
-                if ((options.position) === parseInt(answer.answer)) {
-                  options.count += 1
-                }
-                return options
-              })
-            }
+      answeredForm.answers.map((answer, i) => {
+        if (ultimateResponse.questions[i]._id === answer.question) {
+          if (ultimateResponse.questions[i].type === 'text') {
+            ultimateResponse.questions[i].answers.push(answer.answer)
+          } else if (ultimateResponse.questions[i].type === 'emoji') {
+            ultimateResponse.questions[i].answers.map((options, j) => {
+              if (options.position === parseInt(answer.answer)) {
+                options.count += 1
+              }
+              return options
+            })
+          } else if (ultimateResponse.questions[i].type === 'multiple') {
+            ultimateResponse.questions[i].answers.map((options, j) => {
+              if ((options.position) === parseInt(answer.answer)) {
+                options.count += 1
+              }
+              return options
+            })
           }
-          return answer
-        })
-        return studentAnswer
+        }
+        return answer
       })
       setFormData(ultimateResponse)
     }
@@ -87,7 +84,6 @@ const FormTeacherPage = () => {
     function getAnswers (originForm, studentsArray) {
       for (let i = 0; i < studentsArray.length; i++) {
         const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/answers/' + studentsArray[i]._id
-
         fetch(answerListUrl, {
           method: 'GET',
           headers: {
@@ -96,7 +92,7 @@ const FormTeacherPage = () => {
           }
         }).then(response => response.json())
           .then(data => {
-            if (data[0]._id) {
+            if (data._id) {
               createFormContent(originForm, data)
             } else {
               setError(data.message)
@@ -117,8 +113,8 @@ const FormTeacherPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          if (data[0].users) {
-            getAnswers(originForm, data[0].users)
+          if (data.users) {
+            getAnswers(originForm, data.users)
           } else {
             setError(data.message)
           }
@@ -176,6 +172,7 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
+              <div><p class='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p></div>
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (
@@ -200,7 +197,7 @@ const FormTeacherPage = () => {
                           {imgImports.map((imgSrc, i) => (
                             <div key={i} className='emoji-container'>
                               <img src={imgSrc} alt={imgSrc} />
-                              <p>{question.answers.map((answer, j) => {
+                              <p data-testid={`emoji-answer-${i}`}>{question.answers.map((answer, j) => {
                                 if (i === j) {
                                   return answer.count
                                 }
@@ -216,7 +213,7 @@ const FormTeacherPage = () => {
                           {question.answers.map((answer, i) => (
                             <li key={i} style={{ gap: '25px', display: 'flex' }}>
                               <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                              <span>{answer.count}</span>
+                              <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
                             </li>
                           ))}
                         </ul>

@@ -5,6 +5,11 @@
     height: 8vh;
 }
 
-.title-container-btn {
-
+.moodBtn {
+    background-color: blueviolet;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    height: 35px;
+    min-width: 110px;
 }
