@@ -195,40 +195,40 @@ describe('CreateAlertsPage Component', () => {
 
     const checkbox200 = screen.getByTestId('class-check-0')
     await waitFor(async () => {
-        expect(checkbox200).toBeInTheDocument()
+      expect(checkbox200).toBeInTheDocument()
     })
     await act(async () => {
-        fireEvent.click(checkbox200)
+      fireEvent.click(checkbox200)
     })
 
     const alertTitle = screen.getByTestId('alert-title')
     await waitFor(async () => {
-        expect(alertTitle).toBeInTheDocument()
+      expect(alertTitle).toBeInTheDocument()
     })
     await act(async () => {
-        fireEvent.change(alertTitle, { target: { value: 'test' }})
+      fireEvent.change(alertTitle, { target: { value: 'test' } })
     })
     await waitFor(async () => {
-        expect(alertTitle).toHaveValue('test')
+      expect(alertTitle).toHaveValue('test')
     })
 
     const alertMessage = screen.getByTestId('alert-message')
     await waitFor(async () => {
-        expect(alertMessage).toBeInTheDocument()
+      expect(alertMessage).toBeInTheDocument()
     })
     await act(async () => {
-        fireEvent.change(alertMessage, { target: { value: 'test message' }})
+      fireEvent.change(alertMessage, { target: { value: 'test message' } })
     })
     await waitFor(async () => {
-        expect(alertMessage).toHaveValue('test message')
+      expect(alertMessage).toHaveValue('test message')
     })
 
     const fileInput = screen.getByTestId('alert-file-input')
     await waitFor(async () => {
-        expect(fileInput).toBeInTheDocument()
+      expect(fileInput).toBeInTheDocument()
     })
     await act(async () => {
-        fireEvent.change(fileInput, { target: { files: [{ file: 'image'}] }})
+      fireEvent.change(fileInput, { target: { files: [{ file: 'image' }] } })
     })
 
     const sendButton = screen.getByText("Envoyer l'alerte")
