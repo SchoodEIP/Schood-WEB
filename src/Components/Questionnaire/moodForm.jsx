@@ -11,6 +11,8 @@ export function MoodForm () {
     happyMood: require('../../assets/happyMood.jpg'),
     veryHappyMood: require('../../assets/veryHappyMood.jpg')
   }
+  const moods = ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'GET',
@@ -20,9 +22,11 @@ export function MoodForm () {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.moodStatus === true) {
-          setIsAnswered(data.moodStatus)
-          setDailyMood(data.mood)
+        setIsAnswered(false)
+        setDailyMood('')
+        if (data.mood !== 0) {
+          setIsAnswered(true)
+          setDailyMood(moods[dailyMood.mood - 1])
         }
       })
       .catch((error) => {
@@ -33,10 +37,14 @@ export function MoodForm () {
   const handleMood = (mood) => {
     setIsAnswered(true)
     setDailyMood(mood)
+
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
       method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: {
+        dailyMood: moods.indexOf(dailyMood)
       }
     })
       .then((response) => response.json())
