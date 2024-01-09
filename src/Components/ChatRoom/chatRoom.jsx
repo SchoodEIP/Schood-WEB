@@ -279,7 +279,7 @@ const Messages = () => {
           ? (
             <div>
               <h2>Conversation : {currentConversation.name}</h2>
-              <ReportButton currentConversation={currentConversation} />
+              <ReportButton currentConversation={currentConversation}/>
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
