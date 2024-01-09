@@ -81,7 +81,7 @@ describe('CreateAlertsPage Component', () => {
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(getQuestionnaire, forms)
-    fetchMock.get(getRolesList, {roles: roles} )
+    fetchMock.get(getRolesList, { roles })
     fetchMock.get(getClasses, classes)
     fetchMock.post(postAlerts, alertList)
     fetchMock.post(postFileToAlert, fileToAlertResponse)
