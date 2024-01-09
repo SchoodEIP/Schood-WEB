@@ -23,7 +23,7 @@ export function LastAlerts () {
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
         } else {
-          const blob = await response.blob()
+          const blob = response.blob()
           const objectURL = URL.createObjectURL(blob)
           return objectURL
         }
@@ -55,6 +55,7 @@ export function LastAlerts () {
         }
         alertList.push(showAlert)
       })
+      console.log(alertList)
       return alertList
     }
 
@@ -91,7 +92,7 @@ export function LastAlerts () {
         //     createdAt: '2023',
         //     createdBy: '0921',
         //     file: '',
-        //     _id: 'f,lkqsdf'
+        //     _id: '123'
         //   },
         //   {
         //     title: 'Mr Math',
@@ -100,12 +101,12 @@ export function LastAlerts () {
         //     role: [],
         //     createdAt: '2023',
         //     createdBy: '0921',
-        //     file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs',
-        //     _id: 'idsdfqqffqfq'
+        //     file: 'math_file',
+        //     _id: '132'
         //   }
         // ]
-        setAlerts(buildList(data))
         // setAlerts(buildList(placeholderList))
+        setAlerts(buildList(data))
       })
       .catch((error) => {
         setErrMessage('Erreur : ', error.message)
@@ -127,6 +128,7 @@ export function LastAlerts () {
                   <div key={index} className='alert-container'>
                     <div className='alert-title'>{alert.title}</div>
                     <div className='alert-message'>{alert.message}</div>
+                    {console.log(alert)}
                     {alert.file
                       ? (<div className='alert-file-btn' id={alert.id}>
                         <a href={alert.file} target='_blank' rel='noopener noreferrer'>

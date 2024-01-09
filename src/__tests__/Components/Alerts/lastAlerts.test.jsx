@@ -10,7 +10,7 @@ describe('Last Alert component', () => {
   const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
-  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
+  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/math_file`
 
   const alertList = [
     {
@@ -20,7 +20,8 @@ describe('Last Alert component', () => {
       role: [],
       createdAt: '2023',
       createdBy: '0921',
-      file: ''
+      file: '',
+      _id: "123"
     },
     {
       title: 'Mr Math',
@@ -29,7 +30,8 @@ describe('Last Alert component', () => {
       role: [],
       createdAt: '2023',
       createdBy: '0921',
-      file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs'
+      file: 'math_file',
+      _id: "132"
     }
   ]
 
@@ -40,7 +42,7 @@ describe('Last Alert component', () => {
     fetchMock.get(dailyMood, { moodStatus: true, mood: 'Heureux' })
     fetchMock.post(dailyMood, { })
     fetchMock.get(lastAlert, { body: alertList })
-    fetchMock.get(getFile, { status: 200 })
+    fetchMock.get(getFile, { body: 'pdf_link' })
   })
 
   afterEach(() => {
@@ -55,7 +57,9 @@ describe('Last Alert component', () => {
         </MemoryRouter>
       )
     })
-    expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
+    })
     const downloadBtn = screen.getByText('Télécharger le fichier')
     await waitFor(() => {
       expect(downloadBtn).toBeInTheDocument()
