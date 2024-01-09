@@ -29,7 +29,7 @@ const ReportButton = ({ currentConversation }) => {
           type: reason
         })
       })
-      console.log(response)
+
       if (response.status === 200) {
         setShowConfirmation(false)
         setReason('')
