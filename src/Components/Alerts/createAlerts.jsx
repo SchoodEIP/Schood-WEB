@@ -34,7 +34,7 @@ const AlertPage = () => {
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
-      method: 'GET',
+      method: "GET",
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const AlertPage = () => {
 
     // Requête GET : liste des questionnaires à venir et en cours
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
-      method: 'GET',
+      method: "GET",
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
