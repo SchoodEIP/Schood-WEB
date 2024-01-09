@@ -31,21 +31,21 @@ describe('Last Alert component', () => {
       createdAt: '2023',
       createdBy: '0921',
       file: '132',
-      _id: "132"
+      _id: '132'
     }
   ]
 
   const getFileResponse = {
     status: 200,
     headers: {
-      "content-length": "7832",
-      "content-type": "image/jpeg"
+      'content-length': '7832',
+      'content-type': 'image/jpeg'
     },
     type: 'cors',
     redirected: false,
-    url: "https://localhost:8080/user/file/abcd123",
+    url: 'https://localhost:8080/user/file/abcd123',
     ok: true,
-    statusText: "OK",
+    statusText: 'OK',
     body: {
       locked: true
     }
