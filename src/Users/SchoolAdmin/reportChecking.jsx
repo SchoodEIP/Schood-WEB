@@ -141,7 +141,7 @@ const ReportChecking = () => {
                 <p>{selectedReport.conversation}</p>
                 {/* Boutons pour valider/invalider la demande de signalement */}
                 <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Valider</button>
-                <button onClick={() => handleReportProcessing(selectedReport._id, false)}>Supprimer</button>
+                <button onClick={() => handleReportProcessing(selectedReport._id, false)}>Refuser</button>
               </div>
             )}
 
