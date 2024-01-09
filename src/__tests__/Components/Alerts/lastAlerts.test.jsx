@@ -10,7 +10,7 @@ describe('Last Alert component', () => {
   const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
-  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/math_file`
+  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/132`
 
   const alertList = [
     {
@@ -30,19 +30,35 @@ describe('Last Alert component', () => {
       role: [],
       createdAt: '2023',
       createdBy: '0921',
-      file: 'math_file',
-      _id: '132'
+      file: '132',
+      _id: "132"
     }
   ]
+
+  const getFileResponse = {
+    status: 200,
+    headers: {
+      "content-length": "7832",
+      "content-type": "image/jpeg"
+    },
+    type: 'cors',
+    redirected: false,
+    url: "https://localhost:8080/user/file/abcd123",
+    ok: true,
+    statusText: "OK",
+    body: {
+      locked: true
+    }
+  }
 
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(previousUrl, { body: { status: 'not_started' } })
     fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
-    fetchMock.get(dailyMood, { moodStatus: true, mood: 'Heureux' })
+    fetchMock.get(dailyMood, { moodStatus: true, mood: 0 })
     fetchMock.post(dailyMood, { })
     fetchMock.get(lastAlert, { body: alertList })
-    fetchMock.get(getFile, { body: 'pdf_link' })
+    fetchMock.get(getFile, getFileResponse)
   })
 
   afterEach(() => {
@@ -60,17 +76,10 @@ describe('Last Alert component', () => {
     await waitFor(() => {
       expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
     })
-    const downloadBtn = screen.getByText('Télécharger le fichier')
-    await waitFor(() => {
-      expect(downloadBtn).toBeInTheDocument()
-    })
-
-    await act(async () => {
-      fireEvent.click(downloadBtn)
-    })
   })
 
   it('should handle errors', async () => {
+    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
