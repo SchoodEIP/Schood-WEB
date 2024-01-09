@@ -31,6 +31,14 @@ export default function Sidebar () {
       { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
+    ]
+  }if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
+    pages = [
+      { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
+      { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+      { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
@@ -40,7 +48,6 @@ export default function Sidebar () {
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Accounts' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
   }
