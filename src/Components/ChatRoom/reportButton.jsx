@@ -4,6 +4,7 @@ const ReportButton = ({ currentConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
+  const signaledUserId = currentConversation.participants.find((item => item.id !== localStorage.getItem("id")))._id
 
   const handleReportClick = () => {
     setShowConfirmation(true)
@@ -15,18 +16,20 @@ const ReportButton = ({ currentConversation }) => {
 
   const handleConfirmClick = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/report`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
         method: 'POST',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          conversationId: currentConversation._id,
-          reason
+          userSignaled: signaledUserId,
+          message: '',
+          conversation: currentConversation._id,
+          type: reason
         })
       })
-
+      console.log(response)
       if (response.status === 200) {
         setShowConfirmation(false)
         setReason('')
@@ -45,9 +48,10 @@ const ReportButton = ({ currentConversation }) => {
         <div>
           <select value={reason} onChange={handleReasonChange}>
             <option value=''>Sélectionnez une raison</option>
-            <option value='Contenu offensant'>Contenu offensant</option>
-            <option value='Spam'>Spam</option>
-            <option value='Autre'>Autre</option>
+            <option value='bullying'>Harcèlement</option>
+            <option value='badcomportment'>Contenu offensant</option>
+            <option value='spam'>Spam</option>
+            <option value='other'>Autre</option>
           </select>
           <button onClick={handleConfirmClick}>Confirmer le signalement</button>
           {error && <div className='error-message'>{error}</div>}
