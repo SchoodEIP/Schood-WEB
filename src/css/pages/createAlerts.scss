@@ -8,12 +8,12 @@
     margin-top: 15px;
     padding: 20px; /* Ajout du padding */
   }
-  
+
   h1 {
     color: #4f23e2;
     margin-bottom: 20px; /* Ajout de la marge en bas */
   }
-  
+
   select,
   textarea,
   input {
@@ -31,14 +31,14 @@
     justify-content: center;
     margin: 5px; /* Ajustez selon vos préférences */
   }
-  
+
   /* Enlever le padding autour de la checkbox et définir sa taille */
   .checkbox-item input[type="checkbox"] {
     margin: 0; /* Enlever le margin par défaut de la checkbox */
     width: 16px; /* Ajustez selon la taille souhaitée */
     height: 16px; /* Ajustez selon la taille souhaitée */
   }
-  
+
   button {
     background-color: #4f23e2;
     color: #fff;
@@ -47,18 +47,37 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+
   button:hover {
     background-color: #3c1eaa;
   }
-  
+
   /* Styles supplémentaires pour l'espacement entre les éléments */
   .alert-page > * {
     margin-bottom: 20px;
   }
-  
+
   /* Retirer la marge du dernier élément pour éviter un espace supplémentaire en bas */
   .alert-page > *:last-child {
     margin-bottom: 0;
   }
-  
+
+#roles-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#classes-container {
+  display: none;
+  flex-direction: column;
+}
+
+.no-interaction-btn {
+  background-color: grey;
+  cursor: default;
+}
+
+.no-interaction-btn:hover {
+  background-color: grey;
+  cursor: default;
+}
