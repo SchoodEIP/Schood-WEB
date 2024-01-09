@@ -9,8 +9,8 @@ describe('CreateAlertsPage Component', () => {
   const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
   const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/adm/classes`
-  const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/123`
-  const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
+  const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/undefined`
+  const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert`
 
   const forms = [
     {
@@ -191,6 +191,53 @@ describe('CreateAlertsPage Component', () => {
     })
     await act(async () => {
       fireEvent.click(classesBtn)
+    })
+
+    const checkbox200 = screen.getByTestId('class-check-0')
+    await waitFor(async () => {
+        expect(checkbox200).toBeInTheDocument()
+    })
+    await act(async () => {
+        fireEvent.click(checkbox200)
+    })
+
+    const alertTitle = screen.getByTestId('alert-title')
+    await waitFor(async () => {
+        expect(alertTitle).toBeInTheDocument()
+    })
+    await act(async () => {
+        fireEvent.change(alertTitle, { target: { value: 'test' }})
+    })
+    await waitFor(async () => {
+        expect(alertTitle).toHaveValue('test')
+    })
+
+    const alertMessage = screen.getByTestId('alert-message')
+    await waitFor(async () => {
+        expect(alertMessage).toBeInTheDocument()
+    })
+    await act(async () => {
+        fireEvent.change(alertMessage, { target: { value: 'test message' }})
+    })
+    await waitFor(async () => {
+        expect(alertMessage).toHaveValue('test message')
+    })
+
+    const fileInput = screen.getByTestId('alert-file-input')
+    await waitFor(async () => {
+        expect(fileInput).toBeInTheDocument()
+    })
+    await act(async () => {
+        fireEvent.change(fileInput, { target: { files: [{ file: 'image'}] }})
+    })
+
+    const sendButton = screen.getByText("Envoyer l'alerte")
+    await waitFor(async () => {
+      expect(sendButton).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(sendButton)
     })
   })
 })

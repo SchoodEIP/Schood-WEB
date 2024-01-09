@@ -153,7 +153,7 @@ const AlertPage = () => {
                   }
                 }}
               />
-              <label htmlFor={classe._id}>{classe.name}</label>
+              <label htmlFor={`class-check-${index}`}>{classe.name}</label>
             </div>
           ))}
         </div>
