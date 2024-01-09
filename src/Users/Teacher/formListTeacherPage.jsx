@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
+import moment from 'moment'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
@@ -24,9 +25,18 @@ const FormListTeacherPage = () => {
           const titleRows = document.getElementById('title-rows')
 
           data.forEach((questionnaire, index) => {
+            const fullContainer = document.createElement('div')
+            fullContainer.id = 'container-' + index
+            fullContainer.classList.add('full-container')
+
+            const questDates = document.createElement('span')
+            questDates.id = 'quest-dates-' + index
+            questDates.innerHTML = 'Du ' + moment(questionnaire.fromDate).format('DD/MM/YY') + '\nau ' + moment(questionnaire.toDate).format('DD/MM/YY')
+            questDates.classList.add('bold-underline-text')
+
             const container = document.createElement('div')
             container.id = 'questionnaire-' + index
-            container.classList.add('title-container')
+            container.classList.add('question-title-container')
 
             const spanText = document.createElement('span')
             spanText.textContent = questionnaire.title
@@ -43,7 +53,9 @@ const FormListTeacherPage = () => {
 
             container.appendChild(spanText)
             container.appendChild(accessBtn)
-            titleRows.appendChild(container)
+            fullContainer.appendChild(questDates)
+            fullContainer.appendChild(container)
+            titleRows.appendChild(fullContainer)
           })
         })
         .catch(error => console.error(error.message))

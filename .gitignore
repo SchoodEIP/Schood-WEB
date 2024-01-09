@@ -111,3 +111,5 @@ cypress/videos
 linter-nonfixable
 
 report.json
+
+.idea
