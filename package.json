@@ -23,6 +23,7 @@
     "react-switch-input": "^1.1.0",
     "reactjs-popup": "^2.0.6",
     "sass": "^1.66.1",
+    "standard": "^17.1.0",
     "styled-components": "^6.0.8",
     "web-vitals": "^3.4.0"
   },
