@@ -6,8 +6,8 @@ import Message from './message'
 import ReportButton from './reportButton'
 
 const Messages = () => {
-  const [conversations, setConversations] = useState([]);
-  const [currentConversation, setCurrentConversation] = useState('');
+  const [conversations, setConversations] = useState([])
+  const [currentConversation, setCurrentConversation] = useState('')
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -15,21 +15,21 @@ const Messages = () => {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         }
       })
 
-      const data = await response.json();
-      setCurrentConversation(data[0]);
+      const data = await response.json()
+      setCurrentConversation(data[0])
       const conversationData = data.map((conversation) => {
-        const firstParticipant = conversation.participants[0];
-        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`;
+        const firstParticipant = conversation.participants[0]
+        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
         return {
           _id: conversation._id,
-          name: convName,
+          name: convName
         }
       })
-      setConversations(conversationData);
+      setConversations(conversationData)
     }
     fetchConversations()
   }, [])
@@ -46,7 +46,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         if (!currentConversation) {
-          return;
+          return
         }
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
@@ -57,20 +57,20 @@ const Messages = () => {
               'Content-Type': 'application/json'
             }
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des messages.');
+          throw new Error('Erreur lors de la récupération des messages.')
         }
-        const data = await response.json();
+        const data = await response.json()
         const messageData = data.map((message) => ({
           contentType: !message.file ? 'text' : 'file',
-          ...message,
-        }));
-        setMessages(messageData);
+          ...message
+        }))
+        setMessages(messageData)
       } catch (error) {
-        console.error('Erreur lors de la récupération des messages :', error);
+        console.error('Erreur lors de la récupération des messages :', error)
       }
-    };
+    }
 
     fetchMessages()
   }, [currentConversation])
@@ -93,7 +93,7 @@ const Messages = () => {
       } catch (error) {
         console.error('Erreur lors de la récupération des contacts :', error)
       }
-    };
+    }
 
     fetchContacts()
   }, [])
@@ -103,7 +103,7 @@ const Messages = () => {
       return
     }
 
-    const currentTime = new Date();
+    const currentTime = new Date()
     const messageData = {
       username: 'User',
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -126,14 +126,14 @@ const Messages = () => {
           {
             method: 'POST',
             headers: {
-              'x-auth-token': sessionStorage.getItem('token'),
+              'x-auth-token': sessionStorage.getItem('token')
             },
             body: fileData
           }
         )
 
         if (response.status !== 200) {
-          throw new Error("Erreur lors de l'envoi du message.");
+          throw new Error("Erreur lors de l'envoi du message.")
         }
       } else {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
@@ -145,7 +145,7 @@ const Messages = () => {
             },
             body: JSON.stringify({ content: newMessage })
           }
-        );
+        )
 
         if (response.status !== 200) {
           throw new Error("Erreur lors de l'envoi du message.")
@@ -220,7 +220,7 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          participants: participantsArray,
+          participants: participantsArray
         })
       })
 
@@ -240,7 +240,7 @@ const Messages = () => {
   }
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
+    const selectedFile = e.target.files[0]
     if (selectedFile) {
       setFile(selectedFile)
       const fileExtension = selectedFile.name.split('.').pop().toLowerCase()
