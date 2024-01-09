@@ -31,7 +31,6 @@ export default function Sidebar () {
       { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
   } else {
@@ -43,6 +42,12 @@ export default function Sidebar () {
       { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
+  }
+
+  if (sessionStorage.getItem('role') === 'teacher') {
+    const insertAtIndex = 4
+    const alertesObj = { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
+    pages.splice(insertAtIndex, 0, alertesObj)
   }
 
   return (
