@@ -59,21 +59,21 @@ describe('CreateAlertsPage Component', () => {
 
   const alertList = [{
     _id: 123,
-    title: "test",
-    message: 'test message',
+    title: 'test',
+    message: 'test message'
   }]
 
   const fileToAlertResponse = {
     status: 200,
     type: 'cors',
-    statusText: "OK",
+    statusText: 'OK',
     headers: {
-        "content-length": 7832,
-        "content-type": "image/jpeg"
+      'content-length': 7832,
+      'content-type': 'image/jpeg'
     },
     ok: true,
     redirected: false,
-    url: "https://localhost:8080/user/file/123",
+    url: 'https://localhost:8080/user/file/123',
     body: { locked: true }
 
   }
@@ -101,8 +101,8 @@ describe('CreateAlertsPage Component', () => {
     })
 
     const rolesLabel = screen.getByLabelText("Type d'utilisateur visé:")
-    await waitFor(async() => {
-        expect(rolesLabel).toBeInTheDocument()
+    await waitFor(async () => {
+      expect(rolesLabel).toBeInTheDocument()
     })
   })
 
@@ -121,13 +121,12 @@ describe('CreateAlertsPage Component', () => {
     })
 
     const sendButton = screen.getByText("Envoyer l'alerte")
-    await waitFor(async() => {
-        expect(sendButton).toBeInTheDocument()
+    await waitFor(async () => {
+      expect(sendButton).toBeInTheDocument()
     })
 
     await act(async () => {
-        fireEvent.click(sendButton)
+      fireEvent.click(sendButton)
     })
   })
-
 })

@@ -59,17 +59,17 @@ const AlertPage = () => {
       title,
       message,
       role: !isClass ? role : null,
-      classes: isClass ? selectedClasses : [],
+      classes: isClass ? selectedClasses : []
     }
 
     const fileData = new FormData()
     fileData.append('file', file)
 
-    function addFileToAlert(id) {
+    function addFileToAlert (id) {
       axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, fileData, {
         headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-        },
+          'x-auth-token': sessionStorage.getItem('token')
+        }
       })
         .then(response => {
           setPositiveResponse('Fichier envoyé avec l\'alerte avec succès')
@@ -80,7 +80,7 @@ const AlertPage = () => {
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, data, {
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
-      },
+      }
     })
       .then(response => {
         setPositiveResponse('Alerte envoyée avec succès')
@@ -113,18 +113,18 @@ const AlertPage = () => {
         <button className={isClass ? '' : 'no-interaction-btn'} onClick={handleAlertType}>Rôles</button>
         <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
       </div>
-      <div id="roles-container" >
-        <label for="roles-select">Type d'utilisateur visé:</label>
-        <select id="roles-select" onChange={(e) => setRole(e.target.value)}>
+      <div id='roles-container'>
+        <label for='roles-select'>Type d'utilisateur visé:</label>
+        <select id='roles-select' onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
         </select>
       </div>
 
-      <div id="classes-container">
-        <label for="classes-select">Classes:</label>
-        <div id="classes-select" className='checkbox-list'>
+      <div id='classes-container'>
+        <label for='classes-select'>Classes:</label>
+        <div id='classes-select' className='checkbox-list'>
           {userClasses.map((classe, index) => (
             <div key={index} className='checkbox-item'>
               <input
@@ -146,7 +146,6 @@ const AlertPage = () => {
         </div>
       </div>
 
-
       <label>Titre:</label>
       <input value={title} onChange={(e) => setTitle(e.target.value)} />
 
@@ -156,14 +155,15 @@ const AlertPage = () => {
       <label>Fichier joint (optionnel):</label>
       <input type='file' onChange={(e) => setFile(e.target.files[0])} />
 
-      {userRole === 'teacher' ?
-      (<div><label>Questionnaire (optionnel):</label>
-      <select onChange={(e) => setSelectedQuestionnaire(e.target.value)}>
-        {questionnaires.map((questionnaire, index) => (
-          <option key={index} value={questionnaire._id}>{questionnaire.title}</option>
-        ))}
-      </select></div>) : ''
-      }
+      {userRole === 'teacher'
+        ? (<div><label>Questionnaire (optionnel):</label>
+          <select onChange={(e) => setSelectedQuestionnaire(e.target.value)}>
+            {questionnaires.map((questionnaire, index) => (
+              <option key={index} value={questionnaire._id}>{questionnaire.title}</option>
+            ))}
+          </select>
+        </div>)
+        : ''}
 
       <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
