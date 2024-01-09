@@ -14,12 +14,14 @@ import ChatRoomPage from './Users/Shared/chatRoomPage'
 import CreateAlert from './Users/Shared/createAlerts'
 import HelpPage from './Users/Shared/helpPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
+import StudentStatPage from './Users/Student/statisticsStudent'
+import TeacherHomePage from './Users/Teacher/dashboardTeacher'
+import NewFormPage from './Users/Teacher/newFormPage'
 import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
-import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
-import NewFormPage from './Users/Teacher/newFormPage'
+import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
 
 const rootElement = document.getElementById('root')
@@ -68,6 +70,7 @@ if (rootElement) {
               <Route path='/' element={<StudentHomePage />} />
               <Route path='/questionnaires' element={<FormListStudentPage />} />
               <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+              <Route path='/statistiques' element={<StudentStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
             </>
           )}
@@ -78,6 +81,7 @@ if (rootElement) {
               <Route path='/questionnaires' element={<FormListTeacherPage />} />
               <Route path='/questionnaire' element={<NewFormPage />} />
               <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+              <Route path='/statistiques' element={<TeacherStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
               <Route path='/alerts' element={<CreateAlert />} />
             </>
