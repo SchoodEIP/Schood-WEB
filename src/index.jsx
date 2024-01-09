@@ -22,7 +22,6 @@ import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
-import NewFormPage from './Users/Teacher/newFormPage'
 import { WebsocketProvider } from './contexts/websocket'
 
 const rootElement = document.getElementById('root')
