@@ -27,7 +27,7 @@ const AlertPage = () => {
         setRole(data.roles[0]._id)
         setUserRoles(data.roles)
       })
-      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de la récupération des roles', error.message)})
+      .catch((error) => /* istanbul ignore next */ { setNegativeResponse('Erreur lors de la récupération des roles', error.message) })
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
@@ -39,8 +39,7 @@ const AlertPage = () => {
     })
       .then(response => response.json())
       .then((data) => setUserClasses(data))
-      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de la récupération des classes', error.message)})
-
+      .catch((error) => /* istanbul ignore next */ { setNegativeResponse('Erreur lors de la récupération des classes', error.message) })
   }, [])
 
   const handleAlertSubmit = () => {
@@ -67,7 +66,7 @@ const AlertPage = () => {
         .then(response => {
           setPositiveResponse('Fichier envoyé avec l\'alerte avec succès')
         })
-        .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de l\'envoi du fichier avec l\'alerte', error)})
+        .catch((error) => /* istanbul ignore next */ { setNegativeResponse('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
     }
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
@@ -85,7 +84,7 @@ const AlertPage = () => {
           addFileToAlert(data._id)
         }
       })
-      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de l\'envoi de l\'alerte', error)})
+      .catch((error) => /* istanbul ignore next */ { setNegativeResponse('Erreur lors de l\'envoi de l\'alerte', error) })
   }
 
   const handleAlertType = () => {
