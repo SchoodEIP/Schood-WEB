@@ -33,7 +33,7 @@ export default function Sidebar () {
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
-  }if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
+  } if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
       { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
