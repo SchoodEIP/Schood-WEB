@@ -21,7 +21,8 @@ const Message = ({ message }) => {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
         method: 'GET',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token')
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
         }
       })
       if (response.status !== 200) /* istanbul ignore next */ {
@@ -46,7 +47,6 @@ const Message = ({ message }) => {
           console.error('Error fetching file:', error)
         })
     }
-    console.log(message)
   }, [message])
 
   return (

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import '../../css/pages/chatRoomPage.scss';
-import ChatRoomSidebar from './chatRoomSidebar';
-import CreateConversationPopup from './createConversationPopup';
-import Message from './message';
-import ReportButton from './reportButton';
+import React, { useEffect, useState } from 'react'
+import '../../css/pages/chatRoomPage.scss'
+import ChatRoomSidebar from './chatRoomSidebar'
+import CreateConversationPopup from './createConversationPopup'
+import Message from './message'
+import ReportButton from './reportButton'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([]);
@@ -16,8 +16,8 @@ const Messages = () => {
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json',
-        },
-      });
+        }
+      })
 
       const data = await response.json();
       setCurrentConversation(data[0]);
@@ -27,20 +27,20 @@ const Messages = () => {
         return {
           _id: conversation._id,
           name: convName,
-        };
-      });
+        }
+      })
       setConversations(conversationData);
-    };
-    fetchConversations();
-  }, []);
+    }
+    fetchConversations()
+  }, [])
 
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [error, setError] = useState('');
-  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false);
-  const [contacts, setContacts] = useState([]);
-  const [file, setFile] = useState(null);
-  const [fileType, setFileType] = useState('text');
+  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState('')
+  const [error, setError] = useState('')
+  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false)
+  const [contacts, setContacts] = useState([])
+  const [file, setFile] = useState(null)
+  const [fileType, setFileType] = useState('text')
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -54,8 +54,8 @@ const Messages = () => {
             method: 'GET',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
         if (!response.ok) {
@@ -72,8 +72,8 @@ const Messages = () => {
       }
     };
 
-    fetchMessages();
-  }, [currentConversation]);
+    fetchMessages()
+  }, [currentConversation])
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -82,25 +82,25 @@ const Messages = () => {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json',
-          },
-        });
+            'Content-Type': 'application/json'
+          }
+        })
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des contacts.');
+          throw new Error('Erreur lors de la récupération des contacts.')
         }
-        const data = await response.json();
-        setContacts(data);
+        const data = await response.json()
+        setContacts(data)
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts :', error);
+        console.error('Erreur lors de la récupération des contacts :', error)
       }
     };
 
-    fetchContacts();
-  }, []);
+    fetchContacts()
+  }, [])
 
   const sendMessage = async () => {
     if (newMessage.trim() === '' && !file) {
-      return;
+      return
     }
 
     const currentTime = new Date();
@@ -109,17 +109,17 @@ const Messages = () => {
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
-      contentType: fileType,
-    };
+      contentType: fileType
+    }
 
     try {
-      const formData = new FormData();
-      formData.append('messageData', JSON.stringify(messageData));
+      const formData = new FormData()
+      formData.append('messageData', JSON.stringify(messageData))
 
       if (file) {
-        const fileData = new FormData();
-        fileData.append('file', file);
-        fileData.append('content', newMessage);
+        const fileData = new FormData()
+        fileData.append('file', file)
+        fileData.append('content', newMessage)
 
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`,
@@ -128,140 +128,139 @@ const Messages = () => {
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
             },
-            body: fileData,
+            body: fileData
           }
-        );
+        )
 
         if (response.status !== 200) {
           throw new Error("Erreur lors de l'envoi du message.");
         }
       } else {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
           {
             method: 'POST',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content: newMessage }),
+            body: JSON.stringify({ content: newMessage })
           }
         );
 
         if (response.status !== 200) {
-          throw new Error("Erreur lors de l'envoi du message.");
+          throw new Error("Erreur lors de l'envoi du message.")
         }
       }
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit',
-      });
+        minute: '2-digit'
+      })
       const message = {
         username: 'User',
         time,
         content: newMessage,
         contentType: fileType,
-        error: true,
-      };
-      const updatedMessages = [...messages, message];
-      setMessages(updatedMessages);
-      setNewMessage('');
-      setFileType('text');
-      setFile(null);
+        error: true
+      }
+      const updatedMessages = [...messages, message]
+      setMessages(updatedMessages)
+      setNewMessage('')
+      setFileType('text')
+      setFile(null)
     } catch (error) {
-      setError("Erreur lors de l'envoi du message. Veuillez réessayer.");
+      setError("Erreur lors de l'envoi du message. Veuillez réessayer.")
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit',
-      });
+        minute: '2-digit'
+      })
       const message = {
         username: 'User',
         time,
         content: newMessage,
         contentType: fileType,
-        error: true,
-      };
-      const updatedMessages = [...messages, message];
-      setMessages(updatedMessages);
-      setNewMessage('');
-      setFileType('text');
-      setFile(null);
+        error: true
+      }
+      const updatedMessages = [...messages, message]
+      setMessages(updatedMessages)
+      setNewMessage('')
+      setFileType('text')
+      setFile(null)
     }
-  };
+  }
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      sendMessage();
+      sendMessage()
     }
-  };
+  }
 
   const clearMessageAndError = () => {
-    setMessages([]);
-    setError('');
-  };
+    setMessages([])
+    setError('')
+  }
 
   const openCreateConversationPopup = () => {
-    setShowCreateConversationPopup(true);
-  };
+    setShowCreateConversationPopup(true)
+  }
 
   const closeCreateConversationPopup = () => {
-    setShowCreateConversationPopup(false);
-  };
+    setShowCreateConversationPopup(false)
+  }
 
   const createConversation = async (conversationName, selectedContacts) => {
     try {
-      const userId = localStorage.getItem('id');
-      const participantsArray = [userId, selectedContacts[0]];
+      const userId = localStorage.getItem('id')
+      const participantsArray = [userId, selectedContacts[0]]
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           participants: participantsArray,
-        }),
-      });
+        })
+      })
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la création de la conversation.');
+        throw new Error('Erreur lors de la création de la conversation.')
       }
 
-      const data = await response.json();
+      const data = await response.json()
       const newConversation = {
         id: data._id,
-        name: conversationName,
-      };
-      setConversations([...conversations, newConversation]);
+        name: conversationName
+      }
+      setConversations([...conversations, newConversation])
     } catch (error) {
-      setError('Erreur lors de la création de la conversation');
+      setError('Erreur lors de la création de la conversation')
     }
-  };
+  }
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setFile(selectedFile);
-      const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+      setFile(selectedFile)
+      const fileExtension = selectedFile.name.split('.').pop().toLowerCase()
       switch (fileExtension) {
         case 'jpg':
         case 'jpeg':
         case 'png':
-          setFileType('image');
-          break;
+          setFileType('image')
+          break
         case 'pdf':
-          setFileType('pdf');
-          break;
+          setFileType('pdf')
+          break
         case 'zip':
-          setFileType('zip');
-          break;
+          setFileType('zip')
+          break
         default:
-          setFileType('other');
+          setFileType('other')
       }
     }
-  };
+  }
 
   return (
     <div className='messaging-page'>
@@ -322,4 +321,4 @@ const Messages = () => {
   )
 }
 
-export default Messages;
+export default Messages
