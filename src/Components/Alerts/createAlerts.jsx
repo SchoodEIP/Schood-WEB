@@ -9,7 +9,7 @@ const AlertPage = () => {
   const [message, setMessage] = useState('')
   const [role, setRole] = useState('')
   const [selectedClasses, setSelectedClasses] = useState([])
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState({})
   const [questionnaires, setQuestionnaires] = useState([])
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
   const userRole = localStorage.getItem('role')
@@ -61,6 +61,21 @@ const AlertPage = () => {
       classes: isClass ? selectedClasses : [],
     }
 
+    const fileData = new FormData()
+    fileData.append('file', file)
+
+    function addFileToAlert(id) {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, fileData, {
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+        },
+      })
+        .then(response => {
+          console.log('Fichier envoyé vers l\'alerte avec succès', response.data)
+        })
+        .catch(error => console.error('Erreur lors de l\'envoi du fichier vers l\'alerte', error))
+    }
+
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, data, {
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
@@ -68,6 +83,9 @@ const AlertPage = () => {
     })
       .then(response => {
         console.log('Alerte envoyée avec succès', response.data)
+        if (file) {
+          addFileToAlert(response.data._id)
+        }
       })
       .catch(error => console.error('Erreur lors de l\'envoi de l\'alerte', error))
   }
