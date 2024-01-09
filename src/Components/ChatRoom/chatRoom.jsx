@@ -3,6 +3,7 @@ import '../../css/pages/chatRoomPage.scss'
 import Message from './message'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
+import ReportButton from './reportButton'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -64,18 +65,10 @@ const Messages = () => {
         const data = await response.json()
         const messageData = []
         for (let i = 0; i < data.length; i++) {
-          if (!data[i].file) {
-            messageData.push({
-              contentType: 'text',
-              content: data[i].content
-            })
-          } else {
-            messageData.push({
-              contentType: 'file',
-              content: data[i].content,
-              file: data[i].file
-            })
-          }
+          messageData.push({
+            contentType: !data[i].file ? 'text' : 'file',
+            ...data[i]
+          })
         }
         setMessages(messageData)
       } catch (error) /* istanbul ignore next */ {
@@ -114,14 +107,14 @@ const Messages = () => {
       return
     }
 
-    const time = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-    const username = 'User'
-    const content = newMessage
-
-    const messageData = { username, time, content, contentType: fileType }
+    const currentTime = new Date()
+    const messageData = {
+      username: 'User',
+      time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      date: currentTime.toLocaleDateString(),
+      content: newMessage,
+      contentType: fileType
+    }
 
     try {
       const formData = new FormData()
@@ -286,6 +279,7 @@ const Messages = () => {
           ? (
             <div>
               <h2>Conversation : {currentConversation.name}</h2>
+              <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
                   <Message key={index} message={message} />
