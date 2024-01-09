@@ -10,7 +10,7 @@ const AlertPage = () => {
   const [selectedClasses, setSelectedClasses] = useState([])
   const [file, setFile] = useState({})
   const [questionnaires, setQuestionnaires] = useState([])
-  const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
+  // const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
   const userRole = localStorage.getItem('role')
   const [isClass, setIsClass] = useState(false)
   const [positiveResponse, setPositiveResponse] = useState('')
@@ -168,7 +168,7 @@ const AlertPage = () => {
       <label>Fichier joint (optionnel):</label>
       <input data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
-      {userRole === 'teacher'
+      {/* {userRole === 'teacher'
         ? (<div><label>Questionnaire (optionnel):</label>
           <select onChange={(e) => setSelectedQuestionnaire(e.target.value)}>
             {questionnaires.map((questionnaire, index) => (
@@ -176,7 +176,7 @@ const AlertPage = () => {
             ))}
           </select>
         </div>)
-        : ''}
+        : ''} */}
       {!negativeResponse ? (<div>{positiveResponse}</div>) : (<div>{negativeResponse}</div>)}
       <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
