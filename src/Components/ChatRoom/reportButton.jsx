@@ -43,17 +43,17 @@ const ReportButton = ({ currentConversation }) => {
 
   return (
     <div>
-      <button onClick={handleReportClick}>Signaler</button>
+      <button onClick={handleReportClick} className='button signal'>Signaler</button>
       {showConfirmation && (
         <div>
-          <select value={reason} onChange={handleReasonChange}>
+          <select value={reason} onChange={handleReasonChange} className='select-reason'>
             <option value=''>Sélectionnez une raison</option>
             <option value='bullying'>Harcèlement</option>
             <option value='badcomportment'>Contenu offensant</option>
             <option value='spam'>Spam</option>
             <option value='other'>Autre</option>
           </select>
-          <button onClick={handleConfirmClick}>Confirmer le signalement</button>
+          <button onClick={handleConfirmClick} className='button confirm'>Confirmer le signalement</button>
           {error && <div className='error-message'>{error}</div>}
         </div>
       )}

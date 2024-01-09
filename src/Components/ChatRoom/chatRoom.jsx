@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../css/pages/chatRoomPage.scss'
-import Message from './message'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
+import Message from './message'
 import ReportButton from './reportButton'
 
 const Messages = () => {
@@ -21,22 +21,19 @@ const Messages = () => {
 
       const data = await response.json()
       setCurrentConversation(data[0])
-      for (let i = 0; i < data.length; i++) {
-        let convName = ''
-        for (let j = 0; j < (data[i].participants.length); j++) {
-          convName += data[i].participants[j].firstname + ' ' + data[i].participants[j].lastname
-          if (j < (data[i].participants.length - 1)) {
-            convName += ', '
-          }
-        }
-        conversations.push({
-          _id: data[i]._id,
+      const conversationData = data.map((conversation) => {
+        const firstParticipant = conversation.participants[0]
+        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
+        return {
+          _id: conversation._id,
           name: convName
-        })
-      }
+        }
+      })
+      setConversations(conversationData)
     }
     fetchConversations()
-  }, [conversations])
+  }, [])
+
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [error, setError] = useState('')
@@ -52,24 +49,23 @@ const Messages = () => {
           return
         }
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`, {
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
+          {
             method: 'GET',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
               'Content-Type': 'application/json'
             }
-          })
+          }
+        )
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error('Erreur lors de la récupération des messages.')
         }
         const data = await response.json()
-        const messageData = []
-        for (let i = 0; i < data.length; i++) {
-          messageData.push({
-            contentType: !data[i].file ? 'text' : 'file',
-            ...data[i]
-          })
-        }
+        const messageData = data.map((message) => ({
+          contentType: !message.file ? 'text' : 'file',
+          ...message
+        }))
         setMessages(messageData)
       } catch (error) /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération des messages :', error)
@@ -77,7 +73,7 @@ const Messages = () => {
     }
 
     fetchMessages()
-  }, [currentConversation, conversations])
+  }, [currentConversation])
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -118,33 +114,38 @@ const Messages = () => {
 
     try {
       const formData = new FormData()
-      formData.append('messageData', JSON.stringify(messageData)) // not valid with current route it only accepts file and content for now voir avec Quentin
+      formData.append('messageData', JSON.stringify(messageData))
 
       if (file) {
         const fileData = new FormData()
         fileData.append('file', file)
         fileData.append('content', newMessage)
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token')
-          },
-          body: fileData
-        })
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`,
+          {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token')
+            },
+            body: fileData
+          }
+        )
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
         }
       } else {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ content: newMessage })
-        })
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
+          {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: newMessage })
+          }
+        )
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
@@ -211,10 +212,7 @@ const Messages = () => {
   const createConversation = async (conversationName, selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
-      const participantsArray = [
-        userId,
-        selectedContacts[0]
-      ]
+      const participantsArray = [userId, selectedContacts[0]]
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -278,7 +276,7 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.name}</h2>
+              <h2>Conversation : {currentConversation.name ? currentConversation.name.split(',')[0] : ''}</h2>
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
