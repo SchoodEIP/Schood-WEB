@@ -65,7 +65,7 @@ const Message = ({ message }) => {
               {fileURL
                 ? (
                   <a href={fileURL} target='_blank' rel='noopener noreferrer'>
-                    <FaDownload size={24}></FaDownload>
+                    <FaDownload size={24} />
                   </a>
                   )
                 : (
