@@ -21,29 +21,28 @@ const ReportChecking = () => {
       })
       .then((response) => response.json())
       .then((data) => {
-        console.log('fetchReport', data)
         setReportRequests(data)
       })
       .catch((error) => {
-        console.log(error)
         setError('Erreur lors de la récupération des demandes de signalement.')
       })
   }
 
   const fetchReportedConversation = async (reportId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${reportId}`, {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
       })
-      const data = await response.json()
-      setSelectedReport(data)
-    } catch (error) {
-      setError('Erreur lors de la récupération de la conversation signalée.')
-    }
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedReport(data)
+      })
+      .catch((error) => {
+        setError('Erreur lors de la récupération de la conversation signalée.')
+      })
   }
 
   const checkReportProcessingStatus = async (reportId) => {
@@ -113,6 +112,12 @@ const ReportChecking = () => {
   useEffect(() => {
     fetchReportRequests()
   }, [])
+
+  useEffect(() => {
+    reportRequests.map((report, index) => {
+      return fetchReportedConversation(report.conversation)
+    })
+  }, [reportRequests])
 
   return (
     <div>
