@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/createAlerts.scss'
 
@@ -15,33 +14,39 @@ const AlertPage = () => {
   const userRole = localStorage.getItem('role')
   const [isClass, setIsClass] = useState(false)
   const [positiveResponse, setPositiveResponse] = useState('')
+  const [negativeResponse, setNegativeResponse] = useState('')
 
   useEffect(() => {
     // Requête GET : récupération de la liste des types d’utilisateurs
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`, {
+      method: "GET",
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        setRole(response.data.roles[0]._id)
-        setUserRoles(response.data.roles)
+      .then(response => response.json())
+      .then((data) => {
+        setRole(data.roles[0]._id)
+        setUserRoles(data.roles)
       })
-      .catch(error => console.error('Erreur lors de la récupération des roles', error.message))
+      .catch(error => setNegativeResponse('Erreur lors de la récupération des roles', error.message))
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
+      method: "GET",
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
     })
-      .then(response => setUserClasses(response.data))
-      .catch(error => console.error('Erreur lors de la récupération des classes', error.message))
+      .then(response => response.json())
+      .then((data) => setUserClasses(data))
+      .catch(error => setNegativeResponse('Erreur lors de la récupération des classes', error.message))
 
     // Requête GET : liste des questionnaires à venir et en cours
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
+      method: "GET",
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -50,7 +55,7 @@ const AlertPage = () => {
       .then(response => {
         setQuestionnaires(response.data)
       })
-      .catch(error => console.error('Erreur lors de la récupération des questionnaires', error.message))
+      .catch(error => setNegativeResponse('Erreur lors de la récupération des questionnaires', error.message))
   }, [])
 
   const handleAlertSubmit = () => {
@@ -64,44 +69,51 @@ const AlertPage = () => {
 
     const fileData = new FormData()
     fileData.append('file', file)
+    setNegativeResponse('')
 
     function addFileToAlert (id) {
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, fileData, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, {
+        method: "POST",
         headers: {
           'x-auth-token': sessionStorage.getItem('token')
-        }
+        },
+        body: fileData
       })
         .then(response => {
           setPositiveResponse('Fichier envoyé avec l\'alerte avec succès')
         })
-        .catch(error => console.error('Erreur lors de l\'envoi du fichier avec l\'alerte', error))
+        .catch(error => setNegativeResponse('Erreur lors de l\'envoi du fichier avec l\'alerte', error))
     }
 
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, data, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
+      method: "POST",
       headers: {
-        'x-auth-token': sessionStorage.getItem('token')
-      }
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     })
-      .then(response => {
+      .then(response => response.json())
+      .then((data) => {
         setPositiveResponse('Alerte envoyée avec succès')
         if (file) {
-          addFileToAlert(response.data._id)
+          addFileToAlert(data._id)
         }
       })
-      .catch(error => console.error('Erreur lors de l\'envoi de l\'alerte', error))
+      .catch(error => setNegativeResponse('Erreur lors de l\'envoi de l\'alerte', error))
   }
 
   const handleAlertType = () => {
     const rolesContainer = document.getElementById('roles-container')
     const classesContainer = document.getElementById('classes-container')
-    if (!isClass) {
+    if (isClass) {
       classesContainer.style.display = 'none'
       rolesContainer.style.display = 'flex'
-      setIsClass(true)
+      setIsClass(false)
     } else {
       classesContainer.style.display = 'flex'
       rolesContainer.style.display = 'none'
-      setIsClass(false)
+      setIsClass(true)
     }
   }
 
@@ -110,26 +122,27 @@ const AlertPage = () => {
       <h1>Créer une alerte</h1>
 
       <div>
-        <button className={isClass ? '' : 'no-interaction-btn'} onClick={handleAlertType}>Rôles</button>
+        <button className={!isClass ? 'no-interaction-btn': ''} onClick={handleAlertType}>Rôles</button>
         <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
       </div>
-      <div id='roles-container'>
-        <label for='roles-select'>Type d'utilisateur visé:</label>
-        <select id='roles-select' onChange={(e) => setRole(e.target.value)}>
+      <div id='roles-container' data-testid="roles-container">
+        <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
+        <select data-testid="roles-select" id='roles-select' onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
         </select>
       </div>
 
-      <div id='classes-container'>
-        <label for='classes-select'>Classes:</label>
+      <div id='classes-container' data-testid="classes-container">
+        <label htmlFor='classes-select'>Classes:</label>
         <div id='classes-select' className='checkbox-list'>
           {userClasses.map((classe, index) => (
             <div key={index} className='checkbox-item'>
               <input
                 type='checkbox'
                 id={`class-check-${index}`}
+                data-testid={`class-check-${index}`}
                 value={classe._id}
                 checked={selectedClasses.includes(classe._id)}
                 onChange={(e) => {
@@ -147,13 +160,13 @@ const AlertPage = () => {
       </div>
 
       <label>Titre:</label>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input data-testid="alert-title" value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <label>Message:</label>
-      <textarea value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea data-testid="alert-message" value={message} onChange={(e) => setMessage(e.target.value)} />
 
       <label>Fichier joint (optionnel):</label>
-      <input type='file' onChange={(e) => setFile(e.target.files[0])} />
+      <input data-testid="alert-file-input" type='file' onChange={(e) => setFile(e.target.files[0])} />
 
       {userRole === 'teacher'
         ? (<div><label>Questionnaire (optionnel):</label>
@@ -164,7 +177,7 @@ const AlertPage = () => {
           </select>
         </div>)
         : ''}
-
+      {!negativeResponse ? (<div>{positiveResponse}</div>) : (<div>{negativeResponse}</div>)}
       <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
   )

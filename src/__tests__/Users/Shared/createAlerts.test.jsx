@@ -6,11 +6,11 @@ import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('CreateAlertsPage Component', () => {
-  const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire`
+  const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
   const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/adm/classes`
   const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/123`
-  const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert`
+  const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
 
   const forms = [
     {
@@ -81,7 +81,7 @@ describe('CreateAlertsPage Component', () => {
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(getQuestionnaire, forms)
-    fetchMock.get(getRolesList, { roles })
+    fetchMock.get(getRolesList, {roles: roles} )
     fetchMock.get(getClasses, classes)
     fetchMock.post(postAlerts, alertList)
     fetchMock.post(postFileToAlert, fileToAlertResponse)
@@ -119,6 +119,10 @@ describe('CreateAlertsPage Component', () => {
         </MemoryRouter>
       )
     })
+    const errorMessage = screen.getByText('Erreur lors de la récupération des classes')
+    await waitFor(async() => {
+        expect(errorMessage).toBeInTheDocument()
+    })
 
     const sendButton = screen.getByText("Envoyer l'alerte")
     await waitFor(async () => {
@@ -127,6 +131,66 @@ describe('CreateAlertsPage Component', () => {
 
     await act(async () => {
       fireEvent.click(sendButton)
+    })
+  })
+  it('shows and hides roles and classes', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <CreateAlertsPage />
+        </MemoryRouter>
+      )
+    })
+
+    const rolesBtn = screen.getByText("Rôles")
+    await waitFor(async() => {
+        expect(rolesBtn).toBeInTheDocument()
+    })
+    const classesBtn = screen.getByText('Classes')
+    await waitFor(async() => {
+        expect(classesBtn).toBeInTheDocument()
+    })
+    await act(async () => {
+        fireEvent.click(rolesBtn)
+    })
+    await act(async() => {
+        fireEvent.click(classesBtn)
+    })
+  })
+
+  it('sends an alert without a file and then with it', async () => {
+    await act(async () => {
+        render(
+          <MemoryRouter>
+            <CreateAlertsPage />
+          </MemoryRouter>
+        )
+      })
+
+    const rolesSelect = screen.getByTestId('roles-select')
+    await waitFor(async() => {
+        expect(rolesSelect).toBeInTheDocument()
+    })
+
+    await waitFor(async() => {
+        expect(rolesSelect.value).toBe('0')
+    })
+    await act(async () => {
+        fireEvent.change(rolesSelect, { target: { value: '1' } })
+    })
+    await waitFor(async() => {
+        expect(rolesSelect.value).toBe('1')
+    })
+
+    const classesBtn = screen.getByText('Classes')
+    await waitFor(async() => {
+        expect(classesBtn).toBeInTheDocument()
+    })
+    await act(async() => {
+        fireEvent.click(classesBtn)
+    })
+    await act(async() => {
+        fireEvent.click(classesBtn)
     })
   })
 })

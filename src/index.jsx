@@ -20,8 +20,6 @@ import TeacherHomePage from './Users/Teacher/dashboardTeacher'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import NewFormPage from './Users/Teacher/newFormPage'
-import HelpPage from './Users/Shared/helpPage'
-import ChatRoomPage from './Users/Shared/chatRoomPage'
 import { WebsocketProvider } from './contexts/websocket'
 
 const rootElement = document.getElementById('root')
@@ -30,7 +28,7 @@ if (rootElement) {
   const root = createRoot(rootElement)
   root.render(
     <Router>
-      <WebsocketProvider>
+      {/* <WebsocketProvider> */}
         <Routes>
           {sessionStorage.getItem('role') === null && (
             <>
@@ -86,7 +84,7 @@ if (rootElement) {
           )}
           <Route path='*' element={<NoPage />} />
         </Routes>
-      </WebsocketProvider>
+      {/* </WebsocketProvider> */}
     </Router>
   )
 }
