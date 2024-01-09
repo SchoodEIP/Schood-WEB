@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 const CreateConversationPopup = ({
   contacts,
   createConversation,
-  closeCreateConversationPopup
+  closeCreateConversationPopup,
+  isPopupOpen
 }) => {
   const [searchInput, setSearchInput] = useState('')
 
@@ -22,7 +23,7 @@ const CreateConversationPopup = ({
   }
 
   return (
-    <div className='popup'>
+    <div>
       <div className='popup-content'>
         <h2>Nouvelle conversation</h2>
         <label htmlFor='contact-input'>Rechercher un contact:</label>
@@ -36,10 +37,7 @@ const CreateConversationPopup = ({
         />
         <datalist id='contact-list'>
           {contacts.map((contact) => (
-            <option
-              key={contact._id}
-              value={contact._id}
-            >
+            <option key={contact._id} value={contact._id}>
               {contact.firstname + ' ' + contact.lastname}
             </option>
           ))}
