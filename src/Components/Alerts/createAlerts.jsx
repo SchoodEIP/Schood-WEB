@@ -14,6 +14,7 @@ const AlertPage = () => {
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
   const userRole = localStorage.getItem('role')
   const [isClass, setIsClass] = useState(false)
+  const [positiveResponse, setPositiveResponse] = useState('')
 
   useEffect(() => {
     // Requête GET : récupération de la liste des types d’utilisateurs
@@ -27,7 +28,7 @@ const AlertPage = () => {
         setRole(response.data.roles[0]._id)
         setUserRoles(response.data.roles)
       })
-      .catch(error => console.error('Erreur lors de la récupération des types d\'utilisateurs', error.message))
+      .catch(error => console.error('Erreur lors de la récupération des roles', error.message))
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
@@ -71,9 +72,9 @@ const AlertPage = () => {
         },
       })
         .then(response => {
-          console.log('Fichier envoyé vers l\'alerte avec succès', response.data)
+          setPositiveResponse('Fichier envoyé avec l\'alerte avec succès')
         })
-        .catch(error => console.error('Erreur lors de l\'envoi du fichier vers l\'alerte', error))
+        .catch(error => console.error('Erreur lors de l\'envoi du fichier avec l\'alerte', error))
     }
 
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, data, {
@@ -82,7 +83,7 @@ const AlertPage = () => {
       },
     })
       .then(response => {
-        console.log('Alerte envoyée avec succès', response.data)
+        setPositiveResponse('Alerte envoyée avec succès')
         if (file) {
           addFileToAlert(response.data._id)
         }
@@ -113,8 +114,8 @@ const AlertPage = () => {
         <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
       </div>
       <div id="roles-container" >
-        <label>Type d'utilisateur visé:</label>
-        <select onChange={(e) => setRole(e.target.value)}>
+        <label for="roles-select">Type d'utilisateur visé:</label>
+        <select id="roles-select" onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
@@ -122,8 +123,8 @@ const AlertPage = () => {
       </div>
 
       <div id="classes-container">
-        <label>Classes:</label>
-        <div className='checkbox-list'>
+        <label for="classes-select">Classes:</label>
+        <div id="classes-select" className='checkbox-list'>
           {userClasses.map((classe, index) => (
             <div key={index} className='checkbox-item'>
               <input
