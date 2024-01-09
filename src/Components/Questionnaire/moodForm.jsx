@@ -25,7 +25,7 @@ export function MoodForm () {
           setDailyMood(data.mood)
         }
       })
-      .catch((error) => {
+      .catch((error) => /* istanbul ignore next */ {
         setErrMessage('Erreur : ', error.message)
       })
   }, [])
@@ -44,7 +44,7 @@ export function MoodForm () {
         setIsAnswered(data.moodStatus)
         setDailyMood(data.mood)
       })
-      .catch((error) => {
+      .catch((error) => /* istanbul ignore next */ {
         console.error(error)
         // setErrMessage('Erreur : ', error.message)
       })

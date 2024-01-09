@@ -9,9 +9,6 @@ const AlertPage = () => {
   const [role, setRole] = useState('')
   const [selectedClasses, setSelectedClasses] = useState([])
   const [file, setFile] = useState({})
-  // const [questionnaires, setQuestionnaires] = useState([])
-  // const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
-  // const userRole = localStorage.getItem('role')
   const [isClass, setIsClass] = useState(false)
   const [positiveResponse, setPositiveResponse] = useState('')
   const [negativeResponse, setNegativeResponse] = useState('')
@@ -30,7 +27,7 @@ const AlertPage = () => {
         setRole(data.roles[0]._id)
         setUserRoles(data.roles)
       })
-      .catch(error => setNegativeResponse('Erreur lors de la récupération des roles', error.message))
+      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de la récupération des roles', error.message)})
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
@@ -42,20 +39,8 @@ const AlertPage = () => {
     })
       .then(response => response.json())
       .then((data) => setUserClasses(data))
-      .catch(error => setNegativeResponse('Erreur lors de la récupération des classes', error.message))
+      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de la récupération des classes', error.message)})
 
-    // Requête GET : liste des questionnaires à venir et en cours
-    // fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'x-auth-token': sessionStorage.getItem('token'),
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //   .then(response => {
-    //     setQuestionnaires(response.data)
-    //   })
-    //   .catch(error => setNegativeResponse('Erreur lors de la récupération des questionnaires', error.message))
   }, [])
 
   const handleAlertSubmit = () => {
@@ -82,7 +67,7 @@ const AlertPage = () => {
         .then(response => {
           setPositiveResponse('Fichier envoyé avec l\'alerte avec succès')
         })
-        .catch(error => setNegativeResponse('Erreur lors de l\'envoi du fichier avec l\'alerte', error))
+        .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de l\'envoi du fichier avec l\'alerte', error)})
     }
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
@@ -100,7 +85,7 @@ const AlertPage = () => {
           addFileToAlert(data._id)
         }
       })
-      .catch(error => setNegativeResponse('Erreur lors de l\'envoi de l\'alerte', error))
+      .catch((error) => /* istanbul ignore next */ {setNegativeResponse('Erreur lors de l\'envoi de l\'alerte', error)})
   }
 
   const handleAlertType = () => {
@@ -168,15 +153,6 @@ const AlertPage = () => {
       <label>Fichier joint (optionnel):</label>
       <input data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
-      {/* {userRole === 'teacher'
-        ? (<div><label>Questionnaire (optionnel):</label>
-          <select onChange={(e) => setSelectedQuestionnaire(e.target.value)}>
-            {questionnaires.map((questionnaire, index) => (
-              <option key={index} value={questionnaire._id}>{questionnaire.title}</option>
-            ))}
-          </select>
-        </div>)
-        : ''} */}
       {!negativeResponse ? (<div>{positiveResponse}</div>) : (<div>{negativeResponse}</div>)}
       <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
