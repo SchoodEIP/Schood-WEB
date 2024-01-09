@@ -129,7 +129,7 @@ const ReportChecking = () => {
             <ul>
               {filteredReports.map((report) => (
                 <li key={report._id} onClick={() => handleReportSelection(report._id)}>
-                  {report.title}
+                  {report.type}
                 </li>
               ))}
             </ul>
