@@ -19,7 +19,7 @@ const AlertPage = () => {
   useEffect(() => {
     // Requête GET : récupération de la liste des types d’utilisateurs
     fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const AlertPage = () => {
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const AlertPage = () => {
 
     // Requête GET : liste des questionnaires à venir et en cours
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const AlertPage = () => {
 
     function addFileToAlert (id) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
           'x-auth-token': sessionStorage.getItem('token')
         },
@@ -86,7 +86,7 @@ const AlertPage = () => {
     }
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
-      method: "POST",
+      method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -122,19 +122,19 @@ const AlertPage = () => {
       <h1>Créer une alerte</h1>
 
       <div>
-        <button className={!isClass ? 'no-interaction-btn': ''} onClick={handleAlertType}>Rôles</button>
+        <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
         <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
       </div>
-      <div id='roles-container' data-testid="roles-container">
+      <div id='roles-container' data-testid='roles-container'>
         <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
-        <select data-testid="roles-select" id='roles-select' onChange={(e) => setRole(e.target.value)}>
+        <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
         </select>
       </div>
 
-      <div id='classes-container' data-testid="classes-container">
+      <div id='classes-container' data-testid='classes-container'>
         <label htmlFor='classes-select'>Classes:</label>
         <div id='classes-select' className='checkbox-list'>
           {userClasses.map((classe, index) => (
@@ -160,13 +160,13 @@ const AlertPage = () => {
       </div>
 
       <label>Titre:</label>
-      <input data-testid="alert-title" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <label>Message:</label>
-      <textarea data-testid="alert-message" value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
 
       <label>Fichier joint (optionnel):</label>
-      <input data-testid="alert-file-input" type='file' onChange={(e) => setFile(e.target.files[0])} />
+      <input data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
       {userRole === 'teacher'
         ? (<div><label>Questionnaire (optionnel):</label>
