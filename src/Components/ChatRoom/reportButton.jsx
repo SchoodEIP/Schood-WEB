@@ -4,7 +4,7 @@ const ReportButton = ({ currentConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
-  const signaledUserId = currentConversation.participants.find((item => item.id !== localStorage.getItem("id")))._id
+  const signaledUserId = currentConversation.participants.find(item => item.id !== localStorage.getItem('id'))._id
 
   const handleReportClick = () => {
     setShowConfirmation(true)

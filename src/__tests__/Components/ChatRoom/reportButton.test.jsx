@@ -5,7 +5,6 @@ import ReportButton from '../../../Components/ChatRoom/reportButton'
 import fetchMock from 'fetch-mock'
 import { MemoryRouter } from 'react-router-dom'
 
-
 describe('ReportButton Component', () => {
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
 
@@ -21,24 +20,24 @@ describe('ReportButton Component', () => {
   })
 
   it('renders the report button initially', async () => {
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
     const reportButton = screen.getByText('Signaler')
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(reportButton).toBeInTheDocument()
     })
   })
 
   it('displays the confirmation UI when the report button is clicked', async () => {
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
@@ -60,10 +59,10 @@ describe('ReportButton Component', () => {
   it('handles successful reporting', async () => {
     global.fetch = jest.fn(() => Promise.resolve({ status: 200 }))
 
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
@@ -95,10 +94,10 @@ describe('ReportButton Component', () => {
   it('handles server error', async () => {
     global.fetch = jest.fn(() => Promise.resolve({ status: 500 }))
 
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
@@ -118,16 +117,16 @@ describe('ReportButton Component', () => {
     })
 
     const errorMessage = screen.getByText('Erreur lors du signalement de la conversation.')
-    await waitFor(async () => {expect(errorMessage).toBeInTheDocument()})
+    await waitFor(async () => { expect(errorMessage).toBeInTheDocument() })
   })
 
   it('handles network error', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network error')))
 
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
@@ -147,16 +146,16 @@ describe('ReportButton Component', () => {
     })
 
     const errorMessage = screen.getByText('Erreur lors du signalement de la conversation.')
-    await waitFor(async () => {expect(errorMessage).toBeInTheDocument()})
+    await waitFor(async () => { expect(errorMessage).toBeInTheDocument() })
   })
 
   it('handles reason selection and confirmation', async () => {
     global.fetch = jest.fn(() => Promise.resolve({ status: 200 }))
 
-    await act(async() => {
+    await act(async () => {
       render(
         <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{_id: '123', name: 'Joe'}, {_id: '132', name: 'Jim'}] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </MemoryRouter>
       )
     })
