@@ -42,12 +42,18 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Click on a report to trigger fetching reported conversation
     const reportItem = screen.getByText('Report 1');
-    fireEvent.click(reportItem);
+    act(async ()=> {
+        fireEvent.click(reportItem);
+    })
 
     // Ensure that the reported conversation is displayed
     const reportedConversation = screen.getByText('Reported Conversation');
@@ -61,16 +67,24 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Click on a report to trigger validation
     const reportItem = screen.getByText('Report 1');
-    fireEvent.click(reportItem);
+    act(async ()=> {
+        fireEvent.click(reportItem);
+    })
 
     // Click on the "Valider" button
     const validateButton = screen.getByText('Valider');
-    fireEvent.click(validateButton);
+    act(async ()=> {
+        fireEvent.click(validateButton);
+    })
 
     // Ensure that the report is marked as processed
     await waitFor(() => {
@@ -86,17 +100,25 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Click on a report to trigger deletion
     const reportItem = screen.getByText('Report 1');
-    fireEvent.click(reportItem);
+    act(async ()=> {
+        fireEvent.click(reportItem);
+    })
 
     // Click on the "Supprimer" button
     const deleteButton = screen.getByText('Supprimer');
-    fireEvent.click(deleteButton);
+    act(async ()=> {
+        fireEvent.click(deleteButton);
 
+    })
     // Ensure that the report is removed from the list
     await waitFor(() => {
       const reportItem = screen.queryByText('Report 1');
@@ -112,7 +134,11 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Ensure that the component renders with the initial report
@@ -121,7 +147,9 @@ describe('ReportChecking Component', () => {
 
     // Click on the "Traitées" button to change the filter
     const processedFilterButton = screen.getByText('Traitées');
-    fireEvent.click(processedFilterButton);
+    act(async ()=> {
+        fireEvent.click(processedFilterButton);
+    })
 
     // Ensure that the processed report is still rendered
     const reportItemAfterFilterChange = screen.getByText('Report 1');
@@ -135,7 +163,11 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Ensure that the error message is displayed
@@ -156,12 +188,18 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Click on a report to trigger reported conversation fetching
     const reportItem = screen.getByText('Report 1');
-    fireEvent.click(reportItem);
+    act(async ()=> {
+        fireEvent.click(reportItem);
+    })
 
     // Ensure that the error message is displayed
     const errorMessage = screen.getByText('Erreur lors de la récupération de la conversation signalée.');
@@ -181,16 +219,24 @@ describe('ReportChecking Component', () => {
     });
 
     await act(async () => {
-      render(<ReportChecking />);
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      );
     });
 
     // Click on a report to trigger report processing
     const reportItem = screen.getByText('Report 1');
-    fireEvent.click(reportItem);
+    act(async ()=> {
+        fireEvent.click(reportItem);
+    })
 
     // Click on the "Valider" button
     const validateButton = screen.getByText('Valider');
-    fireEvent.click(validateButton);
+    act(async ()=> {
+        fireEvent.click(validateButton);
+    })
 
     // Ensure that the error message is displayed
     const errorMessage = screen.getByText("Erreur lors du traitement de la demande.");
