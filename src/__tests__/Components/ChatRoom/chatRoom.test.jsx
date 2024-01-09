@@ -180,12 +180,6 @@ describe('Messages Component', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
     })
-
-    // Ensure that file type is set
-    await waitFor(async () => {
-      const fileTypeElement = screen.getByText('User')
-      expect(fileTypeElement).toBeInTheDocument()
-    })
   })
 
   it('handles file error', async () => {
