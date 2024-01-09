@@ -12,13 +12,44 @@ export function LastAlerts () {
     //     return userList.find(user => user._id === id);
     // };
 
+    async function getFile(id) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token')
+          }
+        })
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de la réception du fichier.")
+        } else {
+          const blob = await response.blob()
+          const objectURL = URL.createObjectURL(blob)
+          return objectURL
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
     function buildList (dataList) {
       const alertList = []
       dataList.forEach((data, index) => {
+        let fileUrl = ""
+        if (data.file) {
+          getFile(data.file).then((data) => {
+            fileUrl = data
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la récupération du fichier :', error)
+          })
+        }
+
         const showAlert = {
+          id: data._id,
           title: data.title,
           message: data.message,
-          file: data.file,
+          file: fileUrl,
           createdAt: moment(data.createdAt).format('DD/MM/YYYY')
           // createdBy: findUserById(data.createdBy),
         }
@@ -51,55 +82,37 @@ export function LastAlerts () {
     })
       .then((response) => response.json())
       .then((data) => {
-        const placeholderList = [
-          {
-            title: 'Première Alerte',
-            message: 'Ceci est la première alerte',
-            classes: [],
-            role: [],
-            createdAt: '2023',
-            createdBy: '0921',
-            file: ''
-          },
-          {
-            title: 'Mr Math',
-            message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
-            classes: [],
-            role: [],
-            createdAt: '2023',
-            createdBy: '0921',
-            file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs'
-          }
-        ]
-        // setAlerts(buildList(data))
-        setAlerts(buildList(placeholderList))
+        // const placeholderList = [
+        //   {
+        //     title: 'Première Alerte',
+        //     message: 'Ceci est la première alerte',
+        //     classes: [],
+        //     role: [],
+        //     createdAt: '2023',
+        //     createdBy: '0921',
+        //     file: '',
+        //     _id: 'f,lkqsdf'
+        //   },
+        //   {
+        //     title: 'Mr Math',
+        //     message: 'Des contacts pour le soutien scolaire se trouvent dans la partie aide',
+        //     classes: [],
+        //     role: [],
+        //     createdAt: '2023',
+        //     createdBy: '0921',
+        //     file: 'qpfnilguiqdv,qnbjafimgozpemq,lkdiofs',
+        //     _id: 'idsdfqqffqfq'
+        //   }
+        // ]
+        setAlerts(buildList(data))
+        // setAlerts(buildList(placeholderList))
       })
       .catch((error) => {
         setErrMessage('Erreur : ', error.message)
       })
-  }, [])
+    }, [])
 
-  async function getFile (e) {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${e.target.id}`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        }
-      })
-      if (response.status !== 200) {
-        throw new Error("Erreur lors de l'envoi du message.")
-      } else {
-        const blob = await response.blob()
-        const objectURL = URL.createObjectURL(blob)
-        return objectURL
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  return (
+    return (
     <div className='alert-box'>
       <div className='alert-header'>
         <p className='title'>Mes Dernières Alertes</p>
@@ -115,7 +128,11 @@ export function LastAlerts () {
                     <div className='alert-title'>{alert.title}</div>
                     <div className='alert-message'>{alert.message}</div>
                     {alert.file
-                      ? <div className='alert-file-btn' id={alert.file} onClick={getFile}>Télécharger le fichier</div>
+                      ? (<div className='alert-file-btn' id={alert.id}>
+                          <a href={alert.file} target='_blank' rel='noopener noreferrer'>
+                            Télécharger le fichier
+                          </a>
+                        </div>)
                       : ''}
                   </div>
                 ))}
