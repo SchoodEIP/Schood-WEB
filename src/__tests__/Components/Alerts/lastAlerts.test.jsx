@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
+import { render, screen, act, waitFor } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
 import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
