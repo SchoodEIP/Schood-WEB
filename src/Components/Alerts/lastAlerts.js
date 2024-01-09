@@ -79,7 +79,8 @@ export function LastAlerts () {
                     <div className='alert-title'>{alert.title}</div>
                     <div className='alert-message'>{alert.message}</div>
                     {alert.file
-                      ? (<div className='alert-file-btn' id={alert.id}>
+                      ? (
+                      <div className='alert-file-btn' id={alert.id}>
                         <a style={{ textDecoration: 'none', color: 'white' }} href={alert.file} target='_blank' rel='noopener noreferrer'>
                           Télécharger le fichier
                         </a>
