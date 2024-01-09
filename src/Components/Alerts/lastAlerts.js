@@ -12,7 +12,7 @@ export function LastAlerts () {
     //     return userList.find(user => user._id === id);
     // };
 
-    async function getFile(id) {
+    async function getFile (id) {
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
           method: 'GET',
@@ -21,7 +21,7 @@ export function LastAlerts () {
           }
         })
         if (response.status !== 200) {
-          throw new Error("Erreur lors de la réception du fichier.")
+          throw new Error('Erreur lors de la réception du fichier.')
         } else {
           const blob = await response.blob()
           const objectURL = URL.createObjectURL(blob)
@@ -35,14 +35,14 @@ export function LastAlerts () {
     function buildList (dataList) {
       const alertList = []
       dataList.forEach((data, index) => {
-        let fileUrl = ""
+        let fileUrl = ''
         if (data.file) {
           getFile(data.file).then((data) => {
             fileUrl = data
           })
-          .catch((error) => {
-            console.error('Erreur lors de la récupération du fichier :', error)
-          })
+            .catch((error) => {
+              console.error('Erreur lors de la récupération du fichier :', error)
+            })
         }
 
         const showAlert = {
@@ -110,9 +110,9 @@ export function LastAlerts () {
       .catch((error) => {
         setErrMessage('Erreur : ', error.message)
       })
-    }, [])
+  }, [])
 
-    return (
+  return (
     <div className='alert-box'>
       <div className='alert-header'>
         <p className='title'>Mes Dernières Alertes</p>
@@ -129,10 +129,10 @@ export function LastAlerts () {
                     <div className='alert-message'>{alert.message}</div>
                     {alert.file
                       ? (<div className='alert-file-btn' id={alert.id}>
-                          <a href={alert.file} target='_blank' rel='noopener noreferrer'>
-                            Télécharger le fichier
-                          </a>
-                        </div>)
+                        <a href={alert.file} target='_blank' rel='noopener noreferrer'>
+                          Télécharger le fichier
+                        </a>
+                      </div>)
                       : ''}
                   </div>
                 ))}
