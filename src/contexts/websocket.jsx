@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-export const WebsocketContext = createContext(false, null, () => {
-})
+export const WebsocketContext = createContext(false, null, () => {})
 
 export const WebsocketProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false)
@@ -9,7 +8,7 @@ export const WebsocketProvider = ({ children }) => {
 
   const ws = useRef(null)
   useEffect(() => {
-    const socket = new WebSocket(process.env.REACT_APP_WS_URL)
+    const socket = new WebSocket(process.env.REACT_APP_WS_URL) // eslint-disable-line
 
     socket.onopen = () => setIsReady(true)
     socket.onclose = () => setIsReady(false)
