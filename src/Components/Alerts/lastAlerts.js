@@ -7,8 +7,7 @@ export function LastAlerts () {
   const [alerts, setAlerts] = useState([])
 
   useEffect(() => {
-
-    async function getFile(id) {
+    async function getFile (id) {
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
           method: 'GET',
@@ -28,12 +27,12 @@ export function LastAlerts () {
       }
     }
 
-    async function buildList(dataList) {
+    async function buildList (dataList) {
       const alertList = []
       for (const data of dataList) {
-        let fileUrl = "";
+        let fileUrl = ''
         if (data.file) {
-          fileUrl = await getFile(data.file);
+          fileUrl = await getFile(data.file)
         }
         const showAlert = {
           id: data._id,
@@ -81,7 +80,7 @@ export function LastAlerts () {
                     <div className='alert-message'>{alert.message}</div>
                     {alert.file
                       ? (<div className='alert-file-btn' id={alert.id}>
-                        <a style={{textDecoration:"none", color:"white"}} href={alert.file} target='_blank' rel='noopener noreferrer'>
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={alert.file} target='_blank' rel='noopener noreferrer'>
                           Télécharger le fichier
                         </a>
                       </div>)

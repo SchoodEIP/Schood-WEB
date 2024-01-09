@@ -21,7 +21,7 @@ describe('Last Alert component', () => {
       createdAt: '2023',
       createdBy: '0921',
       file: '',
-      _id: "123"
+      _id: '123'
     },
     {
       title: 'Mr Math',
@@ -31,7 +31,7 @@ describe('Last Alert component', () => {
       createdAt: '2023',
       createdBy: '0921',
       file: 'math_file',
-      _id: "132"
+      _id: '132'
     }
   ]
 
