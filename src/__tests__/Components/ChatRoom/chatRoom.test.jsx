@@ -122,7 +122,7 @@ describe('Messages Component', () => {
     // Ensure that the component renders
     await waitFor(() => {
       const composeMessageInput = screen.queryByText('teacher1 teacher1')
-    expect(composeMessageInput).toBeInTheDocument()
+      expect(composeMessageInput).toBeInTheDocument()
     })
   })
 
