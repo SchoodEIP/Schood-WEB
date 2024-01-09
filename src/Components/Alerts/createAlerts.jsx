@@ -9,9 +9,9 @@ const AlertPage = () => {
   const [role, setRole] = useState('')
   const [selectedClasses, setSelectedClasses] = useState([])
   const [file, setFile] = useState({})
-  const [questionnaires, setQuestionnaires] = useState([])
+  // const [questionnaires, setQuestionnaires] = useState([])
   // const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('')
-  const userRole = localStorage.getItem('role')
+  // const userRole = localStorage.getItem('role')
   const [isClass, setIsClass] = useState(false)
   const [positiveResponse, setPositiveResponse] = useState('')
   const [negativeResponse, setNegativeResponse] = useState('')
@@ -45,17 +45,17 @@ const AlertPage = () => {
       .catch(error => setNegativeResponse('Erreur lors de la récupération des classes', error.message))
 
     // Requête GET : liste des questionnaires à venir et en cours
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
-      method: 'GET',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        setQuestionnaires(response.data)
-      })
-      .catch(error => setNegativeResponse('Erreur lors de la récupération des questionnaires', error.message))
+    // fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
+    //   method: 'GET',
+    //   headers: {
+    //     'x-auth-token': sessionStorage.getItem('token'),
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then(response => {
+    //     setQuestionnaires(response.data)
+    //   })
+    //   .catch(error => setNegativeResponse('Erreur lors de la récupération des questionnaires', error.message))
   }, [])
 
   const handleAlertSubmit = () => {
