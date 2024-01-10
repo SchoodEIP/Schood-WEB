@@ -3,10 +3,6 @@ import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
-import fetchMock from 'jest-fetch-mock'
-
-fetchMock.enableMocks()
-jest.mock('node-fetch')
 
 describe('ReportChecking Component', () => {
   it('renders without crashing', async () => {

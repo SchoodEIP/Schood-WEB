@@ -170,3 +170,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.div-flex-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    justify-content:space-between;
+}

@@ -21,6 +21,7 @@ import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
+import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
@@ -83,6 +84,7 @@ if (rootElement) {
               <Route path='/questionnaires' element={<FormListTeacherPage />} />
               <Route path='/questionnaire' element={<NewFormPage />} />
               <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
               <Route path='/statistiques' element={<TeacherStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
               <Route path='/alerts' element={<CreateAlert />} />
