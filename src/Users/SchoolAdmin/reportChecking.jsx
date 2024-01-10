@@ -23,9 +23,9 @@ const ReportChecking = () => {
       .then((data) => {
         setReportRequests(data)
       })
-      .catch((error) => /* istanbul ignore next */ {
-        setError('Erreur lors de la récupération des demandes de signalement.')
-      })
+      // .catch((error) => /* istanbul ignore next */ {
+      //   setError('Erreur lors de la récupération des demandes de signalement.')
+      // })
   }
 
   const fetchReportedConversation = async (conversationId) => {
@@ -40,9 +40,9 @@ const ReportChecking = () => {
       .then((data) => {
         setSelectedReport(data)
       })
-      .catch((error) => /* istanbul ignore next */ {
-        setError('Erreur lors de la récupération de la conversation signalée.')
-      })
+      // .catch((error) => /* istanbul ignore next */ {
+      //   setError('Erreur lors de la récupération de la conversation signalée.')
+      // })
   }
 
   const checkReportProcessingStatus = async (reportId) => {
