@@ -99,7 +99,6 @@ const ReportChecking = () => {
   }
 
   const filteredReports = reportRequests.filter((report) => {
-    console.log(report);
     if (filter === 'all') {
       return true
     } else if (filter === 'processed') {
@@ -144,7 +143,11 @@ const ReportChecking = () => {
             {selectedReport && (
               <div>
                 <h2>Conversation Signalée</h2>
-                <p>{selectedReport.conversation}</p>
+                <p>{selectedReport.map((selreport, index) => (
+                  <li key={index}>
+                    {selreport.content}
+                  </li>
+                ))}</p>
                 {/* Boutons pour valider/invalider la demande de signalement */}
                 <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Valider</button>
                 <button onClick={() => handleReportProcessing(selectedReport._id, false)}>Refuser</button>
