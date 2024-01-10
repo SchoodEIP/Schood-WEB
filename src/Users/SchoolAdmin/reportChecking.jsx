@@ -12,13 +12,13 @@ const ReportChecking = () => {
   const [filter, setFilter] = useState('all')
 
   const fetchReportRequests = async () => {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setReportRequests(data)
@@ -29,13 +29,13 @@ const ReportChecking = () => {
   }
 
   const fetchReportedConversation = async (conversationId) => {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setSelectedReport(data)
@@ -147,7 +147,8 @@ const ReportChecking = () => {
                   <li key={index}>
                     {selreport.content}
                   </li>
-                ))}</p>
+                ))}
+                </p>
                 {/* Boutons pour valider/invalider la demande de signalement */}
                 <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Valider</button>
                 <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Refuser</button>
