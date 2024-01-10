@@ -21,6 +21,7 @@ import FormListStudentPage from './Users/Student/formListStudentPage'
 import FormStudentPage from './Users/Student/formStudentPage'
 import FormListTeacherPage from './Users/Teacher/formListTeacherPage'
 import FormTeacherPage from './Users/Teacher/formTeacherPage'
+import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
 
@@ -62,6 +63,7 @@ if (rootElement) {
               <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
               <Route path='/aides' element={<AdmHelpPage />} />
               <Route path='/messages' element={<ChatRoomPage />} />
+              <Route path='/reports' element={<ReportChecking />} />
               <Route path='/alerts' element={<CreateAlert />} />
             </>
           )}
