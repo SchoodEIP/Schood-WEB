@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FaDownload } from 'react-icons/fa'
 
 const Message = ({ message }) => {
   const [fileURL, setFileURL] = useState(null)
@@ -20,7 +21,8 @@ const Message = ({ message }) => {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/file/${id}`, {
         method: 'GET',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token')
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
         }
       })
       if (response.status !== 200) /* istanbul ignore next */ {
@@ -50,8 +52,8 @@ const Message = ({ message }) => {
   return (
     <div className='message'>
       <div className='message-header'>
-        <span className='message-username'>{message.username}</span>
-        <span className='message-time'>{message.time}</span>
+        <span className='message-username'>{message.user}</span>
+        <span className='message-time'>{message.date}</span>
       </div>
       <div className='message-content'>
         {message.contentType === 'text'
@@ -63,7 +65,7 @@ const Message = ({ message }) => {
               {fileURL
                 ? (
                   <a href={fileURL} target='_blank' rel='noopener noreferrer'>
-                    Ouvrir le fichier
+                    <FaDownload size={24} />
                   </a>
                   )
                 : (
