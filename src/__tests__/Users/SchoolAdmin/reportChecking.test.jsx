@@ -5,10 +5,23 @@ import '@testing-library/jest-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import fetchMock from 'jest-fetch-mock'
 
-fetchMock.enableMocks()
-jest.mock('node-fetch')
+// fetchMock.enableMocks()
+// jest.mock('node-fetch')
 
 describe('ReportChecking Component', () => {
+  const getReportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
+  const getReportedConversationUrl = `${process.env.REACT_APP_BACKEND_URL}/user/chat/123/messages`
+  const getReportProcessingStatus = `${process.env.REACT_APP_BACKEND_URL}/shared/report/1`
+  const deleteReport = `${process.env.REACT_APP_BACKEND_URL}/shared/report/1`
+  beforeEach(() => {
+    fetchMock.reset()
+    fetchMock.get(getReportUrl, { })
+  })
+
+  afterEach(() => {
+    fetchMock.restore()
+  })
+
   it('renders without crashing', async () => {
     render(
       <Router>

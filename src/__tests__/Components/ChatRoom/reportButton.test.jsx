@@ -6,11 +6,11 @@ import fetchMock from 'fetch-mock'
 import { MemoryRouter } from 'react-router-dom'
 
 describe('ReportButton Component', () => {
-  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
+  const reportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
 
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.post(dailyMood, { })
+    fetchMock.post(reportUrl, { })
     localStorage.setItem('id', '123')
   })
 
