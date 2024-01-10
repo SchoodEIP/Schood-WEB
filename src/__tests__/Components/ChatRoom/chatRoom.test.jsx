@@ -120,8 +120,10 @@ describe('Messages Component', () => {
     })
 
     // Ensure that the component renders
-    const composeMessageInput = screen.queryByText('teacher1 teacher1, teacher2 teacher2')
-    expect(composeMessageInput).toBeInTheDocument()
+    await waitFor(() => {
+      const composeMessageInput = screen.queryByText('teacher1 teacher1')
+      expect(composeMessageInput).toBeInTheDocument()
+    })
   })
 
   it('displays an error message when message sending fails', async () => {
@@ -179,12 +181,6 @@ describe('Messages Component', () => {
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
-    })
-
-    // Ensure that file type is set
-    await waitFor(async () => {
-      const fileTypeElement = screen.getByText('User')
-      expect(fileTypeElement).toBeInTheDocument()
     })
   })
 

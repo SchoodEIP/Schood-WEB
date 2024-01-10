@@ -1,12 +1,15 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormStudentPage from '../../../Users/Student/formStudentPage'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
 describe('FormStudentPage', () => {
-  const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/64f2f862b0975ae4340acafa'
+  const id = '64f2f862b0975ae4340acafa'
+  const questionnaireUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/` + id
+  const sendAnswerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
+
   let container = null
   const exemple = {
     _id: '64f2f862b0975ae4340acafa',
@@ -70,6 +73,7 @@ describe('FormStudentPage', () => {
     document.body.appendChild(container)
     fetchMock.reset()
     fetchMock.get(questionnaireUrl, exemple)
+    fetchMock.post(sendAnswerUrl, {})
   })
 
   afterEach(() => {
@@ -88,9 +92,9 @@ describe('FormStudentPage', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
           <FormStudentPage />
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
     const response = await mockFetch()
@@ -134,15 +138,33 @@ describe('FormStudentPage', () => {
 
     global.fetch = mockFetch
 
-    act(() => {
+    await act(() => {
       render(
-        <BrowserRouter>
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
           <FormStudentPage />
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
     await act(async () => {
       await expect(mockFetch()).rejects.toThrow('Network Error')
+    })
+  })
+
+  it('should answer form', async () => {
+    await act(() => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+          <Routes>
+            <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+          </Routes>
+        </MemoryRouter>
+      )
+    })
+
+    const validateBtn = screen.getByText('Valider le Questionnaire')
+
+    await act(() => {
+      fireEvent.click(validateBtn)
     })
   })
 })
