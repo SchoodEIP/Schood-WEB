@@ -28,8 +28,8 @@ const ReportChecking = () => {
       })
   }
 
-  const fetchReportedConversation = async (reportId) => {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${reportId}`, {
+  const fetchReportedConversation = async (conversationId) => {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
@@ -89,8 +89,8 @@ const ReportChecking = () => {
     }
   }
 
-  const handleReportSelection = async (reportId) => {
-    await fetchReportedConversation(reportId)
+  const handleReportSelection = async (reportId, conversationId) => {
+    await fetchReportedConversation(conversationId)
     await checkReportProcessingStatus(reportId)
   }
 
@@ -99,6 +99,7 @@ const ReportChecking = () => {
   }
 
   const filteredReports = reportRequests.filter((report) => {
+    console.log(report);
     if (filter === 'all') {
       return true
     } else if (filter === 'processed') {
@@ -133,7 +134,7 @@ const ReportChecking = () => {
             {/* Liste de demandes de signalement */}
             <ul>
               {filteredReports.map((report) => (
-                <li key={report._id} onClick={() => handleReportSelection(report._id)}>
+                <li key={report._id} onClick={() => handleReportSelection(report._id, report.conversation)}>
                   {report.type}
                 </li>
               ))}
