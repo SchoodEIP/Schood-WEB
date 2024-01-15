@@ -15,6 +15,7 @@ const FormTeacherPage = () => {
   const { id } = useParams()
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null)
+  const [isModify, setIsModify] = useState('false')
   const imgImports = [IconFace0, IconFace1, IconFace2]
 
   useEffect(() => {
@@ -122,6 +123,13 @@ const FormTeacherPage = () => {
         .catch(error => setError(error.message))
     }
 
+    function hasDatePassed (targetDate) {
+      const currentDate = new Date()
+      const givenDate = new Date(targetDate)
+
+      return givenDate < currentDate
+    }
+
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
 
     fetch(questionnaireUrl, {
@@ -135,12 +143,17 @@ const FormTeacherPage = () => {
         if (data.title) {
           setFormData(data)
           getStudents(data)
+          setIsModify(hasDatePassed(data.fromDate))
         } else {
           setError(data.message)
         }
       })
       .catch(error => setError(error.message))
   }, [id])
+
+  function handleRedirect () {
+    window.location.href = '/questionnaire/' + id + '/modify'
+  }
 
   const showHideAnswer = (index) => {
     const answer = document.getElementById('answers-' + index)
@@ -172,7 +185,12 @@ const FormTeacherPage = () => {
               </h1>
             </div>
             <div className='form-content-container'>
-              <div><p class='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p></div>
+              <div className='div-flex-horizontal'>
+                <p className='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p>
+                {isModify
+                  ? ''
+                  : <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>}
+              </div>
               {(!formData | !formData.questions)
                 ? <div>{error}</div>
                 : formData.questions.map((question, index) => (

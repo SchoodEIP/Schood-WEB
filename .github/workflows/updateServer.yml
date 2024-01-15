@@ -1,0 +1,16 @@
+name: "Update web"
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    Update_Server:
+        runs-on: ubuntu-latest
+        name: Update Web
+        steps:
+            - name: Update Web
+              uses: fjogeleit/http-request-action@v1
+              with:
+                url: 'http://20.111.49.79:8083/web'
+                method: 'GET'
