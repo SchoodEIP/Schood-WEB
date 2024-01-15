@@ -107,12 +107,14 @@ const AlertPage = () => {
       <h1 id='alert-title'>Créer une alerte</h1>
 
       {
-        sessionStorage.getItem('role') === "teacher" ? null : (
-          <div>
-            <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
-            <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
-          </div>
-        )
+        sessionStorage.getItem('role') === 'teacher'
+          ? null
+          : (
+            <div>
+              <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
+              <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
+            </div>
+            )
       }
       <div id='roles-container' data-testid='roles-container'>
         <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
@@ -124,33 +126,35 @@ const AlertPage = () => {
       </div>
 
       {
-        sessionStorage.getItem('role') === 'teacher' ? null : (
-          <div id='classes-container' data-testid='classes-container'>
-            <label htmlFor='classes-select'>Classes:</label>
-            <div id='classes-select' className='checkbox-list'>
-              {userClasses.map((classe, index) => (
-                <div key={index} className='checkbox-item'>
-                  <input
-                    className='alert-page-box'
-                    type='checkbox'
-                    id={`class-check-${index}`}
-                    data-testid={`class-check-${index}`}
-                    value={classe._id}
-                    checked={selectedClasses.includes(classe._id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedClasses([...selectedClasses, classe._id])
-                      } else {
-                        setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
-                      }
-                    }}
-                  />
-                  <label htmlFor={`class-check-${index}`}>{classe.name}</label>
-                </div>
-              ))}
+        sessionStorage.getItem('role') === 'teacher'
+          ? null
+          : (
+            <div id='classes-container' data-testid='classes-container'>
+              <label htmlFor='classes-select'>Classes:</label>
+              <div id='classes-select' className='checkbox-list'>
+                {userClasses.map((classe, index) => (
+                  <div key={index} className='checkbox-item'>
+                    <input
+                      className='alert-page-box'
+                      type='checkbox'
+                      id={`class-check-${index}`}
+                      data-testid={`class-check-${index}`}
+                      value={classe._id}
+                      checked={selectedClasses.includes(classe._id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedClasses([...selectedClasses, classe._id])
+                        } else {
+                          setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
+                        }
+                      }}
+                    />
+                    <label htmlFor={`class-check-${index}`}>{classe.name}</label>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )
+            )
       }
 
       <label>Titre:</label>
