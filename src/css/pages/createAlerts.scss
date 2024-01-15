@@ -9,14 +9,12 @@
     padding: 20px; /* Ajout du padding */
   }
 
-  h1 {
+  #alert-title {
     color: #4f23e2;
     margin-bottom: 20px; /* Ajout de la marge en bas */
   }
 
-  select,
-  textarea,
-  input {
+  .alert-page-box {
     margin-bottom: 10px;
     width: 100%;
     padding: 8px;
@@ -39,7 +37,7 @@
     height: 16px; /* Ajustez selon la taille souhaitée */
   }
 
-  button {
+  .alert-btn {
     background-color: #4f23e2;
     color: white;
     padding: 10px 20px;
@@ -48,7 +46,7 @@
     cursor: pointer;
   }
 
-  button:hover {
+  .alert-btn:hover {
     background-color: #3c1eaa;
   }
 

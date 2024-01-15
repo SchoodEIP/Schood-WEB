@@ -12,37 +12,35 @@ const ReportChecking = () => {
   const [filter, setFilter] = useState('all')
 
   const fetchReportRequests = async () => {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
-      method: 'GET',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setReportRequests(data)
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
       })
-      // .catch((error) => /* istanbul ignore next */ {
-      //   setError('Erreur lors de la récupération des demandes de signalement.')
-      // })
+      const data = await response.json()
+      setReportRequests(data)
+    } catch (error) /* istanbul ignore next */ {
+      setError('Erreur lors de la récupération des demandes de signalement.')
+    }
   }
 
   const fetchReportedConversation = async (conversationId) => {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setSelectedReport(data)
-      })
-      // .catch((error) => /* istanbul ignore next */ {
-      //   setError('Erreur lors de la récupération de la conversation signalée.')
-      // })
+    const data = await response.json()
+      setSelectedReport(data)
+    } catch (error) /* istanbul ignore next */ {
+      setError('Erreur lors de la récupération de la conversation signalée.')
+    }
   }
 
   const checkReportProcessingStatus = async (reportId) => {
@@ -150,8 +148,8 @@ const ReportChecking = () => {
                 ))}
                 </p>
                 {/* Boutons pour valider/invalider la demande de signalement */}
-                <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Valider</button>
-                <button onClick={() => handleReportProcessing(selectedReport._id, true)}>Refuser</button>
+                <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport._id, true)}>Valider</button>
+                <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport._id, true)}>Refuser</button>
               </div>
             )}
 
@@ -164,9 +162,9 @@ const ReportChecking = () => {
           </div>
         </div>
         <div className='filter-buttons'>
-          <button onClick={() => handleFilterChange('all')}>Toutes</button>
-          <button onClick={() => handleFilterChange('processed')}>Traitées</button>
-          <button onClick={() => handleFilterChange('unprocessed')}>Non traitées</button>
+          <button className='alert-btn' onClick={() => handleFilterChange('all')}>Toutes</button>
+          <button className='alert-btn' onClick={() => handleFilterChange('processed')}>Traitées</button>
+          <button className='alert-btn' onClick={() => handleFilterChange('unprocessed')}>Non traitées</button>
         </div>
       </div>
     </div>

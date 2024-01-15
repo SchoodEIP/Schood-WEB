@@ -33,7 +33,7 @@ export default function Sidebar () {
     ]
     if (sessionStorage.getItem('role') === 'administration') {
       const reportsObj = { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' }
-      pages.splice(4, 0, reportsObj)
+      pages.splice(3, 0, reportsObj)
     }
   } else {
     pages = [
@@ -45,7 +45,7 @@ export default function Sidebar () {
     ]
     if (sessionStorage.getItem('role') === 'teacher') {
       const alertesObj = { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
-      pages.splice(4, 0, alertesObj)
+      pages.splice(3, 0, alertesObj)
     }
   }
 
@@ -53,7 +53,7 @@ export default function Sidebar () {
     <>
       <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
         <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
-          {isCollapsed ? <FaBars style={{color: "white"}} size={24} /> : <FaTimes size={24} style={{color: "white"}} />}
+          {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} style={{color: "white"}} />}
         </button>
         <div className='sidebar-menu-container'>
           <ul className='sidebar-menu'>

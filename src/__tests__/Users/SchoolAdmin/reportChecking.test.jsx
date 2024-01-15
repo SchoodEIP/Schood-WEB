@@ -10,21 +10,25 @@ jest.mock('node-fetch')
 
 describe('ReportChecking Component', () => {
   it('renders without crashing', async () => {
-    render(
-      <Router>
-        <ReportChecking />
-      </Router>
-    )
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
     // You can add more specific assertions if needed
     expect(screen.getByText('Toutes')).toBeInTheDocument()
   })
 
   it('fetches report requests on mount', async () => {
-    render(
+    await act(async () => {
+      render(
       <Router>
         <ReportChecking />
       </Router>
-    )
+      )
+    })
 
     // Ensure that the fetch function is called
     await act(async () => {
@@ -36,11 +40,13 @@ describe('ReportChecking Component', () => {
   })
 
   it('handles filter change correctly', async () => {
-    render(
+    await act(async () => {
+      render(
       <Router>
         <ReportChecking />
       </Router>
-    )
+      )
+    })
 
     // Ensure that the filter changes correctly
     await act(async () => {
