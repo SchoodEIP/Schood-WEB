@@ -46,7 +46,6 @@ if (rootElement) {
               <Route path='/login' element={<Navigate to='/' replace />} />
               <Route path='/forgot' element={<Navigate to='/' replace />} />
               <Route path='/messages' element={<ChatRoomPage />} />
-              <Route path='/alerts' element={<CreateAlert />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'admin' && (

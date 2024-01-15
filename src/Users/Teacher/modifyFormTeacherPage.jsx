@@ -376,3 +376,5 @@ const ModifyFormTeacherPage = () => {
 }
 
 export default ModifyFormTeacherPage
+
+export default ModifyFormTeacherPage
