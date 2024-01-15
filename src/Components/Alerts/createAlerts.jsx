@@ -100,7 +100,6 @@ const AlertPage = () => {
       setIsClass(true)
     }
   }
-  console.log(role)
 
   return (
     <div className='alert-page'>
