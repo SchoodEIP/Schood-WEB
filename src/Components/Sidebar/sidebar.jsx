@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle } from 'react-icons/fa'
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle, FaUser } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
 
 export default function Sidebar () {
@@ -28,13 +28,12 @@ export default function Sidebar () {
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
+      { id: 'accounts', path: '/accounts', icon: <FaUser size={24} />, label: 'Comptes'},
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
+      { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
     ]
-    if (sessionStorage.getItem('role') === 'administration') {
-      const reportsObj = { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' }
-      pages.splice(3, 0, reportsObj)
-    }
   } else {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
