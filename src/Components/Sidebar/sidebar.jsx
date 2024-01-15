@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle, FaUser } from 'react-icons/fa'
+import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
 
 export default function Sidebar () {
@@ -28,7 +28,7 @@ export default function Sidebar () {
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'accounts', path: '/accounts', icon: <FaUser size={24} />, label: 'Comptes'},
+      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes'},
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
       { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
