@@ -16,31 +16,31 @@ describe('ReportChecking Component', () => {
 
   const getReportsResponse = [
     {
-      _id: "659dd4fa64034063fff4e3d9",
-      conversation: "659dd4e664034063fff4e38e",
-      createdAt: "2024-01-09T23:21:30.620Z",
-      facility: "659dd47c64034063fff4e345",
-      message: "",
-      signaledBy: "659dd47d64034063fff4e365",
-      type: "bullying",
-      userSignaled: "659dd47e64034063fff4e369"
+      _id: '659dd4fa64034063fff4e3d9',
+      conversation: '659dd4e664034063fff4e38e',
+      createdAt: '2024-01-09T23:21:30.620Z',
+      facility: '659dd47c64034063fff4e345',
+      message: '',
+      signaledBy: '659dd47d64034063fff4e365',
+      type: 'bullying',
+      userSignaled: '659dd47e64034063fff4e369'
     }
   ]
 
   const getReportedConversationsResponse = [
     {
-      _id: "659dd4ec64034063fff4e3a5",
-      chat: "659dd4e664034063fff4e38e",
-      content: "bonjour",
-      date: "2024-01-09T23:21:16.202Z",
-      user: "659dd47d64034063fff4e365"
+      _id: '659dd4ec64034063fff4e3a5',
+      chat: '659dd4e664034063fff4e38e',
+      content: 'bonjour',
+      date: '2024-01-09T23:21:16.202Z',
+      user: '659dd47d64034063fff4e365'
     },
     {
-      _id: "659dd4f364034063fff4e3be",
-      chat: "659dd4e664034063fff4e38e",
-      content: "au revoir",
-      date: "2024-01-09T23:21:23.073Z",
-      user: "659dd47d64034063fff4e365"
+      _id: '659dd4f364034063fff4e3be',
+      chat: '659dd4e664034063fff4e38e',
+      content: 'au revoir',
+      date: '2024-01-09T23:21:23.073Z',
+      user: '659dd47d64034063fff4e365'
     }
   ]
 
@@ -83,9 +83,9 @@ describe('ReportChecking Component', () => {
   it('fetches report requests on mount', async () => {
     await act(async () => {
       render(
-      <Router>
-        <ReportChecking />
-      </Router>
+        <Router>
+          <ReportChecking />
+        </Router>
       )
     })
 
@@ -99,9 +99,9 @@ describe('ReportChecking Component', () => {
   it('handles filter change correctly', async () => {
     await act(async () => {
       render(
-      <Router>
-        <ReportChecking />
-      </Router>
+        <Router>
+          <ReportChecking />
+        </Router>
       )
     })
 
@@ -127,9 +127,9 @@ describe('ReportChecking Component', () => {
   it('handles report validation', async () => {
     await act(async () => {
       render(
-      <Router>
-        <ReportChecking />
-      </Router>
+        <Router>
+          <ReportChecking />
+        </Router>
       )
     })
 
@@ -149,9 +149,9 @@ describe('ReportChecking Component', () => {
   it('handles report deletion', async () => {
     await act(async () => {
       render(
-      <Router>
-        <ReportChecking />
-      </Router>
+        <Router>
+          <ReportChecking />
+        </Router>
       )
     })
 
@@ -169,13 +169,13 @@ describe('ReportChecking Component', () => {
   })
 
   it('handles error', async () => {
-    fetchMock.get(getReportProcessingStatus, {status: 404, statusText: "Not Found"})
+    fetchMock.get(getReportProcessingStatus, { status: 404, statusText: 'Not Found' })
 
     await act(async () => {
       render(
-      <Router>
-        <ReportChecking />
-      </Router>
+        <Router>
+          <ReportChecking />
+        </Router>
       )
     })
 

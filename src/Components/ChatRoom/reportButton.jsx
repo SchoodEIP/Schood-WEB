@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "../../css/pages/createAlerts.scss"
+import '../../css/pages/createAlerts.scss'
 const ReportButton = ({ currentConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')

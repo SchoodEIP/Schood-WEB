@@ -103,7 +103,7 @@ const AlertPage = () => {
 
   return (
     <div className='alert-page'>
-      <h1 id="alert-title">Créer une alerte</h1>
+      <h1 id='alert-title'>Créer une alerte</h1>
 
       <div>
         <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
@@ -111,7 +111,7 @@ const AlertPage = () => {
       </div>
       <div id='roles-container' data-testid='roles-container'>
         <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
-        <select className="alert-page-box" data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
+        <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
@@ -124,7 +124,7 @@ const AlertPage = () => {
           {userClasses.map((classe, index) => (
             <div key={index} className='checkbox-item'>
               <input
-                className="alert-page-box"
+                className='alert-page-box'
                 type='checkbox'
                 id={`class-check-${index}`}
                 data-testid={`class-check-${index}`}
@@ -145,16 +145,16 @@ const AlertPage = () => {
       </div>
 
       <label>Titre:</label>
-      <input className="alert-page-box" data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input className='alert-page-box' data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <label>Message:</label>
-      <textarea className="alert-page-box" data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea className='alert-page-box' data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
 
       <label>Fichier joint (optionnel):</label>
-      <input className="alert-page-box" data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
+      <input className='alert-page-box' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
       {!negativeResponse ? (<div>{positiveResponse}</div>) : (<div>{negativeResponse}</div>)}
-      <button className="alert-btn" onClick={handleAlertSubmit}>Envoyer l'alerte</button>
+      <button className='alert-btn' onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
   )
 }

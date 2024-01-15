@@ -28,7 +28,7 @@ export default function Sidebar () {
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes'},
+      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
       { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
@@ -38,7 +38,7 @@ export default function Sidebar () {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
-      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires'},
+      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
@@ -52,7 +52,7 @@ export default function Sidebar () {
     <>
       <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
         <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
-          {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} style={{color: "white"}} />}
+          {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} style={{ color: 'white' }} />}
         </button>
         <div className='sidebar-menu-container'>
           <ul className='sidebar-menu'>
