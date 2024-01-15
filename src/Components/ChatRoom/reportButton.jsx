@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import '../../css/pages/createAlerts.scss'
 const ReportButton = ({ currentConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
@@ -43,7 +43,7 @@ const ReportButton = ({ currentConversation }) => {
 
   return (
     <div>
-      <button onClick={handleReportClick} className='button signal'>Signaler</button>
+      <button onClick={handleReportClick} className='alert-btn signal'>Signaler</button>
       {showConfirmation && (
         <div>
           <select value={reason} onChange={handleReasonChange} className='select-reason'>
@@ -53,7 +53,7 @@ const ReportButton = ({ currentConversation }) => {
             <option value='spam'>Spam</option>
             <option value='other'>Autre</option>
           </select>
-          <button onClick={handleConfirmClick} className='button confirm'>Confirmer le signalement</button>
+          <button onClick={handleConfirmClick} className='alert-btn confirm'>Confirmer le signalement</button>
           {error && <div className='error-message'>{error}</div>}
         </div>
       )}

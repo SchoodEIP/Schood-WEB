@@ -3,53 +3,190 @@ import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
-import fetchMock from 'jest-fetch-mock'
-
-fetchMock.enableMocks()
-jest.mock('node-fetch')
+import fetchMock from 'fetch-mock'
 
 describe('ReportChecking Component', () => {
+  const reportId = '659dd4fa64034063fff4e3d9'
+  const conversationId = '659dd4e664034063fff4e38e'
+  const getReports = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
+  const getReportedConversations = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`
+  const getReportProcessingStatus = `${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`
+  const deleteReport = `${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`
+  const postReport = `${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`
+
+  const getReportsResponse = [
+    {
+      _id: '659dd4fa64034063fff4e3d9',
+      conversation: '659dd4e664034063fff4e38e',
+      createdAt: '2024-01-09T23:21:30.620Z',
+      facility: '659dd47c64034063fff4e345',
+      message: '',
+      signaledBy: '659dd47d64034063fff4e365',
+      type: 'bullying',
+      userSignaled: '659dd47e64034063fff4e369'
+    }
+  ]
+
+  const getReportedConversationsResponse = [
+    {
+      _id: '659dd4ec64034063fff4e3a5',
+      chat: '659dd4e664034063fff4e38e',
+      content: 'bonjour',
+      date: '2024-01-09T23:21:16.202Z',
+      user: '659dd47d64034063fff4e365'
+    },
+    {
+      _id: '659dd4f364034063fff4e3be',
+      chat: '659dd4e664034063fff4e38e',
+      content: 'au revoir',
+      date: '2024-01-09T23:21:23.073Z',
+      user: '659dd47d64034063fff4e365'
+    }
+  ]
+
+  const deleteReportResponse = {
+    status: 200,
+    statusText: 'OK'
+  }
+
+  const postReportResponse = {
+    status: 200,
+    statusText: 'OK'
+  }
+
+  beforeEach(() => {
+    fetchMock.config.overwriteRoutes = true
+    fetchMock.reset()
+    fetchMock.get(getReports, getReportsResponse)
+    fetchMock.get(getReportedConversations, getReportedConversationsResponse)
+    fetchMock.get(getReportProcessingStatus, {})
+    fetchMock.delete(deleteReport, deleteReportResponse)
+    fetchMock.post(postReport, postReportResponse)
+  })
+
+  afterEach(() => {
+    fetchMock.restore()
+  })
+
   it('renders without crashing', async () => {
-    render(
-      <Router>
-        <ReportChecking />
-      </Router>
-    )
-    // You can add more specific assertions if needed
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
+
     expect(screen.getByText('Toutes')).toBeInTheDocument()
   })
 
   it('fetches report requests on mount', async () => {
-    render(
-      <Router>
-        <ReportChecking />
-      </Router>
-    )
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
 
-    // Ensure that the fetch function is called
     await act(async () => {
       fireEvent.click(screen.getByText('Toutes'))
     })
 
-    // You can add more specific assertions if needed
     expect(screen.getByText('La demande n\'a pas encore été traitée.')).toBeInTheDocument()
   })
 
   it('handles filter change correctly', async () => {
-    render(
-      <Router>
-        <ReportChecking />
-      </Router>
-    )
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
 
-    // Ensure that the filter changes correctly
+    await act(async () => {
+      fireEvent.click(screen.getByText('Toutes'))
+    })
+
+    expect(screen.getByText('bullying')).toBeInTheDocument()
+
     await act(async () => {
       fireEvent.click(screen.getByText('Traitées'))
     })
 
-    // You can add more specific assertions if needed
-    expect(screen.getByText('La demande n\'a pas encore été traitée.')).toBeInTheDocument()
+    expect(screen.queryByText('bullying')).not.toBeInTheDocument()
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Non traitées'))
+    })
+
+    expect(screen.getByText('bullying')).toBeInTheDocument()
   })
 
-  // Add more tests for other functionality as needed
+  it('handles report validation', async () => {
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('bullying'))
+    })
+
+    expect(screen.getByText('La demande n\'a pas encore été traitée.')).toBeInTheDocument()
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Valider'))
+    })
+
+    expect(screen.getByText('La demande a été traitée.')).toBeInTheDocument()
+  })
+
+  it('handles report deletion', async () => {
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('bullying'))
+    })
+
+    expect(screen.getByText('La demande n\'a pas encore été traitée.')).toBeInTheDocument()
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Refuser'))
+    })
+
+    expect(screen.queryByText('bullying')).not.toBeInTheDocument()
+  })
+
+  it('handles error', async () => {
+    fetchMock.get(getReportProcessingStatus, { status: 404, statusText: 'Not Found' })
+
+    await act(async () => {
+      render(
+        <Router>
+          <ReportChecking />
+        </Router>
+      )
+    })
+
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
+
+    global.fetch = mockFetch
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('bullying'))
+    })
+
+    expect(screen.getByText('Erreur lors de la vérification du statut de traitement.')).toBeInTheDocument()
+  })
 })

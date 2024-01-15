@@ -7,7 +7,7 @@
   margin-bottom: 20px;
 
   &.expanded {
-    z-index: 9999;
+    z-index: 3;
     width: 200px;
   }
 
@@ -20,7 +20,7 @@
     background-color: #4f23e2;
     border: none;
     outline: none;
-    color: #fff;
+    color: white;
     font-size: 20px;
     transition: transform 0.3s ease;
 
@@ -48,7 +48,7 @@
         display: flex;
         align-items: center;
         text-decoration: none;
-        color: #fff;
+        color: white;
         font-size: 20px;
         margin-left: 10px;
 

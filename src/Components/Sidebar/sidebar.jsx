@@ -25,44 +25,34 @@ export default function Sidebar () {
 
   let pages = []
 
-  if (sessionStorage.getItem('role') === 'student' || sessionStorage.getItem('role') === 'teacher') {
+  if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
-      { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
-    ]
-  } if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
-    pages = [
-      { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
-      { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
-      { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
-      { id: 'alertes', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Alertes' },
-      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
+      { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
+      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
+      { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
     ]
   } else {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },
-      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Accounts' },
       { id: 'statistiques', path: '/statistiques', icon: <FaChartBar size={24} />, label: 'Statistiques' },
+      { id: 'questionnaires', path: '/questionnaires', icon: <FaQuestion size={24} />, label: 'Questionnaires' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' }
     ]
-  }
-
-  if (sessionStorage.getItem('role') === 'teacher') {
-    const insertAtIndex = 4
-    const alertesObj = { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
-    pages.splice(insertAtIndex, 0, alertesObj)
+    if (sessionStorage.getItem('role') === 'teacher') {
+      const alertesObj = { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
+      pages.splice(3, 0, alertesObj)
+    }
   }
 
   return (
     <>
       <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
         <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
-          {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} />}
+          {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} style={{ color: 'white' }} />}
         </button>
         <div className='sidebar-menu-container'>
           <ul className='sidebar-menu'>

@@ -103,57 +103,70 @@ const AlertPage = () => {
 
   return (
     <div className='alert-page'>
-      <h1>Créer une alerte</h1>
+      <h1 id='alert-title'>Créer une alerte</h1>
 
-      <div>
-        <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
-        <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
-      </div>
+      {
+        sessionStorage.getItem('role') === 'teacher'
+          ? null
+          : (
+            <div>
+              <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Rôles</button>
+              <button className={isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Classes</button>
+            </div>
+            )
+      }
       <div id='roles-container' data-testid='roles-container'>
         <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
-        <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
+        <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
           {userRoles.map((role, index) => (
             <option key={index} value={role._id}>{role.name}</option>
           ))}
         </select>
       </div>
 
-      <div id='classes-container' data-testid='classes-container'>
-        <label htmlFor='classes-select'>Classes:</label>
-        <div id='classes-select' className='checkbox-list'>
-          {userClasses.map((classe, index) => (
-            <div key={index} className='checkbox-item'>
-              <input
-                type='checkbox'
-                id={`class-check-${index}`}
-                data-testid={`class-check-${index}`}
-                value={classe._id}
-                checked={selectedClasses.includes(classe._id)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedClasses([...selectedClasses, classe._id])
-                  } else {
-                    setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
-                  }
-                }}
-              />
-              <label htmlFor={`class-check-${index}`}>{classe.name}</label>
+      {
+        sessionStorage.getItem('role') === 'teacher'
+          ? null
+          : (
+            <div id='classes-container' data-testid='classes-container'>
+              <label htmlFor='classes-select'>Classes:</label>
+              <div id='classes-select' className='checkbox-list'>
+                {userClasses.map((classe, index) => (
+                  <div key={index} className='checkbox-item'>
+                    <input
+                      className='alert-page-box'
+                      type='checkbox'
+                      id={`class-check-${index}`}
+                      data-testid={`class-check-${index}`}
+                      value={classe._id}
+                      checked={selectedClasses.includes(classe._id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedClasses([...selectedClasses, classe._id])
+                        } else {
+                          setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
+                        }
+                      }}
+                    />
+                    <label htmlFor={`class-check-${index}`}>{classe.name}</label>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+            )
+      }
 
       <label>Titre:</label>
-      <input data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input className='alert-page-box' data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <label>Message:</label>
-      <textarea data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea className='alert-page-box' data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
 
       <label>Fichier joint (optionnel):</label>
-      <input data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
+      <input className='alert-page-box' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
       {!negativeResponse ? (<div>{positiveResponse}</div>) : (<div>{negativeResponse}</div>)}
-      <button onClick={handleAlertSubmit}>Envoyer l'alerte</button>
+      <button className='alert-btn' onClick={handleAlertSubmit}>Envoyer l'alerte</button>
     </div>
   )
 }
