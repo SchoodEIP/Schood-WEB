@@ -281,7 +281,7 @@ const Messages = () => {
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
-                  <Message key={index} message={message} participants={currentConversation.participants}/>
+                  <Message key={index} message={message} participants={currentConversation.participants} />
                 ))}
                 {error && <div className='error-message'>{error}</div>}
               </div>
