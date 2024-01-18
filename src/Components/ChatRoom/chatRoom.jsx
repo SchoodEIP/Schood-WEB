@@ -22,10 +22,11 @@ const Messages = () => {
       const data = await response.json()
       setCurrentConversation(data[0])
       const conversationData = data.map((conversation) => {
-        const firstParticipant = conversation.participants[0]
+        const firstParticipant = conversation.participants.find(item => item._id !== localStorage.getItem('id'))
         const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
         return {
           _id: conversation._id,
+          participants: conversation.participants,
           name: convName
         }
       })
@@ -157,7 +158,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
@@ -280,7 +281,7 @@ const Messages = () => {
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
-                  <Message key={index} message={message} />
+                  <Message key={index} message={message} participants={currentConversation.participants}/>
                 ))}
                 {error && <div className='error-message'>{error}</div>}
               </div>
