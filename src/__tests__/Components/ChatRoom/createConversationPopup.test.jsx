@@ -206,7 +206,7 @@ describe('createConversationPopup Component', () => {
     fireEvent.change(contactInput, { target: { value: 'teacher1' } })
 
     // Mock the contact selection (you may need to adjust the selector)
-    const contactOption = screen.getByText('teacher2 teacher2')
+    const contactOption = screen.getByText('student1 student1')
 
     await act(async () => {
       fireEvent.click(contactOption)
@@ -246,7 +246,7 @@ describe('createConversationPopup Component', () => {
     fireEvent.change(contactInput, { target: { value: 'teacher1' } })
 
     // Mock the contact selection (you may need to adjust the selector)
-    const contactOption = screen.getByText('teacher2 teacher2')
+    const contactOption = screen.getByText('student1 student1')
     await act(async () => {
       fireEvent.click(contactOption)
     })

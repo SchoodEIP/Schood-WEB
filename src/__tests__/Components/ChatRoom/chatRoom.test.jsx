@@ -121,7 +121,7 @@ describe('Messages Component', () => {
 
     // Ensure that the component renders
     await waitFor(() => {
-      const composeMessageInput = screen.queryByText('teacher1 teacher1')
+      const composeMessageInput = screen.queryAllByText('teacher1 teacher1').find(el => el.classList.contains('conversation'))
       expect(composeMessageInput).toBeInTheDocument()
     })
   })
@@ -140,8 +140,13 @@ describe('Messages Component', () => {
     global.fetch = mockFetch
 
     const composeMessageInput = screen.getByPlaceholderText('Composez votre message')
-    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
-    fireEvent.click(screen.getByText('Envoyer'))
+    await act(async () => {
+      fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Envoyer'))
+    })
 
     // Wait for error message to be displayed
     await waitFor(() => {
@@ -157,8 +162,9 @@ describe('Messages Component', () => {
     const input = screen.getByPlaceholderText('Composez votre message')
 
     // Type a message in the input field
-    fireEvent.change(input, { target: { value: 'Hello, world!' } })
-
+    await act(async () => {
+      fireEvent.change(input, { target: { value: 'Hello, world!' } })
+    })
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
@@ -176,8 +182,9 @@ describe('Messages Component', () => {
 
     // Ensure that file input is present
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
@@ -191,8 +198,9 @@ describe('Messages Component', () => {
 
     // Ensure that file input is present
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -215,7 +223,9 @@ describe('Messages Component', () => {
       render(<Messages />)
     })
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
 
     const input = screen.getByPlaceholderText('Composez votre message')
 
@@ -251,8 +261,9 @@ describe('Messages Component', () => {
 
     // Simulate selecting a PDF file
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -271,8 +282,9 @@ describe('Messages Component', () => {
 
     // Simulate selecting a PDF file
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
