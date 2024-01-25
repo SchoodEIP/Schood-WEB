@@ -287,7 +287,6 @@ describe('Messages Component', () => {
   })
 
   it('sets file type to "pdf" for a PDF file', async () => {
-
     await act(async () => {
       render(
         <MemoryRouter>
