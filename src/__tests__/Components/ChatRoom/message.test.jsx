@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
-import Messages from '../../../Components/ChatRoom/message'
+import Message from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
 
 // Mock the fetch function
@@ -11,7 +11,7 @@ global.fetch = jest.fn(() =>
   })
 )
 
-describe('Messages Component', () => {
+describe('Message Component', () => {
   const participants = [
     {
       _id: '0',
@@ -34,7 +34,7 @@ describe('Messages Component', () => {
       contentType: 'text'
     }
     await act(async () => {
-      render(<Messages message={userMessage} participants={participants} />)
+      render(<Message message={userMessage} participants={participants} />)
     })
   })
 
@@ -46,7 +46,7 @@ describe('Messages Component', () => {
     }
 
     await act(async () => {
-      render(<Messages message={textMessage} participants={participants} />)
+      render(<Message message={textMessage} participants={participants} />)
     })
 
     const contentElement = screen.getByText('Hello, World!')
@@ -73,7 +73,7 @@ describe('Messages Component', () => {
     )
 
     await act(async () => {
-      render(<Messages message={fileMessage} participants={participants} />)
+      render(<Message message={fileMessage} participants={participants} />)
     })
 
     screen.debug()
@@ -97,7 +97,7 @@ describe('Messages Component', () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Fetch error')))
 
     await act(async () => {
-      render(<Messages message={fileMessage} participants={participants} />)
+      render(<Message message={fileMessage} participants={participants} />)
     })
 
     const dateElement = screen.getByText('01/01/00 00:00')
@@ -109,5 +109,5 @@ describe('Messages Component', () => {
     expect(contentElement).toBeInTheDocument()
   })
 
-  // Add more tests for receiving messages, sending/receiving files, etc.
+  // Add more tests for receiving message, sending/receiving files, etc.
 })

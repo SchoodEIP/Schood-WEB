@@ -5,7 +5,6 @@ import moment from 'moment'
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)
   const messageUser = participants.find(item => item._id === message.user)
-
   useEffect(() => {
     if (message.contentType === 'file') {
       getFile(message.file)

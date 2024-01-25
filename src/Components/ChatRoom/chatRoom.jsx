@@ -20,7 +20,6 @@ const Messages = () => {
       })
 
       const data = await response.json()
-      setCurrentConversation(data[0])
       const conversationData = data.map((conversation) => {
         const firstParticipant = conversation.participants.find(item => item._id !== localStorage.getItem('id'))
         const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
@@ -30,6 +29,7 @@ const Messages = () => {
           name: convName
         }
       })
+      setCurrentConversation(conversationData[0])
       setConversations(conversationData)
     }
     fetchConversations()
@@ -106,7 +106,7 @@ const Messages = () => {
 
     const currentTime = new Date()
     const messageData = {
-      username: 'User',
+      user: localStorage.getItem('id'),
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
@@ -177,7 +177,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,

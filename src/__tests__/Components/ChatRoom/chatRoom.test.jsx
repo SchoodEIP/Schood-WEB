@@ -3,6 +3,7 @@ import React from 'react'
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
+import { MemoryRouter } from 'react-router-dom'
 
 describe('Messages Component', () => {
   const id = 123
@@ -12,6 +13,8 @@ describe('Messages Component', () => {
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
   const getFileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/file/0`
+  localStorage.setItem('id', '0')
+
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(chatUrl, {
@@ -116,19 +119,28 @@ describe('Messages Component', () => {
 
   it('shows the conversations', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that the component renders
     await waitFor(() => {
-      const composeMessageInput = screen.queryAllByText('teacher1 teacher1').find(el => el.classList.contains('conversation'))
+      const composeMessageInput = screen.queryAllByText('teacher2 teacher2').find(el => el.classList.contains('conversation'))
       expect(composeMessageInput).toBeInTheDocument()
     })
   })
 
   it('displays an error message when message sending fails', async () => {
+    localStorage.setItem('id', '0')
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     await act(async () => {
@@ -157,7 +169,11 @@ describe('Messages Component', () => {
 
   it('sends a message- in chatroom', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
     const input = screen.getByPlaceholderText('Composez votre message')
 
@@ -177,7 +193,11 @@ describe('Messages Component', () => {
 
   it('handles file uploading', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that file input is present
@@ -193,7 +213,11 @@ describe('Messages Component', () => {
 
   it('handles file error', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that file input is present
@@ -220,7 +244,11 @@ describe('Messages Component', () => {
 
   it('shows an error', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
     const fileInput = screen.getByLabelText('+')
     await act(async () => {
@@ -242,7 +270,11 @@ describe('Messages Component', () => {
 
   it('creates a new conversation', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Trigger the creation of a new conversation (you may need to add a button or UI element for this)
@@ -255,8 +287,13 @@ describe('Messages Component', () => {
   })
 
   it('sets file type to "pdf" for a PDF file', async () => {
+
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Simulate selecting a PDF file
@@ -277,7 +314,11 @@ describe('Messages Component', () => {
 
   it('sets file type to "other" for a other file', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Simulate selecting a PDF file
