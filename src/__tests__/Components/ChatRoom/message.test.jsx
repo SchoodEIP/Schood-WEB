@@ -12,39 +12,54 @@ global.fetch = jest.fn(() =>
 )
 
 describe('Messages Component', () => {
+  const participants = [
+    {
+      _id: '0',
+      email: 'teacher1@schood.fr',
+      firstname: 'teacher1',
+      lastname: 'teacher1'
+    },
+    {
+      _id: '1',
+      email: 'teacher2@schood.fr',
+      firstname: 'teacher2',
+      lastname: 'teacher2'
+    }
+  ]
+
   it('renders without crashing', async () => {
     const userMessage = {
       content: 'This is the content of the message',
-      username: 'User',
+      user: '0',
       contentType: 'text'
     }
     await act(async () => {
-      render(<Messages message={userMessage} />)
+      render(<Messages message={userMessage} participants={participants} />)
     })
   })
 
   it('renders a text message', async () => {
     const textMessage = {
-      user: 'User',
+      user: '0',
       content: 'Hello, World!',
       contentType: 'text'
     }
 
     await act(async () => {
-      render(<Messages message={textMessage} />)
+      render(<Messages message={textMessage} participants={participants} />)
     })
 
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-    const userElement = screen.getByText('User')
+    const userElement = screen.getByText('teacher1 teacher1')
     expect(userElement).toBeInTheDocument()
   })
 
   it('renders a file message with image', async () => {
     const fileMessage = {
       content: 'File: Image.jpg',
-      username: 'User',
+      user: '0',
       contentType: 'file',
       file: '12345' // Replace with a valid file ID
     }
@@ -58,7 +73,7 @@ describe('Messages Component', () => {
     )
 
     await act(async () => {
-      render(<Messages message={fileMessage} />)
+      render(<Messages message={fileMessage} participants={participants} />)
     })
 
     screen.debug()
@@ -72,7 +87,7 @@ describe('Messages Component', () => {
   it('handles fetch error', async () => {
     const fileMessage = {
       content: 'File: Image.jpg',
-      username: 'User',
+      user: '0',
       date: '0000',
       contentType: 'file',
       file: '12345'
@@ -82,10 +97,10 @@ describe('Messages Component', () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Fetch error')))
 
     await act(async () => {
-      render(<Messages message={fileMessage} />)
+      render(<Messages message={fileMessage} participants={participants} />)
     })
 
-    const dateElement = screen.getByText('0000')
+    const dateElement = screen.getByText('01/01/00 00:00')
     expect(dateElement).toBeInTheDocument()
 
     // Wait for the error message to appear
