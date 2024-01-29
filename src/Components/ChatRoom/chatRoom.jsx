@@ -75,9 +75,9 @@ const Messages = () => {
     }
 
     fetchMessages()
-    const intervalId = setInterval(fetchMessages, 1500);
+    const intervalId = setInterval(fetchMessages, 1500)
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId)
   }, [currentConversation])
 
   useEffect(() => {
