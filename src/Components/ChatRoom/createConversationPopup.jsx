@@ -21,9 +21,9 @@ const CreateConversationPopup = ({
         (contact) =>
           contact.firstname.toLowerCase().includes(inputValue.toLowerCase()) ||
           contact.lastname.toLowerCase().includes(inputValue.toLowerCase())
-      );
+      )
 
-      setFilteredContacts(filteredList);
+      setFilteredContacts(filteredList)
       setSearchId('')
       setSearchInput(e.target.value)
     }
