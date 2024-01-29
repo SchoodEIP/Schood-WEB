@@ -7,18 +7,37 @@ const CreateConversationPopup = ({
   isPopupOpen
 }) => {
   const [searchInput, setSearchInput] = useState('')
+  const [searchId, setSearchId] = useState('')
+  const [filteredContacts, setFilteredContacts] = useState(contacts)
 
   const handleSearchInputChange = (e) => {
-    setSearchInput(e.target.value)
+    const inputValue = e.target.value
+    const contact = contacts.find(item => item._id === inputValue)
+    if (contact) {
+      setSearchInput(contact.firstname + ' ' + contact.lastname)
+      setSearchId(e.target.value)
+    } else {
+      const filteredList = contacts.filter(
+        (contact) =>
+          contact.firstname.toLowerCase().includes(inputValue.toLowerCase()) ||
+          contact.lastname.toLowerCase().includes(inputValue.toLowerCase())
+      );
+
+      setFilteredContacts(filteredList);
+      setSearchId('')
+      setSearchInput(e.target.value)
+    }
+    if (inputValue) {
+      setFilteredContacts(contacts)
+    }
   }
 
   const handleCreateConversation = () => {
-    const newConversationName = searchInput.trim()
+    const newConversationName = searchId.trim()
     if (newConversationName === '') {
       return
     }
-    const contactId = document.getElementById('contact-input').value
-    createConversation(newConversationName, [contactId])
+    createConversation(newConversationName, [searchId])
     closeCreateConversationPopup()
   }
 
@@ -36,7 +55,7 @@ const CreateConversationPopup = ({
           onChange={handleSearchInputChange}
         />
         <datalist id='contact-list'>
-          {contacts.map((contact) => (
+          {filteredContacts.map((contact) => (
             <option key={contact._id} value={contact._id}>
               {contact.firstname + ' ' + contact.lastname}
             </option>
