@@ -210,3 +210,16 @@
   .active-conversation {
     background-color: #f5f8fa;
   }
+
+  .file-feedback-container {
+    background-color: #4f23e2;
+    color: #fff;
+    padding: 5px 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }

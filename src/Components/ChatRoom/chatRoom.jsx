@@ -259,6 +259,9 @@ const Messages = () => {
     }
   }
 
+  const handleClearFile = (e) => {
+    setFile(null)
+  }
   return (
     <div className='messaging-page'>
       <ChatRoomSidebar
@@ -281,6 +284,15 @@ const Messages = () => {
                 ))}
                 {error && <div className='error-message'>{error}</div>}
               </div>
+              {file
+                ? (
+                  <div className='file-feedback-container'>
+                    {file.name}
+                    <button className="send-button" onClick={handleClearFile}>X</button>
+                  </div>
+                  )
+                : null
+              }
               <div className='message-input'>
                 <input
                   type='text'
