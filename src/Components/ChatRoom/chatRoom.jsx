@@ -9,29 +9,30 @@ const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+  const fetchConversations = async () => {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
 
-      const data = await response.json()
-      const conversationData = data.map((conversation) => {
-        const firstParticipant = conversation.participants.find(item => item._id !== localStorage.getItem('id'))
-        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
-        return {
-          _id: conversation._id,
-          participants: conversation.participants,
-          name: convName
-        }
-      })
-      setCurrentConversation(conversationData[0])
-      setConversations(conversationData)
-    }
+    const data = await response.json()
+    const conversationData = data.map((conversation) => {
+      const firstParticipant = conversation.participants.find(item => item._id !== localStorage.getItem('id'))
+      const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
+      return {
+        _id: conversation._id,
+        participants: conversation.participants,
+        name: convName
+      }
+    })
+    setCurrentConversation(conversationData[conversationData.length - 1])
+    setConversations(conversationData)
+  }
+
+  useEffect(() => {
     fetchConversations()
   }, [])
 
@@ -229,12 +230,7 @@ const Messages = () => {
         throw new Error('Erreur lors de la création de la conversation.')
       }
 
-      const data = await response.json()
-      const newConversation = {
-        id: data._id,
-        name: conversationName
-      }
-      setConversations([...conversations, newConversation])
+      fetchConversations()
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la création de la conversation')
     }
