@@ -288,11 +288,10 @@ const Messages = () => {
                 ? (
                   <div className='file-feedback-container'>
                     {file.name}
-                    <button className="send-button" onClick={handleClearFile}>X</button>
+                    <button className='send-button' onClick={handleClearFile}>X</button>
                   </div>
                   )
-                : null
-              }
+                : null}
               <div className='message-input'>
                 <input
                   type='text'
