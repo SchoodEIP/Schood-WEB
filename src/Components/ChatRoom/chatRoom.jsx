@@ -44,38 +44,36 @@ const Messages = () => {
   const [file, setFile] = useState(null)
   const [fileType, setFileType] = useState('text')
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        if (!currentConversation) {
-          return
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
-          {
-            method: 'GET',
-            headers: {
-              'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        if (!response.ok) /* istanbul ignore next */ {
-          throw new Error('Erreur lors de la récupération des messages.')
-        }
-        const data = await response.json()
-        const messageData = data.map((message) => ({
-          contentType: !message.file ? 'text' : 'file',
-          ...message
-        }))
-        setMessages(messageData)
-      } catch (error) /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération des messages :', error)
+  const fetchMessages = async () => {
+    try {
+      if (!currentConversation) {
+        return
       }
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
+        {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      if (!response.ok) /* istanbul ignore next */ {
+        throw new Error('Erreur lors de la récupération des messages.')
+      }
+      const data = await response.json()
+      const messageData = data.map((message) => ({
+        contentType: !message.file ? 'text' : 'file',
+        ...message
+      }))
+      setMessages(messageData)
+    } catch (error) /* istanbul ignore next */ {
+      console.error('Erreur lors de la récupération des messages :', error)
     }
+  }
 
-    fetchMessages()
-  }, [currentConversation])
+  fetchMessages()
 
   useEffect(() => {
     const fetchContacts = async () => {
