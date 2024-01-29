@@ -294,7 +294,7 @@ describe('Messages Component', () => {
     })
 
     await act(async () => {
-      fireEvent.change(contactInput, {target: {value: "stu"}})
+      fireEvent.change(contactInput, { target: { value: 'stu' } })
     })
 
     await waitFor(() => {
@@ -302,7 +302,7 @@ describe('Messages Component', () => {
     })
 
     await act(async () => {
-      fireEvent.click(contactInput, {target: {value: "student1 student1"}})
+      fireEvent.click(contactInput, { target: { value: 'student1 student1' } })
     })
 
     await waitFor(() => {
