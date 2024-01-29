@@ -76,7 +76,7 @@ describe('Message Component', () => {
       render(<Message message={fileMessage} participants={participants} />)
     })
 
-    screen.debug()
+    // screen.debug()
 
     // Wait for the image to load
 

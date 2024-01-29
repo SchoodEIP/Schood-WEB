@@ -214,7 +214,7 @@ const Messages = () => {
     setShowCreateConversationPopup(false)
   }
 
-  const createConversation = async (conversationName, selectedContacts) => {
+  const createConversation = async (selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
       const participantsArray = [userId, selectedContacts[0]]
@@ -265,6 +265,7 @@ const Messages = () => {
   const handleClearFile = (e) => {
     setFile(null)
   }
+
   return (
     <div className='messaging-page'>
       <ChatRoomSidebar
