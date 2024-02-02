@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../../assets/schood.png'
 import PowerIcon2 from '../../assets/powerIcon2.png'
 import userIcon from '../../assets/userIcon.png'
@@ -19,7 +20,9 @@ export default function HeaderComp () {
           <img src={Logo} alt='logo' />
         </div>
         <div>
-          <img className='user-icon' src={userIcon} alt='User' />
+          <Link to='/profil' data-testid='profil' id='profil'>
+            <img className='user-icon' src={userIcon} alt='User' />
+          </Link>
           <a href='/login' data-testid='logout-button' id='logout-button' onClick={handleClickLogout}>
             <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
           </a>

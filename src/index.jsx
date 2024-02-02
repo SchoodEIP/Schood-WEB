@@ -13,6 +13,7 @@ import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
 import ChatRoomPage from './Users/Shared/chatRoomPage'
 import CreateAlert from './Users/Shared/createAlerts'
 import HelpPage from './Users/Shared/helpPage'
+import ProfilPage from './Users/Shared/profilPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
 import StudentStatPage from './Users/Student/statisticsStudent'
 import TeacherHomePage from './Users/Teacher/dashboardTeacher'
@@ -47,6 +48,7 @@ if (rootElement) {
               <Route path='/forgot' element={<Navigate to='/' replace />} />
               <Route path='/messages' element={<ChatRoomPage />} />
               <Route path='/alerts' element={<CreateAlert />} />
+              <Route path='/profil' element={<ProfilPage />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'admin' && (
@@ -56,6 +58,7 @@ if (rootElement) {
               <Route path='/aides' element={<AdmHelpPage />} />
               <Route path='/messages' element={<ChatRoomPage />} />
               <Route path='/alerts' element={<CreateAlert />} />
+              <Route path='/profil' element={<ProfilPage />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'administration' && (
@@ -66,6 +69,7 @@ if (rootElement) {
               <Route path='/messages' element={<ChatRoomPage />} />
               <Route path='/reports' element={<ReportChecking />} />
               <Route path='/alerts' element={<CreateAlert />} />
+              <Route path='/profil' element={<ProfilPage />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'student' && (
@@ -75,6 +79,7 @@ if (rootElement) {
               <Route path='/questionnaire/:id' element={<FormStudentPage />} />
               <Route path='/statistiques' element={<StudentStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
+              <Route path='/profil' element={<ProfilPage />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'teacher' && (
@@ -88,6 +93,7 @@ if (rootElement) {
               <Route path='/statistiques' element={<TeacherStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
               <Route path='/alerts' element={<CreateAlert />} />
+              <Route path='/profil' element={<ProfilPage />} />
             </>
           )}
           <Route path='*' element={<NoPage />} />
