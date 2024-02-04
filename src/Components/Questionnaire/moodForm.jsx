@@ -37,7 +37,7 @@ export function MoodForm () {
   const handleMood = (dailyMood) => {
     // setIsAnswered(true)
     // setDailyMood(dailyMood)
-    const mood = { mood: moods.indexOf(dailyMood)}
+    const mood = { mood: moods.indexOf(dailyMood) }
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
       method: 'POST',
