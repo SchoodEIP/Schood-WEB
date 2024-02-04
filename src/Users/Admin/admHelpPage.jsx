@@ -139,8 +139,8 @@ const AdmHelpPage = () => {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
 
     if (response.ok) {

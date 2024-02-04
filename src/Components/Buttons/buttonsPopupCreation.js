@@ -17,17 +17,19 @@ export default function ButtonsPopupCreation (props) {
         </button>
       </div>
       <div>
-        {props.isManyDisabled ? null : (
-          <button
-            className='account-pop-up-btn'
-            data-testid='many-account-btn'
-            id='many-account-btn'
-            onClick={props.handleManyAccounts}
-            style={{ backgroundColor: props.isOpenMany ? '#8c52ff' : '#4f23e2' }}
-          >
-            {props.manyContent}
-          </button>
-        )}
+        {props.isManyDisabled
+          ? null
+          : (
+            <button
+              className='account-pop-up-btn'
+              data-testid='many-account-btn'
+              id='many-account-btn'
+              onClick={props.handleManyAccounts}
+              style={{ backgroundColor: props.isOpenMany ? '#8c52ff' : '#4f23e2' }}
+            >
+              {props.manyContent}
+            </button>
+            )}
       </div>
     </div>
   )
