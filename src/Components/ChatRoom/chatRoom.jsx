@@ -19,13 +19,17 @@ const Messages = () => {
     })
 
     const data = await response.json()
+
     const conversationData = data.map((conversation) => {
-      const firstParticipant = conversation.participants.find(item => item._id !== localStorage.getItem('id'))
-      const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
+      const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
+      const convName = []
+      noUserParticipants.map((participant) => (
+        convName.push(participant.firstname + " " + participant.lastname)
+      ))
       return {
         _id: conversation._id,
         participants: conversation.participants,
-        name: convName
+        name: conversation.title !== "placeholder title" ? conversation.title : convName.join(', ')
       }
     })
     setCurrentConversation(conversationData[conversationData.length - 1])
@@ -214,10 +218,10 @@ const Messages = () => {
     setShowCreateConversationPopup(false)
   }
 
-  const createConversation = async (selectedContacts) => {
+  const createConversation = async (convTitle, selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
-      const participantsArray = [userId, selectedContacts[0]]
+      selectedContacts.unshift(userId)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -225,10 +229,10 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          participants: participantsArray
+          title: convTitle,
+          participants: selectedContacts
         })
       })
-
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
@@ -280,7 +284,7 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.name ? currentConversation.name.split(',')[0] : ''}</h2>
+              <h2>Conversation : {currentConversation.name ? currentConversation.name : ''}</h2>
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
