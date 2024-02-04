@@ -39,7 +39,9 @@ const CreateConversationPopup = ({
           <label>Rechercher un contact:</label>
           <Select
             isMulti
+            data-testid='select-contacts'
             id='select-contacts'
+            placeholder="Rechercher un contact"
             options={contacts}
             value={selectedContacts}
             onChange={handleSelectChange}
@@ -51,7 +53,7 @@ const CreateConversationPopup = ({
           <label>
             Donner un nom à la conversation:
           </label>
-          <input type='text' placeholder='nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+          <input type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
         </div>
         <button className='new-conversation-button' onClick={handleCreateConversation}>
           Créer la conversation
