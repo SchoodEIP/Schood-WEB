@@ -24,12 +24,13 @@ const Messages = () => {
       const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
       const convName = []
       noUserParticipants.map((participant) => (
-        convName.push(participant.firstname + ' ' + participant.lastname)
+        convName.push(participant.firstname + " " + participant.lastname)
       ))
       return {
         _id: conversation._id,
         participants: conversation.participants,
-        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
+        name: conversation.title !== "placeholder title" ? conversation.title : convName.join(', '),
+        currentParticipants: convName.join(', ')
       }
     })
     setCurrentConversation(conversationData[conversationData.length - 1])
@@ -285,6 +286,7 @@ const Messages = () => {
           ? (
             <div>
               <h2>Conversation : {currentConversation.name ? currentConversation.name : ''}</h2>
+              <p>{currentConversation.currentParticipants}</p>
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
