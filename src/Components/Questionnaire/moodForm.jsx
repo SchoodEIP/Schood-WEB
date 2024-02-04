@@ -14,7 +14,7 @@ export function MoodForm () {
   const moods = ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
@@ -24,9 +24,9 @@ export function MoodForm () {
       .then((data) => {
         setIsAnswered(false)
         setDailyMood('')
-        if (data.mood !== 0) {
+        if (data.mood) {
           setIsAnswered(true)
-          setDailyMood(moods[dailyMood.mood - 1])
+          setDailyMood(moods[data.mood])
         }
       })
       .catch((error) => /* istanbul ignore next */ {
@@ -34,23 +34,23 @@ export function MoodForm () {
       })
   }, [])
 
-  const handleMood = (mood) => {
-    setIsAnswered(true)
-    setDailyMood(mood)
+  const handleMood = (dailyMood) => {
+    // setIsAnswered(true)
+    // setDailyMood(dailyMood)
+    const mood = { mood: moods.indexOf(dailyMood)}
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
       method: 'POST',
       headers: {
-        'x-auth-token': sessionStorage.getItem('token')
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
       },
-      body: {
-        dailyMood: moods.indexOf(dailyMood)
-      }
+      body: JSON.stringify(mood)
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsAnswered(data.moodStatus)
-        setDailyMood(data.mood)
+      // .then((response) => response.json())
+      .then((response) => {
+        setIsAnswered(true)
+        setDailyMood(dailyMood)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error(error)
