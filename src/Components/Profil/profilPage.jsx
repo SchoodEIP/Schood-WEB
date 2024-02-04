@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import '../../css/pages/profilPage.scss';
+import React, { useEffect, useState } from 'react'
+import '../../css/pages/profilPage.scss'
 
 const ProfilPage = () => {
-  const [userProfile, setUserProfile] = useState({});
-  const [negativeResponse, setNegativeResponse] = useState('');
+  const [userProfile, setUserProfile] = useState({})
+  const [negativeResponse, setNegativeResponse] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,27 +12,27 @@ const ProfilPage = () => {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json',
-          },
-        });
+            'Content-Type': 'application/json'
+          }
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`)
         }
 
-        const data = await response.json();
-        setUserProfile(data);
+        const data = await response.json()
+        setUserProfile(data)
       } catch (error) {
-        setNegativeResponse('Erreur lors de la récupération du profil', error.message);
+        setNegativeResponse('Erreur lors de la récupération du profil', error.message)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   return (
     <div>
-      {negativeResponse && <p className="error-message">{negativeResponse}</p>}
+      {negativeResponse && <p className='error-message'>{negativeResponse}</p>}
       <div className='profil-page'>
         <h1>Profil utilisateur</h1>
         <ul>
@@ -41,7 +41,7 @@ const ProfilPage = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfilPage;
+export default ProfilPage

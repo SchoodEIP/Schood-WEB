@@ -5,21 +5,21 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import '../../css/pages/profilPage.scss'
 
 const ProfilPage = () => {
-    return (
+  return (
+    <div>
       <div>
+        <HeaderComp />
+      </div>
+      <div className='different-page-content'>
         <div>
-          <HeaderComp />
+          <Sidebar />
         </div>
-        <div className='different-page-content'>
-          <div>
-            <Sidebar />
-          </div>
-          <div className='left-half'>
-            <div><Profil /></div>
-          </div>
+        <div className='left-half'>
+          <div><Profil /></div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
 export default ProfilPage
