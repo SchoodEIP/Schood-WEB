@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Select from 'react-select';
+import Select from 'react-select'
 
 const CreateConversationPopup = ({
   contacts,
@@ -7,7 +7,7 @@ const CreateConversationPopup = ({
   closeCreateConversationPopup,
   isPopupOpen
 }) => {
-  const [selectedContacts, setSelectedContacts] = useState([]);
+  const [selectedContacts, setSelectedContacts] = useState([])
   const [convTitle, setConvTitle] = useState('')
 
   const handleCreateConversation = () => {
@@ -18,18 +18,18 @@ const CreateConversationPopup = ({
     if (ids.length === 0) {
       return
     }
-    const title = convTitle !== '' ? convTitle : "placeholder title"
+    const title = convTitle !== '' ? convTitle : 'placeholder title'
     createConversation(title, ids)
     closeCreateConversationPopup()
   }
 
   const handleSelectChange = (selected) => {
-    setSelectedContacts(selected);
-  };
+    setSelectedContacts(selected)
+  }
 
   const handleSetConvTitle = (e) => {
-    setConvTitle(e.target.value);
-  };
+    setConvTitle(e.target.value)
+  }
 
   return (
     <div>
@@ -38,16 +38,16 @@ const CreateConversationPopup = ({
         <label>
           Renommer la conversation:
         </label>
-        <input type="text" placeholder="" value={convTitle} onChange={handleSetConvTitle}/>
+        <input type='text' placeholder='' value={convTitle} onChange={handleSetConvTitle} />
         <label htmlFor='contact-input'>Rechercher un contact:</label>
         <Select
           isMulti
-          id="select-contacts"
+          id='select-contacts'
           options={contacts}
           value={selectedContacts}
           onChange={handleSelectChange}
           getOptionValue={(option) => option._id}
-          getOptionLabel={(option) => (option.firstname + " " + option.lastname)}
+          getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
 
         <button className='new-conversation-button' onClick={handleCreateConversation}>
