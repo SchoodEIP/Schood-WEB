@@ -41,7 +41,7 @@ const CreateConversationPopup = ({
             isMulti
             data-testid='select-contacts'
             id='select-contacts'
-            placeholder="Rechercher un contact"
+            placeholder='Rechercher un contact'
             options={contacts}
             value={selectedContacts}
             onChange={handleSelectChange}
