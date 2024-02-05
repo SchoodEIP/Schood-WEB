@@ -1,18 +1,28 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom' // Ajoutez cette ligne
+
 import HeaderComp from '../../../Components/Header/headerComp'
 
 describe('HeaderComp', () => {
   test('should render logo and user icon', () => {
-    render(<HeaderComp />)
+    render(
+      <MemoryRouter>
+        <HeaderComp />
+      </MemoryRouter>
+    )
     const logo = screen.getByAltText('logo')
-    const userIcon = screen.getByAltText('User')
+    const userIcon = screen.getByTestId('profil')
     expect(logo).toBeInTheDocument()
     expect(userIcon).toBeInTheDocument()
   })
 
   test('should empty localStorage and sessionStorage', async () => {
-    render(<HeaderComp />)
+    render(
+      <MemoryRouter>
+        <HeaderComp />
+      </MemoryRouter>
+    )
     const logout = screen.getByTestId('logout-button')
     expect(logout.tagName).toBe('A')
 
@@ -25,7 +35,7 @@ describe('HeaderComp', () => {
     expect(window.sessionStorage.getItem('token')).toBe('falseToken')
     expect(window.sessionStorage.getItem('role')).toBe('admin')
 
-    fireEvent.click(screen.getByAltText('Disconnect'))
+    fireEvent.click(screen.getByTestId('logout-button'))
 
     expect(window.localStorage.getItem('token')).toBe(null)
     expect(window.localStorage.getItem('role')).toBe(null)
