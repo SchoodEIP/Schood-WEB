@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('MoodForm Component', () => {
-  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`
+  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`
 
   beforeEach(() => {
     fetchMock.reset()
