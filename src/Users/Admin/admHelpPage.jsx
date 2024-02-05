@@ -1,9 +1,8 @@
+import React, { useState, useEffect } from 'react'
 import '../../css/pages/homePage.css'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
-import AidePage from '../../Components/Aides/aides'
 import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
-import { React, useState, useEffect } from 'react'
 import Popup from '../../Components/Popup/popup'
 
 const AdmHelpPage = () => {
@@ -16,42 +15,46 @@ const AdmHelpPage = () => {
   const [telephone, setTelephone] = useState('')
   const [description, setDescription] = useState('')
   const [categories, setCategories] = useState([])
+  const [contacts, setContacts] = useState([])
+  const [filteredContacts, setFilteredContacts] = useState([])
 
   useEffect(() => {
-    const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
-    fetch(categoryUrl, {
-      method: 'GET',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    }).then(response => response.json())
-      .then(data => {
-        setCategories(data)
-        setCategoryID(data[0]._id)
-      })
-      .catch(error => setErrMessage(error.message))
-  }, [])
+    const fetchData = async () => {
+      try {
+        const categoriesData = await fetchUpdatedCategories()
+        setCategories(categoriesData)
+        setCategoryID(categoriesData.length > 0 ? categoriesData[0]._id : '')
 
-  const handleCategoryPopup = () => {
+        const helpNumbersData = await fetchHelpNumbers()
+        setContacts(helpNumbersData)
+        setFilteredContacts(helpNumbersData)
+      } catch (error) {
+        setErrMessage(error.message)
+      }
+    }
+
+    fetchData()
+  }, [isOpenCategory])
+
+  const handleCategoryPopup = async () => {
     setIsOpenCategory(!isOpenCategory)
     setErrMessage('')
     setName('')
     if (isOpenNumber) {
-      setIsOpenNumber(!isOpenNumber)
+      setIsOpenNumber(false)
     }
   }
 
-  const handleNumberPopup = () => {
+  const handleNumberPopup = async () => {
     setIsOpenNumber(!isOpenNumber)
     setErrMessage('')
     setName('')
-    setCategoryID(categories[0]._id)
+    setCategoryID(categories.length > 0 ? categories[0]._id : '')
     setEmail('')
     setTelephone('')
     setDescription('')
     if (isOpenCategory) {
-      setIsOpenCategory(!isOpenCategory)
+      setIsOpenCategory(false)
     }
   }
 
@@ -75,9 +78,87 @@ const AdmHelpPage = () => {
     setCategoryID(event.target.value)
   }
 
-  const categoryCreation = async (event) => {
+  const categoryCreation = async () => {
+    try {
+      const response = await fetchCategoryRegister()
+      if (response.ok) {
+        setErrMessage('Catégorie créée avec succès')
+        handleCategoryPopup()
+        fetchData()
+      } else {
+        const data = await response.json()
+        setErrMessage(data.message)
+      }
+    } catch (error) {
+      setErrMessage(error.message)
+    }
+  }
+
+  const helpNumberCreation = async () => {
+    try {
+      if (!/^\d{10}$/.test(telephone)) {
+        setErrMessage('Veuillez fournir un numéro de téléphone valide (10 chiffres).')
+        return
+      }
+
+      const response = await fetchHelpNumberRegister()
+      if (response.ok) {
+        setErrMessage("Numéro d'aide créé avec succès")
+        handleNumberPopup()
+        fetchData()
+      } else {
+        const data = await response.json()
+        setErrMessage(data.message)
+      }
+    } catch (error) {
+      setErrMessage(error.message)
+    }
+  }
+
+  const fetchUpdatedCategories = async () => {
+    const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
+    const response = await fetch(categoryUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      return data
+    } else {
+      throw new Error('Erreur lors de la récupération des catégories.')
+    }
+  }
+
+  const fetchHelpNumbers = async () => {
+    const helpNumbersUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
+    const response = await fetch(helpNumbersUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      return data
+    } else {
+      throw new Error('Erreur lors de la récupération des numéros d\'aide.')
+    }
+  }
+
+  const filterContactsByCategory = (category) => {
+    const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
+    setFilteredContacts(filtered)
+  }
+
+  const fetchCategoryRegister = async () => {
     const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumbersCategory/register'
-    const response = await fetch(categoryRegisterUrl, {
+    return fetch(categoryRegisterUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,19 +168,25 @@ const AdmHelpPage = () => {
         name
       })
     })
-    if (response.status === 200) {
-      setErrMessage('Catégorie créée avec succès')
-    } else {
-      const data = response.json()
+  }
 
-      setErrMessage(data.message)
+  const fetchData = async () => {
+    try {
+      const categoriesData = await fetchUpdatedCategories()
+      setCategories(categoriesData)
+      setCategoryID(categoriesData.length > 0 ? categoriesData[0]._id : '')
+
+      const helpNumbersData = await fetchHelpNumbers()
+      setContacts(helpNumbersData)
+      setFilteredContacts(helpNumbersData)
+    } catch (error) {
+      setErrMessage(error.message)
     }
   }
 
-  const helpNumberCreation = async (event) => {
+  const fetchHelpNumberRegister = async () => {
     const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumber/register'
-
-    const response = await fetch(helpNumberRegisterUrl, {
+    return fetch(helpNumberRegisterUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -113,27 +200,44 @@ const AdmHelpPage = () => {
         description
       })
     })
-    if (response.status === 200) {
-      setErrMessage("Numéro d'aide créé avec succès")
-    } else {
-      const data = response.json()
-
-      setErrMessage(data.message)
-    }
   }
 
   return (
     <div className='dashboard'>
-      <div>
-        <HeaderComp />
-      </div>
+      <HeaderComp />
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
+        <Sidebar />
         <div className='left-half'>
-          <div>
-            <AidePage />
+          <div className='aide-page'>
+            <header>Numéros de Contact</header>
+            <p>{errMessage || ''}</p>
+            <div className='categories-section'>
+              <h2>Catégories</h2>
+              <ul>
+                {categories.map((category) => (
+                  <li key={category._id}>
+                    <button data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
+                      {category.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className='contacts-section'>
+              <h2>Numéros de Contact</h2>
+              <ul>
+                {filteredContacts.map((contact) => (
+                  <li key={contact._id}>
+                    <strong>Nom: </strong><span>{contact.name}</span><br />
+                    <strong>Numéro: </strong><span>{contact.telephone}</span><br />
+                    <strong>Email: </strong><span>{contact.email}</span><br />
+                    <strong>Description: </strong><span>{contact.description}</span><br />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className='clearfix' />
           </div>
         </div>
         <div className='right-half'>
@@ -144,11 +248,12 @@ const AdmHelpPage = () => {
             handleManyAccounts={handleNumberPopup}
             singleContent='Ajouter une Catégorie'
             manyContent='Ajouter un Contact'
+            isManyDisabled={categories.length === 0}
           />
         </div>
       </div>
-      {
-        isOpenCategory && <Popup
+      {isOpenCategory && (
+        <Popup
           handleClose={handleCategoryPopup}
           title='Ajouter une nouvelle Catégorie'
           errMessage={errMessage}
@@ -159,10 +264,10 @@ const AdmHelpPage = () => {
               <input className='pop-input' name='name' placeholder='Nom' onChange={handleNameChange} />
             </div>
           }
-                          />
-      }
-      {
-        isOpenNumber && <Popup
+        />
+      )}
+      {isOpenNumber && categories.length > 0 && (
+        <Popup
           handleClose={handleNumberPopup}
           title='Ajouter un nouveau Contact'
           errMessage={errMessage}
@@ -183,8 +288,8 @@ const AdmHelpPage = () => {
               <textarea className='pop-input' name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
             </form>
           }
-                        />
-      }
+        />
+      )}
     </div>
   )
 }

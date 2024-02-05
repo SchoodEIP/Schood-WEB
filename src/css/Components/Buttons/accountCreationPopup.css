@@ -7,3 +7,9 @@
     font-size: large;
     margin-bottom: 1.5rem;
 }
+
+.account-pop-up-btn:disabled {
+    background-color: #999; /* Couleur de fond pour le bouton désactivé */
+    color: #666; /* Couleur du texte pour le bouton désactivé */
+    /* Autres styles souhaités pour le bouton désactivé */
+  }
