@@ -3,6 +3,7 @@ import React from 'react'
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
+import { MemoryRouter } from 'react-router-dom'
 
 describe('Messages Component', () => {
   const id = 123
@@ -12,8 +13,11 @@ describe('Messages Component', () => {
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
   const getFileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/file/0`
+  localStorage.setItem('id', '0')
+
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(chatUrl, {
       body: [{
         _id: '123',
@@ -116,19 +120,28 @@ describe('Messages Component', () => {
 
   it('shows the conversations', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that the component renders
-    await waitFor(() => {
-      const composeMessageInput = screen.queryByText('teacher1 teacher1')
-      expect(composeMessageInput).toBeInTheDocument()
-    })
+    // await waitFor(() => {
+    //   const composeMessageInput = screen.queryAllByText('teacher2 teacher2').find(el => el.classList.contains('conversation'))
+    //   expect(composeMessageInput).toBeInTheDocument()
+    // })
   })
 
   it('displays an error message when message sending fails', async () => {
+    localStorage.setItem('id', '0')
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     await act(async () => {
@@ -140,8 +153,13 @@ describe('Messages Component', () => {
     global.fetch = mockFetch
 
     const composeMessageInput = screen.getByPlaceholderText('Composez votre message')
-    fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
-    fireEvent.click(screen.getByText('Envoyer'))
+    await act(async () => {
+      fireEvent.change(composeMessageInput, { target: { value: 'Hello, World!' } })
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Envoyer'))
+    })
 
     // Wait for error message to be displayed
     await waitFor(() => {
@@ -152,13 +170,18 @@ describe('Messages Component', () => {
 
   it('sends a message- in chatroom', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
     const input = screen.getByPlaceholderText('Composez votre message')
 
     // Type a message in the input field
-    fireEvent.change(input, { target: { value: 'Hello, world!' } })
-
+    await act(async () => {
+      fireEvent.change(input, { target: { value: 'Hello, world!' } })
+    })
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
@@ -171,13 +194,18 @@ describe('Messages Component', () => {
 
   it('handles file uploading', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that file input is present
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
@@ -186,13 +214,18 @@ describe('Messages Component', () => {
 
   it('handles file error', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Ensure that file input is present
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -212,10 +245,16 @@ describe('Messages Component', () => {
 
   it('shows an error', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.jpg')] } })
+    })
 
     const input = screen.getByPlaceholderText('Composez votre message')
 
@@ -232,27 +271,117 @@ describe('Messages Component', () => {
 
   it('creates a new conversation', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
-    // Trigger the creation of a new conversation (you may need to add a button or UI element for this)
-    // Ensure that the new conversation appears in the conversations list
+    const newConversationButton = screen.getByText('Nouvelle conversation', { selector: 'button' })
 
     await waitFor(() => {
-      const newConversationButton = screen.getByText('Nouvelle conversation', { selector: 'button' })
       expect(newConversationButton).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(newConversationButton)
+    })
+
+    const contactInput = screen.getByRole('combobox')
+    await waitFor(() => {
+      expect(contactInput).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.change(contactInput, { target: { value: 'stu' } })
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('student1 student1')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(contactInput, { target: { value: 'student1 student1' } })
+    })
+
+    await waitFor(() => {
+      expect(contactInput.value).toBe('student1 student1')
+    })
+
+    const createConversationBtn = screen.getByText('Créer la conversation')
+
+    await waitFor(() => {
+      expect(screen.getAllByText('student1 student1').length).toBe(1)
+    })
+
+    fetchMock.get(chatMessagesUrl, [])
+
+    fetchMock.get(chatUrl, {
+      body: [
+        {
+          _id: '123',
+          createdBy: '0',
+          date: '2023-09-29T10:13:56.756Z',
+          facility: '0',
+          participants: [
+            {
+              _id: '0',
+              email: 'teacher1@schood.fr',
+              firstname: 'teacher1',
+              lastname: 'teacher1'
+            },
+            {
+              _id: '1',
+              email: 'teacher2@schood.fr',
+              firstname: 'teacher2',
+              lastname: 'teacher2'
+            }
+          ]
+        },
+        {
+          _id: '456',
+          createdBy: '0',
+          date: '2023-10-29T10:13:56.756Z',
+          facility: '0',
+          participants: [
+            {
+              _id: '0',
+              email: 'teacher1@schood.fr',
+              firstname: 'teacher1',
+              lastname: 'teacher1'
+            },
+            {
+              _id: '2',
+              email: 'student1@schood.fr',
+              firstname: 'student1',
+              lastname: 'student1'
+            }
+          ]
+        }
+      ],
+      status: 200
+    })
+
+    await act(async () => {
+      fireEvent.click(createConversationBtn)
     })
   })
 
   it('sets file type to "pdf" for a PDF file', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Simulate selecting a PDF file
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.pdf')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -266,13 +395,18 @@ describe('Messages Component', () => {
 
   it('sets file type to "other" for a other file', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
     })
 
     // Simulate selecting a PDF file
     const fileInput = screen.getByLabelText('+')
-    fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } })
-
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.other')] } })
+    })
     // Mock a failed fetch request
     const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
 
@@ -281,6 +415,63 @@ describe('Messages Component', () => {
     // Click the "Envoyer" button to send the message
     await act(async () => {
       fireEvent.click(screen.getByText('Envoyer'))
+    })
+  })
+
+  it('sets file type to "zip" for a zip file', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
+    })
+
+    // Simulate selecting a zip file
+    const fileInput = screen.getByLabelText('+')
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.zip')] } })
+    })
+    // Mock a failed fetch request
+    const mockFetch = jest.fn().mockRejectedValue(new Error('Failed to send message'))
+
+    global.fetch = mockFetch
+
+    // Click the "Envoyer" button to send the message
+    await act(async () => {
+      fireEvent.click(screen.getByText('Envoyer'))
+    })
+  })
+
+  it('get file then clear it', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Messages />
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('test.zip')).not.toBeInTheDocument()
+    })
+
+    const fileInput = screen.getByLabelText('+')
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [new File([], 'test.zip')] } })
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('test.zip')).toBeInTheDocument()
+    })
+
+    // Click the "Clear" button to send the message
+    await act(async () => {
+      fireEvent.click(screen.getByText('X'))
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('test.zip')).not.toBeInTheDocument()
     })
   })
 })

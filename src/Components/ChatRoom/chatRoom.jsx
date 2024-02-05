@@ -9,28 +9,35 @@ const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+  const fetchConversations = async () => {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
 
-      const data = await response.json()
-      setCurrentConversation(data[0])
-      const conversationData = data.map((conversation) => {
-        const firstParticipant = conversation.participants[0]
-        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
-        return {
-          _id: conversation._id,
-          name: convName
-        }
-      })
-      setConversations(conversationData)
-    }
+    const data = await response.json()
+
+    const conversationData = data.map((conversation) => {
+      const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
+      const convName = []
+      noUserParticipants.map((participant) => (
+        convName.push(participant.firstname + ' ' + participant.lastname)
+      ))
+      return {
+        _id: conversation._id,
+        participants: conversation.participants,
+        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', '),
+        currentParticipants: convName.join(', ')
+      }
+    })
+    setCurrentConversation(conversationData[conversationData.length - 1])
+    setConversations(conversationData)
+  }
+
+  useEffect(() => {
     fetchConversations()
   }, [])
 
@@ -73,6 +80,9 @@ const Messages = () => {
     }
 
     fetchMessages()
+    const intervalId = setInterval(fetchMessages, 1500)
+
+    return () => clearInterval(intervalId)
   }, [currentConversation])
 
   useEffect(() => {
@@ -105,7 +115,7 @@ const Messages = () => {
 
     const currentTime = new Date()
     const messageData = {
-      username: 'User',
+      user: localStorage.getItem('id'),
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
@@ -157,7 +167,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
@@ -176,7 +186,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
@@ -209,10 +219,10 @@ const Messages = () => {
     setShowCreateConversationPopup(false)
   }
 
-  const createConversation = async (conversationName, selectedContacts) => {
+  const createConversation = async (convTitle, selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
-      const participantsArray = [userId, selectedContacts[0]]
+      selectedContacts.unshift(userId)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -220,20 +230,15 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          participants: participantsArray
+          title: convTitle,
+          participants: selectedContacts
         })
       })
-
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
 
-      const data = await response.json()
-      const newConversation = {
-        id: data._id,
-        name: conversationName
-      }
-      setConversations([...conversations, newConversation])
+      fetchConversations()
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la création de la conversation')
     }
@@ -262,6 +267,10 @@ const Messages = () => {
     }
   }
 
+  const handleClearFile = (e) => {
+    setFile(null)
+  }
+
   return (
     <div className='messaging-page'>
       <ChatRoomSidebar
@@ -276,14 +285,23 @@ const Messages = () => {
         {currentConversation
           ? (
             <div>
-              <h2>Conversation : {currentConversation.name ? currentConversation.name.split(',')[0] : ''}</h2>
+              <h2>Conversation : {currentConversation.name ? currentConversation.name : ''}</h2>
+              <p>{currentConversation.currentParticipants}</p>
               <ReportButton currentConversation={currentConversation} />
               <div className='message-list'>
                 {messages.map((message, index) => (
-                  <Message key={index} message={message} />
+                  <Message key={index} message={message} participants={currentConversation.participants} />
                 ))}
                 {error && <div className='error-message'>{error}</div>}
               </div>
+              {file
+                ? (
+                  <div className='file-feedback-container'>
+                    {file.name}
+                    <button className='send-button' onClick={handleClearFile}>X</button>
+                  </div>
+                  )
+                : null}
               <div className='message-input'>
                 <input
                   type='text'
