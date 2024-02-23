@@ -20,17 +20,16 @@ export const WebsocketProvider = ({ children }) => {
     unseenChats: []
   })
   const ws = useRef(null)
-  
+
   const parser = () => {
     if (!val) return
-    
+
     switch (val.method) {
       case 'newChat':
         setChats({ ...chats, notified: true, newChat: true })
         break
       case 'messageChat':
-        if (val.data && !chats.unseenChats.includes(val.data))
-          setChats({ ...chats, notified: true, unseenChats: [...chats.unseenChats, val.data] })
+        if (val.data && !chats.unseenChats.includes(val.data)) { setChats({ ...chats, notified: true, unseenChats: [...chats.unseenChats, val.data] }) }
         break
       default:
         break
@@ -40,7 +39,7 @@ export const WebsocketProvider = ({ children }) => {
   useEffect(() => {
     const id = localStorage.getItem('id')
     if (!id) return
-    
+
     const socket = new WebSocket(process.env.REACT_APP_WS_URL) // eslint-disable-line
 
     socket.onopen = () => setIsReady(true)
@@ -53,12 +52,12 @@ export const WebsocketProvider = ({ children }) => {
       socket.close()
     }
   }, [])
-  
+
   useEffect(() => {
     if (isReady) sendMessage('login', { userId: localStorage.getItem('id') })
   }, [isReady])
-  
-  useEffect(parser, [val]);
+
+  useEffect(parser, [val])
 
   /**
    * Function to send a message via websocket
@@ -72,10 +71,10 @@ export const WebsocketProvider = ({ children }) => {
       ws.current?.send.bind(ws.current)(JSON.stringify({ method, data }))
     }
   }
-  
+
   const removeChatFromUnseen = (chatId) => {
     if (chats.unseenChats.includes(chatId)) {
-      setChats({...chats, unseenChats: chats.unseenChats.filter(chat => chat !== chatId)})
+      setChats({ ...chats, unseenChats: chats.unseenChats.filter(chat => chat !== chatId) })
     }
   }
 

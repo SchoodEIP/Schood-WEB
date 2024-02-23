@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {Link, useLocation} from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
-import {WebsocketContext} from "../../contexts/websocket";
+import { WebsocketContext } from '../../contexts/websocket'
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
@@ -23,9 +23,9 @@ export default function Sidebar () {
       }
     }
   }
-  
+
   useEffect(handleNotifications, [chats.value.notified, chats.value.unseenChats])
-  
+
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed)
   }
@@ -85,7 +85,7 @@ export default function Sidebar () {
                   <span className='sidebar-menu-item-icon'>
                     {
                       (notification.message && page.id === 'messages') &&
-                      <div className="sidebar-menu-item-icon-notification" />
+                        <div className='sidebar-menu-item-icon-notification' />
                     }
                     {isCollapsed ? page.icon : <span>{page.icon}</span>}
                   </span>

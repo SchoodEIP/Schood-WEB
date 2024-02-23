@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
 import Message from './message'
 import ReportButton from './reportButton'
-import {WebsocketContext} from "../../contexts/websocket";
+import { WebsocketContext } from '../../contexts/websocket'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
-  
+
   const fetchConversations = async (changeConversation = true) => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
       method: 'GET',
@@ -21,7 +21,7 @@ const Messages = () => {
     })
 
     const data = await response.json()
-  
+
     const conversationData = data.map((conversation) => {
       const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
       const convName = []
@@ -35,11 +35,10 @@ const Messages = () => {
         currentParticipants: convName.join(', ')
       }
     })
-    if (currentConversation === '' || changeConversation)
-      setCurrentConversation(conversationData[conversationData.length - 1])
+    if (currentConversation === '' || changeConversation) { setCurrentConversation(conversationData[conversationData.length - 1]) }
     setConversations(conversationData)
   }
-  
+
   const fetchMessages = async () => {
     try {
       if (!currentConversation) {
@@ -68,10 +67,10 @@ const Messages = () => {
       console.error('Erreur lors de la récupération des messages :', error)
     }
   }
-  
+
   useEffect(() => {
     if (chats.value.unseenChats.includes(currentConversation._id)) fetchMessages()
-  }, [chats.value.unseenChats]);
+  }, [chats.value.unseenChats])
 
   useEffect(() => {
     fetchConversations(!chats.value.newChat)
@@ -245,7 +244,7 @@ const Messages = () => {
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
-      
+
       send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
       fetchConversations()
     } catch (error) /* istanbul ignore next */ {
