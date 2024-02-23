@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
 import Message from './message'
 import ReportButton from './reportButton'
+import {WebsocketContext} from "../../contexts/websocket";
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
-
-  const fetchConversations = async () => {
+  const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
+  
+  const fetchConversations = async (changeConversation = true) => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
       method: 'GET',
       headers: {
@@ -19,7 +21,7 @@ const Messages = () => {
     })
 
     const data = await response.json()
-
+  
     const conversationData = data.map((conversation) => {
       const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
       const convName = []
@@ -33,13 +35,47 @@ const Messages = () => {
         currentParticipants: convName.join(', ')
       }
     })
-    setCurrentConversation(conversationData[conversationData.length - 1])
+    if (currentConversation === '' || changeConversation)
+      setCurrentConversation(conversationData[conversationData.length - 1])
     setConversations(conversationData)
   }
+  
+  const fetchMessages = async () => {
+    try {
+      if (!currentConversation) {
+        return
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
+        {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      if (!response.ok) /* istanbul ignore next */ {
+        throw new Error('Erreur lors de la récupération des messages.')
+      }
+      const data = await response.json()
+      const messageData = data.map((message) => ({
+        contentType: !message.file ? 'text' : 'file',
+        ...message
+      }))
+      setMessages(messageData)
+    } catch (error) /* istanbul ignore next */ {
+      console.error('Erreur lors de la récupération des messages :', error)
+    }
+  }
+  
+  useEffect(() => {
+    if (chats.value.unseenChats.includes(currentConversation._id)) fetchMessages()
+  }, [chats.value.unseenChats]);
 
   useEffect(() => {
-    fetchConversations()
-  }, [])
+    fetchConversations(!chats.value.newChat)
+  }, [chats.value.newChat])
 
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
@@ -50,39 +86,7 @@ const Messages = () => {
   const [fileType, setFileType] = useState('text')
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        if (!currentConversation) {
-          return
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
-          {
-            method: 'GET',
-            headers: {
-              'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        if (!response.ok) /* istanbul ignore next */ {
-          throw new Error('Erreur lors de la récupération des messages.')
-        }
-        const data = await response.json()
-        const messageData = data.map((message) => ({
-          contentType: !message.file ? 'text' : 'file',
-          ...message
-        }))
-        setMessages(messageData)
-      } catch (error) /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération des messages :', error)
-      }
-    }
-
     fetchMessages()
-    const intervalId = setInterval(fetchMessages, 1500)
-
-    return () => clearInterval(intervalId)
   }, [currentConversation])
 
   useEffect(() => {
@@ -144,6 +148,8 @@ const Messages = () => {
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
+        } else {
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       } else {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
@@ -159,6 +165,8 @@ const Messages = () => {
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
+        } else {
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       }
 
@@ -237,7 +245,8 @@ const Messages = () => {
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
-
+      
+      send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
       fetchConversations()
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la création de la conversation')

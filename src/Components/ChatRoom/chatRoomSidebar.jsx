@@ -1,3 +1,6 @@
+import {WebsocketContext} from "../../contexts/websocket";
+import React, {useContext, useEffect} from "react";
+
 const ChatRoomSidebar = ({
   conversations,
   currentConversation,
@@ -5,6 +8,12 @@ const ChatRoomSidebar = ({
   clearMessageAndError,
   openCreateConversationPopup
 }) => {
+  const { chats } = useContext(WebsocketContext)
+  
+  useEffect(() => {
+    chats.removeChatFromUnseen(currentConversation._id)
+  }, [chats.value.notified, chats.value.unseenChats, currentConversation]);
+
   const handleClick = (conversation) => {
     setCurrentConversation(conversation)
     clearMessageAndError()
@@ -19,7 +28,10 @@ const ChatRoomSidebar = ({
             key={index}
             className={`conversation ${conversation === currentConversation ? 'active-conversation' : ''}`}
             onClick={() => handleClick(conversation)}
-          >
+          >{
+            (chats.value.unseenChats.includes(conversation._id)) &&
+            <div className="conversation-notification" />
+          }
             {conversation.name}
           </div>
         ))}
