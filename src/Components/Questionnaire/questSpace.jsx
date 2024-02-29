@@ -26,12 +26,6 @@ export function QuestSpace () {
       const endOfWeek = new Date(startOfWeek);
       endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-      console.log('start of week', startOfWeek)
-      console.log('current date', currentDate)
-      console.log('end of week', endOfWeek)
-      console.log('actual date', checkDate)
-      console.log(checkDate >= startOfWeek && checkDate <= endOfWeek)
-
       return checkDate >= startOfWeek && checkDate <= endOfWeek;
     }
 
@@ -47,7 +41,7 @@ export function QuestSpace () {
 
       const endOfPreviousWeek = new Date(startOfPreviousWeek);
       endOfPreviousWeek.setDate(startOfPreviousWeek.getDate() + 6);
-      console.log(checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek)
+
       return checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek;
     }
 
@@ -60,7 +54,6 @@ export function QuestSpace () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         setCurrentQuestStatus(data.q1)
         setPreviousQuestStatus(data.q2)
       })
@@ -77,9 +70,7 @@ export function QuestSpace () {
       })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         if (data.length > 0) {
-          console.log(isDateInCurrentWeek(data[0].fromDate))
           if (isDateInCurrentWeek(data[0].fromDate)) {
             setCurrentQuestUrl(`/questionnaire/${data[0]._id}`);
           } else if (isDateInPreviousWeek(data[0].fromDate)) {
