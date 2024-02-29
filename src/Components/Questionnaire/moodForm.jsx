@@ -13,7 +13,7 @@ export function MoodForm () {
   }
 
   const setMoods = () => {
-    return ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood'];
+    return ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
   }
 
   const moods = useMemo(() => setMoods(), [])

@@ -15,41 +15,41 @@ describe('Dashboard Student component', () => {
     {
       classes: [
         {
-          name: "200",
+          name: '200',
           __v: 0,
-          _id: "65e0e4477c0cc03bd4999ebd"
+          _id: '65e0e4477c0cc03bd4999ebd'
         },
         {
-          name: "201",
+          name: '201',
           __v: 0,
-          _id: "65e0e4477c0cc03bd4999ebf"
+          _id: '65e0e4477c0cc03bd4999ebf'
         }
       ],
-      facility: "65e0e4477c0cc03bd4999eb7",
-      fromDate: "2024-02-19T00:00:00.000Z",
-      title: "Questionnaire Français",
-      toDate: "2024-02-25T00:00:00.000Z",
-      _id: "id1"
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-19T00:00:00.000Z',
+      title: 'Questionnaire Français',
+      toDate: '2024-02-25T00:00:00.000Z',
+      _id: 'id1'
     },
     {
       classes: [
         {
-          name: "200",
+          name: '200',
           __v: 0,
-          _id: "65e0e4477c0cc03bd4999ebd"
+          _id: '65e0e4477c0cc03bd4999ebd'
         }
       ],
-      facility: "65e0e4477c0cc03bd4999eb7",
-      fromDate: "2024-02-26T00:00:00.000Z",
-      title: "Questionnaire Mathématique",
-      toDate: "2024-03-03T00:00:00.000Z",
-      _id: "id2"
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-26T00:00:00.000Z',
+      title: 'Questionnaire Mathématique',
+      toDate: '2024-03-03T00:00:00.000Z',
+      _id: 'id2'
     }
-  ];
+  ]
 
   const statusTwoResult = {
     q1: 100,
-    q2: 50,
+    q2: 50
   }
 
   const alertList = [

@@ -11,38 +11,37 @@ export function QuestSpace () {
   const navigate = useNavigate()
 
   useEffect(() => {
+    function isDateInCurrentWeek (date) {
+      const checkDate = new Date(date)
 
-    function isDateInCurrentWeek(date) {
-      const checkDate = new Date(date);
+      const currentDate = new Date()
 
-      const currentDate = new Date();
+      const currentDayOfWeek = currentDate.getDay()
 
-      const currentDayOfWeek = currentDate.getDay();
+      const startOfWeek = new Date(currentDate)
+      startOfWeek.setDate(currentDate.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1))
+      startOfWeek.setHours(0, 0, 0, 0)
 
-      const startOfWeek = new Date(currentDate);
-      startOfWeek.setDate(currentDate.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1));
-      startOfWeek.setHours(0, 0, 0, 0);
+      const endOfWeek = new Date(startOfWeek)
+      endOfWeek.setDate(startOfWeek.getDate() + 6)
 
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-      return checkDate >= startOfWeek && checkDate <= endOfWeek;
+      return checkDate >= startOfWeek && checkDate <= endOfWeek
     }
 
-    function isDateInPreviousWeek(date) {
-      const checkDate = new Date(date);
+    function isDateInPreviousWeek (date) {
+      const checkDate = new Date(date)
 
-      const currentDate = new Date();
+      const currentDate = new Date()
 
-      const startOfPreviousWeek = new Date(currentDate);
+      const startOfPreviousWeek = new Date(currentDate)
 
-      startOfPreviousWeek.setDate(currentDate.getDate() - currentDate.getDay() - 6);
-      startOfPreviousWeek.setHours(0, 0, 0, 0);
+      startOfPreviousWeek.setDate(currentDate.getDate() - currentDate.getDay() - 6)
+      startOfPreviousWeek.setHours(0, 0, 0, 0)
 
-      const endOfPreviousWeek = new Date(startOfPreviousWeek);
-      endOfPreviousWeek.setDate(startOfPreviousWeek.getDate() + 6);
+      const endOfPreviousWeek = new Date(startOfPreviousWeek)
+      endOfPreviousWeek.setDate(startOfPreviousWeek.getDate() + 6)
 
-      return checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek;
+      return checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek
     }
 
     // Effectuer une requête GET pour récupérer le statut des deux derniers questionnaires
@@ -61,26 +60,26 @@ export function QuestSpace () {
         console.error('Erreur lors de la récupération du statut du questionnaire précédent :', error)
       })
 
-      // Effectuer une requête GET pour récupérer les questionnaires
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        }
-      })
+    // Effectuer une requête GET pour récupérer les questionnaires
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
           if (isDateInCurrentWeek(data[0].fromDate)) {
-            setCurrentQuestUrl(`/questionnaire/${data[0]._id}`);
+            setCurrentQuestUrl(`/questionnaire/${data[0]._id}`)
           } else if (isDateInPreviousWeek(data[0].fromDate)) {
-            setPreviousQuestUrl(`/questionnaire/${data[0]._id}`);
+            setPreviousQuestUrl(`/questionnaire/${data[0]._id}`)
           }
           if (data.length > 1) {
             if (isDateInCurrentWeek(data[1].fromDate)) {
-              setCurrentQuestUrl(`/questionnaire/${data[1]._id}`);
+              setCurrentQuestUrl(`/questionnaire/${data[1]._id}`)
             } else if (isDateInPreviousWeek(data[1].fromDate)) {
-              setPreviousQuestUrl(`/questionnaire/${data[1]._id}`);
+              setPreviousQuestUrl(`/questionnaire/${data[1]._id}`)
             }
           }
         }
@@ -88,15 +87,14 @@ export function QuestSpace () {
       .catch((error) => /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du statut du questionnaire précédent :', error)
       })
-
   }, [])
 
   const handlePreviousClick = () => {
-    navigate(previousQuestUrl);
+    navigate(previousQuestUrl)
   }
 
   const handleCurrentClick = () => {
-    navigate(currentQuestUrl);
+    navigate(currentQuestUrl)
   }
 
   return (
