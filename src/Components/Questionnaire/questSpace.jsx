@@ -13,6 +13,8 @@ export function QuestSpace () {
   useEffect(() => {
 
     function isDateInCurrentWeek(date) {
+      const checkDate = new Date(date);
+
       const currentDate = new Date();
 
       const currentDayOfWeek = currentDate.getDay();
@@ -24,10 +26,18 @@ export function QuestSpace () {
       const endOfWeek = new Date(startOfWeek);
       endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-      return date >= startOfWeek && date <= endOfWeek;
+      console.log('start of week', startOfWeek)
+      console.log('current date', currentDate)
+      console.log('end of week', endOfWeek)
+      console.log('actual date', checkDate)
+      console.log(checkDate >= startOfWeek && checkDate <= endOfWeek)
+
+      return checkDate >= startOfWeek && checkDate <= endOfWeek;
     }
 
     function isDateInPreviousWeek(date) {
+      const checkDate = new Date(date);
+
       const currentDate = new Date();
 
       const startOfPreviousWeek = new Date(currentDate);
@@ -37,7 +47,8 @@ export function QuestSpace () {
 
       const endOfPreviousWeek = new Date(startOfPreviousWeek);
       endOfPreviousWeek.setDate(startOfPreviousWeek.getDate() + 6);
-      return date >= startOfPreviousWeek && date <= endOfPreviousWeek;
+      console.log(checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek)
+      return checkDate >= startOfPreviousWeek && checkDate <= endOfPreviousWeek;
     }
 
     // Effectuer une requête GET pour récupérer le statut des deux derniers questionnaires
@@ -68,6 +79,7 @@ export function QuestSpace () {
       .then((data) => {
         console.log(data)
         if (data.length > 0) {
+          console.log(isDateInCurrentWeek(data[0].fromDate))
           if (isDateInCurrentWeek(data[0].fromDate)) {
             setCurrentQuestUrl(`/questionnaire/${data[0]._id}`);
           } else if (isDateInPreviousWeek(data[0].fromDate)) {
@@ -105,32 +117,25 @@ export function QuestSpace () {
         <div className='quest-content'>
           <div className='quest-previous'>
             <p>Questionnaire précédent</p>
-            {currentQuestUrl === '' && (
+            {previousQuestUrl === '' && (
               <div>
                 <p>Il n'y a pas de questionnaire précédent pour le moment.</p>
               </div>
             )}
-            {(previousQuestStatus === 0 && previousQuestUrl !== '') && (
+            {(previousQuestStatus > 0 && previousQuestStatus < 100 && previousQuestUrl !== '') && (
               <div className='quest-start'>
-                <button className='green-button' onClick={handlePreviousClick}>
-                  Lancer le questionnaire
-                </button>
+                Ce questionnaire n'a pas été terminé à temps.
               </div>
             )}
-            {(previousQuestStatus > 0 && previousQuestStatus < 100) && (
-              <div className='quest-start'>
-                Ce questionnaire a été commencé.
-              </div>
-            )}
-            {previousQuestStatus === 100 && (
+            {(previousQuestStatus === 100 && previousQuestUrl !== '') && (
               <div data-testid='previous-quest-status' className='quest-start'>
-                Ce questionnaire est fini.
+                Ce questionnaire a été complété.
               </div>
             )}
-            {(previousQuestStatus > 0 && previousQuestStatus < 100) && (
+            {(previousQuestUrl !== '') && (
               <div className='quest-terminate'>
-                <button className='orange-button' onClick={handlePreviousClick}>
-                  Terminer le questionnaire
+                <button className='green-button' onClick={handlePreviousClick}>
+                  Aller au Questionnaire
                 </button>
               </div>
             )}
@@ -142,6 +147,16 @@ export function QuestSpace () {
                 <p>Il n'y a pas de questionnaire actuel pour le moment.</p>
               </div>
             )}
+            {(currentQuestStatus > 0 && currentQuestStatus < 100 && currentQuestUrl !== '') && (
+              <div data-testid='current-quest-status' className='quest-start'>
+                Ce questionnaire a été commencé.
+              </div>
+            )}
+            {(currentQuestStatus === 100 && currentQuestUrl !== '') && (
+              <div data-testid='current-quest-status' className='quest-start'>
+                Ce questionnaire a été complété.
+              </div>
+            )}
             {(currentQuestStatus === 0 && currentQuestUrl !== '') && (
               <div className='quest-start'>
                 <button className='green-button' onClick={handleCurrentClick}>
@@ -150,19 +165,16 @@ export function QuestSpace () {
               </div>
             )}
             {(currentQuestStatus > 0 && currentQuestStatus < 100) && (
-              <div data-testid='current-quest-status' className='quest-start'>
-                Ce questionnaire a été commencé.
-              </div>
-            )}
-            {(currentQuestStatus === 100) && (
-              <div data-testid='current-quest-status' className='quest-start'>
-                Ce questionnaire est fini.
-              </div>
-            )}
-            {(currentQuestStatus > 0 && currentQuestStatus < 100) && (
               <div className='quest-terminate'>
                 <button className='orange-button' data-testid='form-access-btn' onClick={handleCurrentClick}>
                   Terminer le questionnaire
+                </button>
+              </div>
+            )}
+            {(currentQuestStatus === 100 && previousQuestUrl !== '') && (
+              <div className='quest-terminate'>
+                <button className='green-button' onClick={handlePreviousClick}>
+                  Aller au Questionnaire
                 </button>
               </div>
             )}
