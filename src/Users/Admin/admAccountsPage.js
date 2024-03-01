@@ -97,10 +97,11 @@ export default function AdmAccountsPage () {
       }).then(response => {
         if (response.ok) {
           setErrMessage('Compte créé avec succès')
+          window.location.reload()
         } else {
           const data = response.json()
-
-          setErrMessage(data.message)
+          console.log(data)
+          setErrMessage(data)
         }
       })
     } catch (e) /* istanbul ignore next */ {
@@ -124,6 +125,7 @@ export default function AdmAccountsPage () {
       }).then(response => {
         if (response.ok) {
           setErrMessage('Compte(s) créé(s) avec succès')
+          window.location.reload()
         } else {
           const data = response.json()
 

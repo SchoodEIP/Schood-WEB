@@ -103,7 +103,11 @@ export default function SchoolAdmAccountsPage () {
   }
 
   const handleClasseChange = (selected) => {
-    setClasses(selected);
+    if (role === rolesList[0]._id) {
+      setClasses([selected]);
+    } else {
+      setClasses(selected);
+    }
   }
 
   const handleFileChange = (event) => {
@@ -112,6 +116,14 @@ export default function SchoolAdmAccountsPage () {
 
   const singleAccountCreation = async (event) => {
     event.preventDefault()
+
+    let classesArray = []
+    if (classes.length !== []) {
+      classesArray.push(classes)
+    } else if (classes.length > 1) {
+      classesArray = classes
+    }
+
 
     try {
       const response = await fetch(singleCreationUrl, {
@@ -125,11 +137,12 @@ export default function SchoolAdmAccountsPage () {
           lastname: name,
           email,
           role,
-          classes
+          classes: classesArray
         })
       })
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
 
