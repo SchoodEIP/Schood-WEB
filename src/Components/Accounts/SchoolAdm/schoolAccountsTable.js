@@ -25,7 +25,6 @@ export default function SchoolAccountsTable () {
       return '';
     }
     const names = classes.map(obj => obj.name)
-
     return names.join(", ")
   }
 

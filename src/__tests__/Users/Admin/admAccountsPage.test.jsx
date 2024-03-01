@@ -66,7 +66,7 @@ describe('AdmAccountsPage', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
-    fetchMock.get(url + '/adm/rolesList', { roles })
+    fetchMock.get(url + '/shared/roles', { roles })
     fetchMock.get(url + '/user/all', users)
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})

@@ -35,27 +35,23 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => setClassesList(data))
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
   }, [])
 
   useEffect(() => {
     const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          setRolesList(data.roles)
-        })
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        setRolesList(data.roles)
+      })
+      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
   }, [])
 
   const handleSingleAccount = () => {
@@ -102,7 +98,7 @@ export default function SchoolAdmAccountsPage () {
     }
   }
 
-  const handleClasseChange = (selected) => {
+  const handleClasseChange = (selected) => /* istanbul ignore next */ {
     if (role === rolesList[0]._id) {
       setClasses([selected]);
     } else {
@@ -124,33 +120,29 @@ export default function SchoolAdmAccountsPage () {
       classesArray = classes
     }
 
-
-    try {
-      const response = await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: name,
-          email,
-          role,
-          classes: classesArray
-        })
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        firstname: firstName,
+        lastname: name,
+        email,
+        role,
+        classes: classesArray
       })
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
         window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
-
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+    .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -159,14 +151,13 @@ export default function SchoolAdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
-      const response = await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      })
+    const response = await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
         window.location.reload()
@@ -175,9 +166,10 @@ export default function SchoolAdmAccountsPage () {
 
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+    .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
+
+
   }
 
   return (

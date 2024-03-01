@@ -21,19 +21,16 @@ export default function AdmAccountsPage () {
   useEffect(() => {
     const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => setRolesList(data.roles))
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => setRolesList(data.roles))
+      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
+
   }, [])
 
   const handleSingleAccount = () => {
@@ -86,27 +83,23 @@ export default function AdmAccountsPage () {
       classes: []
     }
 
-    try {
-      await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte créé avec succès')
-          window.location.reload()
-        } else {
-          const data = response.json()
-          console.log(data)
-          setErrMessage(data)
-        }
-      })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte créé avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
+        setErrMessage(data)
+      }
+    })
+    .catch ((e) =>/* istanbul ignore next */ {setErrMessage(e.message)})
   }
 
   const csvAccountCreation = async (event) => {
@@ -115,7 +108,6 @@ export default function AdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
       await fetch(csvCreationUrl, {
         method: 'POST',
         headers: {
@@ -132,9 +124,7 @@ export default function AdmAccountsPage () {
           setErrMessage(data.message)
         }
       })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    .catch((e) => /* istanbul ignore next */ {setErrMessage(e.message)})
   }
 
   return (
