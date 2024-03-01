@@ -169,6 +169,7 @@ export default function SchoolAdmAccountsPage () {
       })
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
 
