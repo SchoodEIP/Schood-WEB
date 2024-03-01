@@ -202,7 +202,7 @@ describe('SchoolAdmAccountsPage', () => {
 
     await waitFor(() => { expect(roleInput).toHaveValue('0') })
 
-    const selectedOption = [{_id: '1'}];
+    const selectedOption = [{ _id: '1' }]
     await act(async () => {
       fireEvent.change(classInput, { target: { value: selectedOption } })
     })

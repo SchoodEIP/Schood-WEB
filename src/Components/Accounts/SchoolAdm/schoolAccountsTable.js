@@ -22,10 +22,10 @@ export default function SchoolAccountsTable () {
 
   const showClasses = (classes) => {
     if (!Array.isArray(classes)) {
-      return '';
+      return ''
     }
     const names = classes.map(obj => obj.name)
-    return names.join(", ")
+    return names.join(', ')
   }
 
   // account list request on mounted

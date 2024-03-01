@@ -29,8 +29,7 @@ export default function AdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => setRolesList(data.roles))
-      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
-
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -99,7 +98,7 @@ export default function AdmAccountsPage () {
         setErrMessage(data)
       }
     })
-    .catch ((e) =>/* istanbul ignore next */ {setErrMessage(e.message)})
+      .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -108,23 +107,23 @@ export default function AdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-      await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte(s) créé(s) avec succès')
-          window.location.reload()
-        } else {
-          const data = response.json()
+    await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
 
-          setErrMessage(data.message)
-        }
-      })
-    .catch((e) => /* istanbul ignore next */ {setErrMessage(e.message)})
+        setErrMessage(data.message)
+      }
+    })
+      .catch((e) => /* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
   return (

@@ -35,7 +35,7 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => setClassesList(data))
-      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function SchoolAdmAccountsPage () {
       .then(data => {
         setRolesList(data.roles)
       })
-      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -100,9 +100,9 @@ export default function SchoolAdmAccountsPage () {
 
   const handleClasseChange = (selected) => /* istanbul ignore next */ {
     if (role === rolesList[0]._id) {
-      setClasses([selected]);
+      setClasses([selected])
     } else {
-      setClasses(selected);
+      setClasses(selected)
     }
   }
 
@@ -142,7 +142,7 @@ export default function SchoolAdmAccountsPage () {
         setErrMessage(data.message)
       }
     })
-    .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -167,9 +167,7 @@ export default function SchoolAdmAccountsPage () {
         setErrMessage(data.message)
       }
     })
-    .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
-
-
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   return (
@@ -222,9 +220,9 @@ export default function SchoolAdmAccountsPage () {
               <div>
                 <Select
                   isMulti={isMultiStatus}
-                  data-testid="select-classes"
-                  id="select-classes"
-                  placeholder="Selectionner une ou plusieurs classes"
+                  data-testid='select-classes'
+                  id='select-classes'
+                  placeholder='Selectionner une ou plusieurs classes'
                   options={classesList}
                   value={classes}
                   onChange={handleClasseChange}

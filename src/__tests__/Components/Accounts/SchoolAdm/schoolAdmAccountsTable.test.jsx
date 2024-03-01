@@ -9,11 +9,11 @@ describe('SchoolSchoolAccountsTable', () => {
         firstname: 'Harry',
         lastname: 'Dresden',
         email: 'harry.dresden@epitech.eu',
-        role: "student",
+        role: 'student',
         classes: [
           {
-            _id: "id1",
-            name: "200"
+            _id: 'id1',
+            name: '200'
           }
         ]
       },
@@ -21,15 +21,15 @@ describe('SchoolSchoolAccountsTable', () => {
         firstname: 'John',
         lastname: 'Wick',
         email: 'john.wick@epitech.eu',
-        role: "teacher",
+        role: 'teacher',
         classes: [
           {
-            _id: "id1",
-            name: "200"
+            _id: 'id1',
+            name: '200'
           },
           {
-            _id: "id2",
-            name: "201"
+            _id: 'id2',
+            name: '201'
           }
         ]
       }
@@ -52,25 +52,25 @@ describe('SchoolSchoolAccountsTable', () => {
         firstname: 'Harry',
         lastname: 'Dresden',
         email: 'harry.dresden@epitech.eu',
-        role: "student",
+        role: 'student',
         classes: [{
-          _id: "id1",
-          name: "200"
+          _id: 'id1',
+          name: '200'
         }]
       },
       {
         firstname: 'John',
         lastname: 'Wick',
         email: 'john.wick@epitech.eu',
-        role: "teacher",
+        role: 'teacher',
         classes: [
           {
-            _id: "id1",
-            name: "200"
+            _id: 'id1',
+            name: '200'
           },
           {
-            _id: "id2",
-            name: "201"
+            _id: 'id2',
+            name: '201'
           }
         ]
       }
@@ -95,25 +95,25 @@ describe('SchoolSchoolAccountsTable', () => {
         firstname: 'Harry',
         lastname: 'Dresden',
         email: 'harry.dresden@epitech.eu',
-        role: "student",
+        role: 'student',
         classes: [{
-          _id: "id3",
-          name: "202"
+          _id: 'id3',
+          name: '202'
         }]
       },
       {
         firstname: 'John',
         lastname: 'Wick',
         email: 'john.wick@epitech.eu',
-        role: "teacher",
+        role: 'teacher',
         classes: [
           {
-            _id: "id1",
-            name: "200"
+            _id: 'id1',
+            name: '200'
           },
           {
-            _id: "id2",
-            name: "201"
+            _id: 'id2',
+            name: '201'
           }
         ]
       }
