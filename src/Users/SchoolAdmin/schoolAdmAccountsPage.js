@@ -217,7 +217,7 @@ export default function SchoolAdmAccountsPage () {
                     )
                   : ''
               }
-              <div style={{marginTop: "25px"}}>
+              <div style={{ marginTop: '25px' }}>
                 <Select
                   isMulti={isMultiStatus}
                   data-testid='select-classes'
