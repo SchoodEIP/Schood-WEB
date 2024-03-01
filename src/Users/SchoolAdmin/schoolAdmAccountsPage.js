@@ -6,6 +6,7 @@ import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/popup'
 import '../../css/Components/Popup/popup.css'
+import Select from 'react-select'
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -19,11 +20,12 @@ export default function SchoolAdmAccountsPage () {
   const [errMessage, setErrMessage] = useState('')
   const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
+  const [isMultiStatus, setIsMultiStatus] = useState(false)
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/classes'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
 
     fetch(rolesUrl, {
       method: 'GET',
@@ -37,7 +39,7 @@ export default function SchoolAdmAccountsPage () {
   }, [])
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
     try {
       fetch(rolesUrl, {
@@ -64,6 +66,7 @@ export default function SchoolAdmAccountsPage () {
     if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
     setClasses([])
     setErrMessage('')
+    setIsMultiStatus(false)
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany)
     }
@@ -92,19 +95,15 @@ export default function SchoolAdmAccountsPage () {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value)
+    if (event.target.value === rolesList[0]._id) {
+      setIsMultiStatus(false)
+    } else {
+      setIsMultiStatus(true)
+    }
   }
 
-  const handleClasseChange = (event) => {
-    const selectedValue = event.target.value
-
-    if (classes.includes(selectedValue)) {
-    // If the value is already in the array, filter it out and update the state
-      const updatedClasses = classes.filter(item => item !== selectedValue)
-      setClasses(updatedClasses)
-    } else {
-    // If the value is not in the array, add it and update the state
-      setClasses(oldArray => [...oldArray, selectedValue])
-    }
+  const handleClasseChange = (selected) => {
+    setClasses(selected);
   }
 
   const handleFileChange = (event) => {
@@ -214,13 +213,19 @@ export default function SchoolAdmAccountsPage () {
                     )
                   : ''
               }
-              <select multiple value={classes} id='classe-select' className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
-                {classesList.map((classe_) => (
-                  <option key={classe_._id} value={classe_._id}>
-                    {classe_.name}
-                  </option>
-                ))}
-              </select>
+              <div>
+                <Select
+                  isMulti={isMultiStatus}
+                  data-testid="select-classes"
+                  id="select-classes"
+                  placeholder="Selectionner une ou plusieurs classes"
+                  options={classesList}
+                  value={classes}
+                  onChange={handleClasseChange}
+                  getOptionValue={(option) => (option._id)}
+                  getOptionLabel={(option) => (option.name)}
+                />
+              </div>
             </form>
           }
                         />
@@ -240,8 +245,9 @@ export default function SchoolAdmAccountsPage () {
               <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
                 <p>firstname,lastname,email,role,class</p>
-                <p>jeanne,dupont,jeanne@schood.fr,student,200</p>
-                <p>jean,dupond,jean@schood.fr,teacher,200:201</p>
+                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr,student,200</p>
+                <p>jean,dupond,jean.dupond.Schood1@schood.fr,teacher,200:201</p>
+                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
               </div>
             </div>
           }

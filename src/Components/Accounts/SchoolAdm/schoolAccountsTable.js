@@ -46,7 +46,7 @@ export default function SchoolAccountsTable () {
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
                   <td>{data.role.name}</td>
-                  <td>{data.classes.name}</td>
+                  <td>{data.classes[0].name}</td>
                 </tr>
               )
             }

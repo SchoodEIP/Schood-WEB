@@ -19,7 +19,7 @@ export default function AdmAccountsPage () {
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
     try {
       fetch(rolesUrl, {
@@ -191,6 +191,9 @@ export default function AdmAccountsPage () {
               <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
                 <p>firstName,lastName,email</p>
+                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr</p>
+                <p>jean,dupond,jean.dupond.Schood1@schood.fr</p>
+                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
               </div>
             </div>
           }
