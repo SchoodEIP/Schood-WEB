@@ -88,8 +88,8 @@ const ModifyFormTeacherPage = () => {
       typeSelect.appendChild(multiOption)
       container.appendChild(answerRow)
       container.appendChild(answerBtnContainer)
-      answerBtnContainer.appendChild(removeAnswerBtn)
       answerBtnContainer.appendChild(addAnswerBtn)
+      answerBtnContainer.appendChild(removeAnswerBtn)
       questionRow.appendChild(container)
       setQuestionInc(numQ + 1)
     }
@@ -310,6 +310,8 @@ const ModifyFormTeacherPage = () => {
       addAnswer(numQ)
     })
 
+    setQuestionInc(numQ + 1)
+
     container.appendChild(numbering)
     container.appendChild(questionInput)
     container.appendChild(typeSelect)
@@ -318,8 +320,8 @@ const ModifyFormTeacherPage = () => {
     typeSelect.appendChild(multiOption)
     container.appendChild(answerRow)
     container.appendChild(answerBtnContainer)
-    answerBtnContainer.appendChild(removeAnswerBtn)
     answerBtnContainer.appendChild(addAnswerBtn)
+    answerBtnContainer.appendChild(removeAnswerBtn)
     questionRow.appendChild(container)
   }
 
@@ -354,8 +356,8 @@ const ModifyFormTeacherPage = () => {
               </div>
               <div id='question-row' />
               <div className='confirmation-form-container'>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
                 <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
+                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
               </div>
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
