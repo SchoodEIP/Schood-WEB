@@ -85,7 +85,6 @@ const AlertPage = () => {
         return Promise.resolve()
       })
       .then(() => {
-        console.log('File uploaded successfully')
         let successMessage = file ? 'Alerte et fichier envoyés avec succès' : 'Alerte envoyée avec succès';
         setAlertResponse(successMessage);
         setShowPopup(true);
