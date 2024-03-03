@@ -3,20 +3,15 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import IconFace0 from '../../assets/icon_face_0.png'
-import IconFace1 from '../../assets/icon_face_1.png'
-import IconFace2 from '../../assets/icon_face_2.png'
-import ArrowUp from '../../assets/up_arrow_icon.png'
-import ArrowDown from '../../assets/down_arrow_icon.png'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
+import TeacherFormContent from '../../Components/Questionnaire/teacherFormContent'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null)
   const [isModify, setIsModify] = useState('false')
-  const imgImports = [IconFace0, IconFace1, IconFace2]
 
   useEffect(() => {
     function createFormContent (originForm) {
@@ -91,12 +86,13 @@ const FormTeacherPage = () => {
       })
       return ultimateResponse
     }
-    function getAnswers (originForm, studentsArray) {
+
+    async function getAnswers (originForm, studentsArray) {
 
       let theResponse = createFormContent(originForm)
       for (let i = 0; i < studentsArray.length; i++) {
         const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/answers/' + studentsArray[i]._id
-        fetch(answerListUrl, {
+        await fetch(answerListUrl, {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
@@ -105,7 +101,7 @@ const FormTeacherPage = () => {
         }).then(response => response.json())
           .then(data => {
             if (data._id) {
-              theResponse = setAnswers(theResponse, data)
+              setAnswers(theResponse, data)
             } else {
               setError(data.message)
             }
@@ -115,10 +111,10 @@ const FormTeacherPage = () => {
       setFormData(theResponse)
     }
 
-    function getStudents (originForm) {
+    async function getStudents(originForm) {
       const studentListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/students'
 
-      fetch(studentListUrl, {
+      await fetch(studentListUrl, {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
@@ -166,7 +162,6 @@ const FormTeacherPage = () => {
   function handleRedirect () {
     window.location.href = '/questionnaire/' + id + '/modify'
   }
-  console.log(formData)
 
   return (
     <div className='form-page'>
@@ -192,51 +187,7 @@ const FormTeacherPage = () => {
                   ? ''
                   : <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>}
               </div>
-              {(!formData | !formData.questions)
-                ? <div>{error}</div>
-                : formData.questions.map((question, index) => (
-                  <div key={index} className='questions-container' id={`container-${index}`}>
-                    <div
-                      className='question-container'
-                      style={{ cursor: 'pointer' }}
-                      data-testid={`question-container-${index}`}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }} id='question-row'>
-                        <h2>{`${index + 1}. ${question.title}`}</h2>
-                      </div>
-                    </div>
-
-                    <div className='answer-row' id={'answers-' + index}>
-                      {question.type === 'text' && (
-                        <ul>
-                          {question.answers.map((answer, answerIndex) => (
-                            <li key={answerIndex}>{answer}</li>
-                          ))}
-                        </ul>
-                      )}
-                      {question.type === 'emoji' && (
-                        <div className='emoji-row'>
-                          {imgImports.map((imgSrc, i) => (
-                            <div key={i} className='emoji-container'>
-                              <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
-                              <p data-testid={`emoji-answer-${i}`}>{question.answers[i]?.count}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {question.type === 'multiple' && (
-                        <ul>
-                          {question.answers.map((answer, i) => (
-                            <li key={i} style={{ gap: '25px', display: 'flex' }}>
-                              <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                              <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                ))}
+              <TeacherFormContent form={formData} error={error}/>
             </div>
           </div>
         </div>

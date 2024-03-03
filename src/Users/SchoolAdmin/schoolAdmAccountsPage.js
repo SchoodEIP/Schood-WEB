@@ -151,7 +151,7 @@ export default function SchoolAdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    const response = await fetch(csvCreationUrl, {
+    await fetch(csvCreationUrl, {
       method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
