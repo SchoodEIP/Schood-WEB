@@ -10,15 +10,15 @@ describe('Login Page', () => {
     cy.clearAllSessionStorage()
   })
 
-  it('checks login works', () => {
-    cy.get('#userInput').type('admin@schood.fr')
-    cy.get('#passInput').type('admin123')
-    cy.get('#login-button').click()
-    cy.should(() => {
-      expect(localStorage.getItem('role')).to.eq('admin')
-      expect(sessionStorage.getItem('role')).to.eq('admin')
-      expect(localStorage.getItem('token')).to.not.eq(null)
-      expect(sessionStorage.getItem('token')).to.not.eq(null)
+    it('checks login works', () => {
+        cy.get('#userInput').type('admin@schood.fr')
+        cy.get('#passInput').type('admin123')
+        cy.get('#login-button').click()
+        cy.should(() => {
+            expect(localStorage.getItem('role')).to.eq('admin')
+            expect(sessionStorage.getItem('role')).to.eq('admin')
+            expect(localStorage.getItem('token')).to.not.eq(null)
+            expect(sessionStorage.getItem('token')).to.not.eq(null)
+        })
     })
-  })
 })
