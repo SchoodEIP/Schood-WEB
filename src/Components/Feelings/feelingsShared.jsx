@@ -64,9 +64,7 @@ const Feelings = () => {
   }, [showPopup])
 
   const resetForm = () => {
-    console.log(writtenFeeling)
     setWrittenFeeling('')
-    console.log(writtenFeeling)
     setSelectedEmotion('')
     setIsAnonymous(true)
 
