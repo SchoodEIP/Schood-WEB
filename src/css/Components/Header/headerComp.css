@@ -39,7 +39,7 @@ html, body {
     justify-content: right;
 }
 
-img {
+#schood-logo {
     object-fit:scale-down, contain;
     height: 35%;
     width: 35%;

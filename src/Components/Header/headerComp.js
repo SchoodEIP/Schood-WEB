@@ -19,7 +19,7 @@ export default function HeaderComp () {
     <header>
       <div className='headerComp'>
         <div>
-          <img src={Logo} alt='logo' />
+          <img id='schood-logo' src={Logo} alt='logo' />
         </div>
         <div>
           <Link to='/profil' data-testid='profil' id='profil'>

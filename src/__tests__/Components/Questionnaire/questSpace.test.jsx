@@ -6,13 +6,49 @@ import { MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('QuestSpace Component', () => {
-  const previousUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`
-  const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
+  const statusLastTwo = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
+  const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
+
+  const questionnairesResult = [
+    {
+      classes: [
+        {
+          name: '200',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebd'
+        },
+        {
+          name: '201',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebf'
+        }
+      ],
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-19T00:00:00.000Z',
+      title: 'Questionnaire Français',
+      toDate: '2024-02-25T00:00:00.000Z',
+      _id: 'id1'
+    },
+    {
+      classes: [
+        {
+          name: '200',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebd'
+        }
+      ],
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-26T00:00:00.000Z',
+      title: 'Questionnaire Mathématique',
+      toDate: '2024-03-03T00:00:00.000Z',
+      _id: 'id2'
+    }
+  ]
 
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.get(previousUrl, { body: { status: 'completed' } })
-    fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
+    fetchMock.get(statusLastTwo, { q1: 100, q2: 50 })
+    fetchMock.get(questionnaires, questionnairesResult)
   })
 
   afterEach(() => {
@@ -31,7 +67,7 @@ describe('QuestSpace Component', () => {
     expect(questSpaceElement).toBeInTheDocument()
   })
 
-  it('shows the tile of Mes Questionnaires', async () => {
+  it('shows the title of Mes Questionnaires', async () => {
     await act(async () => {
       render(
         <MemoryRouter>
@@ -67,12 +103,12 @@ describe('QuestSpace Component', () => {
     })
 
     await waitFor(() => {
-      const previousformStatus = screen.queryByText('Ce questionnaire est fini.')
+      const previousformStatus = screen.queryByText('Ce questionnaire n\'a pas été terminé à temps.')
       expect(previousformStatus).toBeInTheDocument()
     })
 
     await waitFor(() => {
-      const currentformStatus = screen.queryByText('Ce questionnaire a été commencé.')
+      const currentformStatus = screen.queryByText('Ce questionnaire a été complété.')
       expect(currentformStatus).toBeInTheDocument()
     })
   })
