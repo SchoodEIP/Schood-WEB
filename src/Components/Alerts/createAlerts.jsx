@@ -48,7 +48,6 @@ const AlertPage = () => {
   }, []);
 
   const handleAlertSubmit = () => {
-    // Requête POST: envoyer l’alerte
     const data = {
       title,
       message,
@@ -56,36 +55,33 @@ const AlertPage = () => {
       classes: isClass ? selectedClasses : [],
     };
 
-    const fileData = new FormData();
-    if (file) {
-      fileData.append('file', file);
-    }
+    const fileData = new FormData()
+    fileData.append('file', file)
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
       method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((responseData) => {
         if (file) {
-          // Si un fichier est joint, envoyer le fichier avec l'ID de l'alerte
           const fileId = responseData._id
-          return fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${responseData._id}`, {
+          return fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${fileId}`, {
             method: 'POST',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json'
             },
-            body: fileData,
+            body: JSON.stringify(data),
           });
         }
         return Promise.resolve()
       })
       .then(() => {
-        let successMessage = file ? 'Alerte et fichier envoyés avec succès' : 'Alerte envoyée avec succès';
+        let successMessage = file ? 'Alerte envoyée avec succès' : 'Alerte envoyée avec succès';
         setAlertResponse(successMessage);
         setShowPopup(true);
         resetForm();
@@ -110,7 +106,7 @@ const AlertPage = () => {
     setTimeout(() => {
       setAlertResponse('');
       setShowPopup(false);
-    }, 3000); // Réinitialiser le message et masquer la popup après 3 secondes
+    }, 3000);
   };
 
   const handleAlertType = () => {
