@@ -13,10 +13,30 @@ const FormStudentPage = () => {
   const { id } = useParams()
   const [data, setData] = useState({})
   const [error, setError] = useState(null)
+  const [currentCheck, setCurrentCheck] = useState(false)
   const imgImports = [IconFace0, IconFace1, IconFace2]
   const navigate = useNavigate()
 
   useEffect(() => {
+    const handleCurrentCheck = (fromDate) => {
+      const checkDate = new Date(fromDate)
+
+      const currentDate = new Date()
+
+      const currentDayOfWeek = currentDate.getDay()
+
+      const startOfWeek = new Date(currentDate)
+      startOfWeek.setDate(currentDate.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1))
+      startOfWeek.setHours(0, 0, 0, 0)
+
+      const endOfWeek = new Date(startOfWeek)
+      endOfWeek.setDate(startOfWeek.getDate() + 6)
+
+      const result = checkDate >= startOfWeek && checkDate <= endOfWeek
+      console.log(result)
+      setCurrentCheck(!result)
+    }
+
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
 
     fetch(questionnaireUrl, {
@@ -29,6 +49,7 @@ const FormStudentPage = () => {
       .then(data => {
         if (data.title) {
           setData(data)
+          handleCurrentCheck(data.fromDate)
         } else {
           setError(data.message)
         }
@@ -76,7 +97,7 @@ const FormStudentPage = () => {
   function sendAnswers () {
     const data = getFormAnswers()
     const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
-
+    console.log(data)
     fetch(sendAnswerUrl, {
       method: 'POST',
       headers: {
@@ -129,17 +150,19 @@ const FormStudentPage = () => {
                           id={`answer-${index}-0`}
                           className='answer-text'
                           data-testid={`answer-${index}-0`}
+                          disabled={currentCheck}
                         />
                       )}
                       {question.type === 'emoji' && (
                         <div className='emoji-row'>
                           {imgImports.map((imgSrc, i) => (
                             <div key={i} className='emoji-container'>
-                              <img src={imgSrc} alt={imgSrc} />
+                              <img style={{width: "50px"}} src={imgSrc} alt={imgSrc} />
                               <input
                                 type='checkbox'
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
+                                disabled={currentCheck}
                               />
                             </div>
                           ))}
@@ -153,6 +176,7 @@ const FormStudentPage = () => {
                                 type='checkbox'
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
+                                disabled={currentCheck}
                               />
                               <span style={{ listStyle: 'none' }}>{answer.title}</span>
                             </li>
@@ -167,7 +191,8 @@ const FormStudentPage = () => {
               <p id='form-error-message'>{error}</p>
             </div>
             <div className='validate-btn-container'>
-              <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>
+              {currentCheck ? '' :
+              <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>}
             </div>
           </div>
         </div>

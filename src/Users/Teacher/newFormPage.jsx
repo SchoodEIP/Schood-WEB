@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
@@ -193,6 +195,19 @@ const NewFormPage = () => {
     setQuestionInc(questionInc - 1)
   }
 
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  useEffect(() => {
+    const today = new Date();
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7;
+    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday);
+    setSelectedDate(nextMonday);
+  }, []);
+
+  const filterMonday = (date) => {
+    return date.getDay() === 1 && date >= new Date();
+  };
+
   return (
     <div className='form-page'>
       <div>
@@ -217,7 +232,15 @@ const NewFormPage = () => {
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
                   Date de parution:
-                  <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
+                  <DatePicker
+                    className='date-input'
+                    name='parution-date'
+                    data-testid='parution-date'
+                    id='parution-date'
+                    selected={selectedDate}
+                    onChange={date => setSelectedDate(date)}
+                    filterDate={filterMonday}
+                  />
                 </label>
                 <div style={{}}>
                   <p data-testid='error-message'>{errMessage}</p>

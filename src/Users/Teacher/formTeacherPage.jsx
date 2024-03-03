@@ -166,6 +166,7 @@ const FormTeacherPage = () => {
   function handleRedirect () {
     window.location.href = '/questionnaire/' + id + '/modify'
   }
+  console.log(formData)
 
   return (
     <div className='form-page'>
