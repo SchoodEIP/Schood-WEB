@@ -33,7 +33,6 @@ const FormStudentPage = () => {
       endOfWeek.setDate(startOfWeek.getDate() + 6)
 
       const result = checkDate >= startOfWeek && checkDate <= endOfWeek
-      console.log(result)
       setCurrentCheck(!result)
     }
 
@@ -97,7 +96,6 @@ const FormStudentPage = () => {
   function sendAnswers () {
     const data = getFormAnswers()
     const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
-    console.log(data)
     fetch(sendAnswerUrl, {
       method: 'POST',
       headers: {

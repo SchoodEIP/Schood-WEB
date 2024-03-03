@@ -10,6 +10,25 @@ describe('FormStudentPage', () => {
   const questionnaireUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/` + id
   const sendAnswerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
 
+  function getFormDates() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday));
+
+    thisWeekMonday.setUTCHours(0, 0, 0, 0);
+
+    const thisWeekSunday = new Date(thisWeekMonday);
+
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6);
+    thisWeekSunday.setUTCHours(23, 59, 59, 0);
+
+
+    return [thisWeekMonday, thisWeekSunday];
+  }
+
+  const [thisWeekMonday, thisWeekSunday] = getFormDates();
+
   let container = null
   const exemple = {
     _id: '64f2f862b0975ae4340acafa',
@@ -63,9 +82,9 @@ describe('FormStudentPage', () => {
         answers: []
       }
     ],
-    fromDate: '2023-08-27T00:00:00.000Z',
+    fromDate: thisWeekMonday.toISOString(),
     title: 'Test',
-    toDate: '2023-09-02T00:00:00.000Z'
+    toDate: thisWeekSunday.toISOString(),
   }
 
   beforeEach(() => {

@@ -6,6 +6,35 @@ import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('NewFormPage', () => {
+
+  function getFormDates() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const diffThisWeekMonday = (today.getDate() + 7) - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday));
+
+    thisWeekMonday.setUTCHours(0, 0, 0, 0);
+
+    const month = String(thisWeekMonday.getMonth() + 1).padStart(2, '0');
+    const day = String(thisWeekMonday.getDate()).padStart(2, '0');
+    const year = thisWeekMonday.getFullYear();
+    return `${month}/${day}/${year}`;
+
+  }
+
+  const thisWeekMonday = getFormDates();
+
+  // function formatDate(date) {
+  //   date.setDate(date.getDate() + 7);
+
+  //   const month = String(date.getMonth() + 1).padStart(2, '0');
+  //   const day = String(date.getDate()).padStart(2, '0');
+  //   const year = date.getFullYear();
+  //   return `${month}/${day}/${year}`;
+  // }
+
+  // const currentDate = formatDate(thisWeekMonday);
+
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
   let container = null
 
@@ -37,7 +66,7 @@ describe('NewFormPage', () => {
     expect(screen.getByText('Ajouter une Question')).toBeInTheDocument()
     expect(screen.getByText('Date de parution:')).toBeInTheDocument()
     expect(screen.getByText('Créer un Questionnaire')).toBeInTheDocument()
-    expect(screen.getByTestId('parution-date')).toBeInTheDocument()
+    expect(screen.getByDisplayValue(`${thisWeekMonday}`)).toBeInTheDocument()
   })
 
   test('add and remove a question', async () => {
