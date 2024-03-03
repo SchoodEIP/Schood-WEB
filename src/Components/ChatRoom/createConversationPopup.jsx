@@ -12,7 +12,7 @@ const CreateConversationPopup = ({
 
   const handleCreateConversation = () => {
     const ids = []
-    selectedContacts.map((contact) => (
+    selectedContacts.forEach((contact) => (
       ids.push(contact._id)
     ))
     if (ids.length === 0) {

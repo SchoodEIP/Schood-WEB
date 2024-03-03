@@ -32,8 +32,8 @@ const rootElement = document.getElementById('root')
 if (rootElement) {
   const root = createRoot(rootElement)
   root.render(
-    <Router>
-      <WebsocketProvider>
+    <WebsocketProvider>
+      <Router>
         <Routes>
           {sessionStorage.getItem('role') === null && (
             <>
@@ -99,7 +99,7 @@ if (rootElement) {
           )}
           <Route path='*' element={<NoPage />} />
         </Routes>
-      </WebsocketProvider>
-    </Router>
+      </Router>
+    </WebsocketProvider>
   )
 }
