@@ -79,9 +79,9 @@ describe('SchoolAdmAccountsPage', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
-    fetchMock.get(url + '/adm/rolesList', { roles })
+    fetchMock.get(url + '/shared/roles', { roles })
     fetchMock.get(url + '/user/all', users)
-    fetchMock.get(url + '/adm/classes', classes)
+    fetchMock.get(url + '/shared/classes', classes)
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})
   })
@@ -169,13 +169,12 @@ describe('SchoolAdmAccountsPage', () => {
     const lastNameInput = screen.getByPlaceholderText('Nom')
     const emailInput = screen.getByPlaceholderText('Email')
     const roleInput = screen.getByPlaceholderText('Rôle')
-    const classInput = screen.getByPlaceholderText('Classes')
+    const classInput = screen.getAllByRole('combobox')[1]
 
     expect(firstNameInput).toHaveValue('')
     expect(lastNameInput).toHaveValue('')
     expect(emailInput).toHaveValue('')
     expect(roleInput).toHaveValue(undefined)
-    expect(classInput).toHaveValue([])
 
     await act(async () => {
       fireEvent.change(firstNameInput, { target: { value: 'John' } })
@@ -189,19 +188,24 @@ describe('SchoolAdmAccountsPage', () => {
     expect(lastNameInput).toHaveValue('Doe')
     expect(emailInput).toHaveValue('john.doe@example.com')
     expect(roleInput).toHaveValue('0')
-    await waitFor(() => { expect(classInput).toHaveValue(['0']) })
+    await waitFor(() => { expect(classInput).toHaveValue('0') })
 
     await act(async () => {
-      fireEvent.change(classInput, { target: { value: 1 } })
+      fireEvent.change(roleInput, { target: { value: '1' } })
     })
 
-    await waitFor(() => { expect(classInput).toHaveValue(['0', '1']) })
+    await waitFor(() => { expect(roleInput).toHaveValue('1') })
 
     await act(async () => {
-      fireEvent.change(classInput, { target: { value: 1 } })
+      fireEvent.change(roleInput, { target: { value: '0' } })
     })
 
-    await waitFor(() => { expect(classInput).toHaveValue(['0']) })
+    await waitFor(() => { expect(roleInput).toHaveValue('0') })
+
+    const selectedOption = [{ _id: '1' }]
+    await act(async () => {
+      fireEvent.change(classInput, { target: { value: selectedOption } })
+    })
 
     const newAccountBtn = screen.getByText('Créer un nouveau compte')
     await act(async () => {

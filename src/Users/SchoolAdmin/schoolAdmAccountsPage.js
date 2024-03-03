@@ -6,6 +6,7 @@ import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/popup'
 import '../../css/Components/Popup/popup.css'
+import Select from 'react-select'
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -19,11 +20,12 @@ export default function SchoolAdmAccountsPage () {
   const [errMessage, setErrMessage] = useState('')
   const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
+  const [isMultiStatus, setIsMultiStatus] = useState(false)
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/classes'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
 
     fetch(rolesUrl, {
       method: 'GET',
@@ -33,27 +35,23 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => setClassesList(data))
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          setRolesList(data.roles)
-        })
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        setRolesList(data.roles)
+      })
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -64,6 +62,7 @@ export default function SchoolAdmAccountsPage () {
     if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
     setClasses([])
     setErrMessage('')
+    setIsMultiStatus(false)
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany)
     }
@@ -92,18 +91,18 @@ export default function SchoolAdmAccountsPage () {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value)
+    if (event.target.value === rolesList[0]._id) {
+      setIsMultiStatus(false)
+    } else {
+      setIsMultiStatus(true)
+    }
   }
 
-  const handleClasseChange = (event) => {
-    const selectedValue = event.target.value
-
-    if (classes.includes(selectedValue)) {
-    // If the value is already in the array, filter it out and update the state
-      const updatedClasses = classes.filter(item => item !== selectedValue)
-      setClasses(updatedClasses)
+  const handleClasseChange = (selected) => /* istanbul ignore next */ {
+    if (role === rolesList[0]._id) {
+      setClasses([selected])
     } else {
-    // If the value is not in the array, add it and update the state
-      setClasses(oldArray => [...oldArray, selectedValue])
+      setClasses(selected)
     }
   }
 
@@ -114,31 +113,36 @@ export default function SchoolAdmAccountsPage () {
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
-    try {
-      const response = await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: name,
-          email,
-          role,
-          classes
-        })
+    let classesArray = []
+    if (classes.length !== []) {
+      classesArray.push(classes)
+    } else if (classes.length > 1) {
+      classesArray = classes
+    }
+
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        firstname: firstName,
+        lastname: name,
+        email,
+        role,
+        classes: classesArray
       })
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
-
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -147,24 +151,23 @@ export default function SchoolAdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
-      const response = await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      })
+    const response = await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   return (
@@ -214,13 +217,19 @@ export default function SchoolAdmAccountsPage () {
                     )
                   : ''
               }
-              <select multiple value={classes} id='classe-select' className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
-                {classesList.map((classe_) => (
-                  <option key={classe_._id} value={classe_._id}>
-                    {classe_.name}
-                  </option>
-                ))}
-              </select>
+              <div style={{ marginTop: '25px' }}>
+                <Select
+                  isMulti={isMultiStatus}
+                  data-testid='select-classes'
+                  id='select-classes'
+                  placeholder='Selectionner une ou plusieurs classes'
+                  options={classesList}
+                  value={classes}
+                  onChange={handleClasseChange}
+                  getOptionValue={(option) => (option._id)}
+                  getOptionLabel={(option) => (option.name)}
+                />
+              </div>
             </form>
           }
                         />
@@ -240,8 +249,9 @@ export default function SchoolAdmAccountsPage () {
               <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
                 <p>firstname,lastname,email,role,class</p>
-                <p>jeanne,dupont,jeanne@schood.fr,student,200</p>
-                <p>jean,dupond,jean@schood.fr,teacher,200:201</p>
+                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr,student,200</p>
+                <p>jean,dupond,jean.dupond.Schood1@schood.fr,teacher,200:201</p>
+                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
               </div>
             </div>
           }
