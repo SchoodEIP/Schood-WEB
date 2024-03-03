@@ -114,7 +114,7 @@ export default function SchoolAdmAccountsPage () {
     event.preventDefault()
 
     let classesArray = []
-    if (classes.length !== []) {
+    if (classes.length !== 0) {
       classesArray.push(classes)
     } else if (classes.length > 1) {
       classesArray = classes
