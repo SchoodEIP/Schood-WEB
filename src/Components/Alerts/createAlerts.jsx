@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/createAlerts.scss'
 
-const MAX_FILE_SIZE_MB = 10
-
 const AlertPage = () => {
   const [userRoles, setUserRoles] = useState([])
   const [userClasses, setUserClasses] = useState([])
@@ -52,11 +50,6 @@ const AlertPage = () => {
       message,
       role: !isClass ? role : null,
       classes: isClass ? selectedClasses : []
-    }
-
-    if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      alert(`File size exceeds the limit of ${MAX_FILE_SIZE_MB} MB`);
-      return;
     }
 
     function addFileToAlert (id) {
