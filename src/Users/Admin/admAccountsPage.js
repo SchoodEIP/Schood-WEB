@@ -19,21 +19,17 @@ export default function AdmAccountsPage () {
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => setRolesList(data.roles))
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => setRolesList(data.roles))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -86,26 +82,23 @@ export default function AdmAccountsPage () {
       classes: []
     }
 
-    try {
-      await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte créé avec succès')
-        } else {
-          const data = response.json()
-
-          setErrMessage(data.message)
-        }
-      })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte créé avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
+        setErrMessage(data)
+      }
+    })
+      .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -114,25 +107,23 @@ export default function AdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
-      await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte(s) créé(s) avec succès')
-        } else {
-          const data = response.json()
+    await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
 
-          setErrMessage(data.message)
-        }
-      })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+        setErrMessage(data.message)
+      }
+    })
+      .catch((e) => /* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
   return (
@@ -191,6 +182,9 @@ export default function AdmAccountsPage () {
               <div className='pop-info'>
                 <p>Le fichier attendu est un fichier .csv suivant le format:</p>
                 <p>firstName,lastName,email</p>
+                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr</p>
+                <p>jean,dupond,jean.dupond.Schood1@schood.fr</p>
+                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
               </div>
             </div>
           }

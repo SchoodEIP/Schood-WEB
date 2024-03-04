@@ -201,6 +201,8 @@
     margin-bottom: 10px;
     cursor: pointer;
     transition: background-color 0.2s;
+    position: relative;
+    overflow: hidden;
   }
 
   .conversation:hover {
@@ -209,6 +211,15 @@
 
   .active-conversation {
     background-color: #f5f8fa;
+  }
+
+  .conversation-notification {
+    width: 4px;
+    height: 100%;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .file-feedback-container {

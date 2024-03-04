@@ -20,6 +20,14 @@ export default function SchoolAccountsTable () {
     setAccountList(data)
   }
 
+  const showClasses = (classes) => {
+    if (!Array.isArray(classes)) {
+      return ''
+    }
+    const names = classes.map(obj => obj.name)
+    return names.join(', ')
+  }
+
   // account list request on mounted
   useEffect(() => {
     getAccountList()
@@ -46,7 +54,7 @@ export default function SchoolAccountsTable () {
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
                   <td>{data.role.name}</td>
-                  <td>{data.classes.name}</td>
+                  <td>{showClasses(data.classes)}</td>
                 </tr>
               )
             }
