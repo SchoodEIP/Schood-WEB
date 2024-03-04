@@ -9,6 +9,8 @@ export default function HeaderComp () {
   function handleClickLogout () {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
+    localStorage.removeItem('id')
+    sessionStorage.removeItem('id')
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('role')
   }
@@ -17,7 +19,7 @@ export default function HeaderComp () {
     <header>
       <div className='headerComp'>
         <div>
-          <img src={Logo} alt='logo' />
+          <img id='schood-logo' src={Logo} alt='logo' />
         </div>
         <div>
           <Link to='/profil' data-testid='profil' id='profil'>

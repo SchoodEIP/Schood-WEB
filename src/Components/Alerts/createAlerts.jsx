@@ -52,6 +52,14 @@ const AlertPage = () => {
       classes: isClass ? selectedClasses : []
     }
 
+<<<<<<< HEAD
+=======
+    if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      alert(`File size exceeds the limit of ${MAX_FILE_SIZE_MB} MB`)
+      return
+    }
+
+>>>>>>> refs/remotes/origin/debug_alert
     function addFileToAlert (id) {
       if (file) {
         const fileData = new FormData()
@@ -187,7 +195,7 @@ const AlertPage = () => {
       <textarea className='alert-page-box' data-testid='alert-message' value={message} onChange={(e) => setMessage(e.target.value)} />
 
       <label>Fichier joint (optionnel):</label>
-      <input id="file-input" className='alert-page-box' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
+      <input id='file-input' className='alert-page-box' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
 
       {showPopup && <div data-testid='popupTest' className='popup' onClick={() => setShowPopup(false)}>{alertResponse}</div>}
       <button className='alert-btn' onClick={handleAlertSubmit}>Envoyer l'alerte</button>

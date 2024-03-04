@@ -1,11 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle } from 'react-icons/fa'
 import '../../css/Components/Sidebar/sidebar.scss'
+import { WebsocketContext } from '../../contexts/websocket'
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [sidebarHeight, setSidebarHeight] = useState(window.innerHeight)
+  const [notification, setNotification] = useState({ message: false })
+  const { chats } = useContext(WebsocketContext)
+  const location = useLocation()
+
+  const handleNotifications = () => {
+    if (chats.value.notified) {
+      if (location.pathname !== '/messages') {
+        setNotification({ message: true })
+      } else {
+        if (chats.value.unseenChats.length === 0) {
+          setNotification({ message: false })
+          chats.setChats({ ...chats.value, notified: false })
+        }
+      }
+    }
+  }
+
+  useEffect(handleNotifications, [chats.value.notified, chats.value.unseenChats])
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed)
@@ -48,6 +67,10 @@ export default function Sidebar () {
     }
   }
 
+  const handleClick = (id) => {
+    if (id === 'messages') setNotification({ message: false })
+  }
+
   return (
     <>
       <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
@@ -58,8 +81,12 @@ export default function Sidebar () {
           <ul className='sidebar-menu'>
             {pages.map((page, index) => (
               <li key={page.id} className='sidebar-menu-item' id={'sidebar-item-' + index}>
-                <Link to={page.path}>
+                <Link to={page.path} onClick={() => handleClick(page.id)}>
                   <span className='sidebar-menu-item-icon'>
+                    {
+                      (notification.message && page.id === 'messages') &&
+                        <div className='sidebar-menu-item-icon-notification' />
+                    }
                     {isCollapsed ? page.icon : <span>{page.icon}</span>}
                   </span>
                   {!isCollapsed && (
