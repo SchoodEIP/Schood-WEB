@@ -52,6 +52,14 @@ const AlertPage = () => {
       classes: isClass ? selectedClasses : []
     }
 
+<<<<<<< HEAD
+=======
+    if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      alert(`File size exceeds the limit of ${MAX_FILE_SIZE_MB} MB`)
+      return
+    }
+
+>>>>>>> refs/remotes/origin/debug_alert
     function addFileToAlert (id) {
       if (file) {
         const fileData = new FormData()
