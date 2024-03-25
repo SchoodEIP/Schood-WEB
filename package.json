@@ -77,6 +77,6 @@
     "jest-watch-typeahead": "^2.2.2",
     "jest-fetch-mock": "^3.0.3",
     "jest": "^29.7.0",
-    "msw": "^2.2.1"
+    "msw": "^2.2.10"
   }
 }
