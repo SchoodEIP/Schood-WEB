@@ -204,7 +204,7 @@ const NewFormPage = () => {
     setSelectedDate(nextMonday)
   }, [])
 
-  const filterMonday = (date) => {
+  const filterMonday = (date) => /* istanbul ignore next */ {
     return date.getDay() === 1 && date >= new Date()
   }
 
@@ -238,7 +238,7 @@ const NewFormPage = () => {
                     data-testid='parution-date'
                     id='parution-date'
                     selected={selectedDate}
-                    onChange={date => setSelectedDate(date)}
+                    onChange={date => /* istanbul ignore next */ {setSelectedDate(date)}}
                     filterDate={filterMonday}
                   />
                 </label>

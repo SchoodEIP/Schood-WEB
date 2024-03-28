@@ -25,15 +25,6 @@ describe('ModifyFormTeacherPage', () => {
 
   const [thisWeekMonday, thisWeekSunday] = getFormDates()
 
-  function formatDate (date) {
-    date.setDate(date.getDate() + 7)
-
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    const year = date.getFullYear()
-    return `${month}/${day}/${year}`
-  }
-
   function addWeekToDate (date) {
     date.setDate(date.getDate() + 14)
 
@@ -415,11 +406,9 @@ describe('ModifyFormTeacherPage', () => {
     await act(() => {
       fireEvent.click(removeQuestionBtn)
     })
-    await act(() => {
-      fireEvent.click(removeQuestionBtn)
-    })
-    await act(() => {
-      fireEvent.click(removeQuestionBtn)
+
+    await waitFor(() => {
+      expect(screen.queryByText('Question n° 2 :')).not.toBeInTheDocument()
     })
   })
 

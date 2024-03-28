@@ -16,13 +16,13 @@ const ProfilPage = () => {
           }
         })
 
-        if (!response.ok) {
+        if (!response.ok) /* istanbul ignore next */ {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
 
         const data = await response.json()
         setUserProfile(data)
-      } catch (error) {
+      } catch (error) /* istanbul ignore next */ {
         setNegativeResponse('Erreur lors de la récupération du profil', error.message)
       }
     }

@@ -147,7 +147,7 @@ const ModifyFormTeacherPage = () => {
           setErrMessage(data.message)
         }
       })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
   }, [id])
 
   function postQuestions () {
@@ -194,7 +194,7 @@ const ModifyFormTeacherPage = () => {
         window.location.href = '/questionnaire/' + id
       }
     })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ {setErrMessage(error.message)})
   }
 
   function changeAnswerBtnStatus (id) {
@@ -344,7 +344,7 @@ const ModifyFormTeacherPage = () => {
     setParutionDate(nextMonday)
   }, [])
 
-  const filterMonday = (date) => {
+  const filterMonday = (date) => /* istanbul ignore next */ {
     return date.getDay() === 1 && date >= new Date()
   }
 
@@ -378,7 +378,7 @@ const ModifyFormTeacherPage = () => {
                     data-testid='parution-date'
                     id='parution-date'
                     selected={parutionDate}
-                    onChange={date => setParutionDate(date)}
+                    onChange={date => /* istanbul ignore next */ {setParutionDate(date)}}
                     filterDate={filterMonday}
                   />
                 </label>

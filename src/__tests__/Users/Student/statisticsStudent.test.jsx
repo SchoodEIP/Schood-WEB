@@ -3,29 +3,31 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import StudentStatPage from '../../../Users/Student/statisticsStudent'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
 jest.mock('../../../Components/Header/headerComp', () => () => <div data-testid='header-comp' />)
 jest.mock('../../../Components/Sidebar/sidebar', () => () => <div data-testid='sidebar' />)
 
 describe('StudentStatPage Component', () => {
+  const id = '64f2f862b0975ae4340acafa'
+
   it('renders without crashing', () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter initialEntries={['/statistiques']}>
         <WebsocketProvider>
           <StudentStatPage />
         </WebsocketProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     )
   })
 
   it('renders HeaderComp', () => {
     const { getByTestId } = render(
-      <BrowserRouter>
+      <MemoryRouter initialEntries={['/statistiques']}>
         <WebsocketProvider>
           <StudentStatPage />
         </WebsocketProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     )
     const headerComp = getByTestId('header-comp')
     expect(headerComp).toBeInTheDocument()
@@ -33,11 +35,11 @@ describe('StudentStatPage Component', () => {
 
   it('renders Sidebar', () => {
     const { getByTestId } = render(
-      <BrowserRouter>
+      <MemoryRouter initialEntries={['/statistiques']}>
         <WebsocketProvider>
           <StudentStatPage />
         </WebsocketProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     )
     const sidebar = getByTestId('sidebar')
     expect(sidebar).toBeInTheDocument()

@@ -68,7 +68,7 @@ describe('NewFormPage', () => {
   })
 
   test('add and remove a question', async () => {
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -80,19 +80,19 @@ describe('NewFormPage', () => {
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 2 :')).toBeInTheDocument()
 
     const removeQuestionBtn = screen.getByText('Enlever une Question')
 
-    act(() => {
+    await act(() => {
       fireEvent.click(removeQuestionBtn)
     })
 
@@ -101,7 +101,7 @@ describe('NewFormPage', () => {
   })
 
   test('add and remove multiple answers', async () => {
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -113,7 +113,7 @@ describe('NewFormPage', () => {
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
@@ -122,7 +122,7 @@ describe('NewFormPage', () => {
     expect(selectType).toBeInTheDocument()
     expect(selectType).toHaveValue('text')
 
-    act(() => {
+    await act(() => {
       fireEvent.change(selectType, { target: { value: 'multiple' } })
     })
     expect(selectType).toHaveValue('multiple')
@@ -130,7 +130,7 @@ describe('NewFormPage', () => {
     const addAnswerBtn = screen.getByText('Ajouter une Réponse')
     expect(addAnswerBtn).toBeInTheDocument()
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addAnswerBtn)
     })
 
@@ -140,14 +140,14 @@ describe('NewFormPage', () => {
 
     expect(inputElements1.length).toBe(3)
 
-    act(() => {
+    await act(() => {
       fireEvent.click(removeAnswerBtn)
     })
 
     const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
     expect(inputElements2.length).toBe(2)
 
-    act(() => {
+    await act(() => {
       fireEvent.change(selectType, { target: { value: 'emoji' } })
     })
     expect(selectType).toHaveValue('emoji')
@@ -183,7 +183,7 @@ describe('NewFormPage', () => {
 
     global.fetch = mockFetch
 
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -201,7 +201,7 @@ describe('NewFormPage', () => {
     const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
     const selectType = screen.getByTestId('select-0')
 
-    act(() => {
+    await act(() => {
       fireEvent.change(questionInput, { target: { value: 'Does this test work ?' } })
       fireEvent.change(selectType, { target: { value: 'multiple' } })
     })
@@ -223,7 +223,7 @@ describe('NewFormPage', () => {
 
     global.fetch = mockFetch
 
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -257,7 +257,7 @@ describe('NewFormPage', () => {
   })
 
   test('create questionnaire', async () => {
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -276,7 +276,7 @@ describe('NewFormPage', () => {
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
@@ -293,7 +293,7 @@ describe('NewFormPage', () => {
   })
 
   test('pick a date', async () => {
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -328,7 +328,7 @@ describe('NewFormPage', () => {
       json: jest.fn().mockResolvedValue({ message: 'Wrong Date' })
     })
 
-    act(() => {
+    await act(() => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
@@ -347,7 +347,7 @@ describe('NewFormPage', () => {
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
 
-    act(() => {
+    await act(() => {
       fireEvent.click(addQuestionBtn)
     })
     expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()

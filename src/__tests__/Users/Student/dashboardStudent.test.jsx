@@ -11,6 +11,7 @@ describe('Dashboard Student component', () => {
   const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
+  sessionStorage.setItem("role", "student")
 
   const questionnairesResult = [
     {
