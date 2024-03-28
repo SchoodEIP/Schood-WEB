@@ -18,7 +18,7 @@ global.fetch = jest.fn(() =>
 
 describe('ProfilPage component', () => {
   it('renders profil page with user information', async () => {
-    sessionStorage.setItem("role", "student")
+    sessionStorage.setItem('role', 'student')
     await act(async () => {
       render(
         <BrowserRouter>
