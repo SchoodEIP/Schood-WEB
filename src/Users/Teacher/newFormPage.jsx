@@ -238,7 +238,7 @@ const NewFormPage = () => {
                     data-testid='parution-date'
                     id='parution-date'
                     selected={selectedDate}
-                    onChange={date => /* istanbul ignore next */ {setSelectedDate(date)}}
+                    onChange={date => /* istanbul ignore next */ { setSelectedDate(date) }}
                     filterDate={filterMonday}
                   />
                 </label>

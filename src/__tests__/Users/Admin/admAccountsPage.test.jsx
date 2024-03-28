@@ -8,7 +8,7 @@ import fetchMock from 'fetch-mock'
 describe('AdmAccountsPage', () => {
   let container = null
   const url = process.env.REACT_APP_BACKEND_URL
-  sessionStorage.setItem("role", "admin")
+  sessionStorage.setItem('role', 'admin')
 
   const users = [
     {

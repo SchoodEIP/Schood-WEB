@@ -101,11 +101,11 @@ const FormTeacherPage = () => {
           .then(data => {
             if (data._id) {
               setAnswers(theResponse, data)
-            } else /* istanbul ignore next */  {
+            } else /* istanbul ignore next */ {
               setError(data.message)
             }
           })
-          .catch(error => /* istanbul ignore next */ {setError(error.message)})
+          .catch(error => /* istanbul ignore next */ { setError(error.message) })
       }
       setFormData(theResponse)
     }
@@ -123,11 +123,11 @@ const FormTeacherPage = () => {
         .then(data => {
           if (data.users) {
             getAnswers(originForm, data.users)
-          } else /* istanbul ignore next */  {
+          } else /* istanbul ignore next */ {
             setError(data.message)
           }
         })
-        .catch(error => /* istanbul ignore next */ {setError(error.message)})
+        .catch(error => /* istanbul ignore next */ { setError(error.message) })
     }
 
     function hasDatePassed (targetDate) {
@@ -155,7 +155,7 @@ const FormTeacherPage = () => {
           setError(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ {setError(error.message)})
+      .catch(error => /* istanbul ignore next */ { setError(error.message) })
   }, [id])
 
   function handleRedirect () /* istanbul ignore next */ {

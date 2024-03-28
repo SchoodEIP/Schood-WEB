@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 describe('Dashboard Teachercomponent', () => {
   it('should render sections', async () => {
-    sessionStorage.setItem("role", "teacher")
+    sessionStorage.setItem('role', 'teacher')
     let getByText
 
     await act(async () => {

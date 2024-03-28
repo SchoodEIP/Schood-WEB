@@ -81,7 +81,7 @@ export default function Sidebar () {
           <ul className='sidebar-menu'>
             {pages.map((page, index) => (
               <li key={page.id} className='sidebar-menu-item' id={'sidebar-item-' + index}>
-                <Link to={page.path} onClick={() => /* istanbul ignore next */ {handleClick(page.id)}}>
+                <Link to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
                   <span className='sidebar-menu-item-icon'>
                     {
                       (notification.message && page.id === 'messages') &&

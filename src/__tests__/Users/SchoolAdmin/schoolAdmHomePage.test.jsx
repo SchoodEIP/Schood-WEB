@@ -5,7 +5,7 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('SchoolAdmHomePage', () => {
-  sessionStorage.setItem("role", "administration")
+  sessionStorage.setItem('role', 'administration')
 
   test('renders the LastAlerts component', async () => {
     await act(async () => {

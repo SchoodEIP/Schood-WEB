@@ -86,7 +86,7 @@ const FormStudentPage = () => {
         case 'emoji':
           result = '-1'
           for (let i = 0; i < 3; i++) {
-            if (document.getElementById('answer-' + index + '-' + i).checked) /* istanbul ignore next */  {
+            if (document.getElementById('answer-' + index + '-' + i).checked) /* istanbul ignore next */ {
               result = `${i}`
             }
           }
@@ -131,14 +131,14 @@ const FormStudentPage = () => {
           setError(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ {setError(error.message)})
+      .catch(error => /* istanbul ignore next */ { setError(error.message) })
   }
 
   const checkAnswers = (question, i) => {
     let result
     if (answers) {
-      answers.map((answer) => /* istanbul ignore next */  {
-        if (answer.question === question._id)  {
+      answers.map((answer) => /* istanbul ignore next */ {
+        if (answer.question === question._id) {
           if (question.type === 'text') {
             result = answer.answers[0]
           } else if (question.type === 'emoji') {
