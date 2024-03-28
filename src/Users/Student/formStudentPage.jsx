@@ -136,18 +136,20 @@ const FormStudentPage = () => {
 
   const checkAnswers = (question, i) => {
     let result
-    answers.map((answer) => {
-      if (answer.question === question._id) {
-        if (question.type === 'text') {
-          result = answer.answers[0]
-        } else if (question.type === 'emoji') {
-          result = (answer.answers[0] === i.toString())
-        } else {
-          result = (answer.answers.indexOf(question.answers[i].title) !== -1)
+    if (answers) {
+      answers.map((answer) => {
+        if (answer.question === question._id) {
+          if (question.type === 'text') {
+            result = answer.answers[0]
+          } else if (question.type === 'emoji') {
+            result = (answer.answers[0] === i.toString())
+          } else {
+            result = (answer.answers.indexOf(question.answers[i].title) !== -1)
+          }
         }
-      }
-      return true
-    })
+        return true
+      })
+    }
     return result
   }
 

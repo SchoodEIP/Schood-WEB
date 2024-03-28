@@ -89,7 +89,6 @@ describe('Dashboard Student component', () => {
 
   it('should render the homepage', async () => {
     await act(async () => {
-      render(
         render(
           <BrowserRouter>
             <WebsocketProvider>
@@ -97,7 +96,6 @@ describe('Dashboard Student component', () => {
             </WebsocketProvider>
           </BrowserRouter>
         )
-      )
     })
     expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
     expect(screen.getByText("Evolution semestrielle de l'humeur de mon établissement")).toBeInTheDocument()

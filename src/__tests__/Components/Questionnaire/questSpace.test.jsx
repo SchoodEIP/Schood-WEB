@@ -76,6 +76,7 @@ describe('QuestSpace Component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(statusLastTwo, { q1: 100, q2: 50 })
     fetchMock.get(questionnaires, questionnairesResult)
   })
@@ -130,6 +131,24 @@ describe('QuestSpace Component', () => {
   })
 
   it('goes to the form', async () => {
+    const newQuestionnairesResult = [
+      {
+        classes: [
+          {
+            name: '200',
+            __v: 0,
+            _id: '65e0e4477c0cc03bd4999ebd'
+          }
+        ],
+        facility: '65e0e4477c0cc03bd4999eb7',
+        fromDate: thisWeekMonday.toISOString(),
+        title: 'Questionnaire Mathématique',
+        toDate: thisWeekSunday.toISOString(),
+        _id: 'id2'
+      }
+    ]
+    fetchMock.get(statusLastTwo, { q1: 100, q2: 0 })
+    fetchMock.get(questionnaires, newQuestionnairesResult)
     await act(async () => {
       render(
         <BrowserRouter>
@@ -141,7 +160,7 @@ describe('QuestSpace Component', () => {
     })
 
     await waitFor(() => {
-      const previousformStatus = screen.queryByText('Il n\'y a pas de questionnaire précédent pour le moment.')
+      const previousformStatus = screen.queryByText("Il n'y a pas de questionnaire précédent pour le moment.")
       expect(previousformStatus).toBeInTheDocument()
     })
 

@@ -9,7 +9,7 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 describe('FormStudentPage', () => {
   const id = '64f2f862b0975ae4340acafa'
   const questionnaireUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/` + id
-  const sendAnswerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
+  const answerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
 
   function getFormDates () {
     const today = new Date()
@@ -92,7 +92,8 @@ describe('FormStudentPage', () => {
     document.body.appendChild(container)
     fetchMock.reset()
     fetchMock.get(questionnaireUrl, exemple)
-    fetchMock.post(sendAnswerUrl, {})
+    fetchMock.get(answerUrl, null) // i will also want to send a real response
+    fetchMock.post(answerUrl, {})
   })
 
   afterEach(() => {
