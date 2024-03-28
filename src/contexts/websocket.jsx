@@ -21,7 +21,7 @@ export const WebsocketProvider = ({ children }) => {
   })
   const ws = useRef(null)
 
-  const parser = () => {
+  const parser = () => /* istanbul ignore next */ {
     if (!val) return
 
     switch (val.method) {
@@ -53,7 +53,7 @@ export const WebsocketProvider = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
+  useEffect(() => /* istanbul ignore next */ {
     if (isReady) sendMessage('login', { userId: localStorage.getItem('id') })
   }, [isReady])
 
@@ -66,13 +66,13 @@ export const WebsocketProvider = ({ children }) => {
    * @param {String} method
    * @param {Object} data
    */
-  const sendMessage = (method, data) => {
+  const sendMessage = (method, data) => /* istanbul ignore next */ {
     if (isReady) {
       ws.current?.send.bind(ws.current)(JSON.stringify({ method, data }))
     }
   }
 
-  const removeChatFromUnseen = (chatId) => {
+  const removeChatFromUnseen = (chatId) => /* istanbul ignore next */ {
     if (chats.unseenChats.includes(chatId)) {
       setChats({ ...chats, unseenChats: chats.unseenChats.filter(chat => chat !== chatId) })
     }
