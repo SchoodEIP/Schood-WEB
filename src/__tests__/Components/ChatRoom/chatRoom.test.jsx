@@ -123,9 +123,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -142,9 +140,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -177,9 +173,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -203,9 +197,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -225,9 +217,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -258,9 +248,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -286,9 +274,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -387,9 +373,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -414,9 +398,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -441,9 +423,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -468,9 +448,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <Messages />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
