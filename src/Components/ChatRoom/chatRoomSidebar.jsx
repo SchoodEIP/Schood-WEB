@@ -10,9 +10,13 @@ const ChatRoomSidebar = ({
 }) => {
   const { chats } = useContext(WebsocketContext)
 
-  useEffect(() => {
-    chats.removeChatFromUnseen(currentConversation._id)
-  }, [chats.value.notified, chats.value.unseenChats, currentConversation])
+  if (chats && chats.value !== undefined) {
+    useEffect(() => {
+      if (currentConversation) {
+        chats.removeChatFromUnseen(currentConversation._id)
+      }
+    }, [chats.value.notified, chats.value.unseenChats, currentConversation])
+  }
 
   const handleClick = (conversation) => {
     setCurrentConversation(conversation)

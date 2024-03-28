@@ -9,8 +9,6 @@ jest.mock('../../../Components/Header/headerComp', () => () => <div data-testid=
 jest.mock('../../../Components/Sidebar/sidebar', () => () => <div data-testid='sidebar' />)
 
 describe('StudentStatPage Component', () => {
-  const id = '64f2f862b0975ae4340acafa'
-
   it('renders without crashing', () => {
     render(
       <MemoryRouter initialEntries={['/statistiques']}>

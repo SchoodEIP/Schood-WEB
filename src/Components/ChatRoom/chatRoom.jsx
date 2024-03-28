@@ -68,13 +68,16 @@ const Messages = () => {
     }
   }
 
-  useEffect(() => {
-    if (chats.value.unseenChats.includes(currentConversation._id)) fetchMessages()
-  }, [chats.value.unseenChats])
+  if (chats && chats.value !== undefined) {
+    useEffect(() => {
+      if (chats.value.unseenChats.includes(currentConversation._id)) fetchMessages()
+    }, [chats.value.unseenChats])
 
-  useEffect(() => {
-    fetchConversations(!chats.value.newChat)
-  }, [chats.value.newChat])
+    useEffect(() => {
+      fetchConversations(!chats.value.newChat)
+    }, [chats.value.newChat])
+  }
+
 
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
