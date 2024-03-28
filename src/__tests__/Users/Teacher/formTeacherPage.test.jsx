@@ -3,7 +3,7 @@ import React from 'react'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
-import { MemoryRouter, Route, Routes, BrowserRouter } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('FormTeacherPage', () => {

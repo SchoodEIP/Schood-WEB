@@ -3,7 +3,6 @@ import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/'
 import ReportButton from '../../../Components/ChatRoom/reportButton'
 import fetchMock from 'fetch-mock'
-import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('ReportButton Component', () => {

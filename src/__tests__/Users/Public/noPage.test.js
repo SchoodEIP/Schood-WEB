@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import '@testing-library/jest-dom'
 import NoPage from '../../../Users/Public/noPage'
