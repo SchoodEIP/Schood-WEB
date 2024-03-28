@@ -1,4 +1,5 @@
 import { createContext, useEffect, useRef, useState } from 'react'
+require('dotenv').config()
 
 export const WebsocketContext = createContext(
   false,

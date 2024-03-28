@@ -26,6 +26,7 @@ import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
+require('dotenv').config()
 
 const rootElement = document.getElementById('root')
 
