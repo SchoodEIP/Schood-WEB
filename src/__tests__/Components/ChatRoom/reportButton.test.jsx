@@ -24,9 +24,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -41,9 +39,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -68,9 +64,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -106,9 +100,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -138,9 +130,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <WebsocketProvider>
             <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-          </WebsocketProvider>
         </BrowserRouter>
       )
     })
