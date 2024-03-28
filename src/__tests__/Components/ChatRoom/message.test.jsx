@@ -39,7 +39,7 @@ describe('Message Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Message message={userMessage} participants={participants}/>
+            <Message message={userMessage} participants={participants} />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -57,7 +57,7 @@ describe('Message Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Message message={textMessage} participants={participants}/>
+            <Message message={textMessage} participants={participants} />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -90,7 +90,7 @@ describe('Message Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Message message={fileMessage} participants={participants}/>
+            <Message message={fileMessage} participants={participants} />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -116,7 +116,7 @@ describe('Message Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Message message={fileMessage} participants={participants}/>
+            <Message message={fileMessage} participants={participants} />
           </WebsocketProvider>
         </BrowserRouter>
       )

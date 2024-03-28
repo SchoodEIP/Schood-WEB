@@ -118,7 +118,7 @@ describe('createConversationPopup Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Messages/>
+            <Messages />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -170,7 +170,7 @@ describe('createConversationPopup Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Messages/>
+            <Messages />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -203,7 +203,7 @@ describe('createConversationPopup Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Messages/>
+            <Messages />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -243,7 +243,7 @@ describe('createConversationPopup Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Messages/>
+            <Messages />
           </WebsocketProvider>
         </BrowserRouter>
       )
