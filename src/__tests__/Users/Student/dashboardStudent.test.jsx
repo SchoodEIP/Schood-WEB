@@ -2,7 +2,8 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('Dashboard Student component', () => {
@@ -89,9 +90,13 @@ describe('Dashboard Student component', () => {
   it('should render the homepage', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        render(
+          <BrowserRouter>
+            <WebsocketProvider>
+              <StudentHomePage />
+            </WebsocketProvider>
+          </BrowserRouter>
+        )
       )
     })
     expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()

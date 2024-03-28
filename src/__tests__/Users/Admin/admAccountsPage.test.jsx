@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AdmAccountsPage from '../../../Users/Admin/admAccountsPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
@@ -83,8 +84,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
+        <WebsocketProvider>
           <AdmAccountsPage />
-        </BrowserRouter>
+        </WebsocketProvider>
+      </BrowserRouter>
       )
     })
 
@@ -99,8 +102,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
+        <WebsocketProvider>
           <AdmAccountsPage />
-        </BrowserRouter>
+        </WebsocketProvider>
+      </BrowserRouter>
       )
     })
 
@@ -146,8 +151,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
+        <WebsocketProvider>
           <AdmAccountsPage />
-        </BrowserRouter>
+        </WebsocketProvider>
+      </BrowserRouter>
       )
     })
 
@@ -176,8 +183,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
+        <WebsocketProvider>
           <AdmAccountsPage />
-        </BrowserRouter>
+        </WebsocketProvider>
+      </BrowserRouter>
       )
     })
 

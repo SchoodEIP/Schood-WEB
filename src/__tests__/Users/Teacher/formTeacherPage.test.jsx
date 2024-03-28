@@ -4,6 +4,8 @@ import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('FormTeacherPage', () => {
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'
@@ -106,9 +108,11 @@ describe('FormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123']}>
-          <Routes>
-            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -164,9 +168,11 @@ describe('FormTeacherPage', () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123']}>
-          <Routes>
-            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -181,9 +187,11 @@ describe('FormTeacherPage', () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123']}>
-          <Routes>
-            <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })

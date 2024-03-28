@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, act, screen, fireEvent } from '@testing-library/react'
 import FormListTeacherPage from '../../../Users/Teacher/formListTeacherPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
@@ -33,10 +34,12 @@ describe('FormListTeacherPage', () => {
   test('page successfully created', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <FormListTeacherPage />
-        </BrowserRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
     expect(screen.getByText('Créer un Nouveau Questionnaire +')).toBeInTheDocument()
@@ -45,10 +48,12 @@ describe('FormListTeacherPage', () => {
   test('button to create new forms works', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <FormListTeacherPage />
-        </BrowserRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     const originalLocation = window.location
@@ -72,10 +77,12 @@ describe('FormListTeacherPage', () => {
   test('recuperation of forms', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <FormListTeacherPage />
-        </BrowserRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     expect(screen.getByText('Y Accéder')).toBeInTheDocument()
@@ -86,10 +93,12 @@ describe('FormListTeacherPage', () => {
   test('redirect to specific form', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <FormListTeacherPage />
-        </BrowserRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     const originalLocation = window.location

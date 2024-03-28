@@ -2,7 +2,8 @@ import React from 'react'
 import CreateAlertsPage from '../../../Users/Shared/createAlerts.jsx'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('CreateAlertsPage Component', () => {
@@ -94,10 +95,12 @@ describe('CreateAlertsPage Component', () => {
   it('renders the page', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <CreateAlertsPage />
-        </MemoryRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     const rolesLabel = screen.getByLabelText("Type d'utilisateur visé:")
@@ -114,10 +117,12 @@ describe('CreateAlertsPage Component', () => {
 
     await act(async () => {
       render(
-        <MemoryRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <CreateAlertsPage />
-        </MemoryRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
     const errorMessage = screen.getByText('Erreur lors de la récupération des classes')
     await waitFor(async () => {
@@ -136,10 +141,12 @@ describe('CreateAlertsPage Component', () => {
   it('shows and hides roles and classes', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <CreateAlertsPage />
-        </MemoryRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     const rolesBtn = screen.getByText('Rôles')
@@ -161,10 +168,12 @@ describe('CreateAlertsPage Component', () => {
   it('sends an alert without a file and then with it', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
+      <BrowserRouter>
+        <WebsocketProvider>
           <CreateAlertsPage />
-        </MemoryRouter>
-      )
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     })
 
     const rolesSelect = screen.getByTestId('roles-select')
