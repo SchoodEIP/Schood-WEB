@@ -95,12 +95,12 @@ describe('CreateAlertsPage Component', () => {
   it('renders the page', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <CreateAlertsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <CreateAlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const rolesLabel = screen.getByLabelText("Type d'utilisateur visé:")
@@ -117,12 +117,12 @@ describe('CreateAlertsPage Component', () => {
 
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <CreateAlertsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <CreateAlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const errorMessage = screen.getByText('Erreur lors de la récupération des classes')
     await waitFor(async () => {
@@ -141,12 +141,12 @@ describe('CreateAlertsPage Component', () => {
   it('shows and hides roles and classes', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <CreateAlertsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <CreateAlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const rolesBtn = screen.getByText('Rôles')
@@ -168,12 +168,12 @@ describe('CreateAlertsPage Component', () => {
   it('sends an alert without a file and then with it', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <CreateAlertsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <CreateAlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const rolesSelect = screen.getByTestId('roles-select')

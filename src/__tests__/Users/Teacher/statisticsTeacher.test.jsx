@@ -3,10 +3,9 @@ import TeacherStatPage from '../../../Users/Teacher/statisticsTeacher'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { MemoryRouter, Routes, Route, BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
 
 describe('TeacherStatPage Component', () => {
   const mockData = [

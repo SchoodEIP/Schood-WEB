@@ -84,10 +84,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmAccountsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -102,10 +102,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmAccountsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -151,10 +151,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmAccountsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -183,10 +183,10 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmAccountsPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 

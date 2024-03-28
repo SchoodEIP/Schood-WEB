@@ -3,9 +3,8 @@ import React from 'react'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, BrowserRouter } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
 
 describe('FormTeacherPage', () => {
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'

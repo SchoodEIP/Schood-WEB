@@ -3,9 +3,8 @@ import React from 'react'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import ModifyFormTeacherPage from '../../../Users/Teacher/modifyFormTeacherPage'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, BrowserRouter } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
 
 describe('ModifyFormTeacherPage', () => {
   function getFormDates () {

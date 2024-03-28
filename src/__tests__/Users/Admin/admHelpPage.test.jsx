@@ -46,10 +46,10 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmHelpPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -62,10 +62,10 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmHelpPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     const singleAccountButton = screen.getByText('Ajouter une Catégorie')
@@ -90,10 +90,10 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmHelpPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     const singleAccountButton = screen.getByText('Ajouter un Contact')
@@ -142,10 +142,10 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-        <WebsocketProvider>
-          <AdmHelpPage />
-        </WebsocketProvider>
-      </BrowserRouter>
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 

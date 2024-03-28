@@ -34,12 +34,12 @@ describe('FormListTeacherPage', () => {
   test('page successfully created', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <FormListTeacherPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FormListTeacherPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
     expect(screen.getByText('Créer un Nouveau Questionnaire +')).toBeInTheDocument()
@@ -48,12 +48,12 @@ describe('FormListTeacherPage', () => {
   test('button to create new forms works', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <FormListTeacherPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FormListTeacherPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const originalLocation = window.location
@@ -77,12 +77,12 @@ describe('FormListTeacherPage', () => {
   test('recuperation of forms', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <FormListTeacherPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FormListTeacherPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     expect(screen.getByText('Y Accéder')).toBeInTheDocument()
@@ -93,12 +93,12 @@ describe('FormListTeacherPage', () => {
   test('redirect to specific form', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <FormListTeacherPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FormListTeacherPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const originalLocation = window.location

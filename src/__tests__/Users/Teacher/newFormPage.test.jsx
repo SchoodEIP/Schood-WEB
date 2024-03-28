@@ -51,12 +51,12 @@ describe('NewFormPage', () => {
   test('renders the page', async () => {
     await act(async () => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     expect(screen.getByText('Création de Questionnaire')).toBeInTheDocument()
@@ -70,12 +70,12 @@ describe('NewFormPage', () => {
   test('add and remove a question', async () => {
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
@@ -103,12 +103,12 @@ describe('NewFormPage', () => {
   test('add and remove multiple answers', async () => {
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const addQuestionBtn = screen.getByText('Ajouter une Question')
@@ -185,12 +185,12 @@ describe('NewFormPage', () => {
 
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const inputField = screen.getByPlaceholderText('Titre du questionnaire')
     fireEvent.change(inputField, { target: { value: 'Test Input' } })
@@ -225,12 +225,12 @@ describe('NewFormPage', () => {
 
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const postButton = screen.getByText('Créer un Questionnaire')
@@ -259,12 +259,12 @@ describe('NewFormPage', () => {
   test('create questionnaire', async () => {
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const originalLocation = window.location
@@ -295,12 +295,12 @@ describe('NewFormPage', () => {
   test('pick a date', async () => {
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Get today's date
@@ -330,12 +330,12 @@ describe('NewFormPage', () => {
 
     act(() => {
       render(
-      <BrowserRouter>
-        <WebsocketProvider>
-          <NewFormPage />
-        </WebsocketProvider>
-      </BrowserRouter>
-    )
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const originalLocation = window.location
