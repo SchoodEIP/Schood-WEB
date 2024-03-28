@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
@@ -195,18 +195,18 @@ const NewFormPage = () => {
     setQuestionInc(questionInc - 1)
   }
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null)
 
   useEffect(() => {
-    const today = new Date();
-    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7;
-    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday);
-    setSelectedDate(nextMonday);
-  }, []);
+    const today = new Date()
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7
+    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday)
+    setSelectedDate(nextMonday)
+  }, [])
 
   const filterMonday = (date) => {
-    return date.getDay() === 1 && date >= new Date();
-  };
+    return date.getDay() === 1 && date >= new Date()
+  }
 
   return (
     <div className='form-page'>

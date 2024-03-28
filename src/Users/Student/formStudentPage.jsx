@@ -141,9 +141,9 @@ const FormStudentPage = () => {
         if (question.type === 'text') {
           result = answer.answers[0]
         } else if (question.type === 'emoji') {
-          result = (answer.answers[0] === i.toString() ? true : false)
+          result = (answer.answers[0] === i.toString())
         } else {
-          result = (answer.answers.indexOf(question.answers[i].title) !== -1 ? true : false)
+          result = (answer.answers.indexOf(question.answers[i].title) !== -1)
         }
       }
       return true
@@ -193,7 +193,7 @@ const FormStudentPage = () => {
                         <div className='emoji-row'>
                           {imgImports.map((imgSrc, i) => (
                             <div key={i} className='emoji-container'>
-                              <img style={{width: "50px"}} src={imgSrc} alt={imgSrc} />
+                              <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
                               <input
                                 type='checkbox'
                                 id={`answer-${index}-${i}`}
@@ -229,8 +229,9 @@ const FormStudentPage = () => {
               <p id='form-error-message'>{error}</p>
             </div>
             <div className='validate-btn-container'>
-              {currentCheck ? '' :
-              <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>}
+              {currentCheck
+                ? ''
+                : <button className='button-css questionnaire-btn' type='submit' onClick={sendAnswers}>Valider le Questionnaire</button>}
             </div>
           </div>
         </div>

@@ -61,7 +61,7 @@ const FormTeacherPage = () => {
       return ultimateResponse
     }
 
-    function setAnswers(ultimateResponse, answeredForm) {
+    function setAnswers (ultimateResponse, answeredForm) {
       answeredForm.answers.map((answer, i) => {
         if (ultimateResponse.questions[i]._id === answer.question) {
           if (ultimateResponse.questions[i].type === 'text') {
@@ -88,8 +88,7 @@ const FormTeacherPage = () => {
     }
 
     async function getAnswers (originForm, studentsArray) {
-
-      let theResponse = createFormContent(originForm)
+      const theResponse = createFormContent(originForm)
       for (let i = 0; i < studentsArray.length; i++) {
         const answerListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/answers/' + studentsArray[i]._id
         await fetch(answerListUrl, {
@@ -111,7 +110,7 @@ const FormTeacherPage = () => {
       setFormData(theResponse)
     }
 
-    async function getStudents(originForm) {
+    async function getStudents (originForm) {
       const studentListUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + originForm._id + '/students'
 
       await fetch(studentListUrl, {
@@ -182,12 +181,12 @@ const FormTeacherPage = () => {
             <div className='form-content-container'>
               <div className='div-flex-horizontal'>
                 <p className='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p>
-                {formData.createdBy ? <p className='bold-underline-text'>Créé par {formData.createdBy.firstname} {formData.createdBy.lastname}</p> : '' }
+                {formData.createdBy ? <p className='bold-underline-text'>Créé par {formData.createdBy.firstname} {formData.createdBy.lastname}</p> : ''}
                 {isModify
                   ? ''
                   : <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>}
               </div>
-              <TeacherFormContent form={formData} error={error}/>
+              <TeacherFormContent form={formData} error={error} />
             </div>
           </div>
         </div>

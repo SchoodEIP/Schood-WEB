@@ -10,24 +10,23 @@ describe('FormStudentPage', () => {
   const questionnaireUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/` + id
   const sendAnswerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
 
-  function getFormDates() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when today is Sunday
-    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday));
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay()
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
 
-    thisWeekMonday.setUTCHours(0, 0, 0, 0);
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
 
-    const thisWeekSunday = new Date(thisWeekMonday);
+    const thisWeekSunday = new Date(thisWeekMonday)
 
-    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6);
-    thisWeekSunday.setUTCHours(23, 59, 59, 0);
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6)
+    thisWeekSunday.setUTCHours(23, 59, 59, 0)
 
-
-    return [thisWeekMonday, thisWeekSunday];
+    return [thisWeekMonday, thisWeekSunday]
   }
 
-  const [thisWeekMonday, thisWeekSunday] = getFormDates();
+  const [thisWeekMonday, thisWeekSunday] = getFormDates()
 
   let container = null
   const exemple = {
@@ -84,7 +83,7 @@ describe('FormStudentPage', () => {
     ],
     fromDate: thisWeekMonday.toISOString(),
     title: 'Test',
-    toDate: thisWeekSunday.toISOString(),
+    toDate: thisWeekSunday.toISOString()
   }
 
   beforeEach(() => {

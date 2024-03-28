@@ -6,44 +6,42 @@ import ModifyFormTeacherPage from '../../../Users/Teacher/modifyFormTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 describe('ModifyFormTeacherPage', () => {
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay()
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
 
-  function getFormDates() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when today is Sunday
-    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday));
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
 
-    thisWeekMonday.setUTCHours(0, 0, 0, 0);
+    const thisWeekSunday = new Date(thisWeekMonday)
 
-    const thisWeekSunday = new Date(thisWeekMonday);
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6)
+    thisWeekSunday.setUTCHours(23, 59, 59, 0)
 
-    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6);
-    thisWeekSunday.setUTCHours(23, 59, 59, 0);
-
-
-    return [thisWeekMonday, thisWeekSunday];
+    return [thisWeekMonday, thisWeekSunday]
   }
 
-  const [thisWeekMonday, thisWeekSunday] = getFormDates();
+  const [thisWeekMonday, thisWeekSunday] = getFormDates()
 
-  function formatDate(date) {
-    date.setDate(date.getDate() + 7);
+  function formatDate (date) {
+    date.setDate(date.getDate() + 7)
 
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
   }
 
-  const currentDate = formatDate(thisWeekMonday);
+  const currentDate = formatDate(thisWeekMonday)
 
-  function addWeekToDate(date) {
-    date.setDate(date.getDate() + 14);
+  function addWeekToDate (date) {
+    date.setDate(date.getDate() + 14)
 
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
   }
   const newDate = addWeekToDate(thisWeekMonday)
 
@@ -428,5 +426,4 @@ describe('ModifyFormTeacherPage', () => {
     })
     expect(datetime).toHaveValue(`${newDate}`)
   })
-
 })

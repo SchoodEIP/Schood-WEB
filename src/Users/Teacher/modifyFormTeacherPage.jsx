@@ -5,8 +5,8 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(0)
@@ -328,7 +328,7 @@ const ModifyFormTeacherPage = () => {
   }
 
   function removeLastQuestion () {
-    setQuestionInc(questionInc - 1);
+    setQuestionInc(questionInc - 1)
     const questionRow = document.getElementById('question-row')
 
     const lastChild = questionRow.lastChild
@@ -338,15 +338,15 @@ const ModifyFormTeacherPage = () => {
   }
 
   useEffect(() => {
-    const today = new Date();
-    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7;
-    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday);
-    setParutionDate(nextMonday);
-  }, []);
+    const today = new Date()
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7
+    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday)
+    setParutionDate(nextMonday)
+  }, [])
 
   const filterMonday = (date) => {
-    return date.getDay() === 1 && date >= new Date();
-  };
+    return date.getDay() === 1 && date >= new Date()
+  }
 
   return (
     <div className='form-page'>

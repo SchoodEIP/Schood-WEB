@@ -9,33 +9,33 @@ describe('QuestSpace Component', () => {
   const statusLastTwo = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
   const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
 
-  function getFormDates() {
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
-    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when today is Sunday
-    const diffLastWeekMonday = diffThisWeekMonday - 7; // Subtract 7 days to get last week's Monday
-    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday));
-    const lastWeekMonday = new Date(today.setDate(diffLastWeekMonday));
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay() // Sunday is 0, Monday is 1, ..., Saturday is 6
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const diffLastWeekMonday = diffThisWeekMonday - 7 // Subtract 7 days to get last week's Monday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
+    const lastWeekMonday = new Date(today.setDate(diffLastWeekMonday))
 
     // Set the time to 00:00:00.000 UTC for both Monday dates
-    thisWeekMonday.setUTCHours(0, 0, 0, 0);
-    lastWeekMonday.setUTCHours(0, 0, 0, 0);
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
+    lastWeekMonday.setUTCHours(0, 0, 0, 0)
 
     // Calculate this week's and last week's Sunday dates
-    const thisWeekSunday = new Date(thisWeekMonday);
-    const lastWeekSunday = new Date(lastWeekMonday);
+    const thisWeekSunday = new Date(thisWeekMonday)
+    const lastWeekSunday = new Date(lastWeekMonday)
 
     // Add 6 days to get to Sunday and set the time to 23:59:59.000 UTC
-    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6);
-    thisWeekSunday.setUTCHours(23, 59, 59, 0);
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6)
+    thisWeekSunday.setUTCHours(23, 59, 59, 0)
 
-    lastWeekSunday.setDate(lastWeekSunday.getDate() + 6);
-    lastWeekSunday.setUTCHours(23, 59, 59, 0);
+    lastWeekSunday.setDate(lastWeekSunday.getDate() + 6)
+    lastWeekSunday.setUTCHours(23, 59, 59, 0)
 
-    return [[lastWeekMonday, lastWeekSunday], [thisWeekMonday, thisWeekSunday]];
+    return [[lastWeekMonday, lastWeekSunday], [thisWeekMonday, thisWeekSunday]]
   }
 
-  const [[lastWeekMonday, lastWeekSunday], [thisWeekMonday, thisWeekSunday]] = getFormDates();
+  const [[lastWeekMonday, lastWeekSunday], [thisWeekMonday, thisWeekSunday]] = getFormDates()
 
   const questionnairesResult = [
     {

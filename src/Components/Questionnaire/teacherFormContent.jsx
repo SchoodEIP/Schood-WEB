@@ -23,61 +23,61 @@ const TeacherFormContent = (props) => {
     }
   }
 
-    return (
-        <div>
-            {(!props.form | !props.form.questions)
-                ? <div>{props.error}</div>
-                : props.form.questions.map((question, index) => (
-                  <div
-                    key={index}
-                    className='questions-container'
-                    id={`container-${index}`}
-                    onClick={(question.type === 'text') ? (() =>handleHideResult(`${index}`)) : null}
-                  >
-                    <div
-                      className='question-container'
-                      style={{ cursor: 'pointer' }}
-                      data-testid={`question-container-${index}`}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }} id='question-row'>
-                        <h2>{`${index + 1}. ${question.title}`}</h2>
-                        {(question.type === 'text') ? <img style={{ width: '75px' }} id={'extend-retract-' + index} src={ArrowDown} alt={ArrowDown} /> : ''}
-                      </div>
-                    </div>
+  return (
+    <div>
+      {(!props.form | !props.form.questions)
+        ? <div>{props.error}</div>
+        : props.form.questions.map((question, index) => (
+          <div
+            key={index}
+            className='questions-container'
+            id={`container-${index}`}
+            onClick={(question.type === 'text') ? () => handleHideResult(`${index}`) : null}
+          >
+            <div
+              className='question-container'
+              style={{ cursor: 'pointer' }}
+              data-testid={`question-container-${index}`}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between' }} id='question-row'>
+                <h2>{`${index + 1}. ${question.title}`}</h2>
+                {(question.type === 'text') ? <img style={{ width: '75px' }} id={'extend-retract-' + index} src={ArrowDown} alt={ArrowDown} /> : ''}
+              </div>
+            </div>
 
-                    <div className='answer-row' id={'answers-' + index}>
-                      {question.type === 'text' && (
-                        <ul>
-                          {question.answers.map((answer, answerIndex) => (
-                            <li key={answerIndex}>{answer}</li>
-                          ))}
-                        </ul>
-                      )}
-                      {question.type === 'emoji' && (
-                        <div className='emoji-row'>
-                          {imgImports.map((imgSrc, i) => (
-                            <div key={i} className='emoji-container'>
-                              <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
-                              <p data-testid={`emoji-answer-${i}`}>{question.answers[i]?.count}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {question.type === 'multiple' && (
-                        <ul>
-                          {question.answers.map((answer, i) => (
-                            <li key={i} style={{ gap: '25px', display: 'flex' }}>
-                              <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                              <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                ))}
-        </div>
-    )
+            <div className='answer-row' id={'answers-' + index}>
+              {question.type === 'text' && (
+                <ul>
+                  {question.answers.map((answer, answerIndex) => (
+                    <li key={answerIndex}>{answer}</li>
+                  ))}
+                </ul>
+              )}
+              {question.type === 'emoji' && (
+                <div className='emoji-row'>
+                  {imgImports.map((imgSrc, i) => (
+                    <div key={i} className='emoji-container'>
+                        <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
+                        <p data-testid={`emoji-answer-${i}`}>{question.answers[i]?.count}</p>
+                      </div>
+                  ))}
+                </div>
+              )}
+              {question.type === 'multiple' && (
+                <ul>
+                  {question.answers.map((answer, i) => (
+                    <li key={i} style={{ gap: '25px', display: 'flex' }}>
+                        <span style={{ listStyle: 'none' }}>{answer.title}</span>
+                        <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
+                      </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        ))}
+    </div>
+  )
 }
 
-export default TeacherFormContent;
+export default TeacherFormContent
