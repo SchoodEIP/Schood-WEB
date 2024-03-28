@@ -9,6 +9,8 @@ export default function HeaderComp () {
   function handleClickLogout () {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
+    localStorage.removeItem('id')
+    sessionStorage.removeItem('id')
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('role')
   }
