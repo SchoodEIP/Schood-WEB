@@ -112,7 +112,7 @@ describe('Last Alert component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-          <StudentHomePage />
+            <StudentHomePage />
           </WebsocketProvider>
         </BrowserRouter>
       )

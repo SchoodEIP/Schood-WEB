@@ -25,7 +25,7 @@ describe('ReportButton Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -176,7 +176,6 @@ describe('ReportButton Component', () => {
         </BrowserRouter>
       )
     })
-
 
     const reportButton = screen.getByText('Signaler')
     await act(async () => {
