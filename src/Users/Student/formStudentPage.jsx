@@ -15,6 +15,7 @@ const FormStudentPage = () => {
   const [error, setError] = useState(null)
   const [currentCheck, setCurrentCheck] = useState(false)
   const imgImports = [IconFace0, IconFace1, IconFace2]
+  const [answers, setAnswers] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -51,6 +52,22 @@ const FormStudentPage = () => {
           handleCurrentCheck(data.fromDate)
         } else {
           setError(data.message)
+        }
+      })
+      .catch(error => setError(error.message))
+
+    const getAnswersUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
+
+    fetch(getAnswersUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        if (data !== null) {
+          setAnswers(data.answers)
         }
       })
       .catch(error => setError(error.message))
@@ -114,6 +131,23 @@ const FormStudentPage = () => {
       .catch(error => setError(error.message))
   }
 
+  const checkAnswers = (question, i) => {
+    let result
+    answers.map((answer) => {
+      if (answer.question === question._id) {
+        if (question.type === 'text') {
+          result = answer.answers[0]
+        } else if (question.type === 'emoji') {
+          result = (answer.answers[0] === i.toString() ? true : false)
+        } else {
+          result = (answer.answers.indexOf(question.answers[i].title) !== -1 ? true : false)
+        }
+      }
+      return true
+    })
+    return result
+  }
+
   return (
     <div className='form-page'>
       <div>
@@ -149,6 +183,7 @@ const FormStudentPage = () => {
                           className='answer-text'
                           data-testid={`answer-${index}-0`}
                           disabled={currentCheck}
+                          value={checkAnswers(question, index)}
                         />
                       )}
                       {question.type === 'emoji' && (
@@ -161,6 +196,7 @@ const FormStudentPage = () => {
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                                 disabled={currentCheck}
+                                checked={checkAnswers(question, i)}
                               />
                             </div>
                           ))}
@@ -175,6 +211,7 @@ const FormStudentPage = () => {
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                                 disabled={currentCheck}
+                                checked={checkAnswers(question, i)}
                               />
                               <span style={{ listStyle: 'none' }}>{answer.title}</span>
                             </li>

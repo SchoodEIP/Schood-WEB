@@ -4,6 +4,7 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event';
 
 describe('NewFormPage', () => {
 
@@ -24,16 +25,12 @@ describe('NewFormPage', () => {
 
   const thisWeekMonday = getFormDates();
 
-  // function formatDate(date) {
-  //   date.setDate(date.getDate() + 7);
-
-  //   const month = String(date.getMonth() + 1).padStart(2, '0');
-  //   const day = String(date.getDate()).padStart(2, '0');
-  //   const year = date.getFullYear();
-  //   return `${month}/${day}/${year}`;
-  // }
-
-  // const currentDate = formatDate(thisWeekMonday);
+  function formatDate(date) {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
 
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
   let container = null
@@ -282,6 +279,34 @@ describe('NewFormPage', () => {
     expect(window.location.href).toBe('/questionnaires')
 
     window.location = originalLocation
+  })
+
+  test('pick a date', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <NewFormPage />
+        </BrowserRouter>
+      )
+    })
+
+    // Get today's date
+    const today = new Date();
+    const todayDayOfWeek = today.getDay(); // 0 for Sunday, 1 for Monday, ...
+
+    // Calculate the next Monday
+    let nextMonday = new Date(today);
+    nextMonday.setDate(today.getDate() + ((1 + 7 - todayDayOfWeek) % 7));
+
+    const datePickerInput = screen.getByDisplayValue(`${thisWeekMonday}`);
+    // Convert next Monday to ISO string (YYYY-MM-DD)
+    const nextMondayFormatted = formatDate(nextMonday);
+
+    // Set the input value to the next Monday
+    userEvent.type(datePickerInput, nextMondayFormatted);
+
+    // Ensure the input value is set to the next Monday
+    expect(datePickerInput).toHaveValue(nextMondayFormatted);
   })
 
   test('fail to create questionnaire', async () => {
