@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ProfilPage from '../../../Components/Profil/profilPage'
+import ProfilPage from '../../../Users/Shared/profilPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -18,6 +18,7 @@ global.fetch = jest.fn(() =>
 
 describe('ProfilPage component', () => {
   it('renders profil page with user information', async () => {
+    sessionStorage.setItem("role", "student")
     await act(async () => {
       render(
         <BrowserRouter>
@@ -35,6 +36,7 @@ describe('ProfilPage component', () => {
     expect(screen.getByText('Profil utilisateur')).toBeInTheDocument()
     expect(screen.getByText('Nom:')).toBeInTheDocument()
     expect(screen.getByText('Email:')).toBeInTheDocument()
+    sessionStorage.removeItem('role')
   })
 
   it('renders error message if there is an issue with fetching user data', async () => {

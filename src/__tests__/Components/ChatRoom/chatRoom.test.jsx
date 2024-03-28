@@ -3,6 +3,7 @@ import React from 'react'
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('Messages Component', () => {
@@ -122,7 +123,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -139,7 +142,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -172,7 +177,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -196,7 +203,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -216,7 +225,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -247,7 +258,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -273,7 +286,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -372,7 +387,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -397,7 +414,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -422,7 +441,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -447,7 +468,9 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <Messages />
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
