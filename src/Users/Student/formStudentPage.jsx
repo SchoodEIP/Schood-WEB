@@ -17,6 +17,7 @@ const FormStudentPage = () => {
   const imgImports = [IconFace0, IconFace1, IconFace2]
   const [answers, setAnswers] = useState([])
   const navigate = useNavigate()
+  const [isAnswered, setIsAnswered] = useState(false)
 
   useEffect(() => {
     const handleCurrentCheck = (fromDate) => {
@@ -67,6 +68,7 @@ const FormStudentPage = () => {
     }).then(response => response.json())
       .then(data => {
         if (data !== null) {
+          setIsAnswered(true)
           setAnswers(data.answers)
         }
       })
@@ -114,7 +116,7 @@ const FormStudentPage = () => {
     const data = getFormAnswers()
     const sendAnswerUrl = process.env.REACT_APP_BACKEND_URL + '/student/questionnaire/' + id
     fetch(sendAnswerUrl, {
-      method: 'POST',
+      method: isAnswered ? 'PATCH' : 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
@@ -123,6 +125,7 @@ const FormStudentPage = () => {
     }).then(response => response.json())
       .then(data => {
         if (!data.message) {
+          setIsAnswered(true)
           navigate('/questionnaires')
         } else {
           setError(data.message)
@@ -183,7 +186,7 @@ const FormStudentPage = () => {
                           className='answer-text'
                           data-testid={`answer-${index}-0`}
                           disabled={currentCheck}
-                          value={checkAnswers(question, index)}
+                          defaultValue={checkAnswers(question, index)}
                         />
                       )}
                       {question.type === 'emoji' && (
@@ -196,7 +199,7 @@ const FormStudentPage = () => {
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                                 disabled={currentCheck}
-                                checked={checkAnswers(question, i)}
+                                defaultChecked={checkAnswers(question, i)}
                               />
                             </div>
                           ))}
@@ -211,7 +214,7 @@ const FormStudentPage = () => {
                                 id={`answer-${index}-${i}`}
                                 data-testid={`answer-${index}-${i}`}
                                 disabled={currentCheck}
-                                checked={checkAnswers(question, i)}
+                                defaultChecked={checkAnswers(question, i)}
                               />
                               <span style={{ listStyle: 'none' }}>{answer.title}</span>
                             </li>
