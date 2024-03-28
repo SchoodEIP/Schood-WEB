@@ -78,7 +78,6 @@ const Messages = () => {
     }, [chats.value.newChat])
   }
 
-
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [error, setError] = useState('')
