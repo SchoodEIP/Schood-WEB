@@ -170,7 +170,7 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
         </BrowserRouter>
       )
     })
