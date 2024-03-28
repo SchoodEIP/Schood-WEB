@@ -57,9 +57,9 @@ const TeacherFormContent = (props) => {
                 <div className='emoji-row'>
                   {imgImports.map((imgSrc, i) => (
                     <div key={i} className='emoji-container'>
-                        <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
-                        <p data-testid={`emoji-answer-${i}`}>{question.answers[i]?.count}</p>
-                      </div>
+                      <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
+                      <p data-testid={`emoji-answer-${i}`}>{question.answers[i]?.count}</p>
+                    </div>
                   ))}
                 </div>
               )}
@@ -67,9 +67,9 @@ const TeacherFormContent = (props) => {
                 <ul>
                   {question.answers.map((answer, i) => (
                     <li key={i} style={{ gap: '25px', display: 'flex' }}>
-                        <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                        <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
-                      </li>
+                      <span style={{ listStyle: 'none' }}>{answer.title}</span>
+                      <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
+                    </li>
                   ))}
                 </ul>
               )}
