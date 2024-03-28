@@ -328,6 +328,7 @@ const ModifyFormTeacherPage = () => {
   }
 
   function removeLastQuestion () {
+    setQuestionInc(questionInc - 1);
     const questionRow = document.getElementById('question-row')
 
     const lastChild = questionRow.lastChild
