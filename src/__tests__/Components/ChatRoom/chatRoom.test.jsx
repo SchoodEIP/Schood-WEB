@@ -4,7 +4,7 @@ import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import '@testing-library/jest-dom/'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
 describe('Messages Component', () => {
   const id = 123
@@ -122,11 +122,11 @@ describe('Messages Component', () => {
   it('shows the conversations', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -141,11 +141,11 @@ describe('Messages Component', () => {
     localStorage.setItem('id', '0')
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -176,11 +176,11 @@ describe('Messages Component', () => {
   it('sends a message- in chatroom', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
     const input = screen.getByPlaceholderText('Composez votre message')
@@ -202,11 +202,11 @@ describe('Messages Component', () => {
   it('handles file uploading', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -224,11 +224,11 @@ describe('Messages Component', () => {
   it('handles file error', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -257,11 +257,11 @@ describe('Messages Component', () => {
   it('shows an error', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
     const fileInput = screen.getByLabelText('+')
@@ -285,11 +285,11 @@ describe('Messages Component', () => {
   it('creates a new conversation', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -386,11 +386,11 @@ describe('Messages Component', () => {
   it('sets file type to "pdf" for a PDF file', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -413,11 +413,11 @@ describe('Messages Component', () => {
   it('sets file type to "other" for a other file', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -440,11 +440,11 @@ describe('Messages Component', () => {
   it('sets file type to "zip" for a zip file', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -467,11 +467,11 @@ describe('Messages Component', () => {
   it('get file then clear it', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <Messages />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
