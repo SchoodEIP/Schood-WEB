@@ -1,6 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Popup from '../../../Components/Popup/popup'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('Popup', () => {
   const mockToggle = jest.fn()
@@ -15,8 +17,16 @@ describe('Popup', () => {
     handleCreation: mockAccountCreation
   }
 
-  test('renders popup with correct content and handles actions', () => {
-    render(<Popup {...mockProps} />)
+  test('renders popup with correct content and handles actions', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Popup {...mockProps} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     const closeButton = screen.getByText('x')
     const title = screen.getByText('Test Popup')

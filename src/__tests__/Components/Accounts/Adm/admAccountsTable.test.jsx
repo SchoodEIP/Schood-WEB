@@ -1,6 +1,8 @@
 import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AdmAccountsTable from '../../../../Components/Accounts/Adm/admAccountsTable'
+import { WebsocketProvider } from '../../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('AdmAccountsTable', () => {
   it('renders the table', async () => {
@@ -22,7 +24,13 @@ describe('AdmAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<AdmAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const table = screen.getByRole('table')
     expect(table).toBeInTheDocument()
@@ -47,7 +55,13 @@ describe('AdmAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<AdmAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const tableHeaders = await screen.findAllByRole('columnheader')
     expect(tableHeaders[0]).toHaveTextContent('Prénom')
@@ -74,7 +88,13 @@ describe('AdmAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<AdmAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const accountRows = await screen.findAllByRole('row')
     expect(accountRows).toHaveLength(3) // header row + 2 data rows

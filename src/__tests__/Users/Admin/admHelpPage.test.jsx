@@ -3,6 +3,7 @@ import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AdmHelpPage from '../../../Users/Admin/admHelpPage'
 import fetchMock from 'fetch-mock'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('AdmHelpPage', () => {
@@ -45,7 +46,9 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmHelpPage />
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -59,7 +62,9 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmHelpPage />
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -85,7 +90,9 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmHelpPage />
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -135,7 +142,9 @@ describe('AdmHelpPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmHelpPage />
+          <WebsocketProvider>
+            <AdmHelpPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

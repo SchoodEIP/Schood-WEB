@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, act, screen, fireEvent } from '@testing-library/react'
 import FormListStudentPage from '../../../Users/Student/formListStudentPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
@@ -34,7 +35,9 @@ describe('FormListStudentPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListStudentPage />
+          <WebsocketProvider>
+            <FormListStudentPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -45,7 +48,9 @@ describe('FormListStudentPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListStudentPage />
+          <WebsocketProvider>
+            <FormListStudentPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -59,7 +64,9 @@ describe('FormListStudentPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListStudentPage />
+          <WebsocketProvider>
+            <FormListStudentPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

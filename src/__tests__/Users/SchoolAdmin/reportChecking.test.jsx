@@ -2,7 +2,8 @@ import ReportChecking from '../../../Users/SchoolAdmin/reportChecking'
 import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('ReportChecking Component', () => {
@@ -71,9 +72,11 @@ describe('ReportChecking Component', () => {
   it('renders without crashing', async () => {
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -83,9 +86,11 @@ describe('ReportChecking Component', () => {
   it('fetches report requests on mount', async () => {
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -99,9 +104,11 @@ describe('ReportChecking Component', () => {
   it('handles filter change correctly', async () => {
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -127,9 +134,11 @@ describe('ReportChecking Component', () => {
   it('handles report validation', async () => {
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -149,9 +158,11 @@ describe('ReportChecking Component', () => {
   it('handles report deletion', async () => {
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -173,9 +184,11 @@ describe('ReportChecking Component', () => {
 
     await act(async () => {
       render(
-        <Router>
-          <ReportChecking />
-        </Router>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportChecking />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 

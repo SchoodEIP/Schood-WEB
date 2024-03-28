@@ -3,9 +3,34 @@ import React from 'react'
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import NewFormPage from '../../../Users/Teacher/newFormPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 describe('NewFormPage', () => {
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay()
+    const diffThisWeekMonday = (today.getDate() + 7) - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
+
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
+
+    const month = String(thisWeekMonday.getMonth() + 1).padStart(2, '0')
+    const day = String(thisWeekMonday.getDate()).padStart(2, '0')
+    const year = thisWeekMonday.getFullYear()
+    return `${month}/${day}/${year}`
+  }
+
+  const thisWeekMonday = getFormDates()
+
+  function formatDate (date) {
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
+  }
+
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire'
   let container = null
 
@@ -27,7 +52,9 @@ describe('NewFormPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -37,14 +64,16 @@ describe('NewFormPage', () => {
     expect(screen.getByText('Ajouter une Question')).toBeInTheDocument()
     expect(screen.getByText('Date de parution:')).toBeInTheDocument()
     expect(screen.getByText('Créer un Questionnaire')).toBeInTheDocument()
-    expect(screen.getByTestId('parution-date')).toBeInTheDocument()
+    expect(screen.getByDisplayValue(`${thisWeekMonday}`)).toBeInTheDocument()
   })
 
   test('add and remove a question', async () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -75,7 +104,9 @@ describe('NewFormPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -155,7 +186,9 @@ describe('NewFormPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -193,7 +226,9 @@ describe('NewFormPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -225,7 +260,9 @@ describe('NewFormPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -255,6 +292,36 @@ describe('NewFormPage', () => {
     window.location = originalLocation
   })
 
+  test('pick a date', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    // Get today's date
+    const today = new Date()
+    const todayDayOfWeek = today.getDay() // 0 for Sunday, 1 for Monday, ...
+
+    // Calculate the next Monday
+    const nextMonday = new Date(today)
+    nextMonday.setDate(today.getDate() + ((1 + 7 - todayDayOfWeek) % 7))
+
+    const datePickerInput = screen.getByDisplayValue(`${thisWeekMonday}`)
+    // Convert next Monday to ISO string (YYYY-MM-DD)
+    const nextMondayFormatted = formatDate(nextMonday)
+
+    // Set the input value to the next Monday
+    userEvent.type(datePickerInput, nextMondayFormatted)
+
+    // Ensure the input value is set to the next Monday
+    expect(datePickerInput).toHaveValue(nextMondayFormatted)
+  })
+
   test('fail to create questionnaire', async () => {
     window.fetch = jest.fn().mockResolvedValue({
       status: 400,
@@ -264,7 +331,9 @@ describe('NewFormPage', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <NewFormPage />
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

@@ -3,6 +3,7 @@ import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AidePage from '../../../Components/Aides/aides'
 import fetchMock from 'fetch-mock'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 // Mock de useEffect pour éviter de faire des appels HTTP réels
@@ -44,7 +45,9 @@ describe('AidePage component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AidePage />
+          <WebsocketProvider>
+            <AidePage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -63,7 +66,9 @@ describe('AidePage component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AidePage />
+          <WebsocketProvider>
+            <AidePage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -86,7 +91,9 @@ describe('AidePage component', () => {
     await act(() => {
       render(
         <BrowserRouter>
-          <AidePage />
+          <WebsocketProvider>
+            <AidePage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

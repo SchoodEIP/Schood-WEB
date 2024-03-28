@@ -1,10 +1,12 @@
 import ChatRoomSidebar from '../../../Components/ChatRoom/chatRoomSidebar'
 import React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom/'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('ChatRoomSidebar', () => {
-  it('renders the component with conversations', () => {
+  it('renders the component with conversations', async () => {
     const conversations = [
       { name: 'Conversation 1' },
       { name: 'Conversation 2' },
@@ -15,15 +17,21 @@ describe('ChatRoomSidebar', () => {
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
 
-    render(
-      <ChatRoomSidebar
-        conversations={conversations}
-        currentConversation={currentConversation}
-        setCurrentConversation={setCurrentConversation}
-        clearMessageAndError={clearMessageAndError}
-        openCreateConversationPopup={openCreateConversationPopup}
-      />
-    )
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ChatRoomSidebar
+              conversations={conversations}
+              currentConversation={currentConversation}
+              setCurrentConversation={setCurrentConversation}
+              clearMessageAndError={clearMessageAndError}
+              openCreateConversationPopup={openCreateConversationPopup}
+            />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     // Check if the component renders with the correct conversations
     conversations.forEach((conversation) => {
@@ -40,7 +48,7 @@ describe('ChatRoomSidebar', () => {
     expect(newConversationButton).toBeInTheDocument()
   })
 
-  it('calls setCurrentConversation and clearMessageAndError when a conversation is clicked', () => {
+  it('calls setCurrentConversation and clearMessageAndError when a conversation is clicked', async () => {
     const conversations = [
       { name: 'Conversation 1' },
       { name: 'Conversation 2' },
@@ -51,15 +59,21 @@ describe('ChatRoomSidebar', () => {
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
 
-    render(
-      <ChatRoomSidebar
-        conversations={conversations}
-        currentConversation={currentConversation}
-        setCurrentConversation={setCurrentConversation}
-        clearMessageAndError={clearMessageAndError}
-        openCreateConversationPopup={openCreateConversationPopup}
-      />
-    )
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ChatRoomSidebar
+              conversations={conversations}
+              currentConversation={currentConversation}
+              setCurrentConversation={setCurrentConversation}
+              clearMessageAndError={clearMessageAndError}
+              openCreateConversationPopup={openCreateConversationPopup}
+            />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     // Click on a conversation
     const conversationToClick = screen.getByText(conversations[1].name)
@@ -72,22 +86,28 @@ describe('ChatRoomSidebar', () => {
     expect(clearMessageAndError).toHaveBeenCalled()
   })
 
-  it('calls openCreateConversationPopup when "Nouvelle conversation" button is clicked', () => {
+  it('calls openCreateConversationPopup when "Nouvelle conversation" button is clicked', async () => {
     const conversations = []
     const currentConversation = null
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
 
-    render(
-      <ChatRoomSidebar
-        conversations={conversations}
-        currentConversation={currentConversation}
-        setCurrentConversation={setCurrentConversation}
-        clearMessageAndError={clearMessageAndError}
-        openCreateConversationPopup={openCreateConversationPopup}
-      />
-    )
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ChatRoomSidebar
+              conversations={conversations}
+              currentConversation={currentConversation}
+              setCurrentConversation={setCurrentConversation}
+              clearMessageAndError={clearMessageAndError}
+              openCreateConversationPopup={openCreateConversationPopup}
+            />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     // Click on the "Nouvelle conversation" button
     const newConversationButton = screen.getByText('Nouvelle conversation')

@@ -2,7 +2,8 @@ import React from 'react'
 import { MoodForm } from '../../../Components/Questionnaire/moodForm.jsx'
 import { render, screen, act, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('MoodForm Component', () => {
@@ -25,9 +26,11 @@ describe('MoodForm Component', () => {
     }))
     await act(async () => {
       render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <MoodForm />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -42,9 +45,11 @@ describe('MoodForm Component', () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     await act(async () => {
       render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <MoodForm />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
@@ -54,9 +59,11 @@ describe('MoodForm Component', () => {
   it('shows angry mood', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <MoodForm />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <MoodForm />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 

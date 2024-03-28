@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, act } from '@testing-library/react'
 import TeacherHomePage from '../../../Users/Teacher/dashboardTeacher'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('Dashboard Teachercomponent', () => {
@@ -9,7 +10,13 @@ describe('Dashboard Teachercomponent', () => {
     let getByText
 
     await act(async () => {
-      const { getByText: getByTextFn } = render(<BrowserRouter><TeacherHomePage /></BrowserRouter>)
+      const { getByText: getByTextFn } = render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <TeacherHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
       getByText = getByTextFn
     })
 

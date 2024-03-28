@@ -1,7 +1,9 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import ProfilPage from '../../../Components/Profil/profilPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 // Mocking the fetch function
 global.fetch = jest.fn(() =>
@@ -16,7 +18,15 @@ global.fetch = jest.fn(() =>
 
 describe('ProfilPage component', () => {
   it('renders profil page with user information', async () => {
-    render(<ProfilPage />)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ProfilPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     // Wait for the fetch request to complete
     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1))
@@ -31,7 +41,15 @@ describe('ProfilPage component', () => {
     // Mocking fetch to simulate an error
     global.fetch = jest.fn(() => Promise.reject(new Error('Fetch error')))
 
-    render(<ProfilPage />)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ProfilPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
 
     // Wait for the fetch request to complete
     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1))

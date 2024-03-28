@@ -1,5 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
 import Sidebar from '../../../Components/Sidebar/sidebar'
@@ -28,7 +29,9 @@ it('renders sidebar with collapsed state', () => {
   act(() => {
     root.render(
       <BrowserRouter>
-        <Sidebar />
+        <WebsocketProvider>
+          <Sidebar />
+        </WebsocketProvider>
       </BrowserRouter>
     )
   })
@@ -48,7 +51,9 @@ it('renders sidebar with expanded state', () => {
   act(() => {
     root.render(
       <BrowserRouter>
-        <Sidebar />
+        <WebsocketProvider>
+          <Sidebar />
+        </WebsocketProvider>
       </BrowserRouter>
     )
   })
@@ -77,7 +82,9 @@ it('renders sidebar with expanded state', () => {
   act(() => {
     root.render(
       <BrowserRouter>
-        <Sidebar />
+        <WebsocketProvider>
+          <Sidebar />
+        </WebsocketProvider>
       </BrowserRouter>
     )
   })

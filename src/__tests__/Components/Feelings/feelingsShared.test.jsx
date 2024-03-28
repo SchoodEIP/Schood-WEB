@@ -2,20 +2,35 @@ import React from 'react'
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Feelings from '../../../Components/Feelings/feelingsShared'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 jest.useFakeTimers()
 
 describe('Feelings Component', () => {
   it('renders without crashing', async () => {
     await act(async () => {
-      render(<Feelings />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Feelings />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
+
     expect(screen.getByText('Joyeux')).toBeInTheDocument()
   })
 
   it('selects emotion on click', async () => {
     await act(async () => {
-      render(<Feelings />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Feelings />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const joyButton = screen.getByText('Joie modérée')
@@ -26,7 +41,13 @@ describe('Feelings Component', () => {
 
   it('updates writtenFeeling on textarea change', async () => {
     await act(async () => {
-      render(<Feelings />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Feelings />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const textarea = screen.getByTestId('feelingText') // Use 'feelingText' as the argument
@@ -37,7 +58,13 @@ describe('Feelings Component', () => {
 
   it('toggles isAnonymous on checkbox change', async () => {
     await act(async () => {
-      render(<Feelings />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Feelings />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const checkbox = screen.getByTestId('anonymousCheckbox')
@@ -50,7 +77,13 @@ describe('Feelings Component', () => {
     global.fetch = jest.fn(() => Promise.resolve({}))
 
     await act(async () => {
-      render(<Feelings />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Feelings />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     await act(async () => {
