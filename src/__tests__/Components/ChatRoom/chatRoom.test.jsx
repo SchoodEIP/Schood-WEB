@@ -123,7 +123,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -140,7 +140,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -173,7 +173,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -197,7 +197,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -217,7 +217,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -248,7 +248,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -274,7 +274,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -373,7 +373,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -398,7 +398,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -423,7 +423,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
@@ -448,7 +448,7 @@ describe('Messages Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-            <Messages />
+          <Messages />
         </BrowserRouter>
       )
     })
