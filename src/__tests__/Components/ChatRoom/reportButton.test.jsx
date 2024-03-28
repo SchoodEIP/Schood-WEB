@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/'
 import ReportButton from '../../../Components/ChatRoom/reportButton'
 import fetchMock from 'fetch-mock'
 import { BrowserRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('ReportButton Component', () => {
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
@@ -23,7 +24,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -38,7 +41,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -63,7 +68,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -99,7 +106,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -129,7 +138,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -159,7 +170,9 @@ describe('ReportButton Component', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
