@@ -2,7 +2,8 @@ import React from 'react'
 import { QuestSpace } from '../../../Components/Questionnaire/questSpace.jsx'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('QuestSpace Component', () => {
@@ -86,11 +87,14 @@ describe('QuestSpace Component', () => {
   it('shows the component QuestSpace', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <QuestSpace />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <QuestSpace />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const questSpaceElement = screen.getByTestId('quest-space') // Utilisation de getByTestId
     expect(questSpaceElement).toBeInTheDocument()
   })
@@ -98,9 +102,11 @@ describe('QuestSpace Component', () => {
   it('shows the title of Mes Questionnaires', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <QuestSpace />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <QuestSpace />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     const titleElement = screen.getByText('Mes Questionnaires')
@@ -112,9 +118,11 @@ describe('QuestSpace Component', () => {
 
     await act(async () => {
       render(
-        <MemoryRouter>
-          <QuestSpace />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <QuestSpace />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     const titleElement = screen.getByText('Mes Questionnaires')
@@ -124,9 +132,11 @@ describe('QuestSpace Component', () => {
   it('goes to the form', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <QuestSpace />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <QuestSpace />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 

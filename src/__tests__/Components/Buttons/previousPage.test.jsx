@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 import PreviousPage from '../../../Components/Buttons/previousPage'
@@ -11,7 +12,9 @@ describe('PreviousPage', () => {
 
     render(
       <BrowserRouter>
-        <PreviousPage />
+        <WebsocketProvider>
+          <PreviousPage />
+        </WebsocketProvider>
       </BrowserRouter>
     )
 

@@ -1,16 +1,20 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router-dom' // Ajoutez cette ligne
-
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import HeaderComp from '../../../Components/Header/headerComp'
 
 describe('HeaderComp', () => {
-  test('should render logo and user icon', () => {
-    render(
-      <MemoryRouter>
-        <HeaderComp />
-      </MemoryRouter>
-    )
+  test('should render logo and user icon', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <HeaderComp />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
     const logo = screen.getByAltText('logo')
     const userIcon = screen.getByTestId('profil')
     expect(logo).toBeInTheDocument()
@@ -18,11 +22,15 @@ describe('HeaderComp', () => {
   })
 
   test('should empty localStorage and sessionStorage', async () => {
-    render(
-      <MemoryRouter>
-        <HeaderComp />
-      </MemoryRouter>
-    )
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <HeaderComp />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
     const logout = screen.getByTestId('logout-button')
     expect(logout.tagName).toBe('A')
 

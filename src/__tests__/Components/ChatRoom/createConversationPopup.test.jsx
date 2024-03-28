@@ -3,6 +3,8 @@ import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import Messages from '../../../Components/ChatRoom/chatRoom'
 import '@testing-library/jest-dom/'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('createConversationPopup Component', () => {
   const id = 123
@@ -113,7 +115,13 @@ describe('createConversationPopup Component', () => {
 
   it('opens the create conversation popup when the button is clicked', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Messages/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Ensure that the popup is initially closed
@@ -159,7 +167,13 @@ describe('createConversationPopup Component', () => {
 
   it('handles cancel button click', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Messages/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Ensure that the popup is initially closed
@@ -186,7 +200,13 @@ describe('createConversationPopup Component', () => {
 
   it('handles contact selection', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Messages/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Ensure that the popup is initially closed
@@ -220,7 +240,13 @@ describe('createConversationPopup Component', () => {
 
   it('handles create conversation button click', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Messages/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Ensure that the popup is initially closed

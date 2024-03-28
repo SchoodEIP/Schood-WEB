@@ -2,6 +2,8 @@ import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import Message from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 // Mock the fetch function
 global.fetch = jest.fn(() =>
@@ -34,7 +36,13 @@ describe('Message Component', () => {
       contentType: 'text'
     }
     await act(async () => {
-      render(<Message message={userMessage} participants={participants} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={userMessage} participants={participants}/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
   })
 
@@ -46,7 +54,13 @@ describe('Message Component', () => {
     }
 
     await act(async () => {
-      render(<Message message={textMessage} participants={participants} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={textMessage} participants={participants}/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const contentElement = screen.getByText('Hello, World!')
@@ -73,12 +87,14 @@ describe('Message Component', () => {
     )
 
     await act(async () => {
-      render(<Message message={fileMessage} participants={participants} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={fileMessage} participants={participants}/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
-
-    // screen.debug()
-
-    // Wait for the image to load
 
     const contentElement = screen.getByText('File: Image.jpg')
     expect(contentElement).toBeInTheDocument()
@@ -97,7 +113,13 @@ describe('Message Component', () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Fetch error')))
 
     await act(async () => {
-      render(<Message message={fileMessage} participants={participants} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={fileMessage} participants={participants}/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const dateElement = screen.getByText('01/01/00 00:00')
