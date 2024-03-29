@@ -6,12 +6,13 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('ChatRoomSidebar', () => {
+  const conversations = [
+    { name: 'Conversation 2', _id: 0 },
+    { name: 'Conversation 3', _id: 1 },
+    { name: 'Conversation 1', _id: 2 }
+  ]
+
   it('renders the component with conversations', async () => {
-    const conversations = [
-      { name: 'Conversation 1' },
-      { name: 'Conversation 2' },
-      { name: 'Conversation 3' }
-    ]
     const currentConversation = conversations[0]
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
@@ -49,11 +50,6 @@ describe('ChatRoomSidebar', () => {
   })
 
   it('calls setCurrentConversation and clearMessageAndError when a conversation is clicked', async () => {
-    const conversations = [
-      { name: 'Conversation 1' },
-      { name: 'Conversation 2' },
-      { name: 'Conversation 3' }
-    ]
     const currentConversation = conversations[0]
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
@@ -87,8 +83,6 @@ describe('ChatRoomSidebar', () => {
   })
 
   it('calls openCreateConversationPopup when "Nouvelle conversation" button is clicked', async () => {
-    const conversations = []
-    const currentConversation = null
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
@@ -98,8 +92,8 @@ describe('ChatRoomSidebar', () => {
         <BrowserRouter>
           <WebsocketProvider>
             <ChatRoomSidebar
-              conversations={conversations}
-              currentConversation={currentConversation}
+              conversations={[]}
+              currentConversation={null}
               setCurrentConversation={setCurrentConversation}
               clearMessageAndError={clearMessageAndError}
               openCreateConversationPopup={openCreateConversationPopup}
