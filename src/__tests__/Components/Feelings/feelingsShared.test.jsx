@@ -14,7 +14,7 @@ describe('Feelings Component', () => {
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.get(feelings, [])
-    fetchMock.post(feelings, {status: 200})
+    fetchMock.post(feelings, { status: 200 })
   })
 
   afterEach(() => {
@@ -113,7 +113,6 @@ describe('Feelings Component', () => {
   })
 
   it('resets form state after popup is closed', async () => {
-
     await act(async () => {
       render(
         <BrowserRouter>

@@ -82,7 +82,7 @@ if (rootElement) {
               <Route path='/statistiques' element={<StudentStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
               <Route path='/profil' element={<ProfilPage />} />
-              <Route path="/feelings" element={<FeelingsStudentPage/>} />
+              <Route path='/feelings' element={<FeelingsStudentPage />} />
             </>
           )}
           {sessionStorage.getItem('role') === 'teacher' && (

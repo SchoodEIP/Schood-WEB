@@ -29,8 +29,8 @@ const Feelings = (props) => {
       },
       body: JSON.stringify(feelingsData)
     })
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         resetForm()
         setAlertResponse('Ressenti envoyé avec succès')
         setShowPopup(true)
@@ -68,7 +68,7 @@ const Feelings = (props) => {
               key={index} onClick={() => handleEmotionClick(mood)}
               className={selectedEmotion === mood ? 'emoji-mood selected-emotion' : 'emoji-mood'}
             >
-              <img src={props.moodPaths[mood]} alt={props.emotions[mood]} style={{height: "42px"}}></img>
+              <img src={props.moodPaths[mood]} alt={props.emotions[mood]} style={{ height: '42px' }} />
               <div className='emotion-name'>{props.emotions[mood]}</div>
             </div>
           ))}
