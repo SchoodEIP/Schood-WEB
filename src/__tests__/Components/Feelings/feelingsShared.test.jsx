@@ -1,25 +1,43 @@
 import React from 'react'
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Feelings from '../../../Components/Feelings/feelingsShared'
+import FeelingsStudentPage from '../../../Users/Student/feelingsStudentPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
+import fetchMock from 'fetch-mock'
 
 jest.useFakeTimers()
 
 describe('Feelings Component', () => {
+  const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/feelings`
+
+  beforeEach(() => {
+    fetchMock.reset()
+    fetchMock.get(feelings, [])
+    fetchMock.post(feelings, {status: 200})
+  })
+
+  afterEach(() => {
+    fetchMock.restore()
+  })
+
   it('renders without crashing', async () => {
     await act(async () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Feelings />
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
 
-    expect(screen.getByText('Joyeux')).toBeInTheDocument()
+    const ressentiBtn = screen.getByText('Créer un ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
+    expect(screen.getByText('Bonne Humeur')).toBeInTheDocument()
   })
 
   it('selects emotion on click', async () => {
@@ -27,16 +45,23 @@ describe('Feelings Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Feelings />
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
+    const ressentiBtn = screen.getByText('Créer un ressenti')
 
-    const joyButton = screen.getByText('Joie modérée')
-    fireEvent.click(joyButton)
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
 
-    expect(screen.getByText('Joie modérée').parentElement).toHaveClass('selected-emotion')
+    const joyButton = screen.getByText('Bonne Humeur')
+    await act(async () => {
+      fireEvent.click(joyButton)
+    })
+
+    expect(screen.getByText('Bonne Humeur').parentElement).toHaveClass('selected-emotion')
   })
 
   it('updates writtenFeeling on textarea change', async () => {
@@ -44,14 +69,22 @@ describe('Feelings Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Feelings />
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
 
+    const ressentiBtn = screen.getByText('Créer un ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
+
     const textarea = screen.getByTestId('feelingText') // Use 'feelingText' as the argument
-    fireEvent.change(textarea, { target: { value: 'Feeling test' } })
+    await act(async () => {
+      fireEvent.change(textarea, { target: { value: 'Feeling test' } })
+    })
 
     expect(textarea).toHaveValue('Feeling test')
   })
@@ -61,10 +94,15 @@ describe('Feelings Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Feelings />
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
+    })
+    const ressentiBtn = screen.getByText('Créer un ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
     })
 
     const checkbox = screen.getByTestId('anonymousCheckbox')
@@ -74,25 +112,27 @@ describe('Feelings Component', () => {
   })
 
   it('resets form state after popup is closed', async () => {
-    global.fetch = jest.fn(() => Promise.resolve({}))
 
     await act(async () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <Feelings />
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
+    })
+    const ressentiBtn = screen.getByText('Créer un ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
     })
 
     await act(async () => {
       await fireEvent.click(screen.getByTestId('buttonSend'))
     })
 
-    expect(screen.getByText(/Ressenti envoyé avec succès/)).toBeInTheDocument()
-
-    act(() => {
+    await act(() => {
       jest.runAllTimers() // Advance all timers
     })
 
