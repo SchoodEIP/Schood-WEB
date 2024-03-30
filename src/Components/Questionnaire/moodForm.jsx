@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../css/Components/Buttons/button.css'
 export function MoodForm () {
   const [isAnswered, setIsAnswered] = useState(false)
