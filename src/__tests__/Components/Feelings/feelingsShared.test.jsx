@@ -106,6 +106,7 @@ describe('Feelings Component', () => {
     })
 
     const checkbox = screen.getByTestId('anonymousCheckbox')
+
     await act(async () => {
       await fireEvent.click(checkbox)
     })
