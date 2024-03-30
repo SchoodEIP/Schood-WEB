@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../css/Components/Buttons/button.css'
 export function MoodForm () {
   const [isAnswered, setIsAnswered] = useState(false)
@@ -11,12 +11,7 @@ export function MoodForm () {
     happyMood: require('../../assets/happyMood.jpg'),
     veryHappyMood: require('../../assets/veryHappyMood.jpg')
   }
-
-  const setMoods = () => {
-    return ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
-  }
-
-  const moods = useMemo(() => setMoods(), [])
+  const moods = ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
