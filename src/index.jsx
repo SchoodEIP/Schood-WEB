@@ -26,6 +26,7 @@ import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
+import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
 
 const rootElement = document.getElementById('root')
 
@@ -81,6 +82,7 @@ if (rootElement) {
               <Route path='/statistiques' element={<StudentStatPage />} />
               <Route path='/aides' element={<HelpPage />} />
               <Route path='/profil' element={<ProfilPage />} />
+              <Route path="/feelings" element={<FeelingsStudentPage/>} />
             </>
           )}
           {sessionStorage.getItem('role') === 'teacher' && (

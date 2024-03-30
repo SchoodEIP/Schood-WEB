@@ -1,24 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Feelings/feelings.scss'
 
-const emotionsData = [
-  { emotion: 'Joyeux', description: 'Heureux et enthousiaste', emoji: '😄' },
-  { emotion: 'Joie modérée', description: 'Content et satisfait', emoji: '😊' },
-  { emotion: 'Plein d\'énergie', description: 'Énergique et dynamique', emoji: '💪' },
-  { emotion: 'Calme', description: 'Tranquille et serein', emoji: '😌' },
-  { emotion: 'Neutre', description: 'Ni joyeux ni triste', emoji: '😐' },
-  { emotion: 'Ennuyé', description: 'Peu intéressé et ennuyé', emoji: '😑' },
-  { emotion: 'Triste', description: 'Attristé et déprimé', emoji: '😢' },
-  { emotion: 'En colère', description: 'Irrité et furieux', emoji: '😡' },
-  { emotion: 'Fatigué', description: 'Fatigué mais pas épuisé', emoji: '😓' },
-  { emotion: 'Exténué', description: 'Épuisé et vidé', emoji: '😩' },
-  { emotion: 'Anxieux', description: 'Inquiet et nerveux', emoji: '😰' },
-  { emotion: 'Sous pression', description: 'Sous stress et pression', emoji: '🤯' },
-  { emotion: 'Malade', description: 'Malade et faible', emoji: '🤢' },
-  { emotion: 'Perdu', description: 'Confus et désorienté', emoji: '😵' }
-]
-
-const Feelings = () => {
+const Feelings = (props) => {
   const [selectedEmotion, setSelectedEmotion] = useState('') // Émotion sélectionnée
   const [writtenFeeling, setWrittenFeeling] = useState('') // Ressenti écrit
   const [isAnonymous, setIsAnonymous] = useState(true) // Anonyme par défaut
@@ -38,7 +21,7 @@ const Feelings = () => {
     }
 
     // Effectuer la requête POST
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/path/to/feelings`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/feelings`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +29,8 @@ const Feelings = () => {
       },
       body: JSON.stringify(feelingsData)
     })
-      .then(response => {
+    .then(response => response.json())
+    .then(data => {
         resetForm()
         setAlertResponse('Ressenti envoyé avec succès')
         setShowPopup(true)
@@ -79,13 +63,13 @@ const Feelings = () => {
       <div>
         <label>Sélectionnez votre émotion:</label>
         <div className='emotion-grid'>
-          {emotionsData.map((emotionData, index) => (
+          {props.moods.map((mood, index) => (
             <div
-              key={index} onClick={() => handleEmotionClick(emotionData.emotion)}
-              className={selectedEmotion === emotionData.emotion ? 'emoji-mood selected-emotion' : 'emoji-mood'}
+              key={index} onClick={() => handleEmotionClick(mood)}
+              className={selectedEmotion === mood ? 'emoji-mood selected-emotion' : 'emoji-mood'}
             >
-              <span role='img' aria-label={emotionData.emotion}>{emotionData.emoji}</span>
-              <div className='emotion-name'>{emotionData.emotion}</div>
+              <img src={props.moodPaths[mood]} alt={props.emotions[mood]} style={{height: "42px"}}></img>
+              <div className='emotion-name'>{props.emotions[mood]}</div>
             </div>
           ))}
         </div>

@@ -11,12 +11,7 @@ export function MoodForm () {
     happyMood: require('../../assets/happyMood.jpg'),
     veryHappyMood: require('../../assets/veryHappyMood.jpg')
   }
-
-  const setMoods = () => {
-    return ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
-  }
-
-  const moods = useMemo(() => setMoods(), [])
+  const moods = ['veryBadMood', 'badMood', 'averageMood', 'happyMood', 'veryHappyMood']
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
