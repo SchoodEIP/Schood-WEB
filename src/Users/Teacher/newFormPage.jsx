@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 
@@ -177,8 +179,8 @@ const NewFormPage = () => {
     typeSelect.appendChild(multiOption)
     container.appendChild(answerRow)
     container.appendChild(answerBtnContainer)
-    answerBtnContainer.appendChild(removeAnswerBtn)
     answerBtnContainer.appendChild(addAnswerBtn)
+    answerBtnContainer.appendChild(removeAnswerBtn)
     questionRow.appendChild(container)
     setQuestionInc(questionInc + 1)
   }
@@ -191,6 +193,19 @@ const NewFormPage = () => {
       questionRow.removeChild(lastChild)
     }
     setQuestionInc(questionInc - 1)
+  }
+
+  const [selectedDate, setSelectedDate] = useState(null)
+
+  useEffect(() => {
+    const today = new Date()
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7
+    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday)
+    setSelectedDate(nextMonday)
+  }, [])
+
+  const filterMonday = (date) => /* istanbul ignore next */ {
+    return date.getDay() === 1 && date >= new Date()
   }
 
   return (
@@ -211,13 +226,21 @@ const NewFormPage = () => {
               </div>
               <div id='question-row' />
               <div className='confirmation-form-container'>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
                 <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
+                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
               </div>
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
                   Date de parution:
-                  <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' />
+                  <DatePicker
+                    className='date-input'
+                    name='parution-date'
+                    data-testid='parution-date'
+                    id='parution-date'
+                    selected={selectedDate}
+                    onChange={date => /* istanbul ignore next */ { setSelectedDate(date) }}
+                    filterDate={filterMonday}
+                  />
                 </label>
                 <div style={{}}>
                   <p data-testid='error-message'>{errMessage}</p>

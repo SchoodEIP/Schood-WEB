@@ -1,10 +1,18 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Login from '../../../Users/Public/loginPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('Login', () => {
   it('renders email and password inputs', () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const emailInput = screen.getByPlaceholderText('Email')
     const passwordInput = screen.getByPlaceholderText('********')
     expect(emailInput).toBeInTheDocument()
@@ -12,28 +20,52 @@ describe('Login', () => {
   })
 
   it('updates email state when input value changes', () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
     expect(emailInput.value).toBe('test@example.com')
   })
 
   it('updates password state when input value changes', () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const passwordInput = screen.getByPlaceholderText('********')
     fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
     expect(passwordInput.value).toBe('testpassword')
   })
 
   it('check email when login button is clicked', () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const loginButton = screen.getByText('Login')
     fireEvent.click(loginButton)
     expect(screen.getByText('Email is not valid')).toBeInTheDocument()
   })
 
   it('displays error message when email is invalid', () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const emailInput = screen.getByPlaceholderText('Email')
     const loginButton = screen.getByText('Login')
     fireEvent.change(emailInput, { target: { value: 'invalidemail' } })
@@ -43,7 +75,13 @@ describe('Login', () => {
   })
 
   it('validates password and displays error message for empty password', async () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
 
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
@@ -57,7 +95,13 @@ describe('Login', () => {
   })
 
   it('sends login request and sets token on successful login', async () => {
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <Login />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
 
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })

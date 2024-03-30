@@ -1,6 +1,8 @@
 import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import SchoolAccountsTable from '../../../../Components/Accounts/SchoolAdm/schoolAccountsTable'
+import { WebsocketProvider } from '../../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('SchoolSchoolAccountsTable', () => {
   it('renders the table', async () => {
@@ -40,7 +42,13 @@ describe('SchoolSchoolAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<SchoolAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <SchoolAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const table = screen.getByRole('table')
     expect(table).toBeInTheDocument()
@@ -81,7 +89,13 @@ describe('SchoolSchoolAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<SchoolAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <SchoolAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const tableHeaders = await screen.findAllByRole('columnheader')
     expect(tableHeaders[0]).toHaveTextContent('Prénom')
@@ -124,7 +138,13 @@ describe('SchoolSchoolAccountsTable', () => {
       statusText: 'OK'
     })
     await act(async () => {
-      render(<SchoolAccountsTable />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <SchoolAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
     const accountRows = await screen.findAllByRole('row')
     expect(accountRows).toHaveLength(3) // header row + 2 data rows

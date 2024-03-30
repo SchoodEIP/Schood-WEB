@@ -4,11 +4,30 @@ import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import FormStudentPage from '../../../Users/Student/formStudentPage'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('FormStudentPage', () => {
   const id = '64f2f862b0975ae4340acafa'
   const questionnaireUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/` + id
-  const sendAnswerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
+  const answerUrl = `${process.env.REACT_APP_BACKEND_URL}/student/questionnaire/` + id
+
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay()
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
+
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
+
+    const thisWeekSunday = new Date(thisWeekMonday)
+
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6)
+    thisWeekSunday.setUTCHours(23, 59, 59, 0)
+
+    return [thisWeekMonday, thisWeekSunday]
+  }
+
+  const [thisWeekMonday, thisWeekSunday] = getFormDates()
 
   let container = null
   const exemple = {
@@ -63,9 +82,9 @@ describe('FormStudentPage', () => {
         answers: []
       }
     ],
-    fromDate: '2023-08-27T00:00:00.000Z',
+    fromDate: thisWeekMonday.toISOString(),
     title: 'Test',
-    toDate: '2023-09-02T00:00:00.000Z'
+    toDate: thisWeekSunday.toISOString()
   }
 
   beforeEach(() => {
@@ -73,7 +92,8 @@ describe('FormStudentPage', () => {
     document.body.appendChild(container)
     fetchMock.reset()
     fetchMock.get(questionnaireUrl, exemple)
-    fetchMock.post(sendAnswerUrl, {})
+    fetchMock.get(answerUrl, null) // i will also want to send a real response
+    fetchMock.post(answerUrl, {})
   })
 
   afterEach(() => {
@@ -93,7 +113,9 @@ describe('FormStudentPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
-          <FormStudentPage />
+          <WebsocketProvider>
+            <FormStudentPage />
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -141,7 +163,9 @@ describe('FormStudentPage', () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
-          <FormStudentPage />
+          <WebsocketProvider>
+            <FormStudentPage />
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -154,9 +178,11 @@ describe('FormStudentPage', () => {
     await act(() => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
-          <Routes>
-            <Route path='/questionnaire/:id' element={<FormStudentPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })

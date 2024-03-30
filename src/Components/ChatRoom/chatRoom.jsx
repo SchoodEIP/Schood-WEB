@@ -69,12 +69,12 @@ const Messages = () => {
   }
 
   useEffect(() => {
-    if (chats.value.unseenChats.includes(currentConversation._id)) fetchMessages()
-  }, [chats.value.unseenChats])
+    if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
+  }, [chats?.value.unseenChats])
 
   useEffect(() => {
-    fetchConversations(!chats.value.newChat)
-  }, [chats.value.newChat])
+    if (chats) fetchConversations(!chats.value.newChat)
+  }, [chats?.value.newChat])
 
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')

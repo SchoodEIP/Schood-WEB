@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 import NoPage from '../../../Users/Public/noPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('NoPage', () => {
   test('should render error message', () => {
@@ -11,7 +12,9 @@ describe('NoPage', () => {
 
     render(
       <BrowserRouter>
-        <NoPage />
+        <WebsocketProvider>
+          <NoPage />
+        </WebsocketProvider>
       </BrowserRouter>
     )
 

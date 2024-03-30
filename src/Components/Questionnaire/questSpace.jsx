@@ -162,7 +162,7 @@ export function QuestSpace () {
             )}
             {(currentQuestStatus === 100 && previousQuestUrl !== '') && (
               <div className='quest-terminate'>
-                <button className='green-button' onClick={handlePreviousClick}>
+                <button className='green-button' onClick={handleCurrentClick}>
                   Aller au Questionnaire
                 </button>
               </div>

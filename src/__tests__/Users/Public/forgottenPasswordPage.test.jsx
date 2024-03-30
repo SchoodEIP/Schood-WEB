@@ -2,6 +2,8 @@ import '@testing-library/jest-dom'
 import ForgottenPasswordPage from '../../../Users/Public/forgottenPasswordPage'
 import React from 'react'
 import { render, act, fireEvent, waitFor, screen } from '@testing-library/react'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('ForgottenPasswordPage', () => {
   beforeEach(() => {
@@ -16,21 +18,39 @@ describe('ForgottenPasswordPage', () => {
   })
 
   it('updates email state when input value changes', () => {
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
     expect(emailInput.value).toBe('test@example.com')
   })
 
   it('check email when request button is clicked', () => {
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const requestButton = screen.getByText('Demander un nouveau mot de passe')
     fireEvent.click(requestButton)
     expect(screen.getByText('Email is not valid')).toBeInTheDocument()
   })
 
   it('displays error message when email is invalid', () => {
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
     const emailInput = screen.getByPlaceholderText('Email')
     const requestButton = screen.getByText('Demander un nouveau mot de passe')
     fireEvent.change(emailInput, { target: { value: 'ablabla' } })
@@ -40,7 +60,13 @@ describe('ForgottenPasswordPage', () => {
   })
 
   it('validates email and displays success message for valid email', async () => {
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
 
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
@@ -58,7 +84,13 @@ describe('ForgottenPasswordPage', () => {
 
     global.fetch = mockFetch
 
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
 
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
@@ -79,7 +111,13 @@ describe('ForgottenPasswordPage', () => {
 
     global.fetch = mockFetch
 
-    render(<ForgottenPasswordPage />)
+    render(
+      <BrowserRouter>
+        <WebsocketProvider>
+          <ForgottenPasswordPage />
+        </WebsocketProvider>
+      </BrowserRouter>
+    )
 
     const emailInput = screen.getByPlaceholderText('Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })

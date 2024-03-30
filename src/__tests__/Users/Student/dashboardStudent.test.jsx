@@ -2,7 +2,8 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('Dashboard Student component', () => {
@@ -10,6 +11,7 @@ describe('Dashboard Student component', () => {
   const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
+  sessionStorage.setItem('role', 'student')
 
   const questionnairesResult = [
     {
@@ -89,9 +91,11 @@ describe('Dashboard Student component', () => {
   it('should render the homepage', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()

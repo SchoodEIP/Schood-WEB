@@ -2,7 +2,8 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('Last Alert component', () => {
@@ -109,9 +110,11 @@ describe('Last Alert component', () => {
   it('should render the homepage', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     await waitFor(() => {
@@ -127,9 +130,11 @@ describe('Last Alert component', () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()

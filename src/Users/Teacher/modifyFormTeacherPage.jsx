@@ -5,6 +5,8 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(0)
@@ -88,8 +90,8 @@ const ModifyFormTeacherPage = () => {
       typeSelect.appendChild(multiOption)
       container.appendChild(answerRow)
       container.appendChild(answerBtnContainer)
-      answerBtnContainer.appendChild(removeAnswerBtn)
       answerBtnContainer.appendChild(addAnswerBtn)
+      answerBtnContainer.appendChild(removeAnswerBtn)
       questionRow.appendChild(container)
       setQuestionInc(numQ + 1)
     }
@@ -145,7 +147,7 @@ const ModifyFormTeacherPage = () => {
           setErrMessage(data.message)
         }
       })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [id])
 
   function postQuestions () {
@@ -192,7 +194,7 @@ const ModifyFormTeacherPage = () => {
         window.location.href = '/questionnaire/' + id
       }
     })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   function changeAnswerBtnStatus (id) {
@@ -310,6 +312,8 @@ const ModifyFormTeacherPage = () => {
       addAnswer(numQ)
     })
 
+    setQuestionInc(numQ + 1)
+
     container.appendChild(numbering)
     container.appendChild(questionInput)
     container.appendChild(typeSelect)
@@ -318,12 +322,13 @@ const ModifyFormTeacherPage = () => {
     typeSelect.appendChild(multiOption)
     container.appendChild(answerRow)
     container.appendChild(answerBtnContainer)
-    answerBtnContainer.appendChild(removeAnswerBtn)
     answerBtnContainer.appendChild(addAnswerBtn)
+    answerBtnContainer.appendChild(removeAnswerBtn)
     questionRow.appendChild(container)
   }
 
   function removeLastQuestion () {
+    setQuestionInc(questionInc - 1)
     const questionRow = document.getElementById('question-row')
 
     const lastChild = questionRow.lastChild
@@ -332,8 +337,15 @@ const ModifyFormTeacherPage = () => {
     }
   }
 
-  const handleParutionDate = (event) => {
-    setParutionDate(event.value)
+  useEffect(() => {
+    const today = new Date()
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7
+    const nextMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilNextMonday)
+    setParutionDate(nextMonday)
+  }, [])
+
+  const filterMonday = (date) => /* istanbul ignore next */ {
+    return date.getDay() === 1 && date >= new Date()
   }
 
   return (
@@ -354,13 +366,21 @@ const ModifyFormTeacherPage = () => {
               </div>
               <div id='question-row' />
               <div className='confirmation-form-container'>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
                 <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
+                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
               </div>
               <div className='confirmation-form-container'>
                 <label id='parution-date-container'>
                   Date de parution:
-                  <input className='date-input' name='parution-date' data-testid='parution-date' id='parution-date' type='date' value={parutionDate} onChange={handleParutionDate} />
+                  <DatePicker
+                    className='date-input'
+                    name='parution-date'
+                    data-testid='parution-date'
+                    id='parution-date'
+                    selected={parutionDate}
+                    onChange={date => /* istanbul ignore next */ { setParutionDate(date) }}
+                    filterDate={filterMonday}
+                  />
                 </label>
                 <div style={{}}>
                   <p data-testid='error-message'>{errMessage}</p>

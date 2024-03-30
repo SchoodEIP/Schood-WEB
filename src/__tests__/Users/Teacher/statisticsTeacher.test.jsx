@@ -5,6 +5,7 @@ import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('TeacherStatPage Component', () => {
   const mockData = [
@@ -38,9 +39,11 @@ describe('TeacherStatPage Component', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={[`/teacher/dailyMood/${studentId}`]}>
-          <Routes>
-            <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -59,9 +62,11 @@ describe('TeacherStatPage Component', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={[`/teacher/dailyMood/${studentId}`]}>
-          <Routes>
-            <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -80,9 +85,11 @@ describe('TeacherStatPage Component', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={[`/teacher/dailyMood/${studentId}`]}>
-          <Routes>
-            <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })

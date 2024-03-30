@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import SchoolAdmAccountsPage from '../../../Users/SchoolAdmin/schoolAdmAccountsPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
@@ -97,7 +98,9 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -113,7 +116,9 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -153,7 +158,9 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -220,7 +227,9 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -250,7 +259,9 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <SchoolAdmAccountsPage />
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
