@@ -7,7 +7,7 @@ import ReportButton from './reportButton'
 import { WebsocketContext } from '../../contexts/websocket'
 
 const Messages = () => {
-  const [conversations, setConversations] = useState([])
+  const [conversations, setConversations] = useState([''])
   const [currentConversation, setCurrentConversation] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
 
@@ -36,12 +36,12 @@ const Messages = () => {
       }
     })
     if (currentConversation === '' || changeConversation) { setCurrentConversation(conversationData[conversationData.length - 1]) }
-    setConversations(conversationData)
+    setConversations(conversationData || [])
   }
-
   const fetchMessages = async () => {
     try {
       if (!currentConversation) {
+        setConversations('')
         return
       }
       const response = await fetch(

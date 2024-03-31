@@ -50,9 +50,12 @@ export default function Sidebar () {
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
-      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
       { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
     ]
+    if (sessionStorage.getItem('role') === 'administration') {
+      const reportObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' }
+      pages.splice(3, 0, reportObj)
+    }
   } else {
     pages = [
       { id: 'home', path: '/', icon: <FaHome size={24} />, label: 'Accueil' },

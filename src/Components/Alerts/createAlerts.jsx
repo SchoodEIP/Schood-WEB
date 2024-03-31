@@ -15,7 +15,7 @@ const AlertPage = () => {
 
   useEffect(() => {
     // Requête GET : récupération de la liste des types d’utilisateurs
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/roles`, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
@@ -30,7 +30,7 @@ const AlertPage = () => {
       .catch((error) => /* istanbul ignore next */ { setAlertResponse('Erreur lors de la récupération des roles', error.message) })
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/adm/classes`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/classes`, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),

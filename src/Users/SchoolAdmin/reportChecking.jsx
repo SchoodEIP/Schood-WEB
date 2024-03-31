@@ -29,6 +29,7 @@ const ReportChecking = () => {
   }
 
   const fetchReportedConversation = async (conversationId) => {
+    console.log('conversationId : ' + conversationId)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
         method: 'GET',
@@ -80,6 +81,7 @@ const ReportChecking = () => {
             'Content-Type': 'application/json'
           }
         })
+        console.log('report : ' + reportId)
         setReportRequests((prevReports) => prevReports.filter((report) => report._id !== reportId))
       }
 
@@ -117,6 +119,7 @@ const ReportChecking = () => {
       return fetchReportedConversation(report.conversation)
     })
   }, [reportRequests])
+  console.log('reportedConv : ' + reportedConversation)
 
   return (
     <div>
@@ -139,7 +142,7 @@ const ReportChecking = () => {
             </ul>
           </div>
           <div className='report-details'>
-            {reportedConversation && (
+            {reportedConversation ? (
               <div>
                 <h2>Conversation Signalée</h2>
                 <p>{reportedConversation.map((selreport, index) => (
@@ -152,7 +155,7 @@ const ReportChecking = () => {
                 <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport, true)}>Valider</button>
                 <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport, false)}>Refuser</button>
               </div>
-            )}
+            ) : ''}
 
             {/* Affichage du statut de traitement */}
             {isReportProcessed && <p>La demande a été traitée.</p>}
