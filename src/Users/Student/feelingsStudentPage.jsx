@@ -278,11 +278,11 @@ const FeelingsStudentPage = () => {
     <div>
       <div id='grey-filter' />
       <div>
-        {/* <HeaderComp /> */}
+        <HeaderComp />
       </div>
       <div className='different-page-content'>
         <div>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </div>
         <div className='feelings-content'>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '25px' }}>
