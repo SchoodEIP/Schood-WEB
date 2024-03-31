@@ -41,7 +41,6 @@ const FeelingsStudentPage = () => {
   }, [])
 
   function insertNewFeeling(dataPayload) {
-    console.log(dataPayload)
     const feelingsContainer = document.getElementById('feelings-container')
 
     const individualFeelingsContainer = document.createElement('div')
@@ -125,18 +124,6 @@ const FeelingsStudentPage = () => {
   }
 
   const handleUpdateFeelings = (dataPayload) => {
-    if (isModified) {
-      document.getElementById('review-status-text-' + dataPayload.id).textContent = "En attente de prise en compte"
-      document.getElementById('review-status-date-' + dataPayload.id).textContent = ''
-      document.getElementById('anonymous-' + dataPayload.id).textContent = dataPayload.isAnonymous ? 'Anonyme' : ''
-      document.getElementById('message-' + dataPayload.id).textContent = dataPayload.message
-      document.getElementById('feeling-' + dataPayload.id).textContent = emotions[moods[dataPayload.mood]]
-      document.getElementById('emoticone-image-' + dataPayload.id).src = imagePaths[dataPayload.mood]
-      document.getElementById('emoticone-image-' + dataPayload.id).alt = emotions[moods[dataPayload.mood]]
-    } else {
-      insertNewFeeling(dataPayload)
-    }
-
     fetch(`${process.env.REACT_APP_BACKEND_URL}/student/feelings`, {
         method: isModified ? 'PATCH' : 'POST',
         headers: {
@@ -246,30 +233,6 @@ const FeelingsStudentPage = () => {
       })
     }
 
-    const dataResp = [
-      {
-        date: '2024-03-30',
-        content: "Je me sens pas bien aujourd'hui",
-        feeling: 0,
-        isAnonymous: true,
-        reviewDate: '',
-        _id: "0"
-      },
-      {
-        date: '2024-03-20',
-        content: "J'ai la forme",
-        feeling: 4,
-        isAnonymous: false,
-        reviewDate: '2024-03-22',
-        _id: "1"
-      }
-    ]
-
-    if (lastFeeling.length === 0) {
-        setLastFeeling(dataResp[0])
-        fillFeelingsContainer(dataResp)
-    }
-
     fetch(`${process.env.REACT_APP_BACKEND_URL}/student/feelings`, {
       method: 'GET',
       headers: {
@@ -287,7 +250,7 @@ const FeelingsStudentPage = () => {
       })
   }, [setLastFeeling, emotions, moods, imagePaths, lastFeeling.length])
 
-  const handleClosePopup = (event) => {
+  const handleClosePopup = () => {
     document.getElementById('grey-filter').style.display = 'none'
     setIsCreateOpen(false)
     setIsModifyOpen(false)
@@ -315,11 +278,11 @@ const FeelingsStudentPage = () => {
     <div>
         <div id="grey-filter"></div>
         <div>
-            <HeaderComp />
+            {/* <HeaderComp /> */}
         </div>
         <div className='different-page-content'>
             <div>
-            <Sidebar />
+            {/* <Sidebar /> */}
             </div>
             <div className='feelings-content'>
               <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "25px"}}>
