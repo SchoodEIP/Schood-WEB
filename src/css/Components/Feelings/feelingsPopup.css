@@ -1,0 +1,137 @@
+#feelings-popup-box {
+    background-color: white;
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    width: 620px;
+    height: 535px;
+    border-radius: 15px;
+    display: flex;
+    z-index: 11;
+    padding-left: 25px;
+}
+
+#p-box {
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+}
+
+
+.feeling-pop-content {
+    display: grid;
+}
+
+.feeling-pop-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pop-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.pop-input {
+    font-size: large;
+    margin-top: 15px;
+    background-color: rgb(230,230,230);
+    border: 0;
+    padding-left: 10px;
+}
+
+.pop-info {
+    text-align: center;
+    font-size: large;
+}
+
+.pop-input-file {
+    font-size: large;
+    margin-top: 15px;
+    background-color: rgb(230,230,230);
+    border: 0;
+    padding-left: 10px;
+    padding-top: 20px;
+}
+
+.pop-header {
+    background-color: white;
+    color: white;
+    text-align: center;
+    display: grid;
+    border-radius: 15px;
+}
+
+.btn-close {
+    justify-self: end;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#grey-filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray color */
+    display: none; /* Initially hidden */
+    z-index: 10; /* Ensure it's on top of other content */
+}
+
+#mood-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#message-input {
+    border: 2px #4F23E2 solid;
+    height: 250px;
+    max-height: 250px;
+    width: 600px;
+    overflow-y: auto;
+}
+
+#mood-label, #message-label {
+    font-size: larger;
+    font-weight: bold;
+}
+
+#anonymous-label {
+    color: #4F23E2;
+    font-size: larger;
+}
+
+#feelings-btn {
+    display: flex;
+    justify-self: end;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 260px;
+    background-color: white;
+    color: #4F23E2;
+    border: 2px #4F23E2 solid;
+    font-size: larger;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.emoticone-container {
+    cursor: pointer;
+    border: 2px white solid;
+    border-radius: 5px;
+}
+
+.emoticone-container:hover {
+    background-color: rgb(211, 200, 200);
+    border: 2px #4F23E2 solid;
+    border-radius: 5px;
+}
