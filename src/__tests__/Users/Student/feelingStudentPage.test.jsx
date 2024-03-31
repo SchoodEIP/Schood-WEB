@@ -7,26 +7,26 @@ import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('Feelings Component', () => {
-    const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/feelings`
+  const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/feelings`
 
-    const dataResp = [
-        {
-            date: '2024-03-30',
-            content: "Je me sens pas bien aujourd'hui",
-            feeling: 0,
-            isAnonymous: true,
-            reviewDate: '',
-            _id: "0"
-        },
-        {
-            date: '2024-03-20',
-            content: "J'ai la forme",
-            feeling: 4,
-            isAnonymous: false,
-            reviewDate: '2024-03-22',
-            _id: "1"
-        }
-    ]
+  const dataResp = [
+    {
+      date: '2024-03-30',
+      content: "Je me sens pas bien aujourd'hui",
+      feeling: 0,
+      isAnonymous: true,
+      reviewDate: '',
+      _id: '0'
+    },
+    {
+      date: '2024-03-20',
+      content: "J'ai la forme",
+      feeling: 4,
+      isAnonymous: false,
+      reviewDate: '2024-03-22',
+      _id: '1'
+    }
+  ]
 
   beforeEach(() => {
     fetchMock.reset()
@@ -82,7 +82,7 @@ describe('Feelings Component', () => {
     const messageInput = screen.getByPlaceholderText('Message...')
 
     await act(async () => {
-        fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
+      fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
     })
 
     const createFeeling = screen.getAllByText('Créer un ressenti')
@@ -92,8 +92,8 @@ describe('Feelings Component', () => {
     })
 
     await waitFor(() => {
-        const textResult = screen.getByText('Feeling test')
-        expect(textResult).toBeInTheDocument()
+      const textResult = screen.getByText('Feeling test')
+      expect(textResult).toBeInTheDocument()
     })
   })
 
@@ -169,7 +169,7 @@ describe('Feelings Component', () => {
     const messageInput = screen.getByPlaceholderText('Message...')
 
     await act(async () => {
-        fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
+      fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
     })
 
     const createFeeling = screen.getAllByText('Créer un ressenti')
@@ -179,8 +179,8 @@ describe('Feelings Component', () => {
     })
 
     await waitFor(() => {
-        const textResult = screen.getByText('Feeling test')
-        expect(textResult).toBeInTheDocument()
+      const textResult = screen.getByText('Feeling test')
+      expect(textResult).toBeInTheDocument()
     })
 
     const ressentiBtn2 = screen.getAllByText('Créer un ressenti')
@@ -197,7 +197,7 @@ describe('Feelings Component', () => {
     const messageInput2 = screen.getByPlaceholderText('Message...')
 
     await act(async () => {
-        fireEvent.change(messageInput2, { target: { value: 'Feeling test2' } })
+      fireEvent.change(messageInput2, { target: { value: 'Feeling test2' } })
     })
 
     const createFeeling2 = screen.getAllByText('Créer un ressenti')
@@ -207,8 +207,8 @@ describe('Feelings Component', () => {
     })
 
     await waitFor(() => {
-        const textResult = screen.getByText('Feeling test2')
-        expect(textResult).toBeInTheDocument()
+      const textResult = screen.getByText('Feeling test2')
+      expect(textResult).toBeInTheDocument()
     })
   })
 
@@ -226,13 +226,13 @@ describe('Feelings Component', () => {
     const modifBtn = screen.getByText('Modifier le dernier ressenti')
 
     await act(async () => {
-        fireEvent.click(modifBtn)
+      fireEvent.click(modifBtn)
     })
 
     const message = screen.getByPlaceholderText('Message...')
 
     await act(async () => {
-        fireEvent.change(message, { target: { value: 'Feeling test2' } })
+      fireEvent.change(message, { target: { value: 'Feeling test2' } })
     })
 
     const modifBtn2 = screen.getByText('Modifier le ressenti')
