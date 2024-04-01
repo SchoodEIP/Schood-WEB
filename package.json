@@ -22,7 +22,7 @@
     "react-scripts": "5.0.1",
     "react-switch-input": "^1.1.0",
     "reactjs-popup": "^2.0.6",
-    "sass": "^1.71.1",
+    "sass": "^1.72.0",
     "standard": "^17.1.0",
     "styled-components": "^6.1.6",
     "web-vitals": "^3.5.2"
