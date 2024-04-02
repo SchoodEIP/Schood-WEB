@@ -19,38 +19,43 @@ const FormListStudentPage = () => {
       }).then(response => response.json())
         .then(data => {
           const titleRows = document.getElementById('title-rows')
+          const currentDate = new Date()
 
           data.forEach((questionnaire, index) => {
-            const fullContainer = document.createElement('div')
-            fullContainer.id = 'container-' + index
-            fullContainer.classList.add('full-container')
+            const newDate = new Date(questionnaire.fromDate)
+            if ((newDate.getDate() <= currentDate.getDate() && newDate.getMonth() === currentDate.getMonth())
+                || (newDate.getMonth() < currentDate.getMonth())) {
+              const fullContainer = document.createElement('div')
+              fullContainer.id = 'container-' + index
+              fullContainer.classList.add('full-container')
 
-            const questDates = document.createElement('span')
-            questDates.id = 'quest-dates-' + index
-            questDates.innerHTML = 'Du ' + moment(questionnaire.fromDate).format('DD/MM/YY') + '\nau ' + moment(questionnaire.toDate).format('DD/MM/YY')
-            questDates.classList.add('bold-underline-text')
+              const questDates = document.createElement('span')
+              questDates.id = 'quest-dates-' + index
+              questDates.innerHTML = 'Du ' + moment(questionnaire.fromDate).format('DD/MM/YY') + '\nau ' + moment(questionnaire.toDate).format('DD/MM/YY')
+              questDates.classList.add('bold-underline-text')
 
-            const container = document.createElement('div')
-            container.id = 'questionnaire-' + index
-            container.classList.add('question-title-container')
+              const container = document.createElement('div')
+              container.id = 'questionnaire-' + index
+              container.classList.add('question-title-container')
 
-            const spanText = document.createElement('span')
-            spanText.textContent = questionnaire.title
+              const spanText = document.createElement('span')
+              spanText.textContent = questionnaire.title
 
-            const accessBtn = document.createElement('button')
-            accessBtn.textContent = 'Y Accéder'
-            accessBtn.classList.add('button-css')
-            accessBtn.classList.add('questionnaire-btn')
-            accessBtn.style.marginBottom = '10px'
-            accessBtn.addEventListener('click', function () {
-              accessForm(questionnaire._id)
-            })
+              const accessBtn = document.createElement('button')
+              accessBtn.textContent = 'Y Accéder'
+              accessBtn.classList.add('button-css')
+              accessBtn.classList.add('questionnaire-btn')
+              accessBtn.style.marginBottom = '10px'
+              accessBtn.addEventListener('click', function () {
+                accessForm(questionnaire._id)
+              })
 
-            container.appendChild(spanText)
-            container.appendChild(accessBtn)
-            fullContainer.appendChild(questDates)
-            fullContainer.appendChild(container)
-            titleRows.appendChild(fullContainer)
+              container.appendChild(spanText)
+              container.appendChild(accessBtn)
+              fullContainer.appendChild(questDates)
+              fullContainer.appendChild(container)
+              titleRows.appendChild(fullContainer)
+            }
           })
         })
         .catch(error => console.error(error.message))

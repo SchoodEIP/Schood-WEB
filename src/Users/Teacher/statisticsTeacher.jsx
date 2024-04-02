@@ -39,7 +39,7 @@ const TeacherStatPage = () => {
           <Sidebar />
         </div>
         <div className='mood-container'>
-          <h2>Ressentis des étudiants</h2>
+          <h2>Statistiques des étudiants</h2>
           {negativeResponse && <p>{negativeResponse}</p>}
           {Array.isArray(dailyMood) && dailyMood.length > 0
             ? (
@@ -50,13 +50,13 @@ const TeacherStatPage = () => {
                       <span className='message-time'>{mood.date}</span>
                     </div>
                     <div className='message-content'>
-                      <p>Ressenti: {mood.feeling}</p>
+                      <p>Humeur: {mood.feeling}</p>
                     </div>
                   </div>
                 ))
               )
             : (
-              <p>Aucun ressenti disponible.</p>
+              <p>Aucunes statistiques disponible.</p>
               )}
         </div>
       </div>
