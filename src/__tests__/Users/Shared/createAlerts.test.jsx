@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 
 describe('CreateAlertsPage Component', () => {
   const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
-  const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/adm/rolesList`
-  const getClasses = `${process.env.REACT_APP_BACKEND_URL}/adm/classes`
+  const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
+  const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
   const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/undefined`
   const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert`
 
