@@ -24,7 +24,7 @@ const TeacherStatPage = () => {
         .then(response => response.json())
         .then((data) => setDailyMood(data))
         .catch((error) => {
-          setNegativeResponse('Erreur lors de la récupération des ressentis', error.message)
+          setNegativeResponse('Erreur lors de la récupération des statistiques', error.message)
         })
     }
   }, [id])
