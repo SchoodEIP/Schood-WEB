@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
@@ -11,7 +11,7 @@ const Messages = () => {
   const [currentConversation, setCurrentConversation] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
 
-  const fetchConversations = async (changeConversation = true) => {
+  const fetchConversations = useCallback(async (changeConversation = true) => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
       method: 'GET',
       headers: {
@@ -37,9 +37,9 @@ const Messages = () => {
     })
     if (currentConversation === '' || changeConversation) { setCurrentConversation(conversationData[conversationData.length - 1]) }
     setConversations(conversationData)
-  }
+  }, [currentConversation]);
 
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       if (!currentConversation) {
         return
@@ -66,15 +66,15 @@ const Messages = () => {
     } catch (error) /* istanbul ignore next */ {
       console.error('Erreur lors de la récupération des messages :', error)
     }
-  }
+  }, [currentConversation]);
 
   useEffect(() => {
     if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
-  }, [chats?.value.unseenChats])
+  }, [chats?.value.unseenChats, currentConversation._id, fetchMessages])
 
   useEffect(() => {
     if (chats) fetchConversations(!chats.value.newChat)
-  }, [chats?.value.newChat])
+  }, [chats, chats?.value.newChat, fetchConversations])
 
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
@@ -86,7 +86,7 @@ const Messages = () => {
 
   useEffect(() => {
     fetchMessages()
-  }, [currentConversation])
+  }, [fetchMessages])
 
   useEffect(() => {
     const fetchContacts = async () => {

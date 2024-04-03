@@ -53,7 +53,7 @@ const Message = ({ message, participants }) => {
   return (
     <div className='message'>
       <div className='message-header'>
-        <span className='message-username'>{messageUser.firstname + ' ' + messageUser.lastname}</span>
+        <span className='message-username'>{messageUser ? messageUser.firstname + ' ' + messageUser.lastname : ''}</span>
         <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
       <div className='message-content'>
