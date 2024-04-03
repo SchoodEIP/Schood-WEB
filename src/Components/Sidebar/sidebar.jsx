@@ -66,7 +66,7 @@ export default function Sidebar () {
     } else if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
       const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <FaHeadSideCough size={24} />, label: 'Mes Ressentis' }
       pages.splice(3, 0, feelingsObj)
-    } else if (sessionStorage.getItem('role') === 'administration')  /* istanbul ignore next */  {
+    } else if (sessionStorage.getItem('role') === 'administration') /* istanbul ignore next */ {
       const reportsObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' }
       pages.splice(3, 0, reportsObj)
     }
