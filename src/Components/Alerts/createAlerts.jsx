@@ -144,14 +144,14 @@ const AlertPage = () => {
         sessionStorage.getItem('role') === 'teacher'
           ? null
           : (
-              <div id='roles-container' data-testid='roles-container'>
-                <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
-                <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
-                  {userRoles.map((role, index) => (
-                    <option key={index} value={role._id}>{role.name}</option>
-                  ))}
-                </select>
-              </div>
+            <div id='roles-container' data-testid='roles-container'>
+              <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
+              <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
+                {userRoles.map((role, index) => (
+                  <option key={index} value={role._id}>{role.name}</option>
+                ))}
+              </select>
+            </div>
             )
       }
       <div id='classes-container' data-testid='classes-container'>
