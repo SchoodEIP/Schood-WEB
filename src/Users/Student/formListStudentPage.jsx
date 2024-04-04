@@ -58,7 +58,7 @@ const FormListStudentPage = () => {
             }
           })
         })
-        .catch(error => console.error(error.message))
+        .catch(error => /* istanbul ignore next */ {console.error(error.message)})
     } catch (e) /* istanbul ignore next */ {
       console.error(e.message)
     }

@@ -9,7 +9,7 @@ const AlertPage = () => {
   const [role, setRole] = useState('')
   const [selectedClasses, setSelectedClasses] = useState([])
   const [file, setFile] = useState(null)
-  const [isClass, setIsClass] = useState(false)
+  const [isClass, setIsClass] = useState(true)
   const [alertResponse, setAlertResponse] = useState('')
   const [showPopup, setShowPopup] = useState(false)
 
@@ -139,46 +139,46 @@ const AlertPage = () => {
             </div>
             )
       }
-      <div id='roles-container' data-testid='roles-container'>
-        <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
-        <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
-          {userRoles.map((role, index) => (
-            <option key={index} value={role._id}>{role.name}</option>
-          ))}
-        </select>
-      </div>
 
       {
         sessionStorage.getItem('role') === 'teacher'
           ? null
           : (
-            <div id='classes-container' data-testid='classes-container'>
-              <label htmlFor='classes-select'>Classes:</label>
-              <div id='classes-select' className='checkbox-list'>
-                {userClasses.map((classe, index) => (
-                  <div key={index} className='checkbox-item'>
-                    <input
-                      className='alert-page-box'
-                      type='checkbox'
-                      id={`class-check-${index}`}
-                      data-testid={`class-check-${index}`}
-                      value={classe._id}
-                      checked={selectedClasses.includes(classe._id)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedClasses([...selectedClasses, classe._id])
-                        } else {
-                          setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
-                        }
-                      }}
-                    />
-                    <label htmlFor={`class-check-${index}`}>{classe.name}</label>
-                  </div>
-                ))}
+              <div id='roles-container' data-testid='roles-container'>
+                <label htmlFor='roles-select'>Type d'utilisateur visé:</label>
+                <select className='alert-page-box' data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
+                  {userRoles.map((role, index) => (
+                    <option key={index} value={role._id}>{role.name}</option>
+                  ))}
+                </select>
               </div>
-            </div>
             )
       }
+      <div id='classes-container' data-testid='classes-container'>
+        <label htmlFor='classes-select'>Classes:</label>
+        <div id='classes-select' className='checkbox-list'>
+          {userClasses.map((classe, index) => (
+            <div key={index} className='checkbox-item'>
+              <input
+                className='alert-page-box'
+                type='checkbox'
+                id={`class-check-${index}`}
+                data-testid={`class-check-${index}`}
+                value={classe._id}
+                checked={selectedClasses.includes(classe._id)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedClasses([...selectedClasses, classe._id])
+                  } else {
+                    setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
+                  }
+                }}
+              />
+              <label htmlFor={`class-check-${index}`}>{classe.name}</label>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <label>Titre:</label>
       <input className='alert-page-box' data-testid='alert-title' value={title} onChange={(e) => setTitle(e.target.value)} />
