@@ -38,8 +38,7 @@ const ReportChecking = () => {
         }
       })
       const data = await response.json()
-      if (!data.message)
-        setReportedConversation(data)
+      if (!data.message) { setReportedConversation(data) }
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération de la conversation signalée.')
     }

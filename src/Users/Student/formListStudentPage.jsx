@@ -23,8 +23,8 @@ const FormListStudentPage = () => {
 
           data.forEach((questionnaire, index) => {
             const newDate = new Date(questionnaire.fromDate)
-            if ((newDate.getDate() <= currentDate.getDate() && newDate.getMonth() === currentDate.getMonth())
-                || (newDate.getMonth() < currentDate.getMonth())) {
+            if ((newDate.getDate() <= currentDate.getDate() && newDate.getMonth() === currentDate.getMonth()) ||
+                (newDate.getMonth() < currentDate.getMonth())) {
               const fullContainer = document.createElement('div')
               fullContainer.id = 'container-' + index
               fullContainer.classList.add('full-container')

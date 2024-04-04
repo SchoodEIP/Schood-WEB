@@ -33,8 +33,8 @@ describe('FormListStudentPage', () => {
     {
       _id: '123',
       title: 'Test',
-      fromDate:  thisWeekMonday.toISOString(),
-      toDate:  thisWeekSunday.toISOString()
+      fromDate: thisWeekMonday.toISOString(),
+      toDate: thisWeekSunday.toISOString()
     }
   ]
 
