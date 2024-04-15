@@ -5,7 +5,6 @@ import AdmHelpPage from './Users/Admin/admHelpPage'
 import AdmAccountsPage from './Users/Admin/admAccountsPage'
 import AdmHomePage from './Users/Admin/admHomePage'
 import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
-import LandingPage from './Users/Public/landingPage'
 import Login from './Users/Public/loginPage'
 import NoPage from './Users/Public/noPage'
 import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
@@ -38,8 +37,7 @@ if (rootElement) {
         <Routes>
           {sessionStorage.getItem('role') === null && (
             <>
-              <Route path='/' element={<LandingPage />} />
-              <Route path='/login' element={<Login />} />
+              <Route path='/' element={<Login />}/>
               <Route path='/forgot' element={<ForgottenPasswordPage />} />
             </>
           )}
