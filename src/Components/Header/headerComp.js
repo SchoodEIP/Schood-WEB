@@ -16,20 +16,21 @@ export default function HeaderComp () {
   }
 
   return (
-    <header>
-      <div className='headerComp'>
-        <div>
-          <img id='schood-logo' src={Logo} alt='logo' />
-        </div>
-        <div>
-          <Link to='/profil' data-testid='profil' id='profil'>
-            <img className='user-icon' src={userIcon} alt='User' />
-          </Link>
-          <a href='/login' data-testid='logout-button' id='logout-button' onClick={handleClickLogout}>
-            <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
-          </a>
-        </div>
-      </div>
-    </header>
+    <div></div>
+    // <header>
+    //   <div className='headerComp'>
+    //     <div>
+    //       <img id='schood-logo' src={Logo} alt='logo' />
+    //     </div>
+    //     <div>
+    //       <Link to='/profil' data-testid='profil' id='profil'>
+    //         <img className='user-icon' src={userIcon} alt='User' />
+    //       </Link>
+    //       <a href='/login' data-testid='logout-button' id='logout-button' onClick={handleClickLogout}>
+    //         <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
+    //       </a>
+    //     </div>
+    //   </div>
+    // </header>
   )
 }

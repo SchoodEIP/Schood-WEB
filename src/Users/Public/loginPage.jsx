@@ -26,8 +26,10 @@ export default function Login () {
       const data = await response.json()
 
       if (response.ok) {
+        localStorage.setItem('profile', JSON.stringify(data))
         localStorage.setItem('id', data._id)
         sessionStorage.setItem('role', data.role.name)
+        sessionStorage.setItem('profile', JSON.stringify(data))
         localStorage.setItem('role', data.role.name)
         window.location.href = '/'
       } else /* istanbul ignore next */ {
@@ -130,34 +132,4 @@ export default function Login () {
       </div>
     </div>
   )
-
-  // return (
-  //     <div id='auth-part'>
-  //       <img id='schoodLogo' src={logoSchood} alt='Schood' />
-  //       <div id='auth-form'>
-  //         <form>
-  //           <div>
-  //             <input className='auth-input' id='userInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
-  //           </div>
-  //           <div>
-  //             <input className='auth-input' id='passInput' type='password' placeholder='********' onChange={handlePasswordChange} value={password} required />
-  //           </div>
-  //         </form>
-  //       </div>
-  //       <div>
-  //         <label id='rememberLabel'>
-  //           <input id='rememberCheckbox' type='checkbox' /> Remember me
-  //         </label>
-  //       </div>
-  //       <div>
-  //         <button onClick={handleLogin} type='submit' id='submit-button'>Login</button>
-  //       </div>
-  //       <div>
-  //         <p id='errorMessage'>{message}</p>
-  //       </div>
-  //       <div>
-  //         <p id='signUpRedirect'>Forgot your password? <a href='/forgot'>Reset here.</a></p>
-  //       </div>
-  //     </div>
-  // )
 }

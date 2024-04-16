@@ -26,6 +26,7 @@ import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
 import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const rootElement = document.getElementById('root')
 
