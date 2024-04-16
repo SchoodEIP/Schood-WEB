@@ -281,9 +281,6 @@ const FeelingsStudentPage = () => {
         <HeaderComp />
       </div>
       <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='feelings-content'>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '25px' }}>
             <h1 id='feeling-title'>Mes Ressentis</h1>

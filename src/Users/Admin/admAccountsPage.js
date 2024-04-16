@@ -132,9 +132,6 @@ export default function AdmAccountsPage () {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='table-div'>
           <AdmAccountsTable />
         </div>

@@ -206,7 +206,6 @@ const AdmHelpPage = () => {
     <div className='dashboard'>
       <HeaderComp />
       <div className='page-content'>
-        <Sidebar />
         <div className='left-half'>
           <div className='aide-page'>
             <header>Numéros de Contact</header>

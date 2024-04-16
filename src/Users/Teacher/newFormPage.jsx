@@ -214,9 +214,6 @@ const NewFormPage = () => {
         <HeaderComp />
       </div>
       <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='left-half'>
           <div className='form-container'>
             <div className='form-header'><h1 className='form-header-title'>Création de Questionnaire</h1></div>

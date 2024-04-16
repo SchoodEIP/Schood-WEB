@@ -1,0 +1,15 @@
+html, body, #root, #root>div {
+    min-height: 100vh
+}
+  
+.App {
+    min-height: 100vh;
+    width: fit-content
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+}

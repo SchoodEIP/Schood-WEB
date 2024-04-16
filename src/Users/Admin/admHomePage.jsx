@@ -12,9 +12,6 @@ export default function AdmHomePage () {
       </div>
       <div className='page-content'>
         <div>
-          <Sidebar />
-        </div>
-        <div>
           <LastAlerts />
         </div>
       </div>

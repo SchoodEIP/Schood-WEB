@@ -176,9 +176,6 @@ export default function SchoolAdmAccountsPage () {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='table-div'>
           <SchoolAccountsTable />
         </div>

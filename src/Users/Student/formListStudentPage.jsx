@@ -69,9 +69,6 @@ const FormListStudentPage = () => {
         <HeaderComp />
       </div>
       <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='left-half'>
           <div className='form-container'>
             <div className='form-header'>

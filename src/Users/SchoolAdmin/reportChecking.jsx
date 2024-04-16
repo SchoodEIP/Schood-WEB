@@ -124,9 +124,6 @@ const ReportChecking = () => {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='box'>
           <div className='sidebar'>
             {/* Liste de demandes de signalement */}

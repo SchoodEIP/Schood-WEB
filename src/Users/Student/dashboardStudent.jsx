@@ -14,9 +14,6 @@ const StudentHomePage = () => {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='left-half'>
           <div>
             <MoodForm />

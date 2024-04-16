@@ -11,9 +11,6 @@ const CreateAlertsPage = () => {
         <HeaderComp />
       </div>
       <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='left-half'>
           <div><CreateAlerts /></div>
         </div>

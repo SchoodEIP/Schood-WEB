@@ -35,9 +35,6 @@ const TeacherStatPage = () => {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='mood-container'>
           <h2>Ressentis des étudiants</h2>
           {negativeResponse && <p>{negativeResponse}</p>}

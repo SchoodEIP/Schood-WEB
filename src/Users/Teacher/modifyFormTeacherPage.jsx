@@ -354,9 +354,6 @@ const ModifyFormTeacherPage = () => {
         <HeaderComp />
       </div>
       <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
         <div className='left-half'>
           <div className='form-container'>
             <div className='form-header'><h1 className='form-header-title'>Modification de Questionnaire</h1></div>

@@ -10,9 +10,6 @@ const StudentStatPage = () => {
         <HeaderComp />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
       </div>
     </div>
   )
