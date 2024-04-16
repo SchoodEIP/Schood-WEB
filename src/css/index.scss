@@ -1,5 +1,6 @@
 html, body, #root, #root>div {
-    min-height: 100vh
+    min-height: 100vh;
+    overflow: hidden;
 }
   
 .App {
@@ -12,4 +13,5 @@ html, body, #root, #root>div {
     flex-direction: row;
     justify-content: start;
     align-items: start;
+    overflow: hidden;
 }
