@@ -36,13 +36,13 @@ if (rootElement) {
   root.render(
     <WebsocketProvider>
       <Router>
-        <div className='content'>
-          <div className='App'>
+        <div className='App'>
+          <div className='sidebar'>
             {sessionStorage.getItem('role') !== null && (
               <Sidebar />
             )}
           </div>
-          <div>
+          <div className='content'>
             <Routes>
               {sessionStorage.getItem('role') === null && (
                 <>

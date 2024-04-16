@@ -4,7 +4,6 @@ import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestion
 import '../../css/Components/Sidebar/sidebar.scss'
 import { WebsocketContext } from '../../contexts/websocket'
 import userIcon from '../../assets/userIcon.png'
-import feelingIcon from '../../assets/feelingsTab.png'
 import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faFileLines, faMessage, faUser } from '@fortawesome/free-regular-svg-icons'
@@ -23,13 +22,28 @@ import emoji4Selected from "../../assets/emojis/4s.png"
 import emoji5Selected from "../../assets/emojis/5s.png" 
 
 import homeIcon from "../../assets/sidenav/home-icon.png" 
+import homeIconSelected from "../../assets/sidenav/home-icon-selected.png" 
+import surveyIcon from "../../assets/sidenav/survey-icon.png" 
+import surveyIconSelected from "../../assets/sidenav/survey-icon-selected.png" 
+import statsIcon from "../../assets/sidenav/stats-icon.png" 
+import statsIconSelected from "../../assets/sidenav/stats-icon-selected.png"
+import chatIcon from "../../assets/sidenav/chat-icon.png" 
+import chatIconSelected from "../../assets/sidenav/chat-icon-selected.png"
+import helpIcon from "../../assets/sidenav/help-icon.png" 
+import helpIconSelected from "../../assets/sidenav/help-icon-selected.png" 
+import profileIcon from "../../assets/sidenav/profile-icon.png" 
+import profileIconSelected from "../../assets/sidenav/profile-icon-selected.png" 
+import feelingIcon from "../../assets/sidenav/feeling-icon.png" 
+import feelingIconSelected from "../../assets/sidenav/feeling-icon-selected.png" 
+import alertsIcon from "../../assets/sidenav/alerts-icon.png" 
+import alertsIconSelected from "../../assets/sidenav/alerts-icon-selected.png" 
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
+  const [nbNotifications, setNbNotification] = useState(0)
   const [notification, setNotification] = useState({ message: false })
-  // const [profile, setProfile] = useState(null)
-  const [profile, setProfile] = useState()
+  const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
   const location = useLocation()
 
@@ -44,6 +58,10 @@ export default function Sidebar () {
         }
       }
     }
+  }
+
+  const getUnseenNotifications = () => {
+
   }
 
   useEffect(handleNotifications, [chats.value.notified, chats.value.unseenChats])
@@ -77,7 +95,7 @@ export default function Sidebar () {
   }
 
   useEffect(() => {
-    console.log(profile)
+    getUnseenNotifications();
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
@@ -85,25 +103,25 @@ export default function Sidebar () {
 
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') /* istanbul ignore next */ {
     pages = [
-      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, label: 'Accueil', selected: IsCurrentPage("/", true) },
+      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, iconSelected: <img id="icons" src={homeIconSelected}/>, label: 'Accueil', selected: IsCurrentPage("/", true) },
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', selected: IsCurrentPage("/accounts", false) },
-      { id: 'messages', path: '/messages', icon: <FontAwesomeIcon icon={faMessage} size='2xl' style={{color: "#4f23e2",}} />, label: 'Messages', selected: IsCurrentPage("/messages", false) },
-      { id: 'aides', path: '/aides', icon: <FontAwesomeIcon icon={faCircleInfo} size="2xl" style={{color: "#4f23e2",}} />, label: 'Aides', selected: IsCurrentPage("/aides", false) },
+      { id: 'messages', path: '/messages', icon: <img id="icons" src={chatIcon}/>, iconSelected: <img id="icons" src={chatIconSelected}/>, label: 'Messages', selected: IsCurrentPage("/messages", false) },
+      { id: 'aides', path: '/aides', icon: <img id="icons" src={helpIcon}/>, iconSelected: <img id="icons" src={helpIconSelected}/>, label: 'Aides', selected: IsCurrentPage("/aides", false) },
       { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement', selected: IsCurrentPage("/reports", false) },
-      { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes', selected: IsCurrentPage("/alerts", false) }
+      { id: 'alertes', path: '/alerts', icon: <img id="icons" src={alertsIcon}/>, iconSelected: <img id="icons" src={alertsIconSelected}/>, label: 'Alertes', selected: IsCurrentPage("/alerts", false) }
     ]
   } else {
     pages = [
-      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, label: 'Accueil', selected: IsCurrentPage("/", true) },
-      { id: 'questionnaires', path: '/questionnaires', icon: <FontAwesomeIcon  icon={faFileLines} size='2xl' style={{color: "#4f23e2",}} />, label: 'Mes questionnaires', selected: IsCurrentPage("/questionnaires", false) },
-      { id: 'statistiques', path: '/statistiques', icon: <FontAwesomeIcon icon={faChartLine} size='2xl' style={{color: "#4f23e2",}} />, label: 'Mes statistiques', selected: IsCurrentPage("/statistiques", false) },
-      { id: 'messages', path: '/messages', icon: <FontAwesomeIcon icon={faMessage} size='2xl' style={{color: "#4f23e2",}} />, label: 'Mes messages', selected: IsCurrentPage("/messages", false) },
-      { id: 'aides', path: '/aides', icon: <FontAwesomeIcon icon={faCircleInfo} size="2xl" style={{color: "#4f23e2",}} />, label: 'Mes aides', selected: IsCurrentPage("/aides", false) },
-      { id: 'profile', path: '/profile', icon: <FontAwesomeIcon icon={faUser} size="2xl" style={{color: "#4f23e2",}} />, label: 'Mon profile', selected: IsCurrentPage("/profile", false) },
-      { id: 'alerts', path: '/alerts', icon: <FontAwesomeIcon icon={faCircleExclamation} size="2xl" style={{color: "#4f23e2",}} />, label: 'Mes alertes', selected: IsCurrentPage("/alerts", false) },
+      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, iconSelected: <img id="icons" src={homeIconSelected}/>, label: 'Accueil', selected: IsCurrentPage("/", true) },
+      { id: 'questionnaires', path: '/questionnaires', icon: <img id="icons" src={surveyIcon}/>, iconSelected: <img id="icons" src={surveyIconSelected}/>, label: 'Mes questionnaires', selected: IsCurrentPage("/questionnaires", false) },
+      { id: 'statistiques', path: '/statistiques', icon: <img id="icons" src={statsIcon}/>, iconSelected: <img id="icons" src={statsIconSelected}/>, label: 'Mes statistiques', selected: IsCurrentPage("/statistiques", false) },
+      { id: 'messages', path: '/messages', icon: <img id="icons" src={chatIcon}/>, iconSelected: <img id="icons" src={chatIconSelected}/>, label: 'Mes messages', selected: IsCurrentPage("/messages", false) },
+      { id: 'aides', path: '/aides', icon: <img id="icons" src={helpIcon}/>, iconSelected: <img id="icons" src={helpIconSelected}/>, label: 'Mes aides', selected: IsCurrentPage("/aides", false) },
+      { id: 'profile', path: '/profile', icon: <img id="icons" src={profileIcon}/>, iconSelected: <img id="icons" src={profileIconSelected}/>, label: 'Mon profile', selected: IsCurrentPage("/profile", false) },
+      { id: 'alerts', path: '/alerts', icon: <img id="icons" src={alertsIcon}/>, iconSelected: <img id="icons" src={alertsIconSelected}/>, label: 'Mes alertes', selected: IsCurrentPage("/alerts", false) },
     ]
     if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
-      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img id="icons" src={feelingIcon}/>, label: 'Mes ressentis', selected: IsCurrentPage("/feelings", false) }
+      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img id="icons" src={feelingIcon}/>, iconSelected: <img id="icons" src={feelingIconSelected}/>, label: 'Mes ressentis', selected: IsCurrentPage("/feelings", false) }
       pages.splice(6, 0, feelingsObj)
     }
   }
@@ -131,13 +149,14 @@ export default function Sidebar () {
           </div>
           <div id='menu'>
             {pages.map((page, index) => (
-              <div id='menu-item'>
-                <Link to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
-                  <div id='icon'>
-                    {page.icon}
-                  </div>
-                </Link>
-              </div>
+              <div className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
+              <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                <div id='icon'>
+                  {page.selected && page.iconSelected ? page.iconSelected : page.icon}
+                </div>
+              </Link>
+              <span className={[page.selected ? 'selected' : '']}></span>
+            </div>
             ))}
           </div>
           <div id='bottom'>
@@ -182,7 +201,7 @@ export default function Sidebar () {
               <div className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
                 <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
                   <div id='icon'>
-                    {page.icon} <span id='label'>{page.label}</span>
+                    {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span id='label'>{page.label}</span>
                   </div>
                 </Link>
                 <span className={[page.selected ? 'selected' : '']}></span>

@@ -3,15 +3,21 @@ html, body, #root, #root>div {
     overflow: hidden;
 }
   
-.App {
+.sidebar {
     min-height: 100vh;
     width: fit-content
 }
 
-.content {
+.App {
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: start;
     overflow: hidden;
+    width: 100%;
+    background-color: white;
+}
+
+.content {
+    width: 100%;
 }
