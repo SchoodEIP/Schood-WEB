@@ -45,6 +45,7 @@ export default function Sidebar () {
   const [notification, setNotification] = useState({ message: false })
   const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
+  const [isAnswered, setIsAnswered] = useState(false)
   const location = useLocation()
 
   const handleNotifications = () => /* istanbul ignore next */ {
@@ -58,6 +59,24 @@ export default function Sidebar () {
         }
       }
     }
+  }
+
+  const getDailyMood = () => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setIsAnswered(false)
+      setDailyMood(null)
+      if (data.mood) {
+        setIsAnswered(true)
+        setDailyMood(data.mood)
+      }
+    })
   }
 
   const getUnseenNotifications = () => {
@@ -96,6 +115,7 @@ export default function Sidebar () {
 
   useEffect(() => {
     getUnseenNotifications();
+    getDailyMood();
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
@@ -131,7 +151,22 @@ export default function Sidebar () {
   }
 
   const handleClickDailyMood = (mood) => {
-    setDailyMood(mood)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({mood})
+    })
+      .then(() => {
+        setIsAnswered(true)
+        setDailyMood(mood)
+      })
+      .catch((error) => /* istanbul ignore next */ {
+        console.error(error)
+        // setErrMessage('Erreur : ', error.message)
+      })
   }
 
   return (
@@ -143,20 +178,20 @@ export default function Sidebar () {
               <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#4f23e2",}} />
             </div>
             <div id='profile'>
-              <img src={profile?.picture ? `data:image/jpeg;base64,${profile.picture}` : userIcon} alt="Image de profile"/>
+              <img src={profile?.picture ? profile.picture : userIcon} alt="Image de profile"/>
             </div>
             <span id='divider'></span>
           </div>
           <div id='menu'>
             {pages.map((page, index) => (
-              <div className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-              <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
-                <div id='icon'>
-                  {page.selected && page.iconSelected ? page.iconSelected : page.icon}
-                </div>
-              </Link>
-              <span className={[page.selected ? 'selected' : '']}></span>
-            </div>
+              <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
+                <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                  <div id='icon'>
+                    {page.selected && page.iconSelected ? page.iconSelected : page.icon}
+                  </div>
+                </Link>
+                <span className={[page.selected ? 'selected' : '']}></span>
+              </div>
             ))}
           </div>
           <div id='bottom'>
@@ -178,7 +213,7 @@ export default function Sidebar () {
               <FontAwesomeIcon icon={faBell} size='2xl' style={{color: "#4f23e2",}} />
             </div>
             <div id='profile'>
-              <img src={profile?.picture ? `data:image/jpeg;base64,${profile.picture}` : userIcon} alt="Image de profile"/>
+              <img src={profile?.picture ? profile.picture : userIcon} alt="Image de profile"/>
               <div id='firstname-lastname'>
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>
@@ -198,7 +233,7 @@ export default function Sidebar () {
           </div>
           <div id='menu'>
             {pages.map((page, index) => (
-              <div className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
+              <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
                 <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
                   <div id='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span id='label'>{page.label}</span>
@@ -227,34 +262,4 @@ export default function Sidebar () {
       />
     </>
   )
-
-  // return (
-  //   <>
-  //     <div className={`sidebar-container ${isCollapsed ? 'collapsed' : 'expanded'}`} style={{ height: sidebarHeight }}>
-  //       <button className={`sidebar-toggle ${isCollapsed ? 'collapsed' : 'expanded'}`} onClick={toggleSidebar}>
-  //         {isCollapsed ? <FaBars size={24} /> : <FaTimes size={24} style={{ color: 'white' }} />}
-  //       </button>
-  //       <div className='sidebar-menu-container'>
-  //         <ul className='sidebar-menu'>
-  //           {pages.map((page, index) => (
-  //             <li key={page.id} className='sidebar-menu-item' id={'sidebar-item-' + index}>
-  //               <Link to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
-  //                 <span className='sidebar-menu-item-icon'>
-  //                   {
-  //                     (notification.message && page.id === 'messages') &&
-  //                       <div className='sidebar-menu-item-icon-notification' />
-  //                   }
-  //                   {isCollapsed ? page.icon : <span>{page.icon}</span>}
-  //                 </span>
-  //                 {!isCollapsed && (
-  //                   <span className='sidebar-menu-item-label'>{page.label}</span>
-  //                 )}
-  //               </Link>
-  //             </li>
-  //           ))}
-  //         </ul>
-  //       </div>
-  //     </div>
-  //   </>
-  // )
 }

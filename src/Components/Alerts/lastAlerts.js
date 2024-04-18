@@ -29,19 +29,21 @@ export function LastAlerts () {
 
     async function buildList (dataList) {
       const alertList = []
-      for (const data of dataList) {
-        let fileUrl = ''
-        if (data.file) {
-          fileUrl = await getFile(data.file)
+      if (dataList && dataList.length > 0) {
+        for (const data of dataList) {
+          let fileUrl = ''
+          if (data.file) {
+            fileUrl = await getFile(data.file)
+          }
+          const showAlert = {
+            id: data._id,
+            title: data.title,
+            message: data.message,
+            file: fileUrl,
+            createdAt: moment(data.createdAt).format('DD/MM/YYYY')
+          }
+          alertList.push(showAlert)
         }
-        const showAlert = {
-          id: data._id,
-          title: data.title,
-          message: data.message,
-          file: fileUrl,
-          createdAt: moment(data.createdAt).format('DD/MM/YYYY')
-        }
-        alertList.push(showAlert)
       }
       return alertList
     }

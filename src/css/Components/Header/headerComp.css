@@ -1,46 +1,22 @@
-header {
-    height:10%;
-    width: 100%;
-    background: rgb(79, 35, 226);
-}
-
-html, body {
-    background: rgb(84, 84, 84);
-    margin:0%;
-}
-
-.headerComp {
-    height:5%;
-    width: 100%;
+#header {
+    height: 104px;
+    width: calc(100% - 40px);
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    background: rgb(79, 35, 226);
+    margin-left: 29px;
 
-}
+    #title {
+        font-size: 30px;
+        font-family: Inter;
+        font-weight: 600;
+        color: black;
+    }
 
-.user-icon {
-    object-fit:scale-down, contain;
-    height: 7%;
-    width: 7%;
-    display: flexbox;
-    margin-right: 3%;
-    margin-left: 80%;
-    justify-content: right;
-}
-
-.power-icon {
-    object-fit:scale-down, contain;
-    height: 7%;
-    width: 7%;
-    display: flexbox;
-    margin-right: 0%;
-    justify-content: right;
-}
-
-#schood-logo {
-    object-fit:scale-down, contain;
-    height: 35%;
-    width: 35%;
+    #logo {
+        object-fit: scale-down;
+        width: 150px;
+        height: 104px;
+    }
 }

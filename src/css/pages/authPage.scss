@@ -37,6 +37,7 @@ html, body, #root, #root>div {
     }
 
     #schoodLogo {
+      object-fit:scale-down, contain;
       display: block;
       margin-bottom: 50px;
       max-width: 50%;

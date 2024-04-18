@@ -1,6 +1,10 @@
 html, body, #root, #root>div {
     min-height: 100vh;
-    overflow: auto;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
 }
   
 .sidebar {
@@ -13,13 +17,13 @@ html, body, #root, #root>div {
     flex-direction: row;
     justify-content: start;
     align-items: start;
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
     background-color: white;
 }
 
 .content {
     width: 100%;
-    min-height: 100vh;
-    overflow: auto;
+    max-height: 100vh;
+    overflow: hidden;
 }
