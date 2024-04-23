@@ -7,7 +7,7 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 const ReportChecking = () => {
   const [reportRequests, setReportRequests] = useState([])
   const [selectedReport, setSelectedReport] = useState(null)
-  const [reportedConversation, setReportedConversation] = useState(null)
+  const [reportedConversation, setReportedConversation] = useState([])
   const [isReportProcessed, setIsReportProcessed] = useState(false)
   const [error, setError] = useState('')
   const [filter, setFilter] = useState('all')
@@ -38,7 +38,7 @@ const ReportChecking = () => {
         }
       })
       const data = await response.json()
-      setReportedConversation(data)
+      if (!data.message) { setReportedConversation(data) }
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération de la conversation signalée.')
     }

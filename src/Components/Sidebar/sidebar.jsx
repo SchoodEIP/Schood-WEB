@@ -50,7 +50,6 @@ export default function Sidebar () {
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes' },
       { id: 'messages', path: '/messages', icon: <FaEnvelope size={24} />, label: 'Messages' },
       { id: 'aides', path: '/aides', icon: <FaQuestionCircle size={24} />, label: 'Aides' },
-      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' },
       { id: 'alertes', path: '/alerts', icon: <FaPlusCircle size={24} />, label: 'Alertes' }
     ]
   } else {
@@ -67,6 +66,9 @@ export default function Sidebar () {
     } else if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
       const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <FaHeadSideCough size={24} />, label: 'Mes Ressentis' }
       pages.splice(3, 0, feelingsObj)
+    } else if (sessionStorage.getItem('role') === 'administration') /* istanbul ignore next */ {
+      const reportsObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalement' }
+      pages.splice(3, 0, reportsObj)
     }
   }
 

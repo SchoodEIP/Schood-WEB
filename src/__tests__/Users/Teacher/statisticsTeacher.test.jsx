@@ -48,9 +48,9 @@ describe('TeacherStatPage Component', () => {
       )
     })
 
-    expect(screen.getByText('Ressentis des étudiants')).toBeInTheDocument()
+    expect(screen.getByText('Statistiques des étudiants')).toBeInTheDocument()
     mockResponse.forEach((mood) => {
-      expect(screen.getByText(`Ressenti: ${mood.feeling}`)).toBeInTheDocument()
+      expect(screen.getByText(`Humeur: ${mood.feeling}`)).toBeInTheDocument()
     })
   })
 
@@ -71,10 +71,10 @@ describe('TeacherStatPage Component', () => {
       )
     })
 
-    expect(screen.getByText('Erreur lors de la récupération des ressentis')).toBeInTheDocument()
+    expect(screen.getByText('Erreur lors de la récupération des statistiques')).toBeInTheDocument()
   })
 
-  it('displays "Aucun ressenti disponible." when no moods are available', async () => {
+  it('displays "Aucunes statistiques disponible." when no moods are available', async () => {
     const studentId = '3'
 
     fetchMock.get(`${backendUrl}/teacher/dailyMood/${studentId}`, {
@@ -94,6 +94,6 @@ describe('TeacherStatPage Component', () => {
       )
     })
 
-    expect(screen.getByText('Aucun ressenti disponible.')).toBeInTheDocument()
+    expect(screen.getByText('Aucunes statistiques disponible.')).toBeInTheDocument()
   })
 })
