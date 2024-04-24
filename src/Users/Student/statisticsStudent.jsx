@@ -4,6 +4,7 @@ import Sidebar from '../../Components/Sidebar/sidebar';
 import Chart from 'chart.js/auto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../../css/pages/homePage.css';
+import '../../css/pages/statisticsStudent.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,7 +14,7 @@ const StudentStatPage = () => {
   const [moodData, setMoodData] = useState([]); // État local pour stocker toutes les données d'humeur
   const [filteredMoodData, setFilteredMoodData] = useState([]); // État local pour stocker les données filtrées
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Initialiser avec la date actuelle
-  const [activeFilter, setActiveFilter] = useState('Semaine'); // État local pour suivre le filtre actif
+  const [activeFilter, setActiveFilter] = useState([]); // État local pour suivre le filtre actif
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,8 +22,11 @@ const StudentStatPage = () => {
       try {
         const testData = [
           { date: '2023-11-29', mood: 4 },
-          { date: '2024-03-29', mood: 2 },
+          { date: '2024-03-29', mood: 0 },
           { date: '2024-01-29', mood: 1 },
+          { date: '2024-04-03', mood: 4 },
+          { date: '2024-04-01', mood: 2 },
+          { date: '2024-04-02', mood: 1 },
           { date: '2023-12-29', mood: 0 }, // Mauvaise humeur pour le 29/03/2024
           { date: '2024-03-30', mood: 3 }, // Bonne humeur pour le 30/03/2024
           { date: '2024-03-31', mood: 4 }  // Heureux pour le 31/03/2024
@@ -63,7 +67,8 @@ const StudentStatPage = () => {
           datasets: [{
             label: 'Évolution de l\'humeur',
             data: sortedData.map(entry => entry.mood), // Utiliser les valeurs d'humeur comme données
-            borderColor: 'rgba(75, 192, 192, 1)',
+            borderColor: 'rgba(255, 255, 255, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderWidth: 1
           }]
         },
@@ -73,13 +78,15 @@ const StudentStatPage = () => {
             x: {
               title: {
                 display: true,
-                text: 'Date'
+                text: 'Date',
+                color: 'white'
               }
             },
             y: {
               title: {
                 display: true,
-                text: 'Humeur'
+                text: 'Humeur',
+                color: 'white'
               },
               ticks: {
                 callback: value => {
@@ -99,8 +106,18 @@ const StudentStatPage = () => {
                   }
                 },
                 fontFamily: '"Font Awesome 5 Free"',
+                color: 'white'
               }
             }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            }
+          },
+          layout: {
           }
         }
       });
@@ -112,12 +129,13 @@ const StudentStatPage = () => {
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value); // Mettre à jour la date sélectionnée
+    setActiveFilter([]);
   };
 
   useEffect(() => {
     // Appliquer le filtre par semaine et définir le bouton "Semaine" comme actif au montage du composant
     filterByWeek();
-    setActiveFilter('Semaine');
+    setActiveFilter([]);
   }, []); // Appeler cette fonction une seule fois au montage du composant
 
   const filterByWeek = () => {
@@ -198,8 +216,9 @@ const StudentStatPage = () => {
           <input type="date" id="dateFilter" value={selectedDate} onChange={handleDateChange} />
           <button className={activeFilter === 'Semaine' ? 'active' : ''} onClick={filterByWeek}>Semaine</button>
           <button className={activeFilter === 'Mois' ? 'active' : ''} onClick={filterByMonth}>Mois</button>
-          <button className={activeFilter === 'Semestre' ? 'active' : ''} onClick={filterBySemester}>Semestre</button>
-          <button className={activeFilter === 'Année' ? 'active' : ''} onClick={filterByYear}>Année</button>
+          <button className={activeFilter.includes('Semestre') ? 'active' : ''} onClick={filterBySemester}>Semestre</button>
+          <button className={activeFilter.includes('Année') ? 'active' : ''} onClick={filterByYear}>Année</button>
+          <h1>Evolution de mon humeur</h1>
           <canvas id="moodChart"></canvas> {/* Canvas pour afficher le graphique */}
         </div>
       </div>
