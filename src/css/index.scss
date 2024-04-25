@@ -1,14 +1,13 @@
-html, body, #root, #root>div {
-    min-height: 100vh;
-    overflow: hidden;
-}
-
-body {
-    margin: 0;
+html, body, .root, .App {
+    height: 100vh !important;
+    width: 100vw !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
   
 .sidebar {
-    min-height: 100vh;
+    height: 100%;
     width: fit-content
 }
 
@@ -17,13 +16,11 @@ body {
     flex-direction: row;
     justify-content: start;
     align-items: start;
-    overflow: hidden;
-    width: 100%;
     background-color: white;
 }
 
 .content {
     width: 100%;
-    max-height: 100vh;
+    height: 100%;
     overflow: hidden;
 }

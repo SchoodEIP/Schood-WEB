@@ -4,6 +4,7 @@ import { QuestSpace } from '../../Components/Questionnaire/questSpace'
 import { GraphSpace } from '../../Components/Graph/graphSpace'
 import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const StudentHomePage = () => {
   const [profile, setProfile] = useState(null)
@@ -20,11 +21,25 @@ const StudentHomePage = () => {
       />
       <div className='page-content'>
         <div className='left-half'>
-          <GraphSpace />
-          <QuestSpace />
+          <div className="graph-space">
+            <GraphSpace />
+          </div>
+          <div className="quest-space">
+            <QuestSpace />
+          </div>
         </div>
         <div className='right-half'>
-          <LastAlerts />
+          <div className="last-alerts">
+            <LastAlerts />
+          </div>
+          <div className="buttons">
+            <Link to={'/alerts'} className='button'>
+              <span className='text'>Créer un ressentis</span>
+            </Link>
+            <Link to={'/alerts'} className='button'>
+              <span className='text'>Créer un signalement</span>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

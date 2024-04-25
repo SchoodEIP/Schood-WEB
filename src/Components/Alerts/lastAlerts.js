@@ -1,6 +1,10 @@
 import { React, useState, useEffect } from 'react'
 import '../../css/Components/Alerts/lastAlerts.css'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
+import rightArrow from '../../assets/right-arrow.png'
+import rightArrowInverted from '../../assets/right-arrow-inverted.png'
+import UserProfile from '../userProfile/userProfile'
 
 export function LastAlerts () {
   const [errMessage, setErrMessage] = useState('')
@@ -40,6 +44,7 @@ export function LastAlerts () {
             title: data.title,
             message: data.message,
             file: fileUrl,
+            createdBy: data.createdBy,
             createdAt: moment(data.createdAt).format('DD/MM/YYYY')
           }
           alertList.push(showAlert)
@@ -58,6 +63,7 @@ export function LastAlerts () {
       .then((response) => response.json())
       .then((data) => {
         const promisedList = buildList(data)
+        console.log(data)
         promisedList.then((alertList) => setAlerts(alertList))
       })
       .catch((error) => {
@@ -69,25 +75,32 @@ export function LastAlerts () {
     <div className='alert-box'>
       <div className='alert-header'>
         <p className='title'>Mes Dernières Alertes</p>
+        <Link to={'/alerts'} className='see-more'>
+          Voir plus
+          <img className='img' src={rightArrow} alt='Right arrow'/>
+        </Link>
       </div>
       <div className='alert-body'>
-        {errMessage !== '' ? <p>{errMessage}</p> : ''}
         {
           alerts.length > 0
             ? (
-              <div>
+              <div className='w-100'>
                 {alerts.map((alert, index) => (
                   <div key={index} className='alert-container'>
-                    <div className='alert-title'>{alert.title}</div>
-                    <div className='alert-message'>{alert.message}</div>
-                    {alert.file
-                      ? (
-                        <div className='alert-file-btn' id={alert.id}>
-                          <a style={{ textDecoration: 'none', color: 'white' }} href={alert.file} target='_blank' rel='noopener noreferrer'>
-                            Télécharger le fichier
-                          </a>
-                        </div>)
-                      : ''}
+                    <div className='content'>
+                      <div className='header'>
+                        <UserProfile 
+                          profile={alert.createdBy}
+                        />
+                        <Link to={'/alerts'} className='see-more-inverted'>
+                          Voir plus
+                          <img className='img' src={rightArrowInverted} alt='Right arrow'/>
+                        </Link>
+                      </div>
+                      <div className='body'>
+                        {alert.message}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

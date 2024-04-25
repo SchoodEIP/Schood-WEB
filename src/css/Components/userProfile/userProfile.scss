@@ -1,0 +1,32 @@
+.profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .img {
+        height: 35px;
+        width: 35px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+
+        .lastname {
+            font-family: Inter;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4F23E2;
+        }
+
+        .title {
+            font-family: Inter;
+            font-size: 10px;
+            font-weight: 400;
+            color: #4F23E2;
+        }
+    }
+}
