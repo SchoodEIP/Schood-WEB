@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import moment from 'moment'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
+import rightArrow2 from "../../assets/rightArrow2.png" 
+import { Link } from 'react-router-dom'
 
 const FormListStudentPage = () => {
+  const [questionnaires, setQuestionnaires] = useState([])
+
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
 
@@ -18,40 +22,8 @@ const FormListStudentPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          const titleRows = document.getElementById('title-rows')
-
-          data.forEach((questionnaire, index) => {
-            const fullContainer = document.createElement('div')
-            fullContainer.id = 'container-' + index
-            fullContainer.classList.add('full-container')
-
-            const questDates = document.createElement('span')
-            questDates.id = 'quest-dates-' + index
-            questDates.innerHTML = 'Du ' + moment(questionnaire.fromDate).format('DD/MM/YY') + '\nau ' + moment(questionnaire.toDate).format('DD/MM/YY')
-            questDates.classList.add('bold-underline-text')
-
-            const container = document.createElement('div')
-            container.id = 'questionnaire-' + index
-            container.classList.add('question-title-container')
-
-            const spanText = document.createElement('span')
-            spanText.textContent = questionnaire.title
-
-            const accessBtn = document.createElement('button')
-            accessBtn.textContent = 'Y Accéder'
-            accessBtn.classList.add('button-css')
-            accessBtn.classList.add('questionnaire-btn')
-            accessBtn.style.marginBottom = '10px'
-            accessBtn.addEventListener('click', function () {
-              accessForm(questionnaire._id)
-            })
-
-            container.appendChild(spanText)
-            container.appendChild(accessBtn)
-            fullContainer.appendChild(questDates)
-            fullContainer.appendChild(container)
-            titleRows.appendChild(fullContainer)
-          })
+          setQuestionnaires(data);
+          console.log("questionnaires:", questionnaires)
         })
         .catch(error => console.error(error.message))
     } catch (e) /* istanbul ignore next */ {
@@ -65,20 +37,38 @@ const FormListStudentPage = () => {
 
   return (
     <div className='form-page'>
-      <div>
-        <HeaderComp />
-      </div>
-      <div className='different-page-content'>
-        <div className='left-half'>
-          <div className='form-container'>
-            <div className='form-header'>
-              <h1 className='form-header-title'>Mes Questionnaires</h1>
-            </div>
-            <div className='form-content-container'>
-              <div id='title-rows' />
-            </div>
+      <HeaderComp 
+        title={`Mes questionnaires`}
+        withLogo={true}
+      />
+      <div className='content'>
+        {questionnaires.length === 0 && (
+          <div className='no-questionnaire'>
+            Aucun questionnaire disponible
           </div>
-        </div>
+        )}
+        {questionnaires.length > 0 && questionnaires.map((dateRange, index) => (
+          <div key={index} className='dateRange'>
+            <div className='header'>
+              <div>
+                Du {moment(dateRange.fromDate).format("DD/MM/YYYY")} au {moment(dateRange.toDate).format("DD/MM/YYYY")}
+              </div>
+              <span className='divider'></span>
+            </div>
+            {dateRange.questionnaires.map((questionnaire, index2) => (
+              <div key={index2} className='questionnaire'>
+                <div className='content-q'>
+                  <div>
+                    {questionnaire.title}
+                  </div>
+                  <Link id="link" to={`/questionnaire/${questionnaire._id}`}>
+                    <img id="right-arrow" src={rightArrow2}/>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   )
