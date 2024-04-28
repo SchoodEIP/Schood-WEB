@@ -1,0 +1,162 @@
+.form-detail-page {
+    width: 100%;
+    height: 100%;
+
+    .content {
+        margin-left: 29px;
+        width: calc(100% - (29px * 2));
+        height: calc(100% - 200px);
+        overflow-y: auto;
+
+        border: 4px #4F23E2 solid;
+        border-radius: 26px;
+        background-color: #EAEAEA;
+
+        .question {
+            width: 100%;
+            height: fit-content;
+
+            .body {
+                height: fit-content;
+                width: calc(100% - (20px * 2));
+                margin-left: 20px;
+
+                .header {
+                    width: 100%;
+                    height: 83px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+    
+                    .left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: start;
+                        
+                        .nb-question {
+                            font-size: 27px;
+                            font-family: Inter;
+                            font-weight: 600;
+                        }
+    
+                        .title-question {
+                            font-size: 27px;
+                            font-family: Inter;
+                            font-weight: 600;
+                        }
+                    }
+    
+                    .up-arrow {
+                        rotate: 270deg;
+                    }
+
+                    .down-arrow {
+                        rotate: 90deg;
+                        margin-right: 4px;
+                    }
+                }
+    
+                .details {
+                    width: 100%;
+                    height: fit-content;
+
+                    .text {
+                        margin-bottom: 20px;
+                        textarea {
+                            font-size: 15px;
+                            font-family: Inter;
+                            font-weight: 300;
+                            resize: none;
+                            margin-top: 0;
+                        }
+                    }
+
+                    .emoji {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        align-items: center;
+                        margin-bottom: 20px;
+
+                        img {
+                            cursor: pointer;
+                        }
+                    }
+
+                    .multiple {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        align-items: center;
+                        margin-bottom: 20px;
+                        .answer {
+                            color: black;
+                            font-size: 16px;
+                            font-family: Inter;
+                            font-weight: 600;
+
+                            input {
+                                width: 20px;
+                                height: 20px;
+                                background-color: white;
+                                border-radius: 6px;
+                                vertical-align: middle;
+                                border: 2px solid black;
+                                appearance: none;
+                                -webkit-appearance: none;
+                                outline: none;
+                                cursor: pointer;
+                                margin-left: 2px;
+                            }
+
+                            input:checked:before {
+                                content: "✔";
+                                color: #4F23E2;
+                                font-weight: 600;
+                                font-size: 13px;
+                                margin-left: 3px;
+                            }
+
+                            input:checked {
+                                margin-left: 2px;
+                            }
+                        }
+                    }
+                }
+            }
+            .divider {
+                display: flex;
+                width: 100%;
+                height: 4px;
+                background-color: #4F23E2;
+            }
+
+        }
+
+    }
+
+    .submit {
+        width: calc(100% - 20px);
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        align-items: center;
+        button {
+            border-radius: 26px;
+            width: 280px;
+            height: 70px;
+            background-color: #4F23E2;
+            color: white;
+            font-size: 18px;
+            font-family: Inter;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}

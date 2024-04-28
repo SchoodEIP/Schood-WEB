@@ -7,12 +7,49 @@
     align-items: center;
     margin-left: 29px;
 
-    #title {
-        font-size: 30px;
-        font-family: Inter;
-        font-weight: 600;
-        color: black;
+    #left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        #title {
+            font-size: 30px;
+            font-family: Inter;
+            font-weight: 600;
+            color: black;
+        }
+
+        #subtitle {
+            font-size: 17px;
+            font-family: Inter;
+            font-weight: 600;
+            color: black;
+        }
+
+        #withReturnBtn {
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+
+            #return-btn {
+                margin-right: 6px;
+            }
+
+            #back-text {
+                font-size: 18px;
+                font-family: Inter;
+                font-weight: 600;
+                color: #4F23E2;
+            }
+        }
+
+        #withReturnBtn:hover {
+            text-decoration: underline;
+        }
     }
+
 
     #logo {
         object-fit: scale-down;
