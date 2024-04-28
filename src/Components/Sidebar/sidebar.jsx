@@ -133,7 +133,7 @@ export default function Sidebar () {
   } else {
     pages = [
       { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, iconSelected: <img id="icons" src={homeIconSelected}/>, label: 'Accueil', selected: IsCurrentPage("/", true) },
-      { id: 'questionnaires', path: '/questionnaires', icon: <img id="icons" src={surveyIcon}/>, iconSelected: <img id="icons" src={surveyIconSelected}/>, label: 'Mes questionnaires', selected: IsCurrentPage("/questionnaires", false) },
+      { id: 'questionnaires', path: '/questionnaires', icon: <img id="icons" src={surveyIcon}/>, iconSelected: <img id="icons" src={surveyIconSelected}/>, label: 'Mes questionnaires', selected: IsCurrentPage("/questionnaire", false) },
       { id: 'statistiques', path: '/statistiques', icon: <img id="icons" src={statsIcon}/>, iconSelected: <img id="icons" src={statsIconSelected}/>, label: 'Mes statistiques', selected: IsCurrentPage("/statistiques", false) },
       { id: 'messages', path: '/messages', icon: <img id="icons" src={chatIcon}/>, iconSelected: <img id="icons" src={chatIconSelected}/>, label: 'Mes messages', selected: IsCurrentPage("/messages", false) },
       { id: 'aides', path: '/aides', icon: <img id="icons" src={helpIcon}/>, iconSelected: <img id="icons" src={helpIconSelected}/>, label: 'Mes aides', selected: IsCurrentPage("/aides", false) },

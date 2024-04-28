@@ -23,7 +23,7 @@ const FormListStudentPage = () => {
       }).then(response => response.json())
         .then(data => {
           setQuestionnaires(data);
-          console.log("questionnaires:", questionnaires)
+          console.log("questionnaires:", data)
         })
         .catch(error => console.error(error.message))
     } catch (e) /* istanbul ignore next */ {
@@ -56,16 +56,16 @@ const FormListStudentPage = () => {
               <span className='divider'></span>
             </div>
             {dateRange.questionnaires.map((questionnaire, index2) => (
-              <div key={index2} className='questionnaire'>
-                <div className='content-q'>
-                  <div>
-                    {questionnaire.title}
+              <Link key={index2} style={{ textDecoration: 'none' }} to={`/questionnaire/${questionnaire._id}`}>
+                <div className='questionnaire'>
+                  <div className='content-q'>
+                    <div>
+                      {questionnaire.title}
+                    </div>
+                      <img id="right-arrow" src={rightArrow2}/>
                   </div>
-                  <Link id="link" to={`/questionnaire/${questionnaire._id}`}>
-                    <img id="right-arrow" src={rightArrow2}/>
-                  </Link>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ))}

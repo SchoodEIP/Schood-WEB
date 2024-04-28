@@ -1,3 +1,4 @@
+import "react-toastify/dist/ReactToastify.css";
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
@@ -29,6 +30,7 @@ import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
 import 'react-tooltip/dist/react-tooltip.css'
 import Sidebar from './Components/Sidebar/sidebar'
 import './css/index.scss'
+import { Slide, ToastContainer } from 'react-toastify'
 const rootElement = document.getElementById('root')
 
 if (rootElement) {
@@ -109,6 +111,19 @@ if (rootElement) {
               <Route path='*' element={<NoPage />} />
             </Routes>
           </div>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Slide}
+          />
         </div>
       </Router>
     </WebsocketProvider>

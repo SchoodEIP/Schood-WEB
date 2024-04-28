@@ -17,7 +17,8 @@
 
         .dateRange {
             width: 100%;
-            height: 100%;
+            height: fit-content;
+            margin-bottom: 20px;
             .header {
                 display: flex;
                 flex-direction: row;
@@ -65,10 +66,9 @@
                     font-weight: 600;
                     color: black;
                     white-space: nowrap;
-                    .link {
-                        .right-arrow {
-    
-                        }
+                    
+                    Link:hover {
+                        text-decoration: none;
                     }
                 }
             }

@@ -19,6 +19,7 @@ import emoji2Selected from "../../assets/emojis/2s.png"
 import emoji3Selected from "../../assets/emojis/3s.png" 
 import emoji4Selected from "../../assets/emojis/4s.png" 
 import emoji5Selected from "../../assets/emojis/5s.png" 
+import { toast } from 'react-toastify'
 
 const FormStudentPage = () => {
   const { id } = useParams()
@@ -97,7 +98,7 @@ const FormStudentPage = () => {
         }
         formatQuestions(data, data2)
       })
-      .catch(error => /* istanbul ignore next */ setError(error.message))
+      .catch(error => /* istanbul ignore next */ toast.error("Erreur Serveur. Veuillez réessayer plus tard."))
   }
 
   const getQuestionnaireData = () => {
@@ -116,10 +117,10 @@ const FormStudentPage = () => {
           handleCurrentCheck(data.fromDate)
           getQuestionnaireAnswers(data)
         } else /* istanbul ignore next */ {
-          setError(data.message)
+          toast.error(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ setError(error.message))
+      .catch(error => /* istanbul ignore next */ toast.error("Erreur Serveur. Veuillez réessayer plus tard."))
   }
 
   useEffect(() => {
@@ -131,38 +132,19 @@ const FormStudentPage = () => {
 
   function getFormAnswers () {
     const formAnswers = []
-    data.questions.map((question, index) => {
-      let result = null
-      switch (question.type) {
-        case 'text':
-          result = document.getElementById('answer-' + index + '-0').value
-          break
-        case 'emoji':
-          result = '-1'
-          for (let i = 0; i < 3; i++) {
-            if (document.getElementById('answer-' + index + '-' + i).checked) /* istanbul ignore next */ {
-              result = `${i}`
-            }
-          }
-          break
-        case 'multiple':
-          result = '-1'
-          question.answers.map((multipleAnswer, i) => {
-            if (document.getElementById('answer-' + index + '-' + i).checked) /* istanbul ignore next */ {
-              result = `${i}`
-            }
-            return multipleAnswer
-          })
-          break
-        default:
-          break
-      }
-      const answerFormat = {
+
+    questions.forEach((question, index) => {
+      console.log("question: ", question)
+      let result = {
         question: question._id,
-        answer: result
+        answers: question.studentAnswer.filter((answer) => answer && answer.length > 0)
       }
-      return formAnswers.push(answerFormat)
-    })
+
+      if (result.answers.length > 0 && result.answers[0] !== "") {
+        formAnswers.push(result)
+      }
+    });
+    
     return formAnswers
   }
 
@@ -178,31 +160,32 @@ const FormStudentPage = () => {
       body: JSON.stringify({ answers: data })
     }).then(response => response.json())
       .then(data => {
+        toast.success("Réponses enregistrées avec succès.")
         if (!data.message) {
           setIsAnswered(true)
           navigate('/questionnaires')
         } else /* istanbul ignore next */ {
-          setError(data.message)
+          toast.error(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ { setError(error.message) })
+      .catch(error => /* istanbul ignore next */ toast.error("Erreur Serveur. Veuillez réessayer plus tard."))
   }
 
   const setAccordion = (question) => {
-    console.log("question: ", question)
     question.active = !question.active
     setQuestions([...questions])
   }
 
   const setValueTextArea = (value, index) => {
-    console.log(value)
     questions[index].studentAnswer[0] = value.target.value
     setQuestions([...questions])
   }
 
   const handleClickEmoji = (number, index) => {
-    questions[index].studentAnswer[0] = number
-    setQuestions([...questions])
+    if (!currentCheck) {
+      questions[index].studentAnswer[0] = number
+      setQuestions([...questions])
+    }
   }
 
   const setCheckbox = (index, index2) => {
@@ -245,17 +228,17 @@ const FormStudentPage = () => {
                 <div className='details'>
                   {question.type === "text" && (
                     <div className='text'>
-                      <textarea id={`text-${index}`} cols="30" rows="10" defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)}/>
+                      <textarea id={`text-${index}`} disabled={currentCheck} cols="30" rows="10" defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)}/>
                     </div>
                   )}
 
                   {question.type === "emoji" && (
                     <div className='emoji'>
-                      <img src={question.studentAnswer[0] === "0" ? emoji1Selected : emoji1} onClick={() => handleClickEmoji("0", index)} />
-                      <img src={question.studentAnswer[0] === "1" ? emoji2Selected : emoji2} onClick={() => handleClickEmoji("1", index)}/>
-                      <img src={question.studentAnswer[0] === "2" ? emoji3Selected : emoji3} onClick={() => handleClickEmoji("2", index)}/>
-                      <img src={question.studentAnswer[0] === "3" ? emoji4Selected : emoji4} onClick={() => handleClickEmoji("3", index)}/>
-                      <img src={question.studentAnswer[0] === "4" ? emoji5Selected : emoji5} onClick={() => handleClickEmoji("4", index)}/>
+                      <img alt='emoji1' src={question.studentAnswer[0] === "0" ? emoji1Selected : emoji1} onClick={() => handleClickEmoji("0", index)} />
+                      <img alt='emoji2' src={question.studentAnswer[0] === "1" ? emoji2Selected : emoji2} onClick={() => handleClickEmoji("1", index)}/>
+                      <img alt='emoji3' src={question.studentAnswer[0] === "2" ? emoji3Selected : emoji3} onClick={() => handleClickEmoji("2", index)}/>
+                      <img alt='emoji4' src={question.studentAnswer[0] === "3" ? emoji4Selected : emoji4} onClick={() => handleClickEmoji("3", index)}/>
+                      <img alt='emoji5' src={question.studentAnswer[0] === "4" ? emoji5Selected : emoji5} onClick={() => handleClickEmoji("4", index)}/>
                     </div>
                   )}
 
@@ -263,7 +246,7 @@ const FormStudentPage = () => {
                     <div className='multiple'>
                       {question.answers.map((answer, index2) => (
                         <div key={index2} className='answer'>
-                          <input type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)}/>{answer.title}
+                          <input disabled={currentCheck} type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)}/>{answer.title}
                         </div>
                       ))}
                     </div>
@@ -275,9 +258,11 @@ const FormStudentPage = () => {
           </div>
         ))}
       </div>
-      <div className='submit'>
-        <button onClick={sendAnswers} type='submit' >Envoyer le questionnaire</button>
-      </div>
+      {!currentCheck && (
+        <div className='submit'>
+          <button onClick={sendAnswers} type='submit' >Envoyer le questionnaire</button>
+        </div>
+      )}
     </div>
   )
 }
