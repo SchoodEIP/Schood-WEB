@@ -52,7 +52,7 @@ export default function ForgottenPasswordPage () {
   }
 
   return (
-    <div className='auth-page'>
+    <div className='auth-page page-height'>
       <div id='auth-background-part'>
         <img id='childrenImg' src={childrenLogin} alt='children' />
       </div>

@@ -1,6 +1,5 @@
 import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
-import childrenLogin from '../../assets/children_login.png'
 import logoSchood from '../../assets/logo_schood.png'
 import "@fontsource/inter/600.css";
 
@@ -98,7 +97,7 @@ export default function Login () {
   }
 
   return (
-    <div id='auth'>
+    <div id='auth' className='page-height'>
       <div id='auth-form'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
         <form>

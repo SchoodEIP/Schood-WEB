@@ -1,4 +1,4 @@
-import '../../css/pages/homePage.css'
+import '../../css/pages/homePage.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import AidePage from '../../Components/Aides/aides'
