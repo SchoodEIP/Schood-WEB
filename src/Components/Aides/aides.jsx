@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Aides/aides.scss'
 
-export default function AidePage () {
+export default function AidePage (props) {
   const [categories, setCategories] = useState([])
   const [contacts, setContacts] = useState([])
+  const [chosenContact, setChosenContact] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
   const [errMessage, setErrMessage] = useState('')
 
@@ -40,39 +41,64 @@ export default function AidePage () {
   const filterContactsByCategory = (category) => {
     const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
     setFilteredContacts(filtered)
+    props.upPosition()
+  }
+
+  const filterContact = (contactID) => {
+    const filtered = filteredContacts.filter((contact) => contact._id === contactID)
+    setChosenContact(filtered[0])
+    props.upPosition()
   }
 
   return (
-    <div className='aide-page'>
-      <header>Numéros de Contact</header>
+    <div>
       <p>{errMessage || ''}</p>
-      <div className='categories-section'>
-        <h2>Catégories</h2>
-        <ul>
+      {props.position === 0 ?
+        <div id="category-container">
           {categories.map((category) => (
-            <li key={category._id}>
-              <button data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
-                {category.name}
-              </button>
-            </li>
+            <button key={category._id} className="category-btn" data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
+              {category.name}
+            </button>
           ))}
-        </ul>
-      </div>
+        </div> : ''
+      }
 
-      <div className='contacts-section'>
-        <h2>Numéros de Contact</h2>
-        <ul>
-          {filteredContacts.map((contact) => (
-            <li key={contact._id}>
-              <strong>Nom: </strong><span>{contact.name}</span><br />
-              <strong>Numéro: </strong><span>{contact.telephone}</span><br />
-              <strong>Email: </strong><span>{contact.email}</span><br />
-              <strong>Description: </strong><span>{contact.description}</span><br />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className='clearfix' />
+      {props.position === 1 ?
+        <div id='filtered-contacts-container'>
+          {filteredContacts.map((contact) =>
+            <button key={contact._id} className="contact-btn" data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
+              {contact.name}
+            </button>
+          )}
+        </div> :
+        ''
+      }
+
+      {props.position === 2 ?
+        <div className="contact-container">
+          <div className="contact-content-container" id="contact-profile">
+            <h1 id="contact-title">{chosenContact.name}</h1>
+            {
+              chosenContact.telephone ?
+              <div className="contact-element-container">
+                <p className="contact-element-title">Numéro de Téléphone</p>
+                <p className="contact-element-content">{chosenContact.telephone}</p>
+              </div> : ''
+            }
+            {
+              chosenContact.email ?
+              <div className="contact-element-container">
+                <p className="contact-element-title">Adresse Email</p>
+                <p className="contact-element-content">{chosenContact.email}</p>
+              </div> : ''
+            }
+          </div>
+          <div className="contact-content-container" id="contact-description">
+            <span>{chosenContact.description}</span>
+          </div>
+        </div> :
+        ''
+      }
     </div>
   )
 }

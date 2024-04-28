@@ -2,11 +2,11 @@ import React from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import backButton from '../../assets/backButton.png'
 import '../../css/Components/Header/headerComp.css'
-import { Link, Router, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function HeaderComp ({title, withLogo = true, subtitle, withReturnBtn = false}) {
+export default function HeaderComp ({title, withLogo = true, subtitle, withReturnBtn = false, position = -1, returnCall}) {
   const navigate = useNavigate();
-  
+
   const goBack = () => {
     navigate(-1)
   }
@@ -25,7 +25,7 @@ export default function HeaderComp ({title, withLogo = true, subtitle, withRetur
           </div>
         )}
         {withReturnBtn && (
-          <div id='withReturnBtn' onClick={goBack}>
+          <div id='withReturnBtn' onClick={position < 0 ? goBack : returnCall}>
             <img id='return-btn' src={backButton} alt='Return'/>
             <div id='back-text'>
               Retour
