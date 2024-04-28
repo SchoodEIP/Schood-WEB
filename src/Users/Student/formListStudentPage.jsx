@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import moment from 'moment'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import rightArrow2 from "../../assets/rightArrow2.png" 
+import rightArrow2 from "../../assets/rightArrow2.png"
 import { Link } from 'react-router-dom'
 
 const FormListStudentPage = () => {
@@ -23,9 +22,8 @@ const FormListStudentPage = () => {
       }).then(response => response.json())
         .then(data => {
           setQuestionnaires(data);
-          console.log("questionnaires:", data)
         })
-        .catch(error => console.error(error.message))
+        .catch(error => /* istanbul ignore next */ { console.error(error.message) })
     } catch (e) /* istanbul ignore next */ {
       console.error(e.message)
     }
@@ -37,7 +35,7 @@ const FormListStudentPage = () => {
 
   return (
     <div className='form-page'>
-      <HeaderComp 
+      <HeaderComp
         title={`Mes questionnaires`}
         withLogo={true}
       />

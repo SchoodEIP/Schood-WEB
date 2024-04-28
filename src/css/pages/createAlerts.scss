@@ -61,12 +61,12 @@
   }
 
 #roles-container {
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 
 #classes-container {
-  display: none;
+  display: flex;
   flex-direction: column;
 }
 

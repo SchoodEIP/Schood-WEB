@@ -9,34 +9,34 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faFileLines, faMessage, faUser } from '@fortawesome/free-regular-svg-icons'
 import { faAnglesDown, faChartLine, faCircleExclamation, faCircleInfo, faHeadSideCough, faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
-import emoji1 from "../../assets/emojis/1.png" 
-import emoji2 from "../../assets/emojis/2.png" 
-import emoji3 from "../../assets/emojis/3.png" 
-import emoji4 from "../../assets/emojis/4.png" 
+import emoji1 from "../../assets/emojis/1.png"
+import emoji2 from "../../assets/emojis/2.png"
+import emoji3 from "../../assets/emojis/3.png"
+import emoji4 from "../../assets/emojis/4.png"
 import emoji5 from "../../assets/emojis/5.png"
 
-import emoji1Selected from "../../assets/emojis/1s.png" 
-import emoji2Selected from "../../assets/emojis/2s.png" 
-import emoji3Selected from "../../assets/emojis/3s.png" 
-import emoji4Selected from "../../assets/emojis/4s.png" 
-import emoji5Selected from "../../assets/emojis/5s.png" 
+import emoji1Selected from "../../assets/emojis/1s.png"
+import emoji2Selected from "../../assets/emojis/2s.png"
+import emoji3Selected from "../../assets/emojis/3s.png"
+import emoji4Selected from "../../assets/emojis/4s.png"
+import emoji5Selected from "../../assets/emojis/5s.png"
 
-import homeIcon from "../../assets/sidenav/home-icon.png" 
-import homeIconSelected from "../../assets/sidenav/home-icon-selected.png" 
-import surveyIcon from "../../assets/sidenav/survey-icon.png" 
-import surveyIconSelected from "../../assets/sidenav/survey-icon-selected.png" 
-import statsIcon from "../../assets/sidenav/stats-icon.png" 
+import homeIcon from "../../assets/sidenav/home-icon.png"
+import homeIconSelected from "../../assets/sidenav/home-icon-selected.png"
+import surveyIcon from "../../assets/sidenav/survey-icon.png"
+import surveyIconSelected from "../../assets/sidenav/survey-icon-selected.png"
+import statsIcon from "../../assets/sidenav/stats-icon.png"
 import statsIconSelected from "../../assets/sidenav/stats-icon-selected.png"
-import chatIcon from "../../assets/sidenav/chat-icon.png" 
+import chatIcon from "../../assets/sidenav/chat-icon.png"
 import chatIconSelected from "../../assets/sidenav/chat-icon-selected.png"
-import helpIcon from "../../assets/sidenav/help-icon.png" 
-import helpIconSelected from "../../assets/sidenav/help-icon-selected.png" 
-import profileIcon from "../../assets/sidenav/profile-icon.png" 
-import profileIconSelected from "../../assets/sidenav/profile-icon-selected.png" 
-import feelingIcon from "../../assets/sidenav/feeling-icon.png" 
-import feelingIconSelected from "../../assets/sidenav/feeling-icon-selected.png" 
-import alertsIcon from "../../assets/sidenav/alerts-icon.png" 
-import alertsIconSelected from "../../assets/sidenav/alerts-icon-selected.png" 
+import helpIcon from "../../assets/sidenav/help-icon.png"
+import helpIconSelected from "../../assets/sidenav/help-icon-selected.png"
+import profileIcon from "../../assets/sidenav/profile-icon.png"
+import profileIconSelected from "../../assets/sidenav/profile-icon-selected.png"
+import feelingIcon from "../../assets/sidenav/feeling-icon.png"
+import feelingIconSelected from "../../assets/sidenav/feeling-icon-selected.png"
+import alertsIcon from "../../assets/sidenav/alerts-icon.png"
+import alertsIconSelected from "../../assets/sidenav/alerts-icon-selected.png"
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
@@ -103,7 +103,7 @@ export default function Sidebar () {
 
   const IsCurrentPage = (page, home) => {
     const location = useLocation();
-    
+
     if (home && location.pathname === "/") {
       return true;
     }

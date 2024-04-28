@@ -52,7 +52,7 @@ export default function FeelingsPopup (props) {
     <div id='feelings-popup-box'>
       <div id='p-box'>
         <div className='feeling-pop-content'>
-          <div className='pop-header'>
+          <div className='feeling-pop-header'>
             <button className='btn-close' onClick={props.handleClose}>
               <img src={cross} alt='X' />
             </button>
