@@ -1,7 +1,7 @@
 import React from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import backButton from '../../assets/backButton.png'
-import '../../css/Components/Header/headerComp.css'
+import '../../css/Components/Header/headerComp.scss'
 import { Link, useNavigate } from "react-router-dom";
 
 export default function HeaderComp ({title, withLogo = true, subtitle, withReturnBtn = false, position = -1, returnCall}) {

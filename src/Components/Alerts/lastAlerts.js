@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import '../../css/Components/Alerts/lastAlerts.css'
+import '../../css/Components/Alerts/lastAlerts.scss'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
@@ -89,7 +89,7 @@ export function LastAlerts () {
                   <div key={index} className='alert-container'>
                     <div className='content'>
                       <div className='header'>
-                        <UserProfile 
+                        <UserProfile
                           profile={alert.createdBy}
                         />
                         <Link to={'/alerts'} className='see-more-inverted'>
