@@ -129,7 +129,10 @@ export default function AdmAccountsPage () {
   return (
     <div>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title="Gestion des Comptes"
+          withLogo={true}
+        />
       </div>
       <div className='page-content'>
         <div className='table-div'>

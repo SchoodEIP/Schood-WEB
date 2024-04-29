@@ -75,7 +75,7 @@ if (rootElement) {
                 <>
                   <Route path='/' element={<SchoolAdmHomePage />} />
                   <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
-                  <Route path='/aides' element={<AdmHelpPage />} />
+                  <Route path='/aides' element={<HelpPage />} />
                   <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
                   <Route path='/reports' element={<ReportChecking />} />
