@@ -19,7 +19,7 @@ const StudentHomePage = () => {
         title={`Bonjour ${profile?.firstname}, comment te sens-tu aujourd'hui ?`}
         withLogo={true}
       />
-      <div className='page-content page-height'>
+      <div className='page-content'>
         <div className='left-half'>
           <div className="graph-space">
             <GraphSpace />

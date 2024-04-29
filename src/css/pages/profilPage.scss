@@ -37,3 +37,17 @@
 .profile-image-container {
   width: 250px;
 }
+
+@media screen and (max-height: 600px) {
+  .page-height {
+    transform-origin: top;
+    transform: scale(0.8);
+  }
+}
+
+@media screen and (min-height: 1200px) {
+  .page-height {
+      transform-origin: top;
+      transform: scale(1.2);
+  }
+}

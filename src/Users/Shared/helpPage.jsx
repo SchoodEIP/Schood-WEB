@@ -25,7 +25,7 @@ const HelpPage = () => {
           returnCall={minusPosition}
         />
       </div>
-      <div className='page-height' style={{marginLeft: "25px", marginRight: "25px", overflowY: "auto"}}>
+      <div className='help-page' style={{marginLeft: "25px", marginRight: "25px", overflowY: "auto"}}>
         <AidePage upPosition={upPosition} position={position}/>
       </div>
     </div>
