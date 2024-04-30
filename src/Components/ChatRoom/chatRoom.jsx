@@ -1,15 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
 import Message from './message'
 import ReportButton from './reportButton'
 import { WebsocketContext } from '../../contexts/websocket'
+import Popup from 'reactjs-popup'
+import UserProfile from '../userProfile/userProfile'
+import addFile from '../../assets/add_file.png'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
+  const inputFile = useRef(null) 
 
   const fetchConversations = async (changeConversation = true) => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
@@ -32,10 +36,12 @@ const Messages = () => {
         _id: conversation._id,
         participants: conversation.participants,
         name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', '),
-        currentParticipants: convName.join(', ')
       }
     })
-    if (currentConversation === '' || changeConversation) { setCurrentConversation(conversationData[conversationData.length - 1]) }
+    if (currentConversation === '' || changeConversation) {
+      console.log("conversationData[conversationData.length - 1]: ", conversationData[conversationData.length - 1])
+      setCurrentConversation(conversationData[conversationData.length - 1])
+    }
     setConversations(conversationData)
   }
 
@@ -275,6 +281,10 @@ const Messages = () => {
     }
   }
 
+  const openInputFile = () => {
+    inputFile.current.click();
+  }
+
   const handleClearFile = (e) => {
     setFile(null)
   }
@@ -292,43 +302,69 @@ const Messages = () => {
       <div className='chat'>
         {currentConversation
           ? (
-            <div>
-              <h2>Conversation : {currentConversation.name ? currentConversation.name : ''}</h2>
-              <p>{currentConversation.currentParticipants}</p>
-              <ReportButton currentConversation={currentConversation} />
-              <div className='message-list'>
-                {messages.map((message, index) => (
-                  <Message key={index} message={message} participants={currentConversation.participants} />
-                ))}
-                {error && <div className='error-message'>{error}</div>}
-              </div>
-              {file
-                ? (
-                  <div className='file-feedback-container'>
-                    {file.name}
-                    <button className='send-button' onClick={handleClearFile}>X</button>
-                  </div>
-                  )
-                : null}
-              <div className='message-input'>
-                <input
-                  type='text'
-                  placeholder='Composez votre message'
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                />
-                <label className='file-input-label'>
-                  <input
-                    type='file'
-                    accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
-                    onChange={handleFileChange}
+            <div className='chat-content'>
+              <div className='top'>
+                <div className='conv-name'>{currentConversation.name}</div>
+                <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
+                  <ReportButton 
+                    currentConversation={currentConversation}
                   />
-                  <span className='file-input-button'>+</span>
-                </label>
-                <button className='send-button' onClick={sendMessage}>
-                  Envoyer
-                </button>
+                </Popup>
+              </div>
+              <div className='bottom'>
+                <div className='left'>
+                  <div className='top2'>
+                    <div className='message-list'>
+                      {messages.map((message, index) => (
+                        <Message key={index} message={message} participants={currentConversation.participants} />
+                      ))}
+                      {error && <div className='error-message'>{error}</div>}
+                    </div>
+                  </div>
+                  <div className='bottom2'>
+                    <div className='column'>
+                      {file && (
+                        <div className='file-name'>
+                          <div>{file.name}</div>
+                          <button className='send-button' onClick={handleClearFile}>X</button>
+                        </div>
+                      )}
+                      <div className='message-input'>
+                        <div className='file-input'>
+                          <input
+                            type='file'
+                            accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
+                            onChange={handleFileChange}
+                            ref={inputFile}
+                          />
+                          <img src={addFile} onClick={openInputFile} alt="add file" />
+                        </div>
+                        <div className='message-area'>
+                          <input
+                            type='text'
+                            placeholder='Message...'
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                          />
+                          <button className='send-button' onClick={sendMessage}>
+                            Envoyer
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='right'>
+                  {currentConversation.participants.map((participant, indexP) => (
+                    <div className='user-profile' key={indexP}>
+                      <UserProfile
+                        fullname={true}
+                        profile={participant}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             )

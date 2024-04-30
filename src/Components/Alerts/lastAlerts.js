@@ -89,9 +89,11 @@ export function LastAlerts () {
                   <div key={index} className='alert-container'>
                     <div className='content'>
                       <div className='header'>
-                        <UserProfile
-                          profile={alert.createdBy}
-                        />
+                        <div className='user-profile'>
+                          <UserProfile
+                            profile={alert.createdBy}
+                          />
+                        </div>
                         <Link to={'/alerts'} className='see-more-inverted'>
                           Voir plus
                           <img className='img' src={rightArrowInverted} alt='Right arrow'/>

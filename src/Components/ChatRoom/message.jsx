@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
+import "../../css/pages/chatRoomPage.scss"
 
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)
+  const [isMyMessage, setIsMyMessage] = useState(message.user === localStorage.getItem('id'))
   const messageUser = participants.find(item => item._id === message.user)
+  
   useEffect(() => {
+    setIsMyMessage(message.user === localStorage.getItem('id'))
     if (message.contentType === 'file') {
       getFile(message.file)
         .then((data) => {
@@ -51,7 +55,7 @@ const Message = ({ message, participants }) => {
   }, [message])
 
   return (
-    <div className='message'>
+    <div className={[isMyMessage ? 'my-messages' : 'other-messages']}>
       <div className='message-header'>
         <span className='message-username'>{messageUser ? messageUser.firstname + ' ' + messageUser.lastname : ''}</span>
         <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>

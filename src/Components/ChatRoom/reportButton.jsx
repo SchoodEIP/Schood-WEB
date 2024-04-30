@@ -4,7 +4,7 @@ const ReportButton = ({ currentConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
-  const signaledUserId = currentConversation.participants.find(item => item.id !== localStorage.getItem('id'))._id
+  const [signaledUsersId, setSignaledUsersId] = useState(currentConversation?.participants ? currentConversation.participants.filter((participant) => participant.id !== localStorage.getItem('id')).map((participant) => participant._id) : [])
 
   const handleReportClick = () => {
     setShowConfirmation(true)
@@ -23,7 +23,7 @@ const ReportButton = ({ currentConversation }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userSignaled: signaledUserId,
+          usersSignaled: signaledUsersId,
           message: '',
           conversation: currentConversation._id,
           type: reason
@@ -43,20 +43,15 @@ const ReportButton = ({ currentConversation }) => {
 
   return (
     <div>
-      <button onClick={handleReportClick} className='alert-btn signal'>Signaler</button>
-      {showConfirmation && (
-        <div>
-          <select value={reason} onChange={handleReasonChange} className='select-reason'>
-            <option value=''>Sélectionnez une raison</option>
-            <option value='bullying'>Harcèlement</option>
-            <option value='badcomportment'>Contenu offensant</option>
-            <option value='spam'>Spam</option>
-            <option value='other'>Autre</option>
-          </select>
-          <button onClick={handleConfirmClick} className='alert-btn confirm'>Confirmer le signalement</button>
-          {error && <div className='error-message'>{error}</div>}
-        </div>
-      )}
+      <select value={reason} onChange={handleReasonChange} className='select-reason'>
+        <option value=''>Sélectionnez une raison</option>
+        <option value='bullying'>Harcèlement</option>
+        <option value='badcomportment'>Contenu offensant</option>
+        <option value='spam'>Spam</option>
+        <option value='other'>Autre</option>
+      </select>
+      <button onClick={handleConfirmClick} className='alert-btn confirm'>Confirmer le signalement</button>
+      {error && <div className='error-message'>{error}</div>}
     </div>
   )
 }
