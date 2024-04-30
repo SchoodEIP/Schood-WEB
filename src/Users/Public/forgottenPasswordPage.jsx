@@ -56,8 +56,8 @@ export default function ForgottenPasswordPage () {
         <div id='auth-form'>
           <form>
             <label style={{display: 'flex', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: "20px", margin: "20px"}}>
-              <span style={{fontFamily: 'Inter'}}>Adresse Email <span style={{color: "red"}}>*</span></span>
-              <input style={{border: '2px solid #4F23E2', width: "350px", height: '50px', paddingLeft: "25px", borderRadius: "15px"}} id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+              {/* <span style={{fontFamily: 'Inter'}}>Adresse Email <span style={{color: "red"}}>*</span></span> */}
+              <input style={{border: 'none', width: "283px", height: '46px', paddingLeft: "25px", borderRadius: "26px", backgroundColor: "#FFD2D5"}} id='mailInput' type='text' placeholder='Adresse Email' onChange={handleEmailChange} value={email} required />
             </label>
           </form>
         </div>
