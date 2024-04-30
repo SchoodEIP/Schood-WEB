@@ -190,9 +190,7 @@ export default function SchoolAdmAccountsPage () {
         />
       </div>
       <div className='page-content'>
-        <div className='table-div'>
-          <SchoolAccountsTable />
-        </div>
+        <SchoolAccountsTable />
       </div>
       {
         isOpenSingle && <Popup
