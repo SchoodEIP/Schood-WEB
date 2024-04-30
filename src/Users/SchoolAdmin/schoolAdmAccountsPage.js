@@ -2,9 +2,11 @@ import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/popup'
-import '../../css/Components/Popup/popup.css'
+import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
+import Popup from 'reactjs-popup'
+import userIcon from '../../assets/userIcon.png'
+import cross from "../../assets/Cross.png"
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -18,7 +20,10 @@ export default function SchoolAdmAccountsPage () {
   const [errMessage, setErrMessage] = useState('')
   const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
+  const [titlesList, setTitlesList] = useState([])
   const [isMultiStatus, setIsMultiStatus] = useState(false)
+  const [picture, setPicture] = useState(null)
+  const [title, setTitle] = useState(null)
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
@@ -47,7 +52,25 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => {
+        console.log(data)
         setRolesList(data.roles)
+      })
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
+  }, [])
+
+  useEffect(() => {
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/admin/title'
+
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setTitlesList(data.titles)
       })
       .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
@@ -57,10 +80,12 @@ export default function SchoolAdmAccountsPage () {
     setFirstName('')
     setName('')
     setEmail('')
-    if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
+    if (rolesList[1] !== undefined) { setRole(rolesList[1]._id) }
     setClasses([])
+    setTitle('')
     setErrMessage('')
     setIsMultiStatus(false)
+    setPicture(null)
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany)
     }
@@ -87,9 +112,13 @@ export default function SchoolAdmAccountsPage () {
     setEmail(event.target.value)
   }
 
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+
   const handleRoleChange = (event) => {
     setRole(event.target.value)
-    if (event.target.value === rolesList[0]._id) {
+    if (event.target.value === rolesList[1]._id) {
       setIsMultiStatus(false)
     } else {
       setIsMultiStatus(true)
@@ -97,7 +126,7 @@ export default function SchoolAdmAccountsPage () {
   }
 
   const handleClasseChange = (selected) => /* istanbul ignore next */ {
-    if (role === rolesList[0]._id) {
+    if (role === rolesList[1]._id) {
       setClasses([selected])
     } else {
       setClasses(selected)
@@ -108,6 +137,10 @@ export default function SchoolAdmAccountsPage () {
     setFile(event.target.files[0])
   }
 
+  const handlePictureChange = (event) => {
+    setPicture(event.target.files[0])
+  }
+
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
@@ -116,6 +149,11 @@ export default function SchoolAdmAccountsPage () {
       classesArray.push(classes)
     } else if (classes.length > 1) {
       classesArray = classes
+    }
+    console.log("singleAccount creation", picture)
+    const fileData = picture ? new FormData() : ''
+    if (picture) {
+      fileData.append('file', picture)
     }
 
     await fetch(singleCreationUrl, {
@@ -129,7 +167,9 @@ export default function SchoolAdmAccountsPage () {
         lastname: name,
         email,
         role,
-        classes: classesArray
+        classes: classesArray,
+        picture: fileData,
+        title
       })
     }).then((response) => {
       if (response.ok) {
@@ -190,72 +230,87 @@ export default function SchoolAdmAccountsPage () {
         />
       </div>
       <div className='page-content'>
+        <Popup open={isOpenSingle} close={() => setIsOpenSingle(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <img style={{width: "50px", borderRadius: "50%"}} src={picture ? picture : userIcon} alt="photo de profil"/>
+                <label className="input-label">
+                  <span className="label-content">Changer la photo de Profil</span>
+                  <input className="picture-input" name="picture" placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+              </label>
+              </div>
+              <label className="input-label">
+                <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+                <input name="lastName" placeholder='Nom' type="text" onChange={handleNameChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
+                <input name="firstName" placeholder='Prénom' type="text" onChange={handleFirstNameChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+                <input name="email" placeholder='prenom.nom.schood1@schood.fr' type="emai" onChange={handleEmailChange}/>
+              </label>
+              <label className="input-label">
+                <span className="label-content">Rôle <span style={{color: "red"}}>*</span></span>
+                {
+                    (rolesList[0] !== undefined)
+                      ? (
+                          <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                            <option value={rolesList[1]._id}>{rolesList[1].name}</option>
+                            <option value={rolesList[2]._id}>{rolesList[2].name}</option>
+                          </select>
+                        )
+                      : ''
+                  }
+              </label>
+              {
+                (rolesList[2] !== undefined && role === rolesList[2]._id && titlesList) ? (
+                  <label className="input-label">
+                    <span className="label-content">Titre <span style={{color: "red"}}>*</span></span>
+                    <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                      <option value={title[1]._id}>{title[1].name}</option>
+                      <option value={title[2]._id}>{title[2].name}</option>
+                    </select>
+                  </label>
+                ) : ''
+              }
+              <label className="input-label">
+                <span className="label-content">Classe(s) <span style={{color: "red"}}>*</span></span>
+                  <Select
+                    isMulti={isMultiStatus}
+                    data-testid='select-classes'
+                    id='select-classes'
+                    placeholder='Selectionner une ou plusieurs classes'
+                    options={classesList}
+                    value={classes}
+                    onChange={handleClasseChange}
+                    getOptionValue={(option) => (option._id)}
+                    getOptionLabel={(option) => (option.name)}
+                  />
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
+            </div>
+          )}
+        </Popup>
+        <Popup open={isOpenMany} close={() => setIsOpenMany(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" style={{padding: "50px", gap: "50px"}} >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <label style={{alignItems: 'center', gap: "25px"}}>
+                <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
+                <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email,role,class</span>
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+            </div>
+          )}
+        </Popup>
         <SchoolAccountsTable />
       </div>
-      {
-        isOpenSingle && <Popup
-          handleClose={handleSingleAccount}
-          title={"Création d'un compte Etudiant/Professeur"}
-          errMessage={errMessage}
-          handleCreation={singleAccountCreation}
-          btn_text='Créer un nouveau compte'
-          content={
-            <form className='pop-form'>
-              <input className='pop-input' name='firstName' placeholder='Prénom' onChange={handleFirstNameChange} />
-              <input className='pop-input' name='lastName' placeholder='Nom' onChange={handleNameChange} />
-              <input className='pop-input' name='email' placeholder='Email' onChange={handleEmailChange} />
-              {
-                (rolesList[0] !== undefined)
-                  ? (
-                    <div>
-                      <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                        <option value={rolesList[0]._id}>{rolesList[0].name}</option>
-                        <option value={rolesList[1]._id}>{rolesList[1].name}</option>
-                      </select>
-                    </div>
-                    )
-                  : ''
-              }
-              <div style={{ marginTop: '25px' }}>
-                <Select
-                  isMulti={isMultiStatus}
-                  data-testid='select-classes'
-                  id='select-classes'
-                  placeholder='Selectionner une ou plusieurs classes'
-                  options={classesList}
-                  value={classes}
-                  onChange={handleClasseChange}
-                  getOptionValue={(option) => (option._id)}
-                  getOptionLabel={(option) => (option.name)}
-                />
-              </div>
-            </form>
-          }
-                        />
-      }
-      {
-        isOpenMany && <Popup
-          handleClose={handleManyAccounts}
-          title={"Création d'une liste de comptes Etudiant/Professeur"}
-          errMessage={errMessage}
-          handleCreation={csvAccountCreation}
-          btn_text='Créer de nouveaux comptes'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input-file' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-              </form>
-              <div className='pop-info'>
-                <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p>firstname,lastname,email,role,class</p>
-                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr,student,200</p>
-                <p>jean,dupond,jean.dupond.Schood1@schood.fr,teacher,200:201</p>
-                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
-              </div>
-            </div>
-          }
-                      />
-      }
     </div>
   )
 }

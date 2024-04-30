@@ -1,7 +1,7 @@
 .AccountsTable {
     background-color: white;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .newBreak {
