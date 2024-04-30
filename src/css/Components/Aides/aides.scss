@@ -70,11 +70,14 @@
   border-radius: 15px;
   background-color: white;
   width: 50%;
+  height: 100%;
   padding: 15px;
+  margin: 25px;
   font-family: Inter;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
 
 #contact-description {

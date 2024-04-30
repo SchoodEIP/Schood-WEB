@@ -1,8 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable'
-import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation'
 import '../../css/pages/accountsPage.scss'
 import Popup from '../../Components/Popup/popup'
 import '../../css/Components/Popup/popup.css'
@@ -170,25 +168,29 @@ export default function SchoolAdmAccountsPage () {
       .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
+  const buttonComponent = [
+    {
+      name: 'Ajouter un Compte',
+      function: handleSingleAccount
+    },
+    {
+      name: 'Ajouter une Liste de Comptes',
+      function: handleManyAccounts
+    }
+  ]
+
   return (
     <div>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title="Gestion de Comptes"
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+        />
       </div>
       <div className='page-content'>
-        <div className='table-div'>
-          <SchoolAccountsTable />
-        </div>
-        <div className='account-div'>
-          <ButtonsPopupCreation
-            isOpenSingle={isOpenSingle}
-            isOpenMany={isOpenMany}
-            handleSingleAccount={handleSingleAccount}
-            handleManyAccounts={handleManyAccounts}
-            singleContent='Ajouter un compte'
-            manyContent='Ajouter une liste de comptes'
-          />
-        </div>
+        <SchoolAccountsTable />
       </div>
       {
         isOpenSingle && <Popup

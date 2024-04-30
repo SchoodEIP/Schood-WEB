@@ -1,12 +1,8 @@
 .page-content {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-}
-
-.table-div {
-    padding-left: 15px;
-    padding-top: 2rem;
+    overflow-y: auto;
+    height: calc(100vh - 129px);
 }
 
 .establishment-banner {

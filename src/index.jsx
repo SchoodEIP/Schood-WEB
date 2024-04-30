@@ -3,7 +3,6 @@ import 'reactjs-popup/dist/index.css';
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import AdmHelpPage from './Users/Admin/admHelpPage'
 import AdmAccountsPage from './Users/Admin/admAccountsPage'
 import AdmHomePage from './Users/Admin/admHomePage'
 import ForgottenPasswordPage from './Users/Public/forgottenPasswordPage'
@@ -66,7 +65,7 @@ if (rootElement) {
                 <>
                   <Route path='/' element={<AdmHomePage />} />
                   <Route path='/accounts' element={<AdmAccountsPage />} />
-                  <Route path='/aides' element={<AdmHelpPage />} />
+                  <Route path='/aides' element={<HelpPage />} />
                   <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/alerts' element={<CreateAlert />} />
                   <Route path='/profile' element={<ProfilPage />} />
@@ -76,7 +75,7 @@ if (rootElement) {
                 <>
                   <Route path='/' element={<SchoolAdmHomePage />} />
                   <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
-                  <Route path='/aides' element={<AdmHelpPage />} />
+                  <Route path='/aides' element={<HelpPage />} />
                   <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
                   <Route path='/reports' element={<ReportChecking />} />

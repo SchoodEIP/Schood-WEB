@@ -1,24 +1,53 @@
 .AccountsTable {
     background-color: white;
+    display: flex;
+    flex-direction: row;
 }
 
-#titleTable {
+.newBreak {
+    border: none;
+    border-bottom: 2px solid #4f23e2;
+    height: 5px;
+    width: calc(100%);
+    margin-left: 25px;
+    margin-right: 35px;
+}
+
+.tableTitle {
+    margin-left: 30px;
+}
+
+.accountTable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border-top: 2px solid rgb(79, 35, 226);
+    border-bottom: 2px solid rgb(79, 35, 226);
+}
+
+.titleTable {
     margin: auto;
     text-align: center;
     display: flex block;
 }
 
-#valHead1, #valHead2, #valHead3, #valHead4, #valHead5 {
+.valHead1, .valHead1bis, .valHead2, .valHead3, .valHead3bis, .valHead4, .valHead5 {
     color: white;
 }
 
-#tableBlock {
+.tableBlock {
     float: right;
     position: relative;
     display: flex;
     background-color: white;
     justify-content: center;
-    margin: 2rem;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 th {
@@ -30,12 +59,13 @@ table, td, th {
 }
 
 td, th {
-    border: 1px solid black;
+    border: 1px solid rgb(79, 35, 226);
     height: 3.5rem;
 }
 
 th {
-    border: 1px solid black;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
     width: 12rem;
 }
 
@@ -51,4 +81,20 @@ table {
     float: right;
     display: block;
     justify-content: center;
+}
+
+.valHead1 {
+    width: 80px;
+}
+
+.valHead4, .valHead3bis {
+    width: 350px;
+}
+
+.valHead1bis, .valHead1 {
+    border-left-color: #4f23e2;
+}
+
+.valHead3bis, .valHead5 {
+    border-right-color: #4f23e2;
 }

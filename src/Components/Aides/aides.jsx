@@ -7,6 +7,7 @@ export default function AidePage (props) {
   const [chosenContact, setChosenContact] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
   const [errMessage, setErrMessage] = useState('')
+  const [defaultID, setDefaultID] = useState('')
 
   useEffect(() => {
     const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -21,6 +22,8 @@ export default function AidePage (props) {
     }).then(response => response.json())
       .then(data => {
         setCategories(data)
+        const filterID = data.filter((category) => category.name === 'Default')
+        setDefaultID(filterID)
       })
       .catch(error => setErrMessage(error.message))
 
@@ -41,6 +44,9 @@ export default function AidePage (props) {
   const filterContactsByCategory = (category) => {
     const filtered = contacts.filter((contact) => contact.helpNumbersCategory === category)
     setFilteredContacts(filtered)
+    if (category === defaultID[0]._id) {
+      setFilteredContacts(contacts)
+    }
     props.upPosition()
   }
 

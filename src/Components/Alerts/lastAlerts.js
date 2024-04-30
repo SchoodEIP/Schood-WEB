@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import '../../css/Components/Alerts/lastAlerts.css'
+import '../../css/Components/Alerts/lastAlerts.scss'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
