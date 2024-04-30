@@ -2,7 +2,8 @@ import '../../css/pages/homePage.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import AidePage from '../../Components/Aides/aides'
 import React, {useState, useEffect} from 'react'
-import Popup from '../../Components/Popup/popup'
+import Popup from 'reactjs-popup'
+import cross from "../../assets/Cross.png"
 
 const HelpPage = () => {
   const [position, setPosition] = useState(0)
@@ -96,7 +97,7 @@ const HelpPage = () => {
     }
   }
 
-  const handleCategoryPopup = async () => {
+  const handleCategoryCustomPopup = async () => {
     setIsOpenCategory(!isOpenCategory)
     setErrMessage('')
     setName('')
@@ -105,7 +106,7 @@ const HelpPage = () => {
     }
   }
 
-  const handleNumberPopup = async () => {
+  const handleNumberCustomPopup = async () => {
     setIsOpenNumber(!isOpenNumber)
     setErrMessage('')
     setName('')
@@ -143,7 +144,7 @@ const HelpPage = () => {
       const response = await fetchCategoryRegister()
       if (response.ok) {
         setErrMessage('Catégorie créée avec succès')
-        handleCategoryPopup()
+        handleCategoryCustomPopup()
         fetchData()
       } else {
         const data = await response.json()
@@ -164,7 +165,7 @@ const HelpPage = () => {
       const response = await fetchHelpNumberRegister()
       if (response.ok) {
         setErrMessage("Numéro d'aide créé avec succès")
-        handleNumberPopup()
+        handleNumberCustomPopup()
         fetchData()
       } else {
         const data = await response.json()
@@ -177,7 +178,7 @@ const HelpPage = () => {
 
   const fetchCategoryRegister = async () => {
     const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumbersCategory/register'
-    return fetch(categoryRegisterUrl, {
+    fetch(categoryRegisterUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -186,12 +187,21 @@ const HelpPage = () => {
       body: JSON.stringify({
         name
       })
+    }).then((response) => {
+      if (response.ok) {
+        setErrMessage('Catégorie créée avec succès.')
+        window.location.reload()
+      } else /* istanbul ignore next */ {
+        const data = response.json()
+        setErrMessage(data.message)
+      }
     })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const fetchHelpNumberRegister = async () => {
     const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumber/register'
-    return fetch(helpNumberRegisterUrl, {
+    fetch(helpNumberRegisterUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -204,17 +214,26 @@ const HelpPage = () => {
         helpNumbersCategory: categoryID,
         description
       })
+    }).then((response) => {
+      if (response.ok) {
+        setErrMessage("Numéro d'aide ajouté avec succès.")
+        window.location.reload()
+      } else /* istanbul ignore next */ {
+        const data = response.json()
+        setErrMessage(data.message)
+      }
     })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const buttonComponent = [
     {
       name: 'Ajouter une Catégorie',
-      function: handleCategoryPopup
+      function: handleCategoryCustomPopup
     },
     {
       name: 'Ajouter un Numéro',
-      function: handleNumberPopup
+      function: handleNumberCustomPopup
     }
   ]
 
@@ -232,45 +251,54 @@ const HelpPage = () => {
         />
       </div>
       <div className='help-page' style={{marginLeft: "25px", marginRight: "25px", overflowY: "auto"}}>
-        <AidePage upPosition={upPosition} position={position}/>
-        {isOpenCategory && (
-          <Popup
-            handleClose={handleCategoryPopup}
-            title='Ajouter une nouvelle Catégorie'
-            errMessage={errMessage}
-            handleCreation={categoryCreation}
-            btn_text='Créer la catégorie'
-            content={
-              <div>
-                <input className='pop-input' name='name' placeholder='Nom' onChange={handleNameChange} />
-              </div>
-            }
-          />
-        )}
-        {isOpenNumber && categories.length > 0 && (
-          <Popup
-            handleClose={handleNumberPopup}
-            title='Ajouter un nouveau Contact'
-            errMessage={errMessage}
-            handleCreation={helpNumberCreation}
-            btn_text='Créer le contact'
-            content={
-              <form className='pop-form'>
-                <select className='pop-input' data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
+        <Popup open={isOpenCategory} close={() => setIsOpenCategory(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" style={{padding: "50px", gap: "50px"}} >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <label className="input-label">
+                <span className="label-content">Catégorie <span style={{color: "red"}}>*</span></span>
+                <input type="text" name="category" placeholder='Catégorie' onChange={handleNameChange} />
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={fetchCategoryRegister}>Créer la Catégorie</button>
+            </div>
+          )}
+        </Popup>
+        <Popup open={isOpenNumber} close={() => setIsOpenNumber(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <label className="input-label">
+                <span className="label-content">Catégorie <span style={{color: "red"}}>*</span></span>
+                <select data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
                   {categories.map((option, index) => (
                     <option key={index} value={option._id}>
                       {option.name}
                     </option>
                   ))}
-                </select>
-                <input className='pop-input' name='name' placeholder='Nom' onChange={handleNameChange} />
-                <input className='pop-input' name='telephone' placeholder='0000000000' onChange={handleTelephoneChange} />
-                <input className='pop-input' name='email' placeholder='example@schood.fr' onChange={handleEmailChange} />
-                <textarea className='pop-input' name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
-              </form>
-            }
-          />
-        )}
+                </select>              </label>
+              <label className="input-label">
+                <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+                <input type="text" name="category" placeholder='name' onChange={handleNameChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Numéro de Téléphone <span style={{color: "red"}}>*</span></span>
+                <input type="text" name="telephone" placeholder='0000000000' onChange={handleTelephoneChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+                <input type="text" name="email" placeholder='prenom.nom.Schood1@schood.fr' onChange={handleEmailChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Description <span style={{color: "red"}}>*</span></span>
+                <textarea name="description" placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={fetchHelpNumberRegister}>Créer la Catégorie</button>
+            </div>
+          )}
+        </Popup>
+        <AidePage upPosition={upPosition} position={position}/>
       </div>
     </div>
   )

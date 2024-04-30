@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import '../../css/Components/Alerts/lastAlerts.scss'
+import '../../css/pages/createAlerts.scss'
 import moment from 'moment'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
@@ -90,9 +91,9 @@ export default function ShowAlerts (props) {
   }
 
   return (
-    <div style={{overflowY: "auto"}}>
+    <div className="page-alert" style={{overflowY: "auto"}}>
       {
-        alerts ? <p>Vous n'avez pas d'alerte pour le moment.</p> : ''
+        alerts ? '' : <p>Vous n'avez pas d'alerte pour le moment.</p>
       }
       {
         props.position === 0 ?
@@ -100,24 +101,26 @@ export default function ShowAlerts (props) {
           <div className="alert-page-container" key={day}>
             <div className="breakline"></div>
             <h2 className='day-title'>{day}</h2>
-            {items.map(alert => (
-              <div key={alert._id} className="alert-container">
-                <div className='content'>
-                  <div className='header'>
-                    <UserProfile
-                      profile={alert.createdBy}
-                    />
-                    <button onClick={() => getChosenAlert(alert._id)} className='see-more-inverted'>
-                      Voir plus
-                      <img className='img' src={rightArrowInverted} alt='Right arrow'/>
-                    </button>
-                  </div>
-                  <div className='body'>
-                    {alert.message}
+            <div className="day-container">
+              {items.map(alert => (
+                <div key={alert._id} className="alert-container">
+                  <div className='content'>
+                    <div className='header'>
+                      <UserProfile
+                        profile={alert.createdBy}
+                      />
+                      <button onClick={() => getChosenAlert(alert._id)} className='see-more-inverted'>
+                        Voir plus
+                        <img className='img' src={rightArrowInverted} alt='Right arrow'/>
+                      </button>
+                    </div>
+                    <div className='body'>
+                      {alert.message}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )) :
         <div id="alert-message-container">
@@ -128,7 +131,7 @@ export default function ShowAlerts (props) {
               />
               <div id="content-information">
                 <span>{chosenAlert.title}</span>
-                <span>Date de Publication : {chosenAlert.createdAt}</span>
+                <span style={{fontSize: "20px"}}>Date de Publication : {chosenAlert.createdAt}</span>
               </div>
             </div>
             <div>
