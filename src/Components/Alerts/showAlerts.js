@@ -66,7 +66,6 @@ export default function ShowAlerts (props) {
         promisedList.then((alertList) => {
           const groupedData = {};
           alertList.forEach(item => {
-            console.log(item)
             const parts = item.createdAt.split('/');
             const createdAt = new Date(parts[2], parts[1] - 1, parts[0]);
             const date = createdAt.toLocaleDateString('fr-FR');
@@ -75,7 +74,6 @@ export default function ShowAlerts (props) {
             }
             groupedData[date].push(item);
           });
-          console.log(data)
           setAlerts(groupedData)
         })
       })
@@ -85,9 +83,9 @@ export default function ShowAlerts (props) {
   }, [])
 
   const getChosenAlert = (alertId) => {
-    const filteredAlert = Object.values(alerts).flat().find(alert => alert._id === alertId);
-    setChosenAlert(filteredAlert)
-    props.upPosition()
+    const chosenAlert = Object.values(alerts).flat().find(alert => alert.id === alertId);
+    setChosenAlert(chosenAlert); // Corrected to pass an object containing the new state
+    props.upPosition();
   }
 
   return (
@@ -103,13 +101,13 @@ export default function ShowAlerts (props) {
             <h2 className='day-title'>{day}</h2>
             <div className="day-container">
               {items.map(alert => (
-                <div key={alert._id} className="alert-container">
+                <div key={alert.id} className="alert-container">
                   <div className='content'>
                     <div className='header'>
                       <UserProfile
                         profile={alert.createdBy}
                       />
-                      <button onClick={() => getChosenAlert(alert._id)} className='see-more-inverted'>
+                      <button id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
                         Voir plus
                         <img className='img' src={rightArrowInverted} alt='Right arrow'/>
                       </button>
@@ -135,7 +133,13 @@ export default function ShowAlerts (props) {
               </div>
             </div>
             <div>
-              {chosenAlert.file === "" ? <button id="alert-btn">Télécharger la pièce-jointe</button> : ''}
+              {chosenAlert.file ?
+                <button id="alert-btn">
+                  <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
+                    Télécharger la pièce-jointe
+                  </a>
+                </button> : ''
+              }
             </div>
           </div>
           <div id="alert-message-message">

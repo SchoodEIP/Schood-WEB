@@ -60,7 +60,7 @@ const CreateAlertsPage = () => {
       }
     })
       .then(response => response.json())
-      .then((data) => setUserClasses(data))
+      .then((data) => (data.message === 'Access Forbidden' ? setUserClasses([]) : setUserClasses(data)))
       .catch((error) => /* istanbul ignore next */ { setAlertResponse('Erreur lors de la récupération des classes', error.message) })
   }, [])
 
