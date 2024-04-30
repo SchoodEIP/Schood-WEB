@@ -232,7 +232,7 @@ export default function SchoolAdmAccountsPage () {
       <div className='page-content'>
         <Popup open={isOpenSingle} close={() => setIsOpenSingle(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" >
+            <div className="popup-modal-container" style={{alignItems: 'center'}} >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
               <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                 <img style={{width: "50px", borderRadius: "50%"}} src={picture ? picture : userIcon} alt="photo de profil"/>
@@ -298,7 +298,7 @@ export default function SchoolAdmAccountsPage () {
         </Popup>
         <Popup open={isOpenMany} close={() => setIsOpenMany(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" style={{padding: "50px", gap: "50px"}} >
+            <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
               <label style={{alignItems: 'center', gap: "25px"}}>
                 <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
