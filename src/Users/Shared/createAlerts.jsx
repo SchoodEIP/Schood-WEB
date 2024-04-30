@@ -16,6 +16,17 @@ const CreateAlertsPage = () => {
     setPosition(position - 1);
   };
 
+  const handleNewAlert = () => {
+    console.log('nouvelle alerte, appeler popup ici')
+  }
+
+  const buttonComponent = [
+    {
+      name: "Créer une alerte",
+      function: handleNewAlert
+    }
+  ]
+
   return (
     <div>
       <div>
@@ -25,13 +36,15 @@ const CreateAlertsPage = () => {
           withReturnBtn={position > 0 ? true : false}
           position={position}
           returnCall={minusPosition}
+          showButtons={role !== 'students' ? true : false}
+          buttonComponent={buttonComponent}
         />
       </div>
-      <div className='' style={{marginLeft: "25px"}}>
+      <div style={{marginLeft: "25px"}}>
         <ShowAlerts position={position} upPosition={upPosition} />
-        {
+        {/* {
           role === 'student' ? '' : <CreateAlerts />
-        }
+        } */}
       </div>
     </div>
   )

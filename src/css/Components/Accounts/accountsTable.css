@@ -1,5 +1,7 @@
 .AccountsTable {
     background-color: white;
+    display: flex;
+    flex-direction: row;
 }
 
 .newBreak {
@@ -34,7 +36,7 @@
     display: flex block;
 }
 
-.valHead1, .valHead2, .valHead3, .valHead4, .valHead5 {
+.valHead1, .valHead1bis, .valHead2, .valHead3, .valHead3bis, .valHead4, .valHead5 {
     color: white;
 }
 
@@ -63,7 +65,7 @@ td, th {
 
 th {
     border-left: 1px solid white;
-     border-right: 1px solid white;
+    border-right: 1px solid white;
     width: 12rem;
 }
 
@@ -85,6 +87,14 @@ table {
     width: 80px;
 }
 
-.valHead4 {
+.valHead4, .valHead3bis {
     width: 350px;
+}
+
+.valHead1bis, .valHead1 {
+    border-left-color: #4f23e2;
+}
+
+.valHead3bis, .valHead5 {
+    border-right-color: #4f23e2;
 }

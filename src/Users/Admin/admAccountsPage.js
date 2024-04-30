@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
 import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
 import '../../css/pages/accountsPage.scss'
@@ -126,28 +125,29 @@ export default function AdmAccountsPage () {
       .catch((e) => /* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
+  const buttonComponent = [
+    {
+      name: 'Ajouter un Compte',
+      function: handleSingleAccount
+    },
+    {
+      name: 'Ajouter une Liste de Comptes',
+      function: handleManyAccounts
+    }
+  ]
+
   return (
     <div>
       <div>
         <HeaderComp
           title="Gestion des Comptes"
           withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
         />
       </div>
-      <div className='page-content'>
-        <div className='table-div'>
-          <AdmAccountsTable />
-        </div>
-        <div className='account-div'>
-          <ButtonsPopupCreation
-            isOpenSingle={isOpenSingle}
-            isOpenMany={isOpenMany}
-            handleSingleAccount={handleSingleAccount}
-            handleManyAccounts={handleManyAccounts}
-            singleContent='Ajouter un compte'
-            manyContent='Ajouter une liste de comptes'
-          />
-        </div>
+      <div className='page-content' style={{alignContent: "center", justifyContent: "center"}}>
+        <AdmAccountsTable />
       </div>
       {
         isOpenSingle && <Popup

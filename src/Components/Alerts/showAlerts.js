@@ -74,6 +74,7 @@ export default function ShowAlerts (props) {
             }
             groupedData[date].push(item);
           });
+          console.log(data)
           setAlerts(groupedData)
         })
       })
@@ -90,6 +91,9 @@ export default function ShowAlerts (props) {
 
   return (
     <div style={{overflowY: "auto"}}>
+      {
+        alerts ? <p>Vous n'avez pas d'alerte pour le moment.</p> : ''
+      }
       {
         props.position === 0 ?
         Object.entries(alerts).map(([day, items]) => (
