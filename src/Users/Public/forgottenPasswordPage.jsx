@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-
-import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
-import childrenLogin from '../../assets/children_login.png'
+import '../../css/pages/authPage.scss'
 
 export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')
@@ -52,27 +50,25 @@ export default function ForgottenPasswordPage () {
   }
 
   return (
-    <div className='auth-page page-height'>
-      <div id='auth-background-part'>
-        <img id='childrenImg' src={childrenLogin} alt='children' />
-      </div>
-      <div id='auth-part'>
+    <div id='auth'>
+      <div id='auth-form'>
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
         <div id='auth-form'>
           <form>
-            <div>
-              <input className='auth-input' id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
-            </div>
+            <label style={{display: 'flex', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: "20px", margin: "20px"}}>
+              <span style={{fontFamily: 'Inter'}}>Adresse Email <span style={{color: "red"}}>*</span></span>
+              <input style={{border: '2px solid #4F23E2', width: "350px", height: '50px', paddingLeft: "25px", borderRadius: "15px"}} id='mailInput' type='text' placeholder='Email' onChange={handleEmailChange} value={email} required />
+            </label>
           </form>
         </div>
         <div>
-          <button onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
+          <button style={{width: '100%', paddingLeft: '25px', paddingRight: '25px'}} onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>
         </div>
-        <div>
-          <a href='login'>Retour à l'accueil</a>
+        <div id='forgot-password'>
+          <a href='/'>Retour à l'accueil</a>
         </div>
       </div>
     </div>
