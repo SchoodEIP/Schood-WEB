@@ -1,11 +1,11 @@
 import { React, useEffect, useState } from 'react'
-import '../../css/Components/Graph/graphSpace.css'
+import '../../css/Components/Graph/graphSpace.scss'
 import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
 
 export function GraphSpace () {
   const [title, setTitle] = useState("")
-  const [role, setRole] = useState(sessionStorage.getItem('role'))
+  const role = useState(sessionStorage.getItem('role'))
 
   const setTitleByPerm = () => {
     if (role === 'student') {
@@ -20,7 +20,7 @@ export function GraphSpace () {
   useEffect(() => {
     setTitleByPerm();
   }, [role, title])
-  
+
   return (
     <div className='graph-box'>
       <div className='graph-header'>

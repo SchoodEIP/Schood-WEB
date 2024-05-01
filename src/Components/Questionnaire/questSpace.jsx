@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../../css/Components/Questionnaire/questSpace.css'
+import '../../css/Components/Questionnaire/questSpace.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
 

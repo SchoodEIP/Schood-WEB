@@ -1,28 +1,32 @@
-import React from 'react'
-import { LastAlerts } from '../../Components/Alerts/lastAlerts'
+import React, { useEffect, useState }  from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import '../../css/pages/homePage.scss'
-import { QuestSpace } from '../../Components/Questionnaire/questSpace'
+import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import { GraphSpace } from '../../Components/Graph/graphSpace'
+import '../../css/pages/homePage.scss'
 
 export default function SchoolAdmHomePage () {
+  const [profile, setProfile] = useState(null)
+
+  useEffect(() => {
+    setProfile(JSON.parse(sessionStorage.getItem('profile')))
+  }, [])
+
   return (
-    <div>
-      <div>
-        <HeaderComp />
-      </div>
+    <div className='dashboard'>
+      <HeaderComp
+        title={`Bonjour ${profile?.firstname}`}
+        withLogo={true}
+      />
       <div className='page-content'>
         <div className='left-half'>
-          <div>
+          <div className="graph-space" style={{height: "95%"}}>
             <GraphSpace />
-          </div>
-          <div>
-            <QuestSpace />
           </div>
         </div>
         <div className='right-half'>
-          <LastAlerts />
+          <div className="last-alerts">
+            <LastAlerts />
+          </div>
         </div>
       </div>
     </div>
