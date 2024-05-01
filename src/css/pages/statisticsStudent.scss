@@ -11,6 +11,41 @@ button {
   cursor: pointer;
 }
 
+.button-container {
+  display: flex;
+}
+
+.button-section {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-top: 2px solid #4f23e2;
+  border-bottom: 2px solid #4f23e2;
+  color: #4f23e2;
+}
+
+.button-section:hover {
+  background-color: #4f23e2;
+  color: #ffffff;
+}
+
+.button-section.active {
+  background-color: #4f23e2;
+  color: #ffffff;
+}
+
+.button-section:first-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.button-section:last-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
 button.active {
   background-color: #4f23e2;
   color: white;

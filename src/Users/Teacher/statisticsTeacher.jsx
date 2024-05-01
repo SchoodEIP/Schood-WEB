@@ -1,275 +1,216 @@
-import React, { useState, useEffect } from 'react';
-import HeaderComp from '../../Components/Header/headerComp';
-import Sidebar from '../../Components/Sidebar/sidebar';
-import Chart from 'chart.js/auto';
-import 'chartjs-adapter-date-fns';
-import { format } from 'date-fns'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import '../../css/pages/homePage.css';
+import React, { useState, useEffect } from 'react'
+import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
+import Chart from 'chart.js/auto'
+import '../../css/pages/homePage.css'
 import '../../css/pages/statisticsStudent.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
-const StudentStatPage = () => {
-  const [moodData, setMoodData] = useState([]); // État local pour stocker toutes les données d'humeur
-  const [filteredMoodData, setFilteredMoodData] = useState([]); // État local pour stocker les données filtrées
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Initialiser avec la date actuelle
-  const [activeFilter, setActiveFilter] = useState('Semaine'); // État local pour suivre le filtre actif
-  const [selectedClass, setSelectedClass] = useState(null); // État local pour stocker la classe sélectionnée
+const TeacherStatPage = () => {
+  const [moodData, setMoodData] = useState([])
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [activeFilter, setActiveFilter] = useState('Semaine')
+  const [selectedClass, setSelectedClass] = useState(null)
+  const [chart, setChart] = useState(null)
+  const [classes, setClasses] = useState([]) // État pour stocker les classes disponibles
 
   useEffect(() => {
-    const fetchData = async () => {
-      const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/statistics/moods';
-      try {
-        const testData = [
-          { date: '2023-11-29', mood: 4, class: 2, problem: 'aucun', other: '' },
-          { date: '2024-03-29', mood: 0, class: 1, problem: 'harcelement', other: 'besoin d\'aide' },
-          { date: '2024-01-29', mood: 1, class: 2, problem: 'malade', other: 'juste une grippe passagère' },
-          { date: '2024-04-03', mood: 4, class: 1, problem: 'aucun', other: '' },
-          { date: '2024-04-01', mood: 2, class: 2, problem: 'malade', other: 'rattraper les math' },
-          { date: '2024-04-02', mood: 1, class: 1, problem: 'harcelement', other: '' },
-          { date: '2023-12-29', mood: 0, class: 2, problem: 'harcelement', other: 'je ne souhaite pas en parler' }, // Mauvaise humeur pour le 29/03/2024
-          { date: '2024-03-30', mood: 3, class: 1, problem: 'aucun', other: '' }, // Bonne humeur pour le 30/03/2024
-          { date: '2024-03-31', mood: 4, class: 2, problem: 'aucun', other: 'merci au prof qui m\'a bien soutenu' }  // Heureux pour le 31/03/2024
-        ];
-        // const response = await fetch(questionnaireUrl, {
-        //   method: 'GET',
-        //   headers: {
-        //     'x-auth-token': sessionStorage.getItem('token'),
-        //     'Content-Type': 'application/json'
-        //   }
-        // });
-        // const data = await response.json();
-        setMoodData(testData); // Mettre à jour l'état local avec les données d'humeur
-      } catch (error) {
-        console.error('Error fetching mood data:', error);
-      }
-    };
+    fetchClasses()
+  }, [])
 
-    fetchData();
-  }, []);
+  const fetchClasses = async () => {
+    const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
+    try {
+      const response = await fetch(classesUrl, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        }
+      })
+      const classesData = await response.json()
+      setClasses(classesData)
+    } catch (error) {
+      console.error('Error fetching classes:', error)
+    }
+  }
 
   useEffect(() => {
-    // Filtrer les données en fonction de la date sélectionnée
-    const filteredData = moodData.filter(entry => {
-      return entry.date === selectedDate && (selectedClass === null || entry.class === selectedClass);
-    })
-    setFilteredMoodData(filteredData);
-  }, [selectedDate, selectedClass, moodData]); // Appeler ce useEffect à chaque changement dans selectedDate ou moodData
+    fetchData()
+    fetchClasses()
+  }, [selectedDate, activeFilter, selectedClass]) // Fetch data when selectedDate, activeFilter, or selectedClass changes
 
   useEffect(() => {
-    // Code pour afficher le graphique en utilisant Chart.js
-    if (filteredMoodData.length > 0) {
-      const sortedData = filteredMoodData.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    if (chart) {
+      updateChart()
+    } else {
+      createChart()
+    }
+  }, [moodData, selectedClass])
 
-      const ctx = document.getElementById('moodChart').getContext('2d');
-      const chart = new Chart(ctx, {
-        type: 'scatter',
-        data: {
-          datasets: [{
-            label: 'Humeur de la classe',
-            data: sortedData.map(entry => ({ x: new Date(entry.date), y: entry.mood })), // Utiliser les valeurs d'humeur comme données
-            borderColor: 'rgba(255, 255, 255, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderWidth: 1
-          }]
+  const fetchData = async () => {
+    const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
+    try {
+      const response = await fetch(moodUrl, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
         },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              type: 'time',
-              time: {
-                tooltipFormat: 'dd-mm-yyyy',
-                displayFormats: {
-                  day: 'dd-mm',
-                  week: 'dd-mm',
-                  month: 'mm-yyyy',
-                  quarter: '[q]q - yyyy',
-                  year: 'yyyy'
+        body: JSON.stringify({
+          fromDate: calculateStartDate(selectedDate, activeFilter),
+          toDate: calculateEndDate(selectedDate, activeFilter),
+          classFilter: selectedClass || 'all'
+        })
+      })
+      const moodData = await response.json()
+      setMoodData(moodData)
+      console.log(moodData)
+    } catch (error) {
+      console.error('Error fetching mood data:', error)
+    }
+  }
+
+  const calculateStartDate = (date, filter) => {
+    const selectedDate = new Date(date)
+    switch (filter) {
+      case 'Semaine':
+        const selectedDayOfWeek = selectedDate.getDay()
+        const monday = new Date(selectedDate)
+        monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1))
+        return monday.toISOString().split('T')[0]
+      case 'Mois':
+        return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).toISOString().split('T')[0]
+      case 'Semestre':
+        const semesterStartMonth = selectedDate.getMonth() < 8 ? 0 : 8
+        return new Date(selectedDate.getFullYear(), semesterStartMonth, 1).toISOString().split('T')[0]
+      case 'Année':
+        return new Date(selectedDate.getFullYear(), 0, 1).toISOString().split('T')[0]
+      default:
+        return selectedDate.toISOString().split('T')[0]
+    }
+  }
+
+  const calculateEndDate = (date, filter) => {
+    const selectedDate = new Date(date)
+    switch (filter) {
+      case 'Semaine':
+        const sunday = new Date(selectedDate)
+        sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7)
+        return sunday.toISOString().split('T')[0]
+      case 'Mois':
+        const nextMonth = new Date(selectedDate)
+        nextMonth.setMonth(nextMonth.getMonth() + 1)
+        nextMonth.setDate(nextMonth.getDate() - 1)
+        return nextMonth.toISOString().split('T')[0]
+      case 'Semestre':
+        const semesterEndMonth = selectedDate.getMonth() < 8 ? 6 : 11
+        const endMonth = new Date(selectedDate.getFullYear(), semesterEndMonth + 1, 0)
+        return endMonth.toISOString().split('T')[0]
+      case 'Année':
+        return new Date(selectedDate.getFullYear(), 11, 31).toISOString().split('T')[0]
+      default:
+        return selectedDate.toISOString().split('T')[0]
+    }
+  }
+
+  const createChart = () => {
+    const ctx = document.getElementById('moodChart')  
+    const newChart = new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
+        datasets: [{
+          label: 'Humeur',
+          data: Object.values(moodData).filter(val => typeof val === 'number'),
+          borderColor: 'white', // Couleur de la courbe
+          pointBackgroundColor: 'white', // Couleur des points
+          pointBorderColor: 'white', // Couleur de la bordure des points
+          pointHoverBackgroundColor: 'white', // Couleur des points au survol
+          pointHoverBorderColor: 'white', // Couleur de la bordure des points au survol
+          tension: 0.1
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            ticks: {
+              color: 'white',
+              fontFamily: '"Font Awesome 5 Free"'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          y: {
+            ticks: {
+              callback: value => {
+                switch (value) {
+                  case 0:
+                    return '\u{1F622}'
+                  case 1:
+                    return '\u{1f641}'
+                  case 2:
+                    return '\u{1F610}'
+                  case 3:
+                    return '\u{1F603}'
+                  case 4:
+                    return '\u{1F604}'
+                  default:
+                    return ''
                 }
               },
-              title: {
-                display: true,
-                text: 'Date',
-                color: 'white'
-              }
+              color: 'white',
+              fontFamily: '"Font Awesome 5 Free"'
             },
-            y: {
-              title: {
-                display: true,
-                text: 'Humeur',
-                color: 'white'
-              },
-              ticks: {
-                callback: value => {
-                  switch (value) {
-                    case 0:
-                      return '\u{1F622}'
-                    case 1:
-                      return '\u{1f641}'
-                    case 2:
-                      return '\u{1F610}'
-                    case 3:
-                      return '\u{1F603}'
-                    case 4:
-                      return '\u{1F604}'
-                    default:
-                      return '';
-                  }
-                },
-                fontFamily: '"Font Awesome 5 Free"',
-                color: 'white'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: 'white'
-              }
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
             }
           }
-        }
-      });
-      return () => {
-        chart.destroy(); // Nettoyer le graphique lors du démontage du composant
-      };
-    }
-  }, [filteredMoodData]); // Appeler ce useEffect à chaque changement dans filteredMoodData
-
-  useEffect(() => {
-    // Code pour afficher le graphique en utilisant Chart.js pour les problèmes
-    if (filteredMoodData.length > 0) {
-      const problems = filteredMoodData.reduce((acc, entry) => {
-        if (entry.problem !== 'aucun') {
-          acc[entry.problem] = (acc[entry.problem] || 0) + 1;
-        }
-        return acc;
-      }, {});
-  
-      const problemLabels = Object.keys(problems);
-      const problemCounts = Object.values(problems);
-  
-      const ctx = document.getElementById('problemChart').getContext('2d');
-      const chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: problemLabels,
-          datasets: [{
-            label: 'Problèmes',
-            data: problemCounts,
-            backgroundColor: 'rgba(255, 255, 255, 1)',
-            borderColor: 'rgba(255, 255, 255, 1)',
-            borderWidth: 1,
-            borderRadius: 10
-          }]
         },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: 'white'
-              }
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white'
             }
           }
         }
-      });
-      return () => {
-        chart.destroy(); // Nettoyer le graphique lors du démontage du composant
-      };
+      }
+    })
+    setChart(newChart)
+  }
+
+  const updateChart = () => {
+    if (moodData) {
+      const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
+      const moods = Object.values(moodData).filter(val => typeof val === 'number')
+  
+      const data = dates.map(date => {
+        return {
+          x: date,
+          y: moodData[date],
+          r: 10 // Taille du point
+        }
+      })
+  
+      chart.data.datasets[0].data = data
+      chart.update()
     }
-  }, [filteredMoodData]);  
+  }
 
   const handleDateChange = (event) => {
-    setSelectedDate(event.target.value); // Mettre à jour la date sélectionnée
-  };
+    setSelectedDate(event.target.value)
+  }
 
-  useEffect(() => {
-    // Appliquer le filtre par semaine et définir le bouton "Semaine" comme actif au montage du composant
-    filterByWeek();
-    setActiveFilter('Semaine');
-  }, []); // Appeler cette fonction une seule fois au montage du composant
-
-  const filterByWeek = () => {
-    // Récupérer le jour de la semaine de la date sélectionnée (0 pour dimanche, 1 pour lundi, ..., 6 pour samedi)
-    const selectedDayOfWeek = new Date(selectedDate).getDay();
-    // Calculer la date du lundi précédent
-    const monday = new Date(selectedDate);
-    monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1));
-    const mondayDate = monday.toISOString().split('T')[0];
-
-    // Calculer la date du dimanche suivant
-    const sunday = new Date(mondayDate);
-    sunday.setDate(sunday.getDate() + 6);
-    const sundayDate = sunday.toISOString().split('T')[0];
-
-    // Filtrer les données pour la semaine du lundi précédent au dimanche suivant
-    const filteredData = moodData.filter(entry => entry.date >= mondayDate && entry.date <= sundayDate);
-    setFilteredMoodData(filteredData);
-    setActiveFilter('Semaine');
-  };
-
-  const filterByMonth = () => {
-    // Récupérer le mois de la date sélectionnée (de 0 à 11, où 0 représente janvier et 11 représente décembre)
-    const selectedMonth = new Date(selectedDate).getMonth();
-    // Récupérer l'année de la date sélectionnée
-    const selectedYear = new Date(selectedDate).getFullYear();
-
-    // Filtrer les données pour le mois de la date sélectionnée
-    const filteredData = moodData.filter(entry => {
-      const entryDate = new Date(entry.date);
-      return entryDate.getMonth() === selectedMonth && entryDate.getFullYear() === selectedYear;
-    });
-    setFilteredMoodData(filteredData);
-    setActiveFilter('Mois');
-  };
-
-  const filterBySemester = () => {
-    // Récupérer le mois de la date sélectionnée (de 0 à 11, où 0 représente janvier et 11 représente décembre)
-    const selectedMonth = new Date(selectedDate).getMonth();
-    // Récupérer l'année de la date sélectionnée
-    const selectedYear = new Date(selectedDate).getFullYear();
-
-    // Déterminer le semestre en fonction du mois
-    const semester = selectedMonth < 8 ? 1 : 2; // Premier semestre si le mois est de janvier à août, deuxième semestre sinon
-
-    // Filtrer les données pour le semestre de l'année scolaire correspondant à la date sélectionnée
-    const filteredData = moodData.filter(entry => {
-      const entryDate = new Date(entry.date);
-      const entryMonth = entryDate.getMonth();
-      const entryYear = entryDate.getFullYear();
-      const entrySemester = entryMonth < 8 ? 1 : 2; // Déterminer le semestre de chaque entrée
-      return entrySemester === semester && entryYear === selectedYear;
-    });
-    setFilteredMoodData(filteredData);
-    setActiveFilter(`Semestre ${semester}`);
-  };
-
-  const filterByYear = () => {
-    // Récupérer l'année scolaire correspondant à la date sélectionnée
-    const selectedYear = new Date(selectedDate).getMonth() < 8 ? new Date(selectedDate).getFullYear() - 1 : new Date(selectedDate).getFullYear();
-
-    // Filtrer les données pour l'année scolaire correspondant à la date sélectionnée
-    const filteredData = moodData.filter(entry => {
-      const entryYear = new Date(entry.date).getFullYear();
-      return entryYear === selectedYear || entryYear === selectedYear + 1;
-    });
-    setFilteredMoodData(filteredData);
-    setActiveFilter(`Année scolaire ${selectedYear}-${selectedYear + 1}`);
-  };
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter)
+  }
 
   const handleClassChange = (event) => {
-    setSelectedClass(parseInt(event.target.value)); // Mettre à jour la classe sélectionnée
-  };
+    setSelectedClass(event.target.value)
+  }
 
   return (
     <div className='dashboard'>
@@ -277,37 +218,35 @@ const StudentStatPage = () => {
       <div className='page-content'>
         <Sidebar />
         <div>
-          <label htmlFor="dateFilter">Filtrer par date:</label>
+          <label htmlFor="dateFilter">Sélectionner une date:</label>
           <input type="date" id="dateFilter" value={selectedDate} onChange={handleDateChange} />
-          <button className={activeFilter === 'Semaine' ? 'active' : ''} onClick={filterByWeek}>Semaine</button>
-          <button className={activeFilter === 'Mois' ? 'active' : ''} onClick={filterByMonth}>Mois</button>
-          <button className={activeFilter.includes('Semestre') ? 'active' : ''} onClick={filterBySemester}>Semestre</button>
-          <button className={activeFilter.includes('Année') ? 'active' : ''} onClick={filterByYear}>Année</button>
-          <label htmlFor="classFilter">Filtrer par classe:</label>
-          <select id="classFilter" value={selectedClass} onChange={handleClassChange}>
-            <option value={null}>Toutes les classes</option>
-            <option value={1}>Classe 1</option>
-            <option value={2}>Classe 2</option>
-          </select>
-          <h1>Evolution de mon humeur</h1>
-          <canvas id="moodChart"></canvas>
-          <h1>Problèmes</h1>
-          <canvas id="problemChart"></canvas>
-          <h1>Commentaires</h1>
-          <div className="chat-bubbles">
-            {filteredMoodData
-              .filter(entry => entry.other) // Filtrer les entrées sans commentaire
-              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Trier les entrées par date décroissante
-              .map(entry => (
-              <div className="chat-bubble" key={entry.date}>
-                <p>{format(new Date(entry.date), 'dd/MM/yyyy')} - {entry.other}</p>
-              </div>
-            ))}
+          <div className="button-container">
+            <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
+              Semaine
+            </div>
+            <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
+              Mois
+            </div>
+            <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
+              Semestre
+            </div>
+            <div className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
+              Année
+            </div>
           </div>
+          <label htmlFor="classFilter">Filtrer par classe:</label>
+          <select id="classFilter" value={selectedClass || ''} onChange={handleClassChange}>
+            <option key="all" value="">Toutes les classes</option>
+            {classes.map((classItem) => (
+              <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
+            ))}
+          </select>
+          <h1>Evolution de l'humeur</h1>
+          <canvas id="moodChart" width="400" height="400"></canvas>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StudentStatPage;
+export default TeacherStatPage
