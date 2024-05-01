@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import ShowAlerts from '../../Components/Alerts/showAlerts'
 import HeaderComp from '../../Components/Header/headerComp'
-import '../../css/pages/createAlerts.scss'
-import Popup from 'reactjs-popup'
 import cross from "../../assets/Cross.png"
+import Popup from 'reactjs-popup'
 import '../../css/Components/Popup/popup.scss'
+import '../../css/pages/createAlerts.scss'
 
 const CreateAlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
