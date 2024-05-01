@@ -79,8 +79,6 @@ const FeelingsStudentPage = () => {
           setErrMessage('Erreur lors de la récupération des ressentis', error)
         })
     }
-    console.log(dataPayload)
-
   }
 
   useEffect(() => {
@@ -176,7 +174,6 @@ const FeelingsStudentPage = () => {
       .then(response => response.json())
       .then(data => {
         setLastFeeling(data[0])
-        console.log(data[0])
         if (!isPassed)
           fillFeelingsContainer(data)
       })

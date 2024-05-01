@@ -3,7 +3,10 @@ import HeaderComp from '../../Components/Header/headerComp'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
 import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/popup'
+import Popup from 'reactjs-popup'
+import userIcon from '../../assets/userIcon.png'
+import cross from "../../assets/Cross.png"
+
 
 export default function AdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -149,47 +152,40 @@ export default function AdmAccountsPage () {
       <div className='page-content' style={{alignContent: "center", justifyContent: "center"}}>
         <AdmAccountsTable />
       </div>
-      {
-        isOpenSingle && <Popup
-          handleClose={handleSingleAccount}
-          title={"Création d'un compte Administrateur Scolaire"}
-          errMessage={errMessage}
-          handleCreation={singleAccountCreation}
-          btn_text='Créer un nouveau compte'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input' placeholder='Prénom' onChange={handleFirstNameChange} />
-                <input className='pop-input' placeholder='Nom' onChange={handleLastNameChange} />
-                <input className='pop-input' placeholder='Email' onChange={handleEmailChange} />
-              </form>
-            </div>
-          }
-                        />
-      }
-      {
-        isOpenMany && <Popup
-          handleClose={handleManyAccounts}
-          title={"Création d'une liste de comptes Administrateur Scolaire"}
-          errMessage={errMessage}
-          handleCreation={csvAccountCreation}
-          btn_text='Créer de nouveaux comptes'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input-file' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-              </form>
-              <div className='pop-info'>
-                <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p>firstName,lastName,email</p>
-                <p>jeanne,dupont,jeanne.dupont.Schood1@schood.fr</p>
-                <p>jean,dupond,jean.dupond.Schood1@schood.fr</p>
-                <p>L'addresse email contient le prénom, le nom et le nom de l'établissement séparés par un point.</p>
-              </div>
-            </div>
-          }
-                      />
-      }
+      <Popup open={isOpenSingle} close={handleSingleAccount} modal>
+        {(close) => (
+          <div className="popup-modal-container" style={{padding: "50px", gap: "20px", alignItems: 'center'}} >
+            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
+            </label>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Nom' value={lastname} onChange={handleLastNameChange} type='text' />
+            </label>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
+            </label>
+            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+            <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
+          </div>
+        )}
+      </Popup>
+      <Popup open={isOpenMany} close={handleManyAccounts} modal>
+        {(close) => (
+          <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
+            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+            <label style={{alignItems: 'center', gap: "25px"}}>
+              <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
+              <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email</span>
+            </label>
+            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+            <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+          </div>
+        )}
+      </Popup>
     </div>
   )
 }
