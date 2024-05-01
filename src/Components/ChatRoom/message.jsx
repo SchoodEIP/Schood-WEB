@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
 import "../../css/pages/chatRoomPage.scss"
+import UserProfile from '../userProfile/userProfile'
 
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)
@@ -57,26 +58,32 @@ const Message = ({ message, participants }) => {
   return (
     <div className={[isMyMessage ? 'my-messages' : 'other-messages']}>
       <div className='message-header'>
-        <span className='message-username'>{messageUser ? messageUser.firstname + ' ' + messageUser.lastname : ''}</span>
+        <UserProfile 
+          profile={messageUser}
+          whiteMode={isMyMessage ? false : true}
+        />
         <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
       <div className='message-content'>
         {message.contentType === 'text'
           ? (
-              message.content
+              <div className='message-content2'>{message.content}</div>
             )
           : (
-            <div>
+            <div className='with-file'>
+              <div className='message-content2'>
+                {message.content}
+              </div>
               {fileURL
                 ? (
-                  <a href={fileURL} target='_blank' rel='noopener noreferrer'>
+                  <a className='file' href={fileURL} target='_blank' rel='noopener noreferrer'>
                     <FaDownload size={24} />
                   </a>
                   )
                 : (
-                  <p>Chargement du fichier...</p>
-                  )}
-              <p>{message.content}</p>
+                  <div className='file'>Chargement du fichier...</div>
+                  )
+              }
             </div>
             )}
       </div>

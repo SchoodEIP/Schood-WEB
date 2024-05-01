@@ -31,11 +31,29 @@
             overflow: hidden;
         }
 
+        .lastname-white {
+            font-family: Inter;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .title {
             font-family: Inter;
             font-size: 10px;
             font-weight: 400;
             color: #4F23E2;
+        }
+
+        .title-white {
+            font-family: Inter;
+            font-size: 10px;
+            font-weight: 400;
+            color: white;
         }
     }
 }

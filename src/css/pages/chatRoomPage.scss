@@ -212,6 +212,45 @@
                     min-height: 100px;
                     margin-bottom: 20px;
                     color: #4F23E2;
+
+                    .message-header {
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: center;
+                      border-bottom: 1px #4F23E2 solid;
+                      white-space: nowrap;
+                      font-size: 12px;
+                      font-family: Inter;
+                      font-weight: 600;
+                      padding: 5px 10px 5px 10px;
+                    }
+
+                    .message-content {
+                      font-size: 16px;
+                      font-weight: 600;
+                      font-family: Inter;
+                      color: #4F23E2;
+                    }
+
+                    .message-content2 {
+                      padding: 5px 10px 5px 10px;
+                    }
+
+                    .with-file {
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: start;
+                      align-items: start;
+                      width: 100%;
+
+                      .file {
+                        padding: 5px 10px 5px 10px;
+                        width: calc(100% - 20px);
+                        border-top: 1px #4F23E2 solid;
+                        margin-top: 15px;
+                      }
+                    }
                   }
 
                   .other-messages {
@@ -222,6 +261,46 @@
                     min-height: 100px;
                     margin-bottom: 20px;
                     color: white;
+
+                    .message-header {
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: center;
+                      border-bottom: 1px white solid;
+                      color: white !important;
+                      font-size: 12px;
+                      font-family: Inter;
+                      font-weight: 600;
+                      white-space: nowrap;
+                      padding: 5px 10px 5px 10px;
+                    }
+
+                    .message-content {
+                      font-size: 16px;
+                      font-weight: 600;
+                      font-family: Inter;
+                      color: white;
+                    }
+
+                    .message-content2 {
+                      padding: 5px 10px 5px 10px;
+                    }
+
+                    .with-file {
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: start;
+                      align-items: start;
+                      width: 100%;
+
+                      .file {
+                        padding: 5px 10px 5px 10px;
+                        width: calc(100% - 20px);
+                        border-top: 1px white solid;
+                        margin-top: 15px;
+                      }
+                    }
                   }
 
                 }
