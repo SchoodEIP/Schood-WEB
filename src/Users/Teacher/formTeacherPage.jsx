@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import HeaderComp from '../../Components/Header/headerComp'
-import '../../css/pages/formPage.scss'
-import '../../css/Components/Buttons/questionnaireButtons.css'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
+import HeaderComp from '../../Components/Header/headerComp'
 import TeacherFormContent from '../../Components/Questionnaire/teacherFormContent'
+import '../../css/pages/formPage.scss'
+import '../../css/Components/Buttons/questionnaireButtons.css'
+import '../../css/pages/formDetailPage.scss'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
@@ -158,31 +158,33 @@ const FormTeacherPage = () => {
       .catch(error => /* istanbul ignore next */ { setError(error.message) })
   }, [id])
 
-  function handleRedirect () /* istanbul ignore next */ {
+  const handleRedirect = () => {
     window.location.href = '/questionnaire/' + id + '/modify'
   }
 
+  const buttonComponent = [
+    {
+      name: "Modifier le Questionnaire",
+      function: handleRedirect
+    }
+  ]
+
   return (
     <div className='form-page'>
-      <div>
-        <HeaderComp />
+      <div className='header'>
+        <HeaderComp
+          title={formData.title}
+          subtitle={`Du ${moment(formData.fromDate).format('DD/MM/YYYY')} au ${moment(formData.toDate).format('DD/MM/YYYY')}`}
+          withReturnBtn={true}
+          withLogo={true}
+          showButtons={isModify ? false : true}
+          buttonComponent={buttonComponent}
+        />
       </div>
       <div className='different-page-content'>
         <div className='left-half'>
           <div className='form-container'>
-            <div className='form-header' id='title-container'>
-              <h1 className='form-header-title' id='form-header-title' data-testid='form-header-title'>
-                {(!formData | !formData.questions) ? 'Erreur' : formData.title}
-              </h1>
-            </div>
             <div className='form-content-container'>
-              <div className='div-flex-horizontal'>
-                <p className='bold-underline-text'>Du {moment(formData.fromDate).format('DD/MM/YY')} au {moment(formData.toDate).format('DD/MM/YY')}</p>
-                {formData.createdBy ? <p className='bold-underline-text'>Créé par {formData.createdBy.firstname} {formData.createdBy.lastname}</p> : ''}
-                {isModify
-                  ? ''
-                  : <button className='button-css questionnaire-btn' onClick={handleRedirect}>Modifier le questionnaire</button>}
-              </div>
               <TeacherFormContent form={formData} error={error} />
             </div>
           </div>

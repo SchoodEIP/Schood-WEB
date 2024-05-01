@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import HeaderComp from '../../Components/Header/headerComp'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import moment from 'moment'
+import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/pages/formDetailPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import { useNavigate, useParams } from 'react-router-dom'
 
-import arrow from "../../assets/rightArrow2.png" 
+import arrow from "../../assets/rightArrow2.png"
 
-import emoji1 from "../../assets/emojis/1.png" 
-import emoji2 from "../../assets/emojis/2.png" 
-import emoji3 from "../../assets/emojis/3.png" 
-import emoji4 from "../../assets/emojis/4.png" 
+import emoji1 from "../../assets/emojis/1.png"
+import emoji2 from "../../assets/emojis/2.png"
+import emoji3 from "../../assets/emojis/3.png"
+import emoji4 from "../../assets/emojis/4.png"
 import emoji5 from "../../assets/emojis/5.png"
 
-import emoji1Selected from "../../assets/emojis/1s.png" 
-import emoji2Selected from "../../assets/emojis/2s.png" 
-import emoji3Selected from "../../assets/emojis/3s.png" 
-import emoji4Selected from "../../assets/emojis/4s.png" 
-import emoji5Selected from "../../assets/emojis/5s.png" 
-import { toast } from 'react-toastify'
+import emoji1Selected from "../../assets/emojis/1s.png"
+import emoji2Selected from "../../assets/emojis/2s.png"
+import emoji3Selected from "../../assets/emojis/3s.png"
+import emoji4Selected from "../../assets/emojis/4s.png"
+import emoji5Selected from "../../assets/emojis/5s.png"
 
 const FormStudentPage = () => {
   const { id } = useParams()
@@ -91,7 +90,6 @@ const FormStudentPage = () => {
       }
     }).then(response => response.json())
       .then(data2 => {
-        console.log("data2b:", data2)
         if (data2 !== null) {
           setIsAnswered(true)
           setAnswers(data.answers)
@@ -134,7 +132,6 @@ const FormStudentPage = () => {
     const formAnswers = []
 
     questions.forEach((question, index) => {
-      console.log("question: ", question)
       let result = {
         question: question._id,
         answers: question.studentAnswer.filter((answer) => answer && answer.length > 0)
@@ -144,7 +141,7 @@ const FormStudentPage = () => {
         formAnswers.push(result)
       }
     });
-    
+
     return formAnswers
   }
 
@@ -200,7 +197,7 @@ const FormStudentPage = () => {
   return (
     <div className='form-detail-page'>
       <div className='header'>
-        <HeaderComp 
+        <HeaderComp
           title={data.title}
           subtitle={`Du ${moment(data.fromDate).format('DD/MM/YYYY')} au ${moment(data.toDate).format('DD/MM/YYYY')}`}
           withReturnBtn={true}
