@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import HeaderComp from '../../Components/Header/headerComp'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -208,43 +207,66 @@ const NewFormPage = () => {
     return date.getDay() === 1 && date >= new Date()
   }
 
+  const buttonComponent = [
+    {
+      name: "Valider le Questionnaire",
+      function: postQuestions
+    }
+  ]
+
   return (
     <div className='form-page'>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title={"Création d'un Nouveau Questionnaire"}
+          withReturnBtn={true}
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+        />
       </div>
-      <div className='different-page-content'>
-        <div className='left-half'>
-          <div className='form-container'>
-            <div className='form-header'><h1 className='form-header-title'>Création de Questionnaire</h1></div>
-            <div className='form-content-container'>
-              <div>
-                <input className='form-input' style={{ width: '80%' }} name='form-title' id='form-title' placeholder='Titre du questionnaire' />
-              </div>
-              <div id='question-row' />
-              <div className='confirmation-form-container'>
-                <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
-              </div>
-              <div className='confirmation-form-container'>
-                <label id='parution-date-container'>
-                  Date de parution:
-                  <DatePicker
-                    className='date-input'
-                    name='parution-date'
-                    data-testid='parution-date'
-                    id='parution-date'
-                    selected={selectedDate}
-                    onChange={date => /* istanbul ignore next */ { setSelectedDate(date) }}
-                    filterDate={filterMonday}
-                  />
-                </label>
-                <div style={{}}>
-                  <p data-testid='error-message'>{errMessage}</p>
-                  <button className='button-css questionnaire-btn' id='new-form-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Créer un Questionnaire</button>
-                </div>
-              </div>
-            </div>
+      <div className='form-container'>
+        <div className='confirmation-form-container'>
+          <input className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
+          <label id='parution-date-container' className="input-label">
+            <span className="label-content">Date de parution</span>
+            <DatePicker
+              className='date-input default-input'
+              name='parution-date'
+              data-testid='parution-date'
+              id='parution-date'
+              selected={selectedDate}
+              onChange={date => /* istanbul ignore next */ { setSelectedDate(date) }}
+              filterDate={filterMonday}
+            />
+          </label>
+          <div>
+            <p className="error-message" data-testid='error-message'>{errMessage}</p>
+          </div>
+        </div>
+        <div className='form-content-container'>
+            {
+              questionInc > 0 ?
+                <div className='question'>
+                  <div className='body'>
+                    <div className='header' /*onClick={() => setAccordion(question)}*/>
+                      <div className='left'>
+                        <div className='nb-question'>
+                          {questionInc}.&nbsp;
+                        </div>
+                        <div className='title-question'>
+                          <input type='text'/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> : ''
+            }
+          <div id='question-row' className="content-q">
+          </div>
+          <div className='confirmation-form-container'>
+            <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
+            {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
           </div>
         </div>
       </div>
