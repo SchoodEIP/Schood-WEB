@@ -13,7 +13,7 @@ const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
-  const inputFile = useRef(null) 
+  const inputFile = useRef(null)
 
   const fetchConversations = async (changeConversation = true) => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
@@ -306,7 +306,7 @@ const Messages = () => {
               <div className='top'>
                 <div className='conv-name'>{currentConversation.name}</div>
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
-                  <ReportButton 
+                  <ReportButton
                     currentConversation={currentConversation}
                   />
                 </Popup>

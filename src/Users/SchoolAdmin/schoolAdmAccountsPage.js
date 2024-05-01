@@ -52,16 +52,15 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
         setRolesList(data.roles)
       })
       .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/admin/title'
+    const titlesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/titles'
 
-    fetch(rolesUrl, {
+    fetch(titlesUrl, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
@@ -69,8 +68,7 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
-        setTitlesList(data.titles)
+        setTitlesList(data)
       })
       .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
@@ -138,7 +136,19 @@ export default function SchoolAdmAccountsPage () {
   }
 
   const handlePictureChange = (event) => {
+    const selectedFile = event.target.files[0];
     setPicture(event.target.files[0])
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+          const base64Image = reader.result;
+          setPicture(base64Image);
+      };
+      reader.onerror = (error) => {
+          console.error('Error occurred while reading the file:', error);
+      };
+  }
   }
 
   const singleAccountCreation = async (event) => {
@@ -149,11 +159,6 @@ export default function SchoolAdmAccountsPage () {
       classesArray.push(classes)
     } else if (classes.length > 1) {
       classesArray = classes
-    }
-    console.log("singleAccount creation", picture)
-    const fileData = picture ? new FormData() : ''
-    if (picture) {
-      fileData.append('file', picture)
     }
 
     await fetch(singleCreationUrl, {
@@ -168,8 +173,7 @@ export default function SchoolAdmAccountsPage () {
         email,
         role,
         classes: classesArray,
-        picture: fileData,
-        title
+        picture: picture
       })
     }).then((response) => {
       if (response.ok) {
@@ -267,12 +271,15 @@ export default function SchoolAdmAccountsPage () {
                   }
               </label>
               {
-                (rolesList[2] !== undefined && role === rolesList[2]._id && titlesList) ? (
+                (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined) ? (
                   <label className="input-label">
                     <span className="label-content">Titre <span style={{color: "red"}}>*</span></span>
                     <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
-                      <option value={title[1]._id}>{title[1].name}</option>
-                      <option value={title[2]._id}>{title[2].name}</option>
+                      {
+                        titlesList.map((title, index) => {
+                          return <option key={index} value={title._id}>{title.name}</option>
+                        })
+                      }
                     </select>
                   </label>
                 ) : ''
