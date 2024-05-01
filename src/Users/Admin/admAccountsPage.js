@@ -1,10 +1,8 @@
 import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
-import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
 import '../../css/pages/accountsPage.scss'
 import Popup from 'reactjs-popup'
-import userIcon from '../../assets/userIcon.png'
 import cross from "../../assets/Cross.png"
 
 
