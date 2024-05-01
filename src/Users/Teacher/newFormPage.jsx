@@ -17,7 +17,7 @@ const NewFormPage = () => {
   }])
   const [position, setPosition] = useState(-1)
   const [isOpen, setIsOpen] = useState(false)
-
+  const [selectedDate, setSelectedDate] = useState(null)
 
   function postQuestions () {
     const title = document.getElementById('form-title').value
@@ -69,8 +69,6 @@ const NewFormPage = () => {
     }
   }
 
-  const [selectedDate, setSelectedDate] = useState(null)
-
   useEffect(() => {
     const today = new Date()
     const daysUntilNextMonday = (1 - today.getDay() + 7) % 7
@@ -79,6 +77,7 @@ const NewFormPage = () => {
   }, [])
 
   const filterMonday = (date) => /* istanbul ignore next */ {
+    setPosition(0)
     return date.getDay() === 1 && date >= new Date()
   }
 
