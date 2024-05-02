@@ -56,26 +56,27 @@ const TeacherStatPage = () => {
           })
         })
       ])
-
-      const moodData = await moodResponse.json()
-      const answersData = await answersResponse.json()
+      const mData = await moodResponse.json()
+      const aData = await answersResponse.json()
+      // console.log(mData)
+      // console.log(aData)
       const answerList = []
-      Object.keys(answersData).forEach(date => {
+      Object.keys(aData).forEach(date => {
         answerList.push({
           date: date,
-          data: answersData[date]
+          data: aData[date]
         })})
 
       const moodList = []
-      Object.keys(moodData).forEach(date => {
+      Object.keys(mData).forEach(date => {
         moodList.push({
           date: date,
-          data: moodData[date].moods
+          data: mData[date].moods
         })})
 
       setMoodData(moodList)
       setAnswerData(answerList)
-      console.log(moodData)
+      // console.log(moodData)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -183,11 +184,11 @@ const TeacherStatPage = () => {
         datasets: [{
           label: 'Humeur',
           data: Object.entries(moodData)
-          .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-          .map(([date, val]) => ({
-            x: date,
-            y: val.data,
-            r: 10
+            .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
+            .map(([_, val]) => ({
+              x: val.date,
+              y: val.data,
+              r: 10
           })),
           borderColor: 'white',
           pointBackgroundColor: 'white',
@@ -252,7 +253,13 @@ const TeacherStatPage = () => {
 
   const updateChart = () => {
     if (moodData) {
-      const dates = Object.keys(moodData).filter(key => key.date)
+      const dates = Object.entries(moodData)
+        .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
+        .map(([_, val]) => ({
+          x: val.date,
+          y: val.data,
+          r: 10
+        }))
       const moods = Object.values(moodData).filter(val => val.data)
 
       const data = dates.map((date, index) => ({
@@ -261,7 +268,13 @@ const TeacherStatPage = () => {
         r: 10
       }))
 
-      chart.data.datasets[0].data = data
+      chart.data.datasets[0].data = Object.entries(moodData)
+        .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
+        .map(([_, val]) => ({
+          x: val.date,
+          y: val.data,
+          r: 10
+        }))
       chart.update()
     }
   }
