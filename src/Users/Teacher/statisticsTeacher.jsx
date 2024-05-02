@@ -6,20 +6,86 @@ import '../../css/pages/homePage.css'
 import '../../css/pages/statisticsStudent.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
 const TeacherStatPage = () => {
   const [moodData, setMoodData] = useState([])
+  const [answerData, setAnswerData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [activeFilter, setActiveFilter] = useState('Semaine')
   const [selectedClass, setSelectedClass] = useState(null)
   const [chart, setChart] = useState(null)
-  const [classes, setClasses] = useState([]) // État pour stocker les classes disponibles
+  const [answerChart, setAnswerChart] = useState(null) // Ajout du state pour le nouveau graphique
+  const [classes, setClasses] = useState([])
+  const [averageMood, setAverageMood] = useState(0)
 
   useEffect(() => {
+    fetchData()
     fetchClasses()
-  }, [])
+  }, [selectedDate, activeFilter, selectedClass])
+
+  const fetchData = async () => {
+    const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
+    const answersUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/answers'
+    try {
+      const [moodResponse, answersResponse] = await Promise.all([
+        fetch(moodUrl, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fromDate: calculateStartDate(selectedDate, activeFilter),
+            toDate: calculateEndDate(selectedDate, activeFilter),
+            classFilter: selectedClass || 'all'
+          })
+        }),
+        fetch(answersUrl, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fromDate: calculateStartDate(selectedDate, activeFilter),
+            toDate: calculateEndDate(selectedDate, activeFilter),
+            classFilter: selectedClass || 'all'
+          })
+        })
+      ])
+
+      const moodData = await moodResponse.json()
+      const answersData = await answersResponse.json()
+
+      setMoodData(moodData)
+      setAnswerData(answersData)
+      console.log(moodData)
+      console.log(answerData)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  useEffect(() => {
+    const average = calculateAverageMood(moodData);
+    setAverageMood(average);
+  }, [moodData])
+
+  const calculateAverageMood = (data) => {
+    let total = 0;
+    let count = 0;
+    for (const key in data) {
+      if (key !== 'averagePercentage') {
+        total += data[key];
+        count++;
+      }
+    }
+    if (count === 0) return 0;
+    return total / count;
+  }
 
   const fetchClasses = async () => {
     const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
@@ -35,43 +101,7 @@ const TeacherStatPage = () => {
     } catch (error) {
       console.error('Error fetching classes:', error)
     }
-  }
-
-  useEffect(() => {
-    fetchData()
-    fetchClasses()
-  }, [selectedDate, activeFilter, selectedClass]) // Fetch data when selectedDate, activeFilter, or selectedClass changes
-
-  useEffect(() => {
-    if (chart) {
-      updateChart()
-    } else {
-      createChart()
-    }
-  }, [moodData, selectedClass])
-
-  const fetchData = async () => {
-    const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
-    try {
-      const response = await fetch(moodUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fromDate: calculateStartDate(selectedDate, activeFilter),
-          toDate: calculateEndDate(selectedDate, activeFilter),
-          classFilter: selectedClass || 'all'
-        })
-      })
-      const moodData = await response.json()
-      setMoodData(moodData)
-      console.log(moodData)
-    } catch (error) {
-      console.error('Error fetching mood data:', error)
-    }
-  }
+  }  
 
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
@@ -116,8 +146,24 @@ const TeacherStatPage = () => {
     }
   }
 
+  useEffect(() => {
+    if (chart) {
+      updateChart()
+    } else {
+      createChart()
+    }
+  }, [moodData, selectedClass])
+
+  useEffect(() => {
+    if (answerChart) {
+      updateAnswerChart()
+    } else {
+      createAnswerChart()
+    }
+  }, [answerData, selectedClass])
+
   const createChart = () => {
-    const ctx = document.getElementById('moodChart')  
+    const ctx = document.getElementById('moodChart')
     const newChart = new Chart(ctx, {
       type: 'scatter',
       data: {
@@ -125,11 +171,11 @@ const TeacherStatPage = () => {
         datasets: [{
           label: 'Humeur',
           data: Object.values(moodData).filter(val => typeof val === 'number'),
-          borderColor: 'white', // Couleur de la courbe
-          pointBackgroundColor: 'white', // Couleur des points
-          pointBorderColor: 'white', // Couleur de la bordure des points
-          pointHoverBackgroundColor: 'white', // Couleur des points au survol
-          pointHoverBorderColor: 'white', // Couleur de la bordure des points au survol
+          borderColor: 'white',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          pointHoverBackgroundColor: 'white',
+          pointHoverBorderColor: 'white',
           tension: 0.1
         }]
       },
@@ -179,6 +225,7 @@ const TeacherStatPage = () => {
         }
       }
     })
+
     setChart(newChart)
   }
 
@@ -186,17 +233,51 @@ const TeacherStatPage = () => {
     if (moodData) {
       const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
       const moods = Object.values(moodData).filter(val => typeof val === 'number')
-  
+
       const data = dates.map(date => {
         return {
           x: date,
           y: moodData[date],
-          r: 10 // Taille du point
+          r: 10
         }
       })
-  
+
       chart.data.datasets[0].data = data
       chart.update()
+    }
+  }
+
+  const createAnswerChart = () => {
+    const ctx = document.getElementById('answerChart')
+    const newChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: answerData.map(answer => answer.date),
+        datasets: [{
+          label: 'Réponses',
+          data: answerData.map(answer => answer.number),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    })
+
+    setAnswerChart(newChart)
+  }
+
+  const updateAnswerChart = () => {
+    if (Array.isArray(answerData)) {
+      answerChart.data.labels = answerData.map(answer => answer.date)
+      answerChart.data.datasets[0].data = answerData.map(answer => answer.number)
+      answerChart.update()
     }
   }
 
@@ -243,6 +324,12 @@ const TeacherStatPage = () => {
           </select>
           <h1>Evolution de l'humeur</h1>
           <canvas id="moodChart" width="400" height="400"></canvas>
+          <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
+            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }} />
+            <div style={{ width: `${averageMood}%`, height: '20px', backgroundColor: '#FFC371' }}/>
+          </div>
+          <h1>Problèmes</h1>
+          <canvas id="answerChart" width="400" height="400"></canvas>
         </div>
       </div>
     </div>
