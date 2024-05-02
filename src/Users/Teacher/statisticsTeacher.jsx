@@ -363,7 +363,7 @@ const TeacherStatPage = () => {
           <h1>Evolution de l'humeur</h1>
           <canvas id="moodChart" width="400" height="400"></canvas>
           <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
-            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }} />
+            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }}/>
             <progress className="progress" value={averageMood} max="100"/>
           </div>
           <h1>Problèmes</h1>

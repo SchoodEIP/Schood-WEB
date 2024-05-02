@@ -5,6 +5,7 @@ import Chart from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
@@ -259,11 +260,14 @@ const StudentStatPage = () => {
           <div>
             <canvas id="moodChart" width="400" height="400"></canvas>
             <div>
+            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }}>
+            </FontAwesomeIcon>
+            <progress className="progress" value={averagePercentage} max="100"/>
               {averagePercentage !== null && (
-              <div className="average-rectangle">
-                <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
-              </div>
-            )}
+                <div className="average-rectangle">
+                  <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+                </div>
+              )}
             </div>
             
           </div>
