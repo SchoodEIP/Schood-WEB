@@ -149,6 +149,27 @@ const StudentStatPage = () => {
           legend: {
             labels: {
               color: 'white' // Couleur de la légende
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const moodValue = context.raw.y;
+                switch (moodValue) {
+                  case 0:
+                    return 'Très mal';
+                  case 1:
+                    return 'Mal';
+                  case 2:
+                    return 'Neutre';
+                  case 3:
+                    return 'Bien';
+                  case 4:
+                    return 'Très bien';
+                  default:
+                    return '';
+                }
+              }
             }
           }
         }
