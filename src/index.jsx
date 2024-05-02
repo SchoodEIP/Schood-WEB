@@ -1,5 +1,5 @@
-import "react-toastify/dist/ReactToastify.css";
-import 'reactjs-popup/dist/index.css';
+import 'react-toastify/dist/ReactToastify.css'
+import 'reactjs-popup/dist/index.css'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
@@ -48,7 +48,7 @@ if (rootElement) {
             <Routes>
               {sessionStorage.getItem('role') === null && (
                 <>
-                  <Route path='/' element={<Login />}/>
+                  <Route path='/' element={<Login />} />
                   <Route path='/forgot' element={<ForgottenPasswordPage />} />
                 </>
               )}
@@ -112,7 +112,7 @@ if (rootElement) {
             </Routes>
           </div>
           <ToastContainer
-            position="bottom-center"
+            position='bottom-center'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -121,7 +121,7 @@ if (rootElement) {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="light"
+            theme='light'
             transition={Slide}
           />
         </div>

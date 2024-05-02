@@ -18,8 +18,8 @@ export default function SchoolAccountsTable () {
     })
     const data = await resp.json()
 
-    const teacherAccounts = data.filter(account => account.role.name === 'teacher');
-    const studentAccounts = data.filter(account => account.role.name === 'student');
+    const teacherAccounts = data.filter(account => account.role.name === 'teacher')
+    const studentAccounts = data.filter(account => account.role.name === 'student')
 
     setTeacherList(teacherAccounts)
     setStudentList(studentAccounts)
@@ -39,17 +39,17 @@ export default function SchoolAccountsTable () {
   }, [])
 
   return (
-    <div style={{display: "flex", flexDirection: "column"}}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div className='AccountsTable'>
-        <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-          <h2 className="tableTitle">Professeur</h2>
-          <div className="newBreak"></div>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <h2 className='tableTitle'>Professeur</h2>
+          <div className='newBreak' />
         </div>
         <div className='tableBlock'>
           <table className='accountTable'>
             <thead className='tableHead'>
               <tr className='topTable'>
-                <th className='valHead1'></th>
+                <th className='valHead1' />
                 <th className='valHead2'>Prénom</th>
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
@@ -61,7 +61,7 @@ export default function SchoolAccountsTable () {
               {
                 teacherList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{width: "50px", borderRadius: "50%"}} src={data.picture ? data.picture : userIcon} alt="img de profil"></img></td>
+                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
@@ -75,15 +75,15 @@ export default function SchoolAccountsTable () {
         </div>
       </div>
       <div className='AccountsTable'>
-        <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-          <h2 className="tableTitle">Etudiant</h2>
-          <div className="newBreak"></div>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <h2 className='tableTitle'>Etudiant</h2>
+          <div className='newBreak' />
         </div>
         <div className='tableBlock'>
           <table className='accountTable'>
             <thead className='tableHead'>
               <tr className='topTable'>
-                <th className='valHead1'></th>
+                <th className='valHead1' />
                 <th className='valHead2'>Prénom</th>
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
@@ -94,7 +94,7 @@ export default function SchoolAccountsTable () {
               {
                 studentList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{width: "50px", borderRadius: "50%"}} src={data.picture} alt="img de profil"></img></td>
+                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture} alt='img de profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>

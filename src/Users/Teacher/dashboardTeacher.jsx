@@ -20,22 +20,22 @@ const TeacherHomePage = () => {
     <div className='dashboard'>
       <HeaderComp
         title={`Bonjour ${profile?.firstname}`}
-        withLogo={true}
+        withLogo
       />
       <div className='page-content'>
         <div className='left-half'>
-          <div className="graph-space" style={{height: "70%"}}>
+          <div className='graph-space' style={{ height: '70%' }}>
             <GraphSpace />
           </div>
-          <div className="quest-space" style={{height: "35%"}}>
+          <div className='quest-space' style={{ height: '35%' }}>
             <QuestSpace />
           </div>
         </div>
         <div className='right-half'>
-          <div className="last-alerts">
+          <div className='last-alerts'>
             <LastAlerts />
           </div>
-          <div className="buttons">
+          <div className='buttons'>
             <button className='popup-call-btn' onClick={handleGoToNewForm}>Créer un Questionnaire</button>
             <button className='popup-call-btn'>Créer un Signalement</button>
           </div>

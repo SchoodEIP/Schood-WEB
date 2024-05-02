@@ -27,7 +27,7 @@ export function QuestSpace () {
   }
 
   useEffect(() => {
-    getStatusLastTwo();
+    getStatusLastTwo()
   }, [])
 
   const redirect = (id) => {
@@ -37,10 +37,10 @@ export function QuestSpace () {
   return (
     <div data-testid='quest-space' className='quest-box'>
       <div className='quest-header'>
-      <span className='title'>Mes questionnaires</span>
-        <Link to={'/questionnaires'} className='see-more'>
+        <span className='title'>Mes questionnaires</span>
+        <Link to='/questionnaires' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow'/>
+          <img className='img' src={rightArrow} alt='Right arrow' />
         </Link>
       </div>
       <div className='quest-body'>
@@ -54,7 +54,7 @@ export function QuestSpace () {
                 <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={previousQuestStatus.completion} max={100}></progress>
+                <progress value={previousQuestStatus.completion} max={100} />
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@ export function QuestSpace () {
                 <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={previousQuestStatus.completion} max={100}></progress>
+                <progress value={previousQuestStatus.completion} max={100} />
               </div>
             </div>
 
@@ -75,7 +75,7 @@ export function QuestSpace () {
                 <div>{currentQuestStatus.title} - {currentQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={currentQuestStatus.completion} max={100}></progress>
+                <progress value={currentQuestStatus.completion} max={100} />
               </div>
             </div>
           </div>

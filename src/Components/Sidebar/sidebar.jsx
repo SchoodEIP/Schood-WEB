@@ -14,36 +14,36 @@ import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
 
 import userIcon from '../../assets/userIcon.png'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 
-import emoji1 from "../../assets/emojis/1.png"
-import emoji2 from "../../assets/emojis/2.png"
-import emoji3 from "../../assets/emojis/3.png"
-import emoji4 from "../../assets/emojis/4.png"
-import emoji5 from "../../assets/emojis/5.png"
+import emoji1 from '../../assets/emojis/1.png'
+import emoji2 from '../../assets/emojis/2.png'
+import emoji3 from '../../assets/emojis/3.png'
+import emoji4 from '../../assets/emojis/4.png'
+import emoji5 from '../../assets/emojis/5.png'
 
-import emoji1Selected from "../../assets/emojis/1s.png"
-import emoji2Selected from "../../assets/emojis/2s.png"
-import emoji3Selected from "../../assets/emojis/3s.png"
-import emoji4Selected from "../../assets/emojis/4s.png"
-import emoji5Selected from "../../assets/emojis/5s.png"
+import emoji1Selected from '../../assets/emojis/1s.png'
+import emoji2Selected from '../../assets/emojis/2s.png'
+import emoji3Selected from '../../assets/emojis/3s.png'
+import emoji4Selected from '../../assets/emojis/4s.png'
+import emoji5Selected from '../../assets/emojis/5s.png'
 
-import homeIcon from "../../assets/sidenav/home-icon.png"
-import homeIconSelected from "../../assets/sidenav/home-icon-selected.png"
-import surveyIcon from "../../assets/sidenav/survey-icon.png"
-import surveyIconSelected from "../../assets/sidenav/survey-icon-selected.png"
-import statsIcon from "../../assets/sidenav/stats-icon.png"
-import statsIconSelected from "../../assets/sidenav/stats-icon-selected.png"
-import chatIcon from "../../assets/sidenav/chat-icon.png"
-import chatIconSelected from "../../assets/sidenav/chat-icon-selected.png"
-import helpIcon from "../../assets/sidenav/help-icon.png"
-import helpIconSelected from "../../assets/sidenav/help-icon-selected.png"
-import profileIcon from "../../assets/sidenav/profile-icon.png"
-import profileIconSelected from "../../assets/sidenav/profile-icon-selected.png"
-import feelingIcon from "../../assets/sidenav/feeling-icon.png"
-import feelingIconSelected from "../../assets/sidenav/feeling-icon-selected.png"
-import alertsIcon from "../../assets/sidenav/alerts-icon.png"
-import alertsIconSelected from "../../assets/sidenav/alerts-icon-selected.png"
+import homeIcon from '../../assets/sidenav/home-icon.png'
+import homeIconSelected from '../../assets/sidenav/home-icon-selected.png'
+import surveyIcon from '../../assets/sidenav/survey-icon.png'
+import surveyIconSelected from '../../assets/sidenav/survey-icon-selected.png'
+import statsIcon from '../../assets/sidenav/stats-icon.png'
+import statsIconSelected from '../../assets/sidenav/stats-icon-selected.png'
+import chatIcon from '../../assets/sidenav/chat-icon.png'
+import chatIconSelected from '../../assets/sidenav/chat-icon-selected.png'
+import helpIcon from '../../assets/sidenav/help-icon.png'
+import helpIconSelected from '../../assets/sidenav/help-icon-selected.png'
+import profileIcon from '../../assets/sidenav/profile-icon.png'
+import profileIconSelected from '../../assets/sidenav/profile-icon-selected.png'
+import feelingIcon from '../../assets/sidenav/feeling-icon.png'
+import feelingIconSelected from '../../assets/sidenav/feeling-icon-selected.png'
+import alertsIcon from '../../assets/sidenav/alerts-icon.png'
+import alertsIconSelected from '../../assets/sidenav/alerts-icon-selected.png'
 
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
@@ -56,7 +56,7 @@ export default function Sidebar () {
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
-  const [role, setRole] = useState(localStorage.getItem("role"))
+  const [role, setRole] = useState(localStorage.getItem('role'))
 
   const handleNotifications = () => /* istanbul ignore next */ {
     if (chats.value.notified) {
@@ -78,15 +78,15 @@ export default function Sidebar () {
         'x-auth-token': sessionStorage.getItem('token')
       }
     })
-    .then((response) => response.json())
-    .then((data) => {
-      setIsAnswered(false)
-      setDailyMood(null)
-      if (data.mood) {
-        setIsAnswered(true)
-        setDailyMood(data.mood)
-      }
-    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsAnswered(false)
+        setDailyMood(null)
+        if (data.mood) {
+          setIsAnswered(true)
+          setDailyMood(data.mood)
+        }
+      })
   }
 
   const getUnseenNotifications = () => {
@@ -112,21 +112,21 @@ export default function Sidebar () {
   }
 
   const IsCurrentPage = (page, home) => {
-    const location = useLocation();
+    const location = useLocation()
 
-    if (home && location.pathname === "/") {
-      return true;
+    if (home && location.pathname === '/') {
+      return true
     }
     if (!home && location.pathname.includes(page)) {
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   useEffect(() => {
-    getUnseenNotifications();
+    getUnseenNotifications()
     if (role) {
-      getDailyMood();
+      getDailyMood()
     }
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
@@ -135,25 +135,25 @@ export default function Sidebar () {
 
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') /* istanbul ignore next */ {
     pages = [
-      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, iconSelected: <img id="icons" src={homeIconSelected}/>, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage("/", true) },
-      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage("/accounts", false) },
-      { id: 'messages', path: '/messages', icon: <img id="icons" src={chatIcon}/>, iconSelected: <img id="icons" src={chatIconSelected}/>, label: 'Messages', title: 'Messages', selected: IsCurrentPage("/messages", false) },
-      { id: 'aides', path: '/aides', icon: <img id="icons" src={helpIcon}/>, iconSelected: <img id="icons" src={helpIconSelected}/>, label: 'Aides', title: 'Aides', selected: IsCurrentPage("/aides", false) },
-      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalement', selected: IsCurrentPage("/reports", false) },
-      { id: 'alertes', path: '/alerts', icon: <img id="icons" src={alertsIcon}/>, iconSelected: <img id="icons" src={alertsIconSelected}/>, label: 'Alertes', title: 'Alertes', selected: IsCurrentPage("/alerts", false) }
+      { id: 'home', path: '/', icon: <img id='icons' src={homeIcon} />, iconSelected: <img id='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
+      { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage('/accounts', false) },
+      { id: 'messages', path: '/messages', icon: <img id='icons' src={chatIcon} />, iconSelected: <img id='icons' src={chatIconSelected} />, label: 'Messages', title: 'Messages', selected: IsCurrentPage('/messages', false) },
+      { id: 'aides', path: '/aides', icon: <img id='icons' src={helpIcon} />, iconSelected: <img id='icons' src={helpIconSelected} />, label: 'Aides', title: 'Aides', selected: IsCurrentPage('/aides', false) },
+      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalement', selected: IsCurrentPage('/reports', false) },
+      { id: 'alertes', path: '/alerts', icon: <img id='icons' src={alertsIcon} />, iconSelected: <img id='icons' src={alertsIconSelected} />, label: 'Alertes', title: 'Alertes', selected: IsCurrentPage('/alerts', false) }
     ]
   } else {
     pages = [
-      { id: 'home', path: '/', icon: <img id="icons" src={homeIcon}/>, iconSelected: <img id="icons" src={homeIconSelected}/>, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage("/", true) },
-      { id: 'questionnaires', path: '/questionnaires', icon: <img id="icons" src={surveyIcon}/>, iconSelected: <img id="icons" src={surveyIconSelected}/>, label: 'Mes questionnaires', title: 'Mes questionnaires', selected: IsCurrentPage("/questionnaire", false) },
-      { id: 'statistiques', path: '/statistiques', icon: <img id="icons" src={statsIcon}/>, iconSelected: <img id="icons" src={statsIconSelected}/>, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage("/statistiques", false) },
-      { id: 'messages', path: '/messages', icon: <img id="icons" src={chatIcon}/>, iconSelected: <img id="icons" src={chatIconSelected}/>, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage("/messages", false) },
-      { id: 'aides', path: '/aides', icon: <img id="icons" src={helpIcon}/>, iconSelected: <img id="icons" src={helpIconSelected}/>, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage("/aides", false) },
-      { id: 'profile', path: '/profile', icon: <img id="icons" src={profileIcon}/>, iconSelected: <img id="icons" src={profileIconSelected}/>, label: 'Mon profile', title: 'Mon profile', selected: IsCurrentPage("/profile", false) },
-      { id: 'alerts', path: '/alerts', icon: <img id="icons" src={alertsIcon}/>, iconSelected: <img id="icons" src={alertsIconSelected}/>, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage("/alerts", false) },
+      { id: 'home', path: '/', icon: <img id='icons' src={homeIcon} />, iconSelected: <img id='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
+      { id: 'questionnaires', path: '/questionnaires', icon: <img id='icons' src={surveyIcon} />, iconSelected: <img id='icons' src={surveyIconSelected} />, label: 'Mes questionnaires', title: 'Mes questionnaires', selected: IsCurrentPage('/questionnaire', false) },
+      { id: 'statistiques', path: '/statistiques', icon: <img id='icons' src={statsIcon} />, iconSelected: <img id='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) },
+      { id: 'messages', path: '/messages', icon: <img id='icons' src={chatIcon} />, iconSelected: <img id='icons' src={chatIconSelected} />, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage('/messages', false) },
+      { id: 'aides', path: '/aides', icon: <img id='icons' src={helpIcon} />, iconSelected: <img id='icons' src={helpIconSelected} />, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage('/aides', false) },
+      { id: 'profile', path: '/profile', icon: <img id='icons' src={profileIcon} />, iconSelected: <img id='icons' src={profileIconSelected} />, label: 'Mon profile', title: 'Mon profile', selected: IsCurrentPage('/profile', false) },
+      { id: 'alerts', path: '/alerts', icon: <img id='icons' src={alertsIcon} />, iconSelected: <img id='icons' src={alertsIconSelected} />, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage('/alerts', false) }
     ]
     if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
-      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img id="icons" src={feelingIcon}/>, iconSelected: <img id="icons" src={feelingIconSelected}/>, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage("/feelings", false) }
+      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img id='icons' src={feelingIcon} />, iconSelected: <img id='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(6, 0, feelingsObj)
     }
   }
@@ -169,7 +169,7 @@ export default function Sidebar () {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({mood})
+      body: JSON.stringify({ mood })
     })
       .then(() => {
         setIsAnswered(true)
@@ -187,7 +187,7 @@ export default function Sidebar () {
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
-      },
+      }
     })
       .then((response) => response.json())
       .then((data) => {
@@ -202,12 +202,12 @@ export default function Sidebar () {
   }
 
   useEffect(() => {
-    const intervalId = setInterval(handleGetNotifications, 30000);
+    const intervalId = setInterval(handleGetNotifications, 30000)
 
     // Clean up the interval when the component unmounts
     return () => {
-      clearInterval(intervalId);
-    };
+      clearInterval(intervalId)
+    }
   }, [])
 
   const handleShowNotifications = () => {
@@ -219,54 +219,54 @@ export default function Sidebar () {
     <>
       <Popup open={isShown} onClose={handleShowNotifications} modal>
         {(close) => (
-          <div className="popup-modal-container" >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <div className="content">
-                {notifications && notifications.map((notif, index) => (
-                  <div key={index} className="notification-container">
-                    <div className="notification-header">
-                      <span>{notif.title}</span>
-                      <span>{moment(notif.date).format('HH:mm DD/MM')}</span>
-                    </div>
-                    <div className='notification-content'>
-                      <span>{notif.message}</span>
-                    </div>
+          <div className='popup-modal-container'>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <div className='content'>
+              {notifications && notifications.map((notif, index) => (
+                <div key={index} className='notification-container'>
+                  <div className='notification-header'>
+                    <span>{notif.title}</span>
+                    <span>{moment(notif.date).format('HH:mm DD/MM')}</span>
                   </div>
-                ))}
-              </div>
+                  <div className='notification-content'>
+                    <span>{notif.message}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </Popup>
       {isCollapsed && (
         <div id='collapsed'>
           <div id='top'>
-            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id="notification-tooltip">
-              <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#4f23e2",}} />
+            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
+              <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
             </button>
             <div id='profile'>
-              <img src={profile?.picture ? profile.picture : userIcon} alt="Image de profile"/>
+              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
             </div>
-            <span id='divider'></span>
+            <span id='divider' />
           </div>
           <div id='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                <Link id='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
                   <div id='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon}
                   </div>
                 </Link>
-                <span className={[page.selected ? 'selected' : '']}></span>
+                <span className={[page.selected ? 'selected' : '']} />
               </div>
             ))}
           </div>
           <div id='bottom'>
-            <span id='divider'></span>
+            <span id='divider' />
             <div onClick={() => toggleSidebar()} id='item'>
-              <FontAwesomeIcon  size='2xl' icon={faAnglesDown} rotation={270} style={{color: "#4f23e2",}} />
+              <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
             <div onClick={() => disconnect()} id='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size="2xl" style={{color: "#4f23e2",}} />
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
           </div>
         </div>
@@ -275,26 +275,26 @@ export default function Sidebar () {
       {!isCollapsed && (
         <div id='expanded'>
           <div id='top'>
-            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id="notification-tooltip">
-              <FontAwesomeIcon icon={faBell} size='2xl' style={{color: "#4f23e2",}} />
+            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
+              <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
             </button>
             <div id='profile'>
-              <img src={profile?.picture ? profile.picture : userIcon} alt="Image de profile"/>
+              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
               <div id='firstname-lastname'>
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>
               </div>
             </div>
-            <span id='divider'></span>
+            <span id='divider' />
             {role && role === 'student' && (
-              <div id="daily-mood">
+              <div id='daily-mood'>
                 <span>Mon humeur quotidienne</span>
                 <div id='mood-icons'>
                   <img src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
-                  <img src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)}/>
-                  <img src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)}/>
-                  <img src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)}/>
-                  <img src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)}/>
+                  <img src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
+                  <img src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
+                  <img src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)} />
+                  <img src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)} />
                 </div>
               </div>
             )}
@@ -302,31 +302,31 @@ export default function Sidebar () {
           <div id='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link id="link" to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                <Link id='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
                   <div id='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span id='label'>{page.label}</span>
                   </div>
                 </Link>
-                <span className={[page.selected ? 'selected' : '']}></span>
+                <span className={[page.selected ? 'selected' : '']} />
               </div>
             ))}
           </div>
           <div id='bottom'>
-            <span id='divider'></span>
+            <span id='divider' />
             <div onClick={() => toggleSidebar()} id='item'>
-              <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{color: "#4f23e2",}} /> Réduire
+              <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
             </div>
             <div onClick={() => disconnect()} id='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size="2xl" style={{color: "#4f23e2",}} /> Déconnexion
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
             </div>
           </div>
         </div>
       )}
 
       <Tooltip
-        id="notification-tooltip"
-        place="right"
-        content="Notifications"
+        id='notification-tooltip'
+        place='right'
+        content='Notifications'
       />
     </>
   )

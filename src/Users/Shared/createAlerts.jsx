@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import ShowAlerts from '../../Components/Alerts/showAlerts'
 import HeaderComp from '../../Components/Header/headerComp'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 import Popup from 'reactjs-popup'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
@@ -22,14 +22,13 @@ const CreateAlertsPage = () => {
   const [errMessage, setErrMessage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
-
   const upPosition = () => {
-    setPosition(position + 1);
-  };
+    setPosition(position + 1)
+  }
 
   const minusPosition = () => {
-    setPosition(position - 1);
-  };
+    setPosition(position - 1)
+  }
 
   const handleNewAlert = () => {
     setIsOpen(!isOpen)
@@ -149,7 +148,7 @@ const CreateAlertsPage = () => {
 
   const buttonComponent = [
     {
-      name: "Créer une alerte",
+      name: 'Créer une alerte',
       function: handleNewAlert
     }
   ]
@@ -158,25 +157,25 @@ const CreateAlertsPage = () => {
     <div>
       <div>
         <HeaderComp
-          title={"Mes Alertes"}
-          withLogo={true}
-          withReturnBtn={position > 0 ? true : false}
+          title='Mes Alertes'
+          withLogo
+          withReturnBtn={position > 0}
           position={position}
           returnCall={minusPosition}
-          showButtons={roleProfile !== 'student' ? true : false}
+          showButtons={roleProfile !== 'student'}
           buttonComponent={buttonComponent}
         />
       </div>
-      <div style={{marginLeft: "25px"}}>
+      <div style={{ marginLeft: '25px' }}>
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               {
                 sessionStorage.getItem('role') === 'teacher'
                   ? null
                   : (
-                    <div id="interaction-btn-container">
+                    <div id='interaction-btn-container'>
                       <button className={!isClass ? 'no-interaction-btn' : ''} onClick={handleAlertType}>Utilisateurs Visés</button>
                       <button className={!isClass ? '' : 'no-interaction-btn'} onClick={handleAlertType}>Classe(s) visée(s)</button>
                     </div>
@@ -186,57 +185,57 @@ const CreateAlertsPage = () => {
                 roleProfile === 'teacher'
                   ? null
                   : (
-                      <label  id='roles-container' className="input-label">
-                        <span className="label-content">Type d'utilisateur visé:</span>
-                        <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
-                          {userRoles.map((role, index) => (
-                            <option key={index} value={role._id}>{role.name}</option>
-                          ))}
-                        </select>
-                      </label>
+                    <label id='roles-container' className='input-label'>
+                      <span className='label-content'>Type d'utilisateur visé:</span>
+                      <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
+                        {userRoles.map((role, index) => (
+                          <option key={index} value={role._id}>{role.name}</option>
+                        ))}
+                      </select>
+                    </label>
                     )
               }
               <div id='classes-container' data-testid='classes-container'>
-                <label className="input-label" htmlFor='classes-select'>
-                  <span className="label-content">Classes:</span>
-                <div id='classes-select' className='checkbox-list'>
-                  {userClasses.map((classe, index) => (
-                    <div key={index} className='checkbox-item'>
-                      <input
-                        className='alert-page-box'
-                        type='checkbox'
-                        id={`class-check-${index}`}
-                        data-testid={`class-check-${index}`}
-                        value={classe._id}
-                        checked={selectedClasses.includes(classe._id)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedClasses([...selectedClasses, classe._id])
-                          } else {
-                            setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
-                          }
-                        }}
-                      />
-                      <label className="input-label" htmlFor={`class-check-${index}`}><span className="label-content">{classe.name}</span></label>
-                    </div>
-                  ))}
-                </div>
+                <label className='input-label' htmlFor='classes-select'>
+                  <span className='label-content'>Classes:</span>
+                  <div id='classes-select' className='checkbox-list'>
+                    {userClasses.map((classe, index) => (
+                      <div key={index} className='checkbox-item'>
+                        <input
+                          className='alert-page-box'
+                          type='checkbox'
+                          id={`class-check-${index}`}
+                          data-testid={`class-check-${index}`}
+                          value={classe._id}
+                          checked={selectedClasses.includes(classe._id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedClasses([...selectedClasses, classe._id])
+                            } else {
+                              setSelectedClasses(selectedClasses.filter((id) => id !== classe._id))
+                            }
+                          }}
+                        />
+                        <label className='input-label' htmlFor={`class-check-${index}`}><span className='label-content'>{classe.name}</span></label>
+                      </div>
+                    ))}
+                  </div>
                 </label>
               </div>
-              <label className="input-label">
-                <span className="label-content">Titre <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="title" placeholder='Titre' value={title} onChange={(e) => setTitle(e.target.value)} />
+              <label className='input-label'>
+                <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='title' placeholder='Titre' value={title} onChange={(e) => setTitle(e.target.value)} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Message <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="message" placeholder='Message' value={message} onChange={(e) => setMessage(e.target.value)} />
+              <label className='input-label'>
+                <span className='label-content'>Message <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='message' placeholder='Message' value={message} onChange={(e) => setMessage(e.target.value)} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Fichier joint</span>
-                <input id="file-input" type='file' onChange={(e) => setFile(e.target.files[0])} />
+              <label className='input-label'>
+                <span className='label-content'>Fichier joint</span>
+                <input id='file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
               </label>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={handleAlertSubmit}>Créer l'Alerte</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
             </div>
           )}
         </Popup>

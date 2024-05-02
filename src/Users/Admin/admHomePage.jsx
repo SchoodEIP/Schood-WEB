@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
 import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import '../../css/pages/homePage.scss'
@@ -15,12 +15,12 @@ export default function AdmHomePage () {
       <div>
         <HeaderComp
           title={`Bonjour ${profile?.firstname}`}
-          withLogo={true}
+          withLogo
         />
       </div>
       <div className='page-content'>
         <div className='right-half'>
-          <div className="last-alerts">
+          <div className='last-alerts'>
             <LastAlerts />
           </div>
         </div>

@@ -6,7 +6,7 @@ import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 import Popup from 'reactjs-popup'
 import userIcon from '../../assets/userIcon.png'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -136,19 +136,19 @@ export default function SchoolAdmAccountsPage () {
   }
 
   const handlePictureChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files[0]
     setPicture(event.target.files[0])
     if (selectedFile) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFile);
+      const reader = new FileReader()
+      reader.readAsDataURL(selectedFile)
       reader.onload = () => {
-          const base64Image = reader.result;
-          setPicture(base64Image);
-      };
+        const base64Image = reader.result
+        setPicture(base64Image)
+      }
       reader.onerror = (error) => {
-          console.error('Error occurred while reading the file:', error);
-      };
-  }
+        console.error('Error occurred while reading the file:', error)
+      }
+    }
   }
 
   const singleAccountCreation = async (event) => {
@@ -173,7 +173,7 @@ export default function SchoolAdmAccountsPage () {
         email,
         role,
         classes: classesArray,
-        picture: picture
+        picture
       })
     }).then((response) => {
       if (response.ok) {
@@ -227,92 +227,94 @@ export default function SchoolAdmAccountsPage () {
     <div>
       <div>
         <HeaderComp
-          title="Gestion de Comptes"
-          withLogo={true}
-          showButtons={true}
+          title='Gestion de Comptes'
+          withLogo
+          showButtons
           buttonComponent={buttonComponent}
         />
       </div>
       <div className='page-content'>
         <Popup open={isOpenSingle} onClose={() => setIsOpenSingle(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" style={{alignItems: 'center'}} >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
-                <img style={{width: "50px", borderRadius: "50%"}} src={picture ? picture : userIcon} alt="photo de profil"/>
-                <label className="input-label">
-                  <span className="label-content">Changer la photo de Profil</span>
-                  <input className="picture-input" name="picture" placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
-              </label>
+            <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+                <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
+                <label className='input-label'>
+                  <span className='label-content'>Changer la photo de Profil</span>
+                  <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+                </label>
               </div>
-              <label className="input-label">
-                <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
-                <input name="lastName" placeholder='Nom' type="text" onChange={handleNameChange} />
+              <label className='input-label'>
+                <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
+                <input name='lastName' placeholder='Nom' type='text' onChange={handleNameChange} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
-                <input name="firstName" placeholder='Prénom' type="text" onChange={handleFirstNameChange} />
+              <label className='input-label'>
+                <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
+                <input name='firstName' placeholder='Prénom' type='text' onChange={handleFirstNameChange} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
-                <input name="email" placeholder='prenom.nom.schood1@schood.fr' type="emai" onChange={handleEmailChange}/>
+              <label className='input-label'>
+                <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
+                <input name='email' placeholder='prenom.nom.schood1@schood.fr' type='emai' onChange={handleEmailChange} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Rôle <span style={{color: "red"}}>*</span></span>
+              <label className='input-label'>
+                <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
                 {
                     (rolesList[0] !== undefined)
                       ? (
-                          <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                            <option value={rolesList[1]._id}>{rolesList[1].name}</option>
-                            <option value={rolesList[2]._id}>{rolesList[2].name}</option>
-                          </select>
+                        <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                          <option value={rolesList[1]._id}>{rolesList[1].name}</option>
+                          <option value={rolesList[2]._id}>{rolesList[2].name}</option>
+                        </select>
                         )
                       : ''
                   }
               </label>
               {
-                (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined) ? (
-                  <label className="input-label">
-                    <span className="label-content">Titre <span style={{color: "red"}}>*</span></span>
-                    <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
-                      {
+                (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined)
+                  ? (
+                    <label className='input-label'>
+                      <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
+                      <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                        {
                         titlesList.map((title, index) => {
                           return <option key={index} value={title._id}>{title.name}</option>
                         })
                       }
-                    </select>
-                  </label>
-                ) : ''
+                      </select>
+                    </label>
+                    )
+                  : ''
               }
-              <label className="input-label">
-                <span className="label-content">Classe(s) <span style={{color: "red"}}>*</span></span>
-                  <Select
-                    isMulti={isMultiStatus}
-                    data-testid='select-classes'
-                    id='select-classes'
-                    placeholder='Selectionner une ou plusieurs classes'
-                    options={classesList}
-                    value={classes}
-                    onChange={handleClasseChange}
-                    getOptionValue={(option) => (option._id)}
-                    getOptionLabel={(option) => (option.name)}
-                  />
+              <label className='input-label'>
+                <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
+                <Select
+                  isMulti={isMultiStatus}
+                  data-testid='select-classes'
+                  id='select-classes'
+                  placeholder='Selectionner une ou plusieurs classes'
+                  options={classesList}
+                  value={classes}
+                  onChange={handleClasseChange}
+                  getOptionValue={(option) => (option._id)}
+                  getOptionLabel={(option) => (option.name)}
+                />
               </label>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
             </div>
           )}
         </Popup>
         <Popup open={isOpenMany} onClose={() => setIsOpenMany(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <label style={{alignItems: 'center', gap: "25px"}}>
+            <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <label style={{ alignItems: 'center', gap: '25px' }}>
                 <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-                <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email,role,class</span>
+                <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email,role,class</span>
               </label>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
             </div>
           )}
         </Popup>
