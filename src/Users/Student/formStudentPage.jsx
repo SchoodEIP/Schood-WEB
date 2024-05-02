@@ -251,7 +251,7 @@ const FormStudentPage = () => {
                 </div>
               )}
             </div>
-            <span className='divider'></span>
+            {(index !== (questions.length - 1)) ? <span className='divider'></span> : '' }
           </div>
         ))}
       </div>

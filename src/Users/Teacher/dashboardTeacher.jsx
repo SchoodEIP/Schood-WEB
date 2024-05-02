@@ -12,6 +12,10 @@ const TeacherHomePage = () => {
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
+  const handleGoToNewForm = () => {
+    window.location.href = '/questionnaire'
+  }
+
   return (
     <div className='dashboard'>
       <HeaderComp
@@ -32,7 +36,7 @@ const TeacherHomePage = () => {
             <LastAlerts />
           </div>
           <div className="buttons">
-            <button className='popup-call-btn'>Créer un Questionnaire</button>
+            <button className='popup-call-btn' onClick={handleGoToNewForm}>Créer un Questionnaire</button>
             <button className='popup-call-btn'>Créer un Signalement</button>
           </div>
         </div>

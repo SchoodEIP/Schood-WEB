@@ -182,12 +182,8 @@ const FormTeacherPage = () => {
         />
       </div>
       <div className='different-page-content'>
-        <div className='left-half'>
-          <div className='form-container'>
-            <div className='form-content-container'>
-              <TeacherFormContent form={formData} error={error} />
-            </div>
-          </div>
+        <div className='left-half' style={{marginBottom: '20px', height: 'calc(100vh - 124px)',overflowY: 'auto'}}>
+          <TeacherFormContent form={formData} error={error} />
         </div>
       </div>
     </div>
