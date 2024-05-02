@@ -178,18 +178,12 @@ const TeacherStatPage = () => {
   const createChart = () => {
     const ctx = document.getElementById('moodChart')
     const newChart = new Chart(ctx, {
-      type: 'scatter',
+      type: 'line',
       data: {
-        labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
+        labels: [],
         datasets: [{
           label: 'Humeur',
-          data: Object.entries(moodData)
-            .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-            .map(([_, val]) => ({
-              x: val.date,
-              y: val.data,
-              r: 10
-          })),
+          data: [],
           borderColor: 'white',
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
@@ -208,10 +202,9 @@ const TeacherStatPage = () => {
             grid: {
               color: 'rgba(255, 255, 255, 0.1)'
             },
-            labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'), 
           },
           y: {
-            min: 0, 
+            min: 0,
             max: 4,
             ticks: {
               callback: value => {
@@ -252,29 +245,29 @@ const TeacherStatPage = () => {
   }
 
   const updateChart = () => {
-    if (moodData) {
-      const dates = Object.entries(moodData)
+    if (moodData.length > 1) {
+      const listData = []
+      let labels = []
+      
+      Object.entries(moodData)
         .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-        .map(([_, val]) => ({
-          x: val.date,
-          y: val.data,
-          r: 10
-        }))
-      const moods = Object.values(moodData).filter(val => val.data)
-
-      const data = dates.map((date, index) => ({
-        x: date,
-        y: moods[index],
-        r: 10
+        .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)))
+      
+      for (const data of moodData) {
+        if (data.date !== 'averagePercentage') labels.push(data.date)
+      }
+      labels = labels.sort(((a, b) => {
+        const aa = a.split('-')
+        const bb = b.split('-')
+        return aa < bb ? -1 : (aa > bb ? 1 : 0)
       }))
 
-      chart.data.datasets[0].data = Object.entries(moodData)
-        .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-        .map(([_, val]) => ({
-          x: val.date,
-          y: val.data,
-          r: 10
-        }))
+      chart.data.datasets[0].data = listData
+      chart.data.labels = labels
+      chart.options.scales.x.labels = labels
+
+      console.log(chart.data.datasets[0].data)
+      console.log(chart.data.labels)
       chart.update()
     }
   }
