@@ -288,8 +288,8 @@ const TeacherStatPage = () => {
         datasets: [{
           label: 'Réponses',
           data: answerData.map(answer => answer.data),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          borderColor: 'rgba(255, 255, 255, 1)',
           borderWidth: 1
         }]
       },
@@ -297,6 +297,13 @@ const TeacherStatPage = () => {
         scales: {
           y: {
             beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+              labels: {
+                  color: 'white' // Couleur du texte de légende en blanc
+              }
           }
         }
       }
