@@ -1,114 +1,166 @@
-.titre, .sous-titre {
-  justify-content: center;
+
+#auth {
   display: flex;
-  color: rgb(79, 35, 226);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  overflow: auto;
+
+  #auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    input::placeholder, textarea::placeholder {
+      color: rgb(41, 41, 41, 52%);
+      font-family: Inter;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus {
+      -webkit-text-fill-color: black;
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-box-shadow: 0 0 0 30px #FFD2D5 inset !important;
+      box-shadow: inset 0 0 20px 20px #FFD2D5;
+    }
+
+    #schoodLogo {
+      object-fit:scale-down, contain;
+      display: block;
+      margin-bottom: 50px;
+      max-width: 50%;
+      max-height: 100%;
+    }
+
+    #mail {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 39px;
+
+      input, textarea {
+        background-color: #FFD2D5 !important;
+        height: 46px;
+        width: 283px;
+        border-radius: 26px;
+        border: none;
+      }
+
+      input {
+        padding: 0px 10px;
+      }
+    }
+
+    #password {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 6px;
+
+      input, textarea {
+        background-color: #FFD2D5 !important;
+        height: 46px;
+        width: 283px;
+        border-radius: 26px;
+        border: none;
+      }
+
+      input {
+        padding: 0px 10px;
+      }
+    }
+
+    #label {
+      font-size: 22px;
+      color: #4F23E2;
+      font-weight: 600;
+      font-family: Inter;
+      margin-bottom: 8px;
+    }
+
+    #forgot-password {
+      font-size: 12px;
+      color: #4F23E2;
+      font-weight: 600;
+      font-family: Inter;
+      margin-bottom: 6px;
+    }
+
+    .remember-me-normal {
+      margin-bottom: 44px;
+    }
+
+    .remember-me-error {
+      margin-bottom: 10px;
+    }
+
+    #remember-me {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+
+      color: #4F23E2;
+      font-size: 16px;
+      font-family: Inter;
+      font-weight: 600;
+
+      input {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 6px;
+        vertical-align: middle;
+        border: 2px solid black;
+        appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+        cursor: pointer;
+        margin-left: 2px;
+      }
+
+      input:checked:before {
+        content: "✔";
+        color: #4F23E2;
+        font-weight: 600;
+        font-size: 13px;
+        margin-left: 3px;
+      }
+
+      input:checked {
+        margin-left: 2px;
+      }
+    }
+
+    #error-message {
+      color: #FF3636;
+      font-size: 14px;
+      font-family: Inter;
+      font-weight: 700;
+    }
+
+    #submit-button {
+      background-color: #4F23E2;
+      border-radius: 26px;
+      height: 55px;
+      width: 203px;
+      color: white;
+      font-size: 22px;
+      font-weight: 600;
+      font-family: Inter;
+      border: none;
+      cursor: pointer;
+    }
+  }
 }
-
-body {
-    margin: 0;
-    font: georgia;
-  }
-
-  #auth-page {
-    display: inline-block;
-  }
-
-  #auth-background-part {
-    height: 100vh;
-    top: 0;
-    background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
-    background-size: cover;
-    width: 70%;
-    float: left;
-    #childrenImg {
-      display: block;
-      margin: 0 auto;
-      width: 80%;
-      height: 80%;
-      align-self: center;
-      float: center;
-    }
-  }
-
-  #background-part {
-    height: 100vh;
-    top: 0;
-    background-image: linear-gradient(to bottom, rgb(79, 35, 226), rgb(255, 210, 213));
-    background-size: cover;
-    width: 65%;
-    float: left;
-    #childrenImg {
-      display: block;
-      margin: 0 auto;
-      width: 75%;
-      height: 75%;
-      align-self: center;
-      float: center;
-    }
-  }
-
-  #landing-part {
-    background-color: white;
-    text-align: center;
-    float: right;
-    height: 100vh;
-    top: 0;
-    width: 35%;
-    #schoodLogo {
-      display: block;
-      margin: 0 auto;
-      width: 70%;
-      height: 25%;
-    }
-  }
-
-  #submit-button {
-    font-weight: 500;
-    font-size: large;
-    margin-top: 10px;
-    width: 80%;
-    height: 8vh;
-    background-color: rgb(79, 35, 226);
-    color: white;
-    border: 0;
-  }
-
-  #auth-part {
-    background-color: white;
-    text-align: center;
-    float: right;
-    height: 100vh;
-    top: 0;
-    width: 30%;
-    #schoodLogo {
-      display: block;
-      margin: 0 auto;
-      width: 90%;
-      height: 30%;
-    }
-    .auth-input {
-      font-size: large;
-      margin-top: 10px;
-      width: 80%;
-      height: 8vh;
-      background-color: rgb(230,230,230);
-      border: 0;
-    }
-    #rememberLabel {
-      color: rgb(192,192,192);
-      margin-top: 10px;
-      margin-left: 10%;
-      float: left;
-    }
-    #rememberCheckbox {
-      float: left;
-    }
-    #errorMessage {
-      margin-top: 10px;
-      color: red;
-    }
-    #signUpRedirect {
-      position: bottom;
-      color: rgb(192,192,192);
-    }
-  }

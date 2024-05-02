@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import '../../css/pages/homePage.css'
+import '../../css/pages/homePage.scss'
 import '../../css/pages/reportChecking.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
+import ReportSidebar from '../../Components/reports/reportSidebar'
+import Message from '../../Components/ChatRoom/message'
+import UserProfile from '../../Components/userProfile/userProfile'
 
 const ReportChecking = () => {
-  const [reportRequests, setReportRequests] = useState([])
-  const [selectedReport, setSelectedReport] = useState(null)
-  const [reportedConversation, setReportedConversation] = useState([])
+  const [reports, setReports] = useState([])
+  const [currentReport, setCurrentReport] = useState('')
+  const [reportedConversation, setReportedConversation] = useState(null)
+  const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   const [isReportProcessed, setIsReportProcessed] = useState(false)
   const [error, setError] = useState('')
-  const [filter, setFilter] = useState('all')
 
   const fetchReportRequests = async () => {
     try {
@@ -22,7 +25,8 @@ const ReportChecking = () => {
         }
       })
       const data = await response.json()
-      setReportRequests(data)
+      setReports(data)
+      setCurrentReport(data[data.length - 1])
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération des demandes de signalement.')
     }
@@ -30,7 +34,7 @@ const ReportChecking = () => {
 
   const fetchReportedConversation = async (conversationId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
         method: 'GET',
         headers: {
           'x-auth-token': sessionStorage.getItem('token'),
@@ -44,7 +48,23 @@ const ReportChecking = () => {
     }
   }
 
-  const checkReportProcessingStatus = async (reportId) => {
+  const fetchReportedConversationMessages = async (conversationId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+        method: 'GET',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await response.json()
+      if (!data.message) { setReportedConversationMessages(data) }
+    } catch (error) /* istanbul ignore next */ {
+      setError('Erreur lors de la récupération de la conversation signalée.')
+    }
+  }
+
+   /*const checkReportProcessingStatus = async (reportId) => {
     // on a pas moyen de vérifier le status d'un report, la route ci dessous n'est pas valide
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
@@ -56,12 +76,12 @@ const ReportChecking = () => {
       })
       const data = await response.json()
       setIsReportProcessed(data.processed)
-    } catch (error) /* istanbul ignore next */ {
+    } catch (error) {
       setError('Erreur lors de la vérification du statut de traitement.')
     }
-  }
+  } */
 
-  const handleReportProcessing = async (reportId, isProcessed) => {
+  /* const handleReportProcessing = async (reportId, isProcessed) => {
     try {
       if (isProcessed) {
         await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
@@ -84,88 +104,82 @@ const ReportChecking = () => {
       }
 
       setIsReportProcessed(isProcessed)
-    } catch (error) /* istanbul ignore next */{
+    } catch (error){
       setError('Erreur lors du traitement de la demande.')
     }
-  }
+  } */
 
   const handleReportSelection = async (reportId, conversationId) => {
     await fetchReportedConversation(conversationId)
-    await checkReportProcessingStatus(reportId)
+    await fetchReportedConversationMessages(conversationId)
+    //await checkReportProcessingStatus(reportId)
   }
-
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter)
-  }
-
-  const filteredReports = reportRequests.filter((report) => {
-    if (filter === 'processed') {
-      return report.processed
-    } else if (filter === 'unprocessed') {
-      return !report.processed
-    }
-    return true
-  })
 
   useEffect(() => {
     fetchReportRequests()
   }, [])
 
-  useEffect(() => {
-    reportRequests.map((report, index) => {
-      setSelectedReport(report._id)
-      return fetchReportedConversation(report.conversation)
-    })
-  }, [reportRequests])
-
   return (
-    <div>
-      <div>
-        <HeaderComp />
+    <div className='messaging-page'>
+      <div className='header'>
+        <HeaderComp
+          title={"Mes messages"}
+        />
       </div>
-      <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='box'>
-          <div className='sidebar'>
-            {/* Liste de demandes de signalement */}
-            <ul>
-              {filteredReports.map((report) => (
-                <li key={report._id} onClick={() => handleReportSelection(report._id, report.conversation)}>
-                  {report.type}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className='report-details'>
-            {reportedConversation && (
-              <div>
-                <h2>Conversation Signalée</h2>
-                <p>{reportedConversation.map((selreport, index) => (
-                  <li key={index}>
-                    {selreport.content}
-                  </li>
-                ))}
-                </p>
-                {/* Boutons pour valider/invalider la demande de signalement */}
-                <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport, true)}>Valider</button>
-                <button className='alert-btn' onClick={() => handleReportProcessing(selectedReport, false)}>Refuser</button>
-              </div>
-            )}
+      <div className='content'>
+        <div className='messaging-page'>
+          <ReportSidebar
+            reports={reports}
+            currentReport={currentReport}
+            setCurrentReport={setCurrentReport}
+            handleReportSelection={handleReportSelection}
+          />
 
-            {/* Affichage du statut de traitement */}
-            {isReportProcessed && <p>La demande a été traitée.</p>}
-            {!isReportProcessed && <p>La demande n'a pas encore été traitée.</p>}
+          <div className='chat'>
+            {currentReport
+              ? (
+                <div className='chat-content'>
+                  <div className='top'>
+                    <div className='conv-name'>{currentReport.userSignaled.firstname}</div>
+                  </div>
+                  {
+                    currentReport.message && (
+                      <div className='report-message'>{currentReport.message}</div>
+                    )
+                  }
+                  {
+                    reportedConversationMessages && (
+                      <div className='bottom'>
+                        <div className='left'>
+                          <div className='top2'>
+                            <div className='message-list'>
+                              {reportedConversationMessages.map((message, index) => (
+                                <Message key={index} message={message} participants={reportedConversation.participants} />
+                              ))}
+                              {error && <div className='error-message'>{error}</div>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className='right'>
+                          {currentReport.participants.map((participant, indexP) => (
+                            <div className='user-profile' key={indexP}>
+                              <UserProfile
+                                fullname={true}
+                                profile={participant}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  }
 
-            {/* Affichage d'un message d'erreur en cas de problème */}
-            {error && <p className='error-message'>{error}</p>}
+                </div>
+                )
+              : (
+                <div>Aucun signalement sélectionné.</div>
+                )}
           </div>
-        </div>
-        <div className='filter-buttons'>
-          <button className='alert-btn' onClick={() => handleFilterChange('all')}>Toutes</button>
-          <button className='alert-btn' onClick={() => handleFilterChange('processed')}>Traitées</button>
-          <button className='alert-btn' onClick={() => handleFilterChange('unprocessed')}>Non traitées</button>
         </div>
       </div>
     </div>

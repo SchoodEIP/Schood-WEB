@@ -1,134 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import HeaderComp from '../../Components/Header/headerComp'
-import '../../css/pages/formPage.scss'
-import '../../css/Components/Buttons/questionnaireButtons.css'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
+import HeaderComp from '../../Components/Header/headerComp'
+import Popup from 'reactjs-popup'
+import '../../css/pages/formPage.scss'
+import '../../css/Components/Buttons/questionnaireButtons.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import '../../css/Components/Popup/popup.scss'
 
 const ModifyFormTeacherPage = () => {
-  const [questionInc, setQuestionInc] = useState(0)
+  const [questionInc, setQuestionInc] = useState(1)
   const [errMessage, setErrMessage] = useState('')
-  const [parutionDate, setParutionDate] = useState('')
+  const [questions, setQuestions] = useState([])
+  const [position, setPosition] = useState(-1)
+  const [isOpen, setIsOpen] = useState(false)
   const { id } = useParams()
+  const [parutionDate, setParutionDate] = useState(null)
+  const [title, setTitle] = useState({})
 
   useEffect(() => {
-    function addNewQuestion (type) {
-      const questionRow = document.getElementById('question-row')
-      const numQ = questionRow.querySelectorAll('[placeholder="Quelle est votre question ?"]').length
-
-      const container = document.createElement('div')
-      container.id = 'container-' + numQ
-      container.classList.add('questions-container')
-
-      const numbering = document.createElement('h2')
-      numbering.textContent = 'Question n° ' + (numQ + 1) + ' :'
-
-      const questionInput = document.createElement('input')
-      questionInput.type = 'text'
-      questionInput.id = 'question-' + numQ
-      questionInput.placeholder = 'Quelle est votre question ?'
-      questionInput.classList.add('form-input')
-
-      const typeSelect = document.createElement('select')
-      typeSelect.id = 'select-' + numQ
-      typeSelect.setAttribute('data-testId', 'select-' + numQ)
-      typeSelect.addEventListener('change', function () {
-        changeAnswerBtnStatus(numQ)
-      })
-      typeSelect.classList.add('pop-input')
-
-      const textOption = document.createElement('option')
-      textOption.value = 'text'
-      textOption.textContent = 'Texte'
-
-      const emojiOption = document.createElement('option')
-      emojiOption.value = 'emoji'
-      emojiOption.textContent = 'Emoticône'
-
-      const multiOption = document.createElement('option')
-      multiOption.value = 'multiple'
-      multiOption.textContent = 'Multiple'
-
-      const answerRow = document.createElement('div')
-      answerRow.id = 'answer-row-' + numQ
-      answerRow.setAttribute('data-testId', 'answer-row-' + numQ)
-      answerRow.classList.add('answer-row')
-      answerRow.classList.add('new-answer-row')
-
-      const answerBtnContainer = document.createElement('div')
-      answerBtnContainer.id = 'answer-btn-container-' + numQ
-      answerBtnContainer.classList.add('confirmation-form-container')
-      answerBtnContainer.style.display = 'none'
-
-      const removeAnswerBtn = document.createElement('button')
-      removeAnswerBtn.textContent = 'Enlever une Réponse'
-      removeAnswerBtn.id = 'remove-answer-btn-' + numQ
-      removeAnswerBtn.classList.add('button-css')
-      removeAnswerBtn.classList.add('questionnaire-btn')
-      removeAnswerBtn.style.display = 'none'
-      removeAnswerBtn.addEventListener('click', function () {
-        removeAnswer(numQ)
-      })
-
-      const addAnswerBtn = document.createElement('button')
-      addAnswerBtn.textContent = 'Ajouter une Réponse'
-      addAnswerBtn.id = 'add-answer-btn-' + numQ
-      addAnswerBtn.classList.add('button-css')
-      addAnswerBtn.classList.add('questionnaire-btn')
-      addAnswerBtn.addEventListener('click', function () {
-        addAnswer(numQ)
-      })
-
-      container.appendChild(numbering)
-      container.appendChild(questionInput)
-      container.appendChild(typeSelect)
-      typeSelect.appendChild(textOption)
-      typeSelect.appendChild(emojiOption)
-      typeSelect.appendChild(multiOption)
-      container.appendChild(answerRow)
-      container.appendChild(answerBtnContainer)
-      answerBtnContainer.appendChild(addAnswerBtn)
-      answerBtnContainer.appendChild(removeAnswerBtn)
-      questionRow.appendChild(container)
-      setQuestionInc(numQ + 1)
-    }
-
-    function addNewAnswer (id) {
-      const answerRow = document.getElementById('answer-row-' + id)
-      const allAnswers = answerRow.querySelectorAll('input')
-
-      if (allAnswers.length === 2) {
-        const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
-        removeAnswerBtn.style.display = 'block'
-      }
-      const answerInput = document.createElement('input')
-      answerInput.classList.add('form-input')
-      answerInput.id = 'form-input-' + id + '-' + allAnswers.length
-      answerInput.placeholder = 'Choix possible'
-      answerRow.appendChild(answerInput)
-    }
-
-    function fillForm (dataset) {
-      document.getElementById('form-title').value = dataset.title
-      dataset.questions.map((question, index) => {
-        addNewQuestion(question.type)
-        document.getElementById('question-' + index).value = question.title
-        document.getElementById('select-' + index).value = question.type
-        if (question.type === 'multiple') {
-          question.answers.map((answer, i) => {
-            addNewAnswer(index)
-            document.getElementById('form-input-' + index + '-' + i).value = answer.title
-            return null
-          })
-          const answerBtnContainer = document.getElementById('answer-btn-container-' + index)
-          answerBtnContainer.style.display = 'block'
-        }
-        return null
-      })
-    }
 
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/' + id
 
@@ -141,7 +32,9 @@ const ModifyFormTeacherPage = () => {
     }).then(response => response.json())
       .then(data => {
         if (data.title) {
-          fillForm(data)
+          setTitle(data.title)
+          setQuestions(data.questions)
+          setQuestionInc(data.questions.length)
           setParutionDate(moment(data.fromDate).format('YYYY-MM-DD'))
         } else {
           setErrMessage(data.message)
@@ -151,189 +44,52 @@ const ModifyFormTeacherPage = () => {
   }, [id])
 
   function postQuestions () {
-    const array = []
-    for (let i = 0; i < questionInc; i++) {
-      const question = document.getElementById('question-' + i).value
-      const type = document.getElementById('select-' + i).value
-      const answerRow = document.getElementById('answer-row-' + i)
-      const allAnswers = answerRow.querySelectorAll('input')
-      const answers = []
-      for (let j = 0; j < allAnswers.length; j++) {
-        const answer = {
-          title: allAnswers[j].value,
-          position: j
-        }
-        answers.push(answer)
-      }
-      const qObject = {
-        title: question,
-        type,
-        answers
-      }
-      array.push(qObject)
-    }
     const title = document.getElementById('form-title').value
     const date = document.getElementById('parution-date').value
-    const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + id
 
-    fetch(questionnaireUrl, {
-      method: 'PATCH',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title,
-        date,
-        questions: array
-      })
-    }).then(response => {
-      if (response.status !== 200) {
-        setErrMessage(response.status + ' error : ' + response.statusText)
-      } else {
-        window.location.href = '/questionnaire/' + id
+    let proceed = true
+
+    if (title !== "") {
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].title === "") {
+          setErrMessage(`Question n°${i + 1} n'a pas été renseignée.`)
+          proceed = false
+          break;
+        } else if (questions[i].type === 'multiple') {
+          for (let j = 0; j < questions[i].answers.length; j++) {
+            if (questions[i].answers[j].title === "") {
+              proceed = false
+              setErrMessage(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
+              break
+            }
+          }
+        }
       }
-    })
-      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
-  }
-
-  function changeAnswerBtnStatus (id) {
-    const answerSelect = document.getElementById('select-' + id)
-    const answerRow = document.getElementById('answer-row-' + id)
-    const answerBtnContainer = document.getElementById('answer-btn-container-' + id)
-    const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
-
-    if (answerSelect.value !== 'multiple') {
-      answerRow.innerHTML = ''
-      answerBtnContainer.style.display = 'none'
-      removeAnswerBtn.style.display = 'none'
     } else {
-      answerBtnContainer.style.display = 'flex'
-      for (let i = 0; i < 2; i++) {
-        const firstAnswerInput = document.createElement('input')
-        firstAnswerInput.classList.add('form-input')
-        firstAnswerInput.id = 'form-input-' + id + '-' + i
-        firstAnswerInput.placeholder = 'Choix possible'
-        answerRow.appendChild(firstAnswerInput)
-      }
+      proceed = false
+      setErrMessage(`Le questionnaire n'a pas de titre.`)
     }
-  }
 
-  function addAnswer (id) {
-    const answerRow = document.getElementById('answer-row-' + id)
-    const allAnswers = answerRow.querySelectorAll('input')
-
-    if (allAnswers.length === 2) {
-      const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
-      removeAnswerBtn.style.display = 'block'
-    }
-    const answerInput = document.createElement('input')
-    answerInput.classList.add('form-input')
-    answerInput.id = 'form-input-' + id + '-' + allAnswers.length
-    answerInput.placeholder = 'Choix possible'
-    answerRow.appendChild(answerInput)
-  }
-
-  function removeAnswer (id) {
-    const answerRow = document.getElementById('answer-row-' + id)
-    const allAnswers = answerRow.querySelectorAll('input')
-
-    if (allAnswers.length === 3) {
-      const removeAnswerBtn = document.getElementById('remove-answer-btn-' + id)
-      removeAnswerBtn.style.display = 'none'
-    }
-    answerRow.removeChild(allAnswers[allAnswers.length - 1])
-  }
-
-  function addNewQuestion () {
-    const questionRow = document.getElementById('question-row')
-    const numQ = questionRow.querySelectorAll('[placeholder="Quelle est votre question ?"]').length
-
-    const container = document.createElement('div')
-    container.id = 'container-' + numQ
-    container.classList.add('questions-container')
-
-    const numbering = document.createElement('h2')
-    numbering.textContent = 'Question n° ' + (numQ + 1) + ' :'
-
-    const questionInput = document.createElement('input')
-    questionInput.type = 'text'
-    questionInput.id = 'question-' + numQ
-    questionInput.placeholder = 'Quelle est votre question ?'
-    questionInput.classList.add('form-input')
-
-    const typeSelect = document.createElement('select')
-    typeSelect.id = 'select-' + numQ
-    typeSelect.setAttribute('data-testId', 'select-' + numQ)
-    typeSelect.addEventListener('change', function () {
-      changeAnswerBtnStatus(numQ)
-    })
-    typeSelect.classList.add('pop-input')
-
-    const textOption = document.createElement('option')
-    textOption.value = 'text'
-    textOption.textContent = 'Texte'
-
-    const emojiOption = document.createElement('option')
-    emojiOption.value = 'emoji'
-    emojiOption.textContent = 'Emoticône'
-
-    const multiOption = document.createElement('option')
-    multiOption.value = 'multiple'
-    multiOption.textContent = 'Multiple'
-
-    const answerRow = document.createElement('div')
-    answerRow.id = 'answer-row-' + numQ
-    answerRow.setAttribute('data-testId', 'answer-row-' + numQ)
-    answerRow.classList.add('answer-row')
-    answerRow.classList.add('new-answer-row')
-
-    const answerBtnContainer = document.createElement('div')
-    answerBtnContainer.id = 'answer-btn-container-' + numQ
-    answerBtnContainer.classList.add('confirmation-form-container')
-    answerBtnContainer.style.display = 'none'
-
-    const removeAnswerBtn = document.createElement('button')
-    removeAnswerBtn.textContent = 'Enlever une Réponse'
-    removeAnswerBtn.id = 'remove-answer-btn-' + numQ
-    removeAnswerBtn.classList.add('button-css')
-    removeAnswerBtn.classList.add('questionnaire-btn')
-    removeAnswerBtn.style.display = 'none'
-    removeAnswerBtn.addEventListener('click', function () {
-      removeAnswer(numQ)
-    })
-
-    const addAnswerBtn = document.createElement('button')
-    addAnswerBtn.textContent = 'Ajouter une Réponse'
-    addAnswerBtn.id = 'add-answer-btn-' + numQ
-    addAnswerBtn.classList.add('button-css')
-    addAnswerBtn.classList.add('questionnaire-btn')
-    addAnswerBtn.addEventListener('click', function () {
-      addAnswer(numQ)
-    })
-
-    setQuestionInc(numQ + 1)
-
-    container.appendChild(numbering)
-    container.appendChild(questionInput)
-    container.appendChild(typeSelect)
-    typeSelect.appendChild(textOption)
-    typeSelect.appendChild(emojiOption)
-    typeSelect.appendChild(multiOption)
-    container.appendChild(answerRow)
-    container.appendChild(answerBtnContainer)
-    answerBtnContainer.appendChild(addAnswerBtn)
-    answerBtnContainer.appendChild(removeAnswerBtn)
-    questionRow.appendChild(container)
-  }
-
-  function removeLastQuestion () {
-    setQuestionInc(questionInc - 1)
-    const questionRow = document.getElementById('question-row')
-
-    const lastChild = questionRow.lastChild
-    if (lastChild) {
-      questionRow.removeChild(lastChild)
+    if (proceed) {
+      fetch(process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/' + id, {
+        method: 'PATCH',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          date,
+          questions
+        })
+      }).then(response => {
+        if (response.status !== 200) {
+          setErrMessage(response.status + ' error : ' + response.statusText)
+        } else {
+          window.location.href = '/questionnaire/' + id
+        }
+      })
+        .catch(error => setErrMessage(error.message))
     }
   }
 
@@ -345,49 +101,194 @@ const ModifyFormTeacherPage = () => {
   }, [])
 
   const filterMonday = (date) => /* istanbul ignore next */ {
+    setPosition(0)
     return date.getDay() === 1 && date >= new Date()
   }
+
+  const handleAddNewQuestion = () => {
+    setQuestionInc(questionInc + 1)
+    questions.push({
+      title: "",
+      type: 'text',
+      answers: []
+    })
+    setQuestions(questions)
+    setPosition(0)
+  }
+
+  const handleRemoveLastQuestion = () => {
+    setQuestionInc(questionInc - 1)
+    setQuestions(prevQuestion => {
+      const newQuestion = [...prevQuestion];
+      newQuestion.pop();
+      return newQuestion;
+    });
+  }
+
+  const handleChangeTitle = (event, index) => {
+    questions[index].title = event.target.value
+    setQuestions([...questions]);
+    setPosition(0)
+  }
+
+  const handleChangeType = (event, index) => {
+    questions[index].type = event.target.value
+    if (event.target.value === 'multiple') {
+      questions[index].answers.push({
+        title: '',
+        position: 0
+      })
+      questions[index].answers.push({
+        title: '',
+        position: 1
+      })
+    } else {
+      questions[index].answers = []
+    }
+    setQuestions([...questions])
+    setPosition(0)
+  }
+
+  const handleChangeFormTitle = (event) => {
+    questions.title = event.target.value
+    setQuestions([...questions])
+    setPosition(0)
+  }
+
+  const handleChangeAnswer = (event, index, index2) => {
+    questions[index].answers[index2].title = event.target.value
+    setQuestions([...questions])
+    setPosition(0)
+  }
+
+  const handleAddAnswer = (index) => {
+    questions[index].answers.push({
+      title: '',
+      position: questions[index].answers.length
+    })
+    setQuestions([...questions])
+    setPosition(0)
+  }
+
+  const handleRemoveLastAnswer = (index) => {
+    setQuestions(prevQuestion => {
+      const newQuestion = [...prevQuestion];
+      newQuestion[index].answers.pop();
+      return newQuestion;
+    });
+  }
+
+  const handlePopup = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const handleGoBack = () => {
+    window.location.href = '/questionnaires'
+  }
+
+  const buttonComponent = [
+    {
+      name: "Valider le Questionnaire",
+      function: postQuestions
+    }
+  ]
 
   return (
     <div className='form-page'>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title={"Création d'un Nouveau Questionnaire"}
+          withReturnBtn={true}
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+          position={position}
+          returnCall={handlePopup}
+        />
       </div>
-      <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='left-half'>
-          <div className='form-container'>
-            <div className='form-header'><h1 className='form-header-title'>Modification de Questionnaire</h1></div>
-            <div className='form-content-container'>
-              <div>
-                <input className='form-input' style={{ width: '80%' }} name='form-title' id='form-title' placeholder='Titre du questionnaire' />
-              </div>
-              <div id='question-row' />
-              <div className='confirmation-form-container'>
-                <button className='button-css questionnaire-btn' id='add-question-btn' onClick={addNewQuestion}>Ajouter une Question</button>
-                {(questionInc > 1) ? <button className='button-css questionnaire-btn' id='remove-question-btn' onClick={removeLastQuestion}>Enlever une Question</button> : ''}
-              </div>
-              <div className='confirmation-form-container'>
-                <label id='parution-date-container'>
-                  Date de parution:
-                  <DatePicker
-                    className='date-input'
-                    name='parution-date'
-                    data-testid='parution-date'
-                    id='parution-date'
-                    selected={parutionDate}
-                    onChange={date => /* istanbul ignore next */ { setParutionDate(date) }}
-                    filterDate={filterMonday}
-                  />
-                </label>
-                <div style={{}}>
-                  <p data-testid='error-message'>{errMessage}</p>
-                  <button className='button-css questionnaire-btn' id='new-form-btn' style={{ alignSelf: 'center', marginTop: '2.5rem' }} onClick={postQuestions}>Modifier le Questionnaire</button>
+      <div className='form-container'>
+      <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" >
+              <span className="title-popup">Sauvegarder les Modifications ?</span>
+              <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toute vos modifications.</span>
+              {errMessage ? <span className="error-message" style={{color: "red"}}>{errMessage}</span> : ''}
+              <div className="btn-container">
+                <button className="popup-btn" onClick={close}>Annuler</button>
+                <div className="save-btn-container">
+                  <button className="popup-btn" style={{backgroundColor: "red", borderColor: "red"}} onClick={handleGoBack}>Ne Pas Sauvegarder</button>
+                  <button style={{width: "150px"}} className="popup-btn" onClick={postQuestions}>Sauvegarder</button>
                 </div>
               </div>
             </div>
+          )}
+        </Popup>
+        <div className='form'>
+          <div className="head-form">
+            <div className="input-container">
+              <input value={title} onChange={(e) => handleChangeFormTitle(e)} className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
+            </div>
+            <div className="label-container">
+              <label id='parution-date-container' className="input-label">
+                <span className="label-content">Date de parution</span>
+                <DatePicker
+                  className='default-input'
+                  name='parution-date'
+                  data-testid='parution-date'
+                  id='parution-date'
+                  selected={parutionDate}
+                  onChange={date => /* istanbul ignore next */ { setParutionDate(date) }}
+                  filterDate={filterMonday}
+                />
+              </label>
+            </div>
+          </div>
+          <div className="error-message-container">
+            <p className="error-message" data-testid='error-message'>{errMessage}</p>
+          </div>
+        </div>
+        <div className='form-content-container'>
+            {
+              (questionInc > 0 && questions) && questions.map((question, index) =>
+                <div key={index} className='question'>
+                  <div className='body'>
+                    <div className='header'>
+                      <label className="input-label">
+                        <span className="label-content">{index + 1}.&nbsp;</span>
+                        <input style={{width: "700px"}} key={index} className="default-input" value={question.title} type='text' placeholder="Quelle est votre question ?" onChange={(e) => handleChangeTitle(e, index)}/>
+                      </label>
+                      <label style={{flexDirection: "column"}} className="input-label">
+                        <span className="label-content">Type de question</span>
+                        <select style={{width: "200px"}} className="default-input" key={index} value={question.type} onChange={(e) => handleChangeType(e, index)}>
+                          <option value="text">Texte</option>
+                          <option value="emoji">Émoticône</option>
+                          <option value="multiple">Multiple</option>
+                        </select>
+                      </label>
+                    </div>
+                    {
+                      question.type === 'multiple' && (
+                        <div className="body-content">
+                          <div className='answers'>
+                            {question.answers.map((answer, index2) => (
+                              <input key={index2} className="default-input" type="text" placeholder="Ajoutez une Réponse" defaultValue={answer.title} onChange={(e) => handleChangeAnswer(e, index, index2)}/>
+                            ))}
+                          </div>
+                          <div className="btn-container">
+                            <button className="form-btn" onClick={() => handleAddAnswer(index)}>Ajouter une Réponse</button>
+                            {question.answers.length > 2 && <button className="form-btn" onClick={() => handleRemoveLastAnswer(index)}>Enlever la Dernière Réponse</button>}
+                          </div>
+                        </div>
+                      )
+                    }
+                  </div>
+                  {questionInc !== (index + 1) && <div className="horizontal-line"></div>}
+                </div>
+              )
+            }
+          <div className='confirmation-form-container'>
+            <button className='form-btn' id='add-question-btn' onClick={handleAddNewQuestion}>Ajouter une Question</button>
+            {(questionInc > 1) ? <button className='form-btn' id='remove-question-btn' onClick={handleRemoveLastQuestion}>Enlever la Dernière Question</button> : ''}
           </div>
         </div>
       </div>

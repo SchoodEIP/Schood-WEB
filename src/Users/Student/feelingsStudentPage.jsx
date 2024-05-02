@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import moment from 'moment'
-import FeelingsPopup from '../../Components/Feelings/feelingsPopup'
+import Popup from 'reactjs-popup'
+import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/Components/Feelings/feelings.scss'
+import '../../css/Components/Popup/popup.scss'
+import cross from "../../assets/Cross.png"
 import veryBadMood from '../../assets/newVeryBadMood.png'
 import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
@@ -14,10 +15,12 @@ const FeelingsStudentPage = () => {
   const [alertResponse, setAlertResponse] = useState('')
   const [errMessage, setErrMessage] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const [isModifyOpen, setIsModifyOpen] = useState(false)
+  const [isPassed, setIsPassed] = useState(false)
   const [isModified, setIsModified] = useState(false)
   const [lastFeeling, setLastFeeling] = useState([])
-  const [payload, setPayload] = useState({})
+  const [newMood, setNewMood] = useState('')
+  const [newAnonymous, setNewAnonymous] = useState(true)
+  const [newMessage, setNewMessage] = useState('')
   const imagePaths = useMemo(() => {
     return [
       veryBadMood,
@@ -40,119 +43,47 @@ const FeelingsStudentPage = () => {
     ]
   }, [])
 
-  function insertNewFeeling (dataPayload) {
-    const feelingsContainer = document.getElementById('feelings-container')
-
-    const individualFeelingsContainer = document.createElement('div')
-    individualFeelingsContainer.className = 'individual-feelings-container'
-    individualFeelingsContainer.id = dataPayload.id
-
-    const publicationDate = document.createElement('div')
-    publicationDate.className = 'publication-date'
-    publicationDate.textContent = moment(dataPayload.date).format('DD/MM/YYYY')
-    publicationDate.id = 'pub-date-' + dataPayload.id
-
-    const horizontalLine = document.createElement('div')
-    horizontalLine.className = 'horizontal-line'
-
-    const feelingsContainerContent = document.createElement('div')
-    feelingsContainerContent.className = 'feelings-container-content'
-
-    const containerSidebar = document.createElement('div')
-    containerSidebar.className = 'container-sidebar'
-
-    const emoticoneImage = document.createElement('img')
-    emoticoneImage.className = 'emoticone-image'
-    emoticoneImage.style.height = '50px'
-    emoticoneImage.src = imagePaths[dataPayload.mood]
-    emoticoneImage.alt = moods[dataPayload.mood]
-    emoticoneImage.id = 'emoticone-image-' + dataPayload.id
-
-    const emoticoneFeeling = document.createElement('span')
-    emoticoneFeeling.className = 'emoticone-feeling'
-    emoticoneFeeling.textContent = emotions[moods[dataPayload.mood]]
-    emoticoneFeeling.id = 'feeling-' + dataPayload.id
-
-    const emoticoneContainer = document.createElement('div')
-
-    const reviewStatus = document.createElement('div')
-    reviewStatus.className = 'review-status'
-
-    const reviewStatusText = document.createElement('p')
-    reviewStatusText.style.marginBottom = '0'
-    reviewStatusText.textContent = 'En attente de prise en compte'
-    reviewStatusText.id = 'review-status-text-' + dataPayload.id
-
-    const reviewStatusDate = document.createElement('p')
-    reviewStatusDate.style.marginTop = '0'
-    reviewStatusDate.textContent = ''
-    reviewStatusDate.id = 'review-status-date-' + dataPayload.id
-
-    const publicationAuthor = document.createElement('div')
-    publicationAuthor.className = 'publication-author'
-    publicationAuthor.textContent = dataPayload.isAnonymous ? 'Anonyme' : ''
-    publicationAuthor.id = 'anonymous-' + dataPayload.id
-
-    const feelingsContent = document.createElement('div')
-    feelingsContent.className = 'feelings-content'
-
-    const paragraph = document.createElement('p')
-    paragraph.className = 'paragraph-style'
-    paragraph.textContent = dataPayload.message
-    paragraph.id = 'message-' + dataPayload.id
-
-    individualFeelingsContainer.appendChild(publicationDate)
-    individualFeelingsContainer.appendChild(horizontalLine)
-    individualFeelingsContainer.appendChild(feelingsContainerContent)
-    feelingsContainerContent.appendChild(containerSidebar)
-    emoticoneContainer.appendChild(emoticoneImage)
-    emoticoneContainer.appendChild(emoticoneFeeling)
-    containerSidebar.appendChild(emoticoneContainer)
-    reviewStatus.appendChild(reviewStatusText)
-    reviewStatus.appendChild(reviewStatusDate)
-    containerSidebar.appendChild(reviewStatus)
-    containerSidebar.appendChild(publicationAuthor)
-    feelingsContainerContent.appendChild(feelingsContent)
-    feelingsContent.appendChild(paragraph)
-
-    const existingIndividualFeelingsContainers = feelingsContainer.querySelectorAll('.individual-feelings-container')
-    if (existingIndividualFeelingsContainers.length >= 1) {
-      feelingsContainer.insertBefore(individualFeelingsContainer, existingIndividualFeelingsContainers[0])
-    } else {
-      feelingsContainer.appendChild(individualFeelingsContainer)
-    }
+  const handleMood = (moodNumber) => {
+    setNewMood(moodNumber)
   }
 
-  const handleUpdateFeelings = (dataPayload) => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/feelings`, {
-      method: isModified ? 'PATCH' : 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': sessionStorage.getItem('token')
-      },
-      body: JSON.stringify(payload)
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (isModified) {
-          document.getElementById('review-status-text-' + dataPayload.id).textContent = 'En attente de prise en compte'
-          document.getElementById('review-status-date-' + dataPayload.id).textContent = ''
-          document.getElementById('anonymous-' + dataPayload.id).textContent = dataPayload.isAnonymous ? 'Anonyme' : ''
-          document.getElementById('message-' + dataPayload.id).textContent = dataPayload.message
-          document.getElementById('feeling-' + dataPayload.id).textContent = emotions[moods[dataPayload.mood]]
-          document.getElementById('emoticone-image-' + dataPayload.id).src = imagePaths[dataPayload.mood]
-          document.getElementById('emoticone-image-' + dataPayload.id).alt = emotions[moods[dataPayload.mood]]
-        } else {
-          insertNewFeeling(dataPayload)
-        }
+  const handleAnonymous = () => {
+    setNewAnonymous(!newAnonymous)
+  }
+
+  const handleMessage = (event) => {
+    setNewMessage(event.target.value)
+  }
+
+  const handleUpdateFeelings = () => {
+    const dataPayload = {
+      comment: newMessage,
+      mood: newMood,
+      annonymous: newAnonymous,
+    }
+
+    if (newMood !== '') {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/student/mood`, {
+        method: isModified ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': sessionStorage.getItem('token')
+        },
+        body: JSON.stringify(dataPayload)
       })
-      .catch(error => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de la récupération des ressentis', error)
-      })
+        .then(response => {
+          if (response.status === 200)
+            window.location.reload()
+        })
+        .catch(error => /* istanbul ignore next */ {
+          setErrMessage('Erreur lors de la récupération des ressentis', error)
+        })
+    }
   }
 
   useEffect(() => {
     const fillFeelingsContainer = (data) => {
+      setIsPassed(true)
       data.map((feeling, index) => {
         const feelingsContainer = document.getElementById('feelings-container')
 
@@ -177,13 +108,13 @@ const FeelingsStudentPage = () => {
         const emoticoneImage = document.createElement('img')
         emoticoneImage.className = 'emoticone-image'
         emoticoneImage.style.height = '50px'
-        emoticoneImage.src = imagePaths[feeling.feeling]
-        emoticoneImage.alt = moods[feeling.feeling]
+        emoticoneImage.src = imagePaths[feeling.mood]
+        emoticoneImage.alt = moods[feeling.mood]
         emoticoneImage.id = 'emoticone-image-' + feeling._id
 
         const emoticoneFeeling = document.createElement('span')
         emoticoneFeeling.className = 'emoticone-feeling'
-        emoticoneFeeling.textContent = emotions[moods[feeling.feeling]]
+        emoticoneFeeling.textContent = emotions[moods[feeling.mood]]
         emoticoneFeeling.id = 'feeling-' + feeling._id
 
         const emoticoneContainer = document.createElement('div')
@@ -193,17 +124,17 @@ const FeelingsStudentPage = () => {
 
         const reviewStatusText = document.createElement('p')
         reviewStatusText.style.marginBottom = '0'
-        reviewStatusText.textContent = feeling.reviewDate !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'
+        reviewStatusText.textContent = feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'
         reviewStatusText.id = 'review-status-text-' + feeling._id
 
         const reviewStatusDate = document.createElement('p')
         reviewStatusDate.style.marginTop = '0'
-        reviewStatusDate.textContent = feeling.reviewDate !== '' ? `${moment(feeling.reviewDate).format('DD/MM/YYYY')}` : ''
+        reviewStatusDate.textContent = feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''
         reviewStatusDate.id = 'review-status-date-' + feeling._id
 
         const publicationAuthor = document.createElement('div')
         publicationAuthor.className = 'publication-author'
-        publicationAuthor.textContent = feeling.isAnonymous ? 'Anonyme' : ''
+        publicationAuthor.textContent = feeling.annonymous ? 'Anonyme' : ''
         publicationAuthor.id = 'anonymous-' + feeling._id
 
         const feelingsContent = document.createElement('div')
@@ -211,7 +142,7 @@ const FeelingsStudentPage = () => {
 
         const paragraph = document.createElement('p')
         paragraph.className = 'paragraph-style'
-        paragraph.textContent = feeling.content
+        paragraph.textContent = feeling.comment
         paragraph.id = 'message-' + feeling._id
 
         feelingsContainer.appendChild(individualFeelingsContainer)
@@ -233,7 +164,7 @@ const FeelingsStudentPage = () => {
       })
     }
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/feelings`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/student/mood`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -242,8 +173,9 @@ const FeelingsStudentPage = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setLastFeeling(data[0]._id)
-        fillFeelingsContainer(data)
+        setLastFeeling(data[0])
+        if (!isPassed)
+          fillFeelingsContainer(data)
       })
       .catch(error => /* istanbul ignore next */ {
         setAlertResponse('Erreur lors de la récupération des ressentis', error)
@@ -251,72 +183,87 @@ const FeelingsStudentPage = () => {
   }, [setLastFeeling, emotions, moods, imagePaths, lastFeeling.length])
 
   const handleClosePopup = () => {
-    document.getElementById('grey-filter').style.display = 'none'
+    // document.getElementById('grey-filter').style.display = 'none'
     setIsCreateOpen(false)
-    setIsModifyOpen(false)
   }
 
   const handleFeelingsModification = () => {
-    document.getElementById('grey-filter').style.display = 'flex'
-    setIsCreateOpen(false)
-    setIsModifyOpen(true)
+    // document.getElementById('grey-filter').style.display = 'flex'
+    setIsCreateOpen(!isCreateOpen)
     setIsModified(true)
+    setNewMood(lastFeeling.mood)
+    setNewAnonymous(lastFeeling.annonymous)
+    setNewMessage(lastFeeling.comment)
   }
 
   const handleFeelingsCreation = () => {
-    document.getElementById('grey-filter').style.display = 'flex'
-    setIsCreateOpen(true)
-    setIsModifyOpen(false)
+    // document.getElementById('grey-filter').style.display = 'flex'
+    setIsCreateOpen(!isCreateOpen)
     setIsModified(false)
+    setNewMood('')
+    setNewAnonymous(true)
+    setNewMessage('')
   }
 
-  const updatePayload = (newPayload) => {
-    setPayload(newPayload)
-  }
+  const buttonComponent = [
+    {
+      name: "Créer un Ressenti",
+      function: handleFeelingsCreation
+    },
+    {
+      name: "Modifier le Dernier Ressenti",
+      function: handleFeelingsModification
+    }
+  ]
 
   return (
     <div>
       <div id='grey-filter' />
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title="Mes Ressentis"
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+        />
       </div>
-      <div className='different-page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='feelings-content'>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '25px' }}>
-            <h1 id='feeling-title'>Mes Ressentis</h1>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
-              <button onClick={handleFeelingsCreation} className='button-css'>Créer un ressenti</button>
-              <button onClick={handleFeelingsModification} className='button-css'>Modifier le dernier ressenti</button>
+      <div className='feelings-page'>
+        <Popup open={isCreateOpen} onClose={handleClosePopup} modal>
+          {(close) => (
+            <div className="popup-modal-container">
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <label id='mood-label' htmlFor='mood-container' className="input-label"><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+                <div id='mood-container' className="horizontal-container">
+                  <div id='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
+                    <img src={veryBadMood} alt='Très Mauvaise Humeur' />
+                  </div>
+                  <div id='mood-container-1' className='emoticone-container' style={{ border: newMood === 1 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 1 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(1)} title='Mauvaise Humeur'>
+                    <img src={badMood} alt='Mauvaise Humeur' />
+                  </div>
+                  <div id='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Neutre'>
+                    <img src={averageMood} alt='Humeur Neutre' />
+                  </div>
+                  <div id='mood-container-3' className='emoticone-container' style={{ border: newMood === 3 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 3 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(3)} title='Bonne Humeur'>
+                    <img src={happyMood} alt='Bonne Humeur' />
+                  </div>
+                  <div id='mood-container-4' className='emoticone-container' style={{ border: newMood === 4 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 4 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(4)} title='Très Bonne Humeur'>
+                    <img src={veryHappyMood} alt='Très Bonne Humeur' />
+                  </div>
+                </div>
+              </label>
+              <label id='message-label' htmlFor='message-input'>Message</label>
+              <textarea id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={isModified ? lastFeeling.comment : ''} />
+              <div className="horizontal-container">
+                <input type='checkbox' id='anonymous-checkbox' defaultChecked={isModified ? lastFeeling.annonymous : true} onClick={handleAnonymous} />
+                <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
+              </div>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={handleUpdateFeelings}>Créer le Ressenti</button>
             </div>
-          </div>
-          {isCreateOpen
-            ? <FeelingsPopup
-                moods={moods}
-                lastFeeling={lastFeeling}
-                modify={false}
-                errMessage={errMessage}
-                updatePayload={updatePayload}
-                handleCreation={handleUpdateFeelings}
-                handleClose={handleClosePopup}
-              />
-            : ''}
-          {isModifyOpen
-            ? <FeelingsPopup
-                moods={moods}
-                lastFeeling={lastFeeling}
-                modify
-                errMessage={errMessage}
-                updatePayload={updatePayload}
-                handleCreation={handleUpdateFeelings}
-                handleClose={handleClosePopup}
-              />
-            : ''}
-          <div id='feelings-container'>
-            <p style={{ color: 'red', paddingLeft: '10px' }}>{alertResponse}</p>
-          </div>
+          )}
+        </Popup>
+        <div id='feelings-container'>
+          <p style={{ color: 'red', paddingLeft: '10px' }}>{alertResponse}</p>
         </div>
       </div>
     </div>

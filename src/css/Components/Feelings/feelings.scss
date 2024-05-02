@@ -1,12 +1,8 @@
 .feelings-page {
-    width: 70%;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px; /* Réduction ivide la marge intérieure */
-    margin-top: 25px;
-    margin-bottom: 25px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+    margin-left: 25px;
+    margin-right: 25px;
   }
 
 td {
@@ -37,6 +33,11 @@ td {
     text-align: center;
   }
 
+  .horizontal-container {
+    display: flex;
+    flex-direction: row;
+  }
+
   /* Style pour les descriptions des émotions */
   .emotion-description {
     margin-top: 5px; /* Ajustez la marge selon votre préférence */
@@ -55,7 +56,7 @@ td {
   background-color: rgb(79, 35, 226);
   border: none;
   border-radius: 5px;
-  padding: 0.5rem 1rem; /* Ajout pour un meilleur espacement du texte à l'intérieur du bouton */
+  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
@@ -80,17 +81,6 @@ textarea {
     outline: none;
   }
 
-  .popup {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 9999;
-  }
-
 #feeling-title {
   color: white;
 }
@@ -99,18 +89,16 @@ textarea {
   background-color: white;
   border-radius: 15px;
   padding: 10px;
-  gap: 25px;
   display: flex;
   flex-direction: column;
-  margin-top: 25px;
 }
 
 .individual-feelings-container {
-  margin: 10px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   position: relative;
+  margin-bottom: 35px
 }
 
 .publication-date {

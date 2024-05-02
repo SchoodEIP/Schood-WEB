@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import '../../css/pages/homePage.css'
+import '../../css/pages/homePage.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import Sidebar from '../../Components/Sidebar/sidebar'
 import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
@@ -206,7 +206,6 @@ const AdmHelpPage = () => {
     <div className='dashboard'>
       <HeaderComp />
       <div className='page-content'>
-        <Sidebar />
         <div className='left-half'>
           <div className='aide-page'>
             <header>Numéros de Contact</header>
