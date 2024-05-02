@@ -1,38 +1,86 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
 import CreateConversationPopup from './createConversationPopup'
 import Message from './message'
 import ReportButton from './reportButton'
+import { WebsocketContext } from '../../contexts/websocket'
+import Popup from 'reactjs-popup'
+import UserProfile from '../userProfile/userProfile'
+import addFile from '../../assets/add_file.png'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
+  const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
+  const inputFile = useRef(null)
+
+  const fetchConversations = async (changeConversation = true) => {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const data = await response.json()
+
+    const conversationData = data.map((conversation) => {
+      const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
+      const convName = []
+      noUserParticipants.map((participant) => (
+        convName.push(participant.firstname + ' ' + participant.lastname)
+      ))
+      return {
+        _id: conversation._id,
+        participants: conversation.participants,
+        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', '),
+      }
+    })
+    if (currentConversation === '' || changeConversation) {
+      console.log("conversationData[conversationData.length - 1]: ", conversationData[conversationData.length - 1])
+      setCurrentConversation(conversationData[conversationData.length - 1])
+    }
+    setConversations(conversationData)
+  }
+
+  const fetchMessages = async () => {
+    try {
+      if (!currentConversation) {
+        return
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
+        {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      if (!response.ok) /* istanbul ignore next */ {
+        throw new Error('Erreur lors de la récupération des messages.')
+      }
+      const data = await response.json()
+      const messageData = data.map((message) => ({
+        contentType: !message.file ? 'text' : 'file',
+        ...message
+      }))
+      setMessages(messageData)
+    } catch (error) /* istanbul ignore next */ {
+      console.error('Erreur lors de la récupération des messages :', error)
+    }
+  }
 
   useEffect(() => {
-    const fetchConversations = async () => {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
+    if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
+  }, [chats?.value.unseenChats])
 
-      const data = await response.json()
-      setCurrentConversation(data[0])
-      const conversationData = data.map((conversation) => {
-        const firstParticipant = conversation.participants[0]
-        const convName = `${firstParticipant.firstname} ${firstParticipant.lastname}`
-        return {
-          _id: conversation._id,
-          name: convName
-        }
-      })
-      setConversations(conversationData)
-    }
-    fetchConversations()
-  }, [])
+  useEffect(() => {
+    if (chats) fetchConversations(!chats.value.newChat)
+  }, [chats?.value.newChat])
 
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
@@ -43,35 +91,6 @@ const Messages = () => {
   const [fileType, setFileType] = useState('text')
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        if (!currentConversation) {
-          return
-        }
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
-          {
-            method: 'GET',
-            headers: {
-              'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        if (!response.ok) /* istanbul ignore next */ {
-          throw new Error('Erreur lors de la récupération des messages.')
-        }
-        const data = await response.json()
-        const messageData = data.map((message) => ({
-          contentType: !message.file ? 'text' : 'file',
-          ...message
-        }))
-        setMessages(messageData)
-      } catch (error) /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération des messages :', error)
-      }
-    }
-
     fetchMessages()
   }, [currentConversation])
 
@@ -105,7 +124,7 @@ const Messages = () => {
 
     const currentTime = new Date()
     const messageData = {
-      username: 'User',
+      user: localStorage.getItem('id'),
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
@@ -134,6 +153,8 @@ const Messages = () => {
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
+        } else {
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       } else {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
@@ -149,6 +170,8 @@ const Messages = () => {
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
+        } else {
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       }
 
@@ -157,7 +180,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
@@ -176,7 +199,7 @@ const Messages = () => {
         minute: '2-digit'
       })
       const message = {
-        username: 'User',
+        user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
@@ -209,10 +232,10 @@ const Messages = () => {
     setShowCreateConversationPopup(false)
   }
 
-  const createConversation = async (conversationName, selectedContacts) => {
+  const createConversation = async (convTitle, selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
-      const participantsArray = [userId, selectedContacts[0]]
+      selectedContacts.unshift(userId)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -220,20 +243,16 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          participants: participantsArray
+          title: convTitle,
+          participants: selectedContacts
         })
       })
-
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
 
-      const data = await response.json()
-      const newConversation = {
-        id: data._id,
-        name: conversationName
-      }
-      setConversations([...conversations, newConversation])
+      send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
+      fetchConversations()
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la création de la conversation')
     }
@@ -262,6 +281,14 @@ const Messages = () => {
     }
   }
 
+  const openInputFile = () => {
+    inputFile.current.click();
+  }
+
+  const handleClearFile = (e) => {
+    setFile(null)
+  }
+
   return (
     <div className='messaging-page'>
       <ChatRoomSidebar
@@ -275,34 +302,69 @@ const Messages = () => {
       <div className='chat'>
         {currentConversation
           ? (
-            <div>
-              <h2>Conversation : {currentConversation.name ? currentConversation.name.split(',')[0] : ''}</h2>
-              <ReportButton currentConversation={currentConversation} />
-              <div className='message-list'>
-                {messages.map((message, index) => (
-                  <Message key={index} message={message} />
-                ))}
-                {error && <div className='error-message'>{error}</div>}
-              </div>
-              <div className='message-input'>
-                <input
-                  type='text'
-                  placeholder='Composez votre message'
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                />
-                <label className='file-input-label'>
-                  <input
-                    type='file'
-                    accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
-                    onChange={handleFileChange}
+            <div className='chat-content'>
+              <div className='top'>
+                <div className='conv-name'>{currentConversation.name}</div>
+                <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
+                  <ReportButton
+                    currentConversation={currentConversation}
                   />
-                  <span className='file-input-button'>+</span>
-                </label>
-                <button className='send-button' onClick={sendMessage}>
-                  Envoyer
-                </button>
+                </Popup>
+              </div>
+              <div className='bottom'>
+                <div className='left'>
+                  <div className='top2'>
+                    <div className='message-list'>
+                      {messages.map((message, index) => (
+                        <Message key={index} message={message} participants={currentConversation.participants} />
+                      ))}
+                      {error && <div className='error-message'>{error}</div>}
+                    </div>
+                  </div>
+                  <div className='bottom2'>
+                    <div className='column'>
+                      {file && (
+                        <div className='file-name'>
+                          <div>{file.name}</div>
+                          <button className='send-button' onClick={handleClearFile}>X</button>
+                        </div>
+                      )}
+                      <div className='message-input'>
+                        <div className='file-input'>
+                          <input
+                            type='file'
+                            accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
+                            onChange={handleFileChange}
+                            ref={inputFile}
+                          />
+                          <img src={addFile} onClick={openInputFile} alt="add file" />
+                        </div>
+                        <div className='message-area'>
+                          <input
+                            type='text'
+                            placeholder='Message...'
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                          />
+                          <button className='send-button' onClick={sendMessage}>
+                            Envoyer
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='right'>
+                  {currentConversation.participants.map((participant, indexP) => (
+                    <div className='user-profile' key={indexP}>
+                      <UserProfile
+                        fullname={true}
+                        profile={participant}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             )

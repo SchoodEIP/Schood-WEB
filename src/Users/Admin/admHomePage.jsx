@@ -1,21 +1,28 @@
-import React from 'react'
-import { LastAlerts } from '../../Components/Alerts/lastAlerts'
+import React, { useEffect, useState }  from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar.jsx'
-import '../../css/pages/homePage.css'
+import { LastAlerts } from '../../Components/Alerts/lastAlerts'
+import '../../css/pages/homePage.scss'
 
 export default function AdmHomePage () {
+  const [profile, setProfile] = useState(null)
+
+  useEffect(() => {
+    setProfile(JSON.parse(sessionStorage.getItem('profile')))
+  }, [])
+
   return (
-    <div>
+    <div className='dashboard'>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title={`Bonjour ${profile?.firstname}`}
+          withLogo={true}
+        />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div>
-          <LastAlerts />
+        <div className='right-half'>
+          <div className="last-alerts">
+            <LastAlerts />
+          </div>
         </div>
       </div>
     </div>

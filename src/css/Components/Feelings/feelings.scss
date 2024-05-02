@@ -1,0 +1,170 @@
+.feelings-page {
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+td {
+    cursor: pointer;
+    text-align: center; /* Centre le contenu dans la cellule */
+  }
+
+  /* Style pour les cellules du tableau au survol */
+  .emoji-mood:hover {
+    background-color: #f0f0f0;
+    color: black;
+  }
+
+  .emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: space-around;
+  }
+
+  .emoji-mood {
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .emotion-name {
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .horizontal-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* Style pour les descriptions des émotions */
+  .emotion-description {
+    margin-top: 5px; /* Ajustez la marge selon votre préférence */
+  }
+
+  /* Style pour la sélection d'émotion active */
+  .selected-emotion {
+    background-color: rgb(79, 35, 226); /* Changez la couleur selon votre préférence */
+    color: white;
+  }
+
+.button-css {
+  color: white;
+  font-size: large;
+  font-weight: bold;
+  background-color: rgb(79, 35, 226);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; /* Permet de redimensionner verticalement si nécessaire */
+  }
+
+  /* Style pour le texte dans le champ de texte */
+  textarea::placeholder {
+    color: #aaa;
+  }
+
+  /* Style pour le champ de texte lorsqu'il est activé ou sélectionné */
+  textarea:focus {
+    border-color: rgb(79, 35, 226);
+    outline: none;
+  }
+
+#feeling-title {
+  color: white;
+}
+
+#feelings-container {
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.individual-feelings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  margin-bottom: 35px
+}
+
+.publication-date {
+  font-size: large;
+  font-weight: bold;
+  position: absolute;
+  top: -10px;
+  background-color: white;
+  padding-right: 10px;
+}
+
+.horizontal-line {
+  border-bottom: 2px #4F23E2 solid;
+}
+
+.feelings-container-content {
+  border: 2px #4F23E2 solid;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color: #D9D9D9;
+  min-height: 100px;
+}
+
+.container-sidebar {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.emoticone-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.emoticone-image {
+  height: 42px;
+}
+
+.emoticone-feeling {
+  color:rgb(79, 35, 226);
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 600;
+}
+
+.review-status {
+  font-weight: 600;
+}
+
+.publication-author {
+  font-style: italic;
+  color: #7E7E7E;
+}
+
+.feelings-content {
+  margin-left: 25px;
+  width: 70%;
+}
+
+.paragraph-style {
+  margin-top: 0;
+  font-weight: bold;
+  font-size: large;
+}

@@ -1,12 +1,14 @@
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AdmAccountsPage from '../../../Users/Admin/admAccountsPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('AdmAccountsPage', () => {
   let container = null
   const url = process.env.REACT_APP_BACKEND_URL
+  sessionStorage.setItem('role', 'admin')
 
   const users = [
     {
@@ -66,7 +68,7 @@ describe('AdmAccountsPage', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
-    fetchMock.get(url + '/adm/rolesList', { roles })
+    fetchMock.get(url + '/shared/roles', { roles })
     fetchMock.get(url + '/user/all', users)
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})
@@ -83,7 +85,9 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmAccountsPage />
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -99,7 +103,9 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmAccountsPage />
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -146,7 +152,9 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmAccountsPage />
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -176,7 +184,9 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <AdmAccountsPage />
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

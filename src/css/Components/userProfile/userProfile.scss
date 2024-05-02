@@ -1,0 +1,59 @@
+.profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+
+    .img {
+        height: 35px;
+        width: 35px;
+        border-radius: 100%;
+    }
+
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        margin-left: 5px;
+        width: calc(100% - 50px);
+        gap: 0;
+
+        .lastname {
+            font-family: Inter;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4F23E2;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .lastname-white {
+            font-family: Inter;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .title {
+            font-family: Inter;
+            font-size: 10px;
+            font-weight: 400;
+            color: #4F23E2;
+        }
+
+        .title-white {
+            font-family: Inter;
+            font-size: 10px;
+            font-weight: 400;
+            color: white;
+        }
+    }
+}

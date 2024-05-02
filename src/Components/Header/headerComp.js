@@ -1,30 +1,52 @@
 import React from 'react'
-import Logo from '../../assets/schood.png'
-import PowerIcon2 from '../../assets/powerIcon2.png'
-import userIcon from '../../assets/userIcon.png'
-import '../../css/Components/Header/headerComp.css'
+import logoSchood from '../../assets/logo_schood.png'
+import backButton from '../../assets/backButton.png'
+import '../../css/Components/Header/headerComp.scss'
+import { Link, useNavigate } from "react-router-dom";
 
-export default function HeaderComp () {
-  function handleClickLogout () {
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('role')
+export default function HeaderComp ({title, withLogo = true, subtitle, withReturnBtn = false, position = -1, returnCall, showButtons = false, buttonComponent}) {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1)
   }
 
   return (
-    <header>
-      <div className='headerComp'>
-        <div>
-          <img src={Logo} alt='logo' />
-        </div>
-        <div>
-          <img className='user-icon' src={userIcon} alt='User' />
-          <a href='/login' data-testid='logout-button' id='logout-button' onClick={handleClickLogout}>
-            <img className='power-icon' src={PowerIcon2} alt='Disconnect' />
-          </a>
-        </div>
+    <div id='header'>
+      <div id='left'>
+        {title && (
+          <div id='title'>
+            {title}
+          </div>
+        )}
+        {subtitle && (
+          <div id='subtitle'>
+            {subtitle}
+          </div>
+        )}
+        {withReturnBtn && (
+          <div id='withReturnBtn' onClick={position < 0 ? goBack : returnCall}>
+            <img id='return-btn' src={backButton} alt='Return'/>
+            <div id='back-text'>
+              Retour
+            </div>
+          </div>
+        )}
       </div>
-    </header>
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px'}}>
+        {showButtons ?
+          <div style={{display: "flex", flexDirection: 'row', gap: "15px"}}>
+            {buttonComponent.map((btn, index) => {
+              return <button className="header-btn" key={index} onClick={btn.function}>{btn.name}</button>
+            })}
+          </div> : ''
+        }
+        {withLogo && (
+          <Link to={'/'}>
+            <img id='logo' src={logoSchood} alt='Schood'/>
+          </Link>
+        )}
+      </div>
+    </div>
   )
 }

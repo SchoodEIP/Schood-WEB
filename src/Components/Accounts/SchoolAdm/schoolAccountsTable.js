@@ -1,10 +1,11 @@
-import '../../../css/Components/Accounts/accountsTable.css'
 import { React, useState, useEffect } from 'react'
+import '../../../css/Components/Accounts/accountsTable.css'
+import userIcon from '../../../assets/userIcon.png'
 
 export default function SchoolAccountsTable () {
-  const [accountList, setAccountList] = useState([]) // list of accounts
+  const [teacherList, setTeacherList] = useState([])
+  const [studentList, setStudentList] = useState([])
 
-  // get request for account list
   async function getAccountList () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
     const token = sessionStorage.getItem('token')
@@ -17,7 +18,19 @@ export default function SchoolAccountsTable () {
     })
     const data = await resp.json()
 
-    setAccountList(data)
+    const teacherAccounts = data.filter(account => account.role.name === 'teacher');
+    const studentAccounts = data.filter(account => account.role.name === 'student');
+
+    setTeacherList(teacherAccounts)
+    setStudentList(studentAccounts)
+  }
+
+  const showClasses = (classes) => {
+    if (!Array.isArray(classes)) {
+      return ''
+    }
+    const names = classes.map(obj => obj.name)
+    return names.join(', ')
   }
 
   // account list request on mounted
@@ -26,32 +39,72 @@ export default function SchoolAccountsTable () {
   }, [])
 
   return (
-    <div className='AccountsTable'>
-      <div id='tableBlock'>
-        <table id='accountTable'>
-          <thead id='tableHead'>
-            <tr id='topTable'>
-              <th id='valHead1'>Prénom</th>
-              <th id='valHead2'>Nom</th>
-              <th id='valHead3'>Email</th>
-              <th id='valHead4'>Rôle</th>
-              <th id='valHead5'>Classe</th>
-            </tr>
-          </thead>
-          <tbody id='tableBody'>
-            {
-              accountList.map((data, index) =>
-                <tr key={index}>
-                  <td>{data.firstname}</td>
-                  <td>{data.lastname}</td>
-                  <td>{data.email}</td>
-                  <td>{data.role.name}</td>
-                  <td>{data.classes.name}</td>
-                </tr>
-              )
-            }
-          </tbody>
-        </table>
+    <div style={{display: "flex", flexDirection: "column"}}>
+      <div className='AccountsTable'>
+        <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+          <h2 className="tableTitle">Professeur</h2>
+          <div className="newBreak"></div>
+        </div>
+        <div className='tableBlock'>
+          <table className='accountTable'>
+            <thead className='tableHead'>
+              <tr className='topTable'>
+                <th className='valHead1'></th>
+                <th className='valHead2'>Prénom</th>
+                <th className='valHead3'>Nom</th>
+                <th className='valHead4'>Email</th>
+                {/* <th className='valHead2'>Title</th> */}
+                <th className='valHead5'>Classe(s)</th>
+              </tr>
+            </thead>
+            <tbody className='tableBody'>
+              {
+                teacherList.map((data, index) =>
+                  <tr key={index}>
+                    <td><img style={{width: "50px", borderRadius: "50%"}} src={data.picture ? data.picture : userIcon} alt="img de profil"></img></td>
+                    <td>{data.firstname}</td>
+                    <td>{data.lastname}</td>
+                    <td>{data.email}</td>
+                    {/* <td>{data.title}</td> */}
+                    <td>{showClasses(data.classes)}</td>
+                  </tr>
+                )
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className='AccountsTable'>
+        <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+          <h2 className="tableTitle">Etudiant</h2>
+          <div className="newBreak"></div>
+        </div>
+        <div className='tableBlock'>
+          <table className='accountTable'>
+            <thead className='tableHead'>
+              <tr className='topTable'>
+                <th className='valHead1'></th>
+                <th className='valHead2'>Prénom</th>
+                <th className='valHead3'>Nom</th>
+                <th className='valHead4'>Email</th>
+                <th className='valHead5'>Classe</th>
+              </tr>
+            </thead>
+            <tbody className='tableBody'>
+              {
+                studentList.map((data, index) =>
+                  <tr key={index}>
+                    <td><img style={{width: "50px", borderRadius: "50%"}} src={data.picture} alt="img de profil"></img></td>
+                    <td>{data.firstname}</td>
+                    <td>{data.lastname}</td>
+                    <td>{data.email}</td>
+                    <td>{showClasses(data.classes)}</td>
+                  </tr>
+                )
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

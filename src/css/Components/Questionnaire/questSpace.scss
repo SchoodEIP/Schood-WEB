@@ -1,0 +1,127 @@
+.quest-box {
+  width: 100%;
+  height: 100%;
+  background-color: #4F23E2;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+
+  .quest-header {
+    width: calc(100% - 28px);
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 18px;
+    margin-right: 18px;
+    align-items: center;
+
+    .title {
+      color: white;
+      font-size: 30px;
+      font-weight: 600;
+      font-family: Inter;
+    }
+
+    .see-more {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: Inter;
+
+      .img {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .quest-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .no-quest {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      font-family: Inter;
+    }
+
+    .questionnaires {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .questionnaire {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+        margin-left: 20px;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
+        .header {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          white-space: pre;
+          color: white;
+          font-size: 24px;
+          font-weight: 600;
+          font-family: Inter;
+          text-overflow: ellipsis;
+        }
+
+        .body {
+          margin-top: 10px;
+          width: 100%;
+          border: 5px white solid;
+          border-radius: 50px;
+          height: 100%;
+
+          progress {
+            border-radius: 50px;
+            border: 0;
+            width: 100%;
+            height: 100%;
+          }
+
+          progress::-webkit-progress-bar {
+            border-radius: 50px;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #4F23E2;
+          }
+
+          progress::-webkit-progress-value {
+            background-color: white;
+          }
+
+          progress::-moz-progress-bar {
+            border-radius: 50px;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+          }
+        }
+      }
+    }
+  }
+}

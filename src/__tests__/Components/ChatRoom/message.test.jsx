@@ -1,7 +1,9 @@
 import React from 'react'
 import { render, screen, act } from '@testing-library/react'
-import Messages from '../../../Components/ChatRoom/message'
+import Message from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 
 // Mock the fetch function
 global.fetch = jest.fn(() =>
@@ -11,40 +13,67 @@ global.fetch = jest.fn(() =>
   })
 )
 
-describe('Messages Component', () => {
+describe('Message Component', () => {
+  const participants = [
+    {
+      _id: '0',
+      email: 'teacher1@schood.fr',
+      firstname: 'teacher1',
+      lastname: 'teacher1'
+    },
+    {
+      _id: '1',
+      email: 'teacher2@schood.fr',
+      firstname: 'teacher2',
+      lastname: 'teacher2'
+    }
+  ]
+
   it('renders without crashing', async () => {
     const userMessage = {
       content: 'This is the content of the message',
-      username: 'User',
+      user: '0',
       contentType: 'text'
     }
     await act(async () => {
-      render(<Messages message={userMessage} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={userMessage} participants={participants} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
   })
 
   it('renders a text message', async () => {
     const textMessage = {
-      user: 'User',
+      user: '0',
       content: 'Hello, World!',
       contentType: 'text'
     }
 
     await act(async () => {
-      render(<Messages message={textMessage} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={textMessage} participants={participants} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-    const userElement = screen.getByText('User')
+    const userElement = screen.getByText('teacher1 teacher1')
     expect(userElement).toBeInTheDocument()
   })
 
   it('renders a file message with image', async () => {
     const fileMessage = {
       content: 'File: Image.jpg',
-      username: 'User',
+      user: '0',
       contentType: 'file',
       file: '12345' // Replace with a valid file ID
     }
@@ -58,12 +87,14 @@ describe('Messages Component', () => {
     )
 
     await act(async () => {
-      render(<Messages message={fileMessage} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={fileMessage} participants={participants} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
-
-    screen.debug()
-
-    // Wait for the image to load
 
     const contentElement = screen.getByText('File: Image.jpg')
     expect(contentElement).toBeInTheDocument()
@@ -72,7 +103,7 @@ describe('Messages Component', () => {
   it('handles fetch error', async () => {
     const fileMessage = {
       content: 'File: Image.jpg',
-      username: 'User',
+      user: '0',
       date: '0000',
       contentType: 'file',
       file: '12345'
@@ -82,10 +113,16 @@ describe('Messages Component', () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Fetch error')))
 
     await act(async () => {
-      render(<Messages message={fileMessage} />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={fileMessage} participants={participants} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
-    const dateElement = screen.getByText('0000')
+    const dateElement = screen.getByText('01/01/00 00:00')
     expect(dateElement).toBeInTheDocument()
 
     // Wait for the error message to appear
@@ -94,5 +131,5 @@ describe('Messages Component', () => {
     expect(contentElement).toBeInTheDocument()
   })
 
-  // Add more tests for receiving messages, sending/receiving files, etc.
+  // Add more tests for receiving message, sending/receiving files, etc.
 })

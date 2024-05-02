@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../css/Components/Popup/popup.css'
+import '../../css/Components/Popup/popup.scss'
 
 export default function Popup (props) {
   return (

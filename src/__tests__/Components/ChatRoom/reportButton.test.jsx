@@ -3,7 +3,8 @@ import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/'
 import ReportButton from '../../../Components/ChatRoom/reportButton'
 import fetchMock from 'fetch-mock'
-import { MemoryRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('ReportButton Component', () => {
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
@@ -22,11 +23,14 @@ describe('ReportButton Component', () => {
   it('renders the report button initially', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const reportButton = screen.getByText('Signaler')
     await waitFor(async () => {
       expect(reportButton).toBeInTheDocument()
@@ -36,11 +40,14 @@ describe('ReportButton Component', () => {
   it('displays the confirmation UI when the report button is clicked', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const reportButton = screen.getByText('Signaler')
 
     await act(async () => {
@@ -58,14 +65,16 @@ describe('ReportButton Component', () => {
 
   it('handles successful reporting', async () => {
     global.fetch = jest.fn(() => Promise.resolve({ status: 200 }))
-
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const reportButton = screen.getByText('Signaler')
 
     await act(async () => {
@@ -96,11 +105,14 @@ describe('ReportButton Component', () => {
 
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const reportButton = screen.getByText('Signaler')
     await act(async () => {
       fireEvent.click(reportButton)
@@ -125,11 +137,14 @@ describe('ReportButton Component', () => {
 
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
+
     const reportButton = screen.getByText('Signaler')
     await act(async () => {
       fireEvent.click(reportButton)
@@ -154,9 +169,11 @@ describe('ReportButton Component', () => {
 
     await act(async () => {
       render(
-        <MemoryRouter>
-          <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={{ _id: 'conversationId', participants: [{ _id: '123', name: 'Joe' }, { _id: '132', name: 'Jim' }] }} />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
 
