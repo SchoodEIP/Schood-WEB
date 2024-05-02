@@ -3,8 +3,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
 import '../../css/pages/accountsPage.scss'
 import Popup from 'reactjs-popup'
-import cross from "../../assets/Cross.png"
-
+import cross from '../../assets/Cross.png'
 
 export default function AdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -141,46 +140,46 @@ export default function AdmAccountsPage () {
     <div>
       <div>
         <HeaderComp
-          title="Gestion des Comptes"
-          withLogo={true}
-          showButtons={true}
+          title='Gestion des Comptes'
+          withLogo
+          showButtons
           buttonComponent={buttonComponent}
         />
       </div>
-      <div className='page-content' style={{alignContent: "center", justifyContent: "center"}}>
+      <div className='page-content' style={{ alignContent: 'center', justifyContent: 'center' }}>
         <AdmAccountsTable />
       </div>
       <Popup open={isOpenSingle} onClose={handleSingleAccount} modal>
         {(close) => (
-          <div className="popup-modal-container" style={{padding: "50px", gap: "20px", alignItems: 'center'}} >
-            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-            <label style={{gap: "10px"}}>
-              <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
+          <div className='popup-modal-container' style={{ padding: '50px', gap: '20px', alignItems: 'center' }}>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <label style={{ gap: '10px' }}>
+              <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
               <input placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
             </label>
-            <label style={{gap: "10px"}}>
-              <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+            <label style={{ gap: '10px' }}>
+              <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
               <input placeholder='Nom' value={lastname} onChange={handleLastNameChange} type='text' />
             </label>
-            <label style={{gap: "10px"}}>
-              <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+            <label style={{ gap: '10px' }}>
+              <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
               <input placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
             </label>
-            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-            <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
+            {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+            <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
           </div>
         )}
       </Popup>
       <Popup open={isOpenMany} onClose={handleManyAccounts} modal>
         {(close) => (
-          <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
-            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-            <label style={{alignItems: 'center', gap: "25px"}}>
+          <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <label style={{ alignItems: 'center', gap: '25px' }}>
               <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-              <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email</span>
+              <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email</span>
             </label>
-            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-            <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+            {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+            <button className='popup-btn' onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
           </div>
         )}
       </Popup>

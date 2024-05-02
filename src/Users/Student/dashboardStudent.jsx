@@ -5,7 +5,7 @@ import { GraphSpace } from '../../Components/Graph/graphSpace'
 import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import React, { useEffect, useState } from 'react'
 import Popup from 'reactjs-popup'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 import veryBadMood from '../../assets/newVeryBadMood.png'
 import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
@@ -39,7 +39,7 @@ const StudentHomePage = () => {
     const dataPayload = {
       comment: newMessage,
       mood: newMood,
-      annonymous: newAnonymous,
+      annonymous: newAnonymous
     }
 
     if (newMood !== '') {
@@ -52,8 +52,7 @@ const StudentHomePage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
-          if (response.status === 200)
-            window.location.reload()
+          if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {
           setErrMessage('Erreur lors de la récupération des ressentis', error)
@@ -81,15 +80,15 @@ const StudentHomePage = () => {
     <div className='dashboard'>
       <HeaderComp
         title={`Bonjour ${profile?.firstname}, comment te sens-tu aujourd'hui ?`}
-        withLogo={true}
+        withLogo
       />
       <div className='page-content'>
         <Popup open={isCreateOpen} onClose={handleClosePopup} modal>
           {(close) => (
-            <div className="popup-modal-container">
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <label id='mood-label' htmlFor='mood-container' className="input-label"><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-                <div id='mood-container' className="horizontal-container">
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+                <div id='mood-container' className='horizontal-container'>
                   <div id='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
                     <img src={veryBadMood} alt='Très Mauvaise Humeur' />
                   </div>
@@ -109,28 +108,28 @@ const StudentHomePage = () => {
               </label>
               <label id='message-label' htmlFor='message-input'>Message</label>
               <textarea id='message-input' placeholder='Message...' onChange={handleMessage} />
-              <div className="horizontal-container">
-                <input type='checkbox' id='anonymous-checkbox' defaultChecked={true} onClick={handleAnonymous} />
+              <div className='horizontal-container'>
+                <input type='checkbox' id='anonymous-checkbox' defaultChecked onClick={handleAnonymous} />
                 <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
               </div>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={handleUpdateFeelings}>Créer le Ressenti</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
             </div>
           )}
         </Popup>
         <div className='left-half'>
-          <div className="graph-space" style={{height: "70%"}}>
+          <div className='graph-space' style={{ height: '70%' }}>
             <GraphSpace />
           </div>
-          <div className="quest-space" style={{height: "35%"}}>
+          <div className='quest-space' style={{ height: '35%' }}>
             <QuestSpace />
           </div>
         </div>
         <div className='right-half'>
-          <div className="last-alerts">
+          <div className='last-alerts'>
             <LastAlerts />
           </div>
-          <div className="buttons">
+          <div className='buttons'>
             <button onClick={handleFeelingsCreation} className='popup-call-btn'>Créer un Ressenti</button>
             <button className='popup-call-btn'>Créer un Signalement</button>
           </div>

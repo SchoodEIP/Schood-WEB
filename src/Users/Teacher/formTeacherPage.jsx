@@ -164,7 +164,7 @@ const FormTeacherPage = () => {
 
   const buttonComponent = [
     {
-      name: "Modifier le Questionnaire",
+      name: 'Modifier le Questionnaire',
       function: handleRedirect
     }
   ]
@@ -175,14 +175,14 @@ const FormTeacherPage = () => {
         <HeaderComp
           title={formData.title}
           subtitle={`Du ${moment(formData.fromDate).format('DD/MM/YYYY')} au ${moment(formData.toDate).format('DD/MM/YYYY')}`}
-          withReturnBtn={true}
-          withLogo={true}
-          showButtons={isModify ? false : true}
+          withReturnBtn
+          withLogo
+          showButtons={!isModify}
           buttonComponent={buttonComponent}
         />
       </div>
       <div className='different-page-content'>
-        <div className='left-half' style={{marginBottom: '20px', height: 'calc(100vh - 124px)',overflowY: 'auto'}}>
+        <div className='left-half' style={{ marginBottom: '20px', height: 'calc(100vh - 124px)', overflowY: 'auto' }}>
           <TeacherFormContent form={formData} error={error} />
         </div>
       </div>

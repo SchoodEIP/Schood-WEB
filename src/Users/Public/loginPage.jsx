@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
-import "@fontsource/inter/600.css";
+import '@fontsource/inter/600.css'
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -105,22 +105,24 @@ export default function Login () {
             <div id='label'>
               Email
             </div>
-            <input type="text" placeholder='email' onChange={handleEmailChange} value={email} required/>
+            <input type='text' placeholder='email' onChange={handleEmailChange} value={email} required />
           </div>
           <div id='password'>
             <div id='label'>
               Mot de passe
             </div>
-            <input type="password" placeholder='mot de passe' onChange={handlePasswordChange} value={password} required/>
+            <input type='password' placeholder='mot de passe' onChange={handlePasswordChange} value={password} required />
           </div>
         </form>
         <div id='forgot-password'>
           <a href='/forgot'>Mot de passe oublié ? Cliquez ici</a>
         </div>
-        <div className={[
-          message.length > 0 ? 'remember-me-error' : 'remember-me-normal'
-        ]} id='remember-me'>
-          <input type='checkbox'/>Se rappeler de moi
+        <div
+          className={[
+            message.length > 0 ? 'remember-me-error' : 'remember-me-normal'
+          ]} id='remember-me'
+        >
+          <input type='checkbox' />Se rappeler de moi
         </div>
         <div>
           <p id='error-message'>{message}</p>

@@ -64,16 +64,16 @@ export default function ShowAlerts (props) {
       .then((data) => {
         const promisedList = buildList(data)
         promisedList.then((alertList) => {
-          const groupedData = {};
+          const groupedData = {}
           alertList.forEach(item => {
-            const parts = item.createdAt.split('/');
-            const createdAt = new Date(parts[2], parts[1] - 1, parts[0]);
-            const date = createdAt.toLocaleDateString('fr-FR');
+            const parts = item.createdAt.split('/')
+            const createdAt = new Date(parts[2], parts[1] - 1, parts[0])
+            const date = createdAt.toLocaleDateString('fr-FR')
             if (!groupedData[date]) {
-              groupedData[date] = [];
+              groupedData[date] = []
             }
-            groupedData[date].push(item);
-          });
+            groupedData[date].push(item)
+          })
           setAlerts(groupedData)
         })
       })
@@ -83,69 +83,69 @@ export default function ShowAlerts (props) {
   }, [])
 
   const getChosenAlert = (alertId) => {
-    const chosenAlert = Object.values(alerts).flat().find(alert => alert.id === alertId);
-    setChosenAlert(chosenAlert); // Corrected to pass an object containing the new state
-    props.upPosition();
+    const chosenAlert = Object.values(alerts).flat().find(alert => alert.id === alertId)
+    setChosenAlert(chosenAlert) // Corrected to pass an object containing the new state
+    props.upPosition()
   }
 
   return (
-    <div className="page-alert" style={{overflowY: "auto"}}>
+    <div className='page-alert' style={{ overflowY: 'auto' }}>
       {
         alerts ? '' : <p>Vous n'avez pas d'alerte pour le moment.</p>
       }
       {
-        props.position === 0 ?
-        Object.entries(alerts).map(([day, items]) => (
-          <div className="alert-page-container" key={day}>
-            <div className="breakline"></div>
-            <h2 className='day-title'>{day}</h2>
-            <div className="day-container">
-              {items.map(alert => (
-                <div key={alert.id} className="alert-container">
-                  <div className='content'>
-                    <div className='header'>
-                      <UserProfile
-                        profile={alert.createdBy}
-                      />
-                      <button id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
-                        Voir plus
-                        <img className='img' src={rightArrowInverted} alt='Right arrow'/>
-                      </button>
-                    </div>
-                    <div className='body'>
-                      {alert.message}
+        props.position === 0
+          ? Object.entries(alerts).map(([day, items]) => (
+            <div className='alert-page-container' key={day}>
+              <div className='breakline' />
+              <h2 className='day-title'>{day}</h2>
+              <div className='day-container'>
+                {items.map(alert => (
+                  <div key={alert.id} className='alert-container'>
+                    <div className='content'>
+                      <div className='header'>
+                        <UserProfile
+                          profile={alert.createdBy}
+                        />
+                        <button id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
+                          Voir plus
+                        <img className='img' src={rightArrowInverted} alt='Right arrow' />
+                        </button>
+                      </div>
+                      <div className='body'>
+                        {alert.message}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )) :
-        <div id="alert-message-container">
-          <div id="alert-message-header">
-            <div id="alert-message-header-content">
-              <UserProfile
-                profile={chosenAlert.createdBy}
-              />
-              <div id="content-information">
-                <span>{chosenAlert.title}</span>
-                <span style={{fontSize: "20px"}}>Date de Publication : {chosenAlert.createdAt}</span>
+                ))}
               </div>
             </div>
-            <div>
-              {chosenAlert.file ?
-                <button id="alert-btn">
-                  <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
-                    Télécharger la pièce-jointe
-                  </a>
-                </button> : ''
-              }
+          ))
+          : <div id='alert-message-container'>
+            <div id='alert-message-header'>
+              <div id='alert-message-header-content'>
+                <UserProfile
+                  profile={chosenAlert.createdBy}
+                />
+                <div id='content-information'>
+                  <span>{chosenAlert.title}</span>
+                  <span style={{ fontSize: '20px' }}>Date de Publication : {chosenAlert.createdAt}</span>
+                </div>
+              </div>
+              <div>
+                {chosenAlert.file
+                  ? <button id='alert-btn'>
+                    <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
+                      Télécharger la pièce-jointe
+                    </a>
+                  </button>
+                  : ''}
+              </div>
+            </div>
+            <div id='alert-message-message'>
+              {chosenAlert.message}
             </div>
           </div>
-          <div id="alert-message-message">
-            {chosenAlert.message}
-          </div>
-        </div>
       }
     </div>
   )

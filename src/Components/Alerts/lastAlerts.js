@@ -75,9 +75,9 @@ export function LastAlerts () {
     <div className='alert-box'>
       <div className='alert-header'>
         <p className='title'>Mes Dernières Alertes</p>
-        <Link to={'/alerts'} className='see-more'>
+        <Link to='/alerts' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow'/>
+          <img className='img' src={rightArrow} alt='Right arrow' />
         </Link>
       </div>
       <div className='alert-body'>
@@ -94,9 +94,9 @@ export function LastAlerts () {
                             profile={alert.createdBy}
                           />
                         </div>
-                        <Link to={'/alerts'} className='see-more-inverted'>
+                        <Link to='/alerts' className='see-more-inverted'>
                           Voir plus
-                          <img className='img' src={rightArrowInverted} alt='Right arrow'/>
+                          <img className='img' src={rightArrowInverted} alt='Right arrow' />
                         </Link>
                       </div>
                       <div className='body'>

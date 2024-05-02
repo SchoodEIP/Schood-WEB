@@ -3,7 +3,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import moment from 'moment'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import rightArrow2 from "../../assets/rightArrow2.png"
+import rightArrow2 from '../../assets/rightArrow2.png'
 import { Link } from 'react-router-dom'
 
 const FormListStudentPage = () => {
@@ -21,7 +21,7 @@ const FormListStudentPage = () => {
         }
       }).then(response => response.json())
         .then(data => {
-          setQuestionnaires(data);
+          setQuestionnaires(data)
         })
         .catch(error => /* istanbul ignore next */ { console.error(error.message) })
     } catch (e) /* istanbul ignore next */ {
@@ -36,8 +36,8 @@ const FormListStudentPage = () => {
   return (
     <div className='form-page'>
       <HeaderComp
-        title={`Mes questionnaires`}
-        withLogo={true}
+        title='Mes questionnaires'
+        withLogo
       />
       <div className='content'>
         {questionnaires.length === 0 && (
@@ -49,9 +49,9 @@ const FormListStudentPage = () => {
           <div key={index} className='dateRange'>
             <div className='header'>
               <div>
-                Du {moment(dateRange.fromDate).format("DD/MM/YYYY")} au {moment(dateRange.toDate).format("DD/MM/YYYY")}
+                Du {moment(dateRange.fromDate).format('DD/MM/YYYY')} au {moment(dateRange.toDate).format('DD/MM/YYYY')}
               </div>
-              <span className='divider'></span>
+              <span className='divider' />
             </div>
             {dateRange.questionnaires.map((questionnaire, index2) => (
               <Link key={index2} style={{ textDecoration: 'none' }} to={`/questionnaire/${questionnaire._id}`}>
@@ -60,7 +60,7 @@ const FormListStudentPage = () => {
                     <div>
                       {questionnaire.title}
                     </div>
-                      <img id="right-arrow" src={rightArrow2}/>
+                    <img id='right-arrow' src={rightArrow2} />
                   </div>
                 </div>
               </Link>

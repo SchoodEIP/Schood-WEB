@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/Components/Feelings/feelings.scss'
 import '../../css/Components/Popup/popup.scss'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 import veryBadMood from '../../assets/newVeryBadMood.png'
 import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
@@ -59,7 +59,7 @@ const FeelingsStudentPage = () => {
     const dataPayload = {
       comment: newMessage,
       mood: newMood,
-      annonymous: newAnonymous,
+      annonymous: newAnonymous
     }
 
     if (newMood !== '') {
@@ -72,8 +72,7 @@ const FeelingsStudentPage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
-          if (response.status === 200)
-            window.location.reload()
+          if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {
           setErrMessage('Erreur lors de la récupération des ressentis', error)
@@ -174,8 +173,7 @@ const FeelingsStudentPage = () => {
       .then(response => response.json())
       .then(data => {
         setLastFeeling(data[0])
-        if (!isPassed)
-          fillFeelingsContainer(data)
+        if (!isPassed) { fillFeelingsContainer(data) }
       })
       .catch(error => /* istanbul ignore next */ {
         setAlertResponse('Erreur lors de la récupération des ressentis', error)
@@ -207,11 +205,11 @@ const FeelingsStudentPage = () => {
 
   const buttonComponent = [
     {
-      name: "Créer un Ressenti",
+      name: 'Créer un Ressenti',
       function: handleFeelingsCreation
     },
     {
-      name: "Modifier le Dernier Ressenti",
+      name: 'Modifier le Dernier Ressenti',
       function: handleFeelingsModification
     }
   ]
@@ -221,19 +219,19 @@ const FeelingsStudentPage = () => {
       <div id='grey-filter' />
       <div>
         <HeaderComp
-          title="Mes Ressentis"
-          withLogo={true}
-          showButtons={true}
+          title='Mes Ressentis'
+          withLogo
+          showButtons
           buttonComponent={buttonComponent}
         />
       </div>
       <div className='feelings-page'>
         <Popup open={isCreateOpen} onClose={handleClosePopup} modal>
           {(close) => (
-            <div className="popup-modal-container">
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <label id='mood-label' htmlFor='mood-container' className="input-label"><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-                <div id='mood-container' className="horizontal-container">
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+                <div id='mood-container' className='horizontal-container'>
                   <div id='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
                     <img src={veryBadMood} alt='Très Mauvaise Humeur' />
                   </div>
@@ -253,12 +251,12 @@ const FeelingsStudentPage = () => {
               </label>
               <label id='message-label' htmlFor='message-input'>Message</label>
               <textarea id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={isModified ? lastFeeling.comment : ''} />
-              <div className="horizontal-container">
+              <div className='horizontal-container'>
                 <input type='checkbox' id='anonymous-checkbox' defaultChecked={isModified ? lastFeeling.annonymous : true} onClick={handleAnonymous} />
                 <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
               </div>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={handleUpdateFeelings}>Créer le Ressenti</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
             </div>
           )}
         </Popup>

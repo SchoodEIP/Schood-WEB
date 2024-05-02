@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
-import "../../css/pages/chatRoomPage.scss"
+import '../../css/pages/chatRoomPage.scss'
 import UserProfile from '../userProfile/userProfile'
 
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)
   const [isMyMessage, setIsMyMessage] = useState(message.user === localStorage.getItem('id'))
   const messageUser = participants.find(item => item._id === message.user)
-  
+
   useEffect(() => {
     setIsMyMessage(message.user === localStorage.getItem('id'))
     if (message.contentType === 'file') {
@@ -58,16 +58,16 @@ const Message = ({ message, participants }) => {
   return (
     <div className={[isMyMessage ? 'my-messages' : 'other-messages']}>
       <div className='message-header'>
-        <UserProfile 
+        <UserProfile
           profile={messageUser}
-          whiteMode={isMyMessage ? false : true}
+          whiteMode={!isMyMessage}
         />
         <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
       <div className='message-content'>
         {message.contentType === 'text'
           ? (
-              <div className='message-content2'>{message.content}</div>
+            <div className='message-content2'>{message.content}</div>
             )
           : (
             <div className='with-file'>
@@ -82,8 +82,7 @@ const Message = ({ message, participants }) => {
                   )
                 : (
                   <div className='file'>Chargement du fichier...</div>
-                  )
-              }
+                  )}
             </div>
             )}
       </div>

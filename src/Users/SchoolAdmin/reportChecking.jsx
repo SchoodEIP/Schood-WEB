@@ -64,7 +64,7 @@ const ReportChecking = () => {
     }
   }
 
-   /*const checkReportProcessingStatus = async (reportId) => {
+  /* const checkReportProcessingStatus = async (reportId) => {
     // on a pas moyen de vérifier le status d'un report, la route ci dessous n'est pas valide
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
@@ -112,7 +112,7 @@ const ReportChecking = () => {
   const handleReportSelection = async (reportId, conversationId) => {
     await fetchReportedConversation(conversationId)
     await fetchReportedConversationMessages(conversationId)
-    //await checkReportProcessingStatus(reportId)
+    // await checkReportProcessingStatus(reportId)
   }
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const ReportChecking = () => {
     <div className='messaging-page'>
       <div className='header'>
         <HeaderComp
-          title={"Mes messages"}
+          title='Mes messages'
         />
       </div>
       <div className='content'>
@@ -164,7 +164,7 @@ const ReportChecking = () => {
                           {currentReport.participants.map((participant, indexP) => (
                             <div className='user-profile' key={indexP}>
                               <UserProfile
-                                fullname={true}
+                                fullname
                                 profile={participant}
                               />
                             </div>

@@ -55,14 +55,14 @@ export default function ForgottenPasswordPage () {
         <img id='schoodLogo' src={logoSchood} alt='Schood' />
         <div id='auth-form'>
           <form>
-            <label style={{display: 'flex', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: "20px", margin: "20px"}}>
+            <label style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: '20px', margin: '20px' }}>
               {/* <span style={{fontFamily: 'Inter'}}>Adresse Email <span style={{color: "red"}}>*</span></span> */}
-              <input style={{border: 'none', width: "283px", height: '46px', paddingLeft: "25px", borderRadius: "26px", backgroundColor: "#FFD2D5"}} id='mailInput' type='text' placeholder='Adresse Email' onChange={handleEmailChange} value={email} required />
+              <input style={{ border: 'none', width: '283px', height: '46px', paddingLeft: '25px', borderRadius: '26px', backgroundColor: '#FFD2D5' }} id='mailInput' type='text' placeholder='Adresse Email' onChange={handleEmailChange} value={email} required />
             </label>
           </form>
         </div>
         <div>
-          <button style={{width: '100%', paddingLeft: '25px', paddingRight: '25px'}} onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
+          <button style={{ width: '100%', paddingLeft: '25px', paddingRight: '25px' }} onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>
         </div>
         <div>
           <p id='errorMessage'>{message}</p>

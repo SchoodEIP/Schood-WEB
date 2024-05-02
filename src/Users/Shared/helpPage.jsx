@@ -1,13 +1,13 @@
 import '../../css/pages/homePage.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import AidePage from '../../Components/Aides/aides'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Popup from 'reactjs-popup'
-import cross from "../../assets/Cross.png"
+import cross from '../../assets/Cross.png'
 
 const HelpPage = () => {
   const [position, setPosition] = useState(0)
-  const role = sessionStorage.getItem("role")
+  const role = sessionStorage.getItem('role')
   const [isOpenCategory, setIsOpenCategory] = useState(false)
   const [isOpenNumber, setIsOpenNumber] = useState(false)
   const [errMessage, setErrMessage] = useState('')
@@ -20,14 +20,13 @@ const HelpPage = () => {
   const [contacts, setContacts] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
 
-
   const upPosition = () => {
-    setPosition(position + 1);
-  };
+    setPosition(position + 1)
+  }
 
   const minusPosition = () => {
-    setPosition(position - 1);
-  };
+    setPosition(position - 1)
+  }
 
   const fetchUpdatedCategories = async () => {
     const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -241,64 +240,65 @@ const HelpPage = () => {
     <div className='dashboard'>
       <div>
         <HeaderComp
-          title="Mes Aides"
-          withLogo={true}
-          withReturnBtn={position > 0 ? true : false}
+          title='Mes Aides'
+          withLogo
+          withReturnBtn={position > 0}
           position={position}
           returnCall={minusPosition}
-          showButtons={role === "administration" || role === "admin" ? true : false}
+          showButtons={!!(role === 'administration' || role === 'admin')}
           buttonComponent={buttonComponent}
         />
       </div>
-      <div className='help-page' style={{marginLeft: "25px", marginRight: "25px", overflowY: "auto"}}>
+      <div className='help-page' style={{ marginLeft: '25px', marginRight: '25px', overflowY: 'auto' }}>
         <Popup open={isOpenCategory} onClose={() => setIsOpenCategory(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" style={{padding: "50px", gap: "50px"}} >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <label className="input-label">
-                <span className="label-content">Catégorie <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="category" placeholder='Catégorie' onChange={handleNameChange} />
+            <div className='popup-modal-container' style={{ padding: '50px', gap: '50px' }}>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <label className='input-label'>
+                <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='category' placeholder='Catégorie' onChange={handleNameChange} />
               </label>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={fetchCategoryRegister}>Créer la Catégorie</button>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>
             </div>
           )}
         </Popup>
         <Popup open={isOpenNumber} onClose={() => setIsOpenNumber(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" >
-              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
-              <label className="input-label">
-                <span className="label-content">Catégorie <span style={{color: "red"}}>*</span></span>
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <label className='input-label'>
+                <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
                 <select data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
                   {categories.map((option, index) => (
                     <option key={index} value={option._id}>
                       {option.name}
                     </option>
                   ))}
-                </select>              </label>
-              <label className="input-label">
-                <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="category" placeholder='name' onChange={handleNameChange} />
+                </select>
               </label>
-              <label className="input-label">
-                <span className="label-content">Numéro de Téléphone <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="telephone" placeholder='0000000000' onChange={handleTelephoneChange} />
+              <label className='input-label'>
+                <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='category' placeholder='name' onChange={handleNameChange} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
-                <input type="text" name="email" placeholder='prenom.nom.Schood1@schood.fr' onChange={handleEmailChange} />
+              <label className='input-label'>
+                <span className='label-content'>Numéro de Téléphone <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='telephone' placeholder='0000000000' onChange={handleTelephoneChange} />
               </label>
-              <label className="input-label">
-                <span className="label-content">Description <span style={{color: "red"}}>*</span></span>
-                <textarea name="description" placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
+              <label className='input-label'>
+                <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
+                <input type='text' name='email' placeholder='prenom.nom.Schood1@schood.fr' onChange={handleEmailChange} />
               </label>
-              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
-              <button className="popup-btn" onClick={fetchHelpNumberRegister}>Créer la Catégorie</button>
+              <label className='input-label'>
+                <span className='label-content'>Description <span style={{ color: 'red' }}>*</span></span>
+                <textarea name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
+              </label>
+              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <button className='popup-btn' onClick={fetchHelpNumberRegister}>Créer la Catégorie</button>
             </div>
           )}
         </Popup>
-        <AidePage upPosition={upPosition} position={position}/>
+        <AidePage upPosition={upPosition} position={position} />
       </div>
     </div>
   )

@@ -35,11 +35,11 @@ const Messages = () => {
       return {
         _id: conversation._id,
         participants: conversation.participants,
-        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', '),
+        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
       }
     })
     if (currentConversation === '' || changeConversation) {
-      console.log("conversationData[conversationData.length - 1]: ", conversationData[conversationData.length - 1])
+      console.log('conversationData[conversationData.length - 1]: ', conversationData[conversationData.length - 1])
       setCurrentConversation(conversationData[conversationData.length - 1])
     }
     setConversations(conversationData)
@@ -282,7 +282,7 @@ const Messages = () => {
   }
 
   const openInputFile = () => {
-    inputFile.current.click();
+    inputFile.current.click()
   }
 
   const handleClearFile = (e) => {
@@ -337,7 +337,7 @@ const Messages = () => {
                             onChange={handleFileChange}
                             ref={inputFile}
                           />
-                          <img src={addFile} onClick={openInputFile} alt="add file" />
+                          <img src={addFile} onClick={openInputFile} alt='add file' />
                         </div>
                         <div className='message-area'>
                           <input
@@ -359,7 +359,7 @@ const Messages = () => {
                   {currentConversation.participants.map((participant, indexP) => (
                     <div className='user-profile' key={indexP}>
                       <UserProfile
-                        fullname={true}
+                        fullname
                         profile={participant}
                       />
                     </div>
