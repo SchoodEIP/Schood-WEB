@@ -260,10 +260,10 @@ const StudentStatPage = () => {
             <canvas id="moodChart" width="400" height="400"></canvas>
             <div>
               {averagePercentage !== null && (
-                <div className="average-rectangle">
-                  <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
-                </div>
-              )}
+              <div className="average-rectangle">
+                <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+              </div>
+            )}
             </div>
             
           </div>

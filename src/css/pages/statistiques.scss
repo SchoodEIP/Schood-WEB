@@ -137,3 +137,23 @@ button {
     border-radius: 5px;
   }
   
+  .progress-bar {
+    background-color: white; /* Couleur du vide */
+    border: 1px solid #4f23e2; /* Bordure */
+    border-radius: 20px; /* Arrondi */
+    width: 100%; /* Largeur maximale */
+    height: 20px; /* Hauteur */
+    margin-top: 20px; /* Marge supérieure */
+  }
+  
+  .progress {
+    background-color: white; /* Couleur du contenu */
+    border: 1px solid #4f23e2;
+    height: 100%; /* Remplissage à 100% */
+    border-radius: 18px; /* Arrondi pour s'aligner avec la bordure */
+  }
+
+  .progress::-webkit-progress-value {
+    background-color: #4f23e2;
+  }
+  

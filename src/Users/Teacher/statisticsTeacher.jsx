@@ -19,7 +19,8 @@ const TeacherStatPage = () => {
   const [chart, setChart] = useState(null)
   const [answerChart, setAnswerChart] = useState(null) // Ajout du state pour le nouveau graphique
   const [classes, setClasses] = useState([])
-  const [averageMood, setAverageMood] = useState(0)
+  const [averageMood, setAverageMood] = useState(0) 
+  const [averagePercentage, setAveragePercentage] = useState(0)
 
   useEffect(() => {
     fetchData()
@@ -60,6 +61,9 @@ const TeacherStatPage = () => {
       const aData = await answersResponse.json()
       // console.log(mData)
       // console.log(aData)
+      if (mData.averagePercentage !== undefined) {
+        setAveragePercentage(mData.averagePercentage);
+      }
       const answerList = []
       Object.keys(aData).forEach(date => {
         answerList.push({
@@ -83,11 +87,11 @@ const TeacherStatPage = () => {
   }
 
   useEffect(() => {
-    const average = calculateAverageMood(moodData);
+    const average = calculateAverageMood(moodData, averagePercentage);
     setAverageMood(average);
-  }, [moodData])
+  }, [moodData, averagePercentage])
 
-  const calculateAverageMood = (data) => {
+  const calculateAverageMood = (data, averagePercentage) => {
     let total = 0;
     let count = 0;
     for (const key in data) {
@@ -97,6 +101,9 @@ const TeacherStatPage = () => {
       }
     }
     if (count === 0) return 0;
+    if (averagePercentage !== undefined) {
+      return averagePercentage;
+    }
     return total / count;
   }
 
@@ -350,7 +357,7 @@ const TeacherStatPage = () => {
           <canvas id="moodChart" width="400" height="400"></canvas>
           <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
             <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }} />
-            <div style={{ width: `${averageMood}%`, height: '20px', backgroundColor: '#FFC371' }}/>
+            <progress className="progress" value={averageMood} max="100"/>
           </div>
           <h1>Problèmes</h1>
           <canvas id="answerChart" width="400" height="400"></canvas>
