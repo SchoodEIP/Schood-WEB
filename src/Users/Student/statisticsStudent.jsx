@@ -47,7 +47,7 @@ const StudentStatPage = () => {
       setMoodData(moodData)
       console.log(moodData)
       if (moodData && moodData.averagePercentage) {
-        setAveragePercentage(moodData.averagePercentage);
+        setAveragePercentage(moodData.averagePercentage)
       }
     } catch (error) {
       console.error('Error fetching mood data:', error)
@@ -160,20 +160,20 @@ const StudentStatPage = () => {
           tooltip: {
             callbacks: {
               label: function (context) {
-                const moodValue = context.raw.y;
+                const moodValue = context.raw.y
                 switch (moodValue) {
                   case 0:
-                    return 'Très mal';
+                    return 'Très mal'
                   case 1:
-                    return 'Mal';
+                    return 'Mal'
                   case 2:
-                    return 'Neutre';
+                    return 'Neutre'
                   case 3:
-                    return 'Bien';
+                    return 'Bien'
                   case 4:
-                    return 'Très bien';
+                    return 'Très bien'
                   default:
-                    return '';
+                    return ''
                 }
               }
             }
@@ -210,29 +210,29 @@ const StudentStatPage = () => {
     setActiveFilter(filter)
   }
 
-  let filterText;
+  let filterText
   let filterTextSec
   switch (activeFilter) {
     case 'Semaine':
       filterText = 'cette semaine'
       filterTextSec = 'la semaine précédente'
-      break;
+      break
     case 'Mois':
-      filterText = 'ce mois';
+      filterText = 'ce mois'
       filterTextSec = 'le mois précédent'
-      break;
+      break
     case 'Semestre':
-      filterText = 'ce semestre';
+      filterText = 'ce semestre'
       filterTextSec = 'le semestre précédent'
-      break;
+      break
     case 'Année':
-      filterText = 'cette année';
+      filterText = 'cette année'
       filterTextSec = "l'année précédente"
-      break;
+      break
     default:
-      filterText = 'cette période';
+      filterText = 'cette période'
       filterTextSec = 'la précédente'
-      break;
+      break
   }
 
   return (

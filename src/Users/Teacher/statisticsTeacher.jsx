@@ -62,7 +62,7 @@ const TeacherStatPage = () => {
       // console.log(mData)
       // console.log(aData)
       if (mData.averagePercentage !== undefined) {
-        setAveragePercentage(mData.averagePercentage);
+        setAveragePercentage(mData.averagePercentage)
       }
       const answerList = []
       Object.keys(aData).forEach(date => {
@@ -87,24 +87,24 @@ const TeacherStatPage = () => {
   }
 
   useEffect(() => {
-    const average = calculateAverageMood(moodData, averagePercentage);
-    setAverageMood(average);
+    const average = calculateAverageMood(moodData, averagePercentage)
+    setAverageMood(average)
   }, [moodData, averagePercentage])
 
   const calculateAverageMood = (data, averagePercentage) => {
-    let total = 0;
-    let count = 0;
+    let total = 0
+    let count = 0
     for (const key in data) {
       if (key !== 'averagePercentage') {
-        total += data[key];
-        count++;
+        total += data[key]
+        count++
       }
     }
-    if (count === 0) return 0;
+    if (count === 0) return 0
     if (averagePercentage !== undefined) {
-      return averagePercentage;
+      return averagePercentage
     }
-    return total / count;
+    return total / count
   }
 
   const fetchClasses = async () => {
