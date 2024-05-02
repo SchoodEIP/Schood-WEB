@@ -13,6 +13,7 @@ const StudentStatPage = () => {
   const [moodData, setMoodData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [activeFilter, setActiveFilter] = useState('Semaine')
+  const [averagePercentage, setAveragePercentage] = useState(null)
   const [chart, setChart] = useState(null)
 
   useEffect(() => {
@@ -44,6 +45,9 @@ const StudentStatPage = () => {
       const moodData = await response.json()
       setMoodData(moodData)
       console.log(moodData)
+      if (moodData && moodData.averagePercentage) {
+        setAveragePercentage(moodData.averagePercentage);
+      }
     } catch (error) {
       console.error('Error fetching mood data:', error)
     }
@@ -205,6 +209,31 @@ const StudentStatPage = () => {
     setActiveFilter(filter)
   }
 
+  let filterText;
+  let filterTextSec
+  switch (activeFilter) {
+    case 'Semaine':
+      filterText = 'cette semaine'
+      filterTextSec = 'la semaine précédente'
+      break;
+    case 'Mois':
+      filterText = 'ce mois';
+      filterTextSec = 'le mois précédent'
+      break;
+    case 'Semestre':
+      filterText = 'ce semestre';
+      filterTextSec = 'le semestre précédent'
+      break;
+    case 'Année':
+      filterText = 'cette année';
+      filterTextSec = "l'année précédente"
+      break;
+    default:
+      filterText = 'cette période';
+      filterTextSec = 'la précédente'
+      break;
+  }
+
   return (
     <div className='dashboard'>
       <HeaderComp title={"Mes statistiques"}/>
@@ -227,7 +256,17 @@ const StudentStatPage = () => {
             </div>
           </div>
           <h1>Evolution de mon humeur</h1>
-          <canvas id="moodChart" width="400" height="400"></canvas>
+          <div>
+            <canvas id="moodChart" width="400" height="400"></canvas>
+            <div>
+              {averagePercentage !== null && (
+                <div className="average-rectangle">
+                  <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+                </div>
+              )}
+            </div>
+            
+          </div>
         </div>
       </div>
     </div>

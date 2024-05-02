@@ -59,11 +59,23 @@ const TeacherStatPage = () => {
 
       const moodData = await moodResponse.json()
       const answersData = await answersResponse.json()
+      const answerList = []
+      Object.keys(answersData).forEach(date => {
+        answerList.push({
+          date: date,
+          data: answersData[date]
+        })})
 
-      setMoodData(moodData)
-      setAnswerData(answersData)
+      const moodList = []
+      Object.keys(moodData).forEach(date => {
+        moodList.push({
+          date: date,
+          data: moodData[date].moods
+        })})
+
+      setMoodData(moodList)
+      setAnswerData(answerList)
       console.log(moodData)
-      console.log(answerData)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -170,7 +182,13 @@ const TeacherStatPage = () => {
         labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
         datasets: [{
           label: 'Humeur',
-          data: Object.values(moodData).filter(val => typeof val === 'number'),
+          data: Object.entries(moodData)
+          .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
+          .map(([date, val]) => ({
+            x: date,
+            y: val.data,
+            r: 10
+          })),
           borderColor: 'white',
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
@@ -188,9 +206,12 @@ const TeacherStatPage = () => {
             },
             grid: {
               color: 'rgba(255, 255, 255, 0.1)'
-            }
+            },
+            labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'), 
           },
           y: {
+            min: 0, 
+            max: 4,
             ticks: {
               callback: value => {
                 switch (value) {
@@ -231,16 +252,14 @@ const TeacherStatPage = () => {
 
   const updateChart = () => {
     if (moodData) {
-      const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
-      const moods = Object.values(moodData).filter(val => typeof val === 'number')
+      const dates = Object.keys(moodData).filter(key => key.date)
+      const moods = Object.values(moodData).filter(val => val.data)
 
-      const data = dates.map(date => {
-        return {
-          x: date,
-          y: moodData[date],
-          r: 10
-        }
-      })
+      const data = dates.map((date, index) => ({
+        x: date,
+        y: moods[index],
+        r: 10
+      }))
 
       chart.data.datasets[0].data = data
       chart.update()
@@ -255,7 +274,7 @@ const TeacherStatPage = () => {
         labels: answerData.map(answer => answer.date),
         datasets: [{
           label: 'Réponses',
-          data: answerData.map(answer => answer.number),
+          data: answerData.map(answer => answer.data),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
@@ -276,7 +295,7 @@ const TeacherStatPage = () => {
   const updateAnswerChart = () => {
     if (Array.isArray(answerData)) {
       answerChart.data.labels = answerData.map(answer => answer.date)
-      answerChart.data.datasets[0].data = answerData.map(answer => answer.number)
+      answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
       answerChart.update()
     }
   }
@@ -295,9 +314,8 @@ const TeacherStatPage = () => {
 
   return (
     <div className='dashboard'>
-      <HeaderComp />
+      <HeaderComp title={'Mes statistiques'}/>
       <div className='page-content'>
-        <Sidebar />
         <div>
           <label htmlFor="dateFilter">Sélectionner une date:</label>
           <input type="date" id="dateFilter" value={selectedDate} onChange={handleDateChange} />
