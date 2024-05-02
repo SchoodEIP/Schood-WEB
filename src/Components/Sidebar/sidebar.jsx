@@ -56,6 +56,7 @@ export default function Sidebar () {
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
+  const [role, setRole] = useState(localStorage.getItem("role"))
 
   const handleNotifications = () => /* istanbul ignore next */ {
     if (chats.value.notified) {
@@ -124,7 +125,9 @@ export default function Sidebar () {
 
   useEffect(() => {
     getUnseenNotifications();
-    getDailyMood();
+    if (role) {
+      getDailyMood();
+    }
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
@@ -283,16 +286,18 @@ export default function Sidebar () {
               </div>
             </div>
             <span id='divider'></span>
-            <div id="daily-mood">
-              <span>Mon humeur quotidienne</span>
-              <div id='mood-icons'>
-                <img src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
-                <img src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)}/>
-                <img src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)}/>
-                <img src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)}/>
-                <img src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)}/>
+            {role && role === 'student' && (
+              <div id="daily-mood">
+                <span>Mon humeur quotidienne</span>
+                <div id='mood-icons'>
+                  <img src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
+                  <img src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)}/>
+                  <img src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)}/>
+                  <img src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)}/>
+                  <img src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)}/>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div id='menu'>
             {pages.map((page, index) => (
