@@ -150,7 +150,7 @@ export default function AdmAccountsPage () {
       <div className='page-content' style={{alignContent: "center", justifyContent: "center"}}>
         <AdmAccountsTable />
       </div>
-      <Popup open={isOpenSingle} close={handleSingleAccount} modal>
+      <Popup open={isOpenSingle} onClose={handleSingleAccount} modal>
         {(close) => (
           <div className="popup-modal-container" style={{padding: "50px", gap: "20px", alignItems: 'center'}} >
             <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
@@ -171,7 +171,7 @@ export default function AdmAccountsPage () {
           </div>
         )}
       </Popup>
-      <Popup open={isOpenMany} close={handleManyAccounts} modal>
+      <Popup open={isOpenMany} onClose={handleManyAccounts} modal>
         {(close) => (
           <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
             <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>

@@ -251,7 +251,7 @@ const HelpPage = () => {
         />
       </div>
       <div className='help-page' style={{marginLeft: "25px", marginRight: "25px", overflowY: "auto"}}>
-        <Popup open={isOpenCategory} close={() => setIsOpenCategory(false)} modal>
+        <Popup open={isOpenCategory} onClose={() => setIsOpenCategory(false)} modal>
           {(close) => (
             <div className="popup-modal-container" style={{padding: "50px", gap: "50px"}} >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
@@ -264,7 +264,7 @@ const HelpPage = () => {
             </div>
           )}
         </Popup>
-        <Popup open={isOpenNumber} close={() => setIsOpenNumber(false)} modal>
+        <Popup open={isOpenNumber} onClose={() => setIsOpenNumber(false)} modal>
           {(close) => (
             <div className="popup-modal-container" >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>

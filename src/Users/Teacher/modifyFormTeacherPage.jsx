@@ -207,7 +207,7 @@ const ModifyFormTeacherPage = () => {
         />
       </div>
       <div className='form-container'>
-      <Popup open={isOpen} close={() => setIsOpen(false)} modal>
+      <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className="popup-modal-container" >
               <span className="title-popup">Sauvegarder les Modifications ?</span>

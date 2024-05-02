@@ -11,7 +11,7 @@
     justify-content: start;
     align-items: center;
     flex-direction: column;
-  
+
     #divider {
       display: block;
       height: 2px;
@@ -19,14 +19,14 @@
       background-color: #4F23E2;
       margin: 30px 4px 30px 4px;
     }
-    
+
     #top {
       #notifications {
         position: absolute;
         top: 0;
         left: 0;
         cursor: pointer;
-  
+
         img {
           height: 25px;
           width: 24px;
@@ -35,7 +35,7 @@
       #profile {
         margin-top: 30px;
         cursor: pointer;
-  
+
         img {
           height: 54px;
           width: 54px;
@@ -43,27 +43,27 @@
         }
       }
     }
-  
+
     #menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: center;
-  
+
       .menu-item {
         position: relative;
         margin-bottom: 45px;
-  
+
         #icons {
           height: 26px;
           width: 26px;
         }
       }
-  
+
       .menu-item-selected {
         position: relative;
         margin-bottom: 45px;
-  
+
         .selected {
           position: absolute;
           z-index: 0;
@@ -74,7 +74,7 @@
           width: 47px;
           height: 47px;
         }
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -82,11 +82,11 @@
           align-items: center;
           z-index: 999;
           color: white !important;
-  
+
           #icon {
             z-index: 999;
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
@@ -94,7 +94,7 @@
         }
       }
     }
-  
+
     #bottom {
       position: absolute;
       display: flex;
@@ -102,14 +102,14 @@
       justify-content: center;
       align-items: center;
       bottom: 0;
-  
+
       #item {
         margin-bottom: 26px;
         cursor: pointer;
       }
     }
   }
-  
+
   #expanded {
     position: relative;
     min-height: 100vh;
@@ -121,7 +121,7 @@
     justify-content: space-between;
     align-items: start;
     flex-direction: column;
-  
+
     #divider {
       display: block;
       height: 2px;
@@ -129,7 +129,7 @@
       background-color: #4F23E2;
       margin: 10px 20px 20px 20px;
     }
-  
+
     #top {
       display: flex;
       flex-direction: column;
@@ -140,7 +140,7 @@
         top: 0;
         left: 0;
         cursor: pointer;
-  
+
         img {
           height: 25px;
           width: 24px;
@@ -153,13 +153,13 @@
         align-items: center;
         margin-top: 30px;
         cursor: pointer;
-  
+
         img {
           height: 88px;
           width: 89px;
           border-radius: 100%;
         }
-  
+
         #firstname-lastname {
           margin-left: 7px;
           display: flex;
@@ -172,7 +172,7 @@
           font-family: Inter;
         }
       }
-  
+
       #daily-mood {
         display: flex;
         flex-direction: column;
@@ -181,7 +181,7 @@
         font-weight: 600;
         font-family: Inter;
         margin-bottom: 20px;
-  
+
         #mood-icons {
           margin-top: 5px;
           display: flex;
@@ -189,20 +189,20 @@
           justify-content: space-around;
           align-items: center;
           cursor: pointer;
-  
+
           #selected {
             background-color: #4F23E2;
           }
         }
       }
     }
-  
+
     #menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
-  
+
       .menu-item {
         position: relative;
         margin-bottom: 38px;
@@ -211,7 +211,7 @@
         font-size: 18px;
         font-weight: 600;
         font-family: Inter;
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -219,26 +219,26 @@
           align-items: center;
           z-index: 999;
           color: #4F23E2 !important;
-  
+
           #icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
-  
+
             #label {
               margin-left: 10px;
             }
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
           }
         }
       }
-  
+
       .menu-item-selected {
         position: relative;
         margin-bottom: 38px;
@@ -247,7 +247,7 @@
         font-size: 18px;
         font-weight: 600;
         font-family: Inter;
-  
+
         .selected {
           position: absolute;
           z-index: 0;
@@ -258,7 +258,7 @@
           width: 226px;
           height: 47px;
         }
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -266,19 +266,19 @@
           align-items: center;
           z-index: 999;
           color: white !important;
-  
+
           #icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
-  
+
             #label {
               margin-left: 10px;
             }
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
@@ -286,13 +286,13 @@
         }
       }
     }
-  
+
     #bottom {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
-  
+
       #item {
         margin-bottom: 26px;
         margin-left: 20px;
@@ -302,7 +302,7 @@
         font-family: Inter;
         cursor: pointer;
       }
-  
+
       #item:hover {
         text-decoration: underline;
       }
@@ -322,7 +322,7 @@
     justify-content: start;
     align-items: center;
     flex-direction: column;
-  
+
     #divider {
       display: block;
       height: 2px;
@@ -330,14 +330,18 @@
       background-color: #4F23E2;
       margin: 0px 4px 15px 4px;
     }
-    
+
     #top {
       #notifications {
+        background-color: none;
+        border: none;
+        border-radius: 50%;
+
         position: absolute;
         top: 0;
         left: 0;
         cursor: pointer;
-  
+
         img {
           height: 25px;
           width: 24px;
@@ -346,7 +350,7 @@
       #profile {
         margin-top: 20px;
         cursor: pointer;
-  
+
         img {
           height: 54px;
           width: 54px;
@@ -354,27 +358,27 @@
         }
       }
     }
-  
+
     #menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: center;
-  
+
       .menu-item {
         position: relative;
         margin-bottom: 15px;
-  
+
         #icons {
           height: 26px;
           width: 26px;
         }
       }
-  
+
       .menu-item-selected {
         position: relative;
         margin-bottom: 15px;
-  
+
         .selected {
           position: absolute;
           z-index: 0;
@@ -385,7 +389,7 @@
           width: 47px;
           height: 47px;
         }
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -393,11 +397,11 @@
           align-items: center;
           z-index: 999;
           color: white !important;
-  
+
           #icon {
             z-index: 999;
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
@@ -405,7 +409,7 @@
         }
       }
     }
-  
+
     #bottom {
       position: absolute;
       display: flex;
@@ -413,14 +417,14 @@
       justify-content: center;
       align-items: center;
       bottom: 0;
-  
+
       #item {
         margin-bottom: 26px;
         cursor: pointer;
       }
     }
   }
-  
+
   #expanded {
     position: relative;
     min-height: 100vh;
@@ -432,7 +436,7 @@
     justify-content: space-between;
     align-items: start;
     flex-direction: column;
-  
+
     #divider {
       display: block;
       height: 2px;
@@ -440,18 +444,22 @@
       background-color: #4F23E2;
       margin: 5px 20px 5px 20px;
     }
-  
+
     #top {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       #notifications {
+        background-color: none;
+        border: none;
+        border-radius: 50%;
+
         position: absolute;
         top: 0;
         left: 0;
         cursor: pointer;
-  
+
         img {
           height: 25px;
           width: 24px;
@@ -464,13 +472,13 @@
         align-items: center;
         margin-top: 5px;
         cursor: pointer;
-  
+
         img {
           height: 88px;
           width: 89px;
           border-radius: 100%;
         }
-  
+
         #firstname-lastname {
           margin-left: 7px;
           display: flex;
@@ -483,7 +491,7 @@
           font-family: Inter;
         }
       }
-  
+
       #daily-mood {
         display: flex;
         flex-direction: column;
@@ -492,7 +500,7 @@
         font-weight: 600;
         font-family: Inter;
         margin-bottom: 15px;
-  
+
         #mood-icons {
           margin-top: 5px;
           display: flex;
@@ -500,20 +508,20 @@
           justify-content: space-around;
           align-items: center;
           cursor: pointer;
-  
+
           #selected {
             background-color: #4F23E2;
           }
         }
       }
     }
-  
+
     #menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
-  
+
       .menu-item {
         position: relative;
         margin-bottom: 15px;
@@ -522,7 +530,7 @@
         font-size: 18px;
         font-weight: 600;
         font-family: Inter;
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -530,26 +538,26 @@
           align-items: center;
           z-index: 999;
           color: #4F23E2 !important;
-  
+
           #icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
-  
+
             #label {
               margin-left: 10px;
             }
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
           }
         }
       }
-  
+
       .menu-item-selected {
         position: relative;
         margin-bottom: 15px;
@@ -558,7 +566,7 @@
         font-size: 18px;
         font-weight: 600;
         font-family: Inter;
-  
+
         .selected {
           position: absolute;
           z-index: 0;
@@ -569,7 +577,7 @@
           width: 226px;
           height: 40px;
         }
-  
+
         #link {
           display: flex;
           flex-direction: row;
@@ -577,19 +585,19 @@
           align-items: center;
           z-index: 999;
           color: white !important;
-  
+
           #icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
-  
+
             #label {
               margin-left: 10px;
             }
           }
-          
+
           #icons {
             height: 26px;
             width: 26px;
@@ -597,13 +605,13 @@
         }
       }
     }
-  
+
     #bottom {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
-  
+
       #item {
         margin-bottom: 5px;
         margin-left: 20px;
@@ -613,7 +621,7 @@
         font-family: Inter;
         cursor: pointer;
       }
-  
+
       #item:hover {
         text-decoration: underline;
       }

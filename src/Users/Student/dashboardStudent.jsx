@@ -84,7 +84,7 @@ const StudentHomePage = () => {
         withLogo={true}
       />
       <div className='page-content'>
-        <Popup open={isCreateOpen} close={handleClosePopup} modal>
+        <Popup open={isCreateOpen} onClose={handleClosePopup} modal>
           {(close) => (
             <div className="popup-modal-container">
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>

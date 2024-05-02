@@ -168,7 +168,7 @@ const CreateAlertsPage = () => {
         />
       </div>
       <div style={{marginLeft: "25px"}}>
-        <Popup open={isOpen} close={() => setIsOpen(false)} modal>
+        <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className="popup-modal-container" >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>

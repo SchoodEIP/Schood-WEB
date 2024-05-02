@@ -234,7 +234,7 @@ export default function SchoolAdmAccountsPage () {
         />
       </div>
       <div className='page-content'>
-        <Popup open={isOpenSingle} close={() => setIsOpenSingle(false)} modal>
+        <Popup open={isOpenSingle} onClose={() => setIsOpenSingle(false)} modal>
           {(close) => (
             <div className="popup-modal-container" style={{alignItems: 'center'}} >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
@@ -303,7 +303,7 @@ export default function SchoolAdmAccountsPage () {
             </div>
           )}
         </Popup>
-        <Popup open={isOpenMany} close={() => setIsOpenMany(false)} modal>
+        <Popup open={isOpenMany} onClose={() => setIsOpenMany(false)} modal>
           {(close) => (
             <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
               <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
