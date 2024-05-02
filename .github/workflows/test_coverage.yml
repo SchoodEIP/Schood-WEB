@@ -4,6 +4,10 @@ on:
     - cron: '0 0 * * *'
   pull_request:
 
+env:
+  REACT_APP_BACKEND_URL: ${{vars.REACT_APP_BACKEND_URL}}
+  REACT_APP_WS_URL: ${{vars.REACT_APP_WS_URL}}
+
 jobs:
   Tests_and_Coverage:
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
@@ -18,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install packages
         run: npm install

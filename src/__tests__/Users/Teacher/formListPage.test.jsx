@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, act, screen, fireEvent } from '@testing-library/react'
 import FormListPage from '../../../Users/Teacher/formListTeacherPage'
+import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('FormListPage', () => {
@@ -9,7 +10,9 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <WebsocketProvider>
+            <FormListPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })
@@ -21,7 +24,9 @@ describe('FormListPage', () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <FormListPage />
+          <WebsocketProvider>
+            <FormListPage />
+          </WebsocketProvider>
         </BrowserRouter>
       )
     })

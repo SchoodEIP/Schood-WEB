@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable'
-import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/popup'
-import '../../css/Components/Popup/popup.css'
+import '../../css/Components/Popup/popup.scss'
+import Select from 'react-select'
+import Popup from 'reactjs-popup'
+import userIcon from '../../assets/userIcon.png'
+import cross from "../../assets/Cross.png"
 
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -19,11 +20,15 @@ export default function SchoolAdmAccountsPage () {
   const [errMessage, setErrMessage] = useState('')
   const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
+  const [titlesList, setTitlesList] = useState([])
+  const [isMultiStatus, setIsMultiStatus] = useState(false)
+  const [picture, setPicture] = useState(null)
+  const [title, setTitle] = useState(null)
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/classes'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
 
     fetch(rolesUrl, {
       method: 'GET',
@@ -33,27 +38,39 @@ export default function SchoolAdmAccountsPage () {
       }
     }).then(response => response.json())
       .then(data => setClassesList(data))
-      .catch(error => setErrMessage(error.message))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          setRolesList(data.roles)
-        })
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        setRolesList(data.roles)
+      })
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
+  }, [])
+
+  useEffect(() => {
+    const titlesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/titles'
+
+    fetch(titlesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => {
+        setTitlesList(data)
+      })
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -61,9 +78,12 @@ export default function SchoolAdmAccountsPage () {
     setFirstName('')
     setName('')
     setEmail('')
-    if (rolesList[0] !== undefined) { setRole(rolesList[0]._id) }
+    if (rolesList[1] !== undefined) { setRole(rolesList[1]._id) }
     setClasses([])
+    setTitle('')
     setErrMessage('')
+    setIsMultiStatus(false)
+    setPicture(null)
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany)
     }
@@ -90,20 +110,24 @@ export default function SchoolAdmAccountsPage () {
     setEmail(event.target.value)
   }
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value)
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
   }
 
-  const handleClasseChange = (event) => {
-    const selectedValue = event.target.value
-
-    if (classes.includes(selectedValue)) {
-    // If the value is already in the array, filter it out and update the state
-      const updatedClasses = classes.filter(item => item !== selectedValue)
-      setClasses(updatedClasses)
+  const handleRoleChange = (event) => {
+    setRole(event.target.value)
+    if (event.target.value === rolesList[1]._id) {
+      setIsMultiStatus(false)
     } else {
-    // If the value is not in the array, add it and update the state
-      setClasses(oldArray => [...oldArray, selectedValue])
+      setIsMultiStatus(true)
+    }
+  }
+
+  const handleClasseChange = (selected) => /* istanbul ignore next */ {
+    if (role === rolesList[1]._id) {
+      setClasses([selected])
+    } else {
+      setClasses(selected)
     }
   }
 
@@ -111,34 +135,56 @@ export default function SchoolAdmAccountsPage () {
     setFile(event.target.files[0])
   }
 
+  const handlePictureChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setPicture(event.target.files[0])
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+          const base64Image = reader.result;
+          setPicture(base64Image);
+      };
+      reader.onerror = (error) => {
+          console.error('Error occurred while reading the file:', error);
+      };
+  }
+  }
+
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
-    try {
-      const response = await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: name,
-          email,
-          role,
-          classes
-        })
+    let classesArray = []
+    if (classes.length !== 0) {
+      classesArray.push(classes)
+    } else if (classes.length > 1) {
+      classesArray = classes
+    }
+
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        firstname: firstName,
+        lastname: name,
+        email,
+        role,
+        classes: classesArray,
+        picture: picture
       })
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte créé avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
-
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -147,106 +193,131 @@ export default function SchoolAdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
-      const response = await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      })
+    await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then((response) => {
       if (response.ok) {
         setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
       } else /* istanbul ignore next */ {
         const data = response.json()
 
         setErrMessage(data.message)
       }
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    })
+      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
   }
+
+  const buttonComponent = [
+    {
+      name: 'Ajouter un Compte',
+      function: handleSingleAccount
+    },
+    {
+      name: 'Ajouter une Liste de Comptes',
+      function: handleManyAccounts
+    }
+  ]
 
   return (
     <div>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title="Gestion de Comptes"
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+        />
       </div>
       <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='table-div'>
-          <SchoolAccountsTable />
-        </div>
-        <div className='account-div'>
-          <ButtonsPopupCreation
-            isOpenSingle={isOpenSingle}
-            isOpenMany={isOpenMany}
-            handleSingleAccount={handleSingleAccount}
-            handleManyAccounts={handleManyAccounts}
-            singleContent='Ajouter un compte'
-            manyContent='Ajouter une liste de comptes'
-          />
-        </div>
-      </div>
-      {
-        isOpenSingle && <Popup
-          handleClose={handleSingleAccount}
-          title={"Création d'un compte Etudiant/Professeur"}
-          errMessage={errMessage}
-          handleCreation={singleAccountCreation}
-          btn_text='Créer un nouveau compte'
-          content={
-            <form className='pop-form'>
-              <input className='pop-input' name='firstName' placeholder='Prénom' onChange={handleFirstNameChange} />
-              <input className='pop-input' name='lastName' placeholder='Nom' onChange={handleNameChange} />
-              <input className='pop-input' name='email' placeholder='Email' onChange={handleEmailChange} />
-              {
-                (rolesList[0] !== undefined)
-                  ? (
-                    <div>
-                      <select defaultValue={role} className='pop-input' name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                        <option value={rolesList[0]._id}>{rolesList[0].name}</option>
-                        <option value={rolesList[1]._id}>{rolesList[1].name}</option>
-                      </select>
-                    </div>
-                    )
-                  : ''
-              }
-              <select multiple value={classes} id='classe-select' className='pop-input' name='Classe' placeholder='Classes' onChange={handleClasseChange}>
-                {classesList.map((classe_) => (
-                  <option key={classe_._id} value={classe_._id}>
-                    {classe_.name}
-                  </option>
-                ))}
-              </select>
-            </form>
-          }
-                        />
-      }
-      {
-        isOpenMany && <Popup
-          handleClose={handleManyAccounts}
-          title={"Création d'une liste de comptes Etudiant/Professeur"}
-          errMessage={errMessage}
-          handleCreation={csvAccountCreation}
-          btn_text='Créer de nouveaux comptes'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input-file' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-              </form>
-              <div className='pop-info'>
-                <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p>firstname,lastname,email,role,class</p>
-                <p>jeanne,dupont,jeanne@schood.fr,student,200</p>
-                <p>jean,dupond,jean@schood.fr,teacher,200:201</p>
+        <Popup open={isOpenSingle} onClose={() => setIsOpenSingle(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" style={{alignItems: 'center'}} >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <img style={{width: "50px", borderRadius: "50%"}} src={picture ? picture : userIcon} alt="photo de profil"/>
+                <label className="input-label">
+                  <span className="label-content">Changer la photo de Profil</span>
+                  <input className="picture-input" name="picture" placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+              </label>
               </div>
+              <label className="input-label">
+                <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+                <input name="lastName" placeholder='Nom' type="text" onChange={handleNameChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
+                <input name="firstName" placeholder='Prénom' type="text" onChange={handleFirstNameChange} />
+              </label>
+              <label className="input-label">
+                <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+                <input name="email" placeholder='prenom.nom.schood1@schood.fr' type="emai" onChange={handleEmailChange}/>
+              </label>
+              <label className="input-label">
+                <span className="label-content">Rôle <span style={{color: "red"}}>*</span></span>
+                {
+                    (rolesList[0] !== undefined)
+                      ? (
+                          <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                            <option value={rolesList[1]._id}>{rolesList[1].name}</option>
+                            <option value={rolesList[2]._id}>{rolesList[2].name}</option>
+                          </select>
+                        )
+                      : ''
+                  }
+              </label>
+              {
+                (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined) ? (
+                  <label className="input-label">
+                    <span className="label-content">Titre <span style={{color: "red"}}>*</span></span>
+                    <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                      {
+                        titlesList.map((title, index) => {
+                          return <option key={index} value={title._id}>{title.name}</option>
+                        })
+                      }
+                    </select>
+                  </label>
+                ) : ''
+              }
+              <label className="input-label">
+                <span className="label-content">Classe(s) <span style={{color: "red"}}>*</span></span>
+                  <Select
+                    isMulti={isMultiStatus}
+                    data-testid='select-classes'
+                    id='select-classes'
+                    placeholder='Selectionner une ou plusieurs classes'
+                    options={classesList}
+                    value={classes}
+                    onChange={handleClasseChange}
+                    getOptionValue={(option) => (option._id)}
+                    getOptionLabel={(option) => (option.name)}
+                  />
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
             </div>
-          }
-                      />
-      }
+          )}
+        </Popup>
+        <Popup open={isOpenMany} onClose={() => setIsOpenMany(false)} modal>
+          {(close) => (
+            <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
+              <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+              <label style={{alignItems: 'center', gap: "25px"}}>
+                <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
+                <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email,role,class</span>
+              </label>
+              {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+              <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+            </div>
+          )}
+        </Popup>
+        <SchoolAccountsTable />
+      </div>
     </div>
   )
 }

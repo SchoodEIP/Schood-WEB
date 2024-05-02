@@ -2,15 +2,57 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act, waitFor } from '@testing-library/react'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
-import { MemoryRouter } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
+import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('Last Alert component', () => {
-  const previousUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`
-  const currentUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`
-  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/dailyMood`
+  const statusLastTwo = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
+  const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
+  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
   const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/132`
+
+  const questionnairesResult = [
+    {
+      classes: [
+        {
+          name: '200',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebd'
+        },
+        {
+          name: '201',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebf'
+        }
+      ],
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-19T00:00:00.000Z',
+      title: 'Questionnaire Français',
+      toDate: '2024-02-25T00:00:00.000Z',
+      _id: 'id1'
+    },
+    {
+      classes: [
+        {
+          name: '200',
+          __v: 0,
+          _id: '65e0e4477c0cc03bd4999ebd'
+        }
+      ],
+      facility: '65e0e4477c0cc03bd4999eb7',
+      fromDate: '2024-02-26T00:00:00.000Z',
+      title: 'Questionnaire Mathématique',
+      toDate: '2024-03-03T00:00:00.000Z',
+      _id: 'id2'
+    }
+  ]
+
+  const statusTwoResult = {
+    q1: 100,
+    q2: 50
+  }
 
   const alertList = [
     {
@@ -53,8 +95,8 @@ describe('Last Alert component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
-    fetchMock.get(previousUrl, { body: { status: 'not_started' } })
-    fetchMock.get(currentUrl, { body: { status: 'in_progress' } })
+    fetchMock.get(statusLastTwo, statusTwoResult)
+    fetchMock.get(questionnaires, questionnairesResult)
     fetchMock.get(dailyMood, { moodStatus: true, mood: 0 })
     fetchMock.post(dailyMood, { })
     fetchMock.get(lastAlert, { body: alertList })
@@ -68,9 +110,11 @@ describe('Last Alert component', () => {
   it('should render the homepage', async () => {
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     await waitFor(() => {
@@ -86,9 +130,11 @@ describe('Last Alert component', () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
     await act(async () => {
       render(
-        <MemoryRouter>
-          <StudentHomePage />
-        </MemoryRouter>
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
       )
     })
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()

@@ -27,16 +27,16 @@ export default function AdmAccountsTable () {
 
   return (
     <div className='AccountsTable'>
-      <div id='tableBlock'>
-        <table id='accountTable'>
-          <thead id='tableHead'>
-            <tr id='topTable'>
-              <th id='valHead1'>Prénom</th>
-              <th id='valHead2'>Nom</th>
-              <th id='valHead3'>Email</th>
+      <div className='tableBlock'>
+        <table className='accountTable'>
+          <thead className='tableHead'>
+            <tr className='topTable'>
+              <th className='valHead1bis'>Prénom</th>
+              <th className='valHead2'>Nom</th>
+              <th className='valHead3bis'>Email</th>
             </tr>
           </thead>
-          <tbody id='tableBody'>
+          <tbody className='tableBody'>
             {
               accountList.map((data, index) =>
                 <tr key={index}>

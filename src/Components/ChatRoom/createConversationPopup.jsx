@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Select from 'react-select'
 
 const CreateConversationPopup = ({
   contacts,
@@ -6,43 +7,54 @@ const CreateConversationPopup = ({
   closeCreateConversationPopup,
   isPopupOpen
 }) => {
-  const [searchInput, setSearchInput] = useState('')
-
-  const handleSearchInputChange = (e) => {
-    setSearchInput(e.target.value)
-  }
+  const [selectedContacts, setSelectedContacts] = useState([])
+  const [convTitle, setConvTitle] = useState('')
 
   const handleCreateConversation = () => {
-    const newConversationName = searchInput.trim()
-    if (newConversationName === '') {
+    const ids = []
+    selectedContacts.forEach((contact) => (
+      ids.push(contact._id)
+    ))
+    if (ids.length === 0) {
       return
     }
-    const contactId = document.getElementById('contact-input').value
-    createConversation(newConversationName, [contactId])
+    const title = convTitle !== '' ? convTitle : 'placeholder title'
+    createConversation(title, ids)
     closeCreateConversationPopup()
+  }
+
+  const handleSelectChange = (selected) => {
+    setSelectedContacts(selected)
+  }
+
+  const handleSetConvTitle = (e) => {
+    setConvTitle(e.target.value)
   }
 
   return (
     <div>
       <div className='popup-content'>
         <h2>Nouvelle conversation</h2>
-        <label htmlFor='contact-input'>Rechercher un contact:</label>
-        <input
-          type='text'
-          list='contact-list'
-          id='contact-input'
-          placeholder='Rechercher un contact'
-          value={searchInput}
-          onChange={handleSearchInputChange}
-        />
-        <datalist id='contact-list'>
-          {contacts.map((contact) => (
-            <option key={contact._id} value={contact._id}>
-              {contact.firstname + ' ' + contact.lastname}
-            </option>
-          ))}
-        </datalist>
-
+        <div>
+          <label>Rechercher un contact:</label>
+          <Select
+            isMulti
+            data-testid='select-contacts'
+            id='select-contacts'
+            placeholder='Rechercher un contact'
+            options={contacts}
+            value={selectedContacts}
+            onChange={handleSelectChange}
+            getOptionValue={(option) => option._id}
+            getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
+          />
+        </div>
+        <div>
+          <label>
+            Donner un nom à la conversation:
+          </label>
+          <input type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+        </div>
         <button className='new-conversation-button' onClick={handleCreateConversation}>
           Créer la conversation
         </button>

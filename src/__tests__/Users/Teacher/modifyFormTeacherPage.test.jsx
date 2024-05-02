@@ -4,8 +4,37 @@ import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import ModifyFormTeacherPage from '../../../Users/Teacher/modifyFormTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { WebsocketProvider } from '../../../contexts/websocket'
 
 describe('ModifyFormTeacherPage', () => {
+  function getFormDates () {
+    const today = new Date()
+    const dayOfWeek = today.getDay()
+    const diffThisWeekMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when today is Sunday
+    const thisWeekMonday = new Date(today.setDate(diffThisWeekMonday))
+
+    thisWeekMonday.setUTCHours(0, 0, 0, 0)
+
+    const thisWeekSunday = new Date(thisWeekMonday)
+
+    thisWeekSunday.setDate(thisWeekSunday.getDate() + 6)
+    thisWeekSunday.setUTCHours(23, 59, 59, 0)
+
+    return [thisWeekMonday, thisWeekSunday]
+  }
+
+  const [thisWeekMonday, thisWeekSunday] = getFormDates()
+
+  function addWeekToDate (date) {
+    date.setDate(date.getDate() + 14)
+
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
+  }
+  const newDate = addWeekToDate(thisWeekMonday)
+
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'
   const changeQuestionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/questionnaire/123'
   let container = null
@@ -55,9 +84,9 @@ describe('ModifyFormTeacherPage', () => {
         type: 'multiple'
       }
     ],
-    fromDate: '2023-09-03T00:00:00.000Z',
+    fromDate: thisWeekMonday.toISOString(),
     title: 'Questionnaire test',
-    toDate: '2023-09-09T00:00:00.000Z'
+    toDate: thisWeekSunday.toISOString()
   }
 
   beforeEach(() => {
@@ -79,9 +108,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -106,9 +137,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -138,9 +171,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -178,9 +213,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -217,9 +254,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -233,9 +272,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -260,9 +301,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -293,9 +336,11 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
@@ -361,11 +406,9 @@ describe('ModifyFormTeacherPage', () => {
     await act(() => {
       fireEvent.click(removeQuestionBtn)
     })
-    await act(() => {
-      fireEvent.click(removeQuestionBtn)
-    })
-    await act(() => {
-      fireEvent.click(removeQuestionBtn)
+
+    await waitFor(() => {
+      expect(screen.queryByText('Question n° 2 :')).not.toBeInTheDocument()
     })
   })
 
@@ -373,22 +416,20 @@ describe('ModifyFormTeacherPage', () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
-          <Routes>
-            <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
-          </Routes>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
         </MemoryRouter>
       )
     })
 
-    const datetime = screen.getByTestId('parution-date')
-
-    await waitFor(() => {
-      screen.getByTestId('parution-date')
-    })
+    const datetime = screen.getByDisplayValue(`${newDate}`)
 
     act(() => {
-      fireEvent.change(datetime, { target: { value: '2026-02-10' } })
+      fireEvent.change(datetime, { target: { value: `${newDate}` } })
     })
-    expect(datetime).toHaveValue('2026-02-10')
+    expect(datetime).toHaveValue(`${newDate}`)
   })
 })

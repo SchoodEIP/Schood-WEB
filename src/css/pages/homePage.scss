@@ -1,0 +1,89 @@
+.dashboard {
+  width: 100%;
+  height: 100%;
+
+  .page-content {
+    height: calc(100% - 104px);
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    margin: 10px 31px 10px 31px;
+
+    .left-half {
+      width: 100%;
+      height: calc(100% - 40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      margin-right: 30px;
+      color: white;
+      font-family: Inter;
+
+      .graph-space {
+        width: 100%;
+        height: 75%
+      }
+
+      .quest-space {
+        margin-top: 20px;
+        width: 100%;
+        height: 25%
+      }
+    }
+
+    .right-half {
+      width: 100%;
+      height: calc(100% - 40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+
+      .last-alerts {
+        color: white;
+        font-family: Inter;
+        width: 100%;
+        height: 95%;
+      }
+
+      .buttons {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: start;
+        width: calc(100% - 70px);
+        height: 6%;
+        margin-bottom: 10px;
+
+        button:first-child {
+          margin-right: 16px;
+        }
+
+        button {
+          border-radius: 26px;
+          border: none;
+          background-color: #4F23E2;
+          width: 100%;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          font-family: Inter;
+          font-weight: 600;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.help-page {
+  height: calc(100% - 104px);
+}

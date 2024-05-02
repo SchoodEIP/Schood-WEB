@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import AdmAccountsTable from '../../Components/Accounts/Adm/admAccountsTable.js'
-import ButtonsPopupCreation from '../../Components/Buttons/buttonsPopupCreation.js'
 import '../../css/pages/accountsPage.scss'
-import Popup from '../../Components/Popup/popup'
+import Popup from 'reactjs-popup'
+import cross from "../../assets/Cross.png"
+
 
 export default function AdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
@@ -19,21 +19,17 @@ export default function AdmAccountsPage () {
   const csvCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/csvRegisterUser'
 
   useEffect(() => {
-    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/adm/rolesList'
+    const rolesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/roles'
 
-    try {
-      fetch(rolesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => setRolesList(data.roles))
-        .catch(error => setErrMessage(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    fetch(rolesUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(data => setRolesList(data.roles))
+      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
   }, [])
 
   const handleSingleAccount = () => {
@@ -86,26 +82,23 @@ export default function AdmAccountsPage () {
       classes: []
     }
 
-    try {
-      await fetch(singleCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte créé avec succès')
-        } else {
-          const data = response.json()
-
-          setErrMessage(data.message)
-        }
-      })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+    await fetch(singleCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte créé avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
+        setErrMessage(data)
+      }
+    })
+      .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
   }
 
   const csvAccountCreation = async (event) => {
@@ -114,88 +107,83 @@ export default function AdmAccountsPage () {
 
     formData.append('csv', fileName)
 
-    try {
-      await fetch(csvCreationUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      }).then(response => {
-        if (response.ok) {
-          setErrMessage('Compte(s) créé(s) avec succès')
-        } else {
-          const data = response.json()
+    await fetch(csvCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        setErrMessage('Compte(s) créé(s) avec succès')
+        window.location.reload()
+      } else {
+        const data = response.json()
 
-          setErrMessage(data.message)
-        }
-      })
-    } catch (e) /* istanbul ignore next */ {
-      setErrMessage(e.message)
-    }
+        setErrMessage(data.message)
+      }
+    })
+      .catch((e) => /* istanbul ignore next */ { setErrMessage(e.message) })
   }
+
+  const buttonComponent = [
+    {
+      name: 'Ajouter un Compte',
+      function: handleSingleAccount
+    },
+    {
+      name: 'Ajouter une Liste de Comptes',
+      function: handleManyAccounts
+    }
+  ]
 
   return (
     <div>
       <div>
-        <HeaderComp />
+        <HeaderComp
+          title="Gestion des Comptes"
+          withLogo={true}
+          showButtons={true}
+          buttonComponent={buttonComponent}
+        />
       </div>
-      <div className='page-content'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='table-div'>
-          <AdmAccountsTable />
-        </div>
-        <div className='account-div'>
-          <ButtonsPopupCreation
-            isOpenSingle={isOpenSingle}
-            isOpenMany={isOpenMany}
-            handleSingleAccount={handleSingleAccount}
-            handleManyAccounts={handleManyAccounts}
-            singleContent='Ajouter un compte'
-            manyContent='Ajouter une liste de comptes'
-          />
-        </div>
+      <div className='page-content' style={{alignContent: "center", justifyContent: "center"}}>
+        <AdmAccountsTable />
       </div>
-      {
-        isOpenSingle && <Popup
-          handleClose={handleSingleAccount}
-          title={"Création d'un compte Administrateur Scolaire"}
-          errMessage={errMessage}
-          handleCreation={singleAccountCreation}
-          btn_text='Créer un nouveau compte'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input' placeholder='Prénom' onChange={handleFirstNameChange} />
-                <input className='pop-input' placeholder='Nom' onChange={handleLastNameChange} />
-                <input className='pop-input' placeholder='Email' onChange={handleEmailChange} />
-              </form>
-            </div>
-          }
-                        />
-      }
-      {
-        isOpenMany && <Popup
-          handleClose={handleManyAccounts}
-          title={"Création d'une liste de comptes Administrateur Scolaire"}
-          errMessage={errMessage}
-          handleCreation={csvAccountCreation}
-          btn_text='Créer de nouveaux comptes'
-          content={
-            <div>
-              <form className='pop-form'>
-                <input className='pop-input-file' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-              </form>
-              <div className='pop-info'>
-                <p>Le fichier attendu est un fichier .csv suivant le format:</p>
-                <p>firstName,lastName,email</p>
-              </div>
-            </div>
-          }
-                      />
-      }
+      <Popup open={isOpenSingle} onClose={handleSingleAccount} modal>
+        {(close) => (
+          <div className="popup-modal-container" style={{padding: "50px", gap: "20px", alignItems: 'center'}} >
+            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Prénom <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
+            </label>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Nom <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Nom' value={lastname} onChange={handleLastNameChange} type='text' />
+            </label>
+            <label style={{gap: "10px"}}>
+              <span className="label-content">Adresse Email <span style={{color: "red"}}>*</span></span>
+              <input placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
+            </label>
+            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+            <button className="popup-btn" onClick={singleAccountCreation}>Créer le Compte</button>
+          </div>
+        )}
+      </Popup>
+      <Popup open={isOpenMany} onClose={handleManyAccounts} modal>
+        {(close) => (
+          <div className="popup-modal-container" style={{padding: "50px", gap: "50px", alignItems: 'center'}} >
+            <button className="close-btn" onClick={close}><img src={cross} alt="Close"></img></button>
+            <label style={{alignItems: 'center', gap: "25px"}}>
+              <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
+              <span className="label-content-warning">Le fichier attendu est un fichier .csv suivant le format: firstname,lastname,email</span>
+            </label>
+            {errMessage ? <span style={{color: "red"}}>{errMessage}</span> : ''}
+            <button className="popup-btn" onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
+          </div>
+        )}
+      </Popup>
     </div>
   )
 }

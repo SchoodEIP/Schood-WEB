@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import '../../css/Components/Questionnaire/questSpace.css'
-import { useNavigate } from 'react-router-dom'
+import '../../css/Components/Questionnaire/questSpace.scss'
+import { Link, useNavigate } from 'react-router-dom'
+import rightArrow from '../../assets/right-arrow.png'
 
 export function QuestSpace () {
-  const [previousQuestStatus, setPreviousQuestStatus] = useState('') // Statut du questionnaire précédent
-  const [currentQuestStatus, setCurrentQuestStatus] = useState('') // Statut du questionnaire hebdomadaire
+  const [previousQuestStatus, setPreviousQuestStatus] = useState(0) // Statut du questionnaire précédent
+  const [currentQuestStatus, setCurrentQuestStatus] = useState(0) // Statut du questionnaire hebdomadaire
+
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // Effectuer une requête GET pour récupérer le statut du questionnaire précédent
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/previous`, {
+  const getStatusLastTwo = () => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`, {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token')
@@ -17,98 +18,68 @@ export function QuestSpace () {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPreviousQuestStatus(data.status)
+        setCurrentQuestStatus(data.q1)
+        setPreviousQuestStatus(data.q2)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du statut du questionnaire précédent :', error)
       })
-
-    // Effectuer une requête GET pour récupérer le statut du questionnaire hebdomadaire
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/current`, {
-      method: 'GET',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token')
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCurrentQuestStatus(data.status)
-      })
-      .catch((error) => /* istanbul ignore next */ {
-        console.error('Erreur lors de la récupération du statut du questionnaire hebdomadaire :', error)
-      })
-  }, [])
-
-  const handlePreviousClick = () => {
-    navigate('/questionnaires')
   }
 
-  const handleCurrentClick = () => {
-    navigate('/questionnaires')
+  useEffect(() => {
+    getStatusLastTwo();
+  }, [])
+
+  const redirect = (id) => {
+    navigate(`/questionnaire/${id}`)
   }
 
   return (
     <div data-testid='quest-space' className='quest-box'>
       <div className='quest-header'>
-        <p className='title'>Mes Questionnaires</p>
+      <span className='title'>Mes questionnaires</span>
+        <Link to={'/questionnaires'} className='see-more'>
+          Voir plus
+          <img className='img' src={rightArrow} alt='Right arrow'/>
+        </Link>
       </div>
       <div className='quest-body'>
-        <div className='quest-content'>
-          <div className='quest-previous'>
-            <p>Questionnaire précédent</p>
-            {previousQuestStatus === 'not_started' && (
-              <div className='quest-start'>
-                <button className='green-button' onClick={handlePreviousClick}>
-                  Lancer le questionnaire
-                </button>
+        {((!previousQuestStatus && !currentQuestStatus) || ((previousQuestStatus?.id && previousQuestStatus?.id.length === 0) && (currentQuestStatus?.id && currentQuestStatus?.id.length === 0))) && (
+          <div className='no-quest'>Aucun questionnaire n'est disponible</div>
+        )}
+        {(previousQuestStatus?.id && previousQuestStatus?.id.length > 0) && (!currentQuestStatus?.id || currentQuestStatus?.id.length === 0) && (
+          <div className='questionnaires'>
+            <div className='questionnaire' onClick={() => redirect(previousQuestStatus.id)}>
+              <div className='header'>
+                <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
-            )}
-            {previousQuestStatus === 'in_progress' && (
-              <div className='quest-start'>
-                Ce questionnaire a été commencé.
+              <div className='body'>
+                <progress value={previousQuestStatus.completion} max={100}></progress>
               </div>
-            )}
-            {previousQuestStatus === 'completed' && (
-              <div data-testid='previous-quest-status' className='quest-start'>
-                Ce questionnaire est fini.
-              </div>
-            )}
-            {previousQuestStatus === 'completed' && (
-              <div className='quest-terminate'>
-                <button className='orange-button' onClick={() => { window.location.href = '/questionnaires' }}>
-                  Terminer le questionnaire
-                </button>
-              </div>
-            )}
+            </div>
           </div>
-          <div className='quest-current'>
-            <p>Questionnaire hebdomadaire</p>
-            {currentQuestStatus === 'not_started' && (
-              <div className='quest-start'>
-                <button className='green-button' onClick={handlePreviousClick}>
-                  Lancer le questionnaire
-                </button>
+        )}
+        {(previousQuestStatus?.id && previousQuestStatus?.id.length > 0) && (currentQuestStatus?.id && currentQuestStatus?.id.length > 0) && (
+          <div className='questionnaires'>
+            <div className='questionnaire' onClick={() => redirect(previousQuestStatus.id)}>
+              <div className='header'>
+                <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
-            )}
-            {currentQuestStatus === 'in_progress' && (
-              <div data-testid='current-quest-status' className='quest-start'>
-                Ce questionnaire a été commencé.
+              <div className='body'>
+                <progress value={previousQuestStatus.completion} max={100}></progress>
               </div>
-            )}
-            {currentQuestStatus === 'completed' && (
-              <div data-testid='current-quest-status' className='quest-start'>
-                Ce questionnaire est fini.
+            </div>
+
+            <div className='questionnaire' onClick={() => redirect(currentQuestStatus.id)}>
+              <div className='header'>
+                <div>{currentQuestStatus.title} - {currentQuestStatus.completion}%</div>
               </div>
-            )}
-            {currentQuestStatus === 'not_started' && (
-              <div className='quest-terminate'>
-                <button className='orange-button' data-testid='form-access-btn' onClick={handleCurrentClick}>
-                  Terminer le questionnaire
-                </button>
+              <div className='body'>
+                <progress value={currentQuestStatus.completion} max={100}></progress>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
