@@ -67,11 +67,33 @@ export default function AdmAccountsPage () {
     setFile(event.target.files[0])
   }
 
+  const validateEmail = (email) => {
+    const regEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi
+
+    return regEx.test(email)
+  }
+
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
     const filteredArray = rolesList.filter(item => item.levelOfAccess === 2)
     const roleId = filteredArray.map(item => item._id)
+
+    let sendPost = true
+
+    if (firstname === "") {
+      sendPost = false
+      setErrMessage("Il manque le prénom.")
+    } else if (lastname === "") {
+      sendPost = false
+      setErrMessage("Il manque le nom de famille.")
+    } else if (email === "") {
+      sendPost = false
+      setErrMessage("Il manque l'adresse email.")
+    } else if (!validateEmail(email)) {
+      sendPost = false
+      setErrMessage("L'adresse email n'est pas valide.")
+    }
 
     const payload = {
       firstname,

@@ -191,7 +191,6 @@ export default function Sidebar () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         setNotifications(data)
         setNbNotification(data.length)
       })

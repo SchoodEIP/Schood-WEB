@@ -6,7 +6,7 @@ export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
-  const baseUrl = process.env.REACT_APP_BACKEND_URL + 'user/forgottenPassword'
+  const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/forgottenPassword'
 
   const handleRequest = async (event) => {
     event.preventDefault()

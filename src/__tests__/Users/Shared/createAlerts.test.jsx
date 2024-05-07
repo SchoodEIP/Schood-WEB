@@ -1,12 +1,12 @@
 import React from 'react'
-import CreateAlertsPage from '../../../Users/Shared/createAlerts.jsx'
+import AlertsPage from '../../../Users/Shared/createAlerts.jsx'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
-describe('CreateAlertsPage Component', () => {
+describe('AlertsPage Component', () => {
   const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
   const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
@@ -97,7 +97,7 @@ describe('CreateAlertsPage Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <CreateAlertsPage />
+            <AlertsPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -119,7 +119,7 @@ describe('CreateAlertsPage Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <CreateAlertsPage />
+            <AlertsPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -144,7 +144,7 @@ describe('CreateAlertsPage Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <CreateAlertsPage />
+            <AlertsPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -171,7 +171,7 @@ describe('CreateAlertsPage Component', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <CreateAlertsPage />
+            <AlertsPage />
           </WebsocketProvider>
         </BrowserRouter>
       )

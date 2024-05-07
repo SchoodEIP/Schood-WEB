@@ -151,6 +151,12 @@ export default function SchoolAdmAccountsPage () {
     }
   }
 
+  const validateEmail = (email) => {
+    const regEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi
+
+    return regEx.test(email)
+  }
+
   const singleAccountCreation = async (event) => {
     event.preventDefault()
 
@@ -161,30 +167,50 @@ export default function SchoolAdmAccountsPage () {
       classesArray = classes
     }
 
-    await fetch(singleCreationUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': sessionStorage.getItem('token')
-      },
-      body: JSON.stringify({
-        firstname: firstName,
-        lastname: name,
-        email,
-        role,
-        classes: classesArray,
-        picture
+    let sendPost = true
+
+    if (firstName === "") {
+      sendPost = false
+      setErrMessage("Il manque le prénom.")
+    } else if (name === "") {
+      sendPost = false
+      setErrMessage("Il manque le nom de famille.")
+    } else if (email === "") {
+      sendPost = false
+      setErrMessage("Il manque l'adresse email.")
+    } else if (classes.length === 0) {
+      sendPost = false
+      setErrMessage("Aucune classe n'a été assignée.")
+    } else if (!validateEmail(email)) {
+      sendPost = false
+      setErrMessage("L'adresse email n'est pas valide.")
+    }
+
+    if (sendPost) {
+      await fetch(singleCreationUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': sessionStorage.getItem('token')
+        },
+        body: JSON.stringify({
+          firstname: firstName,
+          lastname: name,
+          email,
+          role,
+          classes: classesArray,
+          picture: picture ? picture : userIcon
+        })
+      }).then((response) => {
+        if (response.ok) {
+          setErrMessage('Compte créé avec succès')
+          window.location.reload()
+        } else /* istanbul ignore next */ {
+          setErrMessage('Cet email est déjà utilisé par une autre personne.')
+        }
       })
-    }).then((response) => {
-      if (response.ok) {
-        setErrMessage('Compte créé avec succès')
-        window.location.reload()
-      } else /* istanbul ignore next */ {
-        const data = response.json()
-        setErrMessage(data.message)
-      }
-    })
-      .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
+        .catch((error) => /* istanbul ignore next */ { setErrMessage(error) })
+    }
   }
 
   const csvAccountCreation = async (event) => {
@@ -246,12 +272,12 @@ export default function SchoolAdmAccountsPage () {
                 </label>
               </div>
               <label className='input-label'>
-                <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
-                <input name='lastName' placeholder='Nom' type='text' onChange={handleNameChange} />
-              </label>
-              <label className='input-label'>
                 <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
                 <input name='firstName' placeholder='Prénom' type='text' onChange={handleFirstNameChange} />
+              </label>
+              <label className='input-label'>
+                <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
+                <input name='lastName' placeholder='Nom' type='text' onChange={handleNameChange} />
               </label>
               <label className='input-label'>
                 <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>

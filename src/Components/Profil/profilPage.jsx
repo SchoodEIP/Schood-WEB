@@ -22,7 +22,6 @@ const ProfilPage = () => {
         }
 
         const data = await response.json()
-        console.log(data)
         setUserProfile(data)
       } catch (error) /* istanbul ignore next */ {
         setNegativeResponse('Erreur lors de la récupération du profil', error.message)
