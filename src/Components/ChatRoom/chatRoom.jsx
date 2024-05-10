@@ -306,9 +306,11 @@ const Messages = () => {
               <div className='top'>
                 <div className='conv-name'>{currentConversation.name}</div>
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
-                  <ReportButton
-                    currentConversation={currentConversation}
-                  />
+                  <div className='popup-modal-container'>
+                    <ReportButton
+                      currentConversation={currentConversation}
+                    />
+                  </div>
                 </Popup>
               </div>
               <div className='bottom'>

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import '../../css/pages/createAlerts.scss'
+import '../../css/Components/Popup/popup.scss'
+
 const ReportButton = ({ currentConversation }) => {
+  const signaledUsersId = currentConversation?.participants ? currentConversation.participants.filter((participant) => participant.id !== localStorage.getItem('id')).map((participant) => participant._id) : []
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
-  const [signaledUsersId, setSignaledUsersId] = useState(currentConversation?.participants ? currentConversation.participants.filter((participant) => participant.id !== localStorage.getItem('id')).map((participant) => participant._id) : [])
+  const [message, setMessage] = useState('')
 
   const handleReportClick = () => {
     setShowConfirmation(true)
@@ -12,6 +15,10 @@ const ReportButton = ({ currentConversation }) => {
 
   const handleReasonChange = (e) => {
     setReason(e.target.value)
+  }
+
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value)
   }
 
   const handleConfirmClick = async () => {
@@ -24,7 +31,7 @@ const ReportButton = ({ currentConversation }) => {
         },
         body: JSON.stringify({
           usersSignaled: signaledUsersId,
-          message: '',
+          message: message,
           conversation: currentConversation._id,
           type: reason
         })
@@ -42,17 +49,24 @@ const ReportButton = ({ currentConversation }) => {
   }
 
   return (
-    <div>
-      <select value={reason} onChange={handleReasonChange} className='select-reason'>
-        <option value=''>Sélectionnez une raison</option>
-        <option value='bullying'>Harcèlement</option>
-        <option value='badcomportment'>Contenu offensant</option>
-        <option value='spam'>Spam</option>
-        <option value='other'>Autre</option>
-      </select>
-      <button onClick={handleConfirmClick} className='alert-btn confirm'>Confirmer le signalement</button>
+    <>
+      <label className='input-label'>
+        <span className='label-content'>Raison:</span>
+        <select value={reason} onChange={handleReasonChange}>
+          <option value=''>Sélectionnez une raison</option>
+          <option value='bullying'>Harcèlement</option>
+          <option value='badcomportment'>Contenu offensant</option>
+          <option value='spam'>Spam</option>
+          <option value='other'>Autre</option>
+        </select>
+      </label>
+      <label className='input-label'>
+        <span className='label-content'>Description <span style={{ color: 'red' }}>*</span></span>
+        <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.'></textarea>
+      </label>
       {error && <div className='error-message'>{error}</div>}
-    </div>
+      <button onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>
+    </>
   )
 }
 
