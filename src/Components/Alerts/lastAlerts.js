@@ -94,7 +94,7 @@ export function LastAlerts () {
                             profile={alert.createdBy}
                           />
                         </div>
-                        <Link to='/alerts' className='see-more-inverted'>
+                        <Link to={'/alerts/' + alert.id} className='see-more-inverted'>
                           Voir plus
                           <img className='img' src={rightArrowInverted} alt='Right arrow' />
                         </Link>
