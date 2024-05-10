@@ -8,6 +8,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
@@ -28,7 +29,12 @@ const ModifyFormTeacherPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 403) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setTitle(data.title)
@@ -82,6 +88,9 @@ const ModifyFormTeacherPage = () => {
           questions
         })
       }).then(response => {
+        if (response.status === 403) {
+          disconnect();
+        }
         if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {

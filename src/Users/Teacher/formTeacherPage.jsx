@@ -6,6 +6,7 @@ import TeacherFormContent from '../../Components/Questionnaire/teacherFormConten
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import '../../css/pages/formDetailPage.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
@@ -97,7 +98,12 @@ const FormTeacherPage = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           }
-        }).then(response => response.json())
+        }).then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
+          return response.json()
+        })
           .then(data => {
             if (data._id) {
               setAnswers(theResponse, data)
@@ -119,7 +125,12 @@ const FormTeacherPage = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
-      }).then(response => response.json())
+      }).then(response => {
+        if (response.status === 403) {
+          disconnect();
+        }
+        return response.json()
+      })
         .then(data => {
           if (data.users) {
             getAnswers(originForm, data.users)
@@ -145,7 +156,12 @@ const FormTeacherPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 403) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setFormData(data)

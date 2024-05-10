@@ -7,6 +7,7 @@ import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { disconnect } from '../../functions/sharedFunctions'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -57,6 +58,9 @@ const TeacherStatPage = () => {
           })
         })
       ])
+      if (moodResponse.status === 403 || answersResponse.status === 403) {
+        disconnect();
+      }
       const mData = await moodResponse.json()
       const aData = await answersResponse.json()
       // console.log(mData)
@@ -118,6 +122,9 @@ const TeacherStatPage = () => {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
+      if (response.status === 403) {
+        disconnect();
+      }
       const classesData = await response.json()
       setClasses(classesData)
     } catch (error) {

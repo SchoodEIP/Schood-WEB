@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
+import { disconnect } from '../../functions/sharedFunctions'
 
 export function LastAlerts () {
   const [errMessage, setErrMessage] = useState('')
@@ -19,6 +20,10 @@ export function LastAlerts () {
             'x-auth-token': sessionStorage.getItem('token')
           }
         })
+        if (response.status === 403) {
+          disconnect();
+        }
+
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
         } else {
@@ -60,7 +65,12 @@ export function LastAlerts () {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 403) {
+          disconnect();
+        }
+        return response.json()
+      })
       .then((data) => {
         const promisedList = buildList(data)
         console.log(data)

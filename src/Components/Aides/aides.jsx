@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Aides/aides.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 export default function AidePage (props) {
   const [categories, setCategories] = useState([])
@@ -19,7 +20,12 @@ export default function AidePage (props) {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 403) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         setCategories(data)
         const filterID = data.filter((category) => category.name === 'Default')
@@ -33,7 +39,12 @@ export default function AidePage (props) {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 403) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         setContacts(data)
         setFilteredContacts(data)

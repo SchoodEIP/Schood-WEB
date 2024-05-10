@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ProfilPage = () => {
   const [userProfile, setUserProfile] = useState({})
@@ -16,6 +17,9 @@ const ProfilPage = () => {
             'Content-Type': 'application/json'
           }
         })
+        if (response.status === 403) {
+          disconnect();
+        }
 
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error(`HTTP error! Status: ${response.status}`)

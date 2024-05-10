@@ -7,6 +7,7 @@ import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
+import { disconnect } from '../../functions/sharedFunctions'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -43,6 +44,9 @@ const StudentStatPage = () => {
           toDate: calculateEndDate(selectedDate, activeFilter)
         })
       })
+      if (response.status === 403) {
+        disconnect();
+      }
       const moodData = await response.json()
       setMoodData(moodData)
       console.log(moodData)

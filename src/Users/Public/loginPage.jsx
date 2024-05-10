@@ -2,6 +2,7 @@ import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
 import '@fontsource/inter/600.css'
+import { disconnect } from '../../functions/sharedFunctions'
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -21,6 +22,10 @@ export default function Login () {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
+
+      if (response.status === 403) {
+        disconnect();
+      }
 
       const data = await response.json()
 
@@ -67,6 +72,10 @@ export default function Login () {
         },
         body: JSON.stringify(payload)
       })
+
+      if (response.status === 403) {
+        disconnect();
+      }
 
       const data = await response.json()
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../../css/pages/createAlerts.scss'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ReportButton = ({ currentConversation }) => {
   const signaledUsersId = currentConversation?.participants ? currentConversation.participants.filter((participant) => participant.id !== localStorage.getItem('id')).map((participant) => participant._id) : []
@@ -36,6 +37,10 @@ const ReportButton = ({ currentConversation }) => {
           type: reason
         })
       })
+
+      if (response.status === 403) {
+        disconnect();
+      }
 
       if (response.status === 200) {
         setShowConfirmation(false)

@@ -13,6 +13,7 @@ import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const StudentHomePage = () => {
   const [profile, setProfile] = useState(null)
@@ -52,6 +53,9 @@ const StudentHomePage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
           if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {

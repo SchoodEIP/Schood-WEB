@@ -6,6 +6,7 @@ import '../../css/Components/Popup/popup.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
@@ -59,6 +60,9 @@ const NewFormPage = () => {
           questions
         })
       }).then(response => {
+        if (response.status === 403) {
+          disconnect();
+        }
         if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {

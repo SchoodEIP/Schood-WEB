@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 import userIcon from '../../assets/userIcon.png'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const SingleAccountCreationPopupContent = () => {
     const roleProfile = sessionStorage.getItem('role')
@@ -139,6 +140,9 @@ const SingleAccountCreationPopupContent = () => {
               },
               body: JSON.stringify(roleProfile === 'admin' ? adminPayload : schoolAdminPayload)
             }).then(response => {
+              if (response.status === 403) {
+                disconnect();
+              }
               if (response.ok) {
                 setErrMessage('Compte créé avec succès')
                 window.location.reload()
@@ -158,7 +162,12 @@ const SingleAccountCreationPopupContent = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           }
-        }).then(response => response.json())
+        }).then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
+          return response.json()
+        })
           .then(data => {
             setRolesList(data.roles)
             setRole(data.roles[1]._id)
@@ -171,7 +180,12 @@ const SingleAccountCreationPopupContent = () => {
                 'x-auth-token': sessionStorage.getItem('token'),
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json())
+        }).then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
+          return response.json()
+        })
         .then(data => setClassesList(data))
         .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
 
@@ -181,7 +195,12 @@ const SingleAccountCreationPopupContent = () => {
               'x-auth-token': sessionStorage.getItem('token'),
               'Content-Type': 'application/json'
             }
-        }).then(response => response.json())
+        }).then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
+          return response.json()
+        })
             .then(data => {
               setTitlesList(data)
             })

@@ -10,6 +10,7 @@ import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const FeelingsStudentPage = () => {
   const [alertResponse, setAlertResponse] = useState('')
@@ -72,6 +73,9 @@ const FeelingsStudentPage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
+          if (response.status === 403) {
+            disconnect();
+          }
           if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {
@@ -170,7 +174,12 @@ const FeelingsStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token')
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 403) {
+          disconnect();
+        }
+        return response.json()
+      })
       .then(data => {
         setLastFeeling(data[0])
         if (!isPassed) { fillFeelingsContainer(data) }

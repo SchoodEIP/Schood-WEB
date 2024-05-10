@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const HelpNumberCreationPopupContent = () => {
     const [errMessage, setErrMessage] = useState('')
@@ -41,7 +42,9 @@ const HelpNumberCreationPopupContent = () => {
             'Content-Type': 'application/json'
           }
         })
-
+        if (response.status === 403) {
+          disconnect();
+        }
         if (response.ok) {
             const data = await response.json()
             setCategories(data)
@@ -97,6 +100,9 @@ const HelpNumberCreationPopupContent = () => {
               description
             })
           }).then((response) => {
+            if (response.status === 403) {
+              disconnect();
+            }
             if (response.ok) {
               setErrMessage("Numéro d'aide ajouté avec succès.")
               window.location.reload()

@@ -10,6 +10,7 @@ import addFile from '../../assets/add_file.png'
 import ConversationCreationPopupContent from '../Popup/conversationCreation'
 import '../../css/Components/Popup/popup.scss'
 import cross from '../../assets/Cross.png'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -25,6 +26,10 @@ const Messages = () => {
         'Content-Type': 'application/json'
       }
     })
+
+    if (response.status === 403) {
+      disconnect();
+    }
 
     const data = await response.json()
 
@@ -62,6 +67,9 @@ const Messages = () => {
           }
         }
       )
+      if (response.status === 403) {
+        disconnect();
+      }
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la récupération des messages.')
       }
@@ -106,6 +114,9 @@ const Messages = () => {
             'Content-Type': 'application/json'
           }
         })
+        if (response.status === 403) {
+          disconnect();
+        }
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error('Erreur lors de la récupération des contacts.')
         }
@@ -153,6 +164,10 @@ const Messages = () => {
           }
         )
 
+        if (response.status === 403) {
+          disconnect();
+        }
+
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
         } else {
@@ -169,6 +184,10 @@ const Messages = () => {
             body: JSON.stringify({ content: newMessage })
           }
         )
+
+        if (response.status === 403) {
+          disconnect();
+        }
 
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
@@ -249,6 +268,9 @@ const Messages = () => {
           participants: selectedContacts
         })
       })
+      if (response.status === 403) {
+        disconnect();
+      }
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
