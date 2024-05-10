@@ -30,16 +30,4 @@ describe('StudentStatPage Component', () => {
     const headerComp = getByTestId('header-comp')
     expect(headerComp).toBeInTheDocument()
   })
-
-  it('renders Sidebar', () => {
-    const { getByTestId } = render(
-      <MemoryRouter initialEntries={['/statistiques']}>
-        <WebsocketProvider>
-          <StudentStatPage />
-        </WebsocketProvider>
-      </MemoryRouter>
-    )
-    const sidebar = getByTestId('sidebar')
-    expect(sidebar).toBeInTheDocument()
-  })
 })

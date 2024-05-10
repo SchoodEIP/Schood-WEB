@@ -110,7 +110,7 @@ describe('AdmAccountsPage', () => {
       )
     })
 
-    const singleAccountButton = screen.getByText('Ajouter un compte')
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
@@ -159,7 +159,7 @@ describe('AdmAccountsPage', () => {
       )
     })
 
-    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
@@ -191,7 +191,7 @@ describe('AdmAccountsPage', () => {
       )
     })
 
-    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
@@ -199,7 +199,7 @@ describe('AdmAccountsPage', () => {
     expect(screen.getByText("Création d'une liste de comptes Administrateur Scolaire")).toBeInTheDocument()
     expect(screen.queryByText("Création d'un compte Administrateur Scolaire")).not.toBeInTheDocument()
 
-    const singleAccountButton = screen.getByText('Ajouter un compte')
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)

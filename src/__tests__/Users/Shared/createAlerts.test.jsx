@@ -1,5 +1,5 @@
 import React from 'react'
-import AlertsPage from '../../../Users/Shared/createAlerts.jsx'
+import AlertsPage from '../../../Users/Shared/alertsPage.jsx'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
@@ -129,7 +129,7 @@ describe('AlertsPage Component', () => {
     //   expect(errorMessage).toBeInTheDocument()
     // })
 
-    const sendButton = screen.getByText("Envoyer l'alerte")
+    const sendButton = screen.getByText("Créer une alerte")
     await waitFor(async () => {
       expect(sendButton).toBeInTheDocument()
     })
@@ -241,7 +241,7 @@ describe('AlertsPage Component', () => {
       fireEvent.change(fileInput, { target: { files: [{ file: 'image' }] } })
     })
 
-    const sendButton = screen.getByText("Envoyer l'alerte")
+    const sendButton = screen.getByText("Créer une alerte")
     await waitFor(async () => {
       expect(sendButton).toBeInTheDocument()
     })

@@ -43,7 +43,7 @@ const FormListTeacherPage = () => {
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes questionnaires'
+        title='Mes Questionnaires'
         withLogo
         showButtons
         buttonComponent={buttonComponent}

@@ -22,7 +22,7 @@ describe('Dashboard Teachercomponent', () => {
     })
 
     expect(getByText('Mes Dernières Alertes')).toBeInTheDocument()
-    expect(getByText("Evolution semestrielle de l'humeur de mon établissement")).toBeInTheDocument()
+    expect(getByText("Evolution de l'humeur de mes classes")).toBeInTheDocument()
     expect(getByText('Mes Questionnaires')).toBeInTheDocument()
   })
 })

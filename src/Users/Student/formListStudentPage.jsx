@@ -36,7 +36,7 @@ const FormListStudentPage = () => {
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes questionnaires'
+        title='Mes Questionnaires'
         withLogo
       />
       <div className='content'>

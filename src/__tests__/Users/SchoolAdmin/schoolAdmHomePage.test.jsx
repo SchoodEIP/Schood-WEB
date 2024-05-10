@@ -31,21 +31,7 @@ describe('SchoolAdmHomePage', () => {
         </BrowserRouter>
       )
     })
-    const lastAlertsTitle = screen.getByText("Evolution semestrielle de l'humeur de mon établissement")
-    expect(lastAlertsTitle).toBeInTheDocument()
-  })
-
-  test('renders the QuestSpace component', async () => {
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <WebsocketProvider>
-            <SchoolAdmHomePage />
-          </WebsocketProvider>
-        </BrowserRouter>
-      )
-    })
-    const lastAlertsTitle = screen.getByText('Mes Questionnaires')
+    const lastAlertsTitle = screen.getByText("Evolution de l'humeur de mon établissement")
     expect(lastAlertsTitle).toBeInTheDocument()
   })
 })

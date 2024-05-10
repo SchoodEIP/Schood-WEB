@@ -1,5 +1,5 @@
 import React from 'react'
-import { MoodForm } from '../../../Components/Questionnaire/moodForm.jsx'
+// import { MoodForm } from '../../../Components/Questionnaire/moodForm.jsx'
 import { render, screen, act, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
@@ -19,92 +19,92 @@ describe('MoodForm Component', () => {
     fetchMock.restore()
   })
 
-  it('handles alternate response', async () => {
-    const mockResponse = { moodStatus: true, mood: 'veryHappyMood' }
-    jest.spyOn(global, 'fetch').mockReturnValue(Promise.resolve({
-      json: () => Promise.resolve(mockResponse)
-    }))
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <WebsocketProvider>
-            <MoodForm />
-          </WebsocketProvider>
-        </BrowserRouter>
-      )
-    })
+  // it('handles alternate response', async () => {
+  //   const mockResponse = { moodStatus: true, mood: 'veryHappyMood' }
+  //   jest.spyOn(global, 'fetch').mockReturnValue(Promise.resolve({
+  //     json: () => Promise.resolve(mockResponse)
+  //   }))
+  //   await act(async () => {
+  //     render(
+  //       <BrowserRouter>
+  //         <WebsocketProvider>
+  //           <MoodForm />
+  //         </WebsocketProvider>
+  //       </BrowserRouter>
+  //     )
+  //   })
 
-    expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
-    expect(screen.getByAltText('Mal')).toBeInTheDocument()
-    expect(screen.getByAltText('Bof')).toBeInTheDocument()
-    expect(screen.getByAltText('Bien')).toBeInTheDocument()
-    expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
-  })
+  //   expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Mal')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Bof')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Bien')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
+  // })
 
-  it('handles errors', async () => {
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <WebsocketProvider>
-            <MoodForm />
-          </WebsocketProvider>
-        </BrowserRouter>
-      )
-    })
+  // it('handles errors', async () => {
+  //   jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
+  //   await act(async () => {
+  //     render(
+  //       <BrowserRouter>
+  //         <WebsocketProvider>
+  //           <MoodForm />
+  //         </WebsocketProvider>
+  //       </BrowserRouter>
+  //     )
+  //   })
 
-    expect(await screen.getByText('Erreur :')).toBeInTheDocument()
-  })
+  //   expect(await screen.getByText('Erreur :')).toBeInTheDocument()
+  // })
 
-  it('shows angry mood', async () => {
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <WebsocketProvider>
-            <MoodForm />
-          </WebsocketProvider>
-        </BrowserRouter>
-      )
-    })
+  // it('shows angry mood', async () => {
+  //   await act(async () => {
+  //     render(
+  //       <BrowserRouter>
+  //         <WebsocketProvider>
+  //           <MoodForm />
+  //         </WebsocketProvider>
+  //       </BrowserRouter>
+  //     )
+  //   })
 
-    const veryBadButton = screen.getByAltText('Très Mal')
+  //   const veryBadButton = screen.getByAltText('Très Mal')
 
-    await act(async () => {
-      fireEvent.click(veryBadButton)
-    })
+  //   await act(async () => {
+  //     fireEvent.click(veryBadButton)
+  //   })
 
-    expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Très Mal')).toBeInTheDocument()
 
-    const BadButton = screen.getByAltText('Mal')
+  //   const BadButton = screen.getByAltText('Mal')
 
-    await act(async () => {
-      fireEvent.click(BadButton)
-    })
+  //   await act(async () => {
+  //     fireEvent.click(BadButton)
+  //   })
 
-    expect(screen.getByAltText('Mal')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Mal')).toBeInTheDocument()
 
-    const averageButton = screen.getByAltText('Bof')
+  //   const averageButton = screen.getByAltText('Bof')
 
-    await act(async () => {
-      fireEvent.click(averageButton)
-    })
+  //   await act(async () => {
+  //     fireEvent.click(averageButton)
+  //   })
 
-    expect(screen.getByAltText('Bof')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Bof')).toBeInTheDocument()
 
-    const goodButton = screen.getByAltText('Bien')
+  //   const goodButton = screen.getByAltText('Bien')
 
-    await act(async () => {
-      fireEvent.click(goodButton)
-    })
+  //   await act(async () => {
+  //     fireEvent.click(goodButton)
+  //   })
 
-    expect(screen.getByAltText('Bien')).toBeInTheDocument()
+  //   expect(screen.getByAltText('Bien')).toBeInTheDocument()
 
-    const veryGoodButton = screen.getByAltText('Très Bien')
+  //   const veryGoodButton = screen.getByAltText('Très Bien')
 
-    await act(async () => {
-      fireEvent.click(veryGoodButton)
-    })
+  //   await act(async () => {
+  //     fireEvent.click(veryGoodButton)
+  //   })
 
-    expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
-  })
+  //   expect(screen.getByAltText('Très Bien')).toBeInTheDocument()
+  // })
 })

@@ -66,7 +66,7 @@ describe('Message Component', () => {
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-    const userElement = screen.getByText('teacher1 teacher1')
+    const userElement = screen.getByText('M. teacher1')
     expect(userElement).toBeInTheDocument()
   })
 

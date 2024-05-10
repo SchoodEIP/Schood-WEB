@@ -8,7 +8,7 @@ const ProfilPage = () => {
     <div>
       <div>
         <HeaderComp
-          title='Mon Profile'
+          title='Mon Profil'
           withLogo
         />
       </div>

@@ -37,7 +37,7 @@ export function QuestSpace () {
   return (
     <div data-testid='quest-space' className='quest-box'>
       <div className='quest-header'>
-        <span className='title'>Mes questionnaires</span>
+        <span className='title'>Mes Questionnaires</span>
         <Link to='/questionnaires' className='see-more'>
           Voir plus
           <img className='img' src={rightArrow} alt='Right arrow' />

@@ -30,7 +30,7 @@ const ReportButton = ({ currentConversation }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          usersSignaled: signaledUsersId,
+          userSignaled: signaledUsersId[0],
           message: message,
           conversation: currentConversation._id,
           type: reason

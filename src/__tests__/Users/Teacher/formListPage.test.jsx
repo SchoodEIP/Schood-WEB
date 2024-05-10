@@ -17,7 +17,7 @@ describe('FormListPage', () => {
       )
     })
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
-    expect(screen.getByText('Créer un Nouveau Questionnaire +')).toBeInTheDocument()
+    expect(screen.getByText('Créer un Questionnaire')).toBeInTheDocument()
   })
 
   test('button to create new forms works', async () => {
@@ -38,7 +38,7 @@ describe('FormListPage', () => {
       href: ''
     }
 
-    const newFormBtn = screen.getByText('Créer un Nouveau Questionnaire +')
+    const newFormBtn = screen.getByText('Créer un Questionnaire')
 
     await act(async () => {
       fireEvent.click(newFormBtn)

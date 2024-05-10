@@ -1,12 +1,12 @@
 import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import AdmHelpPage from '../../../Users/Admin/admHelpPage'
+import HelpPage from "../../../Users/Shared/helpPage.jsx"
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 
-describe('AdmHelpPage', () => {
+describe('helpPage', () => {
   const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
   const helpNumberRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumber/register'
   const categoryRegisterUrl = process.env.REACT_APP_BACKEND_URL + '/adm/helpNumbersCategory/register'
@@ -36,9 +36,11 @@ describe('AdmHelpPage', () => {
     fetchMock.get(helpNumbersUrl, helpNumbers)
     fetchMock.post(helpNumberRegisterUrl, { status: 200 })
     fetchMock.post(categoryRegisterUrl, { status: 200 })
+    sessionStorage.setItem('role', 'administration')
   })
 
   afterEach(() => {
+    sessionStorage.removeItem('role')
     fetchMock.restore()
   })
 
@@ -47,7 +49,7 @@ describe('AdmHelpPage', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <AdmHelpPage />
+            <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -63,7 +65,7 @@ describe('AdmHelpPage', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <AdmHelpPage />
+            <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -91,7 +93,7 @@ describe('AdmHelpPage', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <AdmHelpPage />
+            <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -143,7 +145,7 @@ describe('AdmHelpPage', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <AdmHelpPage />
+            <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
       )

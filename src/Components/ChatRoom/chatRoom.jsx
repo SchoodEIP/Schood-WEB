@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '../../css/pages/chatRoomPage.scss'
 import ChatRoomSidebar from './chatRoomSidebar'
-import CreateConversationPopup from './createConversationPopup'
 import Message from './message'
 import ReportButton from './reportButton'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
 import UserProfile from '../userProfile/userProfile'
 import addFile from '../../assets/add_file.png'
+import ConversationCreationPopupContent from '../Popup/conversationCreation'
+import '../../css/Components/Popup/popup.scss'
+import cross from '../../assets/Cross.png'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -374,13 +376,14 @@ const Messages = () => {
             <div>Aucune conversation sélectionnée.</div>
             )}
       </div>
-      {showCreateConversationPopup && (
-        <CreateConversationPopup
-          contacts={contacts}
-          createConversation={createConversation}
-          closeCreateConversationPopup={closeCreateConversationPopup}
-        />
-      )}
+      <Popup open={showCreateConversationPopup} onClose={closeCreateConversationPopup} modal>
+        {(close) => (
+          <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={closeCreateConversationPopup} />
+          </div>
+        )}
+      </Popup>
     </div>
   )
 }

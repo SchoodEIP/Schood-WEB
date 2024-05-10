@@ -25,7 +25,7 @@ describe('ForgottenPasswordPage', () => {
         </WebsocketProvider>
       </BrowserRouter>
     )
-    const emailInput = screen.getByPlaceholderText('Email')
+    const emailInput = screen.getByPlaceholderText('Adresse Email')
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
     expect(emailInput.value).toBe('test@example.com')
   })
@@ -51,7 +51,7 @@ describe('ForgottenPasswordPage', () => {
         </WebsocketProvider>
       </BrowserRouter>
     )
-    const emailInput = screen.getByPlaceholderText('Email')
+    const emailInput = screen.getByPlaceholderText('Adresse Email')
     const requestButton = screen.getByText('Demander un nouveau mot de passe')
     fireEvent.change(emailInput, { target: { value: 'ablabla' } })
     fireEvent.click(requestButton)
@@ -68,7 +68,7 @@ describe('ForgottenPasswordPage', () => {
       </BrowserRouter>
     )
 
-    const emailInput = screen.getByPlaceholderText('Email')
+    const emailInput = screen.getByPlaceholderText('Adresse Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
     const submitButton = screen.getByText('Demander un nouveau mot de passe')
@@ -92,7 +92,7 @@ describe('ForgottenPasswordPage', () => {
       </BrowserRouter>
     )
 
-    const emailInput = screen.getByPlaceholderText('Email')
+    const emailInput = screen.getByPlaceholderText('Adresse Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
     const submitButton = screen.getByText('Demander un nouveau mot de passe')
@@ -119,7 +119,7 @@ describe('ForgottenPasswordPage', () => {
       </BrowserRouter>
     )
 
-    const emailInput = screen.getByPlaceholderText('Email')
+    const emailInput = screen.getByPlaceholderText('Adresse Email')
     fireEvent.change(emailInput, { target: { value: 'admin@schood.fr' } })
 
     const submitButton = screen.getByText('Demander un nouveau mot de passe')

@@ -123,7 +123,7 @@ describe('SchoolAdmAccountsPage', () => {
       )
     })
 
-    const singleAccountButton = screen.getByText('Ajouter un compte')
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
@@ -132,7 +132,7 @@ describe('SchoolAdmAccountsPage', () => {
 
     jest.spyOn(global, 'fetch').mockRejectedValueOnce({ message: 'error' })
 
-    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
@@ -165,7 +165,7 @@ describe('SchoolAdmAccountsPage', () => {
       )
     })
 
-    const singleAccountButton = screen.getByText('Ajouter un compte')
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
@@ -234,7 +234,7 @@ describe('SchoolAdmAccountsPage', () => {
       )
     })
 
-    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
@@ -266,7 +266,7 @@ describe('SchoolAdmAccountsPage', () => {
       )
     })
 
-    const manyAccountButton = screen.getByText('Ajouter une liste de comptes')
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
@@ -274,7 +274,7 @@ describe('SchoolAdmAccountsPage', () => {
     expect(screen.getByText("Création d'une liste de comptes Etudiant/Professeur")).toBeInTheDocument()
     expect(screen.queryByText("Création d'un compte Etudiant/Professeur")).not.toBeInTheDocument()
 
-    const singleAccountButton = screen.getByText('Ajouter un compte')
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)

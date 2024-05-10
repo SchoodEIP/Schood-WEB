@@ -8,7 +8,6 @@ export function GraphSpace () {
   const role = sessionStorage.getItem('role')
 
   useEffect(() => {
-    console.log(role)
     const setTitleByPerm = () => {
       if (role === 'student') {
         setTitle('Evolution de mon humeur')
