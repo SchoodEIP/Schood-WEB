@@ -17,7 +17,7 @@ const ProfilPage = () => {
             'Content-Type': 'application/json'
           }
         })
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
 

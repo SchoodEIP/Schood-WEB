@@ -53,7 +53,7 @@ const StudentHomePage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
-          if (response.status === 403) {
+          if (response.status === 401) {
             disconnect();
           }
           if (response.status === 200) { window.location.reload() }

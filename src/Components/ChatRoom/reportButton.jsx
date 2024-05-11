@@ -38,7 +38,7 @@ const ReportButton = ({ currentConversation }) => {
         })
       })
 
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
 

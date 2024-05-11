@@ -25,7 +25,7 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       const data = await response.json()
@@ -45,7 +45,7 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       const data = await response.json()
@@ -64,7 +64,7 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       const data = await response.json()

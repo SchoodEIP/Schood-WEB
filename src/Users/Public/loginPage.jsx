@@ -23,7 +23,7 @@ export default function Login () {
         }
       })
 
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
 
@@ -73,7 +73,7 @@ export default function Login () {
         body: JSON.stringify(payload)
       })
 
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
 

@@ -21,7 +21,7 @@ const FormListTeacherPage = () => {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()

@@ -32,7 +32,7 @@ const Message = ({ message, participants }) => {
           'Content-Type': 'application/json'
         }
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       if (response.status !== 200) /* istanbul ignore next */ {

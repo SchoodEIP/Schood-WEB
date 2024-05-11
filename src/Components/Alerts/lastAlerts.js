@@ -20,7 +20,7 @@ export function LastAlerts () {
             'x-auth-token': sessionStorage.getItem('token')
           }
         })
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
 
@@ -66,7 +66,7 @@ export function LastAlerts () {
       }
     })
       .then((response) => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()

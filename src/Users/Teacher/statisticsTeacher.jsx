@@ -58,7 +58,7 @@ const TeacherStatPage = () => {
           })
         })
       ])
-      if (moodResponse.status === 403 || answersResponse.status === 403) {
+      if (moodResponse.status === 401 || answersResponse.status === 401) {
         disconnect();
       }
       const mData = await moodResponse.json()
@@ -122,7 +122,7 @@ const TeacherStatPage = () => {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       const classesData = await response.json()

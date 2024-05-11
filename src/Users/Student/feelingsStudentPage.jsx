@@ -73,7 +73,7 @@ const FeelingsStudentPage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
-          if (response.status === 403) {
+          if (response.status === 401) {
             disconnect();
           }
           if (response.status === 200) { window.location.reload() }
@@ -175,7 +175,7 @@ const FeelingsStudentPage = () => {
       }
     })
       .then(response => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()

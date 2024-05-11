@@ -79,7 +79,7 @@ export default function Sidebar () {
       }
     })
       .then((response) => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()
@@ -177,7 +177,7 @@ export default function Sidebar () {
       body: JSON.stringify({ mood })
     })
       .then((response) => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         setIsAnswered(true)
@@ -198,7 +198,7 @@ export default function Sidebar () {
       }
     })
       .then((response) => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()

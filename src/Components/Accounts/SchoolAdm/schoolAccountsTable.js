@@ -17,7 +17,7 @@ export default function SchoolAccountsTable () {
         'x-auth-token': token
       }
     })
-    if (resp.status === 403) {
+    if (resp.status === 401) {
       disconnect();
     }
     const data = await resp.json()

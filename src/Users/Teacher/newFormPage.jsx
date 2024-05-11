@@ -60,7 +60,7 @@ const NewFormPage = () => {
           questions
         })
       }).then(response => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         if (response.status !== 200) {

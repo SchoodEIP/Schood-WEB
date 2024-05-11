@@ -27,7 +27,7 @@ const Messages = () => {
       }
     })
 
-    if (response.status === 403) {
+    if (response.status === 401) {
       disconnect();
     }
 
@@ -67,7 +67,7 @@ const Messages = () => {
           }
         }
       )
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       if (!response.ok) /* istanbul ignore next */ {
@@ -114,7 +114,7 @@ const Messages = () => {
             'Content-Type': 'application/json'
           }
         })
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         if (!response.ok) /* istanbul ignore next */ {
@@ -164,7 +164,7 @@ const Messages = () => {
           }
         )
 
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
 
@@ -185,7 +185,7 @@ const Messages = () => {
           }
         )
 
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
 
@@ -268,7 +268,7 @@ const Messages = () => {
           participants: selectedContacts
         })
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       if (!response.ok) /* istanbul ignore next */ {

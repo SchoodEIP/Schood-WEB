@@ -44,7 +44,7 @@ const StudentStatPage = () => {
           toDate: calculateEndDate(selectedDate, activeFilter)
         })
       })
-      if (response.status === 403) {
+      if (response.status === 401) {
         disconnect();
       }
       const moodData = await response.json()

@@ -37,7 +37,7 @@ const AlertsPage = () => {
             'x-auth-token': sessionStorage.getItem('token')
           }
         })
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         if (response.status !== 200) {
@@ -82,7 +82,7 @@ const AlertsPage = () => {
       }
     })
       .then((response) => {
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         return response.json()

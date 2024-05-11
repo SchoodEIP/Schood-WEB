@@ -42,7 +42,7 @@ const HelpNumberCreationPopupContent = () => {
             'Content-Type': 'application/json'
           }
         })
-        if (response.status === 403) {
+        if (response.status === 401) {
           disconnect();
         }
         if (response.ok) {
@@ -100,7 +100,7 @@ const HelpNumberCreationPopupContent = () => {
               description
             })
           }).then((response) => {
-            if (response.status === 403) {
+            if (response.status === 401) {
               disconnect();
             }
             if (response.ok) {
