@@ -45,7 +45,7 @@ const ConversationCreationPopupContent = ({contacts, createConversation, closeCr
             </label>
             <label className='input-label' style={{display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center'}}>
                 <span className='label-content'>Donner un nom à la conversation</span>
-                <input style={{width: '350px'}} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+                <input maxlength="50" style={{width: '350px'}} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
             </label>
             <button className='popup-btn' onClick={handleCreateConversation}>
                 Créer la conversation

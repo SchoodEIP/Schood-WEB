@@ -3,11 +3,16 @@ import '../../css/pages/createAlerts.scss'
 import '../../css/Components/Popup/popup.scss'
 
 const ReportButton = ({ currentConversation }) => {
-  const signaledUsersId = currentConversation?.participants ? currentConversation.participants.filter((participant) => participant.id !== localStorage.getItem('id')).map((participant) => participant._id) : []
+  const userId = localStorage.getItem('id');
+  const userList = currentConversation?.participants
+    ? currentConversation.participants
+      .filter((participant) => participant._id !== userId)
+    : [];
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+  const [signaledUserId, setSignaledUserId] = useState(null)
 
   const handleReportClick = () => {
     setShowConfirmation(true)
@@ -21,6 +26,10 @@ const ReportButton = ({ currentConversation }) => {
     setMessage(e.target.value)
   }
 
+  const handleSignaledUserIdChange = (e) => {
+    setSignaledUserId(e.target.value)
+  }
+
   const handleConfirmClick = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
@@ -30,7 +39,7 @@ const ReportButton = ({ currentConversation }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userSignaled: signaledUsersId[0],
+          userSignaled: signaledUserId,
           message: message,
           conversation: currentConversation._id,
           type: reason
@@ -39,7 +48,8 @@ const ReportButton = ({ currentConversation }) => {
 
       if (response.status === 200) {
         setShowConfirmation(false)
-        setReason('')
+        setError('Signalement en cours de traitement')
+        window.location.reload()
       } else {
         setError('Erreur lors du signalement de la conversation.')
       }
@@ -51,7 +61,7 @@ const ReportButton = ({ currentConversation }) => {
   return (
     <>
       <label className='input-label'>
-        <span className='label-content'>Raison:</span>
+        <span className='label-content'>Raison <span style={{ color: 'red' }}>*</span></span>
         <select value={reason} onChange={handleReasonChange}>
           <option value=''>Sélectionnez une raison</option>
           <option value='bullying'>Harcèlement</option>
@@ -61,7 +71,18 @@ const ReportButton = ({ currentConversation }) => {
         </select>
       </label>
       <label className='input-label'>
-        <span className='label-content'>Description <span style={{ color: 'red' }}>*</span></span>
+        <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
+        <select value={signaledUserId} onChange={handleSignaledUserIdChange}>
+          <option value=''>Sélectionnez un des membres de la conversation</option>
+          {
+            userList.map((user, index) => {
+              return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
+            })
+          }
+        </select>
+      </label>
+      <label className='input-label'>
+        <span className='label-content'>Description</span>
         <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.'></textarea>
       </label>
       {error && <div className='error-message'>{error}</div>}
