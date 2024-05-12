@@ -17,7 +17,12 @@ const ReportCreationPopupContent = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
             },
-        }).then(response => response.json())
+        }).then(response => {
+            if (response.status === 401) {
+              disconnect();
+            }
+            return response.json()
+          })
         .then(data => {
             console.log(data)
             const filteredList = data.filter((user) => user._id !== userId)

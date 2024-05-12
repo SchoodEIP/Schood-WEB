@@ -6,6 +6,7 @@ import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const MoodFormCreationPopupContent = ({isModified = false}) => {
     const [errMessage, setErrMessage] = useState('')
@@ -43,7 +44,11 @@ const MoodFormCreationPopupContent = ({isModified = false}) => {
                 body: JSON.stringify(dataPayload)
             })
             .then(response => {
-                if (response.status === 200) { window.location.reload() }
+                if (response.status === 401) {
+                    disconnect();
+                } else if (response.status === 200) {
+                    window.location.reload()
+                }
             })
             .catch(error => /* istanbul ignore next */ {
                 setErrMessage('Erreur lors de la récupération des ressentis', error)
