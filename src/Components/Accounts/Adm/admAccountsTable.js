@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../../../css/Components/Accounts/accountsTable.css'
+import { disconnect } from '../../../functions/sharedFunctions'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
@@ -15,6 +16,9 @@ export default function AdmAccountsTable () {
         'x-auth-token': token
       }
     })
+    if (resp.status === 403) {
+      disconnect();
+    }
     const data = await resp.json()
 
     setAccountList(data)

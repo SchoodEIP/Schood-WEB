@@ -19,6 +19,7 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const FormStudentPage = () => {
   const { id } = useParams()
@@ -88,7 +89,12 @@ const FormStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data2 => {
         if (data2 !== null) {
           setIsAnswered(true)
@@ -108,7 +114,12 @@ const FormStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setData(data)
@@ -155,7 +166,12 @@ const FormStudentPage = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ answers: data })
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect();
+      }
+      return response.json()
+    })
       .then(data => {
         toast.success('Réponses enregistrées avec succès.')
         if (!data.message) {

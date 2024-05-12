@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const CategoryCreationPopupContent = () => {
     const [name, setName] = useState('')
@@ -24,6 +25,9 @@ const CategoryCreationPopupContent = () => {
                 name
               })
             }).then((response) => {
+              if (response.status === 401) {
+                disconnect();
+              }
               if (response.ok) {
                 setErrMessage('Catégorie créée avec succès.')
                 window.location.reload()

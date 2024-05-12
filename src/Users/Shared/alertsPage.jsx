@@ -10,6 +10,7 @@ import cross from '../../assets/Cross.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
@@ -36,6 +37,9 @@ const AlertsPage = () => {
             'x-auth-token': sessionStorage.getItem('token')
           }
         })
+        if (response.status === 401) {
+          disconnect();
+        }
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
         } else {
@@ -77,7 +81,12 @@ const AlertsPage = () => {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json()
+      })
       .then((data) => {
         const promisedList = buildList(data)
         promisedList.then((alertList) => {

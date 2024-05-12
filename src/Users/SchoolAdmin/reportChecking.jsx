@@ -6,6 +6,7 @@ import Sidebar from '../../Components/Sidebar/sidebar'
 import ReportSidebar from '../../Components/reports/reportSidebar'
 import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
@@ -24,6 +25,9 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect();
+      }
       const data = await response.json()
       setReports(data)
       setCurrentReport(data[data.length - 1])
@@ -41,6 +45,9 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect();
+      }
       const data = await response.json()
       if (!data.message) { setReportedConversation(data) }
     } catch (error) /* istanbul ignore next */ {
@@ -57,6 +64,9 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect();
+      }
       const data = await response.json()
       if (!data.message) { setReportedConversationMessages(data) }
     } catch (error) /* istanbul ignore next */ {

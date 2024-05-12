@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const AlertCreationPopupContent = () => {
     const roleProfile = sessionStorage.getItem('role')
@@ -23,7 +24,12 @@ const AlertCreationPopupContent = () => {
             'Content-Type': 'application/json'
           }
         })
-          .then(response => response.json())
+          .then(response => {
+            if (response.status === 401) {
+              disconnect();
+            }
+            return response.json()
+          })
           .then((data) => {
             setRole(data.roles[0]._id)
             setUserRoles(data.roles)
@@ -38,7 +44,12 @@ const AlertCreationPopupContent = () => {
             'Content-Type': 'application/json'
           }
         })
-          .then(response => response.json())
+          .then(response => {
+            if (response.status === 401) {
+              disconnect();
+            }
+            return response.json()
+          })
           .then((data) => (data.message === 'Access Forbidden' ? setUserClasses([]) : setUserClasses(data)))
           .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de la récupération des classes', error.message) })
     }, [])
@@ -84,7 +95,12 @@ const AlertCreationPopupContent = () => {
                   },
                   body: JSON.stringify(data)
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                      disconnect();
+                    }
+                    return response.json()
+                  })
                 .then((data) => {
                   setErrMessage('Alerte envoyée avec succès')
                   addFileToAlert(data._id)
@@ -108,6 +124,9 @@ const AlertCreationPopupContent = () => {
                     body: fileData
                     })
                     .then(response => {
+                        if (response.status === 401) {
+                            disconnect();
+                        }
                         setErrMessage('Fichier envoyé avec l\'alerte avec succès')
                     })
                     .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ReportCreationPopupContent = () => {
     const userId = localStorage.getItem('id');
@@ -53,7 +54,9 @@ const ReportCreationPopupContent = () => {
                 })
             })
 
-            if (response.status === 200) {
+            if (response.status === 401) {
+                disconnect();
+            } else if (response.status === 200) {
                 setError('Signalement en cours de traitement')
                 window.location.reload()
             } else {

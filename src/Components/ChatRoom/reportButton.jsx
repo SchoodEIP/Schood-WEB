@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../../css/pages/createAlerts.scss'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const ReportButton = ({ currentConversation }) => {
   const userId = localStorage.getItem('id');
@@ -45,6 +46,10 @@ const ReportButton = ({ currentConversation }) => {
           type: reason
         })
       })
+
+      if (response.status === 401) {
+        disconnect();
+      }
 
       if (response.status === 200) {
         setShowConfirmation(false)

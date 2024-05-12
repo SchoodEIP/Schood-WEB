@@ -78,7 +78,12 @@ export default function Sidebar () {
         'x-auth-token': sessionStorage.getItem('token')
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json()
+      })
       .then((data) => {
         setIsAnswered(false)
         setDailyMood(null)
@@ -171,7 +176,10 @@ export default function Sidebar () {
       },
       body: JSON.stringify({ mood })
     })
-      .then(() => {
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
         setIsAnswered(true)
         setDailyMood(mood)
       })
@@ -189,7 +197,12 @@ export default function Sidebar () {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json()
+      })
       .then((data) => {
         setNotifications(data)
         setNbNotification(data.length)

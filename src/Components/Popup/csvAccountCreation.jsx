@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 const CsvAccountCreationPopupContent = () => {
     const role = sessionStorage.getItem('role')
@@ -24,6 +25,9 @@ const CsvAccountCreationPopupContent = () => {
           },
           body: formData
         }).then((response) => {
+          if (response.status === 401) {
+            disconnect();
+          }
           if (response.ok) {
             setErrMessage('Compte(s) créé(s) avec succès')
             window.location.reload()

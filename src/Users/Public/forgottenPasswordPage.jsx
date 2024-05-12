@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import '../../css/pages/authPage.scss'
+import { disconnect } from '../../functions/sharedFunctions'
 
 export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')
@@ -28,7 +29,9 @@ export default function ForgottenPasswordPage () {
         },
         body: JSON.stringify(payload)
       })
-
+      if (response.status === 403) {
+        disconnect();
+      }
       if (response.status === 200) {
         setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
       } else /* istanbul ignore next */ {
