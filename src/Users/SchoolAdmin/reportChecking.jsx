@@ -5,7 +5,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import ReportSidebar from '../../Components/reports/reportSidebar'
 import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect, translate } from '../../functions/sharedFunctions'
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
@@ -153,7 +153,7 @@ const ReportChecking = () => {
               ? (
                 <div className='chat-content'>
                   <div className='top'>
-                    <div className='conv-name'>{currentReport.type}</div>
+                    <div className='conv-name'>{translate(currentReport.type)}</div>
                   </div>
                   {
                     reportedConversationMessages && (

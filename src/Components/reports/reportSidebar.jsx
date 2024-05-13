@@ -1,4 +1,5 @@
 import React from 'react'
+import { translate } from '../../functions/sharedFunctions'
 
 const ReportSidebar = ({
   reports,
@@ -19,7 +20,7 @@ const ReportSidebar = ({
         {reports.map((report, index) => (
           <div key={index} className={`${report === currentReport ? 'active-conversation' : 'conversation'}`} onClick={() => handleClick(report)}>
             <div className='text'>
-              {report.type}
+              {translate(report.type)}
             </div>
           </div>
         ))}
