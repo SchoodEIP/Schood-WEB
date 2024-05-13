@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/reportChecking.scss'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import ReportSidebar from '../../Components/reports/reportSidebar'
 import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
@@ -29,8 +28,12 @@ const ReportChecking = () => {
         disconnect();
       }
       const data = await response.json()
+      console.log(data)
       setReports(data)
       setCurrentReport(data[data.length - 1])
+      if (data[data.length - 1].conversation) {
+        handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
+      }
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération des demandes de signalement.')
     }
@@ -150,35 +153,41 @@ const ReportChecking = () => {
               ? (
                 <div className='chat-content'>
                   <div className='top'>
-                    <div className='conv-name'>{currentReport.userSignaled.firstname}</div>
+                    <div className='conv-name'>{currentReport.type}</div>
                   </div>
-                  {
-                    currentReport.message && (
-                      <div className='report-message'>{currentReport.message}</div>
-                    )
-                  }
                   {
                     reportedConversationMessages && (
                       <div className='bottom'>
                         <div className='left'>
                           <div className='top2'>
-                            <div className='message-list'>
-                              {reportedConversationMessages.map((message, index) => (
+                          {
+                            currentReport.message && (
+                              <div className='report-message'>{currentReport.message}</div>
+                            )
+                          }
+                            {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
+                              {/* {reportedConversationMessages.map((message, index) => (
                                 <Message key={index} message={message} participants={reportedConversation.participants} />
-                              ))}
-                              {error && <div className='error-message'>{error}</div>}
-                            </div>
+                              ))} */}
+                              {/* {error && <div className='error-message'>{error}</div>} */}
+                            {/* </div> */}
                           </div>
                         </div>
                         <div className='right'>
-                          {currentReport.participants.map((participant, indexP) => (
-                            <div className='user-profile' key={indexP}>
-                              <UserProfile
-                                fullname
-                                profile={participant}
-                              />
-                            </div>
-                          ))}
+                          <h2>Signalé par:</h2>
+                          <div className='user-profile' >
+                            <UserProfile
+                              fullname={true}
+                              profile={currentReport.signaledBy}
+                            />
+                          </div>
+                          <h2>À l'encontre de:</h2>
+                          <div className='user-profile' >
+                            <UserProfile
+                              fullname={true}
+                              profile={currentReport.userSignaled}
+                            />
+                          </div>
                         </div>
                       </div>
                     )

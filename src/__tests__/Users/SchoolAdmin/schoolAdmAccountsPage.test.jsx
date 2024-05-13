@@ -85,6 +85,7 @@ describe('SchoolAdmAccountsPage', () => {
     fetchMock.get(url + '/shared/classes', classes)
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})
+    sessionStorage.setItem('role', 'student')
   })
 
   afterEach(() => {
@@ -92,6 +93,7 @@ describe('SchoolAdmAccountsPage', () => {
     container = null
     jest.clearAllMocks()
     fetchMock.restore()
+    sessionStorage.removeItem('role')
   })
 
   test('renders the page', async () => {
@@ -108,6 +110,7 @@ describe('SchoolAdmAccountsPage', () => {
     expect(screen.getByText('Prénom')).toBeInTheDocument()
     expect(screen.getByText('Nom')).toBeInTheDocument()
     expect(screen.getByText('Email')).toBeInTheDocument()
+    expect(screen.getByText('Classe')).toBeInTheDocument()
     expect(screen.getByTestId('single-account-btn')).toBeInTheDocument()
     expect(screen.getByTestId('many-account-btn')).toBeInTheDocument()
   })

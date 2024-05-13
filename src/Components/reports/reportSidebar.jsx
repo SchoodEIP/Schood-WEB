@@ -1,6 +1,4 @@
-import { WebsocketContext } from '../../contexts/websocket'
-import React, { useContext, useEffect } from 'react'
-import cross from '../../assets/cross2.png'
+import React from 'react'
 
 const ReportSidebar = ({
   reports,
@@ -21,7 +19,7 @@ const ReportSidebar = ({
         {reports.map((report, index) => (
           <div key={index} className={`${report === currentReport ? 'active-conversation' : 'conversation'}`} onClick={() => handleClick(report)}>
             <div className='text'>
-              {report.signaledBy.lastname}
+              {report.type}
             </div>
           </div>
         ))}

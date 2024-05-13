@@ -105,6 +105,7 @@ const AlertCreationPopupContent = () => {
                   setErrMessage('Alerte envoyée avec succès')
                   addFileToAlert(data._id)
                   resetForm()
+                  window.location.reload()
                 })
                 .catch((error) => /* istanbul ignore next */ {
                   setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
