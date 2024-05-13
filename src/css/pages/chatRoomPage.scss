@@ -168,6 +168,8 @@
               height: 34px;
               margin-right: 12px;
               cursor: pointer;
+              align-items: center;
+              display: flex;
             }
 
             .report-btn:hover {
@@ -347,6 +349,8 @@
                       border-radius: 100px;
                       margin-left: 5px;
                       cursor: pointer;
+                      display: flex;
+                      align-items: center;
                     }
                   }
 
@@ -439,8 +443,4 @@
       }
     }
   }
-}
-
-.report-popup {
-
 }
