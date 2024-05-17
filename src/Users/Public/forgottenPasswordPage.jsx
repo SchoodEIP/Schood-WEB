@@ -29,9 +29,6 @@ export default function ForgottenPasswordPage () {
         },
         body: JSON.stringify(payload)
       })
-      if (response.status === 403) {
-        disconnect();
-      }
       if (response.status === 200) {
         setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
       } else /* istanbul ignore next */ {

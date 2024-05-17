@@ -93,8 +93,20 @@ describe('Last Alert component', () => {
     }
   }
 
+  const getFileResponseError = {
+    status: 400,
+    error: 'error',
+    message: 'error'
+  }
+
+  const getDisconnect = {
+    status: 401,
+    message: 'disconnect'
+  }
+
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(statusLastTwo, statusTwoResult)
     fetchMock.get(questionnaires, questionnairesResult)
     fetchMock.get(dailyMood, { moodStatus: true, mood: 0 })
@@ -122,12 +134,47 @@ describe('Last Alert component', () => {
     })
   })
 
+  it('should throw an alert', async () => {
+    fetchMock.get(lastAlert, getFileResponseError, {status: 400})
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+    await waitFor(() => {
+      expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
+    })
+  })
+
+  it('should disconnect', async () => {
+    fetchMock.get(lastAlert, getDisconnect)
+    fetchMock.get(getFile, getDisconnect)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <StudentHomePage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/')
+    })
+  })
+
   it('should handle errors', async () => {
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
-    jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
+    jest.spyOn(global, 'fetch').mockRejectedValue({ status: 400, message: 'error' })
+    jest.spyOn(global, 'fetch').mockRejectedValue({ status: 400, message: 'error' })
+    jest.spyOn(global, 'fetch').mockRejectedValue({ status: 400, message: 'error' })
+    jest.spyOn(global, 'fetch').mockRejectedValue({ status: 400, message: 'error' })
+    jest.spyOn(global, 'fetch').mockRejectedValue({ status: 400, message: 'error' })
+
     await act(async () => {
       render(
         <BrowserRouter>

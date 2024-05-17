@@ -3,7 +3,7 @@ import AlertsPage from '../../../Users/Shared/alertsPage.jsx'
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 
 describe('AlertsPage Component', () => {
@@ -11,7 +11,7 @@ describe('AlertsPage Component', () => {
   const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
   const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/undefined`
-  const postAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert`
+  const getAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
 
   const forms = [
     {
@@ -81,10 +81,11 @@ describe('AlertsPage Component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(getQuestionnaire, forms)
     fetchMock.get(getRolesList, { roles })
     fetchMock.get(getClasses, classes)
-    fetchMock.post(postAlerts, alertList)
+    fetchMock.get(getAlerts, alertList)
     fetchMock.post(postFileToAlert, fileToAlertResponse)
   })
 
@@ -103,11 +104,105 @@ describe('AlertsPage Component', () => {
       )
     })
 
-    const rolesLabel = screen.getByLabelText("Type d'utilisateur visé:")
+    const rolesLabel = screen.getByText('Mes Alertes')
     await waitFor(async () => {
       expect(rolesLabel).toBeInTheDocument()
     })
   })
+
+  it('checks disconnect', async () => {
+    fetchMock.get(getAlerts, {status: 401})
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(async () => {
+      expect(window.location.pathname).toBe('/')
+    })
+  })
+
+  it('retrieves the id param and navigates correctly', async () => {
+    const setHref = jest.fn();
+    const originalLocation = window.location;
+
+    delete window.location;
+    window.location = { ...originalLocation, set href(url) { setHref(url); } };
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/alerts/123']}>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </MemoryRouter>
+      );
+    });
+
+    // Wait for the component to fully render
+    await waitFor(() => {
+      // Check if the alert with id '123' is rendered correctly
+      const voirPlusBtn = screen.getByTestId('123');
+      expect(voirPlusBtn).toBeInTheDocument();
+    });
+
+    // Simulate user clicking on the 'Voir plus' button for the alert with id '123'
+    const voirPlusBtn = screen.getByTestId('123');
+    await act(async () => {
+      fireEvent.click(voirPlusBtn);
+    });
+
+    // Verify that window.location.href is called with the correct URL
+    expect(setHref).toHaveBeenCalledWith('/alerts/123');
+
+    // Restore the original window.location
+    setHref.mockRestore();
+
+  });
+
+  it('navigates correctly', async () => {
+    const setHref = jest.fn();
+    const originalLocation = window.location;
+
+    delete window.location;
+    window.location = { ...originalLocation, set href(url) { setHref(url); } };
+
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </MemoryRouter>
+      );
+    });
+
+    // Wait for the component to fully render
+    await waitFor(() => {
+      // Check if the alert with id '123' is rendered correctly
+      const voirPlusBtn = screen.getByTestId('123');
+      expect(voirPlusBtn).toBeInTheDocument();
+    });
+
+    // Simulate user clicking on the 'Voir plus' button for the alert with id '123'
+    const voirPlusBtn = screen.getByTestId('123');
+    await act(async () => {
+      fireEvent.click(voirPlusBtn);
+    });
+
+    // Verify that window.location.href is called with the correct URL
+    expect(setHref).toHaveBeenCalledWith('/alerts/123');
+
+    // Restore the original window.location
+    setHref.mockRestore();
+
+  });
+
 
   it('handles errors', async () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
@@ -150,11 +245,45 @@ describe('AlertsPage Component', () => {
       )
     })
 
-    const rolesBtn = screen.getByText('Rôles')
+    const sendButton = screen.getByText('Créer une alerte')
+    await waitFor(async () => {
+      expect(sendButton).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(sendButton)
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('close-img'))
+    })
+  })
+
+  it('shows and hides roles and classes', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const sendButton = screen.getByText('Créer une alerte')
+    await waitFor(async () => {
+      expect(sendButton).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(sendButton)
+    })
+
+    const rolesBtn = screen.getByText('Utilisateurs Visés')
     await waitFor(async () => {
       expect(rolesBtn).toBeInTheDocument()
     })
-    const classesBtn = screen.getByText('Classes')
+    const classesBtn = screen.getByText('Classe(s) visée(s)')
     await waitFor(async () => {
       expect(classesBtn).toBeInTheDocument()
     })
@@ -176,7 +305,18 @@ describe('AlertsPage Component', () => {
         </BrowserRouter>
       )
     })
+    const createButton = screen.getByText("Créer une alerte")
+    await waitFor(async () => {
+      expect(createButton).toBeInTheDocument()
+    })
 
+    await act(async () => {
+      fireEvent.click(createButton)
+    })
+    const rolesBtn = screen.getByText('Utilisateurs Visés')
+    await waitFor(async () => {
+      expect(rolesBtn).toBeInTheDocument()
+    })
     const rolesSelect = screen.getByTestId('roles-select')
     await waitFor(async () => {
       expect(rolesSelect).toBeInTheDocument()
@@ -192,17 +332,13 @@ describe('AlertsPage Component', () => {
       expect(rolesSelect.value).toBe('1')
     })
 
-    const classesBtn = screen.getByText('Classes')
+    const classesBtn = screen.getByText('Classe(s) visée(s)')
     await waitFor(async () => {
       expect(classesBtn).toBeInTheDocument()
     })
     await act(async () => {
       fireEvent.click(classesBtn)
     })
-    await act(async () => {
-      fireEvent.click(classesBtn)
-    })
-
     const checkbox200 = screen.getByTestId('class-check-0')
     await waitFor(async () => {
       expect(checkbox200).toBeInTheDocument()
@@ -211,7 +347,7 @@ describe('AlertsPage Component', () => {
       fireEvent.click(checkbox200)
     })
 
-    const alertTitle = screen.getByTestId('alert-title')
+    const alertTitle = screen.getByPlaceholderText('Titre')
     await waitFor(async () => {
       expect(alertTitle).toBeInTheDocument()
     })
@@ -222,7 +358,7 @@ describe('AlertsPage Component', () => {
       expect(alertTitle).toHaveValue('test')
     })
 
-    const alertMessage = screen.getByTestId('alert-message')
+    const alertMessage = screen.getByPlaceholderText('Message')
     await waitFor(async () => {
       expect(alertMessage).toBeInTheDocument()
     })
@@ -249,5 +385,19 @@ describe('AlertsPage Component', () => {
     await act(async () => {
       fireEvent.click(sendButton)
     })
+  })
+
+  it('checks disconnect through roles', async () => {
+    fetchMock.get(getRolesList, { status: 401 })
+
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </MemoryRouter>
+      );
+    });
   })
 })

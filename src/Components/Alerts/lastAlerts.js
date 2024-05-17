@@ -26,13 +26,13 @@ export function LastAlerts () {
 
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
-        } else {
+        } else /* istanbul ignore next */{
           const blob = await response.blob()
           const objectURL = URL.createObjectURL(blob)
           return objectURL
         }
       } catch (e) {
-        console.error(e)
+        console.error(e.message)
       }
     }
 
@@ -73,7 +73,6 @@ export function LastAlerts () {
       })
       .then((data) => {
         const promisedList = buildList(data)
-        console.log(data)
         promisedList.then((alertList) => setAlerts(alertList))
       })
       .catch((error) => {

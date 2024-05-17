@@ -143,7 +143,7 @@ const AlertsPage = () => {
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
-              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <button className='close-btn' onClick={close}><img data-testid="close-img" src={cross} alt='Close' /></button>
               <AlertCreationPopupContent/>
             </div>
           )}
@@ -162,7 +162,7 @@ const AlertsPage = () => {
                           <UserProfile
                             profile={alert.createdBy}
                           />
-                          <button id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
+                          <button data-testid={alert.id} id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
                             Voir plus
                           <img className='img' src={rightArrowInverted} alt='Right arrow' />
                           </button>

@@ -2,7 +2,6 @@ import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
 import '@fontsource/inter/600.css'
-import { disconnect } from '../../functions/sharedFunctions'
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -23,18 +22,13 @@ export default function Login () {
         }
       })
 
-      if (response.status === 401) {
-        disconnect();
-      }
-
       const data = await response.json()
-
-      if (response.ok) {
+      if (response.status === 200) {
         localStorage.setItem('profile', JSON.stringify(data))
-        localStorage.setItem('id', data._id)
-        sessionStorage.setItem('role', data.role.name)
         sessionStorage.setItem('profile', JSON.stringify(data))
+        sessionStorage.setItem('role', data.role.name)
         localStorage.setItem('role', data.role.name)
+        localStorage.setItem('id', data._id)
         window.location.href = '/'
       } else /* istanbul ignore next */ {
         setMessage(`Error: ${data.message}`)
@@ -49,13 +43,13 @@ export default function Login () {
 
     // Vérifier que l'email est valide avant de faire la requête
     if (!validateEmail(email)) {
-      setMessage('Email is not valid')
+      setMessage("L'adresse email n'est pas valide.")
       return
     }
 
     // Vérifier qu'un password a été entré avant de faire la requête
     if (!password) {
-      setMessage('Password is empty')
+      setMessage('Le mot de passe est vide.')
       return
     }
 
@@ -73,13 +67,9 @@ export default function Login () {
         body: JSON.stringify(payload)
       })
 
-      if (response.status === 401) {
-        disconnect();
-      }
-
       const data = await response.json()
 
-      if (response.ok) {
+      if (response.status === 200) {
         sessionStorage.setItem('token', data.token)
         localStorage.setItem('token', data.token)
         getRole(data.token)

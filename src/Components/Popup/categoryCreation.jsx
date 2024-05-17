@@ -46,7 +46,7 @@ const CategoryCreationPopupContent = () => {
         <>
             <label className='input-label'>
                 <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
-                <input type='text' name='category' placeholder='Catégorie' onChange={handleNameChange} />
+                <input type='text' name='category' placeholder='Nom' onChange={handleNameChange} />
             </label>
             {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
             <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>

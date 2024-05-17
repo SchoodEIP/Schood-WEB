@@ -24,7 +24,6 @@ const ReportCreationPopupContent = () => {
             return response.json()
           })
         .then(data => {
-            console.log(data)
             const filteredList = data.filter((user) => user._id !== userId)
             setUserList(filteredList)
         })

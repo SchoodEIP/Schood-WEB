@@ -170,9 +170,9 @@ const AlertCreationPopupContent = () => {
                 <label id='roles-container' className='input-label'>
                     <span className='label-content'>Type d'utilisateur visé:</span>
                     <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
-                    {userRoles.map((role, index) => (
-                        <option key={index} value={role._id}>{role.name}</option>
-                    ))}
+                      {userRoles.map((role, index) => (
+                          <option key={index} value={role._id}>{role.name}</option>
+                      ))}
                     </select>
                 </label>
                 )
@@ -214,7 +214,7 @@ const AlertCreationPopupContent = () => {
             </label>
             <label className='input-label'>
                 <span className='label-content'>Fichier joint</span>
-                <input id='file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
+                <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
             </label>
             {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
             <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>

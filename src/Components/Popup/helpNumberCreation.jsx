@@ -68,10 +68,7 @@ const HelpNumberCreationPopupContent = () => {
 
         let sendPost = true
 
-        if (categoryID === '') {
-          setErrMessage('Aucune catégorie choisie, veuillez créer une nouvelle catégorie ou contacter un administrateur.')
-          sendPost = false
-        } else if (name === '') {
+        if (name === '') {
           setErrMessage("Le nom est vide.")
           sendPost = false
         } else if (!/^\d{10}$/.test(telephone) || telephone === '') {
@@ -129,7 +126,7 @@ const HelpNumberCreationPopupContent = () => {
             </label>
             <label className='input-label'>
                 <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
-                <input type='text' name='category' placeholder='name' onChange={handleNameChange} />
+                <input type='text' name='category' placeholder='Nom' onChange={handleNameChange} />
             </label>
             <label className='input-label'>
                 <span className='label-content'>Numéro de Téléphone <span style={{ color: 'red' }}>*</span></span>

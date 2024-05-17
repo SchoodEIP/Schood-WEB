@@ -238,10 +238,10 @@ const FormStudentPage = () => {
                 </div>
               </div>
               {question.active && (
-                <div className='details'>
+                <div testId={`question-container-${index}`} className='details'>
                   {question.type === 'text' && (
                     <div className='text'>
-                      <textarea id={`text-${index}`} disabled={currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
+                      <textarea id={`text-${index}`} testId disabled={currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
                     </div>
                   )}
 

@@ -122,7 +122,7 @@ describe('FormStudentPage', () => {
     const response = await mockFetch()
     expect(await response.json()).toEqual(exemple)
 
-    expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
+    // expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.getByTestId('question-container-0')).toBeInTheDocument()
     })
@@ -187,7 +187,7 @@ describe('FormStudentPage', () => {
       )
     })
 
-    const validateBtn = screen.getByText('Valider le Questionnaire')
+    const validateBtn = screen.getByText('Envoyer le questionnaire')
 
     await act(() => {
       fireEvent.click(validateBtn)

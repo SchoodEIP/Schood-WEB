@@ -46,7 +46,6 @@ const Messages = () => {
       }
     })
     if (currentConversation === '' || changeConversation) {
-      console.log('conversationData[conversationData.length - 1]: ', conversationData[conversationData.length - 1])
       setCurrentConversation(conversationData[conversationData.length - 1])
     }
     setConversations(conversationData)
