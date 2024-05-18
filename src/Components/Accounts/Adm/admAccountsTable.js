@@ -13,15 +13,16 @@ export default function AdmAccountsTable () {
     const resp = await fetch(baseUrl, {
       method: 'GET',
       headers: {
-        'x-auth-token': token
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
       }
     })
-    if (resp.status === 403) {
+    if (resp.status === 401) {
       disconnect();
+    } else {
+      const data = await resp.json()
+      setAccountList(data)
     }
-    const data = await resp.json()
-
-    setAccountList(data)
   }
 
   // account list request on mounted

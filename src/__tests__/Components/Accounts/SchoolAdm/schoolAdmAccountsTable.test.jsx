@@ -4,6 +4,11 @@ import SchoolAccountsTable from '../../../../Components/Accounts/SchoolAdm/schoo
 import { WebsocketProvider } from '../../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { disconnect } from '../../../../functions/sharedFunctions'
+
+jest.mock('../../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('SchoolAdmAccountsTable', () => {
   let container = null
@@ -14,7 +19,11 @@ describe('SchoolAdmAccountsTable', () => {
       firstname: 'Harry',
       lastname: 'Dresden',
       email: 'harry.dresden@epitech.eu',
-      role: 'student',
+      role: {
+        _id: '0',
+        name: 'student',
+        levelOfAccess: '0'
+      },
       classes: [{
         _id: 'id3',
         name: '202'
@@ -24,7 +33,11 @@ describe('SchoolAdmAccountsTable', () => {
       firstname: 'John',
       lastname: 'Wick',
       email: 'john.wick@epitech.eu',
-      role: 'teacher',
+      role: {
+        _id: '1',
+        name: 'teacher',
+        levelOfAccess: '1'
+      },
       title: 'Mathematique',
       classes: [
         {
@@ -44,13 +57,13 @@ describe('SchoolAdmAccountsTable', () => {
     container = document.createElement('div')
     document.body.appendChild(container)
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(url + '/user/all', mockAccountList)
   })
 
   afterEach(() => {
     document.body.removeChild(container)
     container = null
-    jest.clearAllMocks()
     fetchMock.restore()
   })
 
@@ -86,7 +99,7 @@ describe('SchoolAdmAccountsTable', () => {
     expect(tableHeaders[3]).toHaveTextContent('Email')
   })
 
-  test('renders account list incorrectly', async () => {
+  test('renders account list correctly', async () => {
     await act(async () => {
       render(
         <BrowserRouter>
@@ -105,5 +118,23 @@ describe('SchoolAdmAccountsTable', () => {
       expect(screen.getByText('200, 201')).toBeInTheDocument()
       expect(screen.getByText('202')).toBeInTheDocument()
     })
+  })
+
+
+  test('checks disconnect through user url', async () => {
+    fetchMock.get(url + '/user/all', 401)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <SchoolAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
   })
 })

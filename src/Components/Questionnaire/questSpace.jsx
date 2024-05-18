@@ -5,8 +5,8 @@ import rightArrow from '../../assets/right-arrow.png'
 import { disconnect } from '../../functions/sharedFunctions'
 
 export function QuestSpace () {
-  const [previousQuestStatus, setPreviousQuestStatus] = useState(0) // Statut du questionnaire précédent
-  const [currentQuestStatus, setCurrentQuestStatus] = useState(0) // Statut du questionnaire hebdomadaire
+  const [previousQuestStatus, setPreviousQuestStatus] = useState(null) // Statut du questionnaire précédent
+  const [currentQuestStatus, setCurrentQuestStatus] = useState(null) // Statut du questionnaire hebdomadaire
 
   const navigate = useNavigate()
 
@@ -25,6 +25,8 @@ export function QuestSpace () {
       })
       .then((data) => {
         setCurrentQuestStatus(data.q1)
+        console.log(data.q1.id.length)
+        console.log(data.q2.id.length)
         setPreviousQuestStatus(data.q2)
       })
       .catch((error) => /* istanbul ignore next */ {
@@ -50,8 +52,8 @@ export function QuestSpace () {
         </Link>
       </div>
       <div className='quest-body'>
-        {((!previousQuestStatus && !currentQuestStatus) || ((previousQuestStatus?.id && previousQuestStatus?.id.length === 0) && (currentQuestStatus?.id && currentQuestStatus?.id.length === 0))) && (
-          <div className='no-quest'>Aucun questionnaire n'est disponible</div>
+        {((!previousQuestStatus && !currentQuestStatus)) && (
+          <div className='no-quest'><p>Aucun questionnaire n'est disponible</p></div>
         )}
         {(previousQuestStatus?.id && previousQuestStatus?.id.length > 0) && (!currentQuestStatus?.id || currentQuestStatus?.id.length === 0) && (
           <div className='questionnaires'>

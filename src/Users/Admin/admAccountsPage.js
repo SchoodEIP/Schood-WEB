@@ -55,7 +55,7 @@ export default function AdmAccountsPage () {
       <Popup open={isOpenSingle} onClose={handleSingleAccount} modal>
         {(close) => (
           <div className='popup-modal-container' style={{ padding: '50px', gap: '20px', alignItems: 'center' }}>
-            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <button data-testid='close-single' className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <SingleAccountCreationPopupContent/>
           </div>
         )}
@@ -63,7 +63,7 @@ export default function AdmAccountsPage () {
       <Popup open={isOpenMany} onClose={handleManyAccounts} modal>
         {(close) => (
           <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
-            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <button data-testid='close-many' className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <CsvAccountCreationPopupContent/>
           </div>
         )}

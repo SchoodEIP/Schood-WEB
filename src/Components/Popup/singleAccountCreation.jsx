@@ -142,13 +142,13 @@ const SingleAccountCreationPopupContent = () => {
             }).then(response => {
               if (response.status === 401) {
                 disconnect();
-              }
-              if (response.ok) {
+              } else if (response.ok) {
                 setErrMessage('Compte créé avec succès')
                 window.location.reload()
               } else {
+
                 const data = response.json()
-                setErrMessage(data)
+                setErrMessage(data.message)
               }
             })
               .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
@@ -251,7 +251,7 @@ const SingleAccountCreationPopupContent = () => {
                             ? (
                                 <label className='input-label'>
                                   <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
-                                  <select defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                                  <select data-testid="title-select" defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
                                     {
                                       titlesList.map((title, index) => {
                                         return <option key={index} value={title._id}>{title.name}</option>
@@ -279,7 +279,7 @@ const SingleAccountCreationPopupContent = () => {
                     </label>
                 )
             }
-            {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+            {errMessage ? <span data-testid="err-message" style={{ color: 'red' }}>{errMessage}</span> : ''}
             <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
         </>
     )

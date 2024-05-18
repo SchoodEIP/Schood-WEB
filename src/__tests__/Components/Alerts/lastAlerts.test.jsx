@@ -1,58 +1,19 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 import { render, screen, act, waitFor } from '@testing-library/react'
-import StudentHomePage from '../../../Users/Student/dashboardStudent'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { LastAlerts } from '../../../Components/Alerts/lastAlerts'
+import { disconnect } from '../../../functions/sharedFunctions'
+import StudentHomePage from '../../../Users/Student/dashboardStudent'
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('Last Alert component', () => {
-  const statusLastTwo = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
-  const questionnaires = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
-  const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
   const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/132`
-
-  const questionnairesResult = [
-    {
-      classes: [
-        {
-          name: '200',
-          __v: 0,
-          _id: '65e0e4477c0cc03bd4999ebd'
-        },
-        {
-          name: '201',
-          __v: 0,
-          _id: '65e0e4477c0cc03bd4999ebf'
-        }
-      ],
-      facility: '65e0e4477c0cc03bd4999eb7',
-      fromDate: '2024-02-19T00:00:00.000Z',
-      title: 'Questionnaire Français',
-      toDate: '2024-02-25T00:00:00.000Z',
-      _id: 'id1'
-    },
-    {
-      classes: [
-        {
-          name: '200',
-          __v: 0,
-          _id: '65e0e4477c0cc03bd4999ebd'
-        }
-      ],
-      facility: '65e0e4477c0cc03bd4999eb7',
-      fromDate: '2024-02-26T00:00:00.000Z',
-      title: 'Questionnaire Mathématique',
-      toDate: '2024-03-03T00:00:00.000Z',
-      _id: 'id2'
-    }
-  ]
-
-  const statusTwoResult = {
-    q1: 100,
-    q2: 50
-  }
 
   const alertList = [
     {
@@ -99,18 +60,9 @@ describe('Last Alert component', () => {
     message: 'error'
   }
 
-  const getDisconnect = {
-    status: 401,
-    message: 'disconnect'
-  }
-
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.config.overwriteRoutes = true
-    fetchMock.get(statusLastTwo, statusTwoResult)
-    fetchMock.get(questionnaires, questionnairesResult)
-    fetchMock.get(dailyMood, { moodStatus: true, mood: 0 })
-    fetchMock.post(dailyMood, { })
     fetchMock.get(lastAlert, { body: alertList })
     fetchMock.get(getFile, getFileResponse)
   })
@@ -119,18 +71,67 @@ describe('Last Alert component', () => {
     fetchMock.restore()
   })
 
-  it('should render the homepage', async () => {
+  it('should disconnect on last alert url', async () => {
+    fetchMock.get(lastAlert, 401)
+
     await act(async () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <StudentHomePage />
+            <LastAlerts />
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
+
     await waitFor(() => {
-      expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  it('should disconnect on get file url', async () => {
+    fetchMock.get(getFile, 401)
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <LastAlerts />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  it('should render lastAlert', async () => {
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <LastAlerts />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+  })
+
+  it('should give an error', async () => {
+    fetchMock.get(lastAlert, 403)
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <LastAlerts />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
   })
 
@@ -147,24 +148,6 @@ describe('Last Alert component', () => {
     })
     await waitFor(() => {
       expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
-    })
-  })
-
-  it('should disconnect', async () => {
-    fetchMock.get(lastAlert, getDisconnect)
-    fetchMock.get(getFile, getDisconnect)
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <WebsocketProvider>
-            <StudentHomePage />
-          </WebsocketProvider>
-        </BrowserRouter>
-      )
-    })
-
-    await waitFor(() => {
-      expect(window.location.pathname).toBe('/')
     })
   })
 

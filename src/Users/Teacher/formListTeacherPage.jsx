@@ -13,26 +13,23 @@ const FormListTeacherPage = () => {
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
 
-    try {
-      fetch(questionnaireUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => {
-        if (response.status === 401) {
-          disconnect();
-        }
-        return response.json()
+    fetch(questionnaireUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect();
+      }
+      return response.json()
+    })
+      .then(data => {
+        setQuestionnaires(data)
       })
-        .then(data => {
-          setQuestionnaires(data)
-        })
-        .catch(error => console.error(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      console.error(e.message)
-    }
+      .catch(error => console.error(error.message))
+
   }, [])
 
   function createNewForm () {

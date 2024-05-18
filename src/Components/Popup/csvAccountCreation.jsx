@@ -46,7 +46,7 @@ const CsvAccountCreationPopupContent = () => {
                 <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
                 <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: {role === 'admin' ? 'firstname,lastname,email' : 'firstname,lastname,email,role,class'}</span>
             </label>
-            {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+            {errMessage ? <span data-testid="err-message" style={{ color: 'red' }}>{errMessage}</span> : ''}
             <button className='popup-btn' onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
         </>
     )

@@ -14,19 +14,21 @@ export default function SchoolAccountsTable () {
     const resp = await fetch(baseUrl, {
       method: 'GET',
       headers: {
-        'x-auth-token': token
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
       }
     })
     if (resp.status === 401) {
       disconnect();
+    } else {
+      const data = await resp.json()
+
+      const teacherAccounts = data.filter(account => account.role.name === 'teacher')
+      const studentAccounts = data.filter(account => account.role.name === 'student')
+
+      setTeacherList(teacherAccounts)
+      setStudentList(studentAccounts)
     }
-    const data = await resp.json()
-
-    const teacherAccounts = data.filter(account => account.role.name === 'teacher')
-    const studentAccounts = data.filter(account => account.role.name === 'student')
-
-    setTeacherList(teacherAccounts)
-    setStudentList(studentAccounts)
   }
 
   const showClasses = (classes) => {

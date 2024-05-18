@@ -20,7 +20,8 @@ describe('ProfilPage component', () => {
     email: 'john.doe@example.com',
     role: {name: 'teacher'},
     title: 'Mathematics',
-    classes: [{name: '200'}, {name: '201'}]
+    classes: [{name: '200'}, {name: '201'}],
+    picture: 'sqdfsd'
   }
 
   const studentProfile = {
@@ -29,7 +30,8 @@ describe('ProfilPage component', () => {
     email: 'john.doe@example.com',
     role: {name: 'student'},
     title: '',
-    classes: [{name: '201'}]
+    classes: [{name: '201'}],
+    picture: null
   }
 
   beforeEach(() => {
