@@ -5,6 +5,11 @@ import HelpPage from "../../../Users/Shared/helpPage.jsx"
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('helpPage', () => {
   const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -44,6 +49,7 @@ describe('helpPage', () => {
 
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(categoryUrl, categories)
     fetchMock.get(helpNumbersUrl, helpNumbers)
     fetchMock.post(helpNumberRegisterUrl, { status: 200 })
@@ -281,4 +287,40 @@ describe('helpPage', () => {
       expect(screen.getByText('La catégorie est vide.')).toBeInTheDocument()
     })
   })
+
+  it('handles a 401 status code by calling disconnect for categoryUrl', async () => {
+    fetchMock.get(categoryUrl, 401)
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <HelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      );
+    });
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  });
+
+  it('handles a 401 status code by calling disconnect for categoryUrl', async () => {
+    fetchMock.get(helpNumbersUrl, 401)
+
+    await act(async () => {
+      render(
+        <BrowserRouter >
+          <WebsocketProvider>
+            <HelpPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      );
+    });
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  });
 })

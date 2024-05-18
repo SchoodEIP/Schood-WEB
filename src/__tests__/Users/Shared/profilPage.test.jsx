@@ -5,6 +5,11 @@ import ProfilPage from '../../../Users/Shared/profilPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('ProfilPage component', () => {
   const profileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/profile`
@@ -115,5 +120,23 @@ describe('ProfilPage component', () => {
 
     // Check if error message is rendered
     expect(screen.getByText('Erreur lors de la récupération du profil')).toBeInTheDocument()
+  })
+
+  it('tests disconnect', async () => {
+    fetchMock.get(profileUrl, 401)
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ProfilPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
   })
 })

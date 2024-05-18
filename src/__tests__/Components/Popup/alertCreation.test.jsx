@@ -1,10 +1,16 @@
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import AlertCreationPopupContent from '../../../Components/Popup/alertCreation'
+import fetchMock from 'fetch-mock'
+import { disconnect } from '../../../functions/sharedFunctions'
 
-describe('Popup', () => {
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
+
+describe('AlertCreation', () => {
     const getRolesList = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
     const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
 
@@ -47,7 +53,7 @@ describe('Popup', () => {
       beforeEach(() => {
         fetchMock.reset()
         fetchMock.config.overwriteRoutes = true
-        fetchMock.get(getRolesList, { status: 401 })
+        fetchMock.get(getRolesList, roles)
         fetchMock.get(getClasses, classes)
       })
 
@@ -56,6 +62,8 @@ describe('Popup', () => {
       })
 
     test('checks disconnect through roles', async () => {
+      fetchMock.get(getRolesList, 401);
+
       await act(async () => {
         render(
           <BrowserRouter>
@@ -65,5 +73,29 @@ describe('Popup', () => {
           </BrowserRouter>
         )
       })
+
+      await waitFor(() => {
+        expect(disconnect).toHaveBeenCalled();
+      });
     })
+
+
+    test('checks disconnect through roles', async () => {
+      fetchMock.get(getClasses, 401);
+
+      await act(async () => {
+        render(
+          <BrowserRouter>
+            <WebsocketProvider>
+              <AlertCreationPopupContent />
+            </WebsocketProvider>
+          </BrowserRouter>
+        )
+      })
+
+      await waitFor(() => {
+        expect(disconnect).toHaveBeenCalled();
+      });
+    })
+
   })

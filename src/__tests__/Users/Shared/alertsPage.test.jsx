@@ -5,6 +5,11 @@ import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('AlertsPage Component', () => {
   const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
@@ -12,6 +17,7 @@ describe('AlertsPage Component', () => {
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
   const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/undefined`
   const getAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
+  const getFile =  `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
 
   const forms = [
     {
@@ -58,11 +64,19 @@ describe('AlertsPage Component', () => {
     }
   ]
 
-  const alertList = [{
-    _id: 123,
-    title: 'test',
-    message: 'test message'
-  }]
+  const alertList = [
+    {
+      _id: 123,
+      title: 'test',
+      message: 'test message'
+    },
+    {
+      _id: 457,
+      title: 'test2',
+      message: 'test2 message',
+      file: '123'
+    }
+  ]
 
   const fileToAlertResponse = {
     status: 200,
@@ -76,8 +90,9 @@ describe('AlertsPage Component', () => {
     redirected: false,
     url: 'https://localhost:8080/user/file/123',
     body: { locked: true }
-
   }
+
+  const dummyBlob = new Blob(['dummy content'], { type: 'text/plain' });
 
   beforeEach(() => {
     fetchMock.reset()
@@ -87,6 +102,11 @@ describe('AlertsPage Component', () => {
     fetchMock.get(getClasses, classes)
     fetchMock.get(getAlerts, alertList)
     fetchMock.post(postFileToAlert, fileToAlertResponse)
+    fetchMock.get(getFile, {
+      status: 200,
+      statusText: "OK",
+      body: dummyBlob
+    })
   })
 
   afterEach(() => {
@@ -387,17 +407,37 @@ describe('AlertsPage Component', () => {
     })
   })
 
-  it('checks disconnect through roles', async () => {
-    fetchMock.get(getRolesList, { status: 401 })
-
+  it('handles a 401 status code by calling disconnect for alerts', async () => {
+    fetchMock.get(getAlerts, 401);
     await act(async () => {
       render(
-        <MemoryRouter>
+        <MemoryRouter initialEntries={['/alerts']}>
           <WebsocketProvider>
             <AlertsPage />
           </WebsocketProvider>
         </MemoryRouter>
       );
     });
-  })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  });
+
+  it('handles a 401 status code by calling disconnect for getFile', async () => {
+    fetchMock.get(getFile, 401)
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/alerts']}>
+          <WebsocketProvider>
+            <AlertsPage />
+          </WebsocketProvider>
+        </MemoryRouter>
+      );
+    });
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  });
 })
