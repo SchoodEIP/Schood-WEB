@@ -90,10 +90,10 @@ const ModifyFormTeacherPage = () => {
       }).then(response => {
         if (response.status === 401) {
           disconnect();
-        }
-        if (response.status !== 200) {
+        } else if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
+          console.log(response.status)
           window.location.href = '/questionnaire/' + id
         }
       })
@@ -267,7 +267,7 @@ const ModifyFormTeacherPage = () => {
                       </label>
                       <label style={{ flexDirection: 'column' }} className='input-label'>
                         <span className='label-content'>Type de question</span>
-                        <select style={{ width: '200px' }} className='default-input' key={index} value={question.type} onChange={(e) => handleChangeType(e, index)}>
+                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-input' key={index} value={question.type} onChange={(e) => handleChangeType(e, index)}>
                           <option value='text'>Texte</option>
                           <option value='emoji'>Émoticône</option>
                           <option value='multiple'>Multiple</option>

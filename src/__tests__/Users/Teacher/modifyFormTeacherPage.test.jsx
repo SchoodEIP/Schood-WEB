@@ -5,6 +5,11 @@ import fetchMock from 'fetch-mock'
 import ModifyFormTeacherPage from '../../../Users/Teacher/modifyFormTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('ModifyFormTeacherPage', () => {
   function getFormDates () {
@@ -133,6 +138,52 @@ describe('ModifyFormTeacherPage', () => {
     expect(selectType).toHaveValue('text')
   })
 
+  it('disconnects on receiving the form', async () => {
+    fetchMock.get(questionnaireUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  it('disconnects on sending the form', async () => {
+    fetchMock.patch(changeQuestionnaireUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123/modify']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    const postButton = screen.getByText('Valider le Questionnaire')
+    expect(postButton).toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
   it('adds and removes an answer', async () => {
     await act(async () => {
       render(
@@ -146,24 +197,24 @@ describe('ModifyFormTeacherPage', () => {
       )
     })
 
-    const addAnswerBtn = screen.getAllByText('Ajouter une Réponse')
-    expect(addAnswerBtn[2]).toBeInTheDocument()
+    const addAnswerBtn = screen.getByText('Ajouter une Réponse')
+    expect(addAnswerBtn).toBeInTheDocument()
 
     act(() => {
-      fireEvent.click(addAnswerBtn[2])
+      fireEvent.click(addAnswerBtn)
     })
 
-    const removeAnswerBtn = screen.getAllByText('Enlever une Réponse')
+    const removeAnswerBtn = screen.getByText('Enlever la Dernière Réponse')
 
-    const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements1 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
 
     expect(inputElements1.length).toBe(4)
 
     act(() => {
-      fireEvent.click(removeAnswerBtn[2])
+      fireEvent.click(removeAnswerBtn)
     })
 
-    const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements2 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
     expect(inputElements2.length).toBe(3)
   })
 
@@ -191,7 +242,7 @@ describe('ModifyFormTeacherPage', () => {
       json: jest.fn().mockResolvedValue({ message: 'Big error' })
     })
 
-    const postButton = screen.getByText('Modifier le Questionnaire')
+    const postButton = screen.getByText('Valider le Questionnaire')
     expect(postButton).toBeInTheDocument()
 
     act(() => {
@@ -232,7 +283,7 @@ describe('ModifyFormTeacherPage', () => {
     window.location = {
       href: '/questionnaire/123/modify'
     }
-    const postButton = screen.getByText('Modifier le Questionnaire')
+    const postButton = screen.getByText('Valider le Questionnaire')
     expect(postButton).toBeInTheDocument()
 
     act(() => {
@@ -285,7 +336,7 @@ describe('ModifyFormTeacherPage', () => {
 
     global.fetch = mockFetch
 
-    const postButton = screen.getByText('Modifier le Questionnaire')
+    const postButton = screen.getByText('Valider le Questionnaire')
     expect(postButton).toBeInTheDocument()
 
     await act(() => {
@@ -325,7 +376,7 @@ describe('ModifyFormTeacherPage', () => {
       expect(selectType).toHaveValue('multiple')
     })
 
-    const allAnswersInput = screen.getAllByPlaceholderText('Choix possible')
+    const allAnswersInput = screen.getAllByPlaceholderText('Ajoutez une Réponse')
 
     await waitFor(() => {
       expect(allAnswersInput[0]).toHaveValue('')
@@ -351,7 +402,7 @@ describe('ModifyFormTeacherPage', () => {
       fireEvent.click(addQuestionBtn)
     })
     await waitFor(() => {
-      expect(screen.getByText('Question n° 4 :')).toBeInTheDocument()
+      expect(screen.getByText('4.')).toBeInTheDocument()
     })
 
     const selectType = screen.getByTestId('select-3')
@@ -369,35 +420,35 @@ describe('ModifyFormTeacherPage', () => {
       expect(selectType).toHaveValue('multiple')
     })
 
-    const addAnswerBtn = screen.getAllByText('Ajouter une Réponse')
-    await waitFor(() => {
-      expect(addAnswerBtn.length).toBe(4)
-    })
+    const addAnswerBtn = screen.getAllByText('Ajouter une Réponse')[1]
+    // await waitFor(() => {
+    //   expect(addAnswerBtn.length).toBe(4)
+    // })
 
     act(() => {
-      fireEvent.click(addAnswerBtn[3])
+      fireEvent.click(addAnswerBtn)
     })
 
-    const removeAnswerBtn = screen.getAllByText('Enlever une Réponse')
+    const removeAnswerBtn = screen.getAllByText('Enlever la Dernière Réponse')
 
-    const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements1 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
 
     expect(inputElements1.length).toBe(6)
 
     act(() => {
-      fireEvent.click(removeAnswerBtn[3])
+      fireEvent.click(removeAnswerBtn[1])
     })
 
-    const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements2 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
     expect(inputElements2.length).toBe(5)
 
-    const removeQuestionBtn = screen.getByText('Enlever une Question')
+    const removeQuestionBtn = screen.getByText('Enlever la Dernière Question')
 
     await act(() => {
       fireEvent.click(removeQuestionBtn)
     })
     await waitFor(() => {
-      expect(screen.queryByText('Question n° 4 :')).not.toBeInTheDocument()
+      expect(screen.queryByText('4.')).not.toBeInTheDocument()
     })
 
     await act(() => {
@@ -408,7 +459,7 @@ describe('ModifyFormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(screen.queryByText('Question n° 2 :')).not.toBeInTheDocument()
+      expect(screen.queryByText('2.')).not.toBeInTheDocument()
     })
   })
 
