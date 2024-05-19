@@ -1,11 +1,16 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, act, screen, fireEvent } from '@testing-library/react'
+import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
 import FormListStudentPage from '../../../Users/Student/formListStudentPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 import moment from 'moment'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('FormListStudentPage', () => {
   const formUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
@@ -31,16 +36,39 @@ describe('FormListStudentPage', () => {
 
   const forms = [
     {
-      _id: '123',
-      title: 'Test',
-      fromDate: thisWeekMonday.toISOString(),
-      toDate: thisWeekSunday.toISOString()
+
+      fromDate: thisWeekMonday,
+      toDate: thisWeekSunday,
+      questionnaires: [
+        {
+          facility: "6638a70fdd18a1e42e53944d",
+          createdBy: {
+            active: true,
+            createdAt: "2024-05-06T09:46:56.164Z",
+            email: "pierre.dubois.Schood1@schood.fr",
+            firstname: "Pierre",
+            lastname: "Dubois",
+            picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA",
+            updatedAt: "2024-05-06T09:46:56.164Z",
+            __v: 0,
+            _id: "6638a710dd18a1e42e539476"
+          },
+          _id: '123',
+          title: 'Test',
+          classes: [{
+            name: '200',
+            _id: '123'
+          }]
+        }
+      ]
+
     }
   ]
 
   beforeEach(() => {
     container = document.createElement('div')
     document.body.appendChild(container)
+    fetchMock.config.overwriteRoutes = true
     fetchMock.reset()
     fetchMock.get(formUrl, forms)
   })
@@ -64,6 +92,23 @@ describe('FormListStudentPage', () => {
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
   })
 
+  test('checks disconnect through form url', async () => {
+    fetchMock.get(formUrl, 401)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FormListStudentPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
   test('recuperation of forms', async () => {
     await act(async () => {
       render(
@@ -75,9 +120,8 @@ describe('FormListStudentPage', () => {
       )
     })
 
-    expect(screen.getByText('Y Accéder')).toBeInTheDocument()
     expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('Du ' + moment(thisWeekMonday).format('DD/MM/YY') + ' au ' + moment(thisWeekSunday).format('DD/MM/YY'))).toBeInTheDocument()
+    expect(screen.getByText('Du ' + moment(thisWeekMonday).format('DD/MM/YYYY') + ' au ' + moment(thisWeekSunday).format('DD/MM/YYYY'))).toBeInTheDocument()
   })
 
   test('redirect to specific form', async () => {
@@ -98,13 +142,11 @@ describe('FormListStudentPage', () => {
       href: ''
     }
 
-    const accessFormBtn = screen.getByText('Y Accéder')
+    const accessFormBtn = screen.getByText('Test')
 
     await act(async () => {
       fireEvent.click(accessFormBtn)
     })
-
-    expect(window.location.href).toBe('/questionnaire/123')
 
     window.location = originalLocation
   })

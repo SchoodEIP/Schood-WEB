@@ -35,10 +35,6 @@ const FormListStudentPage = () => {
     }
   }, [])
 
-  function accessForm (id) {
-    window.location.href = '/questionnaire/' + id
-  }
-
   return (
     <div className='form-page'>
       <HeaderComp

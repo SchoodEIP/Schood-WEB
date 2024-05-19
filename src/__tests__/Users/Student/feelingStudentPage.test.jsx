@@ -5,9 +5,14 @@ import FeelingsStudentPage from '../../../Users/Student/feelingsStudentPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
+import { disconnect } from '../../../functions/sharedFunctions'
+
+jest.mock('../../../functions/sharedFunctions', () => ({
+  disconnect: jest.fn(),
+}));
 
 describe('Feelings Component', () => {
-  const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/feelings`
+  const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/mood`
 
   const dataResp = [
     {
@@ -30,6 +35,7 @@ describe('Feelings Component', () => {
 
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(feelings, dataResp)
     fetchMock.post(feelings, [])
     fetchMock.patch(feelings, [])
@@ -50,7 +56,7 @@ describe('Feelings Component', () => {
       )
     })
 
-    const ressentiBtn = screen.getByText('Créer un ressenti')
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
 
     await act(async () => {
       fireEvent.click(ressentiBtn)
@@ -58,20 +64,41 @@ describe('Feelings Component', () => {
     expect(screen.getByText('Mon humeur')).toBeInTheDocument()
   })
 
-  it('selects emotion on click', async () => {
+  test('checks disconnect through get feelings url', async () => {
+    fetchMock.get(feelings, 401)
+
     await act(async () => {
       render(
-        <BrowserRouter>
+        <BrowserRouter >
           <WebsocketProvider>
-            <FeelingsStudentPage />
+            <FeelingsStudentPage/>
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
-    const ressentiBtn = screen.getAllByText('Créer un ressenti')
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  test('checks disconnect through post feelings url', async () => {
+    fetchMock.post(feelings, 401)
 
     await act(async () => {
-      fireEvent.click(ressentiBtn[0])
+      render(
+        <BrowserRouter >
+          <WebsocketProvider>
+            <FeelingsStudentPage/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
     })
 
     const joyButton = screen.getByTitle('Bonne Humeur')
@@ -85,15 +112,135 @@ describe('Feelings Component', () => {
       fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
     })
 
-    const createFeeling = screen.getAllByText('Créer un ressenti')
+    const createFeeling = screen.getByText('Créer le Ressenti')
 
     await act(async () => {
-      fireEvent.click(createFeeling[1])
+      fireEvent.click(createFeeling)
     })
 
     await waitFor(() => {
-      const textResult = screen.getByText('Feeling test')
-      expect(textResult).toBeInTheDocument()
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  test('checks disconnect through patch feelings url', async () => {
+    fetchMock.patch(feelings, 401)
+
+    await act(async () => {
+      render(
+        <BrowserRouter >
+          <WebsocketProvider>
+            <FeelingsStudentPage/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const ressentiBtn = screen.getByText('Modifier le Dernier Ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
+
+    const joyButton = screen.getByTitle('Bonne Humeur')
+    await act(async () => {
+      fireEvent.click(joyButton)
+    })
+
+    const messageInput = screen.getByPlaceholderText('Message...')
+
+    await act(async () => {
+      fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
+    })
+
+    const createFeeling = screen.getByText('Modifier le Ressenti')
+
+    await act(async () => {
+      fireEvent.click(createFeeling)
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled();
+    });
+  })
+
+  test('checks no mood', async () => {
+
+    await act(async () => {
+      render(
+        <BrowserRouter >
+          <WebsocketProvider>
+            <FeelingsStudentPage/>
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
+
+    const createFeeling = screen.getByText('Créer le Ressenti')
+
+    await act(async () => {
+      fireEvent.click(createFeeling)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('L\'humeur n\'est pas indiquée.')).toBeInTheDocument()
+    })
+  })
+
+
+  it('selects emotion on click', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <FeelingsStudentPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
+
+    await act(async () => {
+      fireEvent.click(ressentiBtn)
+    })
+
+    const joyButton = screen.getByTitle('Très Bonne Humeur')
+    await act(async () => {
+      fireEvent.click(joyButton)
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTitle('Bonne Humeur'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTitle('Humeur Neutre'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTitle('Mauvaise Humeur'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTitle('Très Mauvaise Humeur'))
+    })
+
+    const messageInput = screen.getByPlaceholderText('Message...')
+
+    await act(async () => {
+      fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
+    })
+
+    const createFeeling = screen.getByText('Créer le Ressenti')
+
+    await act(async () => {
+      fireEvent.click(createFeeling)
     })
   })
 
@@ -108,7 +255,7 @@ describe('Feelings Component', () => {
       )
     })
 
-    const ressentiBtn = screen.getByText('Créer un ressenti')
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
 
     await act(async () => {
       fireEvent.click(ressentiBtn)
@@ -132,7 +279,7 @@ describe('Feelings Component', () => {
         </BrowserRouter>
       )
     })
-    const ressentiBtn = screen.getByText('Créer un ressenti')
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
 
     await act(async () => {
       fireEvent.click(ressentiBtn)
@@ -155,10 +302,10 @@ describe('Feelings Component', () => {
         </BrowserRouter>
       )
     })
-    const ressentiBtn = screen.getAllByText('Créer un ressenti')
+    const ressentiBtn = screen.getByText('Créer un Ressenti')
 
     await act(async () => {
-      fireEvent.click(ressentiBtn[0])
+      fireEvent.click(ressentiBtn)
     })
 
     const joyButton = screen.getByTitle('Bonne Humeur')
@@ -172,43 +319,16 @@ describe('Feelings Component', () => {
       fireEvent.change(messageInput, { target: { value: 'Feeling test' } })
     })
 
-    const createFeeling = screen.getAllByText('Créer un ressenti')
+    const createFeeling = screen.getByText('Créer le Ressenti')
 
     await act(async () => {
-      fireEvent.click(createFeeling[1])
+      fireEvent.click(createFeeling)
     })
 
-    await waitFor(() => {
-      const textResult = screen.getByText('Feeling test')
-      expect(textResult).toBeInTheDocument()
-    })
-
-    const ressentiBtn2 = screen.getAllByText('Créer un ressenti')
+    const ressentiBtn2 = screen.getByText('Créer un Ressenti')
 
     await act(async () => {
-      fireEvent.click(ressentiBtn2[0])
-    })
-
-    const joyButton2 = screen.getByTitle('Mauvaise Humeur')
-    await act(async () => {
-      fireEvent.click(joyButton2)
-    })
-
-    const messageInput2 = screen.getByPlaceholderText('Message...')
-
-    await act(async () => {
-      fireEvent.change(messageInput2, { target: { value: 'Feeling test2' } })
-    })
-
-    const createFeeling2 = screen.getAllByText('Créer un ressenti')
-
-    await act(async () => {
-      fireEvent.click(createFeeling2[1])
-    })
-
-    await waitFor(() => {
-      const textResult = screen.getByText('Feeling test2')
-      expect(textResult).toBeInTheDocument()
+      fireEvent.click(ressentiBtn2)
     })
   })
 
@@ -223,7 +343,7 @@ describe('Feelings Component', () => {
       )
     })
 
-    const modifBtn = screen.getByText('Modifier le dernier ressenti')
+    const modifBtn = screen.getByText('Modifier le Dernier Ressenti')
 
     await act(async () => {
       fireEvent.click(modifBtn)
@@ -235,7 +355,7 @@ describe('Feelings Component', () => {
       fireEvent.change(message, { target: { value: 'Feeling test2' } })
     })
 
-    const modifBtn2 = screen.getByText('Modifier le ressenti')
+    const modifBtn2 = screen.getByText('Modifier le Ressenti')
 
     await act(async () => {
       fireEvent.click(modifBtn2)

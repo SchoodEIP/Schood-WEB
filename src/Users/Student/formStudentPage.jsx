@@ -24,7 +24,6 @@ import { disconnect } from '../../functions/sharedFunctions'
 const FormStudentPage = () => {
   const { id } = useParams()
   const [data, setData] = useState({})
-  const [error, setError] = useState(null)
   const [currentCheck, setCurrentCheck] = useState(false)
   const [questions, setQuestions] = useState([])
   const [answers, setAnswers] = useState([])
@@ -76,8 +75,12 @@ const FormStudentPage = () => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
 
-    const result = checkDate >= startOfWeek && checkDate <= endOfWeek
-    setCurrentCheck(!result)
+    console.log(checkDate)
+    console.log(startOfWeek)
+    console.log(endOfWeek)
+    const result = ((checkDate >= startOfWeek) && (checkDate <= endOfWeek))
+    console.log(result)
+    setCurrentCheck(result)
   }
 
   const getQuestionnaireAnswers = (data) => {
@@ -195,7 +198,7 @@ const FormStudentPage = () => {
   }
 
   const handleClickEmoji = (number, index) => {
-    if (!currentCheck) {
+    if (currentCheck) {
       questions[index].studentAnswer[0] = number
       setQuestions([...questions])
     }
@@ -224,7 +227,7 @@ const FormStudentPage = () => {
         {questions.length > 0 && questions.map((question, index) => (
           <div key={index} className='question'>
             <div className='body'>
-              <div className='header' onClick={() => setAccordion(question)}>
+              <div data-testid={'question-container-' + index} className='header' onClick={() => setAccordion(question)}>
                 <div className='left'>
                   <div className='nb-question'>
                     {index + 1}.&nbsp;
@@ -238,20 +241,20 @@ const FormStudentPage = () => {
                 </div>
               </div>
               {question.active && (
-                <div testId={`question-container-${index}`} className='details'>
+                <div className='details'>
                   {question.type === 'text' && (
                     <div className='text'>
-                      <textarea id={`text-${index}`} testId disabled={currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
+                      <textarea data-testid={`answer-${index}-0`} id={`text-${index}`} disabled={!currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
                     </div>
                   )}
 
                   {question.type === 'emoji' && (
                     <div className='emoji'>
-                      <img alt='emoji1' src={question.studentAnswer[0] === '0' ? emoji1Selected : emoji1} onClick={() => handleClickEmoji('0', index)} />
-                      <img alt='emoji2' src={question.studentAnswer[0] === '1' ? emoji2Selected : emoji2} onClick={() => handleClickEmoji('1', index)} />
-                      <img alt='emoji3' src={question.studentAnswer[0] === '2' ? emoji3Selected : emoji3} onClick={() => handleClickEmoji('2', index)} />
-                      <img alt='emoji4' src={question.studentAnswer[0] === '3' ? emoji4Selected : emoji4} onClick={() => handleClickEmoji('3', index)} />
-                      <img alt='emoji5' src={question.studentAnswer[0] === '4' ? emoji5Selected : emoji5} onClick={() => handleClickEmoji('4', index)} />
+                      <img data-testid={`answer-${index}-0`} alt='emoji1' src={question.studentAnswer[0] === '0' ? emoji1Selected : emoji1} onClick={() => handleClickEmoji('0', index)} />
+                      <img data-testid={`answer-${index}-1`} alt='emoji2' src={question.studentAnswer[0] === '1' ? emoji2Selected : emoji2} onClick={() => handleClickEmoji('1', index)} />
+                      <img data-testid={`answer-${index}-2`} alt='emoji3' src={question.studentAnswer[0] === '2' ? emoji3Selected : emoji3} onClick={() => handleClickEmoji('2', index)} />
+                      <img data-testid={`answer-${index}-3`} alt='emoji4' src={question.studentAnswer[0] === '3' ? emoji4Selected : emoji4} onClick={() => handleClickEmoji('3', index)} />
+                      <img data-testid={`answer-${index}-4`} alt='emoji5' src={question.studentAnswer[0] === '4' ? emoji5Selected : emoji5} onClick={() => handleClickEmoji('4', index)} />
                     </div>
                   )}
 
@@ -259,7 +262,7 @@ const FormStudentPage = () => {
                     <div className='multiple'>
                       {question.answers.map((answer, index2) => (
                         <div key={index2} className='answer'>
-                          <input disabled={currentCheck} type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)} />{answer.title}
+                          <input data-testid={`answer-${index}-${index2}`} disabled={!currentCheck} type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)} />{answer.title}
                         </div>
                       ))}
                     </div>
@@ -271,7 +274,7 @@ const FormStudentPage = () => {
           </div>
         ))}
       </div>
-      {!currentCheck && (
+      {currentCheck && (
         <div className='submit'>
           <button onClick={sendAnswers} type='submit'>Envoyer le questionnaire</button>
         </div>
