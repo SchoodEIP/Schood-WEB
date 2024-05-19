@@ -6,9 +6,9 @@ import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/sharedFunctions', () => ({
+jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn(),
 }));
 

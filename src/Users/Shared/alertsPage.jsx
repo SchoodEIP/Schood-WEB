@@ -10,7 +10,7 @@ import cross from '../../assets/Cross.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')

@@ -6,7 +6,7 @@ import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const MoodFormCreationPopupContent = ({isModified = false}) => {
     const [errMessage, setErrMessage] = useState('')

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../../css/Components/Questionnaire/questSpace.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 export function QuestSpace () {
   const [previousQuestStatus, setPreviousQuestStatus] = useState(null) // Statut du questionnaire précédent

@@ -1,4 +1,4 @@
-import { translate } from "../../functions/sharedFunctions";
+import { translate } from "../../functions/translate";
 
 describe('translate function', () => {
     test('translates "other" to "Autre"', () => {

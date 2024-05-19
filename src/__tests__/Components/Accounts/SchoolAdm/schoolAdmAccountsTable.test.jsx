@@ -4,9 +4,9 @@ import SchoolAccountsTable from '../../../../Components/Accounts/SchoolAdm/schoo
 import { WebsocketProvider } from '../../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
-import { disconnect } from '../../../../functions/sharedFunctions'
+import { disconnect } from '../../../../functions/disconnect'
 
-jest.mock('../../../../functions/sharedFunctions', () => ({
+jest.mock('../../../../functions/disconnect', () => ({
   disconnect: jest.fn(),
 }));
 

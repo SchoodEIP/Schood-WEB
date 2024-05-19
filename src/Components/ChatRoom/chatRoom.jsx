@@ -10,7 +10,7 @@ import addFile from '../../assets/add_file.png'
 import ConversationCreationPopupContent from '../Popup/conversationCreation'
 import '../../css/Components/Popup/popup.scss'
 import cross from '../../assets/Cross.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -29,26 +29,26 @@ const Messages = () => {
 
     if (response.status === 401) {
       disconnect();
-    }
+    } else {
+      const data = await response.json()
 
-    const data = await response.json()
-
-    const conversationData = data.map((conversation) => {
-      const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
-      const convName = []
-      noUserParticipants.map((participant) => (
-        convName.push(participant.firstname + ' ' + participant.lastname)
-      ))
-      return {
-        _id: conversation._id,
-        participants: conversation.participants,
-        name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
+      const conversationData = data.map((conversation) => {
+        const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
+        const convName = []
+        noUserParticipants.map((participant) => (
+          convName.push(participant.firstname + ' ' + participant.lastname)
+        ))
+        return {
+          _id: conversation._id,
+          participants: conversation.participants,
+          name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
+        }
+      })
+      if (currentConversation === '' || changeConversation) {
+        setCurrentConversation(conversationData[conversationData.length - 1])
       }
-    })
-    if (currentConversation === '' || changeConversation) {
-      setCurrentConversation(conversationData[conversationData.length - 1])
+      setConversations(conversationData)
     }
-    setConversations(conversationData)
   }
 
   const fetchMessages = async () => {
@@ -71,13 +71,14 @@ const Messages = () => {
       }
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la récupération des messages.')
+      } else {
+        const data = await response.json()
+        const messageData = data.map((message) => ({
+          contentType: !message.file ? 'text' : 'file',
+          ...message
+        }))
+        setMessages(messageData)
       }
-      const data = await response.json()
-      const messageData = data.map((message) => ({
-        contentType: !message.file ? 'text' : 'file',
-        ...message
-      }))
-      setMessages(messageData)
     } catch (error) /* istanbul ignore next */ {
       console.error('Erreur lors de la récupération des messages :', error)
     }
@@ -118,9 +119,10 @@ const Messages = () => {
         }
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error('Erreur lors de la récupération des contacts.')
+        } else {
+          const data = await response.json()
+          setContacts(data)
         }
-        const data = await response.json()
-        setContacts(data)
       } catch (error) /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération des contacts :', error)
       }
@@ -162,11 +164,6 @@ const Messages = () => {
             body: fileData
           }
         )
-
-        if (response.status === 401) {
-          disconnect();
-        }
-
         if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
         } else {
@@ -245,11 +242,7 @@ const Messages = () => {
   }
 
   const openCreateConversationPopup = () => {
-    setShowCreateConversationPopup(true)
-  }
-
-  const closeCreateConversationPopup = () => {
-    setShowCreateConversationPopup(false)
+    setShowCreateConversationPopup(!showCreateConversationPopup)
   }
 
   const createConversation = async (convTitle, selectedContacts) => {
@@ -351,7 +344,7 @@ const Messages = () => {
                       {file && (
                         <div className='file-name'>
                           <div>{file.name}</div>
-                          <button className='send-button' onClick={handleClearFile}>X</button>
+                          <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
                         </div>
                       )}
                       <div className='message-input'>
@@ -397,11 +390,11 @@ const Messages = () => {
             <div>Aucune conversation sélectionnée.</div>
             )}
       </div>
-      <Popup open={showCreateConversationPopup} onClose={closeCreateConversationPopup} modal>
+      <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal>
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={closeCreateConversationPopup} />
+            <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={openCreateConversationPopup} />
           </div>
         )}
       </Popup>

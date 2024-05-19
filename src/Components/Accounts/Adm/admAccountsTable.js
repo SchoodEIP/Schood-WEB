@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../../../css/Components/Accounts/accountsTable.css'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts

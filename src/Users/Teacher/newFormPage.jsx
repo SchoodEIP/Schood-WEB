@@ -6,7 +6,7 @@ import '../../css/Components/Popup/popup.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(1)

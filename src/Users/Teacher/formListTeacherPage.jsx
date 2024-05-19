@@ -5,7 +5,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import rightArrow2 from '../../assets/rightArrow2.png'
 import { Link } from 'react-router-dom'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const FormListTeacherPage = () => {
   const [questionnaires, setQuestionnaires] = useState([])

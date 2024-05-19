@@ -4,9 +4,9 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import HelpNumberCreationPopupContent from '../../../Components/Popup/helpNumberCreation'
 import fetchMock from 'fetch-mock'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/sharedFunctions', () => ({
+jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn(),
 }));
 

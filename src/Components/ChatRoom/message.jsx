@@ -3,7 +3,7 @@ import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
 import '../../css/pages/chatRoomPage.scss'
 import UserProfile from '../userProfile/userProfile'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)

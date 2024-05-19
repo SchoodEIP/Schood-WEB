@@ -19,7 +19,7 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const FormStudentPage = () => {
   const { id } = useParams()

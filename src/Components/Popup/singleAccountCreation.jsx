@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 import userIcon from '../../assets/userIcon.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const SingleAccountCreationPopupContent = () => {
     const roleProfile = sessionStorage.getItem('role')

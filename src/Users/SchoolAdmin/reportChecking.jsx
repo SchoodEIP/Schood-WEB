@@ -5,7 +5,9 @@ import HeaderComp from '../../Components/Header/headerComp'
 import ReportSidebar from '../../Components/reports/reportSidebar'
 import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
-import { disconnect, translate } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
+import { translate } from '../../functions/translate'
+
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
@@ -28,6 +30,7 @@ const ReportChecking = () => {
         disconnect();
       }
       const data = await response.json()
+      console.log(data)
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
@@ -38,24 +41,25 @@ const ReportChecking = () => {
     }
   }
 
-  const fetchReportedConversation = async (conversationId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      if (response.status === 401) {
-        disconnect();
-      }
-      const data = await response.json()
-      if (!data.message) { setReportedConversation(data) }
-    } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la récupération de la conversation signalée.')
-    }
-  }
+  // const fetchReportedConversation = async (conversationId) => {
+  //   try {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'x-auth-token': sessionStorage.getItem('token'),
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     if (response.status === 401) {
+  //       disconnect();
+  //     }
+  //     const data = await response.json()
+  //     console.log("reported conv", data)
+  //     setReportedConversation(data)
+  //   } catch (error) /* istanbul ignore next */ {
+  //     setError('Erreur lors de la récupération de la conversation signalée.')
+  //   }
+  // }
 
   const fetchReportedConversationMessages = async (conversationId) => {
     try {
@@ -70,7 +74,8 @@ const ReportChecking = () => {
         disconnect();
       }
       const data = await response.json()
-      if (!data.message) { setReportedConversationMessages(data) }
+      console.log('messages', data)
+      setReportedConversationMessages(data)
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération de la conversation signalée.')
     }
@@ -86,6 +91,9 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect();
+      }
       const data = await response.json()
       setIsReportProcessed(data.processed)
     } catch (error) {
@@ -122,7 +130,7 @@ const ReportChecking = () => {
   } */
 
   const handleReportSelection = async (reportId, conversationId) => {
-    await fetchReportedConversation(conversationId)
+    // await fetchReportedConversation(conversationId)
     await fetchReportedConversationMessages(conversationId)
     // await checkReportProcessingStatus(reportId)
   }
@@ -135,7 +143,7 @@ const ReportChecking = () => {
     <div className='messaging-page'>
       <div className='header'>
         <HeaderComp
-          title='Mes messages'
+          title='Mes Signalements'
         />
       </div>
       <div className='content'>

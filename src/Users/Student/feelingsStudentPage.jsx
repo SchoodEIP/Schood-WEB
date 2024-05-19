@@ -10,7 +10,7 @@ import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const FeelingsStudentPage = () => {
   const [alertResponse, setAlertResponse] = useState('')

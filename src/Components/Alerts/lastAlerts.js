@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 export function LastAlerts () {
   const [errMessage, setErrMessage] = useState('')

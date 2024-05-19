@@ -7,7 +7,7 @@ import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const CsvAccountCreationPopupContent = () => {
     const role = sessionStorage.getItem('role')

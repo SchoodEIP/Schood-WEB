@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../../css/pages/createAlerts.scss'
 import '../../css/Components/Popup/popup.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const ReportButton = ({ currentConversation }) => {
   const userId = localStorage.getItem('id');
@@ -9,15 +9,11 @@ const ReportButton = ({ currentConversation }) => {
     ? currentConversation.participants
       .filter((participant) => participant._id !== userId)
     : [];
-  const [showConfirmation, setShowConfirmation] = useState(false)
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [signaledUserId, setSignaledUserId] = useState(null)
 
-  const handleReportClick = () => {
-    setShowConfirmation(true)
-  }
 
   const handleReasonChange = (e) => {
     setReason(e.target.value)
@@ -52,7 +48,6 @@ const ReportButton = ({ currentConversation }) => {
       }
 
       if (response.status === 200) {
-        setShowConfirmation(false)
         setError('Signalement en cours de traitement')
         window.location.reload()
       } else {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate } from '../../functions/sharedFunctions'
+import { translate } from '../../functions/translate'
 
 const ReportSidebar = ({
   reports,

@@ -5,9 +5,9 @@ import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/sharedFunctions', () => ({
+jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn(),
 }));
 

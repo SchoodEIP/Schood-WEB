@@ -6,7 +6,7 @@ import TeacherFormContent from '../../Components/Questionnaire/teacherFormConten
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import '../../css/pages/formDetailPage.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const FormTeacherPage = () => {
   const { id } = useParams()

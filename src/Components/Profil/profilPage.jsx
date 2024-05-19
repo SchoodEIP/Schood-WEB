@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const ProfilPage = () => {
   const [userProfile, setUserProfile] = useState({})

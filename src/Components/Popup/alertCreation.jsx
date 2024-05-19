@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const AlertCreationPopupContent = () => {
     const roleProfile = sessionStorage.getItem('role')

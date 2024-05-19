@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const CategoryCreationPopupContent = () => {
     const [name, setName] = useState('')

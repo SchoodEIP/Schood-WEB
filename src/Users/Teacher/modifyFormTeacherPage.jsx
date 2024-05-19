@@ -8,7 +8,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/Components/Popup/popup.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(1)

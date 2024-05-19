@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import '../../../css/Components/Accounts/accountsTable.css'
 import userIcon from '../../../assets/userIcon.png'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
 export default function SchoolAccountsTable () {
   const [teacherList, setTeacherList] = useState([])

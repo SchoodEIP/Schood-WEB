@@ -5,9 +5,9 @@ import HelpPage from "../../../Users/Shared/helpPage.jsx"
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
-import { disconnect } from '../../../functions/sharedFunctions'
+import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/sharedFunctions', () => ({
+jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn(),
 }));
 

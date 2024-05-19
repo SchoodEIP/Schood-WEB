@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Aides/aides.scss'
-import { disconnect } from '../../functions/sharedFunctions'
+import { disconnect } from '../../functions/disconnect'
 
 export default function AidePage (props) {
   const [categories, setCategories] = useState([])
