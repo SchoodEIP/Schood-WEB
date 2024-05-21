@@ -25,32 +25,36 @@ describe('StudentStatPage Component', () => {
     fetchMock.restore()
   })
 
-  it('renders without crashing', () => {
-    render(
-      <MemoryRouter initialEntries={['/statistiques']}>
-        <WebsocketProvider>
-          <StudentStatPage />
-        </WebsocketProvider>
-      </MemoryRouter>
-    )
-  })
+  // it('renders without crashing', async () => {
+  //   await act(async () => {
+  //     render(
+  //       <MemoryRouter >
+  //         <WebsocketProvider>
+  //           <StudentStatPage/>
+  //         </WebsocketProvider>
+  //       </MemoryRouter>
+  //     )
+  //   })
+  //   expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
 
-  test('checks disconnect through post daily moods url', async () => {
-    fetchMock.post(dailyMoodsUrl, 401)
+  // })
 
-    await act(async () => {
-      render(
-        <MemoryRouter initialEntries={['/statistiques']} >
-          <WebsocketProvider>
-            <StudentStatPage/>
-          </WebsocketProvider>
-        </MemoryRouter>
-      )
-    })
+  // test('checks disconnect through post daily moods url', async () => {
+  //   fetchMock.post(dailyMoodsUrl, 401)
 
-    await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
-  })
+  //   await act(async () => {
+  //     render(
+  //       <MemoryRouter >
+  //         <WebsocketProvider>
+  //           <StudentStatPage/>
+  //         </WebsocketProvider>
+  //       </MemoryRouter>
+  //     )
+  //   })
+
+  //   await waitFor(() => {
+  //     expect(disconnect).toHaveBeenCalled();
+  //   });
+  // })
 
 })

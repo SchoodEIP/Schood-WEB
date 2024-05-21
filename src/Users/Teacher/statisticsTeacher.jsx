@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import Chart from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
@@ -63,8 +62,6 @@ const TeacherStatPage = () => {
       }
       const mData = await moodResponse.json()
       const aData = await answersResponse.json()
-      // console.log(mData)
-      // console.log(aData)
       if (mData.averagePercentage !== undefined) {
         setAveragePercentage(mData.averagePercentage)
       }
@@ -126,6 +123,7 @@ const TeacherStatPage = () => {
         disconnect();
       }
       const classesData = await response.json()
+      console.log('classes', classesData)
       setClasses(classesData)
     } catch (error) {
       console.error('Error fetching classes:', error)
@@ -281,10 +279,8 @@ const TeacherStatPage = () => {
       chart.data.datasets[0].data = listData
       chart.data.labels = labels
       chart.options.scales.x.labels = labels
-
-      console.log(chart.data.datasets[0].data)
-      console.log(chart.data.labels)
-      chart.update()
+      if (chart._context)
+        chart.update()
     }
   }
 
@@ -325,7 +321,8 @@ const TeacherStatPage = () => {
     if (Array.isArray(answerData)) {
       answerChart.data.labels = answerData.map(answer => answer.date)
       answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
-      answerChart.update()
+      if (answerChart._context)
+        answerChart.update()
     }
   }
 
