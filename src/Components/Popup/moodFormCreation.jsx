@@ -8,7 +8,7 @@ import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import { disconnect } from '../../functions/disconnect'
 
-const MoodFormCreationPopupContent = ({isModified = false}) => {
+const MoodFormCreationPopupContent = () => {
     const [errMessage, setErrMessage] = useState('')
     const [newMood, setNewMood] = useState('')
     const [newAnonymous, setNewAnonymous] = useState(true)
@@ -36,7 +36,7 @@ const MoodFormCreationPopupContent = ({isModified = false}) => {
 
         if (newMood !== '') {
             fetch(`${process.env.REACT_APP_BACKEND_URL}/student/mood`, {
-                method: isModified ? 'PATCH' : 'POST',
+                method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 'x-auth-token': sessionStorage.getItem('token')
@@ -46,13 +46,16 @@ const MoodFormCreationPopupContent = ({isModified = false}) => {
             .then(response => {
                 if (response.status === 401) {
                     disconnect();
-                } else if (response.status === 200) {
+                }
+                if (response.status === 200) {
                     window.location.reload()
                 }
             })
             .catch(error => /* istanbul ignore next */ {
                 setErrMessage('Erreur lors de la récupération des ressentis', error)
             })
+        } else {
+            setErrMessage("L'humeur est manquante.")
         }
     }
 
@@ -66,7 +69,7 @@ const MoodFormCreationPopupContent = ({isModified = false}) => {
                     <div id='mood-container-1' className='emoticone-container' style={{ border: newMood === 1 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 1 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(1)} title='Mauvaise Humeur'>
                         <img src={badMood} alt='Mauvaise Humeur' />
                     </div>
-                    <div id='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Neutre'>
+                    <div id='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Humeur Neutre'>
                         <img src={averageMood} alt='Humeur Neutre' />
                     </div>
                     <div id='mood-container-3' className='emoticone-container' style={{ border: newMood === 3 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 3 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(3)} title='Bonne Humeur'>
@@ -81,7 +84,7 @@ const MoodFormCreationPopupContent = ({isModified = false}) => {
             <textarea id='message-input' placeholder='Message...' onChange={handleMessage} />
             <div className='horizontal-container'>
                 <input type='checkbox' id='anonymous-checkbox' defaultChecked onClick={handleAnonymous} />
-                <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
+                <label htmlFor='anonymous-checkbox' data-testid='anonymous-label' id='anonymous-label'>Anonyme</label>
             </div>
             {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
             <button className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>

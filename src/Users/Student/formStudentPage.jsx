@@ -75,11 +75,7 @@ const FormStudentPage = () => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
 
-    console.log(checkDate)
-    console.log(startOfWeek)
-    console.log(endOfWeek)
     const result = ((checkDate >= startOfWeek) && (checkDate <= endOfWeek))
-    console.log(result)
     setCurrentCheck(result)
   }
 

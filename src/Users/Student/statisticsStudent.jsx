@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import Chart from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'

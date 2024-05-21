@@ -56,7 +56,7 @@ export default function Sidebar () {
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
-  const [role, setRole] = useState(localStorage.getItem('role'))
+  const role = (sessionStorage.getItem('role'))
 
   const handleNotifications = () => /* istanbul ignore next */ {
     if (chats.value.notified) {
@@ -92,6 +92,7 @@ export default function Sidebar () {
           setDailyMood(data.mood)
         }
       })
+      .catch((e) =>  /* istanbul ignore next */ { console.error(e) })
   }
 
   const getUnseenNotifications = () => {
@@ -130,7 +131,7 @@ export default function Sidebar () {
 
   useEffect(() => {
     getUnseenNotifications()
-    if (role) {
+    if (role === 'student') {
       getDailyMood()
     }
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
@@ -179,9 +180,10 @@ export default function Sidebar () {
       .then((response) => {
         if (response.status === 401) {
           disconnect();
+        } else {
+          setIsAnswered(true)
+          setDailyMood(mood)
         }
-        setIsAnswered(true)
-        setDailyMood(mood)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error(error)
@@ -204,6 +206,7 @@ export default function Sidebar () {
         return response.json()
       })
       .then((data) => {
+        console.log(data)
         setNotifications(data)
         setNbNotification(data.length)
       })
@@ -250,7 +253,7 @@ export default function Sidebar () {
         )}
       </Popup>
       {isCollapsed && (
-        <div id='collapsed'>
+        <div data-testid='expanded' id='collapsed'>
           <div id='top'>
             <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
@@ -274,7 +277,7 @@ export default function Sidebar () {
           </div>
           <div id='bottom'>
             <span id='divider' />
-            <div onClick={() => toggleSidebar()} id='item'>
+            <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} id='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
             <div onClick={() => disconnect()} id='item'>
@@ -285,7 +288,7 @@ export default function Sidebar () {
       )}
 
       {!isCollapsed && (
-        <div id='expanded'>
+        <div data-testid='expanded' id='expanded'>
           <div id='top'>
             <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
@@ -298,15 +301,15 @@ export default function Sidebar () {
               </div>
             </div>
             <span id='divider' />
-            {role && role === 'student' && (
+            {role === 'student' && (
               <div id='daily-mood'>
                 <span>Mon humeur quotidienne</span>
                 <div id='mood-icons'>
-                  <img src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
-                  <img src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
-                  <img src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
-                  <img src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)} />
-                  <img src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)} />
+                  <img data-testid='mood-0' src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
+                  <img data-testid='mood-1' src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
+                  <img data-testid='mood-2' src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
+                  <img data-testid='mood-3' src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)} />
+                  <img data-testid='mood-4' src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)} />
                 </div>
               </div>
             )}
@@ -325,7 +328,7 @@ export default function Sidebar () {
           </div>
           <div id='bottom'>
             <span id='divider' />
-            <div onClick={() => toggleSidebar()} id='item'>
+            <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} id='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
             </div>
             <div onClick={() => disconnect()} id='item'>

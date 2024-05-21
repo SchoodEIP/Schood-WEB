@@ -30,7 +30,6 @@ const ReportChecking = () => {
         disconnect();
       }
       const data = await response.json()
-      console.log(data)
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
@@ -54,7 +53,6 @@ const ReportChecking = () => {
   //       disconnect();
   //     }
   //     const data = await response.json()
-  //     console.log("reported conv", data)
   //     setReportedConversation(data)
   //   } catch (error) /* istanbul ignore next */ {
   //     setError('Erreur lors de la récupération de la conversation signalée.')
@@ -74,7 +72,6 @@ const ReportChecking = () => {
         disconnect();
       }
       const data = await response.json()
-      console.log('messages', data)
       setReportedConversationMessages(data)
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération de la conversation signalée.')

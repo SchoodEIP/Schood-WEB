@@ -210,9 +210,8 @@ describe('Feelings Component', () => {
       fireEvent.click(ressentiBtn)
     })
 
-    const joyButton = screen.getByTitle('Très Bonne Humeur')
     await act(async () => {
-      fireEvent.click(joyButton)
+      fireEvent.click(screen.getByTitle('Très Bonne Humeur'))
     })
 
     await act(async () => {

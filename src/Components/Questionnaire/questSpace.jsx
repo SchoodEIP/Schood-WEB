@@ -25,8 +25,6 @@ export function QuestSpace () {
       })
       .then((data) => {
         setCurrentQuestStatus(data.q1)
-        console.log(data.q1.id.length)
-        console.log(data.q2.id.length)
         setPreviousQuestStatus(data.q2)
       })
       .catch((error) => /* istanbul ignore next */ {

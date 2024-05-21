@@ -14,6 +14,7 @@ jest.mock('../../../functions/disconnect', () => ({
 describe('Last Alert component', () => {
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
   const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/132`
+  const getStatus =`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
 
   const alertList = [
     {
@@ -65,6 +66,7 @@ describe('Last Alert component', () => {
     fetchMock.config.overwriteRoutes = true
     fetchMock.get(lastAlert, { body: alertList })
     fetchMock.get(getFile, getFileResponse)
+    fetchMock.get(getStatus, {q1: null, q2: null})
   })
 
   afterEach(() => {

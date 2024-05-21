@@ -93,7 +93,6 @@ const ModifyFormTeacherPage = () => {
         } else if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
-          console.log(response.status)
           window.location.href = '/questionnaire/' + id
         }
       })

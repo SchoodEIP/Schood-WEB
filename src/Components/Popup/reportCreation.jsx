@@ -66,7 +66,7 @@ const ReportCreationPopupContent = () => {
             } else {
                 setError('Erreur lors du signalement de la conversation.')
             }
-        } catch (error) {
+        } catch (error) /* istanbul ignore next */ {
             setError('Erreur lors du signalement de la conversation.')
         }
     }
@@ -75,7 +75,7 @@ const ReportCreationPopupContent = () => {
         <>
             <label className='input-label'>
                 <span className='label-content'>Raison <span style={{ color: 'red' }}>*</span></span>
-                <select value={reason} onChange={handleReasonChange}>
+                <select data-testid='reason-select' value={reason} onChange={handleReasonChange}>
                     <option value=''>Sélectionnez une raison</option>
                     <option value='bullying'>Harcèlement</option>
                     <option value='badcomportment'>Contenu offensant</option>
@@ -85,13 +85,13 @@ const ReportCreationPopupContent = () => {
             </label>
             <label className='input-label'>
                 <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
-                <select value={signaledUserId} onChange={handleSignaledUserIdChange}>
+                <select data-testid='user-select' value={signaledUserId} onChange={handleSignaledUserIdChange}>
                     <option value=''>Sélectionnez un des membres de la conversation</option>
                     {
                         userList.length > 0 ?
                             userList.map((user, index) => {
                                 return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
-                            }) : null
+                            }) : <option value=''>Aucun utilisateur ne peut être signalé</option>
                     }
                 </select>
             </label>

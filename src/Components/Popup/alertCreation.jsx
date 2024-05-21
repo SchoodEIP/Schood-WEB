@@ -56,7 +56,6 @@ const AlertCreationPopupContent = () => {
 
     const handleAlertSubmit = async (e) => {
         e.preventDefault()
-        let sendPost = true
 
         const data = {
           title,
@@ -66,75 +65,62 @@ const AlertCreationPopupContent = () => {
         }
 
         if (title === '') {
-            sendPost = false
-            setErrMessage('Le titre est vide.')
+          setErrMessage('Le titre est vide.')
+          return
         } else if (message === '') {
-            sendPost = false
-            setErrMessage('Le message est vide.')
+          setErrMessage('Le message est vide.')
+          return
         } else if (isClass && selectedClasses.length === 0) {
-            sendPost = false
-            setErrMessage("Aucune classe n'a été sélectionnée.")
+          setErrMessage("Aucune classe n'a été sélectionnée.")
+          return
+        } else if (!isClass && role === '') {
+          setErrMessage("Aucun rôle n'a été sélectionné.")
+          return
         }
 
-        const resetForm = () => {
-            setTitle('')
-            setMessage('')
-            setSelectedClasses([])
-            setIsClass(false)
-            setFile(null)
-            document.getElementById('file-input').value = ''
-        }
-
-        if (sendPost) {
-
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
-                method: 'POST',
-                headers: {
-                    'x-auth-token': sessionStorage.getItem('token'),
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(data)
-                })
-                .then(response => {
-                    if (response.status === 401) {
-                      disconnect();
-                    }
-                    return response.json()
-                  })
-                .then((data) => {
-                  setErrMessage('Alerte envoyée avec succès')
-                  addFileToAlert(data._id)
-                  resetForm()
-                  window.location.reload()
-                })
-                .catch((error) => /* istanbul ignore next */ {
-                  setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
-                  resetForm()
-                })
-
-            function addFileToAlert (id) {
-                if (file) {
-                    const fileData = new FormData()
-                    fileData.append('file', file)
-
-                    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'x-auth-token': sessionStorage.getItem('token')
-                    },
-                    body: fileData
-                    })
-                    .then(response => {
-                        if (response.status === 401) {
-                            disconnect();
-                        }
-                        setErrMessage('Fichier envoyé avec l\'alerte avec succès')
-                    })
-                    .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert`, {
+            method: 'POST',
+            headers: {
+                'x-auth-token': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.status === 401) {
+                  disconnect();
                 }
-            }
-        }
+                return response.json()
+              })
+            .then((data) => {
+              setErrMessage('Alerte envoyée avec succès')
+              if (file)
+                addFileToAlert(data._id)
+              window.location.reload()
+            })
+            .catch((error) => /* istanbul ignore next */ {
+              setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
+            })
 
+        function addFileToAlert (id) {
+              const fileData = new FormData()
+              fileData.append('file', file)
+
+              fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/${id}`, {
+              method: 'POST',
+              headers: {
+                  'x-auth-token': sessionStorage.getItem('token')
+              },
+              body: fileData
+              })
+              .then(response => {
+                  if (response.status === 401) {
+                      disconnect();
+                  }
+                  setErrMessage('Fichier envoyé avec l\'alerte avec succès')
+              })
+              .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
+        }
     }
 
     const handleAlertType = () => {
