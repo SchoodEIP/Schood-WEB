@@ -81,8 +81,6 @@ const SingleAccountCreationPopupContent = () => {
         const filteredArray = rolesList.filter(item => item.levelOfAccess === 2)
         const roleId = filteredArray.map(item => item._id)
 
-        let sendPost = true
-
         let classesArray = []
         if (classes.length !== 0) {
             classesArray.push(classes)
@@ -91,27 +89,27 @@ const SingleAccountCreationPopupContent = () => {
         }
 
         if (firstname === "") {
-          sendPost = false
           setErrMessage("Il manque le prénom.")
+          return
         } else if (lastname === "") {
-          sendPost = false
           setErrMessage("Il manque le nom de famille.")
+          return
         } else if (email === "") {
-          sendPost = false
           setErrMessage("Il manque l'adresse email.")
+          return
         } else if (!validateEmail(email)) {
-          sendPost = false
           setErrMessage("L'adresse email n'est pas valide.")
+          return
         } else if (roleProfile !== 'admin' && picture === '') {
-            sendPost = false
-            setErrMessage('Veuillez fournir une image de profil')
+          setErrMessage('Veuillez fournir une image de profil')
+          return
         } else if (roleProfile !== 'admin' && classesArray.length === 0) {
-            sendPost = false
-            if (role.name === 'teacher') {
-                setErrMessage('Veuillez assigner une ou plusieurs classes à cet enseignant.')
-            } else {
-                setErrMessage('Veuillez assigner une classe à cet étudiant.')
-            }
+          if (role.name === 'teacher') {
+            setErrMessage('Veuillez assigner une ou plusieurs classes à cet enseignant.')
+          } else {
+            setErrMessage('Veuillez assigner une classe à cet étudiant.')
+          }
+          return
         }
 
         const adminPayload = {
@@ -131,28 +129,28 @@ const SingleAccountCreationPopupContent = () => {
             picture: picture ? picture : userIcon
         }
 
-        if (sendPost) {
-            await fetch(singleCreationUrl, {
-              method: 'POST',
-              headers: {
-                'x-auth-token': sessionStorage.getItem('token'),
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(roleProfile === 'admin' ? adminPayload : schoolAdminPayload)
-            }).then(response => {
-              if (response.status === 401) {
-                disconnect();
-              } else if (response.ok) {
-                setErrMessage('Compte créé avec succès')
-                window.location.reload()
-              } else {
-
-                const data = response.json()
-                setErrMessage(data.message)
-              }
-            })
-              .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
-        }
+        await fetch(singleCreationUrl, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(roleProfile === 'admin' ? adminPayload : schoolAdminPayload)
+        }).then(response => {
+          if (response.status === 401) {
+            disconnect();
+          } else if (response.ok) {
+            setErrMessage('Compte créé avec succès')
+            window.location.reload()
+          } else {
+            return response.json()
+          }
+        })
+          .then(data => {
+            if (data)
+              setErrMessage(data.message)
+          })
+          .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
     }
 
     useEffect(() => {
