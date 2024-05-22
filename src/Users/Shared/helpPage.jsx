@@ -76,7 +76,7 @@ const HelpPage = () => {
             </div>
           )}
         </Popup>
-        <AidePage upPosition={upPosition} position={position} />
+        <AidePage upPosition={upPosition} position={position}  />
       </div>
     </div>
   )

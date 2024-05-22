@@ -44,6 +44,9 @@ export default function SchoolAdmAccountsPage () {
           title='Gestion de Comptes'
           withLogo
           showButtons
+          title='Gestion de Comptes'
+          withLogo
+          showButtons
           buttonComponent={buttonComponent}
         />
       </div>

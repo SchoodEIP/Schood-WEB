@@ -274,6 +274,7 @@ export default function Sidebar () {
                   </div>
                 </Link>
                 <span className={[page.selected ? 'selected' : '']} />
+                <span className={[page.selected ? 'selected' : '']} />
               </div>
             ))}
           </div>
@@ -324,6 +325,7 @@ export default function Sidebar () {
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span className='label'>{page.label}</span>
                   </div>
                 </Link>
+                <span className={[page.selected ? 'selected' : '']} />
                 <span className={[page.selected ? 'selected' : '']} />
               </div>
             ))}
