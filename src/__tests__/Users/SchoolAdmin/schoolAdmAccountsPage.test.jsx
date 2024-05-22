@@ -169,6 +169,39 @@ describe('SchoolAdmAccountsPage', () => {
     expect(screen.getByText('Ajouter une Liste de Comptes')).toBeInTheDocument()
   })
 
+  test('error message', async () => {
+    fetchMock.post(url + '/adm/csvRegisterUser', {status: 300, body: [{rowCSV: 2, errors: ['cet utilisateur existe déjà']}]})
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <SchoolAdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
+
+    await act(async () => {
+      fireEvent.click(manyAccountButton)
+    })
+    expect(screen.getByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+
+    const fileInput = screen.getByPlaceholderText('exemple.csv')
+    const file = new File(['firstname,lastname,email,role'], 'example.csv', { type: 'text/csv' })
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [file] } })
+    })
+
+    const newAccountBtn = screen.getByText('Créer le(s) Compte(s)')
+    await act(async () => {
+      fireEvent.click(newAccountBtn)
+    })
+    const errMessage = screen.getByTestId('err-message')
+    expect(errMessage).toBeInTheDocument()
+    expect(screen.getByText("À la ligne 2 du fichier CSV, cet utilisateur existe déjà")).toBeInTheDocument();
+  })
   test('allows errors', async () => {
     await act(async () => {
       render(

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
+import { translate } from '../../functions/translate'
 
 const CsvAccountCreationPopupContent = () => {
     const role = sessionStorage.getItem('role')
@@ -28,15 +29,18 @@ const CsvAccountCreationPopupContent = () => {
           if (response.status === 401) {
             disconnect();
           }
+          const data = response.json()
           if (response.ok) {
             setErrMessage('Compte(s) créé(s) avec succès')
             window.location.reload()
           } else /* istanbul ignore next */ {
-            const data = response.json()
-
-            setErrMessage(data.message)
+            return data
           }
         })
+          .then(data => {
+            if (data)
+              setErrMessage("À la ligne " + data[0].rowCSV + " du fichier CSV, "  + data[0].errors[0])
+          })
           .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
     }
 
