@@ -1,6 +1,6 @@
 
 @media screen and (min-height: 865px){
-  #collapsed {
+  .collapsed {
     position: relative;
     min-height: 100vh;
     width: 69px;
@@ -12,7 +12,7 @@
     align-items: center;
     flex-direction: column;
 
-    #divider {
+    .divider {
       display: block;
       height: 2px;
       width: 48px;
@@ -20,9 +20,17 @@
       margin: 30px 4px 30px 4px;
     }
 
-    #top {
-      #notifications {
-        position: absolute;
+    .top {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      .notifications {
+        background: none;
+        border: none;
+        border-radius: 50%;
+
+        position: relative;
         top: 0;
         left: 0;
         cursor: pointer;
@@ -32,7 +40,7 @@
           width: 24px;
         }
       }
-      #profile {
+      .profile {
         margin-top: 30px;
         cursor: pointer;
 
@@ -44,7 +52,7 @@
       }
     }
 
-    #menu {
+    .menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
@@ -54,7 +62,7 @@
         position: relative;
         margin-bottom: 45px;
 
-        #icons {
+        .icons {
           height: 26px;
           width: 26px;
         }
@@ -75,7 +83,7 @@
           height: 47px;
         }
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -83,11 +91,11 @@
           z-index: 999;
           color: white !important;
 
-          #icon {
+          .icon {
             z-index: 999;
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -95,7 +103,7 @@
       }
     }
 
-    #bottom {
+    .bottom {
       position: absolute;
       display: flex;
       flex-direction: column;
@@ -103,14 +111,14 @@
       align-items: center;
       bottom: 0;
 
-      #item {
+      .item {
         margin-bottom: 26px;
         cursor: pointer;
       }
     }
   }
 
-  #expanded {
+  .expanded {
     position: relative;
     min-height: 100vh;
     width: 241px;
@@ -122,7 +130,7 @@
     align-items: start;
     flex-direction: column;
 
-    #divider {
+    .divider {
       display: block;
       height: 2px;
       width: 200px;
@@ -130,13 +138,17 @@
       margin: 10px 20px 20px 20px;
     }
 
-    #top {
+    .top {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      #notifications {
-        position: absolute;
+      align-items: flex-start;
+      .notifications {
+        background: none;
+        border: none;
+        border-radius: 50%;
+
+        position: relative;
         top: 0;
         left: 0;
         cursor: pointer;
@@ -146,7 +158,7 @@
           width: 24px;
         }
       }
-      #profile {
+      .profile {
         display: flex;
         flex-direction: row;
         justify-content: start;
@@ -160,7 +172,7 @@
           border-radius: 100%;
         }
 
-        #firstname-lastname {
+        .firstname-lastname {
           margin-left: 7px;
           display: flex;
           flex-direction: column;
@@ -173,7 +185,7 @@
         }
       }
 
-      #daily-mood {
+      .daily-mood {
         display: flex;
         flex-direction: column;
         color: #4F23E2;
@@ -182,7 +194,7 @@
         font-family: Inter;
         margin-bottom: 20px;
 
-        #mood-icons {
+        .mood-icons {
           margin-top: 5px;
           display: flex;
           flex-direction: row;
@@ -190,14 +202,14 @@
           align-items: center;
           cursor: pointer;
 
-          #selected {
+          .selected {
             background-color: #4F23E2;
           }
         }
       }
     }
 
-    #menu {
+    .menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
@@ -212,7 +224,7 @@
         font-weight: 600;
         font-family: Inter;
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -220,19 +232,19 @@
           z-index: 999;
           color: #4F23E2 !important;
 
-          #icon {
+          .icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
 
-            #label {
+            .label {
               margin-left: 10px;
             }
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -259,7 +271,7 @@
           height: 47px;
         }
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -267,19 +279,19 @@
           z-index: 999;
           color: white !important;
 
-          #icon {
+          .icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
 
-            #label {
+            .label {
               margin-left: 10px;
             }
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -287,13 +299,13 @@
       }
     }
 
-    #bottom {
+    .bottom {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
 
-      #item {
+      .item {
         margin-bottom: 26px;
         margin-left: 20px;
         color: #4F23E2;
@@ -303,7 +315,7 @@
         cursor: pointer;
       }
 
-      #item:hover {
+      .item:hover {
         text-decoration: underline;
       }
     }
@@ -311,7 +323,7 @@
 }
 
 @media screen and (max-height: 864px){
-  #collapsed {
+  .collapsed {
     position: relative;
     min-height: 100vh;
     width: 69px;
@@ -323,21 +335,25 @@
     align-items: center;
     flex-direction: column;
 
-    #divider {
+    .divider {
       display: block;
-      height: 2px;
-      width: 48px;
+      height: 3px;
+      width: 85%;
       background-color: #4F23E2;
-      margin: 0px 4px 15px 4px;
+      margin: 10px 4px 15px 4px;
     }
 
-    #top {
-      #notifications {
-        background-color: none;
+    .top {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      .notifications {
+        background: none;
         border: none;
         border-radius: 50%;
 
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
         cursor: pointer;
@@ -347,8 +363,7 @@
           width: 24px;
         }
       }
-      #profile {
-        margin-top: 20px;
+      .profile {
         cursor: pointer;
 
         img {
@@ -359,7 +374,7 @@
       }
     }
 
-    #menu {
+    .menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
@@ -369,7 +384,7 @@
         position: relative;
         margin-bottom: 15px;
 
-        #icons {
+        .icons {
           height: 26px;
           width: 26px;
         }
@@ -390,7 +405,7 @@
           height: 47px;
         }
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -398,11 +413,11 @@
           z-index: 999;
           color: white !important;
 
-          #icon {
+          .icon {
             z-index: 999;
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -410,7 +425,7 @@
       }
     }
 
-    #bottom {
+    .bottom {
       position: absolute;
       display: flex;
       flex-direction: column;
@@ -418,14 +433,14 @@
       align-items: center;
       bottom: 0;
 
-      #item {
+      .item {
         margin-bottom: 26px;
         cursor: pointer;
       }
     }
   }
 
-  #expanded {
+  .expanded {
     position: relative;
     min-height: 100vh;
     width: 241px;
@@ -437,7 +452,7 @@
     align-items: start;
     flex-direction: column;
 
-    #divider {
+    .divider {
       display: block;
       height: 2px;
       width: 200px;
@@ -445,17 +460,18 @@
       margin: 5px 20px 5px 20px;
     }
 
-    #top {
+    .top {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      #notifications {
-        background-color: none;
+      align-items: flex-start;
+
+      .notifications {
+        background: none;
         border: none;
         border-radius: 50%;
 
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
         cursor: pointer;
@@ -465,7 +481,7 @@
           width: 24px;
         }
       }
-      #profile {
+      .profile {
         display: flex;
         flex-direction: row;
         justify-content: start;
@@ -479,7 +495,7 @@
           border-radius: 100%;
         }
 
-        #firstname-lastname {
+        .firstname-lastname {
           margin-left: 7px;
           display: flex;
           flex-direction: column;
@@ -492,7 +508,7 @@
         }
       }
 
-      #daily-mood {
+      .daily-mood {
         display: flex;
         flex-direction: column;
         color: #4F23E2;
@@ -501,7 +517,7 @@
         font-family: Inter;
         margin-bottom: 15px;
 
-        #mood-icons {
+        .mood-icons {
           margin-top: 5px;
           display: flex;
           flex-direction: row;
@@ -509,14 +525,14 @@
           align-items: center;
           cursor: pointer;
 
-          #selected {
+          .selected {
             background-color: #4F23E2;
           }
         }
       }
     }
 
-    #menu {
+    .menu {
       display: flex;
       flex-direction: column;
       justify-content: start;
@@ -531,7 +547,7 @@
         font-weight: 600;
         font-family: Inter;
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -539,19 +555,19 @@
           z-index: 999;
           color: #4F23E2 !important;
 
-          #icon {
+          .icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
 
-            #label {
+            .label {
               margin-left: 10px;
             }
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -578,7 +594,7 @@
           height: 40px;
         }
 
-        #link {
+        .link {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -586,19 +602,19 @@
           z-index: 999;
           color: white !important;
 
-          #icon {
+          .icon {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             z-index: 999;
 
-            #label {
+            .label {
               margin-left: 10px;
             }
           }
 
-          #icons {
+          .icons {
             height: 26px;
             width: 26px;
           }
@@ -606,13 +622,13 @@
       }
     }
 
-    #bottom {
+    .bottom {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: start;
 
-      #item {
+      .item {
         margin-bottom: 5px;
         margin-left: 20px;
         color: #4F23E2;
@@ -622,7 +638,7 @@
         cursor: pointer;
       }
 
-      #item:hover {
+      .item:hover {
         text-decoration: underline;
       }
     }

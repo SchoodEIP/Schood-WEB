@@ -13,5 +13,7 @@ export function translate(word) {
         return 'Administrateur Scolaire'
     else if (word === 'student')
         return 'Élève'
+    else
+        return word
 }
 

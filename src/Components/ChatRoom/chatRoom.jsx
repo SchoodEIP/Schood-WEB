@@ -101,7 +101,14 @@ const Messages = () => {
   const [fileType, setFileType] = useState('text')
 
   useEffect(() => {
+
     fetchMessages()
+
+    const intervalId = setInterval(() => {
+      fetchMessages();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, [currentConversation])
 
   useEffect(() => {
@@ -283,7 +290,7 @@ const Messages = () => {
         case 'jpg':
         case 'jpeg':
         case 'png':
-          setFileType('image')
+          setFileType('file')
           break
         case 'pdf':
           setFileType('pdf')

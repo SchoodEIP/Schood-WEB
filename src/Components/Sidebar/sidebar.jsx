@@ -5,10 +5,10 @@ import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
 
-import { FaBars, FaTimes, FaHome, FaQuestion, FaChartBar, FaEnvelope, FaQuestionCircle, FaUsers, FaPlusCircle, FaExclamationCircle, FaHeadSideCough } from 'react-icons/fa'
+import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faFileLines, faMessage, faUser } from '@fortawesome/free-regular-svg-icons'
-import { faAnglesDown, faChartLine, faCircleExclamation, faCircleInfo, faHeadSideCough, faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faBell } from '@fortawesome/free-regular-svg-icons'
+import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
@@ -141,25 +141,28 @@ export default function Sidebar () {
 
   if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') /* istanbul ignore next */ {
     pages = [
-      { id: 'home', path: '/', icon: <img id='icons' src={homeIcon} />, iconSelected: <img id='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
+      { id: 'home', path: '/', icon: <img className='icons' src={homeIcon} />, iconSelected: <img className='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage('/accounts', false) },
-      { id: 'messages', path: '/messages', icon: <img id='icons' src={chatIcon} />, iconSelected: <img id='icons' src={chatIconSelected} />, label: 'Messages', title: 'Messages', selected: IsCurrentPage('/messages', false) },
-      { id: 'aides', path: '/aides', icon: <img id='icons' src={helpIcon} />, iconSelected: <img id='icons' src={helpIconSelected} />, label: 'Aides', title: 'Aides', selected: IsCurrentPage('/aides', false) },
-      { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalement', selected: IsCurrentPage('/reports', false) },
-      { id: 'alertes', path: '/alerts', icon: <img id='icons' src={alertsIcon} />, iconSelected: <img id='icons' src={alertsIconSelected} />, label: 'Alertes', title: 'Alertes', selected: IsCurrentPage('/alerts', false) }
+      { id: 'messages', path: '/messages', icon: <img className='icons' src={chatIcon} />, iconSelected: <img className='icons' src={chatIconSelected} />, label: 'Messages', title: 'Messages', selected: IsCurrentPage('/messages', false) },
+      { id: 'aides', path: '/aides', icon: <img className='icons' src={helpIcon} />, iconSelected: <img className='icons' src={helpIconSelected} />, label: 'Aides', title: 'Aides', selected: IsCurrentPage('/aides', false) },
+      { id: 'alertes', path: '/alerts', icon: <img className='icons' src={alertsIcon} />, iconSelected: <img className='icons' src={alertsIconSelected} />, label: 'Alertes', title: 'Alertes', selected: IsCurrentPage('/alerts', false) }
     ]
+    if (sessionStorage.getItem('role') === 'administration') {
+      const reportObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalement', selected: IsCurrentPage('/reports', false) }
+      pages.splice(4, 0, reportObj)
+    }
   } else {
     pages = [
-      { id: 'home', path: '/', icon: <img id='icons' src={homeIcon} />, iconSelected: <img id='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
-      { id: 'questionnaires', path: '/questionnaires', icon: <img id='icons' src={surveyIcon} />, iconSelected: <img id='icons' src={surveyIconSelected} />, label: 'Mes questionnaires', title: 'Mes questionnaires', selected: IsCurrentPage('/questionnaire', false) },
-      { id: 'statistiques', path: '/statistiques', icon: <img id='icons' src={statsIcon} />, iconSelected: <img id='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) },
-      { id: 'messages', path: '/messages', icon: <img id='icons' src={chatIcon} />, iconSelected: <img id='icons' src={chatIconSelected} />, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage('/messages', false) },
-      { id: 'aides', path: '/aides', icon: <img id='icons' src={helpIcon} />, iconSelected: <img id='icons' src={helpIconSelected} />, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage('/aides', false) },
-      { id: 'profile', path: '/profile', icon: <img id='icons' src={profileIcon} />, iconSelected: <img id='icons' src={profileIconSelected} />, label: 'Mon profile', title: 'Mon profile', selected: IsCurrentPage('/profile', false) },
-      { id: 'alerts', path: '/alerts', icon: <img id='icons' src={alertsIcon} />, iconSelected: <img id='icons' src={alertsIconSelected} />, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage('/alerts', false) }
+      { id: 'home', path: '/', icon: <img className='icons' src={homeIcon} />, iconSelected: <img className='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
+      { id: 'questionnaires', path: '/questionnaires', icon: <img className='icons' src={surveyIcon} />, iconSelected: <img className='icons' src={surveyIconSelected} />, label: 'Mes questionnaires', title: 'Mes questionnaires', selected: IsCurrentPage('/questionnaire', false) },
+      { id: 'statistiques', path: '/statistiques', icon: <img className='icons' src={statsIcon} />, iconSelected: <img className='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) },
+      { id: 'messages', path: '/messages', icon: <img className='icons' src={chatIcon} />, iconSelected: <img className='icons' src={chatIconSelected} />, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage('/messages', false) },
+      { id: 'aides', path: '/aides', icon: <img className='icons' src={helpIcon} />, iconSelected: <img className='icons' src={helpIconSelected} />, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage('/aides', false) },
+      { id: 'profile', path: '/profile', icon: <img className='icons' src={profileIcon} />, iconSelected: <img className='icons' src={profileIconSelected} />, label: 'Mon profile', title: 'Mon profile', selected: IsCurrentPage('/profile', false) },
+      { id: 'alerts', path: '/alerts', icon: <img className='icons' src={alertsIcon} />, iconSelected: <img className='icons' src={alertsIconSelected} />, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage('/alerts', false) }
     ]
     if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
-      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img id='icons' src={feelingIcon} />, iconSelected: <img id='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
+      const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(6, 0, feelingsObj)
     }
   }
@@ -234,7 +237,7 @@ export default function Sidebar () {
     <>
       <Popup open={isShown} onClose={handleShowNotifications} modal>
         {(close) => (
-          <div className='popup-modal-container'>
+          <div style={{marginTop: "25px"}} className='popup-modal-container'>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='content'>
               {notifications && notifications.map((notif, index) => (
@@ -253,21 +256,21 @@ export default function Sidebar () {
         )}
       </Popup>
       {isCollapsed && (
-        <div data-testid='expanded' id='collapsed'>
-          <div id='top'>
-            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
+        <div data-testid='expanded' className='collapsed'>
+          <div className='top'>
+            <div style={{background: 'none'}} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
-            </button>
-            <div id='profile'>
+            </div>
+            <div className='profile'>
               <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
             </div>
-            <span id='divider' />
+            <span className='divider' />
           </div>
-          <div id='menu'>
+          <div className='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link id='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
-                  <div id='icon'>
+                <Link className='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                  <div className='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon}
                   </div>
                 </Link>
@@ -275,12 +278,12 @@ export default function Sidebar () {
               </div>
             ))}
           </div>
-          <div id='bottom'>
-            <span id='divider' />
-            <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} id='item'>
+          <div className='bottom'>
+            <span className='divider' />
+            <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
-            <div onClick={() => disconnect()} id='item'>
+            <div onClick={() => disconnect()} className='item'>
               <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
           </div>
@@ -288,23 +291,23 @@ export default function Sidebar () {
       )}
 
       {!isCollapsed && (
-        <div data-testid='expanded' id='expanded'>
-          <div id='top'>
-            <button onClick={handleShowNotifications} id='notifications' data-tooltip-id='notification-tooltip'>
+        <div data-testid='expanded' className='expanded'>
+          <div className='top'>
+            <div style={{background: 'none'}} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
-            </button>
-            <div id='profile'>
+            </div>
+            <div className='profile'>
               <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div id='firstname-lastname'>
+              <div className='firstname-lastname'>
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>
               </div>
             </div>
-            <span id='divider' />
+            <span className='divider' />
             {role === 'student' && (
-              <div id='daily-mood'>
+              <div className='daily-mood'>
                 <span>Mon humeur quotidienne</span>
-                <div id='mood-icons'>
+                <div className='mood-icons'>
                   <img data-testid='mood-0' src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
                   <img data-testid='mood-1' src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
                   <img data-testid='mood-2' src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
@@ -314,24 +317,24 @@ export default function Sidebar () {
               </div>
             )}
           </div>
-          <div id='menu'>
+          <div className='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link id='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
-                  <div id='icon'>
-                    {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span id='label'>{page.label}</span>
+                <Link className='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                  <div className='icon'>
+                    {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span className='label'>{page.label}</span>
                   </div>
                 </Link>
                 <span className={[page.selected ? 'selected' : '']} />
               </div>
             ))}
           </div>
-          <div id='bottom'>
-            <span id='divider' />
-            <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} id='item'>
+          <div className='bottom'>
+            <span className='divider' />
+            <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
             </div>
-            <div onClick={() => disconnect()} id='item'>
+            <div onClick={() => disconnect()} className='item'>
               <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
             </div>
           </div>
@@ -339,7 +342,7 @@ export default function Sidebar () {
       )}
 
       <Tooltip
-        id='notification-tooltip'
+        className='notification-tooltip'
         place='right'
         content='Notifications'
       />

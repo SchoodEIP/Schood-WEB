@@ -29,4 +29,8 @@ describe('translate function', () => {
         expect(translate('student')).toBe('Élève')
     })
 
+    test('return unknown word', () => {
+        expect(translate('dog')).toBe('dog')
+    })
+
 })

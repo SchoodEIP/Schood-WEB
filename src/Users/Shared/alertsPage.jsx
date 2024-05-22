@@ -139,7 +139,7 @@ const AlertsPage = () => {
           buttonComponent={buttonComponent}
         />
       </div>
-      <div style={{ marginLeft: '25px' }}>
+      <div className='alert-page' style={{ marginLeft: '25px' }}>
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
