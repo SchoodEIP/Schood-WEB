@@ -8,8 +8,8 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('ModifyFormTeacherPage', () => {
   function getFormDates () {
@@ -153,8 +153,8 @@ describe('ModifyFormTeacherPage', () => {
       )
     })
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on sending the form', async () => {
@@ -180,8 +180,8 @@ describe('ModifyFormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('adds and removes an answer', async () => {

@@ -64,7 +64,7 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container' style={{ padding: '50px', gap: '50px' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <CategoryCreationPopupContent/>
+              <CategoryCreationPopupContent />
             </div>
           )}
         </Popup>
@@ -72,11 +72,11 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <HelpNumberCreationPopupContent/>
+              <HelpNumberCreationPopupContent />
             </div>
           )}
         </Popup>
-        <AidePage upPosition={upPosition} position={position}  />
+        <AidePage upPosition={upPosition} position={position} />
       </div>
     </div>
   )

@@ -7,8 +7,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('AdmAccountsPage', () => {
   let container = null
@@ -29,17 +29,17 @@ describe('AdmAccountsPage', () => {
     {
       active: true,
       classes: [],
-      createdAt: "2024-05-06T09:46:56.511Z",
-      email: "jacqueline.delais.Schood1@schood.fr",
-      facility: "6638a70fdd18a1e42e53944d",
+      createdAt: '2024-05-06T09:46:56.511Z',
+      email: 'jacqueline.delais.Schood1@schood.fr',
+      facility: '6638a70fdd18a1e42e53944d',
       firstConnexion: true,
-      firstname: "Jacqueline",
-      lastname: "Delais",
-      picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAvw",
-      role: {_id: '6638a70fdd18a1e42e539448', name: 'administration', levelOfAccess: 2, __v: 0},
-      updatedAt: "2024-05-06T09:46:56.511Z",
+      firstname: 'Jacqueline',
+      lastname: 'Delais',
+      picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAvw',
+      role: { _id: '6638a70fdd18a1e42e539448', name: 'administration', levelOfAccess: 2, __v: 0 },
+      updatedAt: '2024-05-06T09:46:56.511Z',
       __v: 0,
-      _id: "6638a710dd18a1e42e53947e"
+      _id: '6638a710dd18a1e42e53947e'
     }
   ]
 
@@ -82,7 +82,7 @@ describe('AdmAccountsPage', () => {
   const titles = [
     {
       _id: '0',
-      name: 'Math',
+      name: 'Math'
     },
     {
       _id: '1',
@@ -96,14 +96,14 @@ describe('AdmAccountsPage', () => {
     document.body.appendChild(container)
     fetchMock.config.overwriteRoutes = true
     fetchMock.get(url + '/shared/roles', { roles })
-    fetchMock.get(url + '/user/all', {status: 200, body: users})
+    fetchMock.get(url + '/user/all', { status: 200, body: users })
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})
     fetchMock.get(url + '/shared/classes', classes)
     fetchMock.get(url + '/shared/titles', titles)
     sessionStorage.setItem('role', 'admin')
-    delete window.location;
-    window.location = { reload: jest.fn() };
+    delete window.location
+    window.location = { reload: jest.fn() }
   })
 
   afterEach(() => {
@@ -148,7 +148,7 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(singleAccountButton)
     })
-    expect(screen.getByText("Créer le Compte")).toBeInTheDocument()
+    expect(screen.getByText('Créer le Compte')).toBeInTheDocument()
 
     const firstNameInput = screen.getByPlaceholderText('Prénom')
     const lastNameInput = screen.getByPlaceholderText('Nom')
@@ -179,7 +179,7 @@ describe('AdmAccountsPage', () => {
 
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalled()
   })
 
   test('allows creation of new accounts with a file', async () => {
@@ -198,7 +198,7 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.getByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+    expect(screen.getByText('Créer le(s) Compte(s)')).toBeInTheDocument()
 
     const fileInput = screen.getByPlaceholderText('exemple.csv')
     const file = new File(['firstname,lastname,email,role'], 'example.csv', { type: 'text/csv' })
@@ -212,11 +212,11 @@ describe('AdmAccountsPage', () => {
     })
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalled()
   })
 
   test('error message', async () => {
-    fetchMock.post(url + '/adm/csvRegisterUser', {status: 300, body: [{rowCSV: 2, errors: ['cet utilisateur existe déjà']}]})
+    fetchMock.post(url + '/adm/csvRegisterUser', { status: 300, body: [{ rowCSV: 2, errors: ['cet utilisateur existe déjà'] }] })
     await act(async () => {
       render(
         <BrowserRouter>
@@ -232,7 +232,7 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.getByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+    expect(screen.getByText('Créer le(s) Compte(s)')).toBeInTheDocument()
 
     const fileInput = screen.getByPlaceholderText('exemple.csv')
     const file = new File(['firstname,lastname,email,role'], 'example.csv', { type: 'text/csv' })
@@ -246,7 +246,7 @@ describe('AdmAccountsPage', () => {
     })
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(screen.getByText("À la ligne 2 du fichier CSV, cet utilisateur existe déjà")).toBeInTheDocument();
+    expect(screen.getByText('À la ligne 2 du fichier CSV, cet utilisateur existe déjà')).toBeInTheDocument()
   })
 
   it('tests the popups', async () => {
@@ -266,7 +266,7 @@ describe('AdmAccountsPage', () => {
       fireEvent.click(manyAccountButton)
     })
     await waitFor(async () => {
-      expect(screen.queryByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+      expect(screen.queryByText('Créer le(s) Compte(s)')).toBeInTheDocument()
     })
     await act(async () => {
       fireEvent.click(screen.getByTestId('close-many'))
@@ -279,7 +279,7 @@ describe('AdmAccountsPage', () => {
     })
 
     await waitFor(async () => {
-      expect(screen.queryByText("Créer le(s) Compte(s)")).not.toBeInTheDocument()
+      expect(screen.queryByText('Créer le(s) Compte(s)')).not.toBeInTheDocument()
     })
   })
 
@@ -301,8 +301,8 @@ describe('AdmAccountsPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through user url', async () => {
@@ -318,8 +318,8 @@ describe('AdmAccountsPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through register url', async () => {
@@ -339,7 +339,7 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(singleAccountButton)
     })
-    expect(screen.getByText("Créer le Compte")).toBeInTheDocument()
+    expect(screen.getByText('Créer le Compte')).toBeInTheDocument()
 
     const firstNameInput = screen.getByPlaceholderText('Prénom')
     const lastNameInput = screen.getByPlaceholderText('Nom')
@@ -369,8 +369,8 @@ describe('AdmAccountsPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through post csvRegister url', async () => {
@@ -390,7 +390,7 @@ describe('AdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.getByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+    expect(screen.getByText('Créer le(s) Compte(s)')).toBeInTheDocument()
 
     const fileInput = screen.getByPlaceholderText('exemple.csv')
     const file = new File(['firstname,lastname,email,role'], 'example.csv', { type: 'text/csv' })
@@ -404,7 +404,7 @@ describe('AdmAccountsPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 })

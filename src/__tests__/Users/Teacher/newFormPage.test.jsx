@@ -9,8 +9,8 @@ import userEvent from '@testing-library/user-event'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('NewFormPage', () => {
   function getFormDates () {
@@ -83,10 +83,9 @@ describe('NewFormPage', () => {
       fireEvent.click(postButton)
     })
 
-
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('return button without changes', async () => {
@@ -105,7 +104,6 @@ describe('NewFormPage', () => {
     await act(async () => {
       fireEvent.click(postButton)
     })
-
   })
 
   test('return button with changes', async () => {
@@ -378,7 +376,7 @@ describe('NewFormPage', () => {
       fireEvent.click(postButton)
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('Network Error')).toBeInTheDocument()
     })
   })

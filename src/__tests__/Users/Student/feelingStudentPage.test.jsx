@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('Feelings Component', () => {
   const feelings = `${process.env.REACT_APP_BACKEND_URL}/student/mood`
@@ -69,17 +69,17 @@ describe('Feelings Component', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter >
+        <BrowserRouter>
           <WebsocketProvider>
-            <FeelingsStudentPage/>
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through post feelings url', async () => {
@@ -87,9 +87,9 @@ describe('Feelings Component', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter >
+        <BrowserRouter>
           <WebsocketProvider>
-            <FeelingsStudentPage/>
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -119,8 +119,8 @@ describe('Feelings Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through patch feelings url', async () => {
@@ -128,9 +128,9 @@ describe('Feelings Component', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter >
+        <BrowserRouter>
           <WebsocketProvider>
-            <FeelingsStudentPage/>
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -160,17 +160,16 @@ describe('Feelings Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks no mood', async () => {
-
     await act(async () => {
       render(
-        <BrowserRouter >
+        <BrowserRouter>
           <WebsocketProvider>
-            <FeelingsStudentPage/>
+            <FeelingsStudentPage />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -192,7 +191,6 @@ describe('Feelings Component', () => {
       expect(screen.getByText('L\'humeur n\'est pas indiquée.')).toBeInTheDocument()
     })
   })
-
 
   it('selects emotion on click', async () => {
     await act(async () => {

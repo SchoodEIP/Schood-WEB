@@ -117,7 +117,7 @@ describe('SchoolAdmAccountsPage', () => {
   const titles = [
     {
       _id: '0',
-      name: 'Math',
+      name: 'Math'
     },
     {
       _id: '1',
@@ -138,8 +138,8 @@ describe('SchoolAdmAccountsPage', () => {
     fetchMock.post(url + '/adm/csvRegisterUser', {})
     fetchMock.post(url + '/adm/register', {})
     sessionStorage.setItem('role', 'administration')
-    delete window.location;
-    window.location = { reload: jest.fn() };
+    delete window.location
+    window.location = { reload: jest.fn() }
   })
 
   afterEach(() => {
@@ -170,7 +170,7 @@ describe('SchoolAdmAccountsPage', () => {
   })
 
   test('error message', async () => {
-    fetchMock.post(url + '/adm/csvRegisterUser', {status: 300, body: [{rowCSV: 2, errors: ['cet utilisateur existe déjà']}]})
+    fetchMock.post(url + '/adm/csvRegisterUser', { status: 300, body: [{ rowCSV: 2, errors: ['cet utilisateur existe déjà'] }] })
     await act(async () => {
       render(
         <BrowserRouter>
@@ -186,7 +186,7 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.getByText("Créer le(s) Compte(s)")).toBeInTheDocument()
+    expect(screen.getByText('Créer le(s) Compte(s)')).toBeInTheDocument()
 
     const fileInput = screen.getByPlaceholderText('exemple.csv')
     const file = new File(['firstname,lastname,email,role'], 'example.csv', { type: 'text/csv' })
@@ -200,7 +200,7 @@ describe('SchoolAdmAccountsPage', () => {
     })
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(screen.getByText("À la ligne 2 du fichier CSV, cet utilisateur existe déjà")).toBeInTheDocument();
+    expect(screen.getByText('À la ligne 2 du fichier CSV, cet utilisateur existe déjà')).toBeInTheDocument()
   })
   test('allows errors', async () => {
     await act(async () => {
@@ -311,7 +311,6 @@ describe('SchoolAdmAccountsPage', () => {
   })
 
   test('allows creation of new teacher account', async () => {
-
     await act(async () => {
       render(
         <BrowserRouter>
@@ -402,7 +401,7 @@ describe('SchoolAdmAccountsPage', () => {
     })
     const errMessage = screen.getByTestId('err-message')
     expect(errMessage).toBeInTheDocument()
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalled()
   })
 
   it('tests the popups', async () => {
@@ -421,18 +420,18 @@ describe('SchoolAdmAccountsPage', () => {
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.queryByText("Créer le Compte")).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer le Compte')).not.toBeInTheDocument()
 
     const singleAccountButton = screen.getByText('Ajouter un Compte')
 
     await act(async () => {
       fireEvent.click(singleAccountButton)
     })
-    expect(screen.queryByText("Créer le(s) Compte(s)")).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer le(s) Compte(s)')).not.toBeInTheDocument()
 
     await act(async () => {
       fireEvent.click(manyAccountButton)
     })
-    expect(screen.queryByText("Créer le Compte")).not.toBeInTheDocument()
+    expect(screen.queryByText('Créer le Compte')).not.toBeInTheDocument()
   })
 })

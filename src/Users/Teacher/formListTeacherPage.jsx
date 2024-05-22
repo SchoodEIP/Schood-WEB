@@ -21,7 +21,7 @@ const FormListTeacherPage = () => {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })
@@ -29,7 +29,6 @@ const FormListTeacherPage = () => {
         setQuestionnaires(data)
       })
       .catch(error => console.error(error.message))
-
   }, [])
 
   function createNewForm () {

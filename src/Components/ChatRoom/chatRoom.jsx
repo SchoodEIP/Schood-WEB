@@ -28,7 +28,7 @@ const Messages = () => {
     })
 
     if (response.status === 401) {
-      disconnect();
+      disconnect()
     } else {
       const data = await response.json()
 
@@ -67,7 +67,7 @@ const Messages = () => {
         }
       )
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la récupération des messages.')
@@ -101,14 +101,13 @@ const Messages = () => {
   const [fileType, setFileType] = useState('text')
 
   useEffect(() => {
-
     fetchMessages()
 
     const intervalId = setInterval(() => {
-      fetchMessages();
-    }, 1000);
+      fetchMessages()
+    }, 1000)
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId)
   }, [currentConversation])
 
   useEffect(() => {
@@ -122,7 +121,7 @@ const Messages = () => {
           }
         })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error('Erreur lors de la récupération des contacts.')
@@ -189,7 +188,7 @@ const Messages = () => {
         )
 
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
 
         if (response.status !== 200) /* istanbul ignore next */ {
@@ -268,7 +267,7 @@ const Messages = () => {
         })
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')

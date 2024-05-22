@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('ReportChecking Component', () => {
   const reportId = '6638a710dd18a1e42e539554'
@@ -22,87 +22,87 @@ describe('ReportChecking Component', () => {
 
   const getReportsResponse = [
     {
-      createdAt: "2024-02-24T00:00:00.000Z",
-      facility: "6638a70fdd18a1e42e53944d",
-      message: "Ceci est un signalement de test",
+      createdAt: '2024-02-24T00:00:00.000Z',
+      facility: '6638a70fdd18a1e42e53944d',
+      message: 'Ceci est un signalement de test',
       seen: false,
       signaledBy: {
         active: true,
-        classes: (2) ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
-        createdAt: "2024-05-06T09:46:56.164Z",
-        email: "pierre.dubois.Schood1@schood.fr",
-        facility: "6638a70fdd18a1e42e53944d",
+        classes: (2)['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
+        createdAt: '2024-05-06T09:46:56.164Z',
+        email: 'pierre.dubois.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
         firstConnexion: true,
-        firstname: "Pierre",
-        lastname: "Dubois",
-        password: "$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu",
-        picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA",
-        role: "6638a70fdd18a1e42e539446",
-        updatedAt: "2024-05-06T09:46:56.164Z",
+        firstname: 'Pierre',
+        lastname: 'Dubois',
+        password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+        role: '6638a70fdd18a1e42e539446',
+        updatedAt: '2024-05-06T09:46:56.164Z',
         __v: 0,
-        _id: "6638a710dd18a1e42e539476"
+        _id: '6638a710dd18a1e42e539476'
       },
-      type: "bullying",
+      type: 'bullying',
       userSignaled: {
         active: true,
         classes: ['6638a70fdd18a1e42e53945c'],
-        createdAt: "2024-05-06T09:46:56.313Z",
-        email: "alice.johnson.Schood1@schood.fr",
-        facility: "6638a70fdd18a1e42e53944d",
+        createdAt: '2024-05-06T09:46:56.313Z',
+        email: 'alice.johnson.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
         firstConnexion: true,
-        firstname: "Alice",
-        lastname: "Johnson",
-        password: "$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm",
-        picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o",
-        role: "6638a70fdd18a1e42e539443",
-        updatedAt: "2024-05-06T09:46:56.313Z",
+        firstname: 'Alice',
+        lastname: 'Johnson',
+        password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
+        role: '6638a70fdd18a1e42e539443',
+        updatedAt: '2024-05-06T09:46:56.313Z',
         __v: 0,
-        _id: "6638a710dd18a1e42e53947a"
+        _id: '6638a710dd18a1e42e53947a'
       },
       __v: 0,
-      _id: "6638a710dd18a1e42e539553"
+      _id: '6638a710dd18a1e42e539553'
     },
     {
       conversation: '659dd4e664034063fff4e38e',
-      createdAt: "2024-03-24T00:00:00.000Z",
-      facility: "6638a70fdd18a1e42e53944d",
-      message: "Autre signalment",
+      createdAt: '2024-03-24T00:00:00.000Z',
+      facility: '6638a70fdd18a1e42e53944d',
+      message: 'Autre signalment',
       seen: false,
       signaledBy: {
         active: true,
-        classes: (2) ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
-        createdAt: "2024-05-06T09:46:56.164Z",
-        email: "pierre.dubois.Schood1@schood.fr",
-        facility: "6638a70fdd18a1e42e53944d",
+        classes: (2)['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
+        createdAt: '2024-05-06T09:46:56.164Z',
+        email: 'pierre.dubois.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
         firstConnexion: true,
-        firstname: "Pierre",
-        lastname: "Dubois",
-        password: "$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu",
-        picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA",
-        role: "6638a70fdd18a1e42e539446",
-        updatedAt: "2024-05-06T09:46:56.164Z",
+        firstname: 'Pierre',
+        lastname: 'Dubois',
+        password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+        role: '6638a70fdd18a1e42e539446',
+        updatedAt: '2024-05-06T09:46:56.164Z',
         __v: 0,
-        _id: "6638a710dd18a1e42e539476"
+        _id: '6638a710dd18a1e42e539476'
       },
-      type: "badcomportment",
+      type: 'badcomportment',
       userSignaled: {
         active: true,
         classes: ['6638a70fdd18a1e42e53945c'],
-        createdAt: "2024-05-06T09:46:56.313Z",
-        email: "alice.johnson.Schood1@schood.fr",
-        facility: "6638a70fdd18a1e42e53944d",
+        createdAt: '2024-05-06T09:46:56.313Z',
+        email: 'alice.johnson.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
         firstConnexion: true,
-        firstname: "Alice",
-        lastname: "Johnson",
-        password: "$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm",
-        picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o",
-        role: "6638a70fdd18a1e42e539443",
-        updatedAt: "2024-05-06T09:46:56.313Z",
+        firstname: 'Alice',
+        lastname: 'Johnson',
+        password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
+        role: '6638a70fdd18a1e42e539443',
+        updatedAt: '2024-05-06T09:46:56.313Z',
         __v: 0,
-        _id: "6638a710dd18a1e42e53947a"
+        _id: '6638a710dd18a1e42e53947a'
       },
       __v: 0,
-      _id: "6638a710dd18a1e42e539554"
+      _id: '6638a710dd18a1e42e539554'
     }
   ]
 
@@ -161,7 +161,6 @@ describe('ReportChecking Component', () => {
     expect(screen.getByText('Mes Signalements')).toBeInTheDocument()
     expect(screen.getByText('Harcèlement')).toBeInTheDocument()
     expect(screen.getByText('Autre signalment')).toBeInTheDocument()
-
   })
 
   it('disconnects through request url', async () => {
@@ -177,8 +176,8 @@ describe('ReportChecking Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects through reported conversation url', async () => {
@@ -194,8 +193,8 @@ describe('ReportChecking Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   // it('handles filter change correctly', async () => {

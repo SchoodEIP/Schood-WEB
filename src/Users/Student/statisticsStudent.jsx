@@ -44,7 +44,7 @@ const StudentStatPage = () => {
         })
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       const moodData = await response.json()
       setMoodData(moodData)

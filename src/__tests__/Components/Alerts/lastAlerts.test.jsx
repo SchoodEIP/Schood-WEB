@@ -8,13 +8,13 @@ import { LastAlerts } from '../../../Components/Alerts/lastAlerts'
 import { disconnect } from '../../../functions/disconnect'
 import StudentHomePage from '../../../Users/Student/dashboardStudent'
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('Last Alert component', () => {
   const lastAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
   const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/132`
-  const getStatus =`${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
+  const getStatus = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
 
   const alertList = [
     {
@@ -66,7 +66,7 @@ describe('Last Alert component', () => {
     fetchMock.config.overwriteRoutes = true
     fetchMock.get(lastAlert, { body: alertList })
     fetchMock.get(getFile, getFileResponse)
-    fetchMock.get(getStatus, {q1: null, q2: null})
+    fetchMock.get(getStatus, { q1: null, q2: null })
   })
 
   afterEach(() => {
@@ -87,8 +87,8 @@ describe('Last Alert component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('should disconnect on get file url', async () => {
@@ -105,12 +105,11 @@ describe('Last Alert component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('should render lastAlert', async () => {
-
     await act(async () => {
       render(
         <BrowserRouter>
@@ -120,7 +119,6 @@ describe('Last Alert component', () => {
         </BrowserRouter>
       )
     })
-
   })
 
   it('should give an error', async () => {
@@ -138,7 +136,7 @@ describe('Last Alert component', () => {
   })
 
   it('should throw an alert', async () => {
-    fetchMock.get(lastAlert, getFileResponseError, {status: 400})
+    fetchMock.get(lastAlert, getFileResponseError, { status: 400 })
     await act(async () => {
       render(
         <BrowserRouter>

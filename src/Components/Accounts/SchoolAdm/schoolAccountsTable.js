@@ -19,12 +19,12 @@ export default function SchoolAccountsTable () {
       }
     })
     if (resp.status === 401) {
-      disconnect();
+      disconnect()
     } else {
       const data = await resp.json()
 
-    const teacherAccounts = data.filter(account => account.role.name === 'teacher')
-    const studentAccounts = data.filter(account => account.role.name === 'student')
+      const teacherAccounts = data.filter(account => account.role.name === 'teacher')
+      const studentAccounts = data.filter(account => account.role.name === 'student')
 
       setTeacherList(teacherAccounts)
       setStudentList(studentAccounts)

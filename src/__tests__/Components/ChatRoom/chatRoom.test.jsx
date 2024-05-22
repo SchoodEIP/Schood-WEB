@@ -8,8 +8,8 @@ import { MemoryRouter } from 'react-router-dom'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('Messages Component', () => {
   const id = 123
@@ -148,15 +148,15 @@ describe('Messages Component', () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-           <Messages />
+            <Messages />
           </WebsocketProvider>
         </MemoryRouter>
       )
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects through get messages url', async () => {
@@ -165,15 +165,15 @@ describe('Messages Component', () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-           <Messages />
+            <Messages />
           </WebsocketProvider>
         </MemoryRouter>
       )
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects through contact url', async () => {
@@ -182,15 +182,15 @@ describe('Messages Component', () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-           <Messages />
+            <Messages />
           </WebsocketProvider>
         </MemoryRouter>
       )
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects through chat creation', async () => {
@@ -242,8 +242,8 @@ describe('Messages Component', () => {
       fireEvent.click(createConversationButton)
     })
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects through new message url', async () => {
@@ -252,7 +252,7 @@ describe('Messages Component', () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-           <Messages />
+            <Messages />
           </WebsocketProvider>
         </MemoryRouter>
       )
@@ -268,8 +268,8 @@ describe('Messages Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('displays an error message when message sending fails', async () => {

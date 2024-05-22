@@ -4,16 +4,15 @@ import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 
 const ReportButton = ({ currentConversation }) => {
-  const userId = localStorage.getItem('id');
+  const userId = localStorage.getItem('id')
   const userList = currentConversation?.participants
     ? currentConversation.participants
       .filter((participant) => participant._id !== userId)
-    : [];
+    : []
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [signaledUserId, setSignaledUserId] = useState(null)
-
 
   const handleReasonChange = (e) => {
     setReason(e.target.value)
@@ -37,14 +36,14 @@ const ReportButton = ({ currentConversation }) => {
         },
         body: JSON.stringify({
           userSignaled: signaledUserId,
-          message: message,
+          message,
           conversation: currentConversation._id,
           type: reason
         })
       })
 
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
 
       if (response.status === 200) {
@@ -83,7 +82,7 @@ const ReportButton = ({ currentConversation }) => {
       </label>
       <label className='input-label'>
         <span className='label-content'>Description</span>
-        <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.'></textarea>
+        <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.' />
       </label>
       {error && <div className='error-message'>{error}</div>}
       <button onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>

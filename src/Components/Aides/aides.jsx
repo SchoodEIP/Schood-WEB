@@ -22,15 +22,15 @@ export default function AidePage (props) {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })
       .then(data => {
         setCategories(data)
         const filterID = data.filter((category) => category.name === 'Default')
-        setDefaultID(filterID.length ? filterID[0]._id : null);
-    })
+        setDefaultID(filterID.length ? filterID[0]._id : null)
+      })
       .catch(error => setErrMessage(error.message))
 
     fetch(helpNumbersUrl, {
@@ -41,7 +41,7 @@ export default function AidePage (props) {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })

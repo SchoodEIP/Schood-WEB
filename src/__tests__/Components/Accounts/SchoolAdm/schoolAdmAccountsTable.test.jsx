@@ -7,8 +7,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../../functions/disconnect'
 
 jest.mock('../../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('SchoolAdmAccountsTable', () => {
   let container = null
@@ -51,7 +51,6 @@ describe('SchoolAdmAccountsTable', () => {
       ]
     }
   ]
-
 
   beforeEach(() => {
     container = document.createElement('div')
@@ -112,14 +111,13 @@ describe('SchoolAdmAccountsTable', () => {
 
     const accountRows = screen.findAllByRole('row')
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(await accountRows).toHaveLength(4) // header row + 2 data rows
       expect(screen.getByText('Harry')).toBeInTheDocument()
       expect(screen.getByText('200, 201')).toBeInTheDocument()
       expect(screen.getByText('202')).toBeInTheDocument()
     })
   })
-
 
   test('checks disconnect through user url', async () => {
     fetchMock.get(url + '/user/all', 401)
@@ -134,7 +132,7 @@ describe('SchoolAdmAccountsTable', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 })

@@ -38,7 +38,7 @@ const AlertsPage = () => {
           }
         })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
@@ -83,7 +83,7 @@ const AlertsPage = () => {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })
@@ -116,8 +116,7 @@ const AlertsPage = () => {
   const getChosenAlert = (alertId) => {
     const csnAlert = Object.values(alerts).flat().find(alert => alert.id === alertId)
     setChosenAlert(csnAlert)
-    if (id === undefined)
-      window.location.href = '/alerts/' + alertId
+    if (id === undefined) { window.location.href = '/alerts/' + alertId }
   }
 
   const buttonComponent = [
@@ -133,7 +132,7 @@ const AlertsPage = () => {
         <HeaderComp
           title='Mes Alertes'
           withLogo
-          withReturnBtn={id ? true : false}
+          withReturnBtn={!!id}
           returnCall={returnToAlertList}
           showButtons={roleProfile !== 'student'}
           buttonComponent={buttonComponent}
@@ -143,8 +142,8 @@ const AlertsPage = () => {
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
-              <button className='close-btn' onClick={close}><img data-testid="close-img" src={cross} alt='Close' /></button>
-              <AlertCreationPopupContent/>
+              <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
+              <AlertCreationPopupContent />
             </div>
           )}
         </Popup>
@@ -164,7 +163,7 @@ const AlertsPage = () => {
                           />
                           <button data-testid={alert.id} id={alert.id} key={alert.id} onClick={() => getChosenAlert(alert.id)} className='see-more-inverted'>
                             Voir plus
-                          <img className='img' src={rightArrowInverted} alt='Right arrow' />
+                            <img className='img' src={rightArrowInverted} alt='Right arrow' />
                           </button>
                         </div>
                         <div className='body'>
@@ -175,7 +174,8 @@ const AlertsPage = () => {
                   ))}
                 </div>
               </div>
-            )) : <ShowAlerts chosenAlert={chosenAlert} />
+            ))
+            : <ShowAlerts chosenAlert={chosenAlert} />
         }
       </div>
     </div>

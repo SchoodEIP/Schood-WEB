@@ -31,7 +31,7 @@ const ModifyFormTeacherPage = () => {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })
@@ -89,7 +89,7 @@ const ModifyFormTeacherPage = () => {
         })
       }).then(response => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         } else if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {

@@ -61,7 +61,7 @@ const NewFormPage = () => {
         })
       }).then(response => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)

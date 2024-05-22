@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('AlertsPage Component', () => {
   const getQuestionnaire = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/`
@@ -17,7 +17,7 @@ describe('AlertsPage Component', () => {
   const getClasses = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
   const postFileToAlert = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/file/undefined`
   const getAlerts = `${process.env.REACT_APP_BACKEND_URL}/shared/alert/`
-  const getFile =  `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
+  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
 
   const forms = [
     {
@@ -92,7 +92,7 @@ describe('AlertsPage Component', () => {
     body: { locked: true }
   }
 
-  const dummyBlob = new Blob(['dummy content'], { type: 'text/plain' });
+  const dummyBlob = new Blob(['dummy content'], { type: 'text/plain' })
 
   beforeEach(() => {
     fetchMock.reset()
@@ -104,7 +104,7 @@ describe('AlertsPage Component', () => {
     fetchMock.post(postFileToAlert, fileToAlertResponse)
     fetchMock.get(getFile, {
       status: 200,
-      statusText: "OK",
+      statusText: 'OK',
       body: dummyBlob
     })
   })
@@ -131,7 +131,7 @@ describe('AlertsPage Component', () => {
   })
 
   it('checks disconnect', async () => {
-    fetchMock.get(getAlerts, {status: 401})
+    fetchMock.get(getAlerts, { status: 401 })
     await act(async () => {
       render(
         <BrowserRouter>
@@ -148,11 +148,11 @@ describe('AlertsPage Component', () => {
   })
 
   it('retrieves the id param and navigates correctly', async () => {
-    const setHref = jest.fn();
-    const originalLocation = window.location;
+    const setHref = jest.fn()
+    const originalLocation = window.location
 
-    delete window.location;
-    window.location = { ...originalLocation, set href(url) { setHref(url); } };
+    delete window.location
+    window.location = { ...originalLocation, set href (url) { setHref(url) } }
 
     await act(async () => {
       render(
@@ -161,36 +161,35 @@ describe('AlertsPage Component', () => {
             <AlertsPage />
           </WebsocketProvider>
         </MemoryRouter>
-      );
-    });
+      )
+    })
 
     // Wait for the component to fully render
     await waitFor(() => {
       // Check if the alert with id '123' is rendered correctly
-      const voirPlusBtn = screen.getByTestId('123');
-      expect(voirPlusBtn).toBeInTheDocument();
-    });
+      const voirPlusBtn = screen.getByTestId('123')
+      expect(voirPlusBtn).toBeInTheDocument()
+    })
 
     // Simulate user clicking on the 'Voir plus' button for the alert with id '123'
-    const voirPlusBtn = screen.getByTestId('123');
+    const voirPlusBtn = screen.getByTestId('123')
     await act(async () => {
-      fireEvent.click(voirPlusBtn);
-    });
+      fireEvent.click(voirPlusBtn)
+    })
 
     // Verify that window.location.href is called with the correct URL
-    expect(setHref).toHaveBeenCalledWith('/alerts/123');
+    expect(setHref).toHaveBeenCalledWith('/alerts/123')
 
     // Restore the original window.location
-    setHref.mockRestore();
-
-  });
+    setHref.mockRestore()
+  })
 
   it('navigates correctly', async () => {
-    const setHref = jest.fn();
-    const originalLocation = window.location;
+    const setHref = jest.fn()
+    const originalLocation = window.location
 
-    delete window.location;
-    window.location = { ...originalLocation, set href(url) { setHref(url); } };
+    delete window.location
+    window.location = { ...originalLocation, set href (url) { setHref(url) } }
 
     await act(async () => {
       render(
@@ -199,30 +198,28 @@ describe('AlertsPage Component', () => {
             <AlertsPage />
           </WebsocketProvider>
         </MemoryRouter>
-      );
-    });
+      )
+    })
 
     // Wait for the component to fully render
     await waitFor(() => {
       // Check if the alert with id '123' is rendered correctly
-      const voirPlusBtn = screen.getByTestId('123');
-      expect(voirPlusBtn).toBeInTheDocument();
-    });
+      const voirPlusBtn = screen.getByTestId('123')
+      expect(voirPlusBtn).toBeInTheDocument()
+    })
 
     // Simulate user clicking on the 'Voir plus' button for the alert with id '123'
-    const voirPlusBtn = screen.getByTestId('123');
+    const voirPlusBtn = screen.getByTestId('123')
     await act(async () => {
-      fireEvent.click(voirPlusBtn);
-    });
+      fireEvent.click(voirPlusBtn)
+    })
 
     // Verify that window.location.href is called with the correct URL
-    expect(setHref).toHaveBeenCalledWith('/alerts/123');
+    expect(setHref).toHaveBeenCalledWith('/alerts/123')
 
     // Restore the original window.location
-    setHref.mockRestore();
-
-  });
-
+    setHref.mockRestore()
+  })
 
   it('handles errors', async () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({ message: 'error' })
@@ -244,7 +241,7 @@ describe('AlertsPage Component', () => {
     //   expect(errorMessage).toBeInTheDocument()
     // })
 
-    const sendButton = screen.getByText("Créer une alerte")
+    const sendButton = screen.getByText('Créer une alerte')
     await waitFor(async () => {
       expect(sendButton).toBeInTheDocument()
     })
@@ -325,7 +322,7 @@ describe('AlertsPage Component', () => {
         </BrowserRouter>
       )
     })
-    const createButton = screen.getByText("Créer une alerte")
+    const createButton = screen.getByText('Créer une alerte')
     await waitFor(async () => {
       expect(createButton).toBeInTheDocument()
     })
@@ -397,7 +394,7 @@ describe('AlertsPage Component', () => {
       fireEvent.change(fileInput, { target: { files: [{ file: 'image' }] } })
     })
 
-    const sendButton = screen.getByText("Créer une alerte")
+    const sendButton = screen.getByText('Créer une alerte')
     await waitFor(async () => {
       expect(sendButton).toBeInTheDocument()
     })
@@ -408,7 +405,7 @@ describe('AlertsPage Component', () => {
   })
 
   it('handles a 401 status code by calling disconnect for alerts', async () => {
-    fetchMock.get(getAlerts, 401);
+    fetchMock.get(getAlerts, 401)
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/alerts']}>
@@ -416,13 +413,13 @@ describe('AlertsPage Component', () => {
             <AlertsPage />
           </WebsocketProvider>
         </MemoryRouter>
-      );
-    });
+      )
+    })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
-  });
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
 
   it('handles a 401 status code by calling disconnect for getFile', async () => {
     fetchMock.get(getFile, 401)
@@ -433,11 +430,11 @@ describe('AlertsPage Component', () => {
             <AlertsPage />
           </WebsocketProvider>
         </MemoryRouter>
-      );
-    });
+      )
+    })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
-  });
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
 })

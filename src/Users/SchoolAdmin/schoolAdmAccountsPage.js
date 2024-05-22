@@ -55,7 +55,7 @@ export default function SchoolAdmAccountsPage () {
           {(close) => (
             <div className='popup-modal-container' style={{ alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <SingleAccountCreationPopupContent/>
+              <SingleAccountCreationPopupContent />
             </div>
           )}
         </Popup>
@@ -63,7 +63,7 @@ export default function SchoolAdmAccountsPage () {
           {(close) => (
             <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <CsvAccountCreationPopupContent/>
+              <CsvAccountCreationPopupContent />
             </div>
           )}
         </Popup>

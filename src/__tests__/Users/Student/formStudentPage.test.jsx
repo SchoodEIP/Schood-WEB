@@ -8,8 +8,8 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('FormStudentPage', () => {
   const id = '64f2f862b0975ae4340acafa'
@@ -89,7 +89,7 @@ describe('FormStudentPage', () => {
         type: 'text',
         answers: [],
         _id: '4'
-      },
+      }
     ],
     fromDate: thisWeekMonday.toISOString(),
     title: 'Test',
@@ -151,8 +151,8 @@ describe('FormStudentPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through answer url', async () => {
@@ -170,8 +170,8 @@ describe('FormStudentPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through post answer url', async () => {
@@ -195,8 +195,8 @@ describe('FormStudentPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('retrieves data and modifies it', async () => {
@@ -297,7 +297,7 @@ describe('FormStudentPage', () => {
 
     const textInput = screen.getByTestId('answer-3-0')
     await act(async () => {
-      fireEvent.change(textInput, { value: 'blah'})
+      fireEvent.change(textInput, { value: 'blah' })
     })
 
     const validateBtn = screen.getByText('Envoyer le questionnaire')

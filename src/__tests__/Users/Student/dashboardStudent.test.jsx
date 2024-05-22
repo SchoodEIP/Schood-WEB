@@ -99,7 +99,7 @@ describe('Dashboard Student component', () => {
       )
     })
     expect(screen.getByText('Mes Dernières Alertes')).toBeInTheDocument()
-    expect(screen.getByText("Evolution de mon humeur")).toBeInTheDocument()
+    expect(screen.getByText('Evolution de mon humeur')).toBeInTheDocument()
     expect(screen.getByText('Mes Questionnaires')).toBeInTheDocument()
   })
 })

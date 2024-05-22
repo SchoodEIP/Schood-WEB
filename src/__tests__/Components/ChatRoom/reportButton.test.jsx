@@ -8,8 +8,8 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('ReportButton Component', () => {
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
@@ -53,7 +53,6 @@ describe('ReportButton Component', () => {
         </BrowserRouter>
       )
     })
-
   })
 
   it('disconnects on post dailymood', async () => {
@@ -75,8 +74,8 @@ describe('ReportButton Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('handles successful reporting', async () => {

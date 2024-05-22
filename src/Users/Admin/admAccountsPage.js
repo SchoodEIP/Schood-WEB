@@ -26,8 +26,6 @@ export default function AdmAccountsPage () {
     }
   }
 
-
-
   const buttonComponent = [
     {
       name: 'Ajouter un Compte',
@@ -56,7 +54,7 @@ export default function AdmAccountsPage () {
         {(close) => (
           <div className='popup-modal-container' style={{ padding: '50px', gap: '20px', alignItems: 'center' }}>
             <button data-testid='close-single' className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <SingleAccountCreationPopupContent/>
+            <SingleAccountCreationPopupContent />
           </div>
         )}
       </Popup>
@@ -64,7 +62,7 @@ export default function AdmAccountsPage () {
         {(close) => (
           <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
             <button data-testid='close-many' className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <CsvAccountCreationPopupContent/>
+            <CsvAccountCreationPopupContent />
           </div>
         )}
       </Popup>

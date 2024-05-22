@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('ProfilPage component', () => {
   const profileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/profile`
@@ -18,9 +18,9 @@ describe('ProfilPage component', () => {
     firstname: 'John',
     lastname: 'Doe',
     email: 'john.doe@example.com',
-    role: {name: 'teacher'},
+    role: { name: 'teacher' },
     title: 'Mathematics',
-    classes: [{name: '200'}, {name: '201'}],
+    classes: [{ name: '200' }, { name: '201' }],
     picture: 'sqdfsd'
   }
 
@@ -28,9 +28,9 @@ describe('ProfilPage component', () => {
     firstname: 'John',
     lastname: 'Doe',
     email: 'john.doe@example.com',
-    role: {name: 'student'},
+    role: { name: 'student' },
     title: '',
-    classes: [{name: '201'}],
+    classes: [{ name: '201' }],
     picture: null
   }
 
@@ -138,7 +138,7 @@ describe('ProfilPage component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 })

@@ -117,7 +117,7 @@ describe('AdmAccountsTable', () => {
         </BrowserRouter>
       )
     })
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(window.location.pathname).toBe('/')
     })
   })

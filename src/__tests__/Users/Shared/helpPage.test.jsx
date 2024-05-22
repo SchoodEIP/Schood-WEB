@@ -1,15 +1,15 @@
 import React from 'react'
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import HelpPage from "../../../Users/Shared/helpPage.jsx"
+import HelpPage from '../../../Users/Shared/helpPage.jsx'
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('helpPage', () => {
   const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -39,7 +39,7 @@ describe('helpPage', () => {
     },
     {
       _id: '2',
-      name: "default number",
+      name: 'default number',
       telephone: '0289634512',
       email: 'exampele@schood.fr',
       description: 'laleea',
@@ -92,7 +92,7 @@ describe('helpPage', () => {
     const categoryButton = screen.getAllByTestId('category-btn-undefined')
 
     await waitFor(async () => {
-      expect(screen.queryByText("Ligne d'urgence pour les victimes de violence familiale")).toBeNull();
+      expect(screen.queryByText("Ligne d'urgence pour les victimes de violence familiale")).toBeNull()
       expect(screen.getByText('Aide contre le harcèlement')).toBeInTheDocument()
     })
 
@@ -116,7 +116,7 @@ describe('helpPage', () => {
       expect(screen.getByText('0289674512')).toBeInTheDocument()
     })
 
-    const returnButton = screen.getByText("Retour")
+    const returnButton = screen.getByText('Retour')
 
     await act(async () => {
       fireEvent.click(returnButton)
@@ -126,7 +126,7 @@ describe('helpPage', () => {
       expect(screen.queryByText('0289674512')).toBeNull()
     })
 
-    const returnButton2 = screen.getByText("Retour")
+    const returnButton2 = screen.getByText('Retour')
 
     await act(async () => {
       fireEvent.click(returnButton2)
@@ -136,13 +136,11 @@ describe('helpPage', () => {
       expect(screen.queryByText("Ligne d'urgence pour les victimes de violence familiale")).toBeNull()
     })
 
-    const defaultButton = screen.getByText("Default")
+    const defaultButton = screen.getByText('Default')
 
     await act(async () => {
       fireEvent.click(defaultButton)
     })
-
-
   })
 
   it('allows the creation of a new category', async () => {
@@ -283,7 +281,7 @@ describe('helpPage', () => {
       fireEvent.click(screen.getByText('Créer la Catégorie'))
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('La catégorie est vide.')).toBeInTheDocument()
     })
   })
@@ -298,29 +296,29 @@ describe('helpPage', () => {
             <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
-      );
-    });
+      )
+    })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
-  });
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
 
   it('handles a 401 status code by calling disconnect for categoryUrl', async () => {
     fetchMock.get(helpNumbersUrl, 401)
 
     await act(async () => {
       render(
-        <BrowserRouter >
+        <BrowserRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
         </BrowserRouter>
-      );
-    });
+      )
+    })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
-  });
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
 })

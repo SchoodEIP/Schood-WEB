@@ -74,7 +74,7 @@ const FeelingsStudentPage = () => {
       })
         .then(response => {
           if (response.status === 401) {
-            disconnect();
+            disconnect()
           }
           if (response.status === 200) { window.location.reload() }
         })
@@ -178,7 +178,7 @@ const FeelingsStudentPage = () => {
     })
       .then(response => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })

@@ -90,7 +90,7 @@ const FormStudentPage = () => {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })
@@ -115,7 +115,7 @@ const FormStudentPage = () => {
       }
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })
@@ -167,7 +167,7 @@ const FormStudentPage = () => {
       body: JSON.stringify({ answers: data })
     }).then(response => {
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       return response.json()
     })

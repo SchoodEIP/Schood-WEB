@@ -8,8 +8,8 @@ import { WebsocketProvider } from '../../../contexts/websocket'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('FormTeacherPage', () => {
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'
@@ -224,8 +224,8 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through student url', async () => {
@@ -244,8 +244,8 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks disconnect through questionnaireUrl url', async () => {
@@ -264,8 +264,8 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('checks modify form', async () => {

@@ -19,7 +19,7 @@ export function QuestSpace () {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })

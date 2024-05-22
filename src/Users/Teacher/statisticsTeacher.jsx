@@ -58,7 +58,7 @@ const TeacherStatPage = () => {
         })
       ])
       if (moodResponse.status === 401 || answersResponse.status === 401) {
-        disconnect();
+        disconnect()
       }
       const mData = await moodResponse.json()
       const aData = await answersResponse.json()
@@ -120,7 +120,7 @@ const TeacherStatPage = () => {
         }
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       const classesData = await response.json()
       console.log('classes', classesData)
@@ -279,8 +279,7 @@ const TeacherStatPage = () => {
       chart.data.datasets[0].data = listData
       chart.data.labels = labels
       chart.options.scales.x.labels = labels
-      if (chart._context)
-        chart.update()
+      if (chart._context) { chart.update() }
     }
   }
 
@@ -321,8 +320,7 @@ const TeacherStatPage = () => {
     if (Array.isArray(answerData)) {
       answerChart.data.labels = answerData.map(answer => answer.date)
       answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
-      if (answerChart._context)
-        answerChart.update()
+      if (answerChart._context) { answerChart.update() }
     }
   }
 

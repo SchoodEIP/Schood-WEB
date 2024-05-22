@@ -8,7 +8,6 @@ import UserProfile from '../../Components/userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
 import { translate } from '../../functions/translate'
 
-
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
@@ -27,7 +26,7 @@ const ReportChecking = () => {
         }
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       const data = await response.json()
       setReports(data)
@@ -69,7 +68,7 @@ const ReportChecking = () => {
         }
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       const data = await response.json()
       setReportedConversationMessages(data)
@@ -164,31 +163,31 @@ const ReportChecking = () => {
                       <div className='bottom'>
                         <div className='left'>
                           <div className='top2'>
-                          {
+                            {
                             currentReport.message && (
                               <div className='report-message'>{currentReport.message}</div>
                             )
                           }
                             {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
-                              {/* {reportedConversationMessages.map((message, index) => (
+                            {/* {reportedConversationMessages.map((message, index) => (
                                 <Message key={index} message={message} participants={reportedConversation.participants} />
                               ))} */}
-                              {/* {error && <div className='error-message'>{error}</div>} */}
+                            {/* {error && <div className='error-message'>{error}</div>} */}
                             {/* </div> */}
                           </div>
                         </div>
                         <div className='right'>
                           <h2>Signalé par:</h2>
-                          <div className='user-profile' >
+                          <div className='user-profile'>
                             <UserProfile
-                              fullname={true}
+                              fullname
                               profile={currentReport.signaledBy}
                             />
                           </div>
                           <h2>À l'encontre de:</h2>
-                          <div className='user-profile' >
+                          <div className='user-profile'>
                             <UserProfile
-                              fullname={true}
+                              fullname
                               profile={currentReport.userSignaled}
                             />
                           </div>

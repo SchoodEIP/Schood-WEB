@@ -18,7 +18,7 @@ export default function AdmAccountsTable () {
       }
     })
     if (resp.status === 401) {
-      disconnect();
+      disconnect()
     } else {
       const data = await resp.json()
       setAccountList(data)

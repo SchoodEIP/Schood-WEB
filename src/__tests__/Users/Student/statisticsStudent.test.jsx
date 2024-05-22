@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('StudentStatPage Component', () => {
   const dailyMoodsUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
@@ -56,5 +56,4 @@ describe('StudentStatPage Component', () => {
   //     expect(disconnect).toHaveBeenCalled();
   //   });
   // })
-
 })

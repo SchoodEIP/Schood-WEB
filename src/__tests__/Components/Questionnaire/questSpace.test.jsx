@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('QuestSpace Component', () => {
   const statusLastTwo = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/statusLastTwo/`
@@ -42,20 +42,21 @@ describe('QuestSpace Component', () => {
 
   const [[lastWeekMonday, lastWeekSunday], [thisWeekMonday, thisWeekSunday]] = getFormDates()
 
-
-
   beforeEach(() => {
     fetchMock.reset()
     fetchMock.config.overwriteRoutes = true
-    fetchMock.get(statusLastTwo, { q1: {
-      completion: 100,
-      id: '1',
-      title: 'Premier'
-    }, q2: {
-      completion: 50,
-      id: '2',
-      title: 'Deuxieme'
-    } })
+    fetchMock.get(statusLastTwo, {
+      q1: {
+        completion: 100,
+        id: '1',
+        title: 'Premier'
+      },
+      q2: {
+        completion: 50,
+        id: '2',
+        title: 'Deuxieme'
+      }
+    })
   })
 
   afterEach(() => {
@@ -77,7 +78,6 @@ describe('QuestSpace Component', () => {
     expect(questSpaceElement).toBeInTheDocument()
   })
 
-
   test('checks disconnect through statusLastTwo url', async () => {
     fetchMock.get(statusLastTwo, 401)
 
@@ -92,8 +92,8 @@ describe('QuestSpace Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('shows the title of Mes Questionnaires', async () => {
@@ -179,15 +179,18 @@ describe('QuestSpace Component', () => {
   })
 
   it('goes to new form', async () => {
-    fetchMock.get(statusLastTwo, { q1: {
-      completion: 100,
-      id: '',
-      title: 'Premier'
-    }, q2: {
-      completion: 0,
-      id: '1',
-      title: 'Deuxieme'
-    } })
+    fetchMock.get(statusLastTwo, {
+      q1: {
+        completion: 100,
+        id: '',
+        title: 'Premier'
+      },
+      q2: {
+        completion: 0,
+        id: '1',
+        title: 'Deuxieme'
+      }
+    })
 
     await act(async () => {
       render(

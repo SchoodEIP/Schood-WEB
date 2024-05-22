@@ -16,7 +16,6 @@ const StudentHomePage = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-
   useEffect(() => {
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
@@ -40,7 +39,7 @@ const StudentHomePage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <MoodFormCreationPopupContent/>
+              <MoodFormCreationPopupContent />
             </div>
           )}
         </Popup>
@@ -48,7 +47,7 @@ const StudentHomePage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <ReportCreationPopupContent/>
+              <ReportCreationPopupContent />
             </div>
           )}
         </Popup>

@@ -33,7 +33,7 @@ const Message = ({ message, participants }) => {
         }
       })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       if (response.status !== 200) /* istanbul ignore next */ {
         throw new Error("Erreur lors de l'envoi du message.")

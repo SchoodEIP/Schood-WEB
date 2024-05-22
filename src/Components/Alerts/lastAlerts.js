@@ -21,7 +21,7 @@ export function LastAlerts () {
           }
         })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
 
         if (response.status !== 200) {
@@ -67,7 +67,7 @@ export function LastAlerts () {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })

@@ -80,7 +80,7 @@ export default function Sidebar () {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })
@@ -92,7 +92,7 @@ export default function Sidebar () {
           setDailyMood(data.mood)
         }
       })
-      .catch((e) =>  /* istanbul ignore next */ { console.error(e) })
+      .catch((e) => /* istanbul ignore next */ { console.error(e) })
   }
 
   const getUnseenNotifications = () => {
@@ -182,7 +182,7 @@ export default function Sidebar () {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         } else {
           setIsAnswered(true)
           setDailyMood(mood)
@@ -204,7 +204,7 @@ export default function Sidebar () {
     })
       .then((response) => {
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         return response.json()
       })
@@ -236,7 +236,7 @@ export default function Sidebar () {
     <>
       <Popup open={isShown} onClose={handleShowNotifications} modal>
         {(close) => (
-          <div style={{marginTop: "25px"}} className='popup-modal-container'>
+          <div style={{ marginTop: '25px' }} className='popup-modal-container'>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='content'>
               {notifications && notifications.map((notif, index) => (
@@ -257,7 +257,7 @@ export default function Sidebar () {
       {isCollapsed && (
         <div data-testid='expanded' className='collapsed'>
           <div className='top'>
-            <div style={{background: 'none'}} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
             </div>
             <div className='profile'>
@@ -293,7 +293,7 @@ export default function Sidebar () {
       {!isCollapsed && (
         <div data-testid='expanded' className='expanded'>
           <div className='top'>
-            <div style={{background: 'none'}} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
             <div className='profile'>

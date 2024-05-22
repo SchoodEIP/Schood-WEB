@@ -8,8 +8,8 @@ import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('FormListTeacherPage', () => {
   const formUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
@@ -21,17 +21,17 @@ describe('FormListTeacherPage', () => {
       toDate: '2023-12-30T00:00:00.000Z',
       questionnaires: [
         {
-          facility: "6638a70fdd18a1e42e53944d",
+          facility: '6638a70fdd18a1e42e53944d',
           createdBy: {
             active: true,
-            createdAt: "2024-05-06T09:46:56.164Z",
-            email: "pierre.dubois.Schood1@schood.fr",
-            firstname: "Pierre",
-            lastname: "Dubois",
-            picture: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA",
-            updatedAt: "2024-05-06T09:46:56.164Z",
+            createdAt: '2024-05-06T09:46:56.164Z',
+            email: 'pierre.dubois.Schood1@schood.fr',
+            firstname: 'Pierre',
+            lastname: 'Dubois',
+            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+            updatedAt: '2024-05-06T09:46:56.164Z',
             __v: 0,
-            _id: "6638a710dd18a1e42e539476"
+            _id: '6638a710dd18a1e42e539476'
           },
           _id: '123',
           title: 'Test',
@@ -73,8 +73,8 @@ describe('FormListTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   test('page successfully created', async () => {

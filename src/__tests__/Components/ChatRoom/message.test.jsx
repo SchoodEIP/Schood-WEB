@@ -7,8 +7,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 // Mock the fetch function
 global.fetch = jest.fn(() =>
@@ -133,8 +133,8 @@ describe('Message Component', () => {
     })
 
     await waitFor(() => {
-      expect(disconnect).toHaveBeenCalled();
-    });
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('handles fetch error', async () => {

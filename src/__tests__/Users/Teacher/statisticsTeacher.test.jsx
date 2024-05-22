@@ -7,28 +7,28 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { disconnect } from '../../../functions/disconnect'
-import { createCanvas } from 'canvas';
+import { createCanvas } from 'canvas'
 
 // Mock the HTMLCanvasElement.prototype.getContext method
 HTMLCanvasElement.prototype.getContext = function (type) {
   if (type === '2d') {
-    return createCanvas(200, 200).getContext(type);
+    return createCanvas(200, 200).getContext(type)
   }
-  return null;
-};
+  return null
+}
 
 jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn(),
-}));
+  disconnect: jest.fn()
+}))
 
 describe('TeacherStatPage Component', () => {
   const mockMood = {
-      '2024-02-24': {
-        average: 3,
-        moods: ['3']
-      },
-      averagePercentage: 100
-    }
+    '2024-02-24': {
+      average: 3,
+      moods: ['3']
+    },
+    averagePercentage: 100
+  }
 
   const mockClasses = [
     {
@@ -56,7 +56,6 @@ describe('TeacherStatPage Component', () => {
   })
 
   it('renders statistics', async () => {
-
     await act(async () => {
       render(
         <MemoryRouter>
@@ -68,7 +67,6 @@ describe('TeacherStatPage Component', () => {
     })
 
     expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
-
   })
 
   // it('handles error when fetching student moods', async () => {

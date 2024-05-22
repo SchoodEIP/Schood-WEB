@@ -142,7 +142,6 @@ describe('Connexion', () => {
       expect(localStorage.getItem('token')).toBe('mock-token')
       expect(localStorage.getItem('role')).toBe('rolly-polly')
       expect(localStorage.getItem('id')).toBe('1')
-
     })
   })
 
@@ -171,9 +170,8 @@ describe('Connexion', () => {
       fireEvent.click(submitButton)
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('Error: Error: Network Error'))
     })
-
   })
 })

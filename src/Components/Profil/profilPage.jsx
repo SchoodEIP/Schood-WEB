@@ -18,7 +18,7 @@ const ProfilPage = () => {
           }
         })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
 
         if (!response.ok) /* istanbul ignore next */ {
