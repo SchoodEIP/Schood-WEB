@@ -161,34 +161,35 @@ const ReportChecking = () => {
                   <div className='top'>
                     <div className='conv-name'>{translate(currentReport.type)}</div>
                   </div>
-                    <div className='bottom'>
-                      <div className='left'>
-                        <div className='top2'>
-                          {
+                  <div className='bottom'>
+                    <div className='left'>
+                      <div className='top2'>
+                        {
                             currentReport.message && (
                               <div className='report-message'>{currentReport.message}</div>
                             )
                           }
-                          {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
-                          {/* {reportedConversationMessages.map((message, index) => (
+                        {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
+                        {/* {reportedConversationMessages.map((message, index) => (
                               <Message key={index} message={message} participants={reportedConversation.participants} />
                             ))} */}
-                          {/* {error && <div className='error-message'>{error}</div>} */}
-                          {/* </div> */}
-                        </div>
+                        {/* {error && <div className='error-message'>{error}</div>} */}
+                        {/* </div> */}
                       </div>
-                      <div className='right'>
-                        <h2>Signalé par:</h2>
-                        <div className='user-profile'>
-                          <UserProfile
-                            fullname
-                            profile={currentReport.signaledBy}
-                          />
-                        </div>
-                        <h2>À l'encontre de:</h2>
-                        {
-                          currentReport.usersSignaled.length > 0 ? currentReport.usersSignaled.map((user) => {
-                            return (
+                    </div>
+                    <div className='right'>
+                      <h2>Signalé par:</h2>
+                      <div className='user-profile'>
+                        <UserProfile
+                          fullname
+                          profile={currentReport.signaledBy}
+                        />
+                      </div>
+                      <h2>À l'encontre de:</h2>
+                      {
+                          currentReport.usersSignaled.length > 0
+                            ? currentReport.usersSignaled.map((user) => {
+                              return (
                                 <div className='user-profile'>
                                   <UserProfile
                                     fullname
@@ -197,10 +198,11 @@ const ReportChecking = () => {
                                 </div>
                               )
                             }
-                          ) : ''
+                            )
+                            : ''
                         }
-                      </div>
                     </div>
+                  </div>
                 </div>
                 )
               : (
