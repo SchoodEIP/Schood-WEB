@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
+import Select from 'react-select'
 
 const ReportCreationPopupContent = () => {
   const userId = localStorage.getItem('id')
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [signaledUserId, setSignaledUserId] = useState(null)
+  const [signaledUserId, setSignaledUserId] = useState([''])
   const [userList, setUserList] = useState([])
+  const [isMultiStatus, setIsMultiStatus] = useState(true)
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`, {
@@ -39,10 +41,11 @@ const ReportCreationPopupContent = () => {
   }
 
   const handleSignaledUserIdChange = (e) => {
-    setSignaledUserId(e.target.value)
+    setSignaledUserId(e)
   }
 
   const handleConfirmClick = async () => {
+    const users = signaledUserId.map(item => item._id)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
         method: 'POST',
@@ -51,7 +54,7 @@ const ReportCreationPopupContent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userSignaled: signaledUserId,
+          usersSignaled: users,
           message,
           conversation: null,
           type: reason
@@ -85,7 +88,18 @@ const ReportCreationPopupContent = () => {
       </label>
       <label className='input-label'>
         <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
-        <select data-testid='user-select' value={signaledUserId} onChange={handleSignaledUserIdChange}>
+        <Select
+          isMulti={isMultiStatus}
+          data-testid='user-select'
+          id='user-select'
+          placeholder='Sélectionnez un des membres de la conversation'
+          options={userList}
+          value={signaledUserId}
+          onChange={handleSignaledUserIdChange}
+          getOptionValue={(option) => (option._id)}
+          getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
+        />
+        {/* <select data-testid='user-select' value={signaledUserId} onChange={handleSignaledUserIdChange}>
           <option value=''>Sélectionnez un des membres de la conversation</option>
           {
             userList.length > 0
@@ -94,7 +108,7 @@ const ReportCreationPopupContent = () => {
               })
               : <option value=''>Aucun utilisateur ne peut être signalé</option>
           }
-        </select>
+        </select> */}
       </label>
       <label className='input-label'>
         <span className='label-content'>Description</span>

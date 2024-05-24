@@ -29,6 +29,7 @@ const ReportChecking = () => {
         disconnect()
       }
       const data = await response.json()
+      console.log(data[data.length - 1])
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
@@ -59,6 +60,7 @@ const ReportChecking = () => {
   // }
 
   const fetchReportedConversationMessages = async (conversationId) => {
+    console.log(conversationId, 'sfdgjdbkg')
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
         method: 'GET',
@@ -71,6 +73,7 @@ const ReportChecking = () => {
         disconnect()
       }
       const data = await response.json()
+      console.log(data)
       setReportedConversationMessages(data)
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération de la conversation signalée.')
@@ -158,44 +161,46 @@ const ReportChecking = () => {
                   <div className='top'>
                     <div className='conv-name'>{translate(currentReport.type)}</div>
                   </div>
-                  {
-                    reportedConversationMessages && (
-                      <div className='bottom'>
-                        <div className='left'>
-                          <div className='top2'>
-                            {
+                    <div className='bottom'>
+                      <div className='left'>
+                        <div className='top2'>
+                          {
                             currentReport.message && (
                               <div className='report-message'>{currentReport.message}</div>
                             )
                           }
-                            {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
-                            {/* {reportedConversationMessages.map((message, index) => (
-                                <Message key={index} message={message} participants={reportedConversation.participants} />
-                              ))} */}
-                            {/* {error && <div className='error-message'>{error}</div>} */}
-                            {/* </div> */}
-                          </div>
-                        </div>
-                        <div className='right'>
-                          <h2>Signalé par:</h2>
-                          <div className='user-profile'>
-                            <UserProfile
-                              fullname
-                              profile={currentReport.signaledBy}
-                            />
-                          </div>
-                          <h2>À l'encontre de:</h2>
-                          <div className='user-profile'>
-                            <UserProfile
-                              fullname
-                              profile={currentReport.userSignaled}
-                            />
-                          </div>
+                          {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
+                          {/* {reportedConversationMessages.map((message, index) => (
+                              <Message key={index} message={message} participants={reportedConversation.participants} />
+                            ))} */}
+                          {/* {error && <div className='error-message'>{error}</div>} */}
+                          {/* </div> */}
                         </div>
                       </div>
-                    )
-                  }
-
+                      <div className='right'>
+                        <h2>Signalé par:</h2>
+                        <div className='user-profile'>
+                          <UserProfile
+                            fullname
+                            profile={currentReport.signaledBy}
+                          />
+                        </div>
+                        <h2>À l'encontre de:</h2>
+                        {
+                          currentReport.usersSignaled.length > 0 ? currentReport.usersSignaled.map((user) => {
+                            return (
+                                <div className='user-profile'>
+                                  <UserProfile
+                                    fullname
+                                    profile={user}
+                                  />
+                                </div>
+                              )
+                            }
+                          ) : ''
+                        }
+                      </div>
+                    </div>
                 </div>
                 )
               : (
