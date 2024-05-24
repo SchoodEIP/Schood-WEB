@@ -233,9 +233,9 @@ const SingleAccountCreationPopupContent = () => {
         roleProfile === 'admin'
           ? ''
           : (
-              <label className='input-label'>
-                <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
-                {
+            <label className='input-label'>
+              <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
+              {
                   (rolesList[0] !== undefined)
                     ? (
                       <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
@@ -245,7 +245,7 @@ const SingleAccountCreationPopupContent = () => {
                       )
                     : ''
                 }
-                {
+              {
                   (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined)
                     ? (
                       <label className='input-label'>
@@ -261,21 +261,21 @@ const SingleAccountCreationPopupContent = () => {
                       )
                     : ''
                 }
-                <label className='input-label'>
-                  <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
-                  <Select
-                    isMulti={isMultiStatus}
-                    data-testid='select-classes'
-                    id='select-classes'
-                    placeholder='Selectionner une ou plusieurs classes'
-                    options={classesList}
-                    value={classes}
-                    onChange={handleClasseChange}
-                    getOptionValue={(option) => (option._id)}
-                    getOptionLabel={(option) => (option.name)}
-                  />
-                </label>
+              <label className='input-label'>
+                <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
+                <Select
+                  isMulti={isMultiStatus}
+                  data-testid='select-classes'
+                  id='select-classes'
+                  placeholder='Selectionner une ou plusieurs classes'
+                  options={classesList}
+                  value={classes}
+                  onChange={handleClasseChange}
+                  getOptionValue={(option) => (option._id)}
+                  getOptionLabel={(option) => (option.name)}
+                />
               </label>
+            </label>
             )
       }
       {errMessage ? <span data-testid='err-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
