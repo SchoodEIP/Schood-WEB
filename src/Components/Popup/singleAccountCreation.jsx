@@ -207,16 +207,16 @@ const SingleAccountCreationPopupContent = () => {
   return (
     <>
       {
-                roleProfile === 'admin'
-                  ? ''
-                  : <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-                    <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
-                    <label className='input-label'>
-                      <span className='label-content'>Changer la photo de Profil</span>
-                      <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
-                    </label>
-                  </div>
-            }
+        roleProfile === 'admin'
+          ? ''
+          : <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+            <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
+            <label className='input-label'>
+              <span className='label-content'>Changer la photo de Profil</span>
+              <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+            </label>
+          </div>
+      }
       <label className='input-label' style={{ gap: '10px' }}>
         <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
         <input style={{ width: '350px' }} placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
@@ -230,54 +230,54 @@ const SingleAccountCreationPopupContent = () => {
         <input style={{ width: '350px' }} placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
       </label>
       {
-                roleProfile === 'admin'
-                  ? ''
-                  : (
-                    <label className='input-label'>
-                      <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
-                      {
-                            (rolesList[0] !== undefined)
-                              ? (
-                                <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                                  <option value={rolesList[1]._id}>{rolesList[1].name}</option>
-                                  <option value={rolesList[2]._id}>{rolesList[2].name}</option>
-                                </select>
-                                )
-                              : ''
-                        }
-                      {
-                            (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined)
-                              ? (
-                                <label className='input-label'>
-                                  <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
-                                  <select data-testid='title-select' defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
-                                    {
-                                      titlesList.map((title, index) => {
-                                        return <option key={index} value={title._id}>{title.name}</option>
-                                      })
-                                    }
-                                  </select>
-                                </label>
-                                )
-                              : ''
-                        }
+        roleProfile === 'admin'
+          ? ''
+          : (
+              <label className='input-label'>
+                <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
+                {
+                  (rolesList[0] !== undefined)
+                    ? (
+                      <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
+                        <option value={rolesList[1]._id}>{rolesList[1].frenchName}</option>
+                        <option value={rolesList[2]._id}>{rolesList[2].frenchName}</option>
+                      </select>
+                      )
+                    : ''
+                }
+                {
+                  (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined)
+                    ? (
                       <label className='input-label'>
-                        <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
-                        <Select
-                          isMulti={isMultiStatus}
-                          data-testid='select-classes'
-                          id='select-classes'
-                          placeholder='Selectionner une ou plusieurs classes'
-                          options={classesList}
-                          value={classes}
-                          onChange={handleClasseChange}
-                          getOptionValue={(option) => (option._id)}
-                          getOptionLabel={(option) => (option.name)}
-                        />
+                        <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
+                        <select data-testid='title-select' defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                          {
+                            titlesList.map((title, index) => {
+                              return <option key={index} value={title._id}>{title.name}</option>
+                            })
+                          }
+                        </select>
                       </label>
-                    </label>
-                    )
-            }
+                      )
+                    : ''
+                }
+                <label className='input-label'>
+                  <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
+                  <Select
+                    isMulti={isMultiStatus}
+                    data-testid='select-classes'
+                    id='select-classes'
+                    placeholder='Selectionner une ou plusieurs classes'
+                    options={classesList}
+                    value={classes}
+                    onChange={handleClasseChange}
+                    getOptionValue={(option) => (option._id)}
+                    getOptionLabel={(option) => (option.name)}
+                  />
+                </label>
+              </label>
+            )
+      }
       {errMessage ? <span data-testid='err-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
     </>

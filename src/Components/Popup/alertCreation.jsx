@@ -156,7 +156,7 @@ const AlertCreationPopupContent = () => {
                   <span className='label-content'>Type d'utilisateur visé:</span>
                   <select data-testid='roles-select' id='roles-select' onChange={(e) => setRole(e.target.value)}>
                     {userRoles.map((role, index) => (
-                      <option key={index} value={role._id}>{role.name}</option>
+                      <option key={index} value={role._id}>{role.frenchName}</option>
                     ))}
                   </select>
                 </label>

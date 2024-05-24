@@ -88,12 +88,12 @@ const ReportCreationPopupContent = () => {
         <select data-testid='user-select' value={signaledUserId} onChange={handleSignaledUserIdChange}>
           <option value=''>Sélectionnez un des membres de la conversation</option>
           {
-                        userList.length > 0
-                          ? userList.map((user, index) => {
-                            return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
-                          })
-                          : <option value=''>Aucun utilisateur ne peut être signalé</option>
-                    }
+            userList.length > 0
+              ? userList.map((user, index) => {
+                return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
+              })
+              : <option value=''>Aucun utilisateur ne peut être signalé</option>
+          }
         </select>
       </label>
       <label className='input-label'>
