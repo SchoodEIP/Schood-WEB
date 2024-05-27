@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
+import Sidebar from '../../Components/Sidebar/sidebar'
 import Chart from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -17,7 +17,7 @@ const TeacherStatPage = () => {
   const [activeFilter, setActiveFilter] = useState('Semaine')
   const [selectedClass, setSelectedClass] = useState(null)
   const [chart, setChart] = useState(null)
-  const [answerChart, setAnswerChart] = useState(null) // Ajout du state pour le nouveau graphique
+  const [answerChart, setAnswerChart] = useState(null)
   const [classes, setClasses] = useState([])
   const [averageMood, setAverageMood] = useState(0)
   const [averagePercentage, setAveragePercentage] = useState(0)
@@ -57,11 +57,10 @@ const TeacherStatPage = () => {
           })
         })
       ])
-      if (moodResponse.status === 401 || answersResponse.status === 401) {
-        disconnect()
-      }
       const mData = await moodResponse.json()
       const aData = await answersResponse.json()
+      // console.log(mData)
+      // console.log(aData)
       if (mData.averagePercentage !== undefined) {
         setAveragePercentage(mData.averagePercentage)
       }
@@ -119,11 +118,7 @@ const TeacherStatPage = () => {
           'x-auth-token': sessionStorage.getItem('token')
         }
       })
-      if (response.status === 401) {
-        disconnect()
-      }
       const classesData = await response.json()
-      console.log('classes', classesData)
       setClasses(classesData)
     } catch (error) {
       console.error('Error fetching classes:', error)
@@ -175,18 +170,16 @@ const TeacherStatPage = () => {
 
   useEffect(() => {
     if (chart) {
-      updateChart()
-    } else {
-      createChart()
+      chart.destroy()
     }
+    createChart()
   }, [moodData, selectedClass])
 
   useEffect(() => {
     if (answerChart) {
-      updateAnswerChart()
-    } else {
-      createAnswerChart()
+      answerChart.destroy()
     }
+    createAnswerChart()
   }, [answerData, selectedClass])
 
   const createChart = () => {
@@ -255,10 +248,11 @@ const TeacherStatPage = () => {
       }
     })
 
+    updateChart(newChart)
     setChart(newChart)
   }
 
-  const updateChart = () => {
+  const updateChart = (newChart) => {
     if (moodData.length > 1) {
       const listData = []
       let labels = []
@@ -276,10 +270,11 @@ const TeacherStatPage = () => {
         return aa < bb ? -1 : (aa > bb ? 1 : 0)
       })
 
-      chart.data.datasets[0].data = listData
-      chart.data.labels = labels
-      chart.options.scales.x.labels = labels
-      if (chart._context) { chart.update() }
+      newChart.data.datasets[0].data = listData
+      newChart.data.labels = labels
+      newChart.options.scales.x.labels = labels
+
+      newChart.update()
     }
   }
 
@@ -306,7 +301,7 @@ const TeacherStatPage = () => {
         plugins: {
           legend: {
             labels: {
-              color: 'white' // Couleur du texte de légende en blanc
+              color: 'white'
             }
           }
         }
@@ -314,14 +309,6 @@ const TeacherStatPage = () => {
     })
 
     setAnswerChart(newChart)
-  }
-
-  const updateAnswerChart = () => {
-    if (Array.isArray(answerData)) {
-      answerChart.data.labels = answerData.map(answer => answer.date)
-      answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
-      if (answerChart._context) { answerChart.update() }
-    }
   }
 
   const handleDateChange = (event) => {
