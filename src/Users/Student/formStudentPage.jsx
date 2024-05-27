@@ -168,19 +168,17 @@ const FormStudentPage = () => {
     }).then(response => {
       if (response.status === 401) {
         disconnect()
-      }
-      return response.json()
-    })
-      .then(data => {
+      } else if (response.status === 200) {
         toast.success('Réponses enregistrées avec succès.')
-        if (!data.message) {
-          setIsAnswered(true)
-          navigate('/questionnaires')
-        } else /* istanbul ignore next */ {
-          toast.error(data.message)
-        }
+        setIsAnswered(true)
+        navigate('/questionnaires')
+      } else {
+        return response.json()
+      }
+    })
+      .catch(error => /* istanbul ignore next */ {
+        toast.error('Erreur Serveur. Veuillez réessayer plus tard.')
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
   }
 
   const setAccordion = (question) => {

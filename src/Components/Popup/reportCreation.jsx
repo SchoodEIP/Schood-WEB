@@ -10,7 +10,6 @@ const ReportCreationPopupContent = () => {
   const [message, setMessage] = useState('')
   const [signaledUserId, setSignaledUserId] = useState([''])
   const [userList, setUserList] = useState([])
-  const [isMultiStatus, setIsMultiStatus] = useState(true)
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`, {
@@ -89,7 +88,7 @@ const ReportCreationPopupContent = () => {
       <label className='input-label'>
         <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
         <Select
-          isMulti={isMultiStatus}
+          isMulti
           data-testid='user-select'
           id='user-select'
           placeholder='Sélectionnez un des membres de la conversation'
