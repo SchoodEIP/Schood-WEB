@@ -76,18 +76,18 @@ const ReportButton = ({ currentConversation }) => {
         <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
         {/* <select value={signaledUserId} onChange={handleSignaledUserIdChange}>
           <option value=''>Sélectionnez un des membres de la conversation</option> */}
-          <Select
-            isMulti
-            data-testid='user-select'
-            id='user-select'
-            placeholder='Sélectionnez un des membres de la conversation'
-            options={userList}
-            value={signaledUserId}
-            onChange={handleSignaledUserIdChange}
-            getOptionValue={(option) => (option._id)}
-            getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
-          />
-          {/* {
+        <Select
+          isMulti
+          data-testid='user-select'
+          id='user-select'
+          placeholder='Sélectionnez un des membres de la conversation'
+          options={userList}
+          value={signaledUserId}
+          onChange={handleSignaledUserIdChange}
+          getOptionValue={(option) => (option._id)}
+          getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
+        />
+        {/* {
             userList.map((user, index) => {
               return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
             })
