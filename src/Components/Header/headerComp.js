@@ -41,7 +41,7 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
                 return <button className='header-btn' key={index} onClick={btn.handleFunction}>{btn.name}</button>
               })}
             </div>
-          )
+            )
           : ''}
         {withLogo && (
           <Link to='/'>

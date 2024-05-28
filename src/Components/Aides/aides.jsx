@@ -70,8 +70,8 @@ export default function AidePage (props) {
   return (
     <div>
       <p>{errMessage || ''}</p>
-      {props.position === 0 ?
-        (
+      {props.position === 0
+        ? (
           <div id='category-container'>
             {categories.map((category) => (
               <button key={category._id} className='category-btn' data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
@@ -79,11 +79,11 @@ export default function AidePage (props) {
               </button>
             ))}
           </div>
-        )
+          )
         : ''}
 
-      {props.position === 1 ?
-        (
+      {props.position === 1
+        ? (
           <div id='filtered-contacts-container'>
             {filteredContacts.map((contact) =>
               <button key={contact._id} className='contact-btn' data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
@@ -91,12 +91,11 @@ export default function AidePage (props) {
               </button>
             )}
           </div>
-        )
+          )
         : ''}
 
       {props.position === 2
-        ?
-        (
+        ? (
           <div className='contact-container'>
             <div className='contact-content-container' id='contact-profile'>
               <h1 id='contact-title'>{chosenContact.name}</h1>
@@ -121,7 +120,7 @@ export default function AidePage (props) {
               <span>{chosenContact.description}</span>
             </div>
           </div>
-        )
+          )
         : ''}
     </div>
   )
