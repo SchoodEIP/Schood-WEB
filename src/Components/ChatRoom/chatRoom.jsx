@@ -400,7 +400,7 @@ const Messages = () => {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={openCreateConversationPopup} />
+            <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={close} />
           </div>
         )}
       </Popup>

@@ -61,7 +61,7 @@ const AlertCreationPopupContent = () => {
       title,
       message,
       role,
-      classes: isClass ? selectedClasses : []
+      classes: []
     }
 
     const classData = {
