@@ -106,7 +106,7 @@ export default function AidePage (props) {
                       <p className='contact-element-title'>Numéro de Téléphone</p>
                       <p className='contact-element-content'>{chosenContact.telephone}</p>
                     </div>
-                  )
+                    )
                   : ''
               }
               {
@@ -116,7 +116,7 @@ export default function AidePage (props) {
                       <p className='contact-element-title'>Adresse Email</p>
                       <p className='contact-element-content'>{chosenContact.email}</p>
                     </div>
-                  )
+                    )
                   : ''
               }
             </div>
