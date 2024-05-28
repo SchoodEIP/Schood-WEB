@@ -43,7 +43,7 @@ describe('ReportChecking Component', () => {
         _id: '6638a710dd18a1e42e539476'
       },
       type: 'bullying',
-      userSignaled: {
+      usersSignaled: [{
         active: true,
         classes: ['6638a70fdd18a1e42e53945c'],
         createdAt: '2024-05-06T09:46:56.313Z',
@@ -58,7 +58,7 @@ describe('ReportChecking Component', () => {
         updatedAt: '2024-05-06T09:46:56.313Z',
         __v: 0,
         _id: '6638a710dd18a1e42e53947a'
-      },
+      }],
       __v: 0,
       _id: '6638a710dd18a1e42e539553'
     },
@@ -85,7 +85,7 @@ describe('ReportChecking Component', () => {
         _id: '6638a710dd18a1e42e539476'
       },
       type: 'badcomportment',
-      userSignaled: {
+      usersSignaled: [{
         active: true,
         classes: ['6638a70fdd18a1e42e53945c'],
         createdAt: '2024-05-06T09:46:56.313Z',
@@ -100,7 +100,7 @@ describe('ReportChecking Component', () => {
         updatedAt: '2024-05-06T09:46:56.313Z',
         __v: 0,
         _id: '6638a710dd18a1e42e53947a'
-      },
+      }],
       __v: 0,
       _id: '6638a710dd18a1e42e539554'
     }

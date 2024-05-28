@@ -77,7 +77,7 @@ describe('Report Creation Popup Content', () => {
     })
 
     await act(() => {
-      fireEvent.change(screen.getByTestId('user-select'), { target: { value: '2' } })
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '2' } })
     })
 
     await act(() => {
@@ -127,7 +127,7 @@ describe('Report Creation Popup Content', () => {
     })
 
     await act(() => {
-      fireEvent.change(screen.getByTestId('user-select'), { target: { value: '2' } })
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '2' } })
     })
 
     await act(() => {
@@ -161,7 +161,7 @@ describe('Report Creation Popup Content', () => {
     })
 
     await act(() => {
-      fireEvent.change(screen.getByTestId('user-select'), { target: { value: '2' } })
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '2' } })
     })
 
     await act(() => {

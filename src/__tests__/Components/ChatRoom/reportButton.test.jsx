@@ -95,9 +95,9 @@ describe('ReportButton Component', () => {
       fireEvent.change(reasonSelect, { target: { value: 'Spam' } })
     })
 
-    const memberSelect = screen.getByDisplayValue('Sélectionnez un des membres de la conversation')
+
     await act(async () => {
-      fireEvent.change(memberSelect, { target: { value: '132' } })
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '132' } })
     })
 
     const description = screen.getByPlaceholderText('Veuillez expliquer votre raison ici.')
@@ -145,9 +145,8 @@ describe('ReportButton Component', () => {
     const errorMessage = screen.getByText('Erreur lors du signalement de la conversation.')
     await waitFor(async () => { expect(errorMessage).toBeInTheDocument() })
 
-    const memberSelect = screen.getByDisplayValue('Sélectionnez un des membres de la conversation')
     await act(async () => {
-      fireEvent.change(memberSelect, { target: { value: '132' } })
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '132' } })
     })
 
     const confirmBtn2 = screen.getByText('Confirmer le signalement')
