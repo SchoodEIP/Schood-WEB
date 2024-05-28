@@ -186,24 +186,24 @@ const ReportChecking = () => {
                       {
                         currentReport.usersSignaled.length > 0
                           ? currentReport.usersSignaled.map((user, index) => {
-                              return (
-                                <div key={index} className='user-profile'>
-                                  <UserProfile
-                                    fullname
-                                    profile={user}
-                                  />
-                                </div>
-                              )
-                            }
+                            return (
+                              <div key={index} className='user-profile'>
+                                <UserProfile
+                                  fullname
+                                  profile={user}
+                                />
+                              </div>
+                            )
+                          }
                           )
-                        : ''
+                          : ''
                       }
                     </div>
                   </div>
                 </div>
                 )
               : (
-                  <div>Aucun signalement sélectionné.</div>
+                <div>Aucun signalement sélectionné.</div>
                 )}
           </div>
         </div>

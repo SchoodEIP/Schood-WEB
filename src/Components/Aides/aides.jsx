@@ -72,29 +72,29 @@ export default function AidePage (props) {
       <p>{errMessage || ''}</p>
       {props.position === 0
         ? <div id='category-container'>
-            {categories.map((category) => (
-              <button key={category._id} className='category-btn' data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
-                {category.name}
-              </button>
-            ))}
+          {categories.map((category) => (
+            <button key={category._id} className='category-btn' data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>
+              {category.name}
+            </button>
+          ))}
           </div>
         : ''}
 
       {props.position === 1
         ? <div id='filtered-contacts-container'>
-            {filteredContacts.map((contact) =>
-              <button key={contact._id} className='contact-btn' data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
-                {contact.name}
-              </button>
-            )}
+          {filteredContacts.map((contact) =>
+            <button key={contact._id} className='contact-btn' data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
+              {contact.name}
+            </button>
+          )}
           </div>
         : ''}
 
       {props.position === 2
         ? <div className='contact-container'>
-            <div className='contact-content-container' id='contact-profile'>
-              <h1 id='contact-title'>{chosenContact.name}</h1>
-              {
+          <div className='contact-content-container' id='contact-profile'>
+            <h1 id='contact-title'>{chosenContact.name}</h1>
+            {
                 chosenContact.telephone
                   ? <div className='contact-element-container'>
                     <p className='contact-element-title'>Numéro de Téléphone</p>
@@ -102,7 +102,7 @@ export default function AidePage (props) {
                   </div>
                   : ''
               }
-              {
+            {
                 chosenContact.email
                   ? <div className='contact-element-container'>
                     <p className='contact-element-title'>Adresse Email</p>
@@ -110,10 +110,10 @@ export default function AidePage (props) {
                   </div>
                   : ''
               }
-            </div>
-            <div className='contact-content-container' id='contact-description'>
-              <span>{chosenContact.description}</span>
-            </div>
+          </div>
+          <div className='contact-content-container' id='contact-description'>
+            <span>{chosenContact.description}</span>
+          </div>
           </div>
         : ''}
     </div>

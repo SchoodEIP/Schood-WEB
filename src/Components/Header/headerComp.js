@@ -36,9 +36,9 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px' }}>
         {showButtons
           ? <div style={{ display: 'flex', flexDirection: 'row', gap: '15px' }}>
-              {buttonComponent.map((btn, index) => {
-                return <button className='header-btn' key={index} onClick={btn.handleFunction}>{btn.name}</button>
-              })}
+            {buttonComponent.map((btn, index) => {
+              return <button className='header-btn' key={index} onClick={btn.handleFunction}>{btn.name}</button>
+            })}
             </div>
           : ''}
         {withLogo && (
