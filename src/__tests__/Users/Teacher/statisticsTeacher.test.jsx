@@ -10,17 +10,17 @@ jest.mock('chart.js/auto', () => {
         destroy: jest.fn(),
         update: jest.fn(),
         data: {
-          datasets: [{}],
+          datasets: [{}]
         },
         options: {
           scales: {
             x: {
-              labels: [],
-            },
-          },
-        },
+              labels: []
+            }
+          }
+        }
       }
-    }),
+    })
   }
 })
 
@@ -43,7 +43,7 @@ describe('TeacherStatPage', () => {
     const mockMoodData = {
       '2024-01-01': 3,
       '2024-01-02': 2,
-      averagePercentage: 80,
+      averagePercentage: 80
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
@@ -59,7 +59,7 @@ describe('TeacherStatPage', () => {
     const mockMoodData = {
       '2024-01-01': 3,
       '2024-01-02': 2,
-      averagePercentage: 80,
+      averagePercentage: 80
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
@@ -77,7 +77,7 @@ describe('TeacherStatPage', () => {
     const mockMoodData = {
       '2024-01-01': 3,
       '2024-01-02': 2,
-      averagePercentage: 80,
+      averagePercentage: 80
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
