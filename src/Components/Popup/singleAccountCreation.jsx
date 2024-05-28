@@ -122,12 +122,11 @@ const SingleAccountCreationPopupContent = () => {
       classes: []
     }
 
-
     const schoolAdminPayload = {
       firstname,
       lastname,
       email,
-      role: role,
+      role,
       classes: classesArray,
       picture: picture || userIcon
     }
