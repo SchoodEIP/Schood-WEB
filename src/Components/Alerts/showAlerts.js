@@ -12,7 +12,6 @@ export default function ShowAlerts ({ chosenAlert }) {
             <div id='alert-message-container'>
               <div id='alert-message-header'>
                 <div id='alert-message-header-content'>
-
                   <UserProfile
                     profile={chosenAlert?.createdBy}
                   />
@@ -22,12 +21,14 @@ export default function ShowAlerts ({ chosenAlert }) {
                   </div>
                 </div>
                 <div>
-                  {chosenAlert?.file
-                    ? <button id='alert-btn'>
-                      <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
-                        Télécharger la pièce-jointe
-                      </a>
-                    </button>
+                  {chosenAlert?.file ?
+                    (
+                      <button id='alert-btn'>
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
+                          Télécharger la pièce-jointe
+                        </a>
+                      </button>
+                    )
                     : ''}
                 </div>
               </div>
