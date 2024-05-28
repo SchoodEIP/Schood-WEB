@@ -4,7 +4,7 @@ import '@testing-library/jest-dom'
 import HelpPage from '../../../Users/Shared/helpPage.jsx'
 import fetchMock from 'fetch-mock'
 import { WebsocketProvider } from '../../../contexts/websocket'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('../../../functions/disconnect', () => ({
@@ -65,11 +65,11 @@ describe('helpPage', () => {
   it('displays categories and contacts', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -81,11 +81,11 @@ describe('helpPage', () => {
   it('moves through the helps', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -146,24 +146,33 @@ describe('helpPage', () => {
   it('allows the creation of a new category', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
-    const singleAccountButton = screen.getByText('Ajouter une Catégorie')
+    const createCategoryBtn = screen.getByText('Ajouter une Catégorie')
 
     await act(async () => {
-      fireEvent.click(singleAccountButton)
+      fireEvent.click(createCategoryBtn)
     })
-    const nameInput = screen.getByPlaceholderText('Nom')
-    expect(nameInput).toHaveValue('')
+    const nameInput = screen.queryByPlaceholderText('Nom')
+
+    await waitFor(() => {
+      expect(nameInput).toBeInTheDocument()
+      expect(nameInput).toHaveValue('')
+    })
+
     await act(async () => {
       fireEvent.change(nameInput, { target: { value: 'Violence' } })
     })
-    expect(nameInput).toHaveValue('Violence')
+
+    await waitFor(() => {
+      expect(nameInput).toHaveValue('Violence')
+    })
+
     const newCategoryBtn = screen.getByText('Créer la Catégorie')
     await act(async () => {
       fireEvent.click(newCategoryBtn)
@@ -173,17 +182,17 @@ describe('helpPage', () => {
   it('allows the creation of a new contact', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
-    const singleAccountButton = screen.getByText('Ajouter un Numéro')
+    const createCategoryBtn = screen.getByText('Ajouter un Numéro')
 
     await act(async () => {
-      fireEvent.click(singleAccountButton)
+      fireEvent.click(createCategoryBtn)
     })
 
     const nameInput = screen.getByPlaceholderText('Nom')
@@ -191,17 +200,22 @@ describe('helpPage', () => {
     const emailInput = screen.getByPlaceholderText('prenom.nom.Schood1@schood.fr')
     const descriptionInput = screen.getByPlaceholderText("Une description à propos de l'aide fournie")
 
-    expect(nameInput).toHaveValue('')
-    expect(telephoneInput).toHaveValue('')
-    expect(emailInput).toHaveValue('')
-    expect(descriptionInput).toHaveValue('')
+    await waitFor(() => {
+      expect(nameInput).toHaveValue('')
+      expect(telephoneInput).toHaveValue('')
+      expect(emailInput).toHaveValue('')
+      expect(descriptionInput).toHaveValue('')
+    })
 
     const newCategoryBtn = screen.getByText('Créer le Numéro')
 
     await act(async () => {
       fireEvent.click(newCategoryBtn)
     })
-    expect(screen.getByText('Le nom est vide.')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Le nom est vide.')).toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.change(nameInput, { target: { value: 'Test' } })
@@ -210,7 +224,10 @@ describe('helpPage', () => {
     await act(async () => {
       fireEvent.click(newCategoryBtn)
     })
-    expect(screen.getByText('Veuillez fournir un numéro de téléphone valide (10 chiffres).')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Veuillez fournir un numéro de téléphone valide (10 chiffres).')).toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.change(telephoneInput, { target: { value: '0298123712' } })
@@ -219,7 +236,10 @@ describe('helpPage', () => {
     await act(async () => {
       fireEvent.click(newCategoryBtn)
     })
-    expect(screen.getByText('Veuillez fournir une adresse email valide.')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Veuillez fournir une adresse email valide.')).toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: 'test@schood.fr' } })
@@ -228,16 +248,21 @@ describe('helpPage', () => {
     await act(async () => {
       fireEvent.click(newCategoryBtn)
     })
-    expect(screen.getByText("Veuillez fournir une description de ce numéro d'aide.")).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText("Veuillez fournir une description de ce numéro d'aide.")).toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.change(descriptionInput, { target: { value: 'This is just a test' } })
     })
 
-    expect(nameInput).toHaveValue('Test')
-    expect(telephoneInput).toHaveValue('0298123712')
-    expect(emailInput).toHaveValue('test@schood.fr')
-    expect(descriptionInput).toHaveValue('This is just a test')
+    await waitFor(() => {
+      expect(nameInput).toHaveValue('Test')
+      expect(telephoneInput).toHaveValue('0298123712')
+      expect(emailInput).toHaveValue('test@schood.fr')
+      expect(descriptionInput).toHaveValue('This is just a test')
+    })
 
     await act(async () => {
       fireEvent.click(newCategoryBtn)
@@ -247,11 +272,11 @@ describe('helpPage', () => {
   it('tests the popups', async () => {
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -260,22 +285,30 @@ describe('helpPage', () => {
     await act(async () => {
       fireEvent.click(categoryButton)
     })
-    expect(screen.getByText('Créer la Catégorie')).toBeInTheDocument()
-    expect(screen.queryByText('Créer le Numéro')).not.toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.queryByText('Créer le Numéro')).not.toBeInTheDocument()
+      expect(screen.getByText('Créer la Catégorie')).toBeInTheDocument()
+    })
 
     const contactButton = screen.getByText('Ajouter un Numéro')
 
     await act(async () => {
       fireEvent.click(contactButton)
     })
-    expect(screen.getByText('Créer le Numéro')).toBeInTheDocument()
-    expect(screen.queryByText('Créer la Catégorie')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('Créer le Numéro')).toBeInTheDocument()
+      expect(screen.queryByText('Créer la Catégorie')).not.toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.click(categoryButton)
     })
-    expect(screen.getByText('Créer la Catégorie')).toBeInTheDocument()
-    expect(screen.queryByText('Créer le Numéro')).not.toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Créer la Catégorie')).toBeInTheDocument()
+      expect(screen.queryByText('Créer le Numéro')).not.toBeInTheDocument()
+    })
 
     await act(async () => {
       fireEvent.click(screen.getByText('Créer la Catégorie'))
@@ -291,11 +324,11 @@ describe('helpPage', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 
@@ -309,11 +342,11 @@ describe('helpPage', () => {
 
     await act(async () => {
       render(
-        <BrowserRouter>
+        <MemoryRouter>
           <WebsocketProvider>
             <HelpPage />
           </WebsocketProvider>
-        </BrowserRouter>
+        </MemoryRouter>
       )
     })
 

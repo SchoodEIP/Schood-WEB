@@ -29,11 +29,11 @@ export default function AdmAccountsPage () {
   const buttonComponent = [
     {
       name: 'Ajouter un Compte',
-      function: handleSingleAccount
+      handleFunction: handleSingleAccount
     },
     {
       name: 'Ajouter une Liste de Comptes',
-      function: handleManyAccounts
+      handleFunction: handleManyAccounts
     }
   ]
 

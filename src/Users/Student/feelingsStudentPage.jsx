@@ -216,11 +216,11 @@ const FeelingsStudentPage = () => {
   const buttonComponent = [
     {
       name: 'Créer un Ressenti',
-      function: handleFeelingsCreation
+      handleFunction: handleFeelingsCreation
     },
     {
       name: 'Modifier le Dernier Ressenti',
-      function: handleFeelingsModification
+      handleFunction: handleFeelingsModification
     }
   ]
 

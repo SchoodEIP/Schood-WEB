@@ -38,11 +38,11 @@ const HelpPage = () => {
   const buttonComponent = [
     {
       name: 'Ajouter une Catégorie',
-      function: handleCategoryCustomPopup
+      handleFunction: handleCategoryCustomPopup
     },
     {
       name: 'Ajouter un Numéro',
-      function: handleNumberCustomPopup
+      handleFunction: handleNumberCustomPopup
     }
   ]
 

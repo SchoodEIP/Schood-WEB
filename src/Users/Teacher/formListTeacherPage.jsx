@@ -38,7 +38,7 @@ const FormListTeacherPage = () => {
   const buttonComponent = [
     {
       name: 'Créer un Questionnaire',
-      function: createNewForm
+      handleFunction: createNewForm
     }
   ]
 

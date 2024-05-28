@@ -281,8 +281,6 @@ describe('FormTeacherPage', () => {
       )
     })
 
-    const originalLocation = window.location
-
     await act(async () => {
       fireEvent.click(screen.getByText('Modifier le Questionnaire'))
     })

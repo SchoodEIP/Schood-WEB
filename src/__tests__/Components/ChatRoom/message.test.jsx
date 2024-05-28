@@ -33,7 +33,7 @@ describe('Message Component', () => {
       lastname: 'teacher2'
     }
   ]
-  const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
+  // const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
 
   it('renders without crashing', async () => {
     const userMessage = {

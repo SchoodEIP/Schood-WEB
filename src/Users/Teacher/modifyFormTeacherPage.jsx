@@ -196,7 +196,7 @@ const ModifyFormTeacherPage = () => {
   const buttonComponent = [
     {
       name: 'Valider le Questionnaire',
-      function: postQuestions
+      handleFunction: postQuestions
     }
   ]
 

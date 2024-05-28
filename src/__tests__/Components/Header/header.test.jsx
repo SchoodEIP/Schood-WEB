@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'

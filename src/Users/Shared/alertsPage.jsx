@@ -122,7 +122,7 @@ const AlertsPage = () => {
   const buttonComponent = [
     {
       name: 'Créer une alerte',
-      function: handleNewAlert
+      handleFunction: handleNewAlert
     }
   ]
 

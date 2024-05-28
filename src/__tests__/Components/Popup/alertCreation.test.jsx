@@ -66,7 +66,7 @@ describe('AlertCreation', () => {
     body: { locked: true }
   }
 
-  const dummyBlob = new Blob(['dummy content'], { type: 'text/plain' })
+  // const dummyBlob = new Blob(['dummy content'], { type: 'text/plain' })
 
   beforeEach(() => {
     fetchMock.reset()

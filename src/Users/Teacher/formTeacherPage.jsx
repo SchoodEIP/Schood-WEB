@@ -181,7 +181,7 @@ const FormTeacherPage = () => {
   const buttonComponent = [
     {
       name: 'Modifier le Questionnaire',
-      function: handleRedirect
+      handleFunction: handleRedirect
     }
   ]
 
