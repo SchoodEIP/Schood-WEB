@@ -16,7 +16,7 @@ const SingleAccountCreationPopupContent = () => {
   const [classes, setClasses] = useState([])
   const [classesList, setClassesList] = useState([])
   const [titlesList, setTitlesList] = useState([])
-  const [isMultiStatus, setIsMultiStatus] = useState(false)
+  const [isMultiStatus, setIsMultiStatus] = useState(true)
   const [picture, setPicture] = useState(null)
   const [title, setTitle] = useState(null)
 
@@ -38,18 +38,20 @@ const SingleAccountCreationPopupContent = () => {
 
   const handleRoleChange = (event) => {
     setRole(event.target.value)
-    if (event.target.value === rolesList[1]._id) {
+    if (event.target.value === rolesList.filter(role => role.name === 'student')[0]._id) {
       setIsMultiStatus(false)
     } else {
       setIsMultiStatus(true)
     }
   }
 
-  const handleClasseChange = (selected) => /* istanbul ignore next */ {
-    if (role === rolesList[1]._id) {
+  const handleClasseChange = (selected) => {
+    console.log(rolesList.filter(role => role.name === 'student')[0])
+    if (role === (rolesList.filter(role => role.name === 'student')[0]._id)) {
       setClasses([selected])
     } else {
       setClasses(selected)
+      console.log(selected)
     }
   }
 
@@ -82,9 +84,9 @@ const SingleAccountCreationPopupContent = () => {
     const roleId = filteredArray.map(item => item._id)
 
     let classesArray = []
-    if (classes.length !== 0) {
+    if (classes.length !== 0 && role === rolesList.filter(role => role.name === 'student')) {
       classesArray.push(classes)
-    } else if (classes.length > 1) {
+    } else {
       classesArray = classes
     }
 
@@ -120,11 +122,12 @@ const SingleAccountCreationPopupContent = () => {
       classes: []
     }
 
+
     const schoolAdminPayload = {
       firstname,
       lastname,
       email,
-      role,
+      role: role,
       classes: classesArray,
       picture: picture || userIcon
     }
@@ -167,7 +170,7 @@ const SingleAccountCreationPopupContent = () => {
     })
       .then(data => {
         setRolesList(data.roles)
-        setRole(data.roles[1]._id)
+        setRole(data.roles.filter(user => user.name === 'teacher')[0]._id)
       })
       .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
 
@@ -239,14 +242,14 @@ const SingleAccountCreationPopupContent = () => {
                   (rolesList[0] !== undefined)
                     ? (
                       <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                        <option value={rolesList[1]._id}>{rolesList[1].frenchName}</option>
-                        <option value={rolesList[2]._id}>{rolesList[2].frenchName}</option>
+                        <option value={rolesList.filter(role => role.name === 'teacher')[0]._id}>{rolesList.filter(role => role.name === 'teacher')[0].frenchName}</option>
+                        <option value={rolesList.filter(role => role.name === 'student')[0]._id}>{rolesList.filter(role => role.name === 'student')[0].frenchName}</option>
                       </select>
                       )
                     : ''
                 }
               {
-                  (rolesList[0] !== undefined && role === rolesList[2]._id && titlesList !== undefined)
+                  (rolesList[0] !== undefined && role === rolesList.filter(role => role.name === 'teacher')[0]._id && titlesList !== undefined)
                     ? (
                       <label className='input-label'>
                         <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>

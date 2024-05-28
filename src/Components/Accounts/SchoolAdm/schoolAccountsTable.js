@@ -100,7 +100,7 @@ export default function SchoolAccountsTable () {
               {
                 studentList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture} alt='img de profil' /></td>
+                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
