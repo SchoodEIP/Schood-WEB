@@ -26,7 +26,7 @@ const FormStudentPage = () => {
   const [data, setData] = useState({})
   const [currentCheck, setCurrentCheck] = useState(false)
   const [questions, setQuestions] = useState([])
-  const [answers, setAnswers] = useState([])
+  // const [answers, setAnswers] = useState([])
   const navigate = useNavigate()
   const [isAnswered, setIsAnswered] = useState(false)
 
@@ -97,11 +97,11 @@ const FormStudentPage = () => {
       .then(data2 => {
         if (data2 !== null) {
           setIsAnswered(true)
-          setAnswers(data.answers)
+          // setAnswers(data.answers)
         }
         formatQuestions(data, data2)
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
+      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message))
   }
 
   const getQuestionnaireData = () => {
@@ -128,20 +128,20 @@ const FormStudentPage = () => {
           toast.error(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
+      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message))
   }
 
   useEffect(() => {
     setData({})
     setQuestions([])
-    setAnswers([])
+    // setAnswers([])
     getQuestionnaireData()
   }, [])
 
   function getFormAnswers () {
     const formAnswers = []
 
-    questions.forEach((question, index) => {
+    questions.forEach((question) => {
       const result = {
         question: question._id,
         answers: question.studentAnswer.filter((answer) => answer && answer.length > 0)
@@ -177,7 +177,7 @@ const FormStudentPage = () => {
       }
     })
       .catch(error => /* istanbul ignore next */ {
-        toast.error('Erreur Serveur. Veuillez réessayer plus tard.')
+        toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message)
       })
   }
 

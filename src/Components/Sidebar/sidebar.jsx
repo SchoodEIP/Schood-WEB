@@ -48,11 +48,11 @@ import alertsIconSelected from '../../assets/sidenav/alerts-icon-selected.png'
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
-  const [nbNotifications, setNbNotification] = useState(0)
-  const [notification, setNotification] = useState({ message: false })
+  // const [nbNotifications, setNbNotification] = useState(0)
+  // const [notification, setNotification] = useState({ message: false })
   const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
-  const [isAnswered, setIsAnswered] = useState(false)
+  // const [isAnswered, setIsAnswered] = useState(false)
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
@@ -61,10 +61,10 @@ export default function Sidebar () {
   const handleNotifications = () => /* istanbul ignore next */ {
     if (chats.value.notified) {
       if (location.pathname !== '/messages') {
-        setNotification({ message: true })
+        // setNotification({ message: true })
       } else {
         if (chats.value.unseenChats.length === 0) {
-          setNotification({ message: false })
+          // setNotification({ message: false })
           chats.setChats({ ...chats.value, notified: false })
         }
       }
@@ -85,10 +85,10 @@ export default function Sidebar () {
         return response.json()
       })
       .then((data) => {
-        setIsAnswered(false)
+        // setIsAnswered(false)
         setDailyMood(null)
         if (data.mood) {
-          setIsAnswered(true)
+          // setIsAnswered(true)
           setDailyMood(data.mood)
         }
       })
@@ -168,7 +168,7 @@ export default function Sidebar () {
   }
 
   const handleClick = (id) => /* istanbul ignore next */ {
-    if (id === 'messages') setNotification({ message: false })
+    // if (id === 'messages') setNotification({ message: false })
   }
 
   const handleClickDailyMood = (mood) => {
@@ -210,7 +210,7 @@ export default function Sidebar () {
       })
       .then((data) => {
         setNotifications(data)
-        setNbNotification(data.length)
+        // setNbNotification(data.length)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error(error)

@@ -118,6 +118,9 @@ export function LastAlerts () {
               )
             : (<p>Vous n'avez pas de nouvelle alerte.</p>)
         }
+        {
+          errMessage ? <p style={{color: 'red'}} >{errMessage}</p> : ''
+        }
       </div>
     </div>
   )

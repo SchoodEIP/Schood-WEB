@@ -3,7 +3,6 @@ import '../../css/pages/homePage.scss'
 import '../../css/pages/reportChecking.scss'
 import HeaderComp from '../../Components/Header/headerComp'
 import ReportSidebar from '../../Components/reports/reportSidebar'
-import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
 import { translate } from '../../functions/translate'
@@ -11,10 +10,10 @@ import { translate } from '../../functions/translate'
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
-  const [reportedConversation, setReportedConversation] = useState(null)
-  const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
-  const [isReportProcessed, setIsReportProcessed] = useState(false)
-  const [error, setError] = useState('')
+  // const [reportedConversation, setReportedConversation] = useState(null)
+  // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
+  // const [isReportProcessed, setIsReportProcessed] = useState(false)
+  // const [error, setError] = useState('')
 
   const fetchReportRequests = async () => {
     try {
@@ -59,26 +58,24 @@ const ReportChecking = () => {
   //   }
   // }
 
-  const fetchReportedConversationMessages = async (conversationId) => {
-    console.log(conversationId, 'sfdgjdbkg')
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      if (response.status === 401) {
-        disconnect()
-      }
-      const data = await response.json()
-      console.log(data)
-      setReportedConversationMessages(data)
-    } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la récupération de la conversation signalée.')
-    }
-  }
+  // const fetchReportedConversationMessages = async (conversationId) => {
+  //   try {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'x-auth-token': sessionStorage.getItem('token'),
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     if (response.status === 401) {
+  //       disconnect()
+  //     }
+  //     const data = await response.json()
+  //     setReportedConversationMessages(data)
+  //   } catch (error) /* istanbul ignore next */ {
+  //     setError('Erreur lors de la récupération de la conversation signalée.')
+  //   }
+  // }
 
   /* const checkReportProcessingStatus = async (reportId) => {
     // on a pas moyen de vérifier le status d'un report, la route ci dessous n'est pas valide
@@ -130,7 +127,7 @@ const ReportChecking = () => {
 
   const handleReportSelection = async (reportId, conversationId) => {
     // await fetchReportedConversation(conversationId)
-    await fetchReportedConversationMessages(conversationId)
+    // await fetchReportedConversationMessages(conversationId)
     // await checkReportProcessingStatus(reportId)
   }
 
@@ -187,10 +184,10 @@ const ReportChecking = () => {
                       </div>
                       <h2>À l'encontre de:</h2>
                       {
-                          currentReport.usersSignaled.length > 0
-                            ? currentReport.usersSignaled.map((user) => {
+                        currentReport.usersSignaled.length > 0
+                          ? currentReport.usersSignaled.map((user, index) => {
                               return (
-                                <div className='user-profile'>
+                                <div key={index} className='user-profile'>
                                   <UserProfile
                                     fullname
                                     profile={user}
@@ -198,15 +195,15 @@ const ReportChecking = () => {
                                 </div>
                               )
                             }
-                            )
-                            : ''
-                        }
+                          )
+                        : ''
+                      }
                     </div>
                   </div>
                 </div>
                 )
               : (
-                <div>Aucun signalement sélectionné.</div>
+                  <div>Aucun signalement sélectionné.</div>
                 )}
           </div>
         </div>

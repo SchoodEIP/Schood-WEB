@@ -13,7 +13,6 @@ import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import { disconnect } from '../../functions/disconnect'
 
 const FeelingsStudentPage = () => {
-  const [alertResponse, setAlertResponse] = useState('')
   const [errMessage, setErrMessage] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isPassed, setIsPassed] = useState(false)
@@ -271,9 +270,6 @@ const FeelingsStudentPage = () => {
             </div>
           )}
         </Popup>
-        <div id='feelings-container'>
-          <p style={{ color: 'red', paddingLeft: '10px' }}>{alertResponse}</p>
-        </div>
       </div>
     </div>
   )

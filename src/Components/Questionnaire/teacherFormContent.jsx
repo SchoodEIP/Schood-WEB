@@ -1,5 +1,3 @@
-import ArrowUp from '../../assets/up_arrow_icon.png'
-import ArrowDown from '../../assets/down_arrow_icon.png'
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'

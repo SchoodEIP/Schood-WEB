@@ -28,7 +28,7 @@ const ReportCreationPopupContent = () => {
         const filteredList = data.filter((user) => user._id !== userId)
         setUserList(filteredList)
       })
-      .catch(error => setError('Erreur lors de la récupération de la liste des utilisateurs'))
+      .catch(error => setError('Erreur lors de la récupération de la liste des utilisateurs', error.message))
   }, [])
 
   const handleReasonChange = (e) => {

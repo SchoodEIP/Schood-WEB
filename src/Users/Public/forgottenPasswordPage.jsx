@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import logoSchood from '../../assets/logo_schood.png'
 import '../../css/pages/authPage.scss'
-import { disconnect } from '../../functions/disconnect'
 
 export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')

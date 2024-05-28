@@ -24,9 +24,9 @@ export default function ShowAlerts ({ chosenAlert }) {
                 <div>
                   {chosenAlert?.file
                     ? <button id='alert-btn'>
-                      <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
-                        Télécharger la pièce-jointe
-                      </a>
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
+                          Télécharger la pièce-jointe
+                        </a>
                       </button>
                     : ''}
                 </div>
