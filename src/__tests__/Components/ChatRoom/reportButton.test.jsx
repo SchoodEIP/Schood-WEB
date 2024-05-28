@@ -95,7 +95,6 @@ describe('ReportButton Component', () => {
       fireEvent.change(reasonSelect, { target: { value: 'Spam' } })
     })
 
-
     await act(async () => {
       fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '132' } })
     })
