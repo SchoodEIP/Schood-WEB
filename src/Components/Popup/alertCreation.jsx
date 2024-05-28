@@ -60,8 +60,14 @@ const AlertCreationPopupContent = () => {
     const data = {
       title,
       message,
-      role: !isClass ? role : 'student',
+      role: role,
       classes: isClass ? selectedClasses : []
+    }
+
+    const classData = {
+      title,
+      message,
+      classes: selectedClasses
     }
 
     if (title === '') {
@@ -84,7 +90,7 @@ const AlertCreationPopupContent = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(!isClass ? data : classData)
     })
       .then(response => {
         if (response.status === 401) {
