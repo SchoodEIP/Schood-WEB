@@ -1,59 +1,123 @@
-import React from 'react'
-import { render, act, waitFor, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import StudentStatPage from '../../../Users/Student/statisticsStudent'
-import { WebsocketProvider } from '../../../contexts/websocket'
-import { MemoryRouter } from 'react-router-dom'
-import fetchMock from 'fetch-mock'
-import { disconnect } from '../../../functions/disconnect'
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import StudentStatPage from '../../../Users/Student/statisticsStudent';
+import fetchMock from 'jest-fetch-mock';
 
-jest.mock('../../../functions/disconnect', () => ({
+jest.mock('chart.js', () => ({
+  Chart: jest.fn().mockImplementation(() => {
+    return {
+      destroy: jest.fn(),
+      update: jest.fn(),
+      data: {
+        datasets: [{}],
+      },
+      options: {
+        scales: {
+          x: {
+            labels: [],
+          },
+        },
+      },
+    };
+  }),
+}));
+
+jest.mock('@functions/disconnect', () => ({
   disconnect: jest.fn()
-}))
+}));
 
-describe('StudentStatPage Component', () => {
-  const dailyMoodsUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
+beforeEach(() => {
+  fetchMock.resetMocks();
+});
 
-  beforeEach(() => {
-    fetchMock.reset()
-    fetchMock.config.overwriteRoutes = true
-    fetchMock.post(dailyMoodsUrl, {})
-    sessionStorage.setItem('role', 'student')
-  })
+describe('StudentStatPage', () => {
+  test('renders correctly', () => {
+    render(
+      <MemoryRouter>
+        <StudentStatPage />
+      </MemoryRouter>
+    );
+    expect(screen.getByText('Mes statistiques')).toBeInTheDocument();
+    expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument();
+  });
 
-  afterEach(() => {
-    fetchMock.restore()
-  })
+  test('fetches and displays mood data correctly', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData));
 
-  // it('renders without crashing', async () => {
-  //   await act(async () => {
-  //     render(
-  //       <MemoryRouter >
-  //         <WebsocketProvider>
-  //           <StudentStatPage/>
-  //         </WebsocketProvider>
-  //       </MemoryRouter>
-  //     )
-  //   })
-  //   expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
+    render(
+      <MemoryRouter>
+        <StudentStatPage />
+      </MemoryRouter>
+    );
 
-  // })
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(screen.getByText('Vous êtes 80% plus heureux cette semaine que la semaine précédente')).toBeInTheDocument();
+    });
+  });
 
-  // test('checks disconnect through post daily moods url', async () => {
-  //   fetchMock.post(dailyMoodsUrl, 401)
+  test('handles date change', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData));
 
-  //   await act(async () => {
-  //     render(
-  //       <MemoryRouter >
-  //         <WebsocketProvider>
-  //           <StudentStatPage/>
-  //         </WebsocketProvider>
-  //       </MemoryRouter>
-  //     )
-  //   })
+    render(
+      <MemoryRouter>
+        <StudentStatPage />
+      </MemoryRouter>
+    );
 
-  //   await waitFor(() => {
-  //     expect(disconnect).toHaveBeenCalled();
-  //   });
-  // })
-})
+    const dateInput = screen.getByLabelText('Sélectionner une date:');
+    fireEvent.change(dateInput, { target: { value: '2024-02-01' } });
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  test('handles filter change', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData));
+
+    render(
+      <MemoryRouter>
+        <StudentStatPage />
+      </MemoryRouter>
+    );
+
+    const moisFilterButton = screen.getByText('Mois');
+    fireEvent.click(moisFilterButton);
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  test('disconnects on 401 error', async () => {
+    fetchMock.mockResponseOnce('', { status: 401 });
+
+    const { disconnect } = require('@functions/disconnect');
+    render(
+      <MemoryRouter>
+        <StudentStatPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalledTimes(1);
+    });
+  });
+});

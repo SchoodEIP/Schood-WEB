@@ -1,130 +1,104 @@
-// Import necessary libraries and components
-import TeacherStatPage from '../../../Users/Teacher/statisticsTeacher'
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
-import fetchMock from 'fetch-mock'
-import { WebsocketProvider } from '../../../contexts/websocket'
-import { disconnect } from '../../../functions/disconnect'
-import { createCanvas } from 'canvas'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import TeacherStatPage from '../../../Teachers/statisticsTeacher' // Assurez-vous que ce chemin est correct
+import fetchMock from 'jest-fetch-mock'
 
-// Mock the HTMLCanvasElement.prototype.getContext method
-HTMLCanvasElement.prototype.getContext = function (type) {
-  if (type === '2d') {
-    return createCanvas(200, 200).getContext(type)
+jest.mock('chart.js/auto', () => {
+  return {
+    Chart: jest.fn().mockImplementation(() => {
+      return {
+        destroy: jest.fn(),
+        update: jest.fn(),
+        data: {
+          datasets: [{}],
+        },
+        options: {
+          scales: {
+            x: {
+              labels: [],
+            },
+          },
+        },
+      }
+    }),
   }
-  return null
-}
+})
 
-jest.mock('../../../functions/disconnect', () => ({
+jest.mock('@functions/disconnect', () => ({
   disconnect: jest.fn()
 }))
 
-describe('TeacherStatPage Component', () => {
-  const mockMood = {
-    '2024-02-24': {
-      average: 3,
-      moods: ['3']
-    },
-    averagePercentage: 100
-  }
+beforeEach(() => {
+  fetchMock.resetMocks()
+})
 
-  const mockClasses = [
-    {
-      name: '200',
-      _id: '1',
-      facility: '0'
-    }
-  ]
-
-  const backendUrl = process.env.REACT_APP_BACKEND_URL
-  const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
-  const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
-  const answersUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/answers'
-
-  beforeEach(() => {
-    fetchMock.reset()
-    fetchMock.config.overwriteRoutes = true
-    fetchMock.get(classesUrl, mockClasses)
-    fetchMock.post(moodUrl, mockMood)
-    fetchMock.post(answersUrl, [{}])
-  })
-
-  afterEach(() => {
-    fetchMock.restore()
-  })
-
-  it('renders statistics', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <WebsocketProvider>
-            <TeacherStatPage />
-          </WebsocketProvider>
-        </MemoryRouter>
-      )
-    })
-
+describe('TeacherStatPage', () => {
+  test('renders correctly', () => {
+    render(<TeacherStatPage />)
     expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
+    expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument()
   })
 
-  // it('handles error when fetching student moods', async () => {
-  //   const studentId = '2'
+  test('fetches and displays mood data correctly', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    }
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-  //   fetchMock.get(`${backendUrl}/teacher/dailyMood/${studentId}`, 500)
+    render(<TeacherStatPage />)
 
-  //   await act(async () => {
-  //     render(
-  //       <MemoryRouter initialEntries={[`/teacher/dailyMood/${studentId}`]}>
-  //         <WebsocketProvider>
-  //           <Routes>
-  //             <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
-  //           </Routes>
-  //         </WebsocketProvider>
-  //       </MemoryRouter>
-  //     )
-  //   })
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+      expect(screen.getByText('Vous êtes 80% plus heureux cette semaine que la semaine précédente')).toBeInTheDocument()
+    })
+  })
 
-  //   expect(screen.getByText('Erreur lors de la récupération des statistiques')).toBeInTheDocument()
-  // })
+  test('handles date change', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    }
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-  // it('handles disconnect when getting classes', async () => {
-  //   fetchMock.get(`${backendUrl}/shared/classes/`, 401)
+    render(<TeacherStatPage />)
 
-  //   await act(async () => {
-  //     render(
-  //       <MemoryRouter>
-  //         <WebsocketProvider>
-  //           <TeacherStatPage />
-  //         </WebsocketProvider>
-  //       </MemoryRouter>
-  //     )
-  //   })
+    const dateInput = screen.getByLabelText('Sélectionner une date:')
+    fireEvent.change(dateInput, { target: { value: '2024-02-01' } })
 
-  //   await waitFor(() => {
-  //     expect(disconnect).toHaveBeenCalled();
-  //   });
-  // })
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(2)
+    })
+  })
 
-  // it('displays "Aucunes statistiques disponible." when no moods are available', async () => {
-  //   const studentId = '3'
+  test('handles filter change', async () => {
+    const mockMoodData = {
+      '2024-01-01': 3,
+      '2024-01-02': 2,
+      averagePercentage: 80,
+    }
+    fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-  //   fetchMock.get(`${backendUrl}/teacher/dailyMood/${studentId}`, {
-  //     body: [],
-  //     headers: { 'content-type': 'application/json' }
-  //   })
+    render(<TeacherStatPage />)
 
-  //   await act(async () => {
-  //     render(
-  //       <MemoryRouter initialEntries={[`/teacher/dailyMood/${studentId}`]}>
-  //         <WebsocketProvider>
-  //           <Routes>
-  //             <Route path='/teacher/dailyMood/:id' element={<TeacherStatPage />} />
-  //           </Routes>
-  //         </WebsocketProvider>
-  //       </MemoryRouter>
-  //     )
-  //   })
-  // })
+    const moisFilterButton = screen.getByText('Mois')
+    fireEvent.click(moisFilterButton)
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  test('disconnects on 401 error', async () => {
+    fetchMock.mockResponseOnce('', { status: 401 })
+
+    const { disconnect } = require('@functions/disconnect')
+    render(<TeacherStatPage />)
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalledTimes(1)
+    })
+  })
 })
