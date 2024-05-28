@@ -211,13 +211,15 @@ const SingleAccountCreationPopupContent = () => {
       {
         roleProfile === 'admin'
           ? ''
-          : <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
-            <label className='input-label'>
-              <span className='label-content'>Changer la photo de Profil</span>
-              <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
-            </label>
-          </div>
+          : (
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
+              <label className='input-label'>
+                <span className='label-content'>Changer la photo de Profil</span>
+                <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+              </label>
+            </div>
+          )
       }
       <label className='input-label' style={{ gap: '10px' }}>
         <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>

@@ -101,18 +101,22 @@ export default function AidePage (props) {
               <h1 id='contact-title'>{chosenContact.name}</h1>
               {
                 chosenContact.telephone
-                  ? <div className='contact-element-container'>
-                    <p className='contact-element-title'>Numéro de Téléphone</p>
-                    <p className='contact-element-content'>{chosenContact.telephone}</p>
-                  </div>
+                  ? (
+                    <div className='contact-element-container'>
+                      <p className='contact-element-title'>Numéro de Téléphone</p>
+                      <p className='contact-element-content'>{chosenContact.telephone}</p>
+                    </div>
+                  )
                   : ''
               }
               {
                 chosenContact.email
-                  ? <div className='contact-element-container'>
-                    <p className='contact-element-title'>Adresse Email</p>
-                    <p className='contact-element-content'>{chosenContact.email}</p>
-                  </div>
+                  ? (
+                    <div className='contact-element-container'>
+                      <p className='contact-element-title'>Adresse Email</p>
+                      <p className='contact-element-content'>{chosenContact.email}</p>
+                    </div>
+                  )
                   : ''
               }
             </div>
