@@ -39,7 +39,7 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             {buttonComponent.map((btn, index) => {
               return <button className='header-btn' key={index} onClick={btn.handleFunction}>{btn.name}</button>
             })}
-            </div>
+          </div>
           : ''}
         {withLogo && (
           <Link to='/'>

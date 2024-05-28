@@ -1,15 +1,15 @@
 import ReportChecking from '../../../Users/SchoolAdmin/reportChecking'
 import React from 'react'
-import { render, screen, waitFor, act } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import fetchMock from 'fetch-mock'
-import { disconnect } from '../../../functions/disconnect'
+// import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn()
-}))
+// jest.mock('../../../functions/disconnect', () => ({
+//   disconnect: jest.fn()
+// }))
 
 describe('ReportChecking Component', () => {
   const reportId = '6638a710dd18a1e42e539554'

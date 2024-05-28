@@ -77,7 +77,7 @@ export default function AidePage (props) {
               {category.name}
             </button>
           ))}
-          </div>
+        </div>
         : ''}
 
       {props.position === 1
@@ -87,7 +87,7 @@ export default function AidePage (props) {
               {contact.name}
             </button>
           )}
-          </div>
+        </div>
         : ''}
 
       {props.position === 2
@@ -95,26 +95,26 @@ export default function AidePage (props) {
           <div className='contact-content-container' id='contact-profile'>
             <h1 id='contact-title'>{chosenContact.name}</h1>
             {
-                chosenContact.telephone
-                  ? <div className='contact-element-container'>
-                    <p className='contact-element-title'>Numéro de Téléphone</p>
-                    <p className='contact-element-content'>{chosenContact.telephone}</p>
-                  </div>
-                  : ''
-              }
+              chosenContact.telephone
+                ? <div className='contact-element-container'>
+                  <p className='contact-element-title'>Numéro de Téléphone</p>
+                  <p className='contact-element-content'>{chosenContact.telephone}</p>
+                </div>
+                : ''
+            }
             {
-                chosenContact.email
-                  ? <div className='contact-element-container'>
-                    <p className='contact-element-title'>Adresse Email</p>
-                    <p className='contact-element-content'>{chosenContact.email}</p>
-                  </div>
-                  : ''
-              }
+              chosenContact.email
+                ? <div className='contact-element-container'>
+                  <p className='contact-element-title'>Adresse Email</p>
+                  <p className='contact-element-content'>{chosenContact.email}</p>
+                </div>
+                : ''
+            }
           </div>
           <div className='contact-content-container' id='contact-description'>
             <span>{chosenContact.description}</span>
           </div>
-          </div>
+        </div>
         : ''}
     </div>
   )

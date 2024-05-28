@@ -217,7 +217,7 @@ const SingleAccountCreationPopupContent = () => {
               <span className='label-content'>Changer la photo de Profil</span>
               <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
             </label>
-            </div>
+          </div>
       }
       <label className='input-label' style={{ gap: '10px' }}>
         <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>

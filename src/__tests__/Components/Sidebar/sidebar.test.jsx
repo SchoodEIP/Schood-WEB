@@ -5,11 +5,11 @@ import Sidebar from '../../../Components/Sidebar/sidebar'
 import { render, fireEvent, screen, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import fetchMock from 'fetch-mock'
-import { disconnect } from '../../../functions/disconnect'
+// import { disconnect } from '../../../functions/disconnect'
 
-jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn()
-}))
+// jest.mock('../../../functions/disconnect', () => ({
+//   disconnect: jest.fn()
+// }))
 
 describe('sidebar component', () => {
   const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/student/dailyMood`

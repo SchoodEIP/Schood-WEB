@@ -14,7 +14,7 @@ import { disconnect } from '../../functions/disconnect'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
-  const [errMessage, setErrMessage] = useState('')
+  // const [errMessage, setErrMessage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
@@ -109,7 +109,7 @@ const AlertsPage = () => {
         })
       })
       .catch((error) => {
-        setErrMessage('Erreur : ', error.message)
+        console.error('Erreur : ', error.message)
       })
   }, [id])
 

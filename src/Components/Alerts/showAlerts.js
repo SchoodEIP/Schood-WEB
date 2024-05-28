@@ -27,7 +27,7 @@ export default function ShowAlerts ({ chosenAlert }) {
                       <a style={{ textDecoration: 'none', color: 'white' }} href={chosenAlert.file} target='_blank' rel='noopener noreferrer'>
                         Télécharger la pièce-jointe
                       </a>
-                      </button>
+                    </button>
                     : ''}
                 </div>
               </div>

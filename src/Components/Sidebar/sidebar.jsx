@@ -184,7 +184,7 @@ export default function Sidebar () {
         if (response.status === 401) {
           disconnect()
         } else {
-          setIsAnswered(true)
+          // setIsAnswered(true)
           setDailyMood(mood)
         }
       })
