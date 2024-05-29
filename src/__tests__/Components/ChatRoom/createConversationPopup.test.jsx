@@ -14,8 +14,10 @@ describe('createConversationPopup Component', () => {
   const newFile = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newFile`
   const newMessage = `${process.env.REACT_APP_BACKEND_URL}/user/chat/${id}/newMessage`
   const getFileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/file/0`
+
   beforeEach(() => {
     fetchMock.reset()
+    fetchMock.config.overwriteRoutes = true
     fetchMock.get(chatUrl, [{
       _id: '123',
       createdBy: '0',
@@ -137,14 +139,20 @@ describe('createConversationPopup Component', () => {
     })
 
     await waitFor(() => {
-      const labelElement = screen.getByText('Rechercher un contact:')
+      const labelElement = screen.getByText('Rechercher un ou plusieurs contact(s)')
       expect(labelElement).toBeInTheDocument()
     })
   })
 
   it('handles search input change', async () => {
     await act(async () => {
-      render(<Messages />)
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Messages />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
     })
 
     // Ensure that the popup is initially closed
@@ -160,9 +168,18 @@ describe('createConversationPopup Component', () => {
     })
 
     const inputElement = screen.getByRole('combobox')
-    fireEvent.change(inputElement, { target: { value: 'teacher1' } })
+    await act(async () => {
+      fireEvent.change(inputElement, { target: { value: 'teacher1' } })
+    })
 
+    await act(async () => {
+      fireEvent.change(screen.getByPlaceholderText('Nom de la conversation'), { target: { value: 'conv' } })
+    })
     expect(inputElement.value).toBe('teacher1')
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Créer la conversation'))
+    })
   })
 
   it('handles cancel button click', async () => {
@@ -188,7 +205,7 @@ describe('createConversationPopup Component', () => {
       expect(popupTitle).toBeInTheDocument()
     })
 
-    const cancelButtonElement = screen.getByText('Annuler')
+    const cancelButtonElement = screen.getByAltText('Close')
     fireEvent.click(cancelButtonElement)
 
     // Wait for the popup to be displayed

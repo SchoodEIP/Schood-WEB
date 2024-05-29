@@ -10,9 +10,9 @@ import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
+import { disconnect } from '../../functions/disconnect'
 
 const FeelingsStudentPage = () => {
-  const [alertResponse, setAlertResponse] = useState('')
   const [errMessage, setErrMessage] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isPassed, setIsPassed] = useState(false)
@@ -72,11 +72,16 @@ const FeelingsStudentPage = () => {
         body: JSON.stringify(dataPayload)
       })
         .then(response => {
+          if (response.status === 401) {
+            disconnect()
+          }
           if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {
           setErrMessage('Erreur lors de la récupération des ressentis', error)
         })
+    } else {
+      setErrMessage('L\'humeur n\'est pas indiquée.')
     }
   }
 
@@ -170,13 +175,18 @@ const FeelingsStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token')
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
       .then(data => {
         setLastFeeling(data[0])
         if (!isPassed) { fillFeelingsContainer(data) }
       })
       .catch(error => /* istanbul ignore next */ {
-        setAlertResponse('Erreur lors de la récupération des ressentis', error)
+        setErrMessage('Erreur lors de la récupération des ressentis', error)
       })
   }, [setLastFeeling, emotions, moods, imagePaths, lastFeeling.length])
 
@@ -206,11 +216,11 @@ const FeelingsStudentPage = () => {
   const buttonComponent = [
     {
       name: 'Créer un Ressenti',
-      function: handleFeelingsCreation
+      handleFunction: handleFeelingsCreation
     },
     {
       name: 'Modifier le Dernier Ressenti',
-      function: handleFeelingsModification
+      handleFunction: handleFeelingsModification
     }
   ]
 
@@ -232,19 +242,19 @@ const FeelingsStudentPage = () => {
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
                 <div id='mood-container' className='horizontal-container'>
-                  <div id='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
+                  <div datid='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
                     <img src={veryBadMood} alt='Très Mauvaise Humeur' />
                   </div>
-                  <div id='mood-container-1' className='emoticone-container' style={{ border: newMood === 1 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 1 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(1)} title='Mauvaise Humeur'>
+                  <div datid='mood-container-1' className='emoticone-container' style={{ border: newMood === 1 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 1 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(1)} title='Mauvaise Humeur'>
                     <img src={badMood} alt='Mauvaise Humeur' />
                   </div>
-                  <div id='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Neutre'>
+                  <div datid='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Humeur Neutre'>
                     <img src={averageMood} alt='Humeur Neutre' />
                   </div>
-                  <div id='mood-container-3' className='emoticone-container' style={{ border: newMood === 3 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 3 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(3)} title='Bonne Humeur'>
+                  <div datid='mood-container-3' className='emoticone-container' style={{ border: newMood === 3 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 3 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(3)} title='Bonne Humeur'>
                     <img src={happyMood} alt='Bonne Humeur' />
                   </div>
-                  <div id='mood-container-4' className='emoticone-container' style={{ border: newMood === 4 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 4 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(4)} title='Très Bonne Humeur'>
+                  <div datid='mood-container-4' className='emoticone-container' style={{ border: newMood === 4 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 4 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(4)} title='Très Bonne Humeur'>
                     <img src={veryHappyMood} alt='Très Bonne Humeur' />
                   </div>
                 </div>
@@ -256,13 +266,10 @@ const FeelingsStudentPage = () => {
                 <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
               </div>
               {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-              <button className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
+              <button className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
             </div>
           )}
         </Popup>
-        <div id='feelings-container'>
-          <p style={{ color: 'red', paddingLeft: '10px' }}>{alertResponse}</p>
-        </div>
       </div>
     </div>
   )

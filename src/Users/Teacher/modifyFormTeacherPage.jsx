@@ -8,6 +8,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/Components/Popup/popup.scss'
+import { disconnect } from '../../functions/disconnect'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
@@ -28,7 +29,12 @@ const ModifyFormTeacherPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setTitle(data.title)
@@ -82,7 +88,9 @@ const ModifyFormTeacherPage = () => {
           questions
         })
       }).then(response => {
-        if (response.status !== 200) {
+        if (response.status === 401) {
+          disconnect()
+        } else if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
           window.location.href = '/questionnaire/' + id
@@ -188,7 +196,7 @@ const ModifyFormTeacherPage = () => {
   const buttonComponent = [
     {
       name: 'Valider le Questionnaire',
-      function: postQuestions
+      handleFunction: postQuestions
     }
   ]
 
@@ -258,7 +266,7 @@ const ModifyFormTeacherPage = () => {
                       </label>
                       <label style={{ flexDirection: 'column' }} className='input-label'>
                         <span className='label-content'>Type de question</span>
-                        <select style={{ width: '200px' }} className='default-input' key={index} value={question.type} onChange={(e) => handleChangeType(e, index)}>
+                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-input' key={index} value={question.type} onChange={(e) => handleChangeType(e, index)}>
                           <option value='text'>Texte</option>
                           <option value='emoji'>Émoticône</option>
                           <option value='multiple'>Multiple</option>

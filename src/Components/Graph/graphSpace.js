@@ -5,19 +5,18 @@ import rightArrow from '../../assets/right-arrow.png'
 
 export function GraphSpace () {
   const [title, setTitle] = useState('')
-  const role = useState(sessionStorage.getItem('role'))
-
-  const setTitleByPerm = () => {
-    if (role === 'student') {
-      setTitle('Evolution de mon humeur')
-    } else if (role === 'teacher') {
-      setTitle("Evolution de l'humeur de mes classes")
-    } else {
-      setTitle("Evolution de l'humeur de mon établissement")
-    }
-  }
+  const role = sessionStorage.getItem('role')
 
   useEffect(() => {
+    const setTitleByPerm = () => {
+      if (role === 'student') {
+        setTitle('Evolution de mon humeur')
+      } else if (role === 'teacher') {
+        setTitle("Evolution de l'humeur de mes classes")
+      } else {
+        setTitle("Evolution de l'humeur de mon établissement")
+      }
+    }
     setTitleByPerm()
   }, [role, title])
 

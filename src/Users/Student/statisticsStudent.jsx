@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import Chart from 'chart.js/auto'
+import { Chart } from 'chart.js'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
+import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -43,6 +43,9 @@ const StudentStatPage = () => {
           toDate: calculateEndDate(selectedDate, activeFilter)
         })
       })
+      if (response.status === 401) {
+        disconnect()
+      }
       const moodData = await response.json()
       setMoodData(moodData)
       console.log(moodData)

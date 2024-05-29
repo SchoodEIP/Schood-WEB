@@ -1,5 +1,3 @@
-import ArrowUp from '../../assets/up_arrow_icon.png'
-import ArrowDown from '../../assets/down_arrow_icon.png'
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
@@ -33,7 +31,7 @@ const TeacherFormContent = (props) => {
         : questions.map((question, index) => (
           <div key={index} className='question'>
             <div className='body'>
-              <div className='header' onClick={() => setAccordion(question)}>
+              <div data-testid={`question-container-${index}`} className='header' onClick={() => setAccordion(question)}>
                 <div className='left'>
                   <div className='nb-question'>
                     {index + 1}.&nbsp;
@@ -46,7 +44,7 @@ const TeacherFormContent = (props) => {
                   <img src={arrow} alt='arrow' />
                 </div>
               </div>
-              <div className='details' id={'answers-' + index}>
+              <div className='details' data-testid={'answers-' + index}>
                 {question.type === 'text' && (
                   <ul className='text-list' style={question.active ? { display: 'flex' } : { display: 'none' }}>
                     {question.answers.map((answer, answerIndex) => (

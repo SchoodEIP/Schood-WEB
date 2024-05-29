@@ -22,6 +22,19 @@
         height: 100%;
         width: 250px;
 
+        .report-sidebar-header {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+
+          .report-sidebar-button {
+            font-size: large;
+            font-family: Inter;
+            padding: 5px;
+            cursor: pointer;
+          }
+        }
+
         .top {
           display: flex;
           flex-direction: column;
@@ -68,6 +81,7 @@
           height: 100%;
           width: 100%;
           margin-left: 0px;
+          overflow-y: auto;
 
           .conversation-notification {
             width: 15px;
@@ -184,7 +198,7 @@
             width: 100%;
 
             .left {
-              flex: 0.87;
+              flex: 0.85;
               height: 100%;
               display: flex;
               flex-direction: column;
@@ -197,6 +211,13 @@
                 height: 100%;
                 overflow-y: auto;
                 overflow-x: hidden;
+
+                .report-message {
+                  font-size: 20px;
+                  font-weight: 600;
+                  font-family: Inter;
+                  padding: 5px;
+                }
 
                 .message-list {
                   width: calc(100% - 20px);
@@ -437,8 +458,4 @@
       }
     }
   }
-}
-
-.report-popup {
-
 }

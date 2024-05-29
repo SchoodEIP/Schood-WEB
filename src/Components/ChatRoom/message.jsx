@@ -3,6 +3,7 @@ import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
 import '../../css/pages/chatRoomPage.scss'
 import UserProfile from '../userProfile/userProfile'
+import { disconnect } from '../../functions/disconnect'
 
 const Message = ({ message, participants }) => {
   const [fileURL, setFileURL] = useState(null)
@@ -31,6 +32,9 @@ const Message = ({ message, participants }) => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect()
+      }
       if (response.status !== 200) /* istanbul ignore next */ {
         throw new Error("Erreur lors de l'envoi du message.")
       } else {

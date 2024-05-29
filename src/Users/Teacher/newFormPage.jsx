@@ -6,6 +6,7 @@ import '../../css/Components/Popup/popup.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
+import { disconnect } from '../../functions/disconnect'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
@@ -59,6 +60,9 @@ const NewFormPage = () => {
           questions
         })
       }).then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
         if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
@@ -159,7 +163,7 @@ const NewFormPage = () => {
   const buttonComponent = [
     {
       name: 'Valider le Questionnaire',
-      function: postQuestions
+      handleFunction: postQuestions
     }
   ]
 
@@ -229,7 +233,7 @@ const NewFormPage = () => {
                       </label>
                       <label style={{ flexDirection: 'column' }} className='input-label'>
                         <span className='label-content'>Type de question</span>
-                        <select style={{ width: '200px' }} className='default-input' key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
+                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-input' key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
                           <option value='text'>Texte</option>
                           <option value='emoji'>Émoticône</option>
                           <option value='multiple'>Multiple</option>

@@ -37,11 +37,11 @@
             align-items: center;
             width: 230px;
             cursor: pointer;
-  
+
             background-color: white;
             border: 4px #4F23E2 solid;
             border-radius: 26px;
-  
+
             color: black;
             font-size: 16px;
             font-family: Inter;
@@ -76,7 +76,7 @@
             background-color: red;
             margin-right: 5px;
           }
-          
+
           .active-conversation {
             height: 71px;
             width: 100%;
@@ -100,7 +100,7 @@
             text-decoration: underline;
             color: white;
           }
-  
+
           .conversation {
             height: 71px;
             width: 100%;
@@ -110,7 +110,7 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-  
+
             .text {
               margin-left: 10px;
               color: #4F23E2;
@@ -147,7 +147,7 @@
             background-color: #4F23E2;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
-  
+
             .conv-name {
               font-size: 32px;
               font-family: Inter;
@@ -155,7 +155,7 @@
               color: white;
               margin-left: 20px;
             }
-  
+
             .report-btn {
               border-radius: 26px;
               background-color: white;
@@ -168,13 +168,15 @@
               height: 34px;
               margin-right: 12px;
               cursor: pointer;
+              align-items: center;
+              display: flex;
             }
-  
+
             .report-btn:hover {
               text-decoration: underline;
             }
           }
-  
+
           .bottom {
             display: flex;
             flex-direction: row;
@@ -182,7 +184,7 @@
             align-items: start;
             height: calc(100% - 64px);
             width: 100%;
-  
+
             .left {
               flex: 0.87;
               height: 100%;
@@ -235,6 +237,8 @@
 
                     .message-content2 {
                       padding: 5px 10px 5px 10px;
+                      overflow-wrap: anywhere;
+                      width: 95%;
                     }
 
                     .with-file {
@@ -314,7 +318,7 @@
                 flex-direction: column;
                 justify-content: end;
                 align-items: center;
-                
+
                 .column {
                   display: flex;
                   flex-direction: column;
@@ -345,6 +349,9 @@
                       border-radius: 100px;
                       margin-left: 5px;
                       cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
                     }
                   }
 
@@ -355,7 +362,7 @@
                     align-items: center;
                     width: 95%;
                     height: 50%;
-  
+
                     .file-input {
                       margin-right: 6px;
                       cursor: pointer;
@@ -364,7 +371,7 @@
                         height: 0;
                       }
                     }
-  
+
                     .message-area {
                       border: 4px #4F23E2 solid;
                       border-radius: 26px;
@@ -374,7 +381,7 @@
                       flex-direction: row;
                       justify-content: space-between;
                       align-items: center;
-  
+
                       input {
                         width: 100%;
                         border-radius: 26px;
@@ -387,11 +394,11 @@
                         border: none;
                         padding-left: 10px;
                       }
-  
+
                       textarea:focus, input:focus {
                         outline: none;
                       }
-  
+
                       .send-button {
                         border-radius: 26px;
                         background-color: #4F23E2;
@@ -404,8 +411,11 @@
                         font-weight: 600;
                         border: none;
                         cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                       }
-  
+
                       .send-button:hover {
                         text-decoration: underline;
                       }
@@ -415,7 +425,7 @@
 
               }
             }
-  
+
             .right {
               flex: 0.13;
               width: 180px;
@@ -437,8 +447,4 @@
       }
     }
   }
-}
-
-.report-popup {
-
 }

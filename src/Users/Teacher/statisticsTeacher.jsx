@@ -17,7 +17,7 @@ const TeacherStatPage = () => {
   const [activeFilter, setActiveFilter] = useState('Semaine')
   const [selectedClass, setSelectedClass] = useState(null)
   const [chart, setChart] = useState(null)
-  const [answerChart, setAnswerChart] = useState(null) // Ajout du state pour le nouveau graphique
+  const [answerChart, setAnswerChart] = useState(null)
   const [classes, setClasses] = useState([])
   const [averageMood, setAverageMood] = useState(0)
   const [averagePercentage, setAveragePercentage] = useState(0)
@@ -170,18 +170,16 @@ const TeacherStatPage = () => {
 
   useEffect(() => {
     if (chart) {
-      updateChart()
-    } else {
-      createChart()
+      chart.destroy()
     }
+    createChart()
   }, [moodData, selectedClass])
 
   useEffect(() => {
     if (answerChart) {
-      updateAnswerChart()
-    } else {
-      createAnswerChart()
+      answerChart.destroy()
     }
+    createAnswerChart()
   }, [answerData, selectedClass])
 
   const createChart = () => {
@@ -250,10 +248,11 @@ const TeacherStatPage = () => {
       }
     })
 
+    updateChart(newChart)
     setChart(newChart)
   }
 
-  const updateChart = () => {
+  const updateChart = (newChart) => {
     if (moodData.length > 1) {
       const listData = []
       let labels = []
@@ -271,13 +270,11 @@ const TeacherStatPage = () => {
         return aa < bb ? -1 : (aa > bb ? 1 : 0)
       })
 
-      chart.data.datasets[0].data = listData
-      chart.data.labels = labels
-      chart.options.scales.x.labels = labels
+      newChart.data.datasets[0].data = listData
+      newChart.data.labels = labels
+      newChart.options.scales.x.labels = labels
 
-      console.log(chart.data.datasets[0].data)
-      console.log(chart.data.labels)
-      chart.update()
+      newChart.update()
     }
   }
 
@@ -304,7 +301,7 @@ const TeacherStatPage = () => {
         plugins: {
           legend: {
             labels: {
-              color: 'white' // Couleur du texte de légende en blanc
+              color: 'white'
             }
           }
         }
@@ -312,14 +309,6 @@ const TeacherStatPage = () => {
     })
 
     setAnswerChart(newChart)
-  }
-
-  const updateAnswerChart = () => {
-    if (Array.isArray(answerData)) {
-      answerChart.data.labels = answerData.map(answer => answer.date)
-      answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
-      answerChart.update()
-    }
   }
 
   const handleDateChange = (event) => {

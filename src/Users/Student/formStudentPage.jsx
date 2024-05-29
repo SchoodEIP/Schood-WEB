@@ -19,14 +19,14 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
+import { disconnect } from '../../functions/disconnect'
 
 const FormStudentPage = () => {
   const { id } = useParams()
   const [data, setData] = useState({})
-  const [error, setError] = useState(null)
   const [currentCheck, setCurrentCheck] = useState(false)
   const [questions, setQuestions] = useState([])
-  const [answers, setAnswers] = useState([])
+  // const [answers, setAnswers] = useState([])
   const navigate = useNavigate()
   const [isAnswered, setIsAnswered] = useState(false)
 
@@ -75,8 +75,8 @@ const FormStudentPage = () => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
 
-    const result = checkDate >= startOfWeek && checkDate <= endOfWeek
-    setCurrentCheck(!result)
+    const result = ((checkDate >= startOfWeek) && (checkDate <= endOfWeek))
+    setCurrentCheck(result)
   }
 
   const getQuestionnaireAnswers = (data) => {
@@ -88,15 +88,20 @@ const FormStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      }
+      return response.json()
+    })
       .then(data2 => {
         if (data2 !== null) {
           setIsAnswered(true)
-          setAnswers(data.answers)
+          // setAnswers(data.answers)
         }
         formatQuestions(data, data2)
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
+      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message))
   }
 
   const getQuestionnaireData = () => {
@@ -108,7 +113,12 @@ const FormStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setData(data)
@@ -118,20 +128,20 @@ const FormStudentPage = () => {
           toast.error(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
+      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message))
   }
 
   useEffect(() => {
     setData({})
     setQuestions([])
-    setAnswers([])
+    // setAnswers([])
     getQuestionnaireData()
   }, [])
 
   function getFormAnswers () {
     const formAnswers = []
 
-    questions.forEach((question, index) => {
+    questions.forEach((question) => {
       const result = {
         question: question._id,
         answers: question.studentAnswer.filter((answer) => answer && answer.length > 0)
@@ -155,17 +165,20 @@ const FormStudentPage = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ answers: data })
-    }).then(response => response.json())
-      .then(data => {
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      } else if (response.status === 200) {
         toast.success('Réponses enregistrées avec succès.')
-        if (!data.message) {
-          setIsAnswered(true)
-          navigate('/questionnaires')
-        } else /* istanbul ignore next */ {
-          toast.error(data.message)
-        }
+        setIsAnswered(true)
+        navigate('/questionnaires')
+      } else {
+        return response.json()
+      }
+    })
+      .catch(error => /* istanbul ignore next */ {
+        toast.error('Erreur Serveur. Veuillez réessayer plus tard.', error.message)
       })
-      .catch(error => /* istanbul ignore next */ toast.error('Erreur Serveur. Veuillez réessayer plus tard.'))
   }
 
   const setAccordion = (question) => {
@@ -179,7 +192,7 @@ const FormStudentPage = () => {
   }
 
   const handleClickEmoji = (number, index) => {
-    if (!currentCheck) {
+    if (currentCheck) {
       questions[index].studentAnswer[0] = number
       setQuestions([...questions])
     }
@@ -208,7 +221,7 @@ const FormStudentPage = () => {
         {questions.length > 0 && questions.map((question, index) => (
           <div key={index} className='question'>
             <div className='body'>
-              <div className='header' onClick={() => setAccordion(question)}>
+              <div data-testid={'question-container-' + index} className='header' onClick={() => setAccordion(question)}>
                 <div className='left'>
                   <div className='nb-question'>
                     {index + 1}.&nbsp;
@@ -225,17 +238,17 @@ const FormStudentPage = () => {
                 <div className='details'>
                   {question.type === 'text' && (
                     <div className='text'>
-                      <textarea id={`text-${index}`} disabled={currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
+                      <textarea data-testid={`answer-${index}-0`} id={`text-${index}`} disabled={!currentCheck} cols='30' rows='10' defaultValue={question.studentAnswer[0]} onChange={(event) => setValueTextArea(event, index)} />
                     </div>
                   )}
 
                   {question.type === 'emoji' && (
                     <div className='emoji'>
-                      <img alt='emoji1' src={question.studentAnswer[0] === '0' ? emoji1Selected : emoji1} onClick={() => handleClickEmoji('0', index)} />
-                      <img alt='emoji2' src={question.studentAnswer[0] === '1' ? emoji2Selected : emoji2} onClick={() => handleClickEmoji('1', index)} />
-                      <img alt='emoji3' src={question.studentAnswer[0] === '2' ? emoji3Selected : emoji3} onClick={() => handleClickEmoji('2', index)} />
-                      <img alt='emoji4' src={question.studentAnswer[0] === '3' ? emoji4Selected : emoji4} onClick={() => handleClickEmoji('3', index)} />
-                      <img alt='emoji5' src={question.studentAnswer[0] === '4' ? emoji5Selected : emoji5} onClick={() => handleClickEmoji('4', index)} />
+                      <img data-testid={`answer-${index}-0`} alt='emoji1' src={question.studentAnswer[0] === '0' ? emoji1Selected : emoji1} onClick={() => handleClickEmoji('0', index)} />
+                      <img data-testid={`answer-${index}-1`} alt='emoji2' src={question.studentAnswer[0] === '1' ? emoji2Selected : emoji2} onClick={() => handleClickEmoji('1', index)} />
+                      <img data-testid={`answer-${index}-2`} alt='emoji3' src={question.studentAnswer[0] === '2' ? emoji3Selected : emoji3} onClick={() => handleClickEmoji('2', index)} />
+                      <img data-testid={`answer-${index}-3`} alt='emoji4' src={question.studentAnswer[0] === '3' ? emoji4Selected : emoji4} onClick={() => handleClickEmoji('3', index)} />
+                      <img data-testid={`answer-${index}-4`} alt='emoji5' src={question.studentAnswer[0] === '4' ? emoji5Selected : emoji5} onClick={() => handleClickEmoji('4', index)} />
                     </div>
                   )}
 
@@ -243,7 +256,7 @@ const FormStudentPage = () => {
                     <div className='multiple'>
                       {question.answers.map((answer, index2) => (
                         <div key={index2} className='answer'>
-                          <input disabled={currentCheck} type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)} />{answer.title}
+                          <input data-testid={`answer-${index}-${index2}`} disabled={!currentCheck} type='checkbox' checked={question.studentAnswer.includes(answer.title)} onChange={() => setCheckbox(index, index2)} />{answer.title}
                         </div>
                       ))}
                     </div>
@@ -255,7 +268,7 @@ const FormStudentPage = () => {
           </div>
         ))}
       </div>
-      {!currentCheck && (
+      {currentCheck && (
         <div className='submit'>
           <button onClick={sendAnswers} type='submit'>Envoyer le questionnaire</button>
         </div>

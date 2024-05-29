@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
+import { disconnect } from '../../functions/disconnect'
 
 const ProfilPage = () => {
   const [userProfile, setUserProfile] = useState({})
@@ -16,13 +17,15 @@ const ProfilPage = () => {
             'Content-Type': 'application/json'
           }
         })
+        if (response.status === 401) {
+          disconnect()
+        }
 
         if (!response.ok) /* istanbul ignore next */ {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
 
         const data = await response.json()
-        console.log(data)
         setUserProfile(data)
       } catch (error) /* istanbul ignore next */ {
         setNegativeResponse('Erreur lors de la récupération du profil', error.message)

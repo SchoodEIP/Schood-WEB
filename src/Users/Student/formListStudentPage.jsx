@@ -5,6 +5,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import rightArrow2 from '../../assets/rightArrow2.png'
 import { Link } from 'react-router-dom'
+import { disconnect } from '../../functions/disconnect'
 
 const FormListStudentPage = () => {
   const [questionnaires, setQuestionnaires] = useState([])
@@ -19,7 +20,12 @@ const FormListStudentPage = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
-      }).then(response => response.json())
+      }).then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
         .then(data => {
           setQuestionnaires(data)
         })
@@ -29,14 +35,10 @@ const FormListStudentPage = () => {
     }
   }, [])
 
-  function accessForm (id) {
-    window.location.href = '/questionnaire/' + id
-  }
-
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes questionnaires'
+        title='Mes Questionnaires'
         withLogo
       />
       <div className='content'>

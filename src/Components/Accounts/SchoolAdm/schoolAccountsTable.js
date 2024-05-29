@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import '../../../css/Components/Accounts/accountsTable.css'
 import userIcon from '../../../assets/userIcon.png'
+import { disconnect } from '../../../functions/disconnect'
 
 export default function SchoolAccountsTable () {
   const [teacherList, setTeacherList] = useState([])
@@ -13,16 +14,21 @@ export default function SchoolAccountsTable () {
     const resp = await fetch(baseUrl, {
       method: 'GET',
       headers: {
-        'x-auth-token': token
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
       }
     })
-    const data = await resp.json()
+    if (resp.status === 401) {
+      disconnect()
+    } else {
+      const data = await resp.json()
 
-    const teacherAccounts = data.filter(account => account.role.name === 'teacher')
-    const studentAccounts = data.filter(account => account.role.name === 'student')
+      const teacherAccounts = data.filter(account => account.role.name === 'teacher')
+      const studentAccounts = data.filter(account => account.role.name === 'student')
 
-    setTeacherList(teacherAccounts)
-    setStudentList(studentAccounts)
+      setTeacherList(teacherAccounts)
+      setStudentList(studentAccounts)
+    }
   }
 
   const showClasses = (classes) => {
@@ -94,7 +100,7 @@ export default function SchoolAccountsTable () {
               {
                 studentList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture} alt='img de profil' /></td>
+                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>

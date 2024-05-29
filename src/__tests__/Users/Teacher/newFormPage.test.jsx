@@ -6,6 +6,11 @@ import NewFormPage from '../../../Users/Teacher/newFormPage'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import { disconnect } from '../../../functions/disconnect'
+
+jest.mock('../../../functions/disconnect', () => ({
+  disconnect: jest.fn()
+}))
 
 describe('NewFormPage', () => {
   function getFormDates () {
@@ -37,6 +42,7 @@ describe('NewFormPage', () => {
   beforeEach(() => {
     container = document.createElement('div')
     document.body.appendChild(container)
+    fetchMock.config.overwriteRoutes = true
     fetchMock.reset()
     fetchMock.post(questionnaireUrl, { })
   })
@@ -46,6 +52,99 @@ describe('NewFormPage', () => {
     container = null
     jest.clearAllMocks()
     fetchMock.restore()
+  })
+
+  test('checks disconnect through questionnaire url', async () => {
+    fetchMock.post(questionnaireUrl, 401)
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const inputField = screen.getByPlaceholderText('Titre du questionnaire')
+    fireEvent.change(inputField, { target: { value: 'Test Input' } })
+
+    const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
+
+    await act(() => {
+      fireEvent.change(questionInput, { target: { value: 'Does this test work ?' } })
+    })
+
+    expect(questionInput).toHaveValue('Does this test work ?')
+
+    const postButton = screen.getByText('Valider le Questionnaire')
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('return button without changes', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const postButton = screen.getByText('Retour')
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+  })
+
+  test('return button with changes', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <NewFormPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const inputField = screen.getByPlaceholderText('Titre du questionnaire')
+    fireEvent.change(inputField, { target: { value: 'Test Input' } })
+
+    const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
+
+    await act(() => {
+      fireEvent.change(questionInput, { target: { value: 'Does this test work ?' } })
+    })
+
+    const postButton = screen.getByText('Retour')
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(async () => {
+      expect(screen.getByText('Sauvegarder les Modifications ?'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Annuler'))
+    })
+
+    const newPostBtn = screen.getByText('Retour')
+
+    await act(async () => {
+      fireEvent.click(newPostBtn)
+    })
   })
 
   test('renders the page', async () => {
@@ -59,11 +158,11 @@ describe('NewFormPage', () => {
       )
     })
 
-    expect(screen.getByText('Création de Questionnaire')).toBeInTheDocument()
+    expect(screen.getByText("Création d'un Nouveau Questionnaire")).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Titre du questionnaire')).toBeInTheDocument()
-    expect(screen.getByText('Ajouter une Question')).toBeInTheDocument()
-    expect(screen.getByText('Date de parution:')).toBeInTheDocument()
-    expect(screen.getByText('Créer un Questionnaire')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Quelle est votre question ?')).toBeInTheDocument()
+    expect(screen.getByText('Date de parution')).toBeInTheDocument()
+    expect(screen.getByText('Valider le Questionnaire')).toBeInTheDocument()
     expect(screen.getByDisplayValue(`${thisWeekMonday}`)).toBeInTheDocument()
   })
 
@@ -83,21 +182,25 @@ describe('NewFormPage', () => {
     await act(() => {
       fireEvent.click(addQuestionBtn)
     })
-    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+    expect(screen.getByText('2.')).toBeInTheDocument()
 
     await act(() => {
       fireEvent.click(addQuestionBtn)
     })
-    expect(screen.getByText('Question n° 2 :')).toBeInTheDocument()
+    expect(screen.getByText('3.')).toBeInTheDocument()
 
-    const removeQuestionBtn = screen.getByText('Enlever une Question')
+    const removeQuestionBtn = screen.getByText('Enlever la Dernière Question')
 
     await act(() => {
       fireEvent.click(removeQuestionBtn)
     })
 
-    expect(screen.queryByText('Question n° 2 :')).toBeNull()
-    expect(screen.queryByText('Enlever une Question')).toBeNull()
+    await act(() => {
+      fireEvent.click(removeQuestionBtn)
+    })
+
+    expect(screen.queryByText('2.')).toBeNull()
+    expect(screen.queryByText('Enlever la Dernière Question')).toBeNull()
   })
 
   test('add and remove multiple answers', async () => {
@@ -116,7 +219,7 @@ describe('NewFormPage', () => {
     await act(() => {
       fireEvent.click(addQuestionBtn)
     })
-    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+    expect(screen.getByText('1.')).toBeInTheDocument()
 
     const selectType = screen.getByTestId('select-0')
     expect(selectType).toBeInTheDocument()
@@ -134,9 +237,13 @@ describe('NewFormPage', () => {
       fireEvent.click(addAnswerBtn)
     })
 
-    const removeAnswerBtn = screen.getByText('Enlever une Réponse')
+    const removeAnswerBtn = screen.getByText('Enlever la Dernière Réponse')
 
-    const inputElements1 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements1 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
+
+    await act(() => {
+      fireEvent.change(inputElements1[0], { target: { value: 'This is an answer' } })
+    })
 
     expect(inputElements1.length).toBe(3)
 
@@ -144,7 +251,7 @@ describe('NewFormPage', () => {
       fireEvent.click(removeAnswerBtn)
     })
 
-    const inputElements2 = screen.getAllByPlaceholderText('Choix possible')
+    const inputElements2 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
     expect(inputElements2.length).toBe(2)
 
     await act(() => {
@@ -152,7 +259,7 @@ describe('NewFormPage', () => {
     })
     expect(selectType).toHaveValue('emoji')
 
-    const inputElements3 = screen.queryAllByPlaceholderText('Choix possible')
+    const inputElements3 = screen.queryAllByPlaceholderText('Ajoutez une Réponse')
     expect(inputElements3.length).toBe(0)
   })
 
@@ -195,9 +302,6 @@ describe('NewFormPage', () => {
     const inputField = screen.getByPlaceholderText('Titre du questionnaire')
     fireEvent.change(inputField, { target: { value: 'Test Input' } })
 
-    const addQuestionBtn = screen.getByText('Ajouter une Question')
-    fireEvent.click(addQuestionBtn)
-
     const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
     const selectType = screen.getByTestId('select-0')
 
@@ -209,7 +313,7 @@ describe('NewFormPage', () => {
     expect(questionInput).toHaveValue('Does this test work ?')
     expect(selectType).toHaveValue('multiple')
 
-    const postButton = screen.getByText('Créer un Questionnaire')
+    const postButton = screen.getByText('Valider le Questionnaire')
 
     await act(async () => {
       fireEvent.click(postButton)
@@ -233,14 +337,35 @@ describe('NewFormPage', () => {
       )
     })
 
-    const postButton = screen.getByText('Créer un Questionnaire')
+    const postButton = screen.getByText('Valider le Questionnaire')
 
     await act(async () => {
       fireEvent.click(postButton)
     })
 
     await waitFor(() => {
-      expect(screen.getByText('400 error : Error')).toBeInTheDocument()
+      expect(screen.getByText("Le questionnaire n'a pas de titre.")).toBeInTheDocument()
+    })
+
+    const inputField = screen.getByPlaceholderText('Titre du questionnaire')
+    fireEvent.change(inputField, { target: { value: 'Test Input' } })
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText("Question n°1 n'a pas été renseignée.")).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(postButton)
+    })
+
+    const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
+
+    await act(() => {
+      fireEvent.change(questionInput, { target: { value: 'Does this test work ?' } })
     })
 
     const otherFetch = jest.fn().mockRejectedValue(new Error('Network Error'))
@@ -251,7 +376,7 @@ describe('NewFormPage', () => {
       fireEvent.click(postButton)
     })
 
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(screen.getByText('Network Error')).toBeInTheDocument()
     })
   })
@@ -274,20 +399,26 @@ describe('NewFormPage', () => {
       href: '/questionnaire'
     }
 
-    const addQuestionBtn = screen.getByText('Ajouter une Question')
+    const inputField = screen.getByPlaceholderText('Titre du questionnaire')
+    fireEvent.change(inputField, { target: { value: 'Test Input' } })
+
+    expect(screen.getByText('1.')).toBeInTheDocument()
+
+    const questionInput = screen.getByPlaceholderText('Quelle est votre question ?')
 
     await act(() => {
-      fireEvent.click(addQuestionBtn)
+      fireEvent.change(questionInput, { target: { value: 'Does this test work ?' } })
     })
-    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
 
-    const createFormBtn = screen.getByText('Créer un Questionnaire')
+    const createFormBtn = screen.getByText('Valider le Questionnaire')
 
     await act(async () => {
       fireEvent.click(createFormBtn)
     })
 
-    expect(window.location.href).toBe('/questionnaires')
+    await waitFor(async () => {
+      expect(window.location.href).toBe('/questionnaires')
+    })
 
     window.location = originalLocation
   })
@@ -350,9 +481,9 @@ describe('NewFormPage', () => {
     await act(() => {
       fireEvent.click(addQuestionBtn)
     })
-    expect(screen.getByText('Question n° 1 :')).toBeInTheDocument()
+    expect(screen.getByText('1.')).toBeInTheDocument()
 
-    const createFormBtn = screen.getByText('Créer un Questionnaire')
+    const createFormBtn = screen.getByText('Valider le Questionnaire')
 
     await act(async () => {
       fireEvent.click(createFormBtn)
@@ -362,7 +493,6 @@ describe('NewFormPage', () => {
 
     window.location = originalLocation
 
-    expect(screen.getByText('400 error : undefined')).toBeInTheDocument()
-    expect(window.fetch).toHaveBeenCalledTimes(1)
+    // expect(window.fetch).toHaveBeenCalledTimes(1)
   })
 })

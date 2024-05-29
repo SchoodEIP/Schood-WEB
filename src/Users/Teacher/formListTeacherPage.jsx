@@ -5,6 +5,7 @@ import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import rightArrow2 from '../../assets/rightArrow2.png'
 import { Link } from 'react-router-dom'
+import { disconnect } from '../../functions/disconnect'
 
 const FormListTeacherPage = () => {
   const [questionnaires, setQuestionnaires] = useState([])
@@ -12,21 +13,22 @@ const FormListTeacherPage = () => {
   useEffect(() => {
     const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire'
 
-    try {
-      fetch(questionnaireUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          setQuestionnaires(data)
-        })
-        .catch(error => console.error(error.message))
-    } catch (e) /* istanbul ignore next */ {
-      console.error(e.message)
-    }
+    fetch(questionnaireUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      }
+      return response.json()
+    })
+      .then(data => {
+        setQuestionnaires(data)
+      })
+      .catch(error => console.error(error.message))
   }, [])
 
   function createNewForm () {
@@ -36,14 +38,14 @@ const FormListTeacherPage = () => {
   const buttonComponent = [
     {
       name: 'Créer un Questionnaire',
-      function: createNewForm
+      handleFunction: createNewForm
     }
   ]
 
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes questionnaires'
+        title='Mes Questionnaires'
         withLogo
         showButtons
         buttonComponent={buttonComponent}

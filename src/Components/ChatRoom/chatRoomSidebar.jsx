@@ -16,8 +16,8 @@ const ChatRoomSidebar = ({
   }, [chats?.value.notified, chats?.value.unseenChats, currentConversation])
 
   const handleClick = (conversation) => {
-    setCurrentConversation(conversation)
     clearMessageAndError()
+    setCurrentConversation(conversation)
   }
 
   return (

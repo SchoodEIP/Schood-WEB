@@ -6,7 +6,7 @@ export default function ForgottenPasswordPage () {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
-  const baseUrl = process.env.REACT_APP_BACKEND_URL + 'user/forgottenPassword'
+  const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/forgottenPassword'
 
   const handleRequest = async (event) => {
     event.preventDefault()
@@ -28,7 +28,6 @@ export default function ForgottenPasswordPage () {
         },
         body: JSON.stringify(payload)
       })
-
       if (response.status === 200) {
         setMessage('Si un compte existe avec cet email, un nouveau mot de passe vous a été envoyé.')
       } else /* istanbul ignore next */ {

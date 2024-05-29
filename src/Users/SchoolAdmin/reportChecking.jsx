@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/reportChecking.scss'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
 import ReportSidebar from '../../Components/reports/reportSidebar'
-import Message from '../../Components/ChatRoom/message'
 import UserProfile from '../../Components/userProfile/userProfile'
+import { disconnect } from '../../functions/disconnect'
+import { translate } from '../../functions/translate'
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
-  const [reportedConversation, setReportedConversation] = useState(null)
-  const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
-  const [isReportProcessed, setIsReportProcessed] = useState(false)
-  const [error, setError] = useState('')
+  // const [reportedConversation, setReportedConversation] = useState(null)
+  // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
+  // const [isReportProcessed, setIsReportProcessed] = useState(false)
+  // const [error, setError] = useState('')
 
   const fetchReportRequests = async () => {
     try {
@@ -24,45 +24,58 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect()
+      }
       const data = await response.json()
+      console.log(data[data.length - 1])
       setReports(data)
       setCurrentReport(data[data.length - 1])
+      if (data[data.length - 1].conversation) {
+        handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
+      }
     } catch (error) /* istanbul ignore next */ {
       setError('Erreur lors de la récupération des demandes de signalement.')
     }
   }
 
-  const fetchReportedConversation = async (conversationId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await response.json()
-      if (!data.message) { setReportedConversation(data) }
-    } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la récupération de la conversation signalée.')
-    }
-  }
+  // const fetchReportedConversation = async (conversationId) => {
+  //   try {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'x-auth-token': sessionStorage.getItem('token'),
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     if (response.status === 401) {
+  //       disconnect();
+  //     }
+  //     const data = await response.json()
+  //     setReportedConversation(data)
+  //   } catch (error) /* istanbul ignore next */ {
+  //     setError('Erreur lors de la récupération de la conversation signalée.')
+  //   }
+  // }
 
-  const fetchReportedConversationMessages = async (conversationId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await response.json()
-      if (!data.message) { setReportedConversationMessages(data) }
-    } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la récupération de la conversation signalée.')
-    }
-  }
+  // const fetchReportedConversationMessages = async (conversationId) => {
+  //   try {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'x-auth-token': sessionStorage.getItem('token'),
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     if (response.status === 401) {
+  //       disconnect()
+  //     }
+  //     const data = await response.json()
+  //     setReportedConversationMessages(data)
+  //   } catch (error) /* istanbul ignore next */ {
+  //     setError('Erreur lors de la récupération de la conversation signalée.')
+  //   }
+  // }
 
   /* const checkReportProcessingStatus = async (reportId) => {
     // on a pas moyen de vérifier le status d'un report, la route ci dessous n'est pas valide
@@ -74,6 +87,9 @@ const ReportChecking = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect();
+      }
       const data = await response.json()
       setIsReportProcessed(data.processed)
     } catch (error) {
@@ -110,8 +126,8 @@ const ReportChecking = () => {
   } */
 
   const handleReportSelection = async (reportId, conversationId) => {
-    await fetchReportedConversation(conversationId)
-    await fetchReportedConversationMessages(conversationId)
+    // await fetchReportedConversation(conversationId)
+    // await fetchReportedConversationMessages(conversationId)
     // await checkReportProcessingStatus(reportId)
   }
 
@@ -123,7 +139,7 @@ const ReportChecking = () => {
     <div className='messaging-page'>
       <div className='header'>
         <HeaderComp
-          title='Mes messages'
+          title='Mes Signalements'
         />
       </div>
       <div className='content'>
@@ -140,40 +156,50 @@ const ReportChecking = () => {
               ? (
                 <div className='chat-content'>
                   <div className='top'>
-                    <div className='conv-name'>{currentReport.userSignaled.firstname}</div>
+                    <div className='conv-name'>{translate(currentReport.type)}</div>
                   </div>
-                  {
-                    currentReport.message && (
-                      <div className='report-message'>{currentReport.message}</div>
-                    )
-                  }
-                  {
-                    reportedConversationMessages && (
-                      <div className='bottom'>
-                        <div className='left'>
-                          <div className='top2'>
-                            <div className='message-list'>
-                              {reportedConversationMessages.map((message, index) => (
-                                <Message key={index} message={message} participants={reportedConversation.participants} />
-                              ))}
-                              {error && <div className='error-message'>{error}</div>}
-                            </div>
-                          </div>
-                        </div>
-                        <div className='right'>
-                          {currentReport.participants.map((participant, indexP) => (
-                            <div className='user-profile' key={indexP}>
-                              <UserProfile
-                                fullname
-                                profile={participant}
-                              />
-                            </div>
-                          ))}
-                        </div>
+                  <div className='bottom'>
+                    <div className='left'>
+                      <div className='top2'>
+                        {
+                            currentReport.message && (
+                              <div className='report-message'>{currentReport.message}</div>
+                            )
+                          }
+                        {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
+                        {/* {reportedConversationMessages.map((message, index) => (
+                              <Message key={index} message={message} participants={reportedConversation.participants} />
+                            ))} */}
+                        {/* {error && <div className='error-message'>{error}</div>} */}
+                        {/* </div> */}
                       </div>
-                    )
-                  }
-
+                    </div>
+                    <div className='right'>
+                      <h2>Signalé par:</h2>
+                      <div className='user-profile'>
+                        <UserProfile
+                          fullname
+                          profile={currentReport.signaledBy}
+                        />
+                      </div>
+                      <h2>À l'encontre de:</h2>
+                      {
+                        currentReport.usersSignaled.length > 0
+                          ? currentReport.usersSignaled.map((user, index) => {
+                            return (
+                              <div key={index} className='user-profile'>
+                                <UserProfile
+                                  fullname
+                                  profile={user}
+                                />
+                              </div>
+                            )
+                          }
+                          )
+                          : ''
+                      }
+                    </div>
+                  </div>
                 </div>
                 )
               : (

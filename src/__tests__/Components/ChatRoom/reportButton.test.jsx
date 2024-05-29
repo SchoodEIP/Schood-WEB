@@ -5,6 +5,11 @@ import ReportButton from '../../../Components/ChatRoom/reportButton'
 import fetchMock from 'fetch-mock'
 import { BrowserRouter } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
+import { disconnect } from '../../../functions/disconnect'
+
+jest.mock('../../../functions/disconnect', () => ({
+  disconnect: jest.fn()
+}))
 
 describe('ReportButton Component', () => {
   const dailyMood = `${process.env.REACT_APP_BACKEND_URL}/shared/report`
@@ -13,6 +18,7 @@ describe('ReportButton Component', () => {
     fetchMock.reset()
     fetchMock.post(dailyMood, { })
     localStorage.setItem('id', '123')
+    fetchMock.config.overwriteRoutes = true
   })
 
   afterEach(() => {
@@ -31,13 +37,26 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
+    const reportButton = screen.getByText('Confirmer le signalement')
     await waitFor(async () => {
       expect(reportButton).toBeInTheDocument()
     })
   })
 
-  it('displays the confirmation UI when the report button is clicked', async () => {
+  it('tests with no participants', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <ReportButton currentConversation={null} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+  })
+
+  it('disconnects on post dailymood', async () => {
+    fetchMock.post(dailyMood, 401)
     await act(async () => {
       render(
         <BrowserRouter>
@@ -48,18 +67,14 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
+    const confirmButton = screen.getByText('Confirmer le signalement')
 
     await act(async () => {
-      fireEvent.click(reportButton)
+      fireEvent.click(confirmButton)
     })
-    const reasonSelect = screen.getByDisplayValue('Sélectionnez une raison')
-    const confirmButton = screen.getByText('Confirmer le signalement')
-    await waitFor(async () => {
-      expect(reasonSelect).toBeInTheDocument()
-    })
-    await waitFor(async () => {
-      expect(confirmButton).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
     })
   })
 
@@ -75,15 +90,18 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
-
-    await act(async () => {
-      fireEvent.click(reportButton)
-    })
-
     const reasonSelect = screen.getByDisplayValue('Sélectionnez une raison')
     await act(async () => {
       fireEvent.change(reasonSelect, { target: { value: 'Spam' } })
+    })
+
+    await act(async () => {
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '132' } })
+    })
+
+    const description = screen.getByPlaceholderText('Veuillez expliquer votre raison ici.')
+    await act(async () => {
+      fireEvent.change(description, { target: { value: 'blah' } })
     })
 
     const confirmButton = screen.getByText('Confirmer le signalement')
@@ -113,11 +131,6 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
-    await act(async () => {
-      fireEvent.click(reportButton)
-    })
-
     const reasonSelect = screen.getByDisplayValue('Sélectionnez une raison')
     await act(async () => {
       fireEvent.change(reasonSelect, { target: { value: 'Spam' } })
@@ -130,6 +143,15 @@ describe('ReportButton Component', () => {
 
     const errorMessage = screen.getByText('Erreur lors du signalement de la conversation.')
     await waitFor(async () => { expect(errorMessage).toBeInTheDocument() })
+
+    await act(async () => {
+      fireEvent.change(screen.getAllByRole('combobox')[1], { target: { value: '132' } })
+    })
+
+    const confirmBtn2 = screen.getByText('Confirmer le signalement')
+    await act(async () => {
+      fireEvent.click(confirmBtn2)
+    })
   })
 
   it('handles network error', async () => {
@@ -145,7 +167,7 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
+    const reportButton = screen.getByText('Confirmer le signalement')
     await act(async () => {
       fireEvent.click(reportButton)
     })
@@ -177,7 +199,7 @@ describe('ReportButton Component', () => {
       )
     })
 
-    const reportButton = screen.getByText('Signaler')
+    const reportButton = screen.getByText('Confirmer le signalement')
     await act(async () => {
       fireEvent.click(reportButton)
     })
