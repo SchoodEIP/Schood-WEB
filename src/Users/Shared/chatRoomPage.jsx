@@ -7,8 +7,8 @@ const ChatRoomPage = () => {
   return (
     <div className='chat-page'>
       <div className='header'>
-        <HeaderComp 
-          title={"Mes messages"}
+        <HeaderComp
+          title='Mes messages'
         />
       </div>
       <div className='content'>

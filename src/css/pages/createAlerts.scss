@@ -110,6 +110,12 @@
   }
 }
 
+.alert-page {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+  width: calc(100vw - 240px);
+}
+
 .alert-page-container {
   position: relative;
 

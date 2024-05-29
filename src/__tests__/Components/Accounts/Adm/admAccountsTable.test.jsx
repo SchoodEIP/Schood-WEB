@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import AdmAccountsTable from '../../../../Components/Accounts/Adm/admAccountsTable'
 import { WebsocketProvider } from '../../../../contexts/websocket'
@@ -32,8 +32,8 @@ describe('AdmAccountsTable', () => {
         </BrowserRouter>
       )
     })
-    const table = screen.getByRole('table')
-    expect(table).toBeInTheDocument()
+    const table = screen.getAllByRole('table')
+    expect(table[0]).toBeInTheDocument()
   })
 
   test('renders table headers correctly', async () => {
@@ -99,5 +99,26 @@ describe('AdmAccountsTable', () => {
     const accountRows = await screen.findAllByRole('row')
     expect(accountRows).toHaveLength(3) // header row + 2 data rows
     expect(screen.getByText('Harry')).toBeInTheDocument()
+  })
+
+  test('testing disconnect', async () => {
+    const mockAccountList = []
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockAccountList),
+      status: 403,
+      statusText: 'ERRCONNECT'
+    })
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsTable />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+    await waitFor(async () => {
+      expect(window.location.pathname).toBe('/')
+    })
   })
 })

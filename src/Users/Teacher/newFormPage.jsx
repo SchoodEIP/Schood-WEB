@@ -6,12 +6,13 @@ import '../../css/Components/Popup/popup.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
+import { disconnect } from '../../functions/disconnect'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
   const [errMessage, setErrMessage] = useState('')
   const [questions, setQuestions] = useState([{
-    title: "",
+    title: '',
     type: 'text',
     answers: []
   }])
@@ -25,15 +26,15 @@ const NewFormPage = () => {
 
     let proceed = true
 
-    if (title !== "") {
+    if (title !== '') {
       for (let i = 0; i < questions.length; i++) {
-        if (questions[i].title === "") {
+        if (questions[i].title === '') {
           setErrMessage(`Question n°${i + 1} n'a pas été renseignée.`)
           proceed = false
-          break;
+          break
         } else if (questions[i].type === 'multiple') {
           for (let j = 0; j < questions[i].answers.length; j++) {
-            if (questions[i].answers[j].title === "") {
+            if (questions[i].answers[j].title === '') {
               proceed = false
               setErrMessage(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
               break
@@ -43,7 +44,7 @@ const NewFormPage = () => {
       }
     } else {
       proceed = false
-      setErrMessage(`Le questionnaire n'a pas de titre.`)
+      setErrMessage('Le questionnaire n\'a pas de titre.')
     }
 
     if (proceed) {
@@ -59,6 +60,9 @@ const NewFormPage = () => {
           questions
         })
       }).then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
         if (response.status !== 200) {
           setErrMessage(response.status + ' error : ' + response.statusText)
         } else {
@@ -84,7 +88,7 @@ const NewFormPage = () => {
   const handleAddNewQuestion = () => {
     setQuestionInc(questionInc + 1)
     questions.push({
-      title: "",
+      title: '',
       type: 'text',
       answers: []
     })
@@ -95,15 +99,15 @@ const NewFormPage = () => {
   const handleRemoveLastQuestion = () => {
     setQuestionInc(questionInc - 1)
     setQuestions(prevQuestion => {
-      const newQuestion = [...prevQuestion];
-      newQuestion.pop();
-      return newQuestion;
-    });
+      const newQuestion = [...prevQuestion]
+      newQuestion.pop()
+      return newQuestion
+    })
   }
 
   const handleChangeTitle = (event, index) => {
     questions[index].title = event.target.value
-    setQuestions([...questions]);
+    setQuestions([...questions])
     setPosition(0)
   }
 
@@ -142,10 +146,10 @@ const NewFormPage = () => {
 
   const handleRemoveLastAnswer = (index) => {
     setQuestions(prevQuestion => {
-      const newQuestion = [...prevQuestion];
-      newQuestion[index].answers.pop();
-      return newQuestion;
-    });
+      const newQuestion = [...prevQuestion]
+      newQuestion[index].answers.pop()
+      return newQuestion
+    })
   }
 
   const handlePopup = () => {
@@ -158,8 +162,8 @@ const NewFormPage = () => {
 
   const buttonComponent = [
     {
-      name: "Valider le Questionnaire",
-      function: postQuestions
+      name: 'Valider le Questionnaire',
+      handleFunction: postQuestions
     }
   ]
 
@@ -168,39 +172,39 @@ const NewFormPage = () => {
       <div>
         <HeaderComp
           title={"Création d'un Nouveau Questionnaire"}
-          withReturnBtn={true}
-          withLogo={true}
-          showButtons={true}
+          withReturnBtn
+          withLogo
+          showButtons
           buttonComponent={buttonComponent}
           position={position}
           returnCall={handlePopup}
         />
       </div>
       <div className='form-container'>
-      <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
+        <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
-            <div className="popup-modal-container" >
-              <span className="title-popup">Sauvegarder les Modifications ?</span>
+            <div className='popup-modal-container'>
+              <span className='title-popup'>Sauvegarder les Modifications ?</span>
               <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toute vos modifications.</span>
-              {errMessage ? <span className="error-message" style={{color: "red"}}>{errMessage}</span> : ''}
-              <div className="btn-container">
-                <button className="popup-btn" onClick={close}>Annuler</button>
-                <div className="save-btn-container">
-                  <button className="popup-btn" style={{backgroundColor: "red", borderColor: "red"}} onClick={handleGoBack}>Ne Pas Sauvegarder</button>
-                  <button style={{width: "150px"}} className="popup-btn" onClick={postQuestions}>Sauvegarder</button>
+              {errMessage ? <span className='error-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
+              <div className='btn-container'>
+                <button className='popup-btn' onClick={close}>Annuler</button>
+                <div className='save-btn-container'>
+                  <button className='popup-btn' style={{ backgroundColor: 'red', borderColor: 'red' }} onClick={handleGoBack}>Ne Pas Sauvegarder</button>
+                  <button style={{ width: '150px' }} className='popup-btn' onClick={postQuestions}>Sauvegarder</button>
                 </div>
               </div>
             </div>
           )}
         </Popup>
         <div className='form'>
-          <div className="head-form">
-            <div className="input-container">
+          <div className='head-form'>
+            <div className='input-container'>
               <input className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
             </div>
-            <div className="label-container">
-              <label id='parution-date-container' className="input-label">
-                <span className="label-content">Date de parution</span>
+            <div className='label-container'>
+              <label id='parution-date-container' className='input-label'>
+                <span className='label-content'>Date de parution</span>
                 <DatePicker
                   className='default-input'
                   name='parution-date'
@@ -213,46 +217,46 @@ const NewFormPage = () => {
               </label>
             </div>
           </div>
-          <div className="error-message-container">
-            <p className="error-message" data-testid='error-message'>{errMessage}</p>
+          <div className='error-message-container'>
+            <p className='error-message' data-testid='error-message'>{errMessage}</p>
           </div>
         </div>
         <div className='form-content-container'>
-            {
+          {
               (questionInc > 0 && questions) && questions.map((question, index) =>
                 <div key={index} className='question'>
                   <div className='body'>
                     <div className='header'>
-                      <label className="input-label">
-                        <span className="label-content">{index + 1}.&nbsp;</span>
-                        <input style={{width: "700px"}} key={index} className="default-input" defaultValue={question.title} type='text' placeholder="Quelle est votre question ?" onChange={(e) => handleChangeTitle(e, index)}/>
+                      <label className='input-label'>
+                        <span className='label-content'>{index + 1}.&nbsp;</span>
+                        <input style={{ width: '700px' }} key={index} className='default-input' defaultValue={question.title} type='text' placeholder='Quelle est votre question ?' onChange={(e) => handleChangeTitle(e, index)} />
                       </label>
-                      <label style={{flexDirection: "column"}} className="input-label">
-                        <span className="label-content">Type de question</span>
-                        <select style={{width: "200px"}} className="default-input" key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
-                          <option value="text">Texte</option>
-                          <option value="emoji">Émoticône</option>
-                          <option value="multiple">Multiple</option>
+                      <label style={{ flexDirection: 'column' }} className='input-label'>
+                        <span className='label-content'>Type de question</span>
+                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-input' key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
+                          <option value='text'>Texte</option>
+                          <option value='emoji'>Émoticône</option>
+                          <option value='multiple'>Multiple</option>
                         </select>
                       </label>
                     </div>
                     {
                       question.type === 'multiple' && (
-                        <div className="body-content">
+                        <div className='body-content'>
                           <div className='answers'>
                             {question.answers.map((answer, index2) => (
-                              <input key={index2} className="default-input" type="text" placeholder="Ajoutez une Réponse" defaultValue={answer.title} onChange={(e) => handleChangeAnswer(e, index, index2)}/>
+                              <input key={index2} className='default-input' type='text' placeholder='Ajoutez une Réponse' defaultValue={answer.title} onChange={(e) => handleChangeAnswer(e, index, index2)} />
                             ))}
                           </div>
-                          <div className="btn-container">
-                            <button className="form-btn" onClick={() => handleAddAnswer(index)}>Ajouter une Réponse</button>
-                            {question.answers.length > 2 && <button className="form-btn" onClick={() => handleRemoveLastAnswer(index)}>Enlever la Dernière Réponse</button>}
+                          <div className='btn-container'>
+                            <button className='form-btn' onClick={() => handleAddAnswer(index)}>Ajouter une Réponse</button>
+                            {question.answers.length > 2 && <button className='form-btn' onClick={() => handleRemoveLastAnswer(index)}>Enlever la Dernière Réponse</button>}
                           </div>
                         </div>
                       )
                     }
                   </div>
-                  {questionInc !== (index + 1) && <div className="horizontal-line"></div>}
+                  {questionInc !== (index + 1) && <div className='horizontal-line' />}
                 </div>
               )
             }

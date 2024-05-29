@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../../../css/Components/Accounts/accountsTable.css'
+import { disconnect } from '../../../functions/disconnect'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
@@ -12,12 +13,16 @@ export default function AdmAccountsTable () {
     const resp = await fetch(baseUrl, {
       method: 'GET',
       headers: {
-        'x-auth-token': token
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
       }
     })
-    const data = await resp.json()
-
-    setAccountList(data)
+    if (resp.status === 401) {
+      disconnect()
+    } else {
+      const data = await resp.json()
+      setAccountList(data)
+    }
   }
 
   // account list request on mounted

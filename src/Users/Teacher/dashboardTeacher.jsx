@@ -4,9 +4,13 @@ import { QuestSpace } from '../../Components/Questionnaire/questSpace'
 import { GraphSpace } from '../../Components/Graph/graphSpace'
 import { LastAlerts } from '../../Components/Alerts/lastAlerts'
 import React, { useEffect, useState } from 'react'
+import Popup from 'reactjs-popup'
+import cross from '../../assets/Cross.png'
+import ReportCreationPopupContent from '../../Components/Popup/reportCreation'
 
 const TeacherHomePage = () => {
   const [profile, setProfile] = useState(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
@@ -16,28 +20,40 @@ const TeacherHomePage = () => {
     window.location.href = '/questionnaire'
   }
 
+  const handleReportPopup = () => {
+    setIsOpen(!isOpen)
+  }
+
   return (
     <div className='dashboard'>
+      <Popup open={isOpen} onClose={handleReportPopup} modal>
+        {(close) => (
+          <div className='popup-modal-container'>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <ReportCreationPopupContent />
+          </div>
+        )}
+      </Popup>
       <HeaderComp
         title={`Bonjour ${profile?.firstname}`}
-        withLogo={true}
+        withLogo
       />
       <div className='page-content'>
         <div className='left-half'>
-          <div className="graph-space" style={{height: "70%"}}>
+          <div className='graph-space' style={{ height: '70%' }}>
             <GraphSpace />
           </div>
-          <div className="quest-space" style={{height: "35%"}}>
+          <div className='quest-space' style={{ height: '35%' }}>
             <QuestSpace />
           </div>
         </div>
         <div className='right-half'>
-          <div className="last-alerts">
+          <div className='last-alerts'>
             <LastAlerts />
           </div>
-          <div className="buttons">
+          <div className='buttons'>
             <button className='popup-call-btn' onClick={handleGoToNewForm}>Créer un Questionnaire</button>
-            <button className='popup-call-btn'>Créer un Signalement</button>
+            <button className='popup-call-btn' onClick={handleReportPopup}>Créer un Signalement</button>
           </div>
         </div>
       </div>

@@ -8,8 +8,8 @@ const ProfilPage = () => {
     <div>
       <div>
         <HeaderComp
-          title={"Mon Profile"}
-          withLogo={true}
+          title='Mon Profil'
+          withLogo
         />
       </div>
       <Profil />

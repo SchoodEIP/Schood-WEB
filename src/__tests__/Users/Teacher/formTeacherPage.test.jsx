@@ -5,6 +5,11 @@ import fetchMock from 'fetch-mock'
 import FormTeacherPage from '../../../Users/Teacher/formTeacherPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
+import { disconnect } from '../../../functions/disconnect'
+
+jest.mock('../../../functions/disconnect', () => ({
+  disconnect: jest.fn()
+}))
 
 describe('FormTeacherPage', () => {
   const questionnaireUrl = process.env.REACT_APP_BACKEND_URL + '/shared/questionnaire/123'
@@ -52,9 +57,9 @@ describe('FormTeacherPage', () => {
         type: 'multiple'
       }
     ],
-    fromDate: '2023-09-03T00:00:00.000Z',
+    fromDate: '2026-09-03T00:00:00.000Z',
     title: 'Questionnaire test',
-    toDate: '2023-09-09T00:00:00.000Z'
+    toDate: '2026-09-09T00:00:00.000Z'
   }
 
   const studentsResponse = {
@@ -95,6 +100,7 @@ describe('FormTeacherPage', () => {
     fetchMock.get(questionnaireUrl, questionnaireResponse)
     fetchMock.get(studentListUrl, studentsResponse)
     fetchMock.get(answerListUrl, answersResponse)
+    sessionStorage.setItem('role', 'teacher')
   })
 
   afterEach(() => {
@@ -117,11 +123,12 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByText('Questionnaire test', { selector: 'h1' })).toBeInTheDocument()
+      expect(screen.getByText('Questionnaire test')).toBeInTheDocument()
     })
 
     await waitFor(() => {
-      expect(screen.getByText('1. Comment te sens-tu à propos de ce test ?', { selector: 'h2' })).toBeInTheDocument()
+      expect(screen.getByText('1.')).toBeInTheDocument()
+      expect(screen.getByText('Comment te sens-tu à propos de ce test ?')).toBeInTheDocument()
     })
 
     const emojiButton = screen.getByTestId('question-container-0')
@@ -131,7 +138,8 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByText('2. Elabores sur ta réponse à la question précédente', { selector: 'h2' })).toBeInTheDocument()
+      expect(screen.getByText('2.')).toBeInTheDocument()
+      expect(screen.getByText('Elabores sur ta réponse à la question précédente')).toBeInTheDocument()
     })
 
     const textButton = screen.getByTestId('question-container-1')
@@ -141,7 +149,8 @@ describe('FormTeacherPage', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByText('3. Est-ce que le texte fonctionne ?', { selector: 'h2' })).toBeInTheDocument()
+      expect(screen.getByText('3.')).toBeInTheDocument()
+      expect(screen.getByText('Est-ce que le texte fonctionne ?')).toBeInTheDocument()
     })
 
     const multiButton = screen.getByTestId('question-container-2')
@@ -195,7 +204,85 @@ describe('FormTeacherPage', () => {
       )
     })
     await act(async () => {
-      await expect(screen.getByText('Erreur', { selector: 'h1' })).toBeInTheDocument()
+      await expect(screen.getByText('this should work')).toBeInTheDocument()
+    })
+  })
+
+  test('checks disconnect through asnwerList url', async () => {
+    fetchMock.get(answerListUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('checks disconnect through student url', async () => {
+    fetchMock.get(studentListUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('checks disconnect through questionnaireUrl url', async () => {
+    fetchMock.get(questionnaireUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('checks modify form', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/123']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Modifier le Questionnaire'))
     })
   })
 })

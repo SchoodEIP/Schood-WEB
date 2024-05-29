@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
 import '../../css/pages/authPage.scss'
 import logoSchood from '../../assets/logo_schood.png'
-import "@fontsource/inter/600.css";
+import '@fontsource/inter/600.css'
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -23,13 +23,12 @@ export default function Login () {
       })
 
       const data = await response.json()
-
-      if (response.ok) {
+      if (response.status === 200) {
         localStorage.setItem('profile', JSON.stringify(data))
-        localStorage.setItem('id', data._id)
-        sessionStorage.setItem('role', data.role.name)
         sessionStorage.setItem('profile', JSON.stringify(data))
+        sessionStorage.setItem('role', data.role.name)
         localStorage.setItem('role', data.role.name)
+        localStorage.setItem('id', data._id)
         window.location.href = '/'
       } else /* istanbul ignore next */ {
         setMessage(`Error: ${data.message}`)
@@ -44,13 +43,13 @@ export default function Login () {
 
     // Vérifier que l'email est valide avant de faire la requête
     if (!validateEmail(email)) {
-      setMessage('Email is not valid')
+      setMessage("L'adresse email n'est pas valide.")
       return
     }
 
     // Vérifier qu'un password a été entré avant de faire la requête
     if (!password) {
-      setMessage('Password is empty')
+      setMessage('Le mot de passe est vide.')
       return
     }
 
@@ -70,7 +69,7 @@ export default function Login () {
 
       const data = await response.json()
 
-      if (response.ok) {
+      if (response.status === 200) {
         sessionStorage.setItem('token', data.token)
         localStorage.setItem('token', data.token)
         getRole(data.token)
@@ -105,22 +104,24 @@ export default function Login () {
             <div id='label'>
               Email
             </div>
-            <input type="text" placeholder='email' onChange={handleEmailChange} value={email} required/>
+            <input type='text' placeholder='email' onChange={handleEmailChange} value={email} required />
           </div>
           <div id='password'>
             <div id='label'>
               Mot de passe
             </div>
-            <input type="password" placeholder='mot de passe' onChange={handlePasswordChange} value={password} required/>
+            <input type='password' placeholder='mot de passe' onChange={handlePasswordChange} value={password} required />
           </div>
         </form>
         <div id='forgot-password'>
           <a href='/forgot'>Mot de passe oublié ? Cliquez ici</a>
         </div>
-        <div className={[
-          message.length > 0 ? 'remember-me-error' : 'remember-me-normal'
-        ]} id='remember-me'>
-          <input type='checkbox'/>Se rappeler de moi
+        <div
+          className={[
+            message.length > 0 ? 'remember-me-error' : 'remember-me-normal'
+          ]} id='remember-me'
+        >
+          <input type='checkbox' />Se rappeler de moi
         </div>
         <div>
           <p id='error-message'>{message}</p>

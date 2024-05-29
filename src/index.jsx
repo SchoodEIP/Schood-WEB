@@ -1,5 +1,5 @@
-import "react-toastify/dist/ReactToastify.css";
-import 'reactjs-popup/dist/index.css';
+import 'react-toastify/dist/ReactToastify.css'
+import 'reactjs-popup/dist/index.css'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
@@ -11,7 +11,7 @@ import NoPage from './Users/Public/noPage'
 import SchoolAdmAccountsPage from './Users/SchoolAdmin/schoolAdmAccountsPage'
 import SchoolAdmHomePage from './Users/SchoolAdmin/schoolAdmHomePage'
 import ChatRoomPage from './Users/Shared/chatRoomPage'
-import CreateAlert from './Users/Shared/createAlerts'
+import AlertsPage from './Users/Shared/alertsPage'
 import HelpPage from './Users/Shared/helpPage'
 import ProfilPage from './Users/Shared/profilPage'
 import StudentHomePage from './Users/Student/dashboardStudent'
@@ -48,7 +48,7 @@ if (rootElement) {
             <Routes>
               {sessionStorage.getItem('role') === null && (
                 <>
-                  <Route path='/' element={<Login />}/>
+                  <Route path='/' element={<Login />} />
                   <Route path='/forgot' element={<ForgottenPasswordPage />} />
                 </>
               )}
@@ -57,7 +57,8 @@ if (rootElement) {
                   <Route path='/login' element={<Navigate to='/' replace />} />
                   <Route path='/forgot' element={<Navigate to='/' replace />} />
                   <Route path='/messages' element={<ChatRoomPage />} />
-                  <Route path='/alerts' element={<CreateAlert />} />
+                  <Route path='/alerts' element={<AlertsPage />} />
+                  <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
                 </>
               )}
@@ -67,7 +68,8 @@ if (rootElement) {
                   <Route path='/accounts' element={<AdmAccountsPage />} />
                   <Route path='/aides' element={<HelpPage />} />
                   <Route path='/messages' element={<ChatRoomPage />} />
-                  <Route path='/alerts' element={<CreateAlert />} />
+                  <Route path='/alerts' element={<AlertsPage />} />
+                  <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
                 </>
               )}
@@ -79,7 +81,8 @@ if (rootElement) {
                   <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
                   <Route path='/reports' element={<ReportChecking />} />
-                  <Route path='/alerts' element={<CreateAlert />} />
+                  <Route path='/alerts' element={<AlertsPage />} />
+                  <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
                 </>
               )}
@@ -104,7 +107,8 @@ if (rootElement) {
                   <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
                   <Route path='/aides' element={<HelpPage />} />
-                  <Route path='/alerts' element={<CreateAlert />} />
+                  <Route path='/alerts' element={<AlertsPage />} />
+                  <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
                 </>
               )}
@@ -112,7 +116,7 @@ if (rootElement) {
             </Routes>
           </div>
           <ToastContainer
-            position="bottom-center"
+            position='bottom-center'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -121,7 +125,7 @@ if (rootElement) {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="light"
+            theme='light'
             transition={Slide}
           />
         </div>

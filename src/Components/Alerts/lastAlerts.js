@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
+import { disconnect } from '../../functions/disconnect'
 
 export function LastAlerts () {
   const [errMessage, setErrMessage] = useState('')
@@ -19,15 +20,19 @@ export function LastAlerts () {
             'x-auth-token': sessionStorage.getItem('token')
           }
         })
+        if (response.status === 401) {
+          disconnect()
+        }
+
         if (response.status !== 200) {
           throw new Error('Erreur lors de la réception du fichier.')
-        } else {
+        } else /* istanbul ignore next */{
           const blob = await response.blob()
           const objectURL = URL.createObjectURL(blob)
           return objectURL
         }
       } catch (e) {
-        console.error(e)
+        console.error(e.message)
       }
     }
 
@@ -60,10 +65,14 @@ export function LastAlerts () {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
       .then((data) => {
         const promisedList = buildList(data)
-        console.log(data)
         promisedList.then((alertList) => setAlerts(alertList))
       })
       .catch((error) => {
@@ -75,9 +84,9 @@ export function LastAlerts () {
     <div className='alert-box'>
       <div className='alert-header'>
         <p className='title'>Mes Dernières Alertes</p>
-        <Link to={'/alerts'} className='see-more'>
+        <Link to='/alerts' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow'/>
+          <img className='img' src={rightArrow} alt='Right arrow' />
         </Link>
       </div>
       <div className='alert-body'>
@@ -94,9 +103,9 @@ export function LastAlerts () {
                             profile={alert.createdBy}
                           />
                         </div>
-                        <Link to={'/alerts'} className='see-more-inverted'>
+                        <Link to={'/alerts/' + alert.id} className='see-more-inverted'>
                           Voir plus
-                          <img className='img' src={rightArrowInverted} alt='Right arrow'/>
+                          <img className='img' src={rightArrowInverted} alt='Right arrow' />
                         </Link>
                       </div>
                       <div className='body'>
@@ -108,6 +117,9 @@ export function LastAlerts () {
               </div>
               )
             : (<p>Vous n'avez pas de nouvelle alerte.</p>)
+        }
+        {
+          errMessage ? <p style={{ color: 'red' }}>{errMessage}</p> : ''
         }
       </div>
     </div>

@@ -6,6 +6,7 @@ import TeacherFormContent from '../../Components/Questionnaire/teacherFormConten
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import '../../css/pages/formDetailPage.scss'
+import { disconnect } from '../../functions/disconnect'
 
 const FormTeacherPage = () => {
   const { id } = useParams()
@@ -97,7 +98,12 @@ const FormTeacherPage = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           }
-        }).then(response => response.json())
+        }).then(response => {
+          if (response.status === 401) {
+            disconnect()
+          }
+          return response.json()
+        })
           .then(data => {
             if (data._id) {
               setAnswers(theResponse, data)
@@ -119,7 +125,12 @@ const FormTeacherPage = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
-      }).then(response => response.json())
+      }).then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
         .then(data => {
           if (data.users) {
             getAnswers(originForm, data.users)
@@ -145,7 +156,12 @@ const FormTeacherPage = () => {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        disconnect()
+      }
+      return response.json()
+    })
       .then(data => {
         if (data.title) {
           setFormData(data)
@@ -164,8 +180,8 @@ const FormTeacherPage = () => {
 
   const buttonComponent = [
     {
-      name: "Modifier le Questionnaire",
-      function: handleRedirect
+      name: 'Modifier le Questionnaire',
+      handleFunction: handleRedirect
     }
   ]
 
@@ -175,14 +191,14 @@ const FormTeacherPage = () => {
         <HeaderComp
           title={formData.title}
           subtitle={`Du ${moment(formData.fromDate).format('DD/MM/YYYY')} au ${moment(formData.toDate).format('DD/MM/YYYY')}`}
-          withReturnBtn={true}
-          withLogo={true}
-          showButtons={isModify ? false : true}
+          withReturnBtn
+          withLogo
+          showButtons={!isModify}
           buttonComponent={buttonComponent}
         />
       </div>
       <div className='different-page-content'>
-        <div className='left-half' style={{marginBottom: '20px', height: 'calc(100vh - 124px)',overflowY: 'auto'}}>
+        <div className='left-half' style={{ marginBottom: '20px', height: 'calc(100vh - 124px)', overflowY: 'auto' }}>
           <TeacherFormContent form={formData} error={error} />
         </div>
       </div>

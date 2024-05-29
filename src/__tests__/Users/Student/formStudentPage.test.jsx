@@ -5,6 +5,11 @@ import fetchMock from 'fetch-mock'
 import FormStudentPage from '../../../Users/Student/formStudentPage'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
+import { disconnect } from '../../../functions/disconnect'
+
+jest.mock('../../../functions/disconnect', () => ({
+  disconnect: jest.fn()
+}))
 
 describe('FormStudentPage', () => {
   const id = '64f2f862b0975ae4340acafa'
@@ -51,12 +56,14 @@ describe('FormStudentPage', () => {
       {
         title: 'is this a test ?',
         type: 'emoji',
-        answers: []
+        answers: [],
+        _id: '1'
       },
       {
         title: 'what do you want ?',
         type: 'text',
-        answers: []
+        answers: [],
+        _id: '2'
       },
       {
         title: 'How do you feel ?',
@@ -74,12 +81,14 @@ describe('FormStudentPage', () => {
             title: 'happy',
             position: 2
           }
-        ]
+        ],
+        _id: '3'
       },
       {
-        title: 'is this the last ?',
-        type: 'other',
-        answers: []
+        title: 'what do you want again ?',
+        type: 'text',
+        answers: [],
+        _id: '4'
       }
     ],
     fromDate: thisWeekMonday.toISOString(),
@@ -87,12 +96,36 @@ describe('FormStudentPage', () => {
     toDate: thisWeekSunday.toISOString()
   }
 
+  const exempleAnswer = {
+    answers: [
+      {
+        question: '1',
+        _id: '01',
+        answers: ['2']
+      },
+      {
+        question: '2',
+        _id: '02',
+        answers: ['Plein de choses']
+      },
+      {
+        question: '3',
+        _id: '03',
+        answers: ['sad']
+      }
+    ],
+    createdBy: '123',
+    date: thisWeekMonday.toISOString(),
+    _id: '1'
+  }
+
   beforeEach(() => {
     container = document.createElement('div')
     document.body.appendChild(container)
+    fetchMock.config.overwriteRoutes = true
     fetchMock.reset()
     fetchMock.get(questionnaireUrl, exemple)
-    fetchMock.get(answerUrl, null) // i will also want to send a real response
+    fetchMock.get(answerUrl, null)
     fetchMock.post(answerUrl, {})
   })
 
@@ -103,7 +136,70 @@ describe('FormStudentPage', () => {
     fetchMock.restore()
   })
 
-  test('retrives data', async () => {
+  test('checks disconnect through form url', async () => {
+    fetchMock.get(questionnaireUrl, 401)
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('checks disconnect through answer url', async () => {
+    fetchMock.get(answerUrl, 401)
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('checks disconnect through post answer url', async () => {
+    fetchMock.post(answerUrl, 401)
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    const validateBtn = screen.getByText('Envoyer le questionnaire')
+
+    await act(() => {
+      fireEvent.click(validateBtn)
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
+  })
+
+  test('retrieves data and modifies it', async () => {
     const mockFetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(exemple)
     })
@@ -114,7 +210,9 @@ describe('FormStudentPage', () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
           <WebsocketProvider>
-            <FormStudentPage />
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
           </WebsocketProvider>
         </MemoryRouter>
       )
@@ -122,9 +220,114 @@ describe('FormStudentPage', () => {
     const response = await mockFetch()
     expect(await response.json()).toEqual(exemple)
 
-    expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.getByTestId('question-container-0')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('is this a test ?'))
+    })
+    await waitFor(() => {
+      expect(screen.getByTestId('answer-0-0')).toBeInTheDocument()
+    })
+
+    await act(() => {
+      fireEvent.click(screen.getByTestId('answer-0-0'))
+    })
+
+    await act(() => {
+      fireEvent.click(screen.getByTestId('answer-0-1'))
+    })
+
+    await act(() => {
+      fireEvent.click(screen.getByTestId('answer-0-2'))
+    })
+
+    await act(() => {
+      fireEvent.click(screen.getByTestId('answer-0-3'))
+    })
+
+    await act(() => {
+      fireEvent.click(screen.getByTestId('answer-0-4'))
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('answer-0-1')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('answer-0-2')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('question-container-1')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-1'))
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('answer-1-0')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('question-container-2')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-2'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('answer-2-0'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('answer-2-0'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-2'))
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-3'))
+    })
+
+    const textInput = screen.getByTestId('answer-3-0')
+    await act(async () => {
+      fireEvent.change(textInput, { value: 'blah' })
+    })
+
+    const validateBtn = screen.getByText('Envoyer le questionnaire')
+
+    await act(() => {
+      fireEvent.click(validateBtn)
+    })
+  })
+
+  test('retrives answers', async () => {
+    fetchMock.get(answerUrl, exempleAnswer)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('question-container-0')).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('is this a test ?'))
     })
     await waitFor(() => {
       expect(screen.getByTestId('answer-0-0')).toBeInTheDocument()
@@ -142,6 +345,10 @@ describe('FormStudentPage', () => {
       expect(screen.getByTestId('question-container-1')).toBeInTheDocument()
     })
 
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-1'))
+    })
+
     await waitFor(() => {
       expect(screen.getByTestId('answer-1-0')).toBeInTheDocument()
     })
@@ -150,8 +357,8 @@ describe('FormStudentPage', () => {
       expect(screen.getByTestId('question-container-2')).toBeInTheDocument()
     })
 
-    await waitFor(() => {
-      expect(screen.getByTestId('form-header-title')).toBeInTheDocument()
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('question-container-2'))
     })
   })
 
@@ -164,7 +371,9 @@ describe('FormStudentPage', () => {
       render(
         <MemoryRouter initialEntries={['/questionnaire/64f2f862b0975ae4340acafa']}>
           <WebsocketProvider>
-            <FormStudentPage />
+            <Routes>
+              <Route path='/questionnaire/:id' element={<FormStudentPage />} />
+            </Routes>
           </WebsocketProvider>
         </MemoryRouter>
       )
@@ -187,7 +396,7 @@ describe('FormStudentPage', () => {
       )
     })
 
-    const validateBtn = screen.getByText('Valider le Questionnaire')
+    const validateBtn = screen.getByText('Envoyer le questionnaire')
 
     await act(() => {
       fireEvent.click(validateBtn)

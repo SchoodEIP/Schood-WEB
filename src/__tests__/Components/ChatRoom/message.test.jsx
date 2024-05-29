@@ -1,9 +1,14 @@
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, waitFor, act } from '@testing-library/react'
 import Message from '../../../Components/ChatRoom/message'
 import '@testing-library/jest-dom/'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
+import { disconnect } from '../../../functions/disconnect'
+
+jest.mock('../../../functions/disconnect', () => ({
+  disconnect: jest.fn()
+}))
 
 // Mock the fetch function
 global.fetch = jest.fn(() =>
@@ -28,6 +33,7 @@ describe('Message Component', () => {
       lastname: 'teacher2'
     }
   ]
+  // const getFile = `${process.env.REACT_APP_BACKEND_URL}/user/file/123`
 
   it('renders without crashing', async () => {
     const userMessage = {
@@ -66,7 +72,7 @@ describe('Message Component', () => {
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
 
-    const userElement = screen.getByText('teacher1 teacher1')
+    const userElement = screen.getByText('M. teacher1')
     expect(userElement).toBeInTheDocument()
   })
 
@@ -98,6 +104,37 @@ describe('Message Component', () => {
 
     const contentElement = screen.getByText('File: Image.jpg')
     expect(contentElement).toBeInTheDocument()
+  })
+
+  it('renders a file message with image', async () => {
+    const fileMessage = {
+      content: 'File: Image.jpg',
+      user: '0',
+      contentType: 'file',
+      file: '12345' // Replace with a valid file ID
+    }
+
+    // Mock the fetch function to resolve with a URL
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        status: 401,
+        url: 'https://example.com/image.jpg'
+      })
+    )
+
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <Message message={fileMessage} participants={participants} />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    await waitFor(() => {
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('handles fetch error', async () => {

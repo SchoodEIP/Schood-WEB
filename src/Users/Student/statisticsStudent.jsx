@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Sidebar from '../../Components/Sidebar/sidebar'
-import Chart from 'chart.js/auto'
+import { Chart } from 'chart.js'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
+import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -43,6 +43,9 @@ const StudentStatPage = () => {
           toDate: calculateEndDate(selectedDate, activeFilter)
         })
       })
+      if (response.status === 401) {
+        disconnect()
+      }
       const moodData = await response.json()
       setMoodData(moodData)
       console.log(moodData)
@@ -155,7 +158,7 @@ const StudentStatPage = () => {
           legend: {
             labels: {
               color: 'white' // Couleur de la légende
-            },
+            }
           },
           tooltip: {
             callbacks: {
@@ -188,7 +191,7 @@ const StudentStatPage = () => {
     if (moodData) {
       const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
       const moods = Object.values(moodData).filter(val => typeof val === 'number')
-  
+
       const data = dates.map(date => {
         return {
           x: date,
@@ -196,7 +199,7 @@ const StudentStatPage = () => {
           r: 10 // Taille du point
         }
       })
-  
+
       chart.data.datasets[0].data = data
       chart.update()
     }
@@ -237,12 +240,12 @@ const StudentStatPage = () => {
 
   return (
     <div className='dashboard'>
-      <HeaderComp title={"Mes statistiques"}/>
+      <HeaderComp title='Mes statistiques' />
       <div className='page-content'>
         <div>
-          <label htmlFor="dateFilter">Sélectionner une date:</label>
-          <input type="date" id="dateFilter" value={selectedDate} onChange={handleDateChange} />
-          <div className="button-container">
+          <label htmlFor='dateFilter'>Sélectionner une date:</label>
+          <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
+          <div className='button-container'>
             <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
               Semaine
             </div>
@@ -258,18 +261,17 @@ const StudentStatPage = () => {
           </div>
           <h1>Evolution de mon humeur</h1>
           <div>
-            <canvas id="moodChart" width="400" height="400"></canvas>
+            <canvas id='moodChart' width='400' height='400' />
             <div>
-            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }}>
-            </FontAwesomeIcon>
-            <progress className="progress" value={averagePercentage} max="100"/>
+              <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
+              <progress className='progress' value={averagePercentage} max='100' />
               {averagePercentage !== null && (
-                <div className="average-rectangle">
+                <div className='average-rectangle'>
                   <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
                 </div>
               )}
             </div>
-            
+
           </div>
         </div>
       </div>

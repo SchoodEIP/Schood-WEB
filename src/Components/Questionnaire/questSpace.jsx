@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import '../../css/Components/Questionnaire/questSpace.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
+import { disconnect } from '../../functions/disconnect'
 
 export function QuestSpace () {
-  const [previousQuestStatus, setPreviousQuestStatus] = useState(0) // Statut du questionnaire précédent
-  const [currentQuestStatus, setCurrentQuestStatus] = useState(0) // Statut du questionnaire hebdomadaire
+  const [previousQuestStatus, setPreviousQuestStatus] = useState(null) // Statut du questionnaire précédent
+  const [currentQuestStatus, setCurrentQuestStatus] = useState(null) // Statut du questionnaire hebdomadaire
 
   const navigate = useNavigate()
 
@@ -16,7 +17,12 @@ export function QuestSpace () {
         'x-auth-token': sessionStorage.getItem('token')
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
       .then((data) => {
         setCurrentQuestStatus(data.q1)
         setPreviousQuestStatus(data.q2)
@@ -27,7 +33,7 @@ export function QuestSpace () {
   }
 
   useEffect(() => {
-    getStatusLastTwo();
+    getStatusLastTwo()
   }, [])
 
   const redirect = (id) => {
@@ -37,15 +43,15 @@ export function QuestSpace () {
   return (
     <div data-testid='quest-space' className='quest-box'>
       <div className='quest-header'>
-      <span className='title'>Mes questionnaires</span>
-        <Link to={'/questionnaires'} className='see-more'>
+        <span className='title'>Mes Questionnaires</span>
+        <Link to='/questionnaires' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow'/>
+          <img className='img' src={rightArrow} alt='Right arrow' />
         </Link>
       </div>
       <div className='quest-body'>
-        {((!previousQuestStatus && !currentQuestStatus) || ((previousQuestStatus?.id && previousQuestStatus?.id.length === 0) && (currentQuestStatus?.id && currentQuestStatus?.id.length === 0))) && (
-          <div className='no-quest'>Aucun questionnaire n'est disponible</div>
+        {((!previousQuestStatus && !currentQuestStatus)) && (
+          <div className='no-quest'><p>Aucun questionnaire n'est disponible</p></div>
         )}
         {(previousQuestStatus?.id && previousQuestStatus?.id.length > 0) && (!currentQuestStatus?.id || currentQuestStatus?.id.length === 0) && (
           <div className='questionnaires'>
@@ -54,7 +60,7 @@ export function QuestSpace () {
                 <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={previousQuestStatus.completion} max={100}></progress>
+                <progress value={previousQuestStatus.completion} max={100} />
               </div>
             </div>
           </div>
@@ -66,7 +72,7 @@ export function QuestSpace () {
                 <div>{previousQuestStatus.title} - {previousQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={previousQuestStatus.completion} max={100}></progress>
+                <progress value={previousQuestStatus.completion} max={100} />
               </div>
             </div>
 
@@ -75,7 +81,7 @@ export function QuestSpace () {
                 <div>{currentQuestStatus.title} - {currentQuestStatus.completion}%</div>
               </div>
               <div className='body'>
-                <progress value={currentQuestStatus.completion} max={100}></progress>
+                <progress value={currentQuestStatus.completion} max={100} />
               </div>
             </div>
           </div>

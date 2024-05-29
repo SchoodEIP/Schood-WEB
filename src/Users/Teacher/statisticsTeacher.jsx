@@ -17,9 +17,9 @@ const TeacherStatPage = () => {
   const [activeFilter, setActiveFilter] = useState('Semaine')
   const [selectedClass, setSelectedClass] = useState(null)
   const [chart, setChart] = useState(null)
-  const [answerChart, setAnswerChart] = useState(null) // Ajout du state pour le nouveau graphique
+  const [answerChart, setAnswerChart] = useState(null)
   const [classes, setClasses] = useState([])
-  const [averageMood, setAverageMood] = useState(0) 
+  const [averageMood, setAverageMood] = useState(0)
   const [averagePercentage, setAveragePercentage] = useState(0)
 
   useEffect(() => {
@@ -67,16 +67,18 @@ const TeacherStatPage = () => {
       const answerList = []
       Object.keys(aData).forEach(date => {
         answerList.push({
-          date: date,
+          date,
           data: aData[date]
-        })})
+        })
+      })
 
       const moodList = []
       Object.keys(mData).forEach(date => {
         moodList.push({
-          date: date,
+          date,
           data: mData[date].moods
-        })})
+        })
+      })
 
       setMoodData(moodList)
       setAnswerData(answerList)
@@ -121,7 +123,7 @@ const TeacherStatPage = () => {
     } catch (error) {
       console.error('Error fetching classes:', error)
     }
-  }  
+  }
 
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
@@ -168,18 +170,16 @@ const TeacherStatPage = () => {
 
   useEffect(() => {
     if (chart) {
-      updateChart()
-    } else {
-      createChart()
+      chart.destroy()
     }
+    createChart()
   }, [moodData, selectedClass])
 
   useEffect(() => {
     if (answerChart) {
-      updateAnswerChart()
-    } else {
-      createAnswerChart()
+      answerChart.destroy()
     }
+    createAnswerChart()
   }, [answerData, selectedClass])
 
   const createChart = () => {
@@ -208,7 +208,7 @@ const TeacherStatPage = () => {
             },
             grid: {
               color: 'rgba(255, 255, 255, 0.1)'
-            },
+            }
           },
           y: {
             min: 0,
@@ -248,34 +248,33 @@ const TeacherStatPage = () => {
       }
     })
 
+    updateChart(newChart)
     setChart(newChart)
   }
 
-  const updateChart = () => {
+  const updateChart = (newChart) => {
     if (moodData.length > 1) {
       const listData = []
       let labels = []
-      
+
       Object.entries(moodData)
         .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
         .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)))
-      
+
       for (const data of moodData) {
         if (data.date !== 'averagePercentage') labels.push(data.date)
       }
-      labels = labels.sort(((a, b) => {
+      labels = labels.sort((a, b) => {
         const aa = a.split('-')
         const bb = b.split('-')
         return aa < bb ? -1 : (aa > bb ? 1 : 0)
-      }))
+      })
 
-      chart.data.datasets[0].data = listData
-      chart.data.labels = labels
-      chart.options.scales.x.labels = labels
+      newChart.data.datasets[0].data = listData
+      newChart.data.labels = labels
+      newChart.options.scales.x.labels = labels
 
-      console.log(chart.data.datasets[0].data)
-      console.log(chart.data.labels)
-      chart.update()
+      newChart.update()
     }
   }
 
@@ -301,23 +300,15 @@ const TeacherStatPage = () => {
         },
         plugins: {
           legend: {
-              labels: {
-                  color: 'white' // Couleur du texte de légende en blanc
-              }
+            labels: {
+              color: 'white'
+            }
           }
         }
       }
     })
 
     setAnswerChart(newChart)
-  }
-
-  const updateAnswerChart = () => {
-    if (Array.isArray(answerData)) {
-      answerChart.data.labels = answerData.map(answer => answer.date)
-      answerChart.data.datasets[0].data = answerData.map(answer => answer.data)
-      answerChart.update()
-    }
   }
 
   const handleDateChange = (event) => {
@@ -334,12 +325,12 @@ const TeacherStatPage = () => {
 
   return (
     <div className='dashboard'>
-      <HeaderComp title={'Mes statistiques'}/>
+      <HeaderComp title='Mes statistiques' />
       <div className='page-content'>
         <div>
-          <label htmlFor="dateFilter">Sélectionner une date:</label>
-          <input type="date" id="dateFilter" value={selectedDate} onChange={handleDateChange} />
-          <div className="button-container">
+          <label htmlFor='dateFilter'>Sélectionner une date:</label>
+          <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
+          <div className='button-container'>
             <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
               Semaine
             </div>
@@ -353,21 +344,21 @@ const TeacherStatPage = () => {
               Année
             </div>
           </div>
-          <label htmlFor="classFilter">Filtrer par classe:</label>
-          <select id="classFilter" value={selectedClass || ''} onChange={handleClassChange}>
-            <option key="all" value="">Toutes les classes</option>
+          <label htmlFor='classFilter'>Filtrer par classe:</label>
+          <select id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
+            <option key='all' value=''>Toutes les classes</option>
             {classes.map((classItem) => (
               <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
             ))}
           </select>
           <h1>Evolution de l'humeur</h1>
-          <canvas id="moodChart" width="400" height="400"></canvas>
+          <canvas id='moodChart' width='400' height='400' />
           <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
-            <FontAwesomeIcon icon={faSmile} size="2x" style={{ marginRight: '10px' }}/>
-            <progress className="progress" value={averageMood} max="100"/>
+            <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
+            <progress className='progress' value={averageMood} max='100' />
           </div>
           <h1>Problèmes</h1>
-          <canvas id="answerChart" width="400" height="400"></canvas>
+          <canvas id='answerChart' width='400' height='400' />
         </div>
       </div>
     </div>

@@ -1,17 +1,15 @@
-import ArrowUp from '../../assets/up_arrow_icon.png'
-import ArrowDown from '../../assets/down_arrow_icon.png'
 import React, { useEffect, useState } from 'react'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import '../../css/pages/formDetailPage.scss'
 
-import arrow from "../../assets/rightArrow2.png"
+import arrow from '../../assets/rightArrow2.png'
 
-import emoji1 from "../../assets/emojis/1.png"
-import emoji2 from "../../assets/emojis/2.png"
-import emoji3 from "../../assets/emojis/3.png"
-import emoji4 from "../../assets/emojis/4.png"
-import emoji5 from "../../assets/emojis/5.png"
+import emoji1 from '../../assets/emojis/1.png'
+import emoji2 from '../../assets/emojis/2.png'
+import emoji3 from '../../assets/emojis/3.png'
+import emoji4 from '../../assets/emojis/4.png'
+import emoji5 from '../../assets/emojis/5.png'
 
 const TeacherFormContent = (props) => {
   const imgImports = [emoji1, emoji2, emoji3, emoji4, emoji5]
@@ -27,13 +25,13 @@ const TeacherFormContent = (props) => {
   }
 
   return (
-    <div className="teacher-content">
+    <div className='teacher-content'>
       {(!props.form | !questions)
-        ? <div style={{color: "red", fontFamily: "Inter"}}>{props.error}</div>
+        ? <div style={{ color: 'red', fontFamily: 'Inter' }}>{props.error}</div>
         : questions.map((question, index) => (
           <div key={index} className='question'>
             <div className='body'>
-              <div className='header' onClick={() => setAccordion(question)}>
+              <div data-testid={`question-container-${index}`} className='header' onClick={() => setAccordion(question)}>
                 <div className='left'>
                   <div className='nb-question'>
                     {index + 1}.&nbsp;
@@ -43,19 +41,19 @@ const TeacherFormContent = (props) => {
                   </div>
                 </div>
                 <div className={(question.active ? 'up-arrow' : 'down-arrow')}>
-                  <img src={arrow} alt='arrow'/>
+                  <img src={arrow} alt='arrow' />
                 </div>
               </div>
-              <div className='details' id={'answers-' + index}>
+              <div className='details' data-testid={'answers-' + index}>
                 {question.type === 'text' && (
-                  <ul className='text-list' style={question.active ? {display: 'flex'} : {display: 'none'}}>
+                  <ul className='text-list' style={question.active ? { display: 'flex' } : { display: 'none' }}>
                     {question.answers.map((answer, answerIndex) => (
                       <li style={{ listStyle: 'none' }} key={answerIndex}>{answer}</li>
                     ))}
                   </ul>
                 )}
                 {question.type === 'emoji' && (
-                  <div style={question.active ? {display: 'flex'} : {display: 'none'}} className='emoji-row'>
+                  <div style={question.active ? { display: 'flex' } : { display: 'none' }} className='emoji-row'>
                     {imgImports.map((imgSrc, i) => (
                       <div key={i} className='emoji-container'>
                         <img style={{ width: '50px' }} src={imgSrc} alt={imgSrc} />
@@ -67,20 +65,20 @@ const TeacherFormContent = (props) => {
                   </div>
                 )}
                 {question.type === 'multiple' && (
-                  <ul className="multiple">
+                  <ul className='multiple'>
                     {question.answers.map((answer, i) => (
-                      <li className="answer" style={question.active ? {display: 'flex', gap: '25px'} : {display: 'none'}} key={i} >
-                          <span style={{ listStyle: 'none' }}>{answer.title}</span>
-                          <div className='percentage-container'>
-                            <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
-                          </div>
+                      <li className='answer' style={question.active ? { display: 'flex', gap: '25px' } : { display: 'none' }} key={i}>
+                        <span style={{ listStyle: 'none' }}>{answer.title}</span>
+                        <div className='percentage-container'>
+                          <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
+                        </div>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
             </div>
-            {(index !== (questions.length - 1)) ? <span className='divider'></span> : '' }
+            {(index !== (questions.length - 1)) ? <span className='divider' /> : ''}
           </div>
         ))}
     </div>
