@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import StudentStatPage from '../../../Users/Student/statisticsStudent'
 import fetchMock from 'jest-fetch-mock'
+import { disconnect } from '../../../functions/disconnect'
 
 jest.mock('chart.js', () => ({
   Chart: jest.fn().mockImplementation(() => {
@@ -23,7 +24,7 @@ jest.mock('chart.js', () => ({
   })
 }))
 
-jest.mock('@functions/disconnect', () => ({
+jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn()
 }))
 
@@ -32,12 +33,14 @@ beforeEach(() => {
 })
 
 describe('StudentStatPage', () => {
-  test('renders correctly', () => {
-    render(
-      <MemoryRouter>
-        <StudentStatPage />
-      </MemoryRouter>
-    )
+  test('renders correctly', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <StudentStatPage />
+        </MemoryRouter>
+      )
+    })
     expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
     expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument()
   })
@@ -50,11 +53,13 @@ describe('StudentStatPage', () => {
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-    render(
-      <MemoryRouter>
-        <StudentStatPage />
-      </MemoryRouter>
-    )
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <StudentStatPage />
+        </MemoryRouter>
+      )
+    })
 
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -70,11 +75,13 @@ describe('StudentStatPage', () => {
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-    render(
-      <MemoryRouter>
-        <StudentStatPage />
-      </MemoryRouter>
-    )
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <StudentStatPage />
+        </MemoryRouter>
+      )
+    })
 
     const dateInput = screen.getByLabelText('Sélectionner une date:')
     fireEvent.change(dateInput, { target: { value: '2024-02-01' } })
@@ -92,11 +99,13 @@ describe('StudentStatPage', () => {
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockMoodData))
 
-    render(
-      <MemoryRouter>
-        <StudentStatPage />
-      </MemoryRouter>
-    )
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <StudentStatPage />
+        </MemoryRouter>
+      )
+    })
 
     const moisFilterButton = screen.getByText('Mois')
     fireEvent.click(moisFilterButton)
@@ -109,12 +118,13 @@ describe('StudentStatPage', () => {
   test('disconnects on 401 error', async () => {
     fetchMock.mockResponseOnce('', { status: 401 })
 
-    const { disconnect } = require('@functions/disconnect')
-    render(
-      <MemoryRouter>
-        <StudentStatPage />
-      </MemoryRouter>
-    )
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <StudentStatPage />
+        </MemoryRouter>
+      )
+    })
 
     await waitFor(() => {
       expect(disconnect).toHaveBeenCalledTimes(1)
