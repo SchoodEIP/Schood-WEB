@@ -13,7 +13,7 @@ const ReportChecking = () => {
   // const [reportedConversation, setReportedConversation] = useState(null)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
-  // const [error, setError] = useState('')
+  const [error, setError] = useState('')
 
   const fetchReportRequests = async () => {
     try {
