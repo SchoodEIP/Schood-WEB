@@ -18,43 +18,149 @@ const StudentStatPage = () => {
   const [chart, setChart] = useState(null)
 
   useEffect(() => {
+    const fetchData = async () => {
+      const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
+      try {
+        const response = await fetch(moodUrl, {
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fromDate: calculateStartDate(selectedDate, activeFilter),
+            toDate: calculateEndDate(selectedDate, activeFilter)
+          })
+        })
+        if (response.status === 401) {
+          disconnect()
+        }
+        const moodData = await response.json()
+        setMoodData(moodData)
+        if (moodData && moodData.averagePercentage) {
+          setAveragePercentage(moodData.averagePercentage)
+        }
+      } catch (error) {
+        console.error('Error fetching mood data:', error)
+      }
+    }
     fetchData()
   }, [selectedDate, activeFilter]) // Fetch data when selectedDate or activeFilter changes
 
   useEffect(() => {
+    const createChart = () => {
+      const ctx = document.getElementById('moodChart')
+      const newChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
+          datasets: [{
+            label: 'Humeur',
+            data: Object.values(moodData).filter(val => typeof val === 'number'),
+            borderColor: 'white', // Couleur de la courbe
+            pointBackgroundColor: 'white', // Couleur des points
+            pointBorderColor: 'white', // Couleur de la bordure des points
+            pointHoverBackgroundColor: 'white', // Couleur des points au survol
+            pointHoverBorderColor: 'white', // Couleur de la bordure des points au survol
+            tension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: 'white', // Couleur de l'axe des abscisses
+                fontFamily: '"Font Awesome 5 Free"'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des abscisses
+              }
+            },
+            y: {
+              ticks: {
+                callback: value => {
+                  switch (value) {
+                    case 0:
+                      return '\u{1F622}'
+                    case 1:
+                      return '\u{1f641}'
+                    case 2:
+                      return '\u{1F610}'
+                    case 3:
+                      return '\u{1F603}'
+                    case 4:
+                      return '\u{1F604}'
+                    default:
+                      return ''
+                  }
+                },
+                color: 'white', // Couleur de l'axe des ordonnées
+                fontFamily: '"Font Awesome 5 Free"'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des ordonnées
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white' // Couleur de la légende
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const moodValue = context.raw.y
+                  switch (moodValue) {
+                    case 0:
+                      return 'Très mal'
+                    case 1:
+                      return 'Mal'
+                    case 2:
+                      return 'Neutre'
+                    case 3:
+                      return 'Bien'
+                    case 4:
+                      return 'Très bien'
+                    default:
+                      return ''
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+      setChart(newChart)
+    }
+
+    const updateChart = () => {
+      if (moodData) {
+        const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
+        // const moods = Object.values(moodData).filter(val => typeof val === 'number')
+
+        const data = dates.map(date => {
+          return {
+            x: date,
+            y: moodData[date],
+            r: 10 // Taille du point
+          }
+        })
+
+        if (chart.data !== undefined) {
+          chart.data.datasets[0].data = data
+          chart.update()
+        }
+      }
+    }
+
     if (chart) {
       updateChart()
     } else {
       createChart()
     }
   }, [moodData])
-
-  const fetchData = async () => {
-    const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
-    try {
-      const response = await fetch(moodUrl, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fromDate: calculateStartDate(selectedDate, activeFilter),
-          toDate: calculateEndDate(selectedDate, activeFilter)
-        })
-      })
-      if (response.status === 401) {
-        disconnect()
-      }
-      const moodData = await response.json()
-      setMoodData(moodData)
-      if (moodData && moodData.averagePercentage) {
-        setAveragePercentage(moodData.averagePercentage)
-      }
-    } catch (error) {
-      console.error('Error fetching mood data:', error)
-    }
-  }
 
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
@@ -105,113 +211,6 @@ const StudentStatPage = () => {
       }
       default:{
         return selectedDate.toISOString().split('T')[0]
-      }
-    }
-  }
-
-  const createChart = () => {
-    const ctx = document.getElementById('moodChart')
-    const newChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
-        datasets: [{
-          label: 'Humeur',
-          data: Object.values(moodData).filter(val => typeof val === 'number'),
-          borderColor: 'white', // Couleur de la courbe
-          pointBackgroundColor: 'white', // Couleur des points
-          pointBorderColor: 'white', // Couleur de la bordure des points
-          pointHoverBackgroundColor: 'white', // Couleur des points au survol
-          pointHoverBorderColor: 'white', // Couleur de la bordure des points au survol
-          tension: 0.1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            ticks: {
-              color: 'white', // Couleur de l'axe des abscisses
-              fontFamily: '"Font Awesome 5 Free"'
-            },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des abscisses
-            }
-          },
-          y: {
-            ticks: {
-              callback: value => {
-                switch (value) {
-                  case 0:
-                    return '\u{1F622}'
-                  case 1:
-                    return '\u{1f641}'
-                  case 2:
-                    return '\u{1F610}'
-                  case 3:
-                    return '\u{1F603}'
-                  case 4:
-                    return '\u{1F604}'
-                  default:
-                    return ''
-                }
-              },
-              color: 'white', // Couleur de l'axe des ordonnées
-              fontFamily: '"Font Awesome 5 Free"'
-            },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des ordonnées
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: 'white' // Couleur de la légende
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const moodValue = context.raw.y
-                switch (moodValue) {
-                  case 0:
-                    return 'Très mal'
-                  case 1:
-                    return 'Mal'
-                  case 2:
-                    return 'Neutre'
-                  case 3:
-                    return 'Bien'
-                  case 4:
-                    return 'Très bien'
-                  default:
-                    return ''
-                }
-              }
-            }
-          }
-        }
-      }
-    })
-    setChart(newChart)
-  }
-
-  const updateChart = () => {
-    if (moodData) {
-      const dates = Object.keys(moodData).filter(key => key !== 'averagePercentage')
-      // const moods = Object.values(moodData).filter(val => typeof val === 'number')
-
-      const data = dates.map(date => {
-        return {
-          x: date,
-          y: moodData[date],
-          r: 10 // Taille du point
-        }
-      })
-
-      if (chart.data !== undefined) {
-        chart.data.datasets[0].data = data
-        chart.update()
       }
     }
   }
@@ -271,17 +270,21 @@ const StudentStatPage = () => {
             </div>
           </div>
           <h1>Evolution de mon humeur</h1>
-          <div>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
             <canvas id='moodChart' width='400' height='400' />
-            <div>
-              <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
-              <progress className='progress' value={averagePercentage} max='100' />
-              {averagePercentage !== null && (
-                <div className='average-rectangle'>
-                  <p data-testid="average-happiness-percentage">Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+            {
+              averagePercentage >= 0 && (
+                <div style={{display: 'block', width: '40px', height: '10px'}}>
+                  <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
+                  <progress className='progress' value={averagePercentage} max='100' />
+                  {averagePercentage !== null && (
+                    <div className='average-rectangle'>
+                      <p data-testid="average-happiness-percentage">Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              )
+            }
 
           </div>
         </div>
