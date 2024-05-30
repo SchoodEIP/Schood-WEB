@@ -46,12 +46,10 @@ const SingleAccountCreationPopupContent = () => {
   }
 
   const handleClasseChange = (selected) => {
-    console.log(rolesList.filter(role => role.name === 'student')[0])
     if (role === (rolesList.filter(role => role.name === 'student')[0]._id)) {
       setClasses([selected])
     } else {
       setClasses(selected)
-      console.log(selected)
     }
   }
 
