@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import { Chart } from 'chart.js/auto'
+import  Chart  from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'

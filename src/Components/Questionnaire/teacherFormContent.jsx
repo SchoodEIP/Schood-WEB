@@ -70,7 +70,7 @@ const TeacherFormContent = (props) => {
                       <li className='answer' style={question.active ? { display: 'flex', gap: '25px' } : { display: 'none' }} key={i}>
                         <span style={{ listStyle: 'none' }}>{answer.title}</span>
                         <div className='percentage-container'>
-                          <span data-testid={`multiple-answer-${i}`}>{answer.count}</span>
+                          <span data-testid={`multiple-answer-${i}`}>{answer?.count ? answer?.count : 0}</span>
                         </div>
                       </li>
                     ))}
