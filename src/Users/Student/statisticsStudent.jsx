@@ -48,7 +48,6 @@ const StudentStatPage = () => {
       }
       const moodData = await response.json()
       setMoodData(moodData)
-      console.log(moodData)
       if (moodData && moodData.averagePercentage) {
         setAveragePercentage(moodData.averagePercentage)
       }

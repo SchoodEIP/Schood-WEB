@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import { Chart, LineController, BarController, LineElement, BarElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from 'chart.js';import '../../css/pages/homePage.scss'
+import { Chart } from 'chart.js/auto';
+import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
@@ -10,84 +11,105 @@ import { disconnect } from '../../functions/disconnect'
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
 const TeacherStatPage = () => {
-  // Chart.register(LineController, BarController, LineElement, BarElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
   const [moodData, setMoodData] = useState([])
   const [answerData, setAnswerData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [activeFilter, setActiveFilter] = useState('Semaine')
   const [selectedClass, setSelectedClass] = useState(null)
-  const [chart, setChart] = useState(null)
   const [answerChart, setAnswerChart] = useState(null)
   const [classes, setClasses] = useState([])
   const [averageMood, setAverageMood] = useState(0)
   const [averagePercentage, setAveragePercentage] = useState(0)
 
   useEffect(() => {
+    const fetchData = async () => {
+      const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
+      const answersUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/answers'
+      try {
+        const [moodResponse, answersResponse] = await Promise.all([
+          fetch(moodUrl, {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fromDate: calculateStartDate(selectedDate, activeFilter),
+              toDate: calculateEndDate(selectedDate, activeFilter),
+              classFilter: selectedClass || 'all'
+            })
+          }),
+          fetch(answersUrl, {
+            method: 'POST',
+            headers: {
+              'x-auth-token': sessionStorage.getItem('token'),
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fromDate: calculateStartDate(selectedDate, activeFilter),
+              toDate: calculateEndDate(selectedDate, activeFilter),
+              classFilter: selectedClass || 'all'
+            })
+          })
+        ])
+        if (moodResponse.status === 401) {
+          disconnect()
+        } else if (answersResponse.status === 401) {
+          disconnect()
+        }
+        const mData = await moodResponse.json()
+        const aData = await answersResponse.json()
+
+        if (mData.averagePercentage !== undefined) {
+          setAveragePercentage(mData.averagePercentage)
+        }
+        const answerList = []
+        Object.keys(aData).forEach(date => {
+          answerList.push({
+            date,
+            data: aData[date]
+          })
+        })
+
+        const moodList = []
+        Object.keys(mData).forEach(date => {
+          moodList.push({
+            date,
+            data: mData[date].moods
+          })
+        })
+
+        setMoodData(moodList)
+        setAnswerData(answerList)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    const fetchClasses = async () => {
+      const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
+      try {
+        const response = await fetch(classesUrl, {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        })
+        if (response.status === 401) {
+          disconnect()
+        }
+        const classesData = await response.json()
+        setClasses(classesData)
+      } catch (error) {
+        console.error('Error fetching classes:', error)
+      }
+    }
+
     fetchData()
     fetchClasses()
   }, [selectedDate, activeFilter, selectedClass])
 
-  const fetchData = async () => {
-    const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
-    const answersUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/answers'
-    try {
-      const [moodResponse, answersResponse] = await Promise.all([
-        fetch(moodUrl, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            fromDate: calculateStartDate(selectedDate, activeFilter),
-            toDate: calculateEndDate(selectedDate, activeFilter),
-            classFilter: selectedClass || 'all'
-          })
-        }),
-        fetch(answersUrl, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            fromDate: calculateStartDate(selectedDate, activeFilter),
-            toDate: calculateEndDate(selectedDate, activeFilter),
-            classFilter: selectedClass || 'all'
-          })
-        })
-      ])
-      if (moodResponse.status === 401 || answersResponse.status === 401) {
-        disconnect()
-      }
-      const mData = await moodResponse.json()
-      const aData = await answersResponse.json()
-
-      if (mData.averagePercentage !== undefined) {
-        setAveragePercentage(mData.averagePercentage)
-      }
-      const answerList = []
-      Object.keys(aData).forEach(date => {
-        answerList.push({
-          date,
-          data: aData[date]
-        })
-      })
-
-      const moodList = []
-      Object.keys(mData).forEach(date => {
-        moodList.push({
-          date,
-          data: mData[date].moods
-        })
-      })
-
-      setMoodData(moodList)
-      setAnswerData(answerList)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
 
   useEffect(() => {
     const average = calculateAverageMood(moodData, averagePercentage)
@@ -108,26 +130,6 @@ const TeacherStatPage = () => {
       return averagePercentage
     }
     return total / count
-  }
-
-  const fetchClasses = async () => {
-    const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
-    try {
-      const response = await fetch(classesUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      if (response.status === 401) {
-        disconnect()
-      }
-      const classesData = await response.json()
-      setClasses(classesData)
-    } catch (error) {
-      console.error('Error fetching classes:', error)
-    }
   }
 
   const calculateStartDate = (date, filter) => {
@@ -184,150 +186,158 @@ const TeacherStatPage = () => {
   }
 
   useEffect(() => {
-    if (chart) {
-      chart.destroy()
-    }
-    createChart()
-  }, [moodData, selectedClass])
-
-  useEffect(() => {
-    if (answerChart) {
-      answerChart.destroy()
-    }
-    createAnswerChart()
-  }, [answerData, selectedClass])
-
-  const createChart = () => {
     const ctx = document.getElementById('moodChart').getContext('2d');
-    const newChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
-        datasets: [{
-          label: 'Humeur',
-          data: Object.values(moodData).filter(val => typeof val === 'number'),
-          borderColor: 'white',
-          pointBackgroundColor: 'white',
-          pointBorderColor: 'white',
-          pointHoverBackgroundColor: 'white',
-          pointHoverBorderColor: 'white',
-          tension: 0.1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            type: 'category', // Ensure the scale type is correctly set
-            ticks: {
-              color: 'white',
-              fontFamily: '"Font Awesome 5 Free"'
+    let newChart = null;
+
+    const createOrUpdateChart = () => {
+      if (newChart && typeof newChart.destroy === 'function') {
+        newChart.destroy();
+      }
+
+      newChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
+          datasets: [{
+            label: 'Humeur',
+            data: Object.values(moodData).filter(val => typeof val === 'number'),
+            borderColor: 'white',
+            pointBackgroundColor: 'white',
+            pointBorderColor: 'white',
+            pointHoverBackgroundColor: 'white',
+            pointHoverBorderColor: 'white',
+            tension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: 'white',
+                fontFamily: '"Font Awesome 5 Free"'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
             },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)'
+            y: {
+              min: 0,
+              max: 4,
+              ticks: {
+                callback: value => {
+                  switch (value) {
+                    case 0:
+                      return '\u{1F622}';
+                    case 1:
+                      return '\u{1f641}';
+                    case 2:
+                      return '\u{1F610}';
+                    case 3:
+                      return '\u{1F603}';
+                    case 4:
+                      return '\u{1F604}';
+                    default:
+                      return '';
+                  }
+                },
+                color: 'white',
+                fontFamily: '"Font Awesome 5 Free"'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
             }
           },
-          y: {
-            min: 0,
-            max: 4,
-            ticks: {
-              callback: value => {
-                switch (value) {
-                  case 0:
-                    return '\u{1F622}';
-                  case 1:
-                    return '\u{1f641}';
-                  case 2:
-                    return '\u{1F610}';
-                  case 3:
-                    return '\u{1F603}';
-                  case 4:
-                    return '\u{1F604}';
-                  default:
-                    return '';
-                }
-              },
-              color: 'white',
-              fontFamily: '"Font Awesome 5 Free"'
-            },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: 'white'
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
             }
           }
         }
+      });
+
+      if (moodData.length > 1) {
+        const listData = [];
+        let labels = [];
+
+        Object.entries(moodData)
+          .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
+          .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)));
+
+        for (const data of moodData) {
+          if (data.date !== 'averagePercentage') labels.push(data.date);
+        }
+        labels = labels.sort((a, b) => {
+          const aa = a.split('-');
+          const bb = b.split('-');
+          return aa < bb ? -1 : (aa > bb ? 1 : 0);
+        });
+
+        if (newChart.data !== undefined) {
+          newChart.data.datasets[0].data = listData;
+          newChart.data.labels = labels;
+          newChart.options.scales.x.labels = labels;
+
+          newChart.update();
+        }
       }
-    });
+    };
 
-    updateChart(newChart)
-    setChart(newChart)
-  }
+    createOrUpdateChart();
 
-  const updateChart = (newChart) => {
-    if (moodData.length > 1) {
-      const listData = []
-      let labels = []
-
-      Object.entries(moodData)
-        .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-        .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)))
-
-      for (const data of moodData) {
-        if (data.date !== 'averagePercentage') labels.push(data.date)
+    return () => {
+      if (newChart && typeof newChart.destroy === 'function') {
+        newChart.destroy();
       }
-      labels = labels.sort((a, b) => {
-        const aa = a.split('-')
-        const bb = b.split('-')
-        return aa < bb ? -1 : (aa > bb ? 1 : 0)
+    };
+  }, [moodData, selectedClass]);
+
+  useEffect(() => {
+    const createAnswerChart = () => {
+      if (answerChart && typeof answerChart.destroy === 'function') {
+        answerChart.destroy()
+      }
+      const ctx = document.getElementById('answerChart')
+      const newChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: answerData.map(answer => answer.date),
+          datasets: [{
+            label: 'Réponses',
+            data: answerData.map(answer => answer.data),
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            borderColor: 'rgba(255, 255, 255, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            }
+          }
+        }
       })
 
-      if (newChart.data !== undefined) {
-        newChart.data.datasets[0].data = listData
-        newChart.data.labels = labels
-        newChart.options.scales.x.labels = labels
+      setAnswerChart(newChart)
+    }
 
-        newChart.update()
+    createAnswerChart()
+    return () => {
+      if (answerChart && typeof answerChart.destroy === 'function') {
+        answerChart.destroy();
       }
     }
-  }
-
-  const createAnswerChart = () => {
-    const ctx = document.getElementById('answerChart')
-    const newChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: answerData.map(answer => answer.date),
-        datasets: [{
-          label: 'Réponses',
-          data: answerData.map(answer => answer.data),
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          borderColor: 'rgba(255, 255, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: 'white'
-            }
-          }
-        }
-      }
-    })
-
-    setAnswerChart(newChart)
-  }
+  }, [answerData, selectedClass])
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value)
