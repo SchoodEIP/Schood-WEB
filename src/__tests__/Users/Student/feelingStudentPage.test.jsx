@@ -19,7 +19,7 @@ describe('Feelings Component', () => {
       date: '2024-03-30',
       content: "Je me sens pas bien aujourd'hui",
       feeling: 0,
-      isAnonymous: true,
+      annonymous: true,
       reviewDate: '',
       _id: '0'
     },
@@ -27,7 +27,7 @@ describe('Feelings Component', () => {
       date: '2024-03-20',
       content: "J'ai la forme",
       feeling: 4,
-      isAnonymous: false,
+      annonymous: false,
       reviewDate: '2024-03-22',
       _id: '1'
     }

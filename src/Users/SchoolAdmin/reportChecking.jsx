@@ -28,7 +28,6 @@ const ReportChecking = () => {
         disconnect()
       }
       const data = await response.json()
-      console.log(data[data.length - 1])
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {

@@ -270,6 +270,7 @@ const FeelingsStudentPage = () => {
             </div>
           )}
         </Popup>
+        <div id='feelings-container' />
       </div>
     </div>
   )
