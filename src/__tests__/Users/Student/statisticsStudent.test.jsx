@@ -5,6 +5,7 @@ import StudentStatPage from '../../../Users/Student/statisticsStudent'
 import fetchMock from 'fetch-mock'
 import { disconnect } from '../../../functions/disconnect'
 import { WebsocketProvider } from '../../../contexts/websocket'
+import '@testing-library/jest-dom'
 
 jest.mock('chart.js', () => ({
   Chart: jest.fn().mockImplementation(() => {
@@ -64,7 +65,7 @@ describe('StudentStatPage', () => {
       )
     })
 
-    await waitFor(() => {
+    await waitFor(async() => {
       expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
       expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument()
     })
@@ -82,7 +83,7 @@ describe('StudentStatPage', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByText('Vous êtes 80% plus heureux cette semaine que la semaine précédente')).toBeInTheDocument()
+      expect(screen.getByTestId('average-happiness-percentage').textContent).toBe('Vous êtes 80% plus heureux cette semaine que la semaine précédente')
     })
   })
 

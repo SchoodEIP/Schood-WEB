@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import Chart from 'chart.js/auto'
-import '../../css/pages/homePage.scss'
+import { Chart, LineController, BarController, LineElement, BarElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from 'chart.js';import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
 const TeacherStatPage = () => {
+  // Chart.register(LineController, BarController, LineElement, BarElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
   const [moodData, setMoodData] = useState([])
   const [answerData, setAnswerData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
@@ -56,10 +57,12 @@ const TeacherStatPage = () => {
           })
         })
       ])
+      if (moodResponse.status === 401 || answersResponse.status === 401) {
+        disconnect()
+      }
       const mData = await moodResponse.json()
       const aData = await answersResponse.json()
-      // console.log(mData)
-      // console.log(aData)
+
       if (mData.averagePercentage !== undefined) {
         setAveragePercentage(mData.averagePercentage)
       }
@@ -81,7 +84,6 @@ const TeacherStatPage = () => {
 
       setMoodData(moodList)
       setAnswerData(answerList)
-      // console.log(moodData)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -114,9 +116,13 @@ const TeacherStatPage = () => {
       const response = await fetch(classesUrl, {
         method: 'GET',
         headers: {
-          'x-auth-token': sessionStorage.getItem('token')
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
         }
       })
+      if (response.status === 401) {
+        disconnect()
+      }
       const classesData = await response.json()
       setClasses(classesData)
     } catch (error) {
@@ -192,14 +198,14 @@ const TeacherStatPage = () => {
   }, [answerData, selectedClass])
 
   const createChart = () => {
-    const ctx = document.getElementById('moodChart')
+    const ctx = document.getElementById('moodChart').getContext('2d');
     const newChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: [],
+        labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
         datasets: [{
           label: 'Humeur',
-          data: [],
+          data: Object.values(moodData).filter(val => typeof val === 'number'),
           borderColor: 'white',
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
@@ -211,6 +217,7 @@ const TeacherStatPage = () => {
       options: {
         scales: {
           x: {
+            type: 'category', // Ensure the scale type is correctly set
             ticks: {
               color: 'white',
               fontFamily: '"Font Awesome 5 Free"'
@@ -226,17 +233,17 @@ const TeacherStatPage = () => {
               callback: value => {
                 switch (value) {
                   case 0:
-                    return '\u{1F622}'
+                    return '\u{1F622}';
                   case 1:
-                    return '\u{1f641}'
+                    return '\u{1f641}';
                   case 2:
-                    return '\u{1F610}'
+                    return '\u{1F610}';
                   case 3:
-                    return '\u{1F603}'
+                    return '\u{1F603}';
                   case 4:
-                    return '\u{1F604}'
+                    return '\u{1F604}';
                   default:
-                    return ''
+                    return '';
                 }
               },
               color: 'white',
@@ -255,7 +262,7 @@ const TeacherStatPage = () => {
           }
         }
       }
-    })
+    });
 
     updateChart(newChart)
     setChart(newChart)
@@ -279,11 +286,13 @@ const TeacherStatPage = () => {
         return aa < bb ? -1 : (aa > bb ? 1 : 0)
       })
 
-      newChart.data.datasets[0].data = listData
-      newChart.data.labels = labels
-      newChart.options.scales.x.labels = labels
+      if (newChart.data !== undefined) {
+        newChart.data.datasets[0].data = listData
+        newChart.data.labels = labels
+        newChart.options.scales.x.labels = labels
 
-      newChart.update()
+        newChart.update()
+      }
     }
   }
 

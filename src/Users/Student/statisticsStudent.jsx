@@ -210,8 +210,10 @@ const StudentStatPage = () => {
         }
       })
 
-      chart.data.datasets[0].data = data
-      chart.update()
+      if (chart.data !== undefined) {
+        chart.data.datasets[0].data = data
+        chart.update()
+      }
     }
   }
 
@@ -277,7 +279,7 @@ const StudentStatPage = () => {
               <progress className='progress' value={averagePercentage} max='100' />
               {averagePercentage !== null && (
                 <div className='average-rectangle'>
-                  <p>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+                  <p data-testid="average-happiness-percentage">Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
                 </div>
               )}
             </div>
