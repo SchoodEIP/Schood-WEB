@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import { Chart } from 'chart.js/auto';
+import { Chart } from 'chart.js/auto'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -110,7 +110,6 @@ const TeacherStatPage = () => {
     fetchClasses()
   }, [selectedDate, activeFilter, selectedClass])
 
-
   useEffect(() => {
     const average = calculateAverageMood(moodData, averagePercentage)
     setAverageMood(average)
@@ -186,12 +185,12 @@ const TeacherStatPage = () => {
   }
 
   useEffect(() => {
-    const ctx = document.getElementById('moodChart').getContext('2d');
-    let newChart = null;
+    const ctx = document.getElementById('moodChart').getContext('2d')
+    let newChart = null
 
     const createOrUpdateChart = () => {
       if (newChart && typeof newChart.destroy === 'function') {
-        newChart.destroy();
+        newChart.destroy()
       }
 
       newChart = new Chart(ctx, {
@@ -227,17 +226,17 @@ const TeacherStatPage = () => {
                 callback: value => {
                   switch (value) {
                     case 0:
-                      return '\u{1F622}';
+                      return '\u{1F622}'
                     case 1:
-                      return '\u{1f641}';
+                      return '\u{1f641}'
                     case 2:
-                      return '\u{1F610}';
+                      return '\u{1F610}'
                     case 3:
-                      return '\u{1F603}';
+                      return '\u{1F603}'
                     case 4:
-                      return '\u{1F604}';
+                      return '\u{1F604}'
                     default:
-                      return '';
+                      return ''
                   }
                 },
                 color: 'white',
@@ -256,43 +255,43 @@ const TeacherStatPage = () => {
             }
           }
         }
-      });
+      })
 
       if (moodData.length > 1) {
-        const listData = [];
-        let labels = [];
+        const listData = []
+        let labels = []
 
         Object.entries(moodData)
           .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-          .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)));
+          .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)))
 
         for (const data of moodData) {
-          if (data.date !== 'averagePercentage') labels.push(data.date);
+          if (data.date !== 'averagePercentage') labels.push(data.date)
         }
         labels = labels.sort((a, b) => {
-          const aa = a.split('-');
-          const bb = b.split('-');
-          return aa < bb ? -1 : (aa > bb ? 1 : 0);
-        });
+          const aa = a.split('-')
+          const bb = b.split('-')
+          return aa < bb ? -1 : (aa > bb ? 1 : 0)
+        })
 
         if (newChart.data !== undefined) {
-          newChart.data.datasets[0].data = listData;
-          newChart.data.labels = labels;
-          newChart.options.scales.x.labels = labels;
+          newChart.data.datasets[0].data = listData
+          newChart.data.labels = labels
+          newChart.options.scales.x.labels = labels
 
-          newChart.update();
+          newChart.update()
         }
       }
-    };
+    }
 
-    createOrUpdateChart();
+    createOrUpdateChart()
 
     return () => {
       if (newChart && typeof newChart.destroy === 'function') {
-        newChart.destroy();
+        newChart.destroy()
       }
-    };
-  }, [moodData, selectedClass]);
+    }
+  }, [moodData, selectedClass])
 
   useEffect(() => {
     const createAnswerChart = () => {
@@ -334,7 +333,7 @@ const TeacherStatPage = () => {
     createAnswerChart()
     return () => {
       if (answerChart && typeof answerChart.destroy === 'function') {
-        answerChart.destroy();
+        answerChart.destroy()
       }
     }
   }, [answerData, selectedClass])

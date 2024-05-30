@@ -270,16 +270,16 @@ const StudentStatPage = () => {
             </div>
           </div>
           <h1>Evolution de mon humeur</h1>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
             <canvas id='moodChart' width='400' height='400' />
             {
               averagePercentage >= 0 && (
-                <div style={{display: 'block', width: '40px', height: '10px'}}>
+                <div style={{ display: 'block', width: '40px', height: '10px' }}>
                   <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
                   <progress className='progress' value={averagePercentage} max='100' />
                   {averagePercentage !== null && (
                     <div className='average-rectangle'>
-                      <p data-testid="average-happiness-percentage">Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
+                      <p data-testid='average-happiness-percentage'>Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}</p>
                     </div>
                   )}
                 </div>

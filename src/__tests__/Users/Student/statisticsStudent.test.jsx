@@ -30,7 +30,6 @@ jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn()
 }))
 
-
 describe('StudentStatPage', () => {
   const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
 
@@ -65,7 +64,7 @@ describe('StudentStatPage', () => {
       )
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
       expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument()
     })

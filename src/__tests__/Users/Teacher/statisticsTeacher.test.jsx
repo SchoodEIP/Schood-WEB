@@ -9,30 +9,28 @@ import '@testing-library/jest-dom'
 
 jest.mock('chart.js/auto', () => {
   class ChartInstance {
-    constructor(ctx, config) {
-      this.ctx = ctx;
-      this.config = config;
-      this.destroy = jest.fn();
-      this.update = jest.fn();
+    constructor (ctx, config) {
+      this.ctx = ctx
+      this.config = config
+      this.destroy = jest.fn()
+      this.update = jest.fn()
       this.data = {
         datasets: [{}]
-      };
+      }
       this.options = {
         scales: {
           x: {
             labels: []
           }
         }
-      };
+      }
     }
   }
 
   return {
     Chart: jest.fn().mockImplementation((ctx, config) => new ChartInstance(ctx, config))
-  };
-});
-
-
+  }
+})
 
 jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn()
@@ -77,7 +75,6 @@ describe('TeacherStatPage', () => {
     localStorage.removeItem('role')
   })
 
-
   test('renders correctly', async () => {
     await act(async () => {
       render(
@@ -89,7 +86,7 @@ describe('TeacherStatPage', () => {
       )
     })
 
-    await waitFor(async() => {
+    await waitFor(async () => {
       expect(screen.getByText('Mes statistiques')).toBeInTheDocument()
       expect(screen.getByLabelText('Sélectionner une date:')).toBeInTheDocument()
     })
@@ -110,7 +107,6 @@ describe('TeacherStatPage', () => {
     await act(() => {
       fireEvent.change(dateInput, { target: { value: '2024-02-01' } })
     })
-
   })
 
   test('handles filter change', async () => {
@@ -128,7 +124,6 @@ describe('TeacherStatPage', () => {
     await act(() => {
       fireEvent.click(moisFilterButton)
     })
-
   })
 
   test('disconnects on 401 error mood url', async () => {
