@@ -160,7 +160,7 @@ const StudentStatPage = () => {
     } else {
       createChart()
     }
-  }, [moodData])
+  }, [moodData, chart])
 
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
