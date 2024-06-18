@@ -26,7 +26,6 @@ export default function FormComp({id}) {
 
               const data = await response.json()
               setQuestionnaires(data)
-              console.log(data)
             } catch (error) /* istanbul ignore next */ {
               console.error('Erreur lors de la récupération du profil', error.message)
             }
@@ -36,7 +35,7 @@ export default function FormComp({id}) {
     }, [])
 
     return (
-        <div class="profile-component-container">
+        <div className="profile-component-container">
             <h3>Questionnaires</h3>
             <div className="profile-forms-container">
               {

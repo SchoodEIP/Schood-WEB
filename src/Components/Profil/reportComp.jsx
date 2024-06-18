@@ -26,7 +26,6 @@ export default function ReportComp({id}) {
 
               const data = await response.json()
               setReportsList(data)
-              console.log(data)
             } catch (error) /* istanbul ignore next */ {
               console.error('Erreur lors de la récupération du profil', error.message)
             }
@@ -43,7 +42,7 @@ export default function ReportComp({id}) {
                         <div className="report-container" key={index}>
                             <div className="report-top-container">
                               <h4>{translate(report.type)}</h4>
-                              <div className="top-profile-container" title={report.signaledBy ? (report.signaledBy.firstname + ' ' + report.signaledBy.lastname) : ''}>
+                              <div className="top-profile-container" title={report.signaledBy.firstname + ' ' + report.signaledBy.lastname}>
                                 <UserProfile profile={report.signaledBy} fullname={true}/>
                               </div>
                             </div>
@@ -54,7 +53,7 @@ export default function ReportComp({id}) {
                               <h4>Utilisateurs signalés</h4>
                               {
                                 report.usersSignaled.map((user, indexP) =>
-                                  <div className="user-signaled-container" key={indexP} title={user ? (user.firstname + ' ' + user.lastname) : ''}>
+                                  <div className="user-signaled-container" key={indexP} title={user.firstname + ' ' + user.lastname}>
                                     <UserProfile profile={user} fullname={true}/>
                                   </div>
                                 )

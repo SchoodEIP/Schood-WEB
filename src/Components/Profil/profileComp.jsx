@@ -75,7 +75,7 @@ export default function ProfileComp({profile}) {
                   </div>
                   <div className='profile-content-container'>
                       <p className='profile-element-title'>{profile?.classes?.length > 1 ? 'Classes' : 'Classe'}</p>
-                      <p className='profile-element-content'>{profile?.classes ? profile.classes.map((classe, index) => { return classesList.find(classes => classes._id === classe)?.name }).join(', ') : 'Aucune classe trouvée'}</p>
+                      <p className='profile-element-content'>{profile?.classes?.length > 0 ? profile.classes.map((classe, index) => { return classesList.find(classes => classes._id === classe)?.name }).join(', ') : 'Aucune classe trouvée'}</p>
                   </div>
                   <div className='profile-content-container'>
                       <p className='profile-element-title'>Adresse email</p>
