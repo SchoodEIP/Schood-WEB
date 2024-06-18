@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
@@ -11,6 +11,25 @@ jest.mock('../../../functions/disconnect', () => ({
   disconnect: jest.fn()
 }))
 
+jest.mock('chart.js', () => ({
+    Chart: jest.fn().mockImplementation(() => {
+      return {
+        destroy: jest.fn(),
+        update: jest.fn(),
+        data: {
+          datasets: [{}]
+        },
+        options: {
+          scales: {
+            x: {
+              labels: []
+            }
+          }
+        }
+      }
+    })
+  }))
+
 describe('Teacher Profile Page', () => {
     const id = '6638a710dd18a1e42e539476'
     const profileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/profile?id=` + id
@@ -18,7 +37,7 @@ describe('Teacher Profile Page', () => {
     const rolesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
     const formUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/?id=` + id
     const reportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report?id=` + id
-
+    const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods/?id=` + id
 
   function getFormDates () {
     const today = new Date()
@@ -217,6 +236,14 @@ describe('Teacher Profile Page', () => {
         picture: 'sqdfsd',
         _id: id
       }
+      const mockMoodData = [
+        {date: '2024-01-01', moods: [2, 4], average: 0},
+        {date: '2024-01-02', moods: [2, 4], average: 1},
+        {date: '2024-01-03', moods: [2, 4], average: 2},
+        {date: '2024-01-04', moods: [2, 4], average: 3},
+        {date: '2024-01-05', moods: [2, 4], average: 4},
+        {averagePercentage: 80},
+      ]
 
   beforeEach(() => {
     fetchMock.config.overwriteRoutes = true
@@ -226,6 +253,7 @@ describe('Teacher Profile Page', () => {
     fetchMock.get(classesUrl, mockClassesData)
     fetchMock.get(rolesUrl, roles)
     fetchMock.get(formUrl, formsResponse)
+    fetchMock.get(moodUrl, mockMoodData)
   })
 
   afterEach(() => {
@@ -350,6 +378,26 @@ describe('Teacher Profile Page', () => {
       })
   })
 
+  it('disconnects on mood url', async () => {
+    fetchMock.get(moodUrl, 401)
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/profile/6638a710dd18a1e42e539476']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/profile/:id' element={<TeacherProfilePage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await waitFor(() => {
+        expect(disconnect).toHaveBeenCalled()
+      })
+  })
+
   it('mocks no classes and roles found', async () => {
     fetchMock.get(classesUrl, [])
     fetchMock.get(rolesUrl, [])
@@ -369,6 +417,32 @@ describe('Teacher Profile Page', () => {
     await waitFor(() => {
         expect(screen.getByText('Aucune classe trouvée')).toBeInTheDocument()
         expect(screen.getByText('Rôle Inconnu')).toBeInTheDocument()
+    })
+  })
+
+  it('mocks no classes and roles found', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/profile/6638a710dd18a1e42e539476']}>
+          <WebsocketProvider>
+            <Routes>
+              <Route path='/profile/:id' element={<TeacherProfilePage />} />
+            </Routes>
+          </WebsocketProvider>
+        </MemoryRouter>
+      )
+    })
+
+    await act(async () => {
+        fireEvent.click(screen.getByText('Mois'))
+    })
+
+    await act(async () => {
+        fireEvent.click(screen.getByText('Semestre'))
+    })
+
+    await act(async () => {
+        fireEvent.click(screen.getByText('Année'))
     })
   })
 })

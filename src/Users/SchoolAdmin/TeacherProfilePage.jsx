@@ -32,7 +32,6 @@ export default function TeacherProfilePage () {
 
               const data = await response.json()
               setProfile(data)
-              console.log(data)
             } catch (error) /* istanbul ignore next */ {
               console.error('Erreur lors de la récupération du profil', error.message)
             }
@@ -53,7 +52,7 @@ export default function TeacherProfilePage () {
               <ProfileComp profile={profile} />
               <FormComp id={id} />
               <ReportComp id={id} />
-              {/* <StatComp id={id} userClasses={profile?.classes ? profile.classes : []}/> */}
+              <StatComp id={id} userClasses={profile?.classes ? profile.classes : []}/>
             </div>
         </div>
     )
