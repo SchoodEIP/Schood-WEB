@@ -253,7 +253,7 @@ describe('Teacher Profile Page', () => {
     fetchMock.get(classesUrl, mockClassesData)
     fetchMock.get(rolesUrl, roles)
     fetchMock.get(formUrl, formsResponse)
-    fetchMock.get(moodUrl, mockMoodData)
+    fetchMock.post(moodUrl, mockMoodData)
   })
 
   afterEach(() => {
@@ -379,7 +379,7 @@ describe('Teacher Profile Page', () => {
   })
 
   it('disconnects on mood url', async () => {
-    fetchMock.get(moodUrl, 401)
+    fetchMock.post(moodUrl, 401)
 
     await act(async () => {
       render(
