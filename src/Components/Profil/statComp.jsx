@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
-import { disconnect } from "../../functions/disconnect";
+import React, { useEffect, useState } from 'react'
+import { disconnect } from '../../functions/disconnect'
 import '../../css/pages/profilPage.scss'
-import { Chart } from 'chart.js';
+import { Chart } from 'chart.js'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
-export default function StatComp({id, userClasses}) {
-    const [moodData, setMoodData] = useState([])
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
-    const [activeFilter, setActiveFilter] = useState('Semaine')
-    const [selectedClass, setSelectedClass] = useState(null)
-    const [classes, setClasses] = useState([])
-    const [chart, setChart] = useState(null)
+export default function StatComp ({ id, userClasses }) {
+  const [moodData, setMoodData] = useState([])
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [activeFilter, setActiveFilter] = useState('Semaine')
+  const [selectedClass, setSelectedClass] = useState(null)
+  const [classes, setClasses] = useState([])
+  const [chart, setChart] = useState(null)
 
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
@@ -63,22 +63,22 @@ export default function StatComp({id, userClasses}) {
     }
   }
 
-    useEffect(() => {
-      const fetchData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods/?id=' + id
       try {
         const moodResponse = await fetch(moodUrl, {
-            method: 'POST',
-            headers: {
-              'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              fromDate: calculateStartDate(selectedDate, activeFilter),
-              toDate: calculateEndDate(selectedDate, activeFilter),
-              classFilter: selectedClass || 'all'
-            })
+          method: 'POST',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fromDate: calculateStartDate(selectedDate, activeFilter),
+            toDate: calculateEndDate(selectedDate, activeFilter),
+            classFilter: selectedClass || 'all'
           })
+        })
         if (moodResponse.status === 401) {
           disconnect()
         }
@@ -254,34 +254,34 @@ export default function StatComp({id, userClasses}) {
   }
 
   return (
-      <div className="profile-component-container">
-        <h3>Évolution de l'humeur</h3>
-        <div>
+    <div className='profile-component-container'>
+      <h3>Évolution de l'humeur</h3>
+      <div>
         <label htmlFor='dateFilter'>Sélectionner une date:</label>
-          <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
-          <div className='button-container'>
-            <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
-              Semaine
-            </div>
-            <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
-              Mois
-            </div>
-            <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
-              Semestre
-            </div>
-            <div className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
-              Année
-            </div>
+        <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
+        <div className='button-container'>
+          <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
+            Semaine
           </div>
-          <label htmlFor='classFilter'>Filtrer par classe:</label>
-          <select id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
-            <option key='all' value=''>Toutes les classes</option>
-            {classes.map((classItem) => (
-              <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
-            ))}
-          </select>
-          <canvas id='moodChart' width='400' height='400' />
+          <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
+            Mois
+          </div>
+          <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
+            Semestre
+          </div>
+          <div className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
+            Année
+          </div>
         </div>
+        <label htmlFor='classFilter'>Filtrer par classe:</label>
+        <select id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
+          <option key='all' value=''>Toutes les classes</option>
+          {classes.map((classItem) => (
+            <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
+          ))}
+        </select>
+        <canvas id='moodChart' width='400' height='400' />
       </div>
+    </div>
   )
 }

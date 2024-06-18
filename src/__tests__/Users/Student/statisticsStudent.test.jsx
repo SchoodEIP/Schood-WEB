@@ -34,9 +34,9 @@ describe('StudentStatPage', () => {
   const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
 
   const mockMoodData = [
-    {date: '2024-01-01', moods: [2, 4], average: 3},
-    {date: '2024-01-03', moods: [2, 4], average: 3},
-    {averagePercentage: 80},
+    { date: '2024-01-01', moods: [2, 4], average: 3 },
+    { date: '2024-01-03', moods: [2, 4], average: 3 },
+    { averagePercentage: 80 }
   ]
 
   beforeEach(() => {

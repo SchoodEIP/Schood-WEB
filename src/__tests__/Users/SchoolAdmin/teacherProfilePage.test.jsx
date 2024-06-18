@@ -12,32 +12,32 @@ jest.mock('../../../functions/disconnect', () => ({
 }))
 
 jest.mock('chart.js', () => ({
-    Chart: jest.fn().mockImplementation(() => {
-      return {
-        destroy: jest.fn(),
-        update: jest.fn(),
-        data: {
-          datasets: [{}]
-        },
-        options: {
-          scales: {
-            x: {
-              labels: []
-            }
+  Chart: jest.fn().mockImplementation(() => {
+    return {
+      destroy: jest.fn(),
+      update: jest.fn(),
+      data: {
+        datasets: [{}]
+      },
+      options: {
+        scales: {
+          x: {
+            labels: []
           }
         }
       }
-    })
-  }))
+    }
+  })
+}))
 
 describe('Teacher Profile Page', () => {
-    const id = '6638a710dd18a1e42e539476'
-    const profileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/profile?id=` + id
-    const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
-    const rolesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
-    const formUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/?id=` + id
-    const reportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report?id=` + id
-    const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods/?id=` + id
+  const id = '6638a710dd18a1e42e539476'
+  const profileUrl = `${process.env.REACT_APP_BACKEND_URL}/user/profile?id=` + id
+  const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
+  const rolesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
+  const formUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/questionnaire/?id=` + id
+  const reportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report?id=` + id
+  const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods/?id=` + id
 
   function getFormDates () {
     const today = new Date()
@@ -86,30 +86,30 @@ describe('Teacher Profile Page', () => {
       ]
     },
     {
-        fromDate: thisWeekMonday,
-        toDate: thisWeekSunday,
-        questionnaires: [
-          {
-            facility: '6638a70fdd18a1e42e53944d',
-            createdBy: {
-              active: true,
-              createdAt: '2024-05-06T09:46:26.164Z',
-              email: 'pierre.dubois.Schood1@schood.fr',
-              firstname: 'Pierre',
-              lastname: 'Dubois',
-              picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
-              updatedAt: '2024-05-06T09:46:56.164Z',
-              __v: 0,
-              _id: '6638a710dd18a1e42e539476'
-            },
-            _id: '124',
-            title: 'Test2',
-            classes: [{
-              name: '201',
-              _id: '124'
-            }]
-          }
-        ]
+      fromDate: thisWeekMonday,
+      toDate: thisWeekSunday,
+      questionnaires: [
+        {
+          facility: '6638a70fdd18a1e42e53944d',
+          createdBy: {
+            active: true,
+            createdAt: '2024-05-06T09:46:26.164Z',
+            email: 'pierre.dubois.Schood1@schood.fr',
+            firstname: 'Pierre',
+            lastname: 'Dubois',
+            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+            updatedAt: '2024-05-06T09:46:56.164Z',
+            __v: 0,
+            _id: '6638a710dd18a1e42e539476'
+          },
+          _id: '124',
+          title: 'Test2',
+          classes: [{
+            name: '201',
+            _id: '124'
+          }]
+        }
+      ]
     }
   ]
 
@@ -140,110 +140,110 @@ describe('Teacher Profile Page', () => {
       levelOfAccess: 3
     }
   ]
-    const reportResponse = [
-        {
-          createdAt: '2024-02-24T00:00:00.000Z',
-          facility: '6638a70fdd18a1e42e53944d',
-          message: 'Ceci est un signalement de test',
-          seen: false,
-          signaledBy: {
-            active: true,
-            classes: ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
-            createdAt: '2024-05-06T09:46:56.164Z',
-            email: 'pierre.dubois.Schood1@schood.fr',
-            facility: '6638a70fdd18a1e42e53944d',
-            firstConnexion: true,
-            firstname: 'Pierre',
-            lastname: 'Dubois',
-            password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
-            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
-            role: '6638a70fdd18a1e42e539446',
-            updatedAt: '2024-05-06T09:46:56.164Z',
-            __v: 0,
-            _id: '6638a710dd18a1e42e539476'
-          },
-          type: 'bullying',
-          usersSignaled: [{
-            active: true,
-            classes: ['6638a70fdd18a1e42e53945c'],
-            createdAt: '2024-05-06T09:46:56.313Z',
-            email: 'alice.johnson.Schood1@schood.fr',
-            facility: '6638a70fdd18a1e42e53944d',
-            firstConnexion: true,
-            firstname: 'Alice',
-            lastname: 'Johnson',
-            password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
-            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
-            role: '6638a70fdd18a1e42e539443',
-            updatedAt: '2024-05-06T09:46:56.313Z',
-            __v: 0,
-            _id: '6638a710dd18a1e42e53947a'
-          }],
-          __v: 0,
-          _id: '6638a710dd18a1e42e539553'
-        },
-        {
-          conversation: '659dd4e664034063fff4e38e',
-          createdAt: '2024-03-24T00:00:00.000Z',
-          facility: '6638a70fdd18a1e42e53944d',
-          message: 'Autre signalment',
-          seen: false,
-          signaledBy: {
-            active: true,
-            classes: ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
-            createdAt: '2024-05-06T09:46:56.164Z',
-            email: 'pierre.dubois.Schood1@schood.fr',
-            facility: '6638a70fdd18a1e42e53944d',
-            firstConnexion: true,
-            firstname: 'Pierre',
-            lastname: 'Dubois',
-            password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
-            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
-            role: '6638a70fdd18a1e42e539446',
-            updatedAt: '2024-05-06T09:46:56.164Z',
-            __v: 0,
-            _id: '6638a710dd18a1e42e539476'
-          },
-          type: 'badcomportment',
-          usersSignaled: [{
-            active: true,
-            classes: ['6638a70fdd18a1e42e53945c'],
-            createdAt: '2024-05-06T09:46:56.313Z',
-            email: 'alice.johnson.Schood1@schood.fr',
-            facility: '6638a70fdd18a1e42e53944d',
-            firstConnexion: true,
-            firstname: 'Alice',
-            lastname: 'Johnson',
-            password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
-            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
-            role: '6638a70fdd18a1e42e539443',
-            updatedAt: '2024-05-06T09:46:56.313Z',
-            __v: 0,
-            _id: '6638a710dd18a1e42e53947a'
-          }],
-          __v: 0,
-          _id: '6638a710dd18a1e42e539554'
-        }
-      ]
+  const reportResponse = [
+    {
+      createdAt: '2024-02-24T00:00:00.000Z',
+      facility: '6638a70fdd18a1e42e53944d',
+      message: 'Ceci est un signalement de test',
+      seen: false,
+      signaledBy: {
+        active: true,
+        classes: ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
+        createdAt: '2024-05-06T09:46:56.164Z',
+        email: 'pierre.dubois.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
+        firstConnexion: true,
+        firstname: 'Pierre',
+        lastname: 'Dubois',
+        password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+        role: '6638a70fdd18a1e42e539446',
+        updatedAt: '2024-05-06T09:46:56.164Z',
+        __v: 0,
+        _id: '6638a710dd18a1e42e539476'
+      },
+      type: 'bullying',
+      usersSignaled: [{
+        active: true,
+        classes: ['6638a70fdd18a1e42e53945c'],
+        createdAt: '2024-05-06T09:46:56.313Z',
+        email: 'alice.johnson.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
+        firstConnexion: true,
+        firstname: 'Alice',
+        lastname: 'Johnson',
+        password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
+        role: '6638a70fdd18a1e42e539443',
+        updatedAt: '2024-05-06T09:46:56.313Z',
+        __v: 0,
+        _id: '6638a710dd18a1e42e53947a'
+      }],
+      __v: 0,
+      _id: '6638a710dd18a1e42e539553'
+    },
+    {
+      conversation: '659dd4e664034063fff4e38e',
+      createdAt: '2024-03-24T00:00:00.000Z',
+      facility: '6638a70fdd18a1e42e53944d',
+      message: 'Autre signalment',
+      seen: false,
+      signaledBy: {
+        active: true,
+        classes: ['6638a70fdd18a1e42e53945c', '6638a70fdd18a1e42e53945e'],
+        createdAt: '2024-05-06T09:46:56.164Z',
+        email: 'pierre.dubois.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
+        firstConnexion: true,
+        firstname: 'Pierre',
+        lastname: 'Dubois',
+        password: '$2a$10$Tjb47mgQ6Rio.QjzdJfTcOk4sm6tjLdQkMZ/viydPdnhfi8KhFmQu',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA',
+        role: '6638a70fdd18a1e42e539446',
+        updatedAt: '2024-05-06T09:46:56.164Z',
+        __v: 0,
+        _id: '6638a710dd18a1e42e539476'
+      },
+      type: 'badcomportment',
+      usersSignaled: [{
+        active: true,
+        classes: ['6638a70fdd18a1e42e53945c'],
+        createdAt: '2024-05-06T09:46:56.313Z',
+        email: 'alice.johnson.Schood1@schood.fr',
+        facility: '6638a70fdd18a1e42e53944d',
+        firstConnexion: true,
+        firstname: 'Alice',
+        lastname: 'Johnson',
+        password: '$2a$10$JmuT0GTKaIpGum0WW9OGxuuTDJUVxIQoXg7Vy4E9DrQ1UO2/uICTm',
+        picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0o',
+        role: '6638a70fdd18a1e42e539443',
+        updatedAt: '2024-05-06T09:46:56.313Z',
+        __v: 0,
+        _id: '6638a710dd18a1e42e53947a'
+      }],
+      __v: 0,
+      _id: '6638a710dd18a1e42e539554'
+    }
+  ]
 
-      const teacherProfile = {
-        firstname: 'John',
-        lastname: 'Doe',
-        email: 'john.doe@example.com',
-        role: '1',
-        title: 'Mathematics',
-        classes: ['0', '1'],
-        picture: 'sqdfsd',
-        _id: id
-      }
-      const mockMoodData = [
-        {date: '2024-01-01', moods: [2, 4], average: 0},
-        {date: '2024-01-02', moods: [2, 4], average: 1},
-        {date: '2024-01-03', moods: [2, 4], average: 2},
-        {date: '2024-01-04', moods: [2, 4], average: 3},
-        {date: '2024-01-05', moods: [2, 4], average: 4},
-        {averagePercentage: 80},
-      ]
+  const teacherProfile = {
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'john.doe@example.com',
+    role: '1',
+    title: 'Mathematics',
+    classes: ['0', '1'],
+    picture: 'sqdfsd',
+    _id: id
+  }
+  const mockMoodData = [
+    { date: '2024-01-01', moods: [2, 4], average: 0 },
+    { date: '2024-01-02', moods: [2, 4], average: 1 },
+    { date: '2024-01-03', moods: [2, 4], average: 2 },
+    { date: '2024-01-04', moods: [2, 4], average: 3 },
+    { date: '2024-01-05', moods: [2, 4], average: 4 },
+    { averagePercentage: 80 }
+  ]
 
   beforeEach(() => {
     fetchMock.config.overwriteRoutes = true
@@ -294,8 +294,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on report url', async () => {
@@ -314,8 +314,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on form url', async () => {
@@ -334,8 +334,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on classes url', async () => {
@@ -354,8 +354,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on roles url', async () => {
@@ -374,8 +374,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('disconnects on mood url', async () => {
@@ -394,8 +394,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(disconnect).toHaveBeenCalled()
-      })
+      expect(disconnect).toHaveBeenCalled()
+    })
   })
 
   it('mocks no classes and roles found', async () => {
@@ -415,8 +415,8 @@ describe('Teacher Profile Page', () => {
     })
 
     await waitFor(() => {
-        expect(screen.getByText('Aucune classe trouvée')).toBeInTheDocument()
-        expect(screen.getByText('Rôle Inconnu')).toBeInTheDocument()
+      expect(screen.getByText('Aucune classe trouvée')).toBeInTheDocument()
+      expect(screen.getByText('Rôle Inconnu')).toBeInTheDocument()
     })
   })
 
@@ -434,15 +434,15 @@ describe('Teacher Profile Page', () => {
     })
 
     await act(async () => {
-        fireEvent.click(screen.getByText('Mois'))
+      fireEvent.click(screen.getByText('Mois'))
     })
 
     await act(async () => {
-        fireEvent.click(screen.getByText('Semestre'))
+      fireEvent.click(screen.getByText('Semestre'))
     })
 
     await act(async () => {
-        fireEvent.click(screen.getByText('Année'))
+      fireEvent.click(screen.getByText('Année'))
     })
   })
 })
