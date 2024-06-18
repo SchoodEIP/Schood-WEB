@@ -39,6 +39,10 @@ export default function SchoolAccountsTable () {
     return names.join(', ')
   }
 
+  const handleShowProfile = (id) => {
+    window.location.href = '/profile/' + id
+  }
+
   // account list request on mounted
   useEffect(() => {
     getAccountList()
@@ -59,14 +63,14 @@ export default function SchoolAccountsTable () {
                 <th className='valHead2'>Prénom</th>
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
-                {/* <th className='valHead2'>Title</th> */}
+                {/* <th className='valHead2'>Titre</th> */}
                 <th className='valHead5'>Classe(s)</th>
               </tr>
             </thead>
             <tbody className='tableBody'>
               {
                 teacherList.map((data, index) =>
-                  <tr key={index}>
+                  <tr key={index} title="Accéder au profil" onClick={() => handleShowProfile(data._id)}>
                     <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
@@ -99,8 +103,8 @@ export default function SchoolAccountsTable () {
             <tbody className='tableBody'>
               {
                 studentList.map((data, index) =>
-                  <tr key={index}>
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
+                  <tr key={index} title="Accéder au profil">
+                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
