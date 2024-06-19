@@ -48,12 +48,12 @@ export default function TeacherProfilePage () {
           withReturnBtn
         />
       </div>
-      <div className='page-content' style={{ gap: '25px', flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}>
-        <span style={{ gap: '25px', display: "flex", flexDirection: "column" }}>
+      <div className='page-content' style={{ gap: '25px', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <ProfileComp profile={profile} />
           <ReportComp id={id} />
         </span>
-        <span style={{ gap: '25px', display: "flex", flexDirection: "column" }}>
+        <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <StatComp id={id} userClasses={profile?.classes ? profile.classes : []} />
           <FormComp id={id} />
         </span>

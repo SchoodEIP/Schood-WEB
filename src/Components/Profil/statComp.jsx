@@ -256,12 +256,12 @@ export default function StatComp ({ id, userClasses }) {
   return (
     <div className='profile-component-container'>
       <h3>Évolution de l'humeur des classes</h3>
-      <div style={{gap: "10px", display: "flex", flexDirection: "column"}}>
-        <div style={{gap: "25px", display: "flex", flexDirection: "row", alignItems: "center"}}>
+      <div style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ gap: '25px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <label htmlFor='dateFilter'>Sélectionner une date:</label>
           <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
         </div>
-        <div className='button-container' style={{marginRight: "25px"}}>
+        <div className='button-container' style={{ marginRight: '25px' }}>
           <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
             Semaine
           </div>
@@ -275,7 +275,7 @@ export default function StatComp ({ id, userClasses }) {
             Année
           </div>
         </div>
-        <div style={{gap: "25px", display: "flex", flexDirection: "row", alignItems: "center"}}>
+        <div style={{ gap: '25px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <label htmlFor='classFilter'>Filtrer par classe:</label>
           <select id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
             <option key='all' value=''>Toutes les classes</option>
