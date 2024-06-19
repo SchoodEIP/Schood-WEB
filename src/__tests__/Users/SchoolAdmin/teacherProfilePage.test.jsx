@@ -420,7 +420,7 @@ describe('Teacher Profile Page', () => {
     })
   })
 
-  it('mocks no classes and roles found', async () => {
+  it('clicks on different times', async () => {
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/profile/6638a710dd18a1e42e539476']}>

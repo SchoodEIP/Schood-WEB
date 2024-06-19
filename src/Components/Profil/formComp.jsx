@@ -35,7 +35,7 @@ export default function FormComp ({ id }) {
   }, [])
 
   return (
-    <div className='profile-component-container'>
+    <div className='profile-component-container' style={{height:"225px"}}>
       <h3>Questionnaires</h3>
       <div className='profile-forms-container'>
         {
