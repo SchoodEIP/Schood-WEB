@@ -3,7 +3,7 @@ import { disconnect } from '../../functions/disconnect'
 import moment from 'moment'
 import '../../css/pages/profilPage.scss'
 
-export default function FormComp ({ id }) {
+export default function FeelingComp ({ id }) {
   const [questionnaires, setQuestionnaires] = useState([])
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function FormComp ({ id }) {
 
   return (
     <div className='profile-component-container' style={{ height: '225px' }}>
-      <h3>Questionnaires</h3>
+      <h3>Ressentis</h3>
       <div className='profile-forms-container'>
         {
           questionnaires.length > 0 && questionnaires.map((dateRange, index) => (

@@ -53,17 +53,17 @@ export default function ReportComp ({ id }) {
               <div className='report-bottom-container'>
                 <h4>Utilisateurs signalés</h4>
                 {
-                                report.usersSignaled.map((user, indexP) =>
-                                  <div className='user-signaled-container' key={indexP} title={user.firstname + ' ' + user.lastname}>
-                                    <UserProfile profile={user} fullname />
-                                  </div>
-                                )
-                              }
+                  report.usersSignaled.map((user, indexP) =>
+                    <div className='user-signaled-container' key={indexP} title={user.firstname + ' ' + user.lastname}>
+                      <UserProfile profile={user} fullname />
+                    </div>
+                  )
+                }
               </div>
             </div>
           )
           )
-          : <span>Aucun signalement à déclarer</span>}
+          : <div style={{marginLeft: '15px'}}>Aucun signalement à déclarer</div>}
       </div>
     </div>
   )

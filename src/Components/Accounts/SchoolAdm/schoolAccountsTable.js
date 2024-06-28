@@ -103,7 +103,7 @@ export default function SchoolAccountsTable () {
             <tbody className='tableBody'>
               {
                 studentList.map((data, index) =>
-                  <tr key={index} title='Accéder au profil'>
+                  <tr key={index} title='Accéder au profil' onClick={() => handleShowProfile(data._id)}>
                     <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>

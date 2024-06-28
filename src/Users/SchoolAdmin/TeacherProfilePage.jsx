@@ -5,6 +5,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import ProfileComp from '../../Components/Profil/profileComp'
 import StatComp from '../../Components/Profil/statComp'
 import ReportComp from '../../Components/Profil/reportComp'
+import FeelingComp from '../../Components/Profil/feelingComp'
 import FormComp from '../../Components/Profil/formComp'
 import '../../css/pages/profilPage.scss'
 
@@ -32,6 +33,7 @@ export default function TeacherProfilePage () {
 
         const data = await response.json()
         setProfile(data)
+        console.log(data)
       } catch (error) /* istanbul ignore next */ {
         console.error('Erreur lors de la récupération du profil', error.message)
       }
@@ -52,6 +54,11 @@ export default function TeacherProfilePage () {
         <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <ProfileComp profile={profile} />
           <ReportComp id={id} />
+          {
+            profile?.role === "66586eac19b081dfc8db4f22" ? (
+              <FeelingComp id={id}/>
+            ) : ''
+          }
         </span>
         <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <StatComp id={id} userClasses={profile?.classes ? profile.classes : []} />
