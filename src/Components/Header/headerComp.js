@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react'
 import backButton from '../../assets/backButton.png'
 import '../../css/Components/Header/headerComp.scss'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
-import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
 import {disconnect} from '../../functions/disconnect'
 
@@ -149,7 +148,7 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             )
           : ''}
         {withLogo && (
-            <div className='profile' style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+            <div className='profile' style={{display: "flex", flexDirection: "row", gap: "10px", justifyContent: "center"}}>
               <div className='firstname-lastname' style={{display: "flex", flexDirection: "column", color: '#4f23e2', fontFamily: 'Inter', fontSize: "larger"}}>
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>

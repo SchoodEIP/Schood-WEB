@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import '../../css/Components/Graph/graphSpace.scss'
 import { Link } from 'react-router-dom'
-import rightArrow from '../../assets/right-arrow.png'
+import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 
 export function GraphSpace () {
   const [title, setTitle] = useState('')
@@ -26,7 +26,7 @@ export function GraphSpace () {
         <span className='title'>{title}</span>
         <Link to='/statistiques' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow' />
+          <img className='img' src={rightArrowInverted} alt='Right arrow' />
         </Link>
       </div>
       <div className='graph-body'>

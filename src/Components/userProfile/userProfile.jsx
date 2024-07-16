@@ -19,7 +19,7 @@ export function UserProfile ({ profile, fullname = false, whiteMode = false }) {
         }
         {
           profile?.title?.name && (
-            <span className={[whiteMode ? 'title-white' : 'title']}>{profile?.title?.name ? profile.title.name : ''}</span>
+            <span className={[whiteMode ? 'title-white' : 'title']}>{profile?.title?.name ? '(' + profile.title.name + ')' : ''}</span>
           )
         }
       </div>

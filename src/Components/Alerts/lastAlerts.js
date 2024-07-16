@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react'
 import '../../css/Components/Alerts/lastAlerts.scss'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import rightArrow from '../../assets/right-arrow.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
@@ -86,7 +85,7 @@ export function LastAlerts () {
         <p className='title'>Mes Dernières Alertes</p>
         <Link to='/alerts' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow' />
+          <img className='img' src={rightArrowInverted} alt='Right arrow' />
         </Link>
       </div>
       <div className='alert-body'>

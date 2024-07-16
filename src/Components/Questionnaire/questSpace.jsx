@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/Components/Questionnaire/questSpace.scss'
 import { Link, useNavigate } from 'react-router-dom'
-import rightArrow from '../../assets/right-arrow.png'
+import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import { disconnect } from '../../functions/disconnect'
 
 export function QuestSpace () {
@@ -46,7 +46,7 @@ export function QuestSpace () {
         <span className='title'>Mes Questionnaires</span>
         <Link to='/questionnaires' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow' />
+          <img className='img' src={rightArrowInverted} alt='Right arrow' />
         </Link>
       </div>
       <div className='quest-body'>
