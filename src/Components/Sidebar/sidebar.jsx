@@ -164,6 +164,9 @@ export default function Sidebar () {
     if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
       const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(6, 0, feelingsObj)
+    } else {
+      const accountObj = { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage('/accounts', false) }
+      pages.splice(6, 0, accountObj)
     }
   }
 
