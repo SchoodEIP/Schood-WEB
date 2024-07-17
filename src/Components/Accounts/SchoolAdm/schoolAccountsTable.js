@@ -67,10 +67,10 @@ export default function SchoolAccountsTable () {
               {
                 teacherList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
-                    <td>{data.firstname}</td>
-                    <td>{data.lastname}</td>
-                    <td>{data.email}</td>
+                    <td title={`${data.firstname} ${data.lastname}`}><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
+                    <td title={`${data.firstname} ${data.lastname}`}>{data.firstname}</td>
+                    <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
+                    <td title={`${data.email}`}>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
                   </tr>
@@ -100,10 +100,10 @@ export default function SchoolAccountsTable () {
               {
                 studentList.map((data, index) =>
                   <tr key={index}>
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
-                    <td>{data.firstname}</td>
-                    <td>{data.lastname}</td>
-                    <td>{data.email}</td>
+                    <td title={`${data.firstname} ${data.lastname}`}><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
+                    <td title={`${data.firstname} ${data.lastname}`}>{data.firstname}</td>
+                    <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
+                    <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
                   </tr>
                 )

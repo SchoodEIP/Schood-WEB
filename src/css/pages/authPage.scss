@@ -1,4 +1,3 @@
-
 #auth {
   display: flex;
   justify-content: center;
@@ -7,159 +6,202 @@
   min-height: 100vh;
   background-color: white;
   overflow: auto;
+}
 
-  #auth-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-    input::placeholder, textarea::placeholder {
-      color: rgb(41, 41, 41, 52%);
-      font-family: Inter;
-      font-weight: 600;
-      font-size: 16px;
-    }
+input::placeholder, textarea::placeholder {
+  color: rgb(41, 41, 41, 52%);
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+}
 
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    textarea:-webkit-autofill,
-    textarea:-webkit-autofill:hover,
-    textarea:-webkit-autofill:focus {
-      -webkit-text-fill-color: black;
-      transition: background-color 5000s ease-in-out 0s;
-      -webkit-box-shadow: 0 0 0 30px #FFD2D5 inset !important;
-      box-shadow: inset 0 0 20px 20px #FFD2D5;
-    }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: black;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0 30px #FFD2D5 inset !important;
+  box-shadow: inset 0 0 20px 20px #FFD2D5;
+}
 
-    #schoodLogo {
-      object-fit:scale-down, contain;
-      display: block;
-      margin-bottom: 50px;
-      max-width: 50%;
-      max-height: 100%;
-    }
+#schoodLogo {
+  object-fit: scale-down, contain;
+  display: block;
+  margin-bottom: 50px;
+  max-width: 50%;
+  max-height: 100%;
+}
 
-    #mail {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 39px;
+#mail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 39px;
+}
 
-      input, textarea {
-        background-color: #FFD2D5 !important;
-        height: 46px;
-        width: 283px;
-        border-radius: 26px;
-        border: none;
-      }
+#mail input, #mail textarea {
+  background-color: #FFD2D5 !important;
+  height: 46px;
+  width: 283px;
+  border-radius: 26px;
+  border: none;
+}
 
-      input {
-        padding: 0px 10px;
-      }
-    }
+#mail input {
+  padding: 0px 10px;
+}
 
-    #password {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 6px;
+#password {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
+}
 
-      input, textarea {
-        background-color: #FFD2D5 !important;
-        height: 46px;
-        width: 283px;
-        border-radius: 26px;
-        border: none;
-      }
+#password input, #password textarea {
+  background-color: #FFD2D5 !important;
+  height: 46px;
+  width: 283px;
+  border-radius: 26px;
+  border: none;
+}
 
-      input {
-        padding: 0px 10px;
-      }
-    }
+#password input {
+  padding: 0px 10px;
+}
 
-    #label {
-      font-size: 22px;
-      color: #4F23E2;
-      font-weight: 600;
-      font-family: Inter;
-      margin-bottom: 8px;
-    }
+#label {
+  font-size: 22px;
+  color: #4F23E2;
+  font-weight: 600;
+  font-family: Inter;
+  margin-bottom: 8px;
+}
 
-    #forgot-password {
-      font-size: 12px;
-      color: #4F23E2;
-      font-weight: 600;
-      font-family: Inter;
-      margin-bottom: 6px;
-    }
+#forgot-password {
+  font-size: 12px;
+  color: #4F23E2;
+  font-weight: 600;
+  font-family: Inter;
+  margin-bottom: 6px;
+}
 
-    .remember-me-normal {
-      margin-bottom: 44px;
-    }
+.remember-me-normal {
+  margin-bottom: 44px;
+}
 
-    .remember-me-error {
-      margin-bottom: 10px;
-    }
+.remember-me-error {
+  margin-bottom: 10px;
+}
 
-    #remember-me {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: row;
+#remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  color: #4F23E2;
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 600;
+}
 
-      color: #4F23E2;
-      font-size: 16px;
-      font-family: Inter;
-      font-weight: 600;
+#remember-me input {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 6px;
+  vertical-align: middle;
+  border: 2px solid black;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  margin-left: 2px;
+}
 
-      input {
-        width: 20px;
-        height: 20px;
-        background-color: white;
-        border-radius: 6px;
-        vertical-align: middle;
-        border: 2px solid black;
-        appearance: none;
-        -webkit-appearance: none;
-        outline: none;
-        cursor: pointer;
-        margin-left: 2px;
-      }
+#remember-me input:checked:before {
+  content: "✔";
+  color: #4F23E2;
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: 3px;
+}
 
-      input:checked:before {
-        content: "✔";
-        color: #4F23E2;
-        font-weight: 600;
-        font-size: 13px;
-        margin-left: 3px;
-      }
+#remember-me input:checked {
+  margin-left: 2px;
+}
 
-      input:checked {
-        margin-left: 2px;
-      }
-    }
+#error-message {
+  color: #FF3636;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 700;
+}
 
-    #error-message {
-      color: #FF3636;
-      font-size: 14px;
-      font-family: Inter;
-      font-weight: 700;
-    }
+#submit-button {
+  background-color: #4F23E2;
+  border-radius: 26px;
+  height: 55px;
+  width: 203px;
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  font-family: Inter;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover and active states */
+}
 
-    #submit-button {
-      background-color: #4F23E2;
+#submit-button:hover {
+  background-color: #3b1ca9; /* Darker color on hover */
+}
+
+#submit-button:active,
+#submit-button.active {
+  background-color: #2a1273; /* Even darker color on click */
+}
+
+#submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#password {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
+
+  .password-input {
+    position: relative;
+
+    input {
+      background-color: #ffd2d5 !important;
+      height: 46px;
+      width: 283px;
       border-radius: 26px;
-      height: 55px;
-      width: 203px;
-      color: white;
-      font-size: 22px;
-      font-weight: 600;
-      font-family: Inter;
       border: none;
+      padding: 0px 10px;
+    }
+
+    .password-toggle-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       cursor: pointer;
     }
   }

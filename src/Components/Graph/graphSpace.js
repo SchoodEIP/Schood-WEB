@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../css/Components/Graph/graphSpace.scss';
 import { Link } from 'react-router-dom';
 import rightArrow from '../../assets/right-arrow.png';
-import { Chart } from 'chart.js';
+import Chart from 'chart.js/auto';
 import { disconnect } from '../../functions/disconnect';
 
 export function GraphSpace() {
@@ -25,9 +25,32 @@ export function GraphSpace() {
   }, [role]);
 
   useEffect(() => {
-    if (role === 'student') {
-      const fetchData = async () => {
-        const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods';
+    const fetchData = async () => {
+      let moodUrl = '';
+      let requestBody = {};
+
+      if (role === 'student') {
+        moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods';
+        requestBody = {
+          fromDate: calculateStartDate(),
+          toDate: calculateEndDate(),
+        };
+      } else if (role === 'teacher') {
+        moodUrl = process.env.REACT_APP_BACKEND_URL + '/teacher/statistics/weeklyMoods';
+        requestBody = {
+          fromDate: calculateStartDate(),
+          toDate: calculateEndDate(),
+          classFilter: 'all',
+        };
+      } else {
+        moodUrl = process.env.REACT_APP_BACKEND_URL + '/school/statistics/weeklyMoods';
+        requestBody = {
+          fromDate: calculateStartDate(),
+          toDate: calculateEndDate(),
+        };
+      }
+
+      if (moodUrl) {
         try {
           const response = await fetch(moodUrl, {
             method: 'POST',
@@ -35,10 +58,7 @@ export function GraphSpace() {
               'x-auth-token': sessionStorage.getItem('token'),
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              fromDate: calculateStartDate(),
-              toDate: calculateEndDate(),
-            }),
+            body: JSON.stringify(requestBody),
           });
           if (response.status === 401) {
             disconnect();
@@ -49,15 +69,16 @@ export function GraphSpace() {
         } catch (error) {
           console.error('Error fetching mood data:', error);
         }
-      };
-      fetchData();
-    }
+      }
+    };
+
+    fetchData();
   }, [role]);
 
   const createOrUpdateChart = (moodData) => {
     if (!moodData || Object.keys(moodData).length === 0) return;
 
-    const ctx = document.getElementById('moodChart');
+    const ctx = document.getElementById('moodChart').getContext('2d');
     if (!chart) {
       const newChart = new Chart(ctx, {
         type: 'line',
@@ -126,7 +147,7 @@ export function GraphSpace() {
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  const moodValue = context.raw.y;
+                  const moodValue = context.raw;
                   switch (moodValue) {
                     case 0:
                       return 'Très mal';
@@ -153,9 +174,9 @@ export function GraphSpace() {
       const data = dates.map((date) => ({
         x: date,
         y: moodData[date],
-        r: 10,
       }));
 
+      chart.data.labels = dates;
       chart.data.datasets[0].data = data;
       chart.update();
     }
@@ -186,23 +207,11 @@ export function GraphSpace() {
         </Link>
       </div>
       <div className='graph-body'>
-        {role === 'student' ? (
-          <div className='graph-content'>
-            <div className='chart-container'>
-              <canvas id='moodChart' />
-            </div>
+        <div className='graph-content'>
+          <div className='chart-container'>
+            <canvas id='moodChart' />
           </div>
-        ) : role === 'teacher' ? (
-          <div className='graph-content'>
-            <p>Graphique de l'évolution de l'humeur des classes</p>
-            {/* Add teacher-specific chart or content here */}
-          </div>
-        ) : (
-          <div className='graph-content'>
-            <p>Graphique de l'évolution de l'humeur de l'établissement</p>
-            {/* Add institution-specific chart or content here */}
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
