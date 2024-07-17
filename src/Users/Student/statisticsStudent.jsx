@@ -281,7 +281,13 @@ const StudentStatPage = () => {
           <h1>Evolution de mon humeur</h1>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <canvas id='moodChart' width='400' height='400' />
-            {averagePercentage !== null && (
+            {isNaN(averagePercentage) ? (
+              <div>
+                <p data-testid='no-data-message'>
+                  Pas de données disponibles pour cette période
+                </p>
+              </div>
+            ) : (
               <div style={{ display: 'block', width: '40px', height: '10px' }}>
                 <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
                 <progress className='progress' value={averagePercentage} max='100' />

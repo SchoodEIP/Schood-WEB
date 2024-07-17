@@ -5,9 +5,17 @@ import { disconnect } from '../../functions/disconnect'
 const CategoryCreationPopupContent = () => {
   const [name, setName] = useState('')
   const [errMessage, setErrMessage] = useState('')
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
 
   const handleNameChange = (event) => {
     setName(event.target.value)
+  }
+
+  const openNotification = (message, type) => {
+    setNotification({ visible: true, message, type })
+    setTimeout(() => {
+      setNotification({ visible: false, message: '', type: '' })
+    }, 3000) // La notification sera visible pendant 3 secondes
   }
 
   const fetchCategoryRegister = async () => {
@@ -23,21 +31,29 @@ const CategoryCreationPopupContent = () => {
         body: JSON.stringify({
           name
         })
-      }).then((response) => {
+      }).then(async (response) => {
         if (response.status === 401) {
           disconnect()
         }
         if (response.ok) {
           setErrMessage('Catégorie créée avec succès.')
-          window.location.reload()
-        } else /* istanbul ignore next */ {
-          const data = response.json()
+          openNotification('Catégorie créée avec succès.', 'success')
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        } else {
+          const data = await response.json()
           setErrMessage(data.message)
+          openNotification(data.message, 'error')
         }
       })
-        .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
+        .catch((error) => {
+          setErrMessage(error.message)
+          openNotification(error.message, 'error')
+        })
     } else {
       setErrMessage('La catégorie est vide.')
+      openNotification('La catégorie est vide.', 'error')
     }
   }
 
@@ -48,6 +64,11 @@ const CategoryCreationPopupContent = () => {
         <input type='text' name='category' placeholder='Nom' onChange={handleNameChange} />
       </label>
       {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+      {notification.visible &&
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      }
       <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>
     </>
   )

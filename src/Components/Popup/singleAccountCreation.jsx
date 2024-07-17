@@ -1,115 +1,115 @@
-import React, { useState, useEffect } from 'react'
-import '../../css/Components/Popup/popup.scss'
-import Select from 'react-select'
-import userIcon from '../../assets/userIcon.png'
-import { disconnect } from '../../functions/disconnect'
+import React, { useState, useEffect } from 'react';
+import '../../css/Components/Popup/popup.scss';
+import Select from 'react-select';
+import userIcon from '../../assets/userIcon.png';
+import { disconnect } from '../../functions/disconnect';
 
 const SingleAccountCreationPopupContent = () => {
-  const roleProfile = sessionStorage.getItem('role')
-  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
-  const [firstname, setFirstName] = useState('')
-  const [lastname, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [rolesList, setRolesList] = useState([])
-  const [errMessage, setErrMessage] = useState('')
-  const [role, setRole] = useState('')
-  const [classes, setClasses] = useState([])
-  const [classesList, setClassesList] = useState([])
-  const [titlesList, setTitlesList] = useState([])
-  const [isMultiStatus, setIsMultiStatus] = useState(true)
-  const [picture, setPicture] = useState(null)
-  const [title, setTitle] = useState(null)
+  const roleProfile = sessionStorage.getItem('role');
+  const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register';
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [rolesList, setRolesList] = useState([]);
+  const [errMessage, setErrMessage] = useState('');
+  const [role, setRole] = useState('');
+  const [classes, setClasses] = useState([]);
+  const [classesList, setClassesList] = useState([]);
+  const [titlesList, setTitlesList] = useState([]);
+  const [isMultiStatus, setIsMultiStatus] = useState(true);
+  const [picture, setPicture] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [notification, setNotification] = useState(null); // Ajout de l'état de la notification
 
   const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value)
-  }
+    setFirstName(event.target.value);
+  };
 
   const handleLastNameChange = (event) => {
-    setLastName(event.target.value)
-  }
+    setLastName(event.target.value);
+  };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value)
-  }
+    setEmail(event.target.value);
+  };
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
+    setTitle(event.target.value);
+  };
 
   const handleRoleChange = (event) => {
-    setRole(event.target.value)
-    if (event.target.value === rolesList.filter(role => role.name === 'student')[0]._id) {
-      setIsMultiStatus(false)
+    setRole(event.target.value);
+    if (event.target.value === rolesList.filter((role) => role.name === 'student')[0]._id) {
+      setIsMultiStatus(false);
     } else {
-      setIsMultiStatus(true)
+      setIsMultiStatus(true);
     }
-  }
+  };
 
   const handleClasseChange = (selected) => {
-    if (role === (rolesList.filter(role => role.name === 'student')[0]._id)) {
-      setClasses([selected])
+    if (role === rolesList.filter((role) => role.name === 'student')[0]._id) {
+      setClasses([selected]);
     } else {
-      setClasses(selected)
+      setClasses(selected);
     }
-  }
+  };
 
   const handlePictureChange = (event) => {
-    const selectedFile = event.target.files[0]
-    setPicture(event.target.files[0])
+    const selectedFile = event.target.files[0];
+    setPicture(event.target.files[0]);
     if (selectedFile) {
-      const reader = new FileReader()
-      reader.readAsDataURL(selectedFile)
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
       reader.onload = () => {
-        const base64Image = reader.result
-        setPicture(base64Image)
-      }
+        const base64Image = reader.result;
+        setPicture(base64Image);
+      };
       reader.onerror = (error) => {
-        console.error('Error occurred while reading the file:', error)
-      }
+        console.error('Error occurred while reading the file:', error);
+      };
     }
-  }
+  };
 
   const validateEmail = (email) => {
-    const regEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi
-
-    return regEx.test(email)
-  }
+    const regEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
+    return regEx.test(email);
+  };
 
   const singleAccountCreation = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const filteredArray = rolesList.filter(item => item.levelOfAccess === 2)
-    const roleId = filteredArray.map(item => item._id)
+    const filteredArray = rolesList.filter((item) => item.levelOfAccess === 2);
+    const roleId = filteredArray.map((item) => item._id);
 
-    let classesArray = []
-    if (classes.length !== 0 && role === rolesList.filter(role => role.name === 'student')) {
-      classesArray.push(classes)
+    let classesArray = [];
+    if (classes.length !== 0 && role === rolesList.filter((role) => role.name === 'student')[0]._id) {
+      classesArray.push(classes);
     } else {
-      classesArray = classes
+      classesArray = classes;
     }
 
     if (firstname === '') {
-      setErrMessage('Il manque le prénom.')
-      return
+      setErrMessage('Il manque le prénom.');
+      return;
     } else if (lastname === '') {
-      setErrMessage('Il manque le nom de famille.')
-      return
+      setErrMessage('Il manque le nom de famille.');
+      return;
     } else if (email === '') {
-      setErrMessage("Il manque l'adresse email.")
-      return
+      setErrMessage("Il manque l'adresse email.");
+      return;
     } else if (!validateEmail(email)) {
-      setErrMessage("L'adresse email n'est pas valide.")
-      return
+      setErrMessage("L'adresse email n'est pas valide.");
+      return;
     } else if (roleProfile !== 'admin' && picture === '') {
-      setErrMessage('Veuillez fournir une image de profil')
-      return
+      setErrMessage('Veuillez fournir une image de profil');
+      return;
     } else if (roleProfile !== 'admin' && classesArray.length === 0) {
       if (role.name === 'teacher') {
-        setErrMessage('Veuillez assigner une ou plusieurs classes à cet enseignant.')
+        setErrMessage('Veuillez assigner une ou plusieurs classes à cet enseignant.');
       } else {
-        setErrMessage('Veuillez assigner une classe à cet étudiant.')
+        setErrMessage('Veuillez assigner une classe à cet étudiant.');
       }
-      return
+      return;
     }
 
     const adminPayload = {
@@ -117,8 +117,8 @@ const SingleAccountCreationPopupContent = () => {
       lastname,
       email,
       role: roleId[0],
-      classes: []
-    }
+      classes: [],
+    };
 
     const schoolAdminPayload = {
       firstname,
@@ -126,99 +126,130 @@ const SingleAccountCreationPopupContent = () => {
       email,
       role,
       classes: classesArray,
-      picture: picture || userIcon
-    }
+      picture: picture || userIcon,
+    };
 
     await fetch(singleCreationUrl, {
       method: 'POST',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(roleProfile === 'admin' ? adminPayload : schoolAdminPayload)
-    }).then(response => {
-      if (response.status === 401) {
-        disconnect()
-      } else if (response.ok) {
-        setErrMessage('Compte créé avec succès')
-        window.location.reload()
-      } else {
-        return response.json()
-      }
+      body: JSON.stringify(roleProfile === 'admin' ? adminPayload : schoolAdminPayload),
     })
-      .then(data => {
-        if (data) { setErrMessage(data.message) }
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        } else if (response.ok) {
+          setNotification({ type: 'success', message: 'Compte créé avec succès' }); // Déclencher la notification de succès
+          window.location.reload();
+        } else {
+          return response.json();
+        }
       })
-      .catch((e) =>/* istanbul ignore next */ { setErrMessage(e.message) })
-  }
+      .then((data) => {
+        if (data) {
+          setNotification({ type: 'error', message: data.message }); // Déclencher la notification d'erreur si nécessaire
+        }
+      })
+      .catch((e) => {
+        setNotification({ type: 'error', message: e.message }); // Déclencher la notification d'erreur en cas d'erreur
+      });
+  };
 
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/roles', {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 401) {
-        disconnect()
-      }
-      return response.json()
+        'Content-Type': 'application/json',
+      },
     })
-      .then(data => {
-        setRolesList(data.roles)
-        setRole(data.roles.filter(user => user.name === 'teacher')[0]._id)
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json();
       })
-      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
+      .then((data) => {
+        setRolesList(data.roles);
+        setRole(data.roles.filter((user) => user.name === 'teacher')[0]._id);
+      })
+      .catch((error) => {
+        setErrMessage(error.message);
+      });
 
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/classes', {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 401) {
-        disconnect()
-      }
-      return response.json()
+        'Content-Type': 'application/json',
+      },
     })
-      .then(data => setClassesList(data))
-      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json();
+      })
+      .then((data) => setClassesList(data))
+      .catch((error) => {
+        setErrMessage(error.message);
+      });
 
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/titles', {
       method: 'GET',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 401) {
-        disconnect()
-      }
-      return response.json()
+        'Content-Type': 'application/json',
+      },
     })
-      .then(data => {
-        setTitlesList(data)
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect();
+        }
+        return response.json();
       })
-      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
-  }, [])
+      .then((data) => {
+        setTitlesList(data);
+      })
+      .catch((error) => {
+        setErrMessage(error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    // Effacer la notification après 5 secondes
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   return (
     <>
-      {
-        roleProfile === 'admin'
-          ? ''
-          : (
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-              <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
-              <label className='input-label'>
-                <span className='label-content'>Changer la photo de Profil</span>
-                <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
-              </label>
-            </div>
-            )
-      }
+      {/* Affichage de la notification */}
+      {notification && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+
+      {/* Le reste du contenu du composant */}
+      {roleProfile === 'admin' ? (
+        ''
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+          <img style={{ width: '50px', borderRadius: '50%' }} src={picture || userIcon} alt='photo de profil' />
+          <label className='input-label'>
+            <span className='label-content'>Changer la photo de Profil</span>
+            <input className='picture-input' name='picture' placeholder='Changer la photo' onChange={handlePictureChange} type='file' accept='.png, .jpeg, .jpg' />
+          </label>
+        </div>
+      )}
       <label className='input-label' style={{ gap: '10px' }}>
         <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
         <input style={{ width: '350px' }} placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
@@ -231,59 +262,51 @@ const SingleAccountCreationPopupContent = () => {
         <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
         <input style={{ width: '350px' }} placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
       </label>
-      {
-        roleProfile === 'admin'
-          ? ''
-          : (
+      {roleProfile === 'admin' ? (
+        ''
+      ) : (
+        <label className='input-label'>
+          <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
+          {rolesList[0] !== undefined ? (
+            <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
+              <option value={rolesList.filter((role) => role.name === 'teacher')[0]._id}>{rolesList.filter((role) => role.name === 'teacher')[0].frenchName}</option>
+              <option value={rolesList.filter((role) => role.name === 'student')[0]._id}>{rolesList.filter((role) => role.name === 'student')[0].frenchName}</option>
+            </select>
+          ) : (
+            ''
+          )}
+          {rolesList[0] !== undefined && role === rolesList.filter((role) => role.name === 'teacher')[0]._id && titlesList !== undefined ? (
             <label className='input-label'>
-              <span className='label-content'>Rôle <span style={{ color: 'red' }}>*</span></span>
-              {
-                  (rolesList[0] !== undefined)
-                    ? (
-                      <select defaultValue={role} name='role' placeholder='Rôle' onChange={handleRoleChange}>
-                        <option value={rolesList.filter(role => role.name === 'teacher')[0]._id}>{rolesList.filter(role => role.name === 'teacher')[0].frenchName}</option>
-                        <option value={rolesList.filter(role => role.name === 'student')[0]._id}>{rolesList.filter(role => role.name === 'student')[0].frenchName}</option>
-                      </select>
-                      )
-                    : ''
-                }
-              {
-                  (rolesList[0] !== undefined && role === rolesList.filter(role => role.name === 'teacher')[0]._id && titlesList !== undefined)
-                    ? (
-                      <label className='input-label'>
-                        <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
-                        <select data-testid='title-select' defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
-                          {
-                            titlesList.map((title, index) => {
-                              return <option key={index} value={title._id}>{title.name}</option>
-                            })
-                          }
-                        </select>
-                      </label>
-                      )
-                    : ''
-                }
-              <label className='input-label'>
-                <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
-                <Select
-                  isMulti={isMultiStatus}
-                  data-testid='select-classes'
-                  id='select-classes'
-                  placeholder='Selectionner une ou plusieurs classes'
-                  options={classesList}
-                  value={classes}
-                  onChange={handleClasseChange}
-                  getOptionValue={(option) => (option._id)}
-                  getOptionLabel={(option) => (option.name)}
-                />
-              </label>
+              <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
+              <select data-testid='title-select' defaultValue={title} name='title' placeholder='Titre' onChange={handleTitleChange}>
+                {titlesList.map((title, index) => {
+                  return <option key={index} value={title._id}>{title.name}</option>;
+                })}
+              </select>
             </label>
-            )
-      }
+          ) : (
+            ''
+          )}
+          <label className='input-label'>
+            <span className='label-content'>Classe(s) <span style={{ color: 'red' }}>*</span></span>
+            <Select
+              isMulti={isMultiStatus}
+              data-testid='select-classes'
+              id='select-classes'
+              placeholder='Sélectionner une ou plusieurs classes'
+              options={classesList}
+              value={classes}
+              onChange={handleClasseChange}
+              getOptionValue={(option) => option._id}
+              getOptionLabel={(option) => option.name}
+            />
+          </label>
+        </label>
+      )}
       {errMessage ? <span data-testid='err-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
     </>
-  )
-}
+  );
+};
 
-export default SingleAccountCreationPopupContent
+export default SingleAccountCreationPopupContent;

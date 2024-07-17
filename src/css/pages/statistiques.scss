@@ -156,3 +156,54 @@ button {
   .progress::-webkit-progress-value {
     background-color: #4f23e2;
   }
+
+  /* Style pour la liste déroulante */
+#classFilter {
+  background-color: white;
+  color: #4f23e2;
+  border: 2px solid #4f23e2;
+  border-radius: 20px;
+  padding: 10px 30px 10px 10px; /* Ajout de padding pour la flèche */
+  font-size: 16px;
+  appearance: none;
+  position: relative;
+}
+
+#classFilter:focus {
+  border-color: #4f23e2;
+  outline: none;
+}
+
+/* Ajout d'une flèche à droite */
+#classFilter::after {
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #4f23e2;
+  font-size: 12px;
+}
+
+/* Style pour les options de la liste déroulante */
+#classFilter option {
+  background-color: white;
+  color: black;
+  padding: 10px;
+}
+
+/* Ajustements pour la réactivité */
+@media screen and (max-width: 768px) {
+  #classFilter {
+      font-size: 14px;
+      padding: 8px 26px 8px 8px; /* Ajustement du padding */
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #classFilter {
+      font-size: 12px;
+      padding: 6px 24px 6px 6px; /* Ajustement du padding */
+  }
+}

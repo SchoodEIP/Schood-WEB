@@ -27,6 +27,7 @@ import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import { WebsocketProvider } from './contexts/websocket'
 import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
+import FeelingsAdminPage from './Users/Admin/feelingsAdminPage'
 import 'react-tooltip/dist/react-tooltip.css'
 import Sidebar from './Components/Sidebar/sidebar'
 import './css/index.scss'
@@ -84,6 +85,7 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
+                  <Route path='/feelings' element={<FeelingsAdminPage />} />
                 </>
               )}
               {sessionStorage.getItem('role') === 'student' && (
