@@ -17,6 +17,16 @@
   cursor: pointer;
 }
 
+.selected-btn {
+  border: 1px solid #4F23E2;
+  border-radius: 15px;
+  background-color: #4F23E2;
+  color: white;
+  font-size: 22px;
+  font-family: Inter;
+  cursor: pointer;
+}
+
 .category-btn:hover {
   border: 1px solid #4F23E2;
   border-radius: 15px;
@@ -59,6 +69,19 @@
   font-family: Inter;
   cursor: pointer;
   padding: 10px;
+}
+
+.selected-contact-btn {
+  width: 95%;
+  min-height: 50px;
+  border: 1px solid #4F23E2;
+  background-color: #4F23E2;
+  color: white;
+  font-size: 22px;
+  border-radius: 15px;
+  font-family: Inter;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .contact-btn:hover {
@@ -107,7 +130,8 @@
 
 .contact-element-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 10px;
   align-items: center;
   font-size: 18px;
 }
