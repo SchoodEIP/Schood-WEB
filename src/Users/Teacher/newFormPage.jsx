@@ -180,31 +180,37 @@ const NewFormPage = () => {
           returnCall={handlePopup}
         />
       </div>
-      <div className='form-container'>
-        <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
+      <div className='form-container' >
+        <Popup contentStyle={{width: "500px"}} open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
-            <div className='popup-modal-container'>
-              <span className='title-popup'>Sauvegarder les Modifications ?</span>
-              <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toute vos modifications.</span>
+            <div style={{maxWidth: "500px", height: "600px"}} className='popup-modal-container'>
+              <span className='title-popup'>Sauvegarder les modifications ?</span>
+              <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toutes vos modifications.</span>
               {errMessage ? <span className='error-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
               <div className='btn-container'>
-                <button className='popup-btn' onClick={close}>Annuler</button>
                 <div className='save-btn-container'>
-                  <button className='popup-btn' style={{ backgroundColor: 'red', borderColor: 'red' }} onClick={handleGoBack}>Ne Pas Sauvegarder</button>
-                  <button style={{ width: '150px' }} className='popup-btn' onClick={postQuestions}>Sauvegarder</button>
+                  <button className='popup-text-btn' onClick={close}>Continuer l'édition</button>
+                  <button className='popup-btn' style={{ backgroundColor: 'red', borderColor: 'red' }} onClick={handleGoBack}>Quitter sans sauvegarder</button>
+                  <button className='popup-btn' onClick={postQuestions}>Sauvegarder et quitter</button>
                 </div>
               </div>
             </div>
           )}
         </Popup>
         <div className='form'>
+          <div className='error-message-container'>
+            <p className='error-message' data-testid='error-message'>{errMessage}</p>
+          </div>
+        </div>
+        <div className='form-content-container'>
           <div className='head-form'>
             <div className='input-container'>
+              <span className='label-content'>Titre du questionnaire : </span>
               <input className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
             </div>
             <div className='label-container'>
               <label id='parution-date-container' className='input-label'>
-                <span className='label-content'>Date de parution</span>
+                <span className='label-content'>Date de parution : </span>
                 <DatePicker
                   className='default-input'
                   name='parution-date'
@@ -217,11 +223,6 @@ const NewFormPage = () => {
               </label>
             </div>
           </div>
-          <div className='error-message-container'>
-            <p className='error-message' data-testid='error-message'>{errMessage}</p>
-          </div>
-        </div>
-        <div className='form-content-container'>
           {
               (questionInc > 0 && questions) && questions.map((question, index) =>
                 <div key={index} className='question'>
@@ -233,7 +234,7 @@ const NewFormPage = () => {
                       </label>
                       <label style={{ flexDirection: 'column' }} className='input-label'>
                         <span className='label-content'>Type de question</span>
-                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-input' key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
+                        <select data-testid={'select-' + index} style={{ width: '200px' }} className='default-select' key={index} defaultValue={question.type} onChange={(e) => handleChangeType(e, index)}>
                           <option value='text'>Texte</option>
                           <option value='emoji'>Émoticône</option>
                           <option value='multiple'>Multiple</option>
@@ -249,8 +250,8 @@ const NewFormPage = () => {
                             ))}
                           </div>
                           <div className='btn-container'>
-                            <button className='form-btn' onClick={() => handleAddAnswer(index)}>Ajouter une Réponse</button>
-                            {question.answers.length > 2 && <button className='form-btn' onClick={() => handleRemoveLastAnswer(index)}>Enlever la Dernière Réponse</button>}
+                            <button className='form-btn' onClick={() => handleAddAnswer(index)}>+ Ajouter une Réponse</button>
+                            {question.answers.length > 2 && <button className='form-btn' onClick={() => handleRemoveLastAnswer(index)}>- Enlever la Dernière Réponse</button>}
                           </div>
                         </div>
                       )
@@ -261,8 +262,8 @@ const NewFormPage = () => {
               )
             }
           <div className='confirmation-form-container'>
-            <button className='form-btn' id='add-question-btn' onClick={handleAddNewQuestion}>Ajouter une Question</button>
-            {(questionInc > 1) ? <button className='form-btn' id='remove-question-btn' onClick={handleRemoveLastQuestion}>Enlever la Dernière Question</button> : ''}
+            <button className='form-btn' id='add-question-btn' onClick={handleAddNewQuestion}>+ Ajouter une Question</button>
+            {(questionInc > 1) ? <button className='form-btn' id='remove-question-btn' onClick={handleRemoveLastQuestion}>- Enlever la Dernière Question</button> : ''}
           </div>
         </div>
       </div>
