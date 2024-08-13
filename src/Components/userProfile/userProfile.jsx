@@ -5,7 +5,7 @@ import userIcon from '../../assets/userIcon.png'
 export function UserProfile ({ profile, fullname = false, whiteMode = false, img = true }) {
   return (
     <div className='profile'>
-       {
+      {
         img ? <img className='img' src={profile?.picture ? profile.picture : userIcon} alt='user icon' title={profile?.firstname && profile?.lastname ? profile.firstname + ' ' + profile.lastname : ''} /> : ''
        }
       <div className='profile-content'>

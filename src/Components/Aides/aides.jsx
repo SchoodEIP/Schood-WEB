@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Aides/aides.scss'
 import { disconnect } from '../../functions/disconnect'
-import phoneIcon from "../../assets/phoneIcon.png"
-import mailIcon from "../../assets/mailIcon.png"
+import phoneIcon from '../../assets/phoneIcon.png'
+import mailIcon from '../../assets/mailIcon.png'
 
 export default function AidePage (props) {
   const [categories, setCategories] = useState([])
@@ -80,7 +80,7 @@ export default function AidePage (props) {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column"}}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <p>{errMessage || ''}</p>
       <div id='category-container'>
         {categories.map((category) => (
@@ -89,10 +89,10 @@ export default function AidePage (props) {
           </button>
         ))}
       </div>
-      <div id="help-container">
+      <div id='help-container'>
         <div id='filtered-contacts-container'>
           {filteredContacts.map((contact) =>
-            <div key={contact._id} className={selectedContact === contact._id ? 'selected-contact-btn contact-btn' : 'contact-btn' } data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
+            <div key={contact._id} className={selectedContact === contact._id ? 'selected-contact-btn contact-btn' : 'contact-btn'} data-testid={'contact-btn-' + contact.id} onClick={() => filterContact(contact._id)}>
               {contact.name}
             </div>
           )}
@@ -114,7 +114,7 @@ export default function AidePage (props) {
             chosenContact.email
               ? (
                 <div className='contact-element-container'>
-                  <img src={mailIcon} alt='Adresse Email' className='contact-element-title'/>
+                  <img src={mailIcon} alt='Adresse Email' className='contact-element-title' />
                   <p className='contact-element-content'>{chosenContact.email}</p>
                 </div>
                 )

@@ -2,7 +2,7 @@ import React from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
-const DeleteAccountPopupContent = ({user_id, deleteUserAccount, closeDeleteAccountPopup}) => {
+const DeleteAccountPopupContent = ({ user_id, deleteUserAccount, closeDeleteAccountPopup }) => {
   return (
     <>
       <div>

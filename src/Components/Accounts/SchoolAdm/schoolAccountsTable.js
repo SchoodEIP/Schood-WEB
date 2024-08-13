@@ -11,7 +11,7 @@ export default function SchoolAccountsTable () {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [userId, setUserId] = useState("")
+  const [userId, setUserId] = useState('')
 
   async function getAccountList () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
@@ -56,41 +56,37 @@ export default function SchoolAccountsTable () {
 
   async function deleteAccount (deleteType, accountId) {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/deleteUser/' + accountId
-      const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
 
-      const resp = await fetch(baseUrl, {
-        method: 'DELETE',
-        headers: {
-          'x-auth-token': token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          deletePermanently: deleteType
-        })
+    const resp = await fetch(baseUrl, {
+      method: 'DELETE',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        deletePermanently: deleteType
       })
-      if (resp.status === 401) {
-        disconnect()
-      } else if (resp.status === 200) {
-        toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
-        getAccountList()
-      } else {
-        toast.error("une alerte s'est produite")
-        getAccountList()
-      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else if (resp.status === 200) {
+      toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
+      getAccountList()
+    } else {
+      toast.error("une alerte s'est produite")
+      getAccountList()
+    }
   }
 
   const openPopup = () => {
-    if (isPopupOpen)
-      setUserId('')
+    if (isPopupOpen) { setUserId('') }
     setIsPopupOpen(!isPopupOpen)
   }
 
   const callDeleteAccount = (deleteType, user_id) => {
     setUserId(user_id)
-    if (deleteType)
-      setIsPopupOpen(!isPopupOpen)
-    else
-      deleteAccount(deleteType, user_id)
+    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, user_id) }
   }
 
   return (
@@ -132,8 +128,8 @@ export default function SchoolAccountsTable () {
                     <td>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id)}} >Suspendre le Compte</button></td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id)}} >Supprimer le Compte</button></td>
+                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id) }}>Suspendre le Compte</button></td>
+                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id) }}>Supprimer le Compte</button></td>
                   </tr>
                 )
               }
@@ -168,8 +164,8 @@ export default function SchoolAccountsTable () {
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id)}} >Suspendre le Compte</button></td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id)}} >Supprimer le Compte</button></td>
+                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id) }}>Suspendre le Compte</button></td>
+                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id) }}>Supprimer le Compte</button></td>
                   </tr>
                 )
               }

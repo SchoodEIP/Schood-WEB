@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import backButton from '../../assets/backButton.png'
 import '../../css/Components/Header/headerComp.scss'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
 import moment from 'moment'
-import {disconnect} from '../../functions/disconnect'
+import { disconnect } from '../../functions/disconnect'
 
 import '../../css/Components/Popup/popup.scss'
 
@@ -55,7 +55,6 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
     setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
-
   function handleGetNotifications () {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/notifications/`, {
       method: 'GET',
@@ -93,7 +92,6 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
     setIsShown(!isShown)
     handleGetNotifications()
   }
-
 
   return (
     <div id='header'>
@@ -148,16 +146,16 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             )
           : ''}
         {withLogo && (
-            <div className='profile' style={{display: "flex", flexDirection: "row", gap: "10px", justifyContent: "center"}}>
-              <div className='firstname-lastname' style={{display: "flex", flexDirection: "column", color: '#4f23e2', fontFamily: 'Inter', fontSize: "larger"}}>
-                <span>{profile?.firstname}</span>
-                <span>{profile?.lastname}</span>
-              </div>
-              <img style={{width: "60px", borderRadius: "50%"}} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-                <FontAwesomeIcon icon={faBell} style={{ fontSize: "3em", cursor: "pointer", color: '#4f23e2' }} />
-              </div>
+          <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
+            <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
+              <span>{profile?.firstname}</span>
+              <span>{profile?.lastname}</span>
             </div>
+            <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
+            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+              <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
+            </div>
+          </div>
         )}
       </div>
     </div>

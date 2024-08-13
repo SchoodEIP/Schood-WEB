@@ -9,7 +9,7 @@ import cross from '../../../assets/Cross.png'
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
   const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [userId, setUserId] = useState("")
+  const [userId, setUserId] = useState('')
 
   async function getAccountList () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
@@ -35,42 +35,38 @@ export default function AdmAccountsTable () {
   }, [])
 
   const openPopup = () => {
-    if (isPopupOpen)
-      setUserId('')
+    if (isPopupOpen) { setUserId('') }
     setIsPopupOpen(!isPopupOpen)
   }
 
   const callDeleteAccount = (deleteType, user_id) => {
     setUserId(user_id)
-    if (deleteType)
-      setIsPopupOpen(!isPopupOpen)
-    else
-      deleteAccount(deleteType, user_id)
+    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, user_id) }
   }
 
   async function deleteAccount (deleteType, accountId) {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/deleteUser/' + accountId
-      const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
 
-      const resp = await fetch(baseUrl, {
-        method: 'DELETE',
-        headers: {
-          'x-auth-token': token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          deletePermanently: deleteType
-        })
+    const resp = await fetch(baseUrl, {
+      method: 'DELETE',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        deletePermanently: deleteType
       })
-      if (resp.status === 401) {
-        disconnect()
-      } else if (resp.status === 200) {
-        toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
-        getAccountList()
-      } else {
-        toast.error("une alerte s'est produite")
-        getAccountList()
-      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else if (resp.status === 200) {
+      toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
+      getAccountList()
+    } else {
+      toast.error("une alerte s'est produite")
+      getAccountList()
+    }
   }
 
   return (
@@ -101,8 +97,8 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><button onClick={() => callDeleteAccount(false, data._id)} >Suspendre le Compte</button></td>
-                  <td><button onClick={() => callDeleteAccount(true, data._id)} >Supprimer le Compte</button></td>
+                  <td><button onClick={() => callDeleteAccount(false, data._id)}>Suspendre le Compte</button></td>
+                  <td><button onClick={() => callDeleteAccount(true, data._id)}>Supprimer le Compte</button></td>
                 </tr>
               )
             }

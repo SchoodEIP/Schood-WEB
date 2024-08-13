@@ -180,10 +180,10 @@ const NewFormPage = () => {
           returnCall={handlePopup}
         />
       </div>
-      <div className='form-container' >
-        <Popup contentStyle={{width: "500px"}} open={isOpen} onClose={() => setIsOpen(false)} modal>
+      <div className='form-container'>
+        <Popup contentStyle={{ width: '500px' }} open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
-            <div style={{maxWidth: "500px", height: "600px"}} className='popup-modal-container'>
+            <div style={{ maxWidth: '500px', height: '600px' }} className='popup-modal-container'>
               <span className='title-popup'>Sauvegarder les modifications ?</span>
               <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toutes vos modifications.</span>
               {errMessage ? <span className='error-message' style={{ color: 'red' }}>{errMessage}</span> : ''}

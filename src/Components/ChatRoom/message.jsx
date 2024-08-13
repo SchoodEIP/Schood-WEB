@@ -85,9 +85,9 @@ const Message = ({ message, participants, next }) => {
               )}
         </div>
       </div>
-      <div className="message-identification" style={isMyMessage ? {flexDirection: "row-reverse"} : {flexDirection: 'row'}}>
+      <div className='message-identification' style={isMyMessage ? { flexDirection: 'row-reverse' } : { flexDirection: 'row' }}>
         {
-          (next !== undefined && next.user === message.user) ? <span className="img image-right" /> : (isMyMessage ? <img className='img image-right' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/> : <img className='img image-left' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/>)
+          (next !== undefined && next.user === message.user) ? <span className='img image-right' /> : (isMyMessage ? <img className='img image-right' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon} /> : <img className='img image-left' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon} />)
         }
         <span className='message-time'>{(next !== undefined && moment(message.date).format('DD/MM/YY HH:mm') === moment(next.date).format('DD/MM/YY HH:mm')) ? '' : moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
