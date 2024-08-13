@@ -6,6 +6,7 @@ const ChatRoomSidebar = ({
   conversations,
   currentConversation,
   setCurrentConversation,
+  setCurrentParticipants,
   clearMessageAndError,
   openCreateConversationPopup
 }) => {
@@ -18,6 +19,11 @@ const ChatRoomSidebar = ({
   const handleClick = (conversation) => {
     clearMessageAndError()
     setCurrentConversation(conversation)
+    let conv = []
+    conversation.participants.map((participant) => (
+      conv.push(participant.firstname + ' ' + participant.lastname)
+    ))
+    setCurrentParticipants(conv.join(', '))
   }
 
   return (
@@ -25,9 +31,9 @@ const ChatRoomSidebar = ({
       <div className='top'>
         <button className='new-conversation-button' onClick={openCreateConversationPopup}>
           <img className='img-cross' src={cross} alt='cross' />
-          <span>Nouvelle conversation</span>
+          <span>+ Nouvelle conversation</span>
         </button>
-        <span className='divider' />
+        {/* <span className='divider' /> */}
       </div>
       <div className='content'>
         {conversations.map((conversation, index) => (

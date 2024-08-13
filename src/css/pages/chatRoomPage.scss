@@ -17,8 +17,9 @@
 
       .chat-sidebar {
         box-sizing: border-box;
-        border: 4px #4F23E2 solid;
-        border-radius: 26px;
+        border: 1px solid lightgrey;
+        box-shadow: 5px 5px 5px 0px lightgray;
+        border-radius: 5px;
         height: 100%;
         width: 250px;
 
@@ -29,6 +30,7 @@
           align-items: center;
           width: 100%;
           margin-top: 5px;
+          margin-bottom: 10px;
 
           .new-conversation-button {
             display: flex;
@@ -38,14 +40,12 @@
             width: 230px;
             cursor: pointer;
 
-            background-color: white;
-            border: 4px #4F23E2 solid;
-            border-radius: 26px;
+            background-color: #4F23E2;
+            border-radius: 5px;
 
-            color: black;
-            font-size: 16px;
+            color: white;
+            font-size: 14px;
             font-family: Inter;
-            font-weight: 600;
           }
 
           .new-conversation-button:hover {
@@ -129,7 +129,8 @@
       .chat {
         width: 100%;
         height: 100%;
-        border: 4px #4F23E2 solid;
+        border: 1px solid lightgrey;
+        box-shadow: 5px 5px 5px 0px lightgray;
         border-radius: 26px;
         margin-left: 50px;
         box-sizing: border-box;
@@ -143,27 +144,43 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            height: 64px;
-            background-color: #4F23E2;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            height: 80px;
+            background-color: white;
+            border-top-left-radius: 35px;
+            border-top-right-radius: 30px;
+            border-bottom: 1px solid #9699FF;
 
-            .conv-name {
-              font-size: 32px;
-              font-family: Inter;
-              font-weight: 600;
-              color: white;
+            .top-info {
+              display: flex;
+              flex-direction: column;
               margin-left: 20px;
+              gap: 10px;
+
+              .conv-name {
+                font-size: 32px;
+                font-family: Inter;
+                font-weight: 600;
+                color: black;
+              }
+
+              .participants-container {
+                display: flex;
+                flex-direction: row;
+                color: #9699FF;
+                font-size: 18px;
+                font-family: Inter;
+              }
             }
 
+
             .report-btn {
-              border-radius: 26px;
-              background-color: white;
+              border-radius: 5px;
+              background-color: #4F23E2;
               border: none;
-              color: #4F23E2;
-              font-size: 24px;
+              color: white;
+              font-size: 22px;
               font-family: Inter;
-              font-weight: 600;
+              font-weight: 400;
               width: 132px;
               height: 34px;
               margin-right: 12px;
@@ -178,23 +195,23 @@
           }
 
           .bottom {
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: start;
-            height: calc(100% - 64px);
+            // display: flex;
+            // flex-direction: row;
+            // justify-content: start;
+            // align-items: start;
+            display: grid;
+            height: calc(100% - 80px);
             width: 100%;
 
-            .left {
-              flex: 0.87;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              justify-content: start;
-              align-items: start;
+            // .left {
+              // flex: 0.87;
+              // height: 100%;
+              // flex-direction: column;
+              // justify-content: start;
+              // align-items: start;
 
               .top2 {
-                flex: 0.89;
+                // flex: 0.89;
                 width: 100%;
                 height: 100%;
                 overflow-y: auto;
@@ -208,11 +225,10 @@
                   .my-messages {
                     background-color: #FFD2D5;
                     width: 40%;
-                    margin-left: 60%;
+                    margin-left: calc(60% - 40px);
                     border-radius: 26px;
                     height: fit-content;
                     min-height: 100px;
-                    margin-bottom: 20px;
                     color: #4F23E2;
 
                     .message-header {
@@ -261,9 +277,9 @@
                     background-color: #4F23E2;
                     width: 40%;
                     border-radius: 26px;
+                    margin-left: 40px;
                     height: fit-content;
                     min-height: 100px;
-                    margin-bottom: 20px;
                     color: white;
 
                     .message-header {
@@ -305,14 +321,41 @@
                         margin-top: 15px;
                       }
                     }
+                }
+
+                .message-identification {
+                  display: flex;
+                  gap: 20px;
+
+                  .img {
+                    height: 35px;
+                    width: 35px;
+                    border-radius: 100%;
                   }
 
+                  .image-right {
+                    display: flex;
+                    margin-top: -40px;
+                  }
+
+                  .image-left {
+                    display: flex;
+                    margin-left: 0px;
+                    margin-top: -40px;
+                  }
+
+                  .message-time {
+                    margin-bottom: 15px;
+                    color: gray;
+                  }
                 }
               }
 
+              }
+
               .bottom2 {
-                flex: 0.11;
-                border-top: 3px #4F23E2 solid;
+                // flex: 0.11;
+                border-top: none;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
@@ -373,8 +416,7 @@
                     }
 
                     .message-area {
-                      border: 4px #4F23E2 solid;
-                      border-radius: 26px;
+                      border: none;
                       width: 100%;
                       height: 100%;
                       display: flex;
@@ -384,8 +426,9 @@
 
                       input {
                         width: 100%;
-                        border-radius: 26px;
-                        background-color: white;
+                        height: 25px;
+                        border-radius: 5px;
+                        background-color: #EAEAEA;
                         z-index: 99;
                         color: #4F23E2;
                         font-size: 16px;
@@ -400,9 +443,9 @@
                       }
 
                       .send-button {
-                        border-radius: 26px;
+                        border-radius: 5px;
                         background-color: #4F23E2;
-                        height: 100%;
+                        height: 25px;
                         width: 100px;
                         z-index: 0;
                         color: white;
@@ -424,7 +467,7 @@
                 }
 
               }
-            }
+            // }
 
             .right {
               flex: 0.13;

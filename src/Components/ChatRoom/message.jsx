@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { FaDownload } from 'react-icons/fa'
 import moment from 'moment'
 import '../../css/pages/chatRoomPage.scss'
-import UserProfile from '../userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
+import userIcon from '../../assets/userIcon.png'
 
-const Message = ({ message, participants }) => {
+const Message = ({ message, participants, next }) => {
   const [fileURL, setFileURL] = useState(null)
   const [isMyMessage, setIsMyMessage] = useState(message.user === localStorage.getItem('id'))
   const messageUser = participants.find(item => item._id === message.user)
-
+  console.log(next)
   useEffect(() => {
     setIsMyMessage(message.user === localStorage.getItem('id'))
     if (message.contentType === 'file') {
@@ -60,35 +60,36 @@ const Message = ({ message, participants }) => {
   }, [message])
 
   return (
-    <div className={[isMyMessage ? 'my-messages' : 'other-messages']}>
-      <div className='message-header'>
-        <UserProfile
-          profile={messageUser}
-          whiteMode={!isMyMessage}
-        />
-        <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
-      </div>
-      <div className='message-content'>
-        {message.contentType === 'text'
-          ? (
-            <div className='message-content2'>{message.content}</div>
-            )
-          : (
-            <div className='with-file'>
-              <div className='message-content2'>
-                {message.content}
+    <div>
+      <div className={[isMyMessage ? 'my-messages' : 'other-messages']}>
+        <div className='message-content'>
+          {message.contentType === 'text'
+            ? (
+              <div className='message-content2'>{message.content}</div>
+              )
+            : (
+              <div className='with-file'>
+                <div className='message-content2'>
+                  {message.content}
+                </div>
+                {fileURL
+                  ? (
+                    <a className='file' href={fileURL} target='_blank' rel='noopener noreferrer'>
+                      <FaDownload size={24} />
+                    </a>
+                    )
+                  : (
+                    <div className='file'>Chargement du fichier...</div>
+                    )}
               </div>
-              {fileURL
-                ? (
-                  <a className='file' href={fileURL} target='_blank' rel='noopener noreferrer'>
-                    <FaDownload size={24} />
-                  </a>
-                  )
-                : (
-                  <div className='file'>Chargement du fichier...</div>
-                  )}
-            </div>
-            )}
+              )}
+        </div>
+      </div>
+      <div className="message-identification" style={isMyMessage ? {flexDirection: "row-reverse"} : {flexDirection: 'row'}}>
+        {
+          (next !== undefined && next.user === message.user) ? <span className="img image-right" /> : (isMyMessage ? <img className='img image-right' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/> : <img className='img image-left' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/>)
+        }
+        <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
     </div>
   )
