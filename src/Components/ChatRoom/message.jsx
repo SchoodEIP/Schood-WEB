@@ -9,7 +9,7 @@ const Message = ({ message, participants, next }) => {
   const [fileURL, setFileURL] = useState(null)
   const [isMyMessage, setIsMyMessage] = useState(message.user === localStorage.getItem('id'))
   const messageUser = participants.find(item => item._id === message.user)
-  console.log(next)
+
   useEffect(() => {
     setIsMyMessage(message.user === localStorage.getItem('id'))
     if (message.contentType === 'file') {
@@ -89,7 +89,7 @@ const Message = ({ message, participants, next }) => {
         {
           (next !== undefined && next.user === message.user) ? <span className="img image-right" /> : (isMyMessage ? <img className='img image-right' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/> : <img className='img image-left' src={messageUser?.picture ? messageUser.picture : userIcon} alt={userIcon}/>)
         }
-        <span className='message-time'>{moment(message.date).format('DD/MM/YY HH:mm')}</span>
+        <span className='message-time'>{(next !== undefined && moment(message.date).format('DD/MM/YY HH:mm') === moment(next.date).format('DD/MM/YY HH:mm')) ? '' : moment(message.date).format('DD/MM/YY HH:mm')}</span>
       </div>
     </div>
   )
