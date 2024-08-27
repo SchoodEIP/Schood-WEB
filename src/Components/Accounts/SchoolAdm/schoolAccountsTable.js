@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
+import minusButton from '../../../assets/minus-button.png'
 
 export default function SchoolAccountsTable () {
   const [teacherList, setTeacherList] = useState([])
@@ -80,7 +81,7 @@ export default function SchoolAccountsTable () {
   }
 
   const openPopup = () => {
-    if (isPopupOpen) { setUserId('') }
+    setUserId('')
     setIsPopupOpen(!isPopupOpen)
   }
 
@@ -114,8 +115,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead4'>Email</th>
                 {/* <th className='valHead2'>Titre</th> */}
                 <th className='valHead4'>Classe(s)</th>
-                <th className='valHead4'>Suspendre le Compte</th>
-                <th className='valHead5'>Supprimer le Compte</th>
+                <th className='valHead5'></th>
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -128,8 +128,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id) }}>Suspendre le Compte</button></td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id) }}>Supprimer le Compte</button></td>
+                    <td><img  class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
                   </tr>
                 )
               }
@@ -151,8 +150,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead4'>Classe</th>
-                <th className='valHead4'>Suspendre le Compte</th>
-                <th className='valHead5'>Supprimer le Compte</th>
+                <th className='valHead5'></th>
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -164,8 +162,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(false, data._id) }}>Suspendre le Compte</button></td>
-                    <td><button onClick={(e) => { e.stopPropagation(); callDeleteAccount(true, data._id) }}>Supprimer le Compte</button></td>
+                    <td><img class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
                   </tr>
                 )
               }

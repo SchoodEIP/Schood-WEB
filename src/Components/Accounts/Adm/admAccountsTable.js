@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
+import minusButton from '../../../assets/minus-button.png'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
@@ -39,9 +40,9 @@ export default function AdmAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (deleteType, user_id) => {
+  const callDeleteAccount = (user_id) => {
     setUserId(user_id)
-    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, user_id) }
+    setIsPopupOpen(!isPopupOpen)
   }
 
   async function deleteAccount (deleteType, accountId) {
@@ -86,8 +87,7 @@ export default function AdmAccountsTable () {
               <th className='valHead1bis'>Prénom</th>
               <th className='valHead2'>Nom</th>
               <th className='valHead2'>Email</th>
-              <th className='valHead2'>Suspendre le Compte</th>
-              <th className='valHead3bis'>Supprimer le Compte</th>
+              <th className='valHead5'></th>
             </tr>
           </thead>
           <tbody className='tableBody'>
@@ -97,8 +97,7 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><button onClick={() => callDeleteAccount(false, data._id)}>Suspendre le Compte</button></td>
-                  <td><button onClick={() => callDeleteAccount(true, data._id)}>Supprimer le Compte</button></td>
+                  <td><img class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
                 </tr>
               )
             }

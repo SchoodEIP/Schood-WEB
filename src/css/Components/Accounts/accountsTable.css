@@ -91,6 +91,14 @@ table {
     width: 350px;
 }
 
+.valHead5 {
+    width: 100px;
+}
+
+.suspendBtn {
+    width: 25px;
+}
+
 .valHead1bis, .valHead1 {
     border-left-color: #4f23e2;
 }
