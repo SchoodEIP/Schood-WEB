@@ -115,7 +115,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead4'>Email</th>
                 {/* <th className='valHead2'>Titre</th> */}
                 <th className='valHead4'>Classe(s)</th>
-                <th className='valHead5'></th>
+                <th className='valHead5' />
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -128,7 +128,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
-                    <td><img  class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
+                    <td><img class='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
                   </tr>
                 )
               }
@@ -150,7 +150,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead4'>Classe</th>
-                <th className='valHead5'></th>
+                <th className='valHead5' />
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -162,7 +162,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><img class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
+                    <td><img class='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
                   </tr>
                 )
               }
