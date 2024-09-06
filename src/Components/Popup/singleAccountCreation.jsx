@@ -56,7 +56,7 @@ const SingleAccountCreationPopupContent = () => {
   const handlePictureChange = (event) => {
     const selectedFile = event.target.files[0]
     setPicture(event.target.files[0])
-    if (selectedFile && typeof FileReader !== 'undefined') {
+    if (selectedFile) {
       const reader = new FileReader()
       reader.readAsDataURL(selectedFile)
       reader.onload = () => {
@@ -66,8 +66,6 @@ const SingleAccountCreationPopupContent = () => {
       reader.onerror = (error) => {
         console.error('Error occurred while reading the file:', error)
       }
-    } else {
-      console.error('FileReader is not supported in this environment');
     }
   }
 
