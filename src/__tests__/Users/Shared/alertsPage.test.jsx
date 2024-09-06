@@ -154,9 +154,9 @@ describe('AlertsPage Component', () => {
     delete window.location
     window.location = {
       ...originalLocation,
-      get href() { return ''; },  // Add the getter for href
-      set href(url) { setHref(url); },  // Mock the setter for href
-    };
+      get href () { return '' }, // Add the getter for href
+      set href (url) { setHref(url) } // Mock the setter for href
+    }
     await act(async () => {
       render(
         <MemoryRouter initialEntries={['/alerts/123']}>
@@ -186,7 +186,7 @@ describe('AlertsPage Component', () => {
     // Restore the original window.location
     setHref.mockRestore()
 
-    window.location = originalLocation;
+    window.location = originalLocation
   })
 
   it('navigates correctly', async () => {
@@ -196,9 +196,9 @@ describe('AlertsPage Component', () => {
     delete window.location
     window.location = {
       ...originalLocation,
-      get href() { return ''; },  // Add the getter for href
-      set href(url) { setHref(url); },  // Mock the setter for href
-    };
+      get href () { return '' }, // Add the getter for href
+      set href (url) { setHref(url) } // Mock the setter for href
+    }
 
     await act(async () => {
       render(
@@ -228,7 +228,7 @@ describe('AlertsPage Component', () => {
 
     // Restore the original window.location
     setHref.mockRestore()
-    window.location = originalLocation;
+    window.location = originalLocation
   })
 
   it('handles errors', async () => {
