@@ -85,9 +85,9 @@ export default function SchoolAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (deleteType, user_id) => {
-    setUserId(user_id)
-    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, user_id) }
+  const callDeleteAccount = (deleteType, userIdValue) => {
+    setUserId(userIdValue)
+    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, userIdValue) }
   }
 
   return (
@@ -96,7 +96,7 @@ export default function SchoolAccountsTable () {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent user_id={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>

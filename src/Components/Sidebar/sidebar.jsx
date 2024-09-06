@@ -9,13 +9,11 @@ import logoSchood from '../../assets/logo_schood.png'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
 
-import userIcon from '../../assets/userIcon.png'
 import cross from '../../assets/Cross.png'
 
 import emoji1 from '../../assets/emojis/1.png'
@@ -53,7 +51,7 @@ export default function Sidebar () {
   const [dailyMood, setDailyMood] = useState(null)
   // const [nbNotifications, setNbNotification] = useState(0)
   // const [notification, setNotification] = useState({ message: false })
-  const [profile, setProfile] = useState(null)
+  // const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
   // const [isAnswered, setIsAnswered] = useState(false)
   const location = useLocation()
@@ -137,7 +135,7 @@ export default function Sidebar () {
     if (role === 'student') {
       getDailyMood()
     }
-    setProfile(JSON.parse(sessionStorage.getItem('profile')))
+    // setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
   let pages = []

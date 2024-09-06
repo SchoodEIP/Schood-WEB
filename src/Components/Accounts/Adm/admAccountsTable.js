@@ -40,8 +40,8 @@ export default function AdmAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (user_id) => {
-    setUserId(user_id)
+  const callDeleteAccount = (userIdValue) => {
+    setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
   }
 
@@ -76,7 +76,7 @@ export default function AdmAccountsTable () {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent user_id={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>

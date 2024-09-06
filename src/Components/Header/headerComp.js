@@ -23,7 +23,6 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
   // const [isAnswered, setIsAnswered] = useState(false)
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
-  const role = (sessionStorage.getItem('role'))
   const [profile, setProfile] = useState(null)
   const location = useLocation()
 
