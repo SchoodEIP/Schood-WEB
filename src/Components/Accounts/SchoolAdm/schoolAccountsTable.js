@@ -115,7 +115,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead4'>Email</th>
                 {/* <th className='valHead2'>Titre</th> */}
                 <th className='valHead4'>Classe(s)</th>
-                <th className='valHead5'></th>
+                {sessionStorage.getItem('role') !== "teacher" ? <th className='valHead5'></th> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -128,7 +128,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
-                    <td><img  class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
+                    { sessionStorage.getItem('role') !== "teacher" ? <td><img  className="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td> : ''}
                   </tr>
                 )
               }
@@ -150,19 +150,19 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead4'>Classe</th>
-                <th className='valHead5'></th>
+                {sessionStorage.getItem('role') !== "teacher" ? <th className='valHead5'></th> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
               {
                 studentList.map((data, index) =>
-                  <tr key={index} title='Accéder au profil'>
+                  <tr key={index} title='Accéder au profil' onClick={() => handleShowProfile(data._id)}>
                     <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='profil' /></td>
                     <td>{data.firstname}</td>
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><img class="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
+                    {sessionStorage.getItem('role') !== "teacher" ? <td><img  className="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td> : ''}
                   </tr>
                 )
               }

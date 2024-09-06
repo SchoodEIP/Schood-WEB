@@ -25,14 +25,14 @@ import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
-import TeacherProfilePage from './Users/SchoolAdmin/TeacherProfilePage'
-import TeacherAccountsPage from './Users/Teacher/teacherAccountsPage'
+import TeacherProfilePage from './Users/Shared/TeacherProfilePage'
 import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
 import Sidebar from './Components/Sidebar/sidebar'
 import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
 import 'react-tooltip/dist/react-tooltip.css'
 import './css/index.scss'
+import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
 
 const rootElement = document.getElementById('root')
 
@@ -114,7 +114,7 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
-                  <Route path='/accounts' element={<TeacherAccountsPage />} />
+                  <Route path='/accounts' element={<SchoolAccountsTable />} />
                   <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
               )}

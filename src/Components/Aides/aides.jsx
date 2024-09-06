@@ -32,7 +32,6 @@ export default function AidePage (props) {
     })
       .then(data => {
         setCategories(data)
-        console.log(data)
         const filterID = data.filter((category) => category.name === 'Autres')
         if (filterID.length !== 0) {
           setDefaultID(filterID[0]._id)

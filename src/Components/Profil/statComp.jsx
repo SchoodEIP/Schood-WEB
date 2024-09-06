@@ -8,7 +8,7 @@ import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/fr
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
-export default function StatComp ({ id, userClasses }) {
+export default function StatComp ({ id, userClasses, userRole }) {
   const [moodData, setMoodData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [activeFilter, setActiveFilter] = useState('Semaine')
@@ -100,6 +100,14 @@ export default function StatComp ({ id, userClasses }) {
       }
     }
 
+    function checkForClass(data) {
+      const filtered = userClasses.filter(classe => classe === data._id)
+      if (filtered.length !== 0) {
+        return true
+      }
+      return false
+    }
+
     const fetchClasses = async () => {
       const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
       try {
@@ -114,7 +122,9 @@ export default function StatComp ({ id, userClasses }) {
           disconnect()
         }
         const classesData = await response.json()
-        setClasses(classesData)
+        const filteredClasses = classesData.filter(data => checkForClass(data))
+
+        setClasses(filteredClasses)
       } catch (error) {
         console.error('Error fetching classes:', error)
       }
@@ -122,7 +132,7 @@ export default function StatComp ({ id, userClasses }) {
 
     fetchData()
     fetchClasses()
-  }, [selectedDate, activeFilter, selectedClass])
+  }, [selectedDate, activeFilter, selectedClass, userClasses, id])
 
   useEffect(() => {
     const createChart = () => {
@@ -252,10 +262,11 @@ export default function StatComp ({ id, userClasses }) {
   const handleClassChange = (event) => {
     setSelectedClass(event.target.value)
   }
+  console.log(userRole)
 
   return (
     <div className='profile-component-container'>
-      <h3>Évolution de l'humeur des classes</h3>
+      <h3>{userRole === "student" ? "Évolution de l'humeur" : "Évolution de l'humeur des classes"}</h3>
       <div style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ gap: '25px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <label htmlFor='dateFilter'>Sélectionner une date:</label>
