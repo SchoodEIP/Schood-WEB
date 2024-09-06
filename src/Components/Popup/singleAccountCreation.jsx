@@ -67,7 +67,7 @@ const SingleAccountCreationPopupContent = () => {
         console.error('Error occurred while reading the file:', error)
       }
     } else {
-      console.error('FileReader is not supported in this environment');
+      console.error('FileReader is not supported in this environment')
     }
   }
 
