@@ -12,7 +12,7 @@ import FeelingsComp from '../../Components/Profil/feelingsComp'
 export default function TeacherProfilePage () {
   const { id } = useParams()
   const [profile, setProfile] = useState(null)
-  const [userRole, setUserRole] = useState("teacher")
+  const [userRole, setUserRole] = useState('teacher')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +80,7 @@ export default function TeacherProfilePage () {
         <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <ProfileComp profile={profile} />
           <ReportComp id={id} />
-          {userRole === "student" && <FeelingsComp id={id} />}
+          {userRole === 'student' && <FeelingsComp id={id} />}
         </span>
         <span style={{ gap: '25px', display: 'flex', flexDirection: 'column' }}>
           <StatComp id={id} userClasses={profile?.classes ? profile.classes : []} userRole={userRole} />

@@ -87,7 +87,7 @@ export default function AdmAccountsTable () {
               <th className='valHead1bis'>Prénom</th>
               <th className='valHead2'>Nom</th>
               <th className='valHead2'>Email</th>
-              <th className='valHead5'></th>
+              <th className='valHead5' />
             </tr>
           </thead>
           <tbody className='tableBody'>
@@ -97,7 +97,7 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><img className="suspendBtn" onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt="delete" title="Supprimer ou suspendre le compte"/></td>
+                  <td><img className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
                 </tr>
               )
             }

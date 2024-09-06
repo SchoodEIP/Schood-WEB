@@ -171,7 +171,7 @@ const NewFormPage = () => {
     <div className='form-page'>
       <div>
         <HeaderComp
-          title={"Création d'un Nouveau Questionnaire"}
+          title="Création d'un Nouveau Questionnaire"
           withReturnBtn
           withLogo
           showButtons

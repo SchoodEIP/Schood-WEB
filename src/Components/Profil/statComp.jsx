@@ -100,7 +100,7 @@ export default function StatComp ({ id, userClasses, userRole }) {
       }
     }
 
-    function checkForClass(data) {
+    function checkForClass (data) {
       const filtered = userClasses.filter(classe => classe === data._id)
       if (filtered.length !== 0) {
         return true
@@ -266,7 +266,7 @@ export default function StatComp ({ id, userClasses, userRole }) {
 
   return (
     <div className='profile-component-container'>
-      <h3>{userRole === "student" ? "Évolution de l'humeur" : "Évolution de l'humeur des classes"}</h3>
+      <h3>{userRole === 'student' ? "Évolution de l'humeur" : "Évolution de l'humeur des classes"}</h3>
       <div style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ gap: '25px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <label htmlFor='dateFilter'>Sélectionner une date:</label>

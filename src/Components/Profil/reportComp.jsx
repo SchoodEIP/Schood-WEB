@@ -63,7 +63,7 @@ export default function ReportComp ({ id }) {
             </div>
           )
           )
-          : <span style={{marginLeft: '15px'}}>Aucun signalement à déclarer</span>}
+          : <span style={{ marginLeft: '15px' }}>Aucun signalement à déclarer</span>}
       </div>
     </div>
   )
