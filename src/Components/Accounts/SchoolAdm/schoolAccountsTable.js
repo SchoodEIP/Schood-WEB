@@ -85,9 +85,9 @@ export default function SchoolAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (deleteType, userIdValue) => {
+  const callDeleteAccount = (userIdValue) => {
     setUserId(userIdValue)
-    if (deleteType) { setIsPopupOpen(!isPopupOpen) } else { deleteAccount(deleteType, userIdValue) }
+    setIsPopupOpen(!isPopupOpen)
   }
 
   return (
@@ -128,7 +128,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.email}</td>
                     {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
-                    {sessionStorage.getItem('role') !== 'teacher' ? <td><img className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td> : ''}
+                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
               }
@@ -162,7 +162,7 @@ export default function SchoolAccountsTable () {
                     <td>{data.lastname}</td>
                     <td>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    {sessionStorage.getItem('role') !== 'teacher' ? <td><img className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td> : ''}
+                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
               }

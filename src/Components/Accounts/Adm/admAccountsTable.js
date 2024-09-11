@@ -36,7 +36,6 @@ export default function AdmAccountsTable () {
   }, [])
 
   const openPopup = () => {
-    if (isPopupOpen) { setUserId('') }
     setIsPopupOpen(!isPopupOpen)
   }
 
@@ -97,7 +96,7 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><img className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
+                  <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
                 </tr>
               )
             }
