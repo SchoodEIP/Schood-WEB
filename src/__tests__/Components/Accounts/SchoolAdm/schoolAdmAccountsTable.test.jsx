@@ -26,7 +26,7 @@ describe('SchoolAdmAccountsTable', () => {
         name: 'student',
         levelOfAccess: '0'
       },
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png",
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png',
       classes: [{
         _id: 'id3',
         name: '202'
@@ -42,7 +42,7 @@ describe('SchoolAdmAccountsTable', () => {
         name: 'teacher',
         levelOfAccess: '1'
       },
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png",
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png',
       title: 'Mathematique',
       classes: [
         {
@@ -67,7 +67,7 @@ describe('SchoolAdmAccountsTable', () => {
     fetchMock.delete(deleteUrl0, 200)
     fetchMock.delete(deleteUrl1, 200)
     delete window.location
-    window.location = { href: "" }
+    window.location = { href: '' }
   })
 
   afterEach(() => {
@@ -157,7 +157,7 @@ describe('SchoolAdmAccountsTable', () => {
         },
         classes: '',
         _id: '0'
-      },
+      }
     ]
     fetchMock.get(baseUrl, noClasses)
     await act(async () => {
@@ -226,12 +226,12 @@ describe('SchoolAdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[0])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const newMockAccountList = [
@@ -301,12 +301,12 @@ describe('SchoolAdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[1])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const newMockAccountList = [
@@ -324,7 +324,7 @@ describe('SchoolAdmAccountsTable', () => {
           name: '202'
         }],
         _id: '0'
-      },
+      }
     ]
 
     fetchMock.get(baseUrl, newMockAccountList)
@@ -371,12 +371,12 @@ describe('SchoolAdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[1])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const newMockAccountList = [
@@ -482,12 +482,12 @@ describe('SchoolAdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[1])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
     const suspendBtn = await screen.getByText('Suppression temporaire')
 
@@ -499,7 +499,5 @@ describe('SchoolAdmAccountsTable', () => {
       expect(disconnect).toHaveBeenCalled()
     })
     sessionStorage.removeItem('role')
-
   })
-
 })

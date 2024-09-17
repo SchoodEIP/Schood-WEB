@@ -109,12 +109,12 @@ describe('AdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[0])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const newMockAccountList = [
@@ -157,12 +157,12 @@ describe('AdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[0])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const newMockAccountList = [
@@ -189,7 +189,6 @@ describe('AdmAccountsTable', () => {
     })
   })
 
-
   test('testing suspend account error', async () => {
     await act(async () => {
       render(
@@ -206,12 +205,12 @@ describe('AdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[0])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     fetchMock.delete(deleteUrl, 403)
@@ -278,7 +277,6 @@ describe('AdmAccountsTable', () => {
     })
   })
 
-
   // test disconnect on delete account
   test('testing delete account disconnect', async () => {
     fetchMock.delete(deleteUrl, 401)
@@ -297,12 +295,12 @@ describe('AdmAccountsTable', () => {
       expect(suspendBtns).toHaveLength(2)
     })
 
-    await act(async() => {
+    await act(async () => {
       fireEvent.click(suspendBtns[0])
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Suppression du Compte")).toBeInTheDocument()
+      expect(screen.getByText('Suppression du Compte')).toBeInTheDocument()
     })
 
     const suspendBtn = await screen.getByText('Suppression temporaire')
@@ -315,5 +313,4 @@ describe('AdmAccountsTable', () => {
       expect(disconnect).toHaveBeenCalled()
     })
   })
-
 })
