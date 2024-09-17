@@ -4,7 +4,7 @@ import { disconnect } from '../../functions/disconnect'
 import phoneIcon from '../../assets/phoneIcon.png'
 import mailIcon from '../../assets/mailIcon.png'
 
-export default function AidePage (props) {
+export default function AidePage () {
   const [categories, setCategories] = useState([])
   const [contacts, setContacts] = useState([])
   const [chosenContact, setChosenContact] = useState([])
