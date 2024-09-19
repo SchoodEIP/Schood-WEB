@@ -3,6 +3,7 @@ import { disconnect } from '../../functions/disconnect'
 import '../../css/pages/profilPage.scss'
 import UserProfile from '../userProfile/userProfile'
 import { translate } from '../../functions/translate'
+
 export default function ReportComp ({ id }) {
   const [reportsList, setReportsList] = useState([])
 
