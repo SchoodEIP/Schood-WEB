@@ -28,6 +28,9 @@ const Messages = () => {
   const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false);
   const [notification, setNotification] = useState(null);
 
+  const [showAddParticipantsPopup, setShowAddParticipantsPopup] = useState(false);
+  const [showLeaveConversationPopup, setShowLeaveConversationPopup] = useState(false);
+
   useEffect(() => {
     fetchConversations();
   }, []);
@@ -351,6 +354,69 @@ const Messages = () => {
     );
   };
 
+  const addParticipants = async (selectedContacts) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/addParticipants`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          participants: selectedContacts
+        })
+      });
+      
+      if (response.status === 401) {
+        disconnect();
+      }
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'ajout des participants.');
+      }
+
+      setNotification({ type: 'success', message: 'Participants ajoutés avec succès' });
+      fetchConversations(); // Met à jour les conversations
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout des participants :', error);
+      setNotification({ type: 'error', message: 'Erreur lors de l\'ajout des participants' });
+    } finally {
+      clearNotification(); // Efface la notification après un certain temps
+      setShowAddParticipantsPopup(false); // Ferme la popup après l'ajout
+    }
+  };
+
+  // Fonction pour quitter la conversation
+  const leaveConversation = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/leave`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.status === 401) {
+        disconnect();
+      }
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du départ de la conversation.');
+      }
+
+      setNotification({ type: 'success', message: 'Vous avez quitté la conversation.' });
+      setCurrentConversation(''); // Réinitialiser la conversation actuelle
+      fetchConversations(); // Mettre à jour la liste des conversations après avoir quitté
+    } catch (error) {
+      console.error('Erreur lors du départ de la conversation :', error);
+      setNotification({ type: 'error', message: 'Erreur lors du départ de la conversation.' });
+    } finally {
+      clearNotification(); // Efface la notification après un certain temps
+      setShowLeaveConversationPopup(false); // Ferme la popup après avoir quitté
+    }
+  };
+
   return (
     <div className='messaging-page'>
       {renderNotification()}
@@ -368,6 +434,12 @@ const Messages = () => {
             <div className='chat-content'>
               <div className='top'>
                 <div className='conv-name'>{currentConversation.name}</div>
+                <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
+                  Ajouter des membres
+                </button>
+                <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
+                  Quitter la conversation
+                </button>
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
                   <div className='popup-modal-container'>
                     <ReportButton
@@ -442,6 +514,31 @@ const Messages = () => {
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={close} />
+          </div>
+        )}
+      </Popup>
+      <Popup open={showAddParticipantsPopup} onClose={() => setShowAddParticipantsPopup(false)} modal>
+        {(close) => (
+          <div className='popup-modal-container'>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <ConversationCreationPopupContent 
+              contacts={contacts} 
+              createConversation={addParticipants} 
+              closeCreateConversationPopup={close} 
+              isAddingParticipants
+            />
+          </div>
+        )}
+      </Popup>
+      <Popup open={showLeaveConversationPopup} onClose={() => setShowLeaveConversationPopup(false)} modal>
+        {(close) => (
+          <div className='popup-modal-container'>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <div className='leave-conversation-popup'>
+              <h2>Voulez-vous vraiment quitter cette conversation ?</h2>
+              <button onClick={leaveConversation} className='confirm-leave-btn'>Confirmer</button>
+              <button onClick={close} className='cancel-leave-btn'>Annuler</button>
+            </div>
           </div>
         )}
       </Popup>
