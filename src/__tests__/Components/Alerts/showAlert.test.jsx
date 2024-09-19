@@ -58,7 +58,7 @@ describe('ShowAlerts component', () => {
     await waitFor(async () => {
       expect(screen.getByText('Title')).toBeInTheDocument()
       expect(screen.getByText('message')).toBeInTheDocument()
-      expect(screen.getByText('Administrateur')).toBeInTheDocument()
+      expect(screen.getByText('(Administrateur)')).toBeInTheDocument()
       expect(screen.getByText('Date de Publication : 17/05/2024')).toBeInTheDocument()
     })
   })

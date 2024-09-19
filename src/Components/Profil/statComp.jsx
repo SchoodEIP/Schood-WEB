@@ -262,7 +262,6 @@ export default function StatComp ({ id, userClasses, userRole }) {
   const handleClassChange = (event) => {
     setSelectedClass(event.target.value)
   }
-  console.log(userRole)
 
   return (
     <div className='profile-component-container'>
@@ -273,16 +272,16 @@ export default function StatComp ({ id, userClasses, userRole }) {
           <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
         </div>
         <div className='button-container' style={{ marginRight: '25px' }}>
-          <div className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
+          <div data-testId='btn-select-week' className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
             Semaine
           </div>
-          <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
+          <div data-testId='btn-select-month' className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
             Mois
           </div>
-          <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
+          <div data-testId='btn-select-semester' className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
             Semestre
           </div>
-          <div className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
+          <div data-testId='btn-select-year' className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
             Année
           </div>
         </div>

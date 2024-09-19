@@ -283,6 +283,35 @@ describe('AdmAccountsPage', () => {
     })
   })
 
+
+  it('tests the popups 2', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <WebsocketProvider>
+            <AdmAccountsPage />
+          </WebsocketProvider>
+        </BrowserRouter>
+      )
+    })
+
+    const singleAccountButton = screen.getByText('Ajouter un Compte')
+
+    await act(async () => {
+      fireEvent.click(singleAccountButton)
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('close-single'))
+    })
+
+    const manyAccountButton = screen.getByText('Ajouter une Liste de Comptes')
+
+    await act(async () => {
+      fireEvent.click(manyAccountButton)
+    })
+  })
+
   test('checks disconnect through roles url', async () => {
     fetchMock.get(url + '/shared/roles', 401)
     await act(async () => {
