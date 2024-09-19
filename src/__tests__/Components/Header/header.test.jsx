@@ -14,7 +14,7 @@ describe('HeaderComp', () => {
   const notifUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/notifications/`
 
   const notifs = [{
-    date: "2024-02-24T00:00:00.000Z",
+    date: '2024-02-24T00:00:00.000Z',
     title: 'Notif',
     message: 'This is a notif'
   }]
@@ -34,7 +34,7 @@ describe('HeaderComp', () => {
       render(
         <BrowserRouter>
           <WebsocketProvider>
-            <HeaderComp title="Bonjour Jacqueline"/>
+            <HeaderComp title='Bonjour Jacqueline' />
           </WebsocketProvider>
         </BrowserRouter>
       )
@@ -58,7 +58,6 @@ describe('HeaderComp', () => {
     await waitFor(async () => {
       expect(message).toBeInTheDocument()
     })
-
   })
 
   // test('disconnect notif url', async () => {

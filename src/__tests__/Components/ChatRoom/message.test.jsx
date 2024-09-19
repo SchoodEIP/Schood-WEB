@@ -71,7 +71,6 @@ describe('Message Component', () => {
 
     const contentElement = screen.getByText('Hello, World!')
     expect(contentElement).toBeInTheDocument()
-
   })
 
   it('renders a file message with image', async () => {

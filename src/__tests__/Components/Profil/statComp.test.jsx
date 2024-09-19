@@ -12,23 +12,23 @@ jest.mock('../../../functions/disconnect', () => ({
 }))
 
 jest.mock('chart.js', () => ({
-    Chart: jest.fn().mockImplementation(() => {
-      return {
-        destroy: jest.fn(),
-        update: jest.fn(),
-        data: {
-          datasets: [{}]
-        },
-        options: {
-          scales: {
-            x: {
-              labels: []
-            }
+  Chart: jest.fn().mockImplementation(() => {
+    return {
+      destroy: jest.fn(),
+      update: jest.fn(),
+      data: {
+        datasets: [{}]
+      },
+      options: {
+        scales: {
+          x: {
+            labels: []
           }
         }
       }
-    })
-  }))
+    }
+  })
+}))
 
 describe('StatComp', () => {
   const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
@@ -43,7 +43,6 @@ describe('StatComp', () => {
     { averagePercentage: 80 }
   ]
   const classes = [{ _id: '0', name: '200' }, { _id: '1', name: '200' }]
-
 
   beforeEach(() => {
     fetchMock.reset()
@@ -74,12 +73,11 @@ describe('StatComp', () => {
   })
 
   it('shows title teacher', async () => {
-
     await act(async () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-            <StatComp id={123} userClass={['0', "1"]} userRole='teacher' />
+            <StatComp id={123} userClass={['0', '1']} userRole='teacher' />
           </WebsocketProvider>
         </MemoryRouter>
       )
@@ -89,16 +87,14 @@ describe('StatComp', () => {
     await waitFor(async () => {
       expect(message).toBeInTheDocument()
     })
-
   })
 
   it('changes data spread', async () => {
-
     await act(async () => {
       render(
         <MemoryRouter>
           <WebsocketProvider>
-            <StatComp id={123} userClass={['0', "1"]} userRole='teacher' />
+            <StatComp id={123} userClass={['0', '1']} userRole='teacher' />
           </WebsocketProvider>
         </MemoryRouter>
       )
@@ -123,7 +119,6 @@ describe('StatComp', () => {
     await act(async () => {
       fireEvent.click(weekBtn)
     })
-
   })
 
   it('disconnects mood url', async () => {
@@ -159,5 +154,4 @@ describe('StatComp', () => {
       expect(disconnect).toBeCalled()
     })
   })
-
 })

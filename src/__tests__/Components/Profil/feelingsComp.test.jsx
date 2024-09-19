@@ -65,7 +65,6 @@ describe('FeelingsComp', () => {
     await waitFor(async () => {
       expect(message).toBeInTheDocument()
     })
-
   })
 
   it('disconnects feelings url', async () => {
@@ -84,5 +83,4 @@ describe('FeelingsComp', () => {
       expect(disconnect).toBeCalled()
     })
   })
-
 })

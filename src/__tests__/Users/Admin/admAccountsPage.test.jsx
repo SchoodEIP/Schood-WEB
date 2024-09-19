@@ -283,7 +283,6 @@ describe('AdmAccountsPage', () => {
     })
   })
 
-
   it('tests the popups 2', async () => {
     await act(async () => {
       render(
