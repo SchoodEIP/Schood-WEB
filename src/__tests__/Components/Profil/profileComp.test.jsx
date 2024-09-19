@@ -15,7 +15,6 @@ describe('helpPage', () => {
   const rolesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/roles`
   const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
 
-
   const classes = [
     {
       _id: 0,
@@ -33,25 +32,25 @@ describe('helpPage', () => {
     {
       _id: '0',
       name: 'student',
-      frenchName: "Élève",
+      frenchName: 'Élève',
       levelOfAccess: 0
     },
     {
       _id: '1',
       name: 'teacher',
-      frenchName: "Professeur",
+      frenchName: 'Professeur',
       levelOfAccess: 1
     },
     {
       _id: '2',
       name: 'administration',
-      frenchName: "Aministrateur Scolaire",
+      frenchName: 'Aministrateur Scolaire',
       levelOfAccess: 2
     },
     {
       _id: '3',
       name: 'admin',
-      frenchName: "Admin",
+      frenchName: 'Admin',
       levelOfAccess: 3
     }
   ]
@@ -63,7 +62,7 @@ describe('helpPage', () => {
     facility: '0',
     firstname: 'Pierre',
     lastname: 'Dubois',
-    picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png",
+    picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png',
     role: '1',
     _id: '1'
   }
@@ -86,7 +85,7 @@ describe('helpPage', () => {
     facility: '0',
     firstname: 'Pierre',
     lastname: 'Dubois',
-    picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png",
+    picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png',
     role: '5',
     _id: '2'
   }

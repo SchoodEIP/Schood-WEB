@@ -15,7 +15,7 @@ describe('reportComp', () => {
   const reportUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/report?id=123`
 
   const reports = [{
-    createdAt: "2024-02-24T00:00:00.000Z",
+    createdAt: '2024-02-24T00:00:00.000Z',
     facility: '0',
     message: 'Ceci est un signalement',
     seen: 'false',
@@ -57,7 +57,6 @@ describe('reportComp', () => {
         </MemoryRouter>
       )
     })
-
   })
 
   it('receives no reports', async () => {
@@ -77,10 +76,7 @@ describe('reportComp', () => {
     await waitFor(async () => {
       expect(message).toBeInTheDocument()
     })
-
   })
-
-
 
   it('disconnects reports url', async () => {
     fetchMock.get(reportUrl, 401)
@@ -98,5 +94,4 @@ describe('reportComp', () => {
       expect(disconnect).toBeCalled()
     })
   })
-
 })
