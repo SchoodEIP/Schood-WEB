@@ -57,7 +57,9 @@ const SingleAccountCreationPopupContent = () => {
     const selectedFile = event.target.files[0]
     setPicture(event.target.files[0])
     if (selectedFile) {
-      const reader = new FileReader()
+      /* eslint-disable no-undef */
+      const reader = new FileReader();
+      /* eslint-enable no-undef */
       reader.readAsDataURL(selectedFile)
       reader.onload = () => {
         const base64Image = reader.result
