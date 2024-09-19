@@ -3,12 +3,12 @@ import '@testing-library/jest-dom'
 import { WebsocketProvider } from '../../../contexts/websocket'
 import { BrowserRouter } from 'react-router-dom'
 import HeaderComp from '../../../Components/Header/headerComp'
-import { disconnect } from '../../../functions/disconnect'
+// import { disconnect } from '../../../functions/disconnect'
 import fetchMock from 'fetch-mock'
 
-jest.mock('../../../functions/disconnect', () => ({
-  disconnect: jest.fn()
-}))
+// jest.mock('../../../functions/disconnect', () => ({
+//   disconnect: jest.fn()
+// }))
 
 describe('HeaderComp', () => {
   const notifUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/notifications/`
