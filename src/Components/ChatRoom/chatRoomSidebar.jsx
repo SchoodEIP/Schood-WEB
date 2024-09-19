@@ -20,7 +20,7 @@ const ChatRoomSidebar = ({
     clearMessageAndError()
     setCurrentConversation(conversation)
     const conv = []
-    conversation.participants.map((participant) => (
+    conversation.participants?.map((participant) => (
       conv.push(participant.firstname + ' ' + participant.lastname)
     ))
     setCurrentParticipants(conv.join(', '))
