@@ -7,7 +7,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { disconnect } from '../../functions/disconnect'
-import { Chart } from 'chart.js';
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 

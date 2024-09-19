@@ -17,6 +17,7 @@ describe('ChatRoomSidebar', () => {
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
+    const setCurrentParticipants = jest.fn()
 
     await act(async () => {
       render(
@@ -26,6 +27,7 @@ describe('ChatRoomSidebar', () => {
               conversations={conversations}
               currentConversation={currentConversation}
               setCurrentConversation={setCurrentConversation}
+              setCurrentParticipants={setCurrentParticipants}
               clearMessageAndError={clearMessageAndError}
               openCreateConversationPopup={openCreateConversationPopup}
             />
@@ -54,6 +56,7 @@ describe('ChatRoomSidebar', () => {
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
+    const setCurrentParticipants = jest.fn()
 
     await act(async () => {
       render(
@@ -63,6 +66,7 @@ describe('ChatRoomSidebar', () => {
               conversations={conversations}
               currentConversation={currentConversation}
               setCurrentConversation={setCurrentConversation}
+              setCurrentParticipants={setCurrentParticipants}
               clearMessageAndError={clearMessageAndError}
               openCreateConversationPopup={openCreateConversationPopup}
             />
