@@ -1,15 +1,23 @@
-import { React, useState, useEffect } from 'react'
-import '../../../css/Components/Accounts/accountsTable.css'
-import userIcon from '../../../assets/userIcon.png'
-import { disconnect } from '../../../functions/disconnect'
+import { React, useState, useEffect } from 'react';
+import '../../../css/Components/Accounts/accountsTable.css';
+import userIcon from '../../../assets/userIcon.png';
+import { disconnect } from '../../../functions/disconnect';
 
-export default function SchoolAccountsTable () {
-  const [teacherList, setTeacherList] = useState([])
-  const [studentList, setStudentList] = useState([])
+export default function SchoolAccountsTable() {
+  const [teacherList, setTeacherList] = useState([]);
+  const [studentList, setStudentList] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedUser, setUpdatedUser] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    picture: null
+  });
 
-  async function getAccountList () {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
-    const token = sessionStorage.getItem('token')
+  async function getAccountList() {
+    const baseUrl = `${process.env.REACT_APP_BACKEND_URL}/user/all`;
+    const token = sessionStorage.getItem('token');
 
     const resp = await fetch(baseUrl, {
       method: 'GET',
@@ -17,32 +25,98 @@ export default function SchoolAccountsTable () {
         'x-auth-token': token,
         'Content-Type': 'application/json'
       }
-    })
+    });
+
     if (resp.status === 401) {
-      disconnect()
+      disconnect();
     } else {
-      const data = await resp.json()
+      const data = await resp.json();
 
-      const teacherAccounts = data.filter(account => account.role.name === 'teacher')
-      const studentAccounts = data.filter(account => account.role.name === 'student')
+      const teacherAccounts = data.filter(account => account.role.name === 'teacher');
+      const studentAccounts = data.filter(account => account.role.name === 'student');
 
-      setTeacherList(teacherAccounts)
-      setStudentList(studentAccounts)
+      setTeacherList(teacherAccounts);
+      setStudentList(studentAccounts);
     }
   }
 
   const showClasses = (classes) => {
     if (!Array.isArray(classes)) {
-      return ''
+      return '';
     }
-    const names = classes.map(obj => obj.name)
-    return names.join(', ')
-  }
+    const names = classes.map(obj => obj.name);
+    return names.join(', ');
+  };
 
-  // account list request on mounted
   useEffect(() => {
-    getAccountList()
-  }, [])
+    getAccountList();
+  }, []);
+
+  const handleEditClick = (user) => {
+    setSelectedUser(user);
+    setUpdatedUser({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      picture: user.picture
+    });
+    setIsEditing(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      picture: e.target.files[0]
+    }));
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append('firstname', updatedUser.firstname);
+      formData.append('lastname', updatedUser.lastname);
+      formData.append('email', updatedUser.email);
+      if (updatedUser.picture) {
+        formData.append('file', updatedUser.picture);
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${selectedUser._id}`, {
+        method: 'PATCH',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        },
+        body: formData
+      });
+
+      if (response.status === 401) {
+        disconnect();
+      } else if (response.ok) {
+        setIsEditing(false);
+        setSelectedUser(null);
+        setUpdatedUser({
+          firstname: '',
+          lastname: '',
+          email: '',
+          picture: null
+        });
+        getAccountList(); // Refresh the list
+      } else {
+        const text = await response.text();
+        console.error('Erreur lors de la mise à jour du profil:', text);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error.message);
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -59,8 +133,8 @@ export default function SchoolAccountsTable () {
                 <th className='valHead2'>Prénom</th>
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
-                {/* <th className='valHead2'>Title</th> */}
                 <th className='valHead5'>Classe(s)</th>
+                <th className='valHead6'>Modifier</th>
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -71,8 +145,8 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.firstname}</td>
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
-                    {/* <td>{data.title}</td> */}
                     <td>{showClasses(data.classes)}</td>
+                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
                   </tr>
                 )
               }
@@ -94,6 +168,7 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe</th>
+                <th className='valHead6'>Modifier</th>
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -105,6 +180,7 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
+                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
                   </tr>
                 )
               }
@@ -112,6 +188,54 @@ export default function SchoolAccountsTable () {
           </table>
         </div>
       </div>
+
+      {isEditing && selectedUser && (
+        <div className='editProfileForm'>
+          <h2>Modifier Profil</h2>
+          <form onSubmit={handleUpdate}>
+            <div>
+              <label htmlFor='firstname'>Prénom:</label>
+              <input
+                type='text'
+                id='firstname'
+                name='firstname'
+                value={updatedUser.firstname}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='lastname'>Nom:</label>
+              <input
+                type='text'
+                id='lastname'
+                name='lastname'
+                value={updatedUser.lastname}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='email'>Email:</label>
+              <input
+                type='email'
+                id='email'
+                name='email'
+                value={updatedUser.email}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='picture'>Photo de profil:</label>
+              <input
+                type='file'
+                id='picture'
+                onChange={handleFileChange}
+              />
+            </div>
+            <button type='submit'>Mettre à jour</button>
+            <button type='button' onClick={() => setIsEditing(false)}>Annuler</button>
+          </form>
+        </div>
+      )}
     </div>
-  )
+  );
 }
