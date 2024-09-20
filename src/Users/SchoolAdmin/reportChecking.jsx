@@ -106,7 +106,7 @@ const ReportChecking = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ status: "seen", responseMessage: 'ok' })
+          body: JSON.stringify({ status: 'seen', responseMessage: 'ok' })
         })
         fetchReportRequests()
       } else {
@@ -121,7 +121,7 @@ const ReportChecking = () => {
       }
 
       setIsReportProcessed(isProcessed)
-    } catch (error){
+    } catch (error) {
       setError('Erreur lors du traitement de la demande.')
     }
   }
@@ -158,9 +158,11 @@ const ReportChecking = () => {
                 <div className='chat-content'>
                   <div className='top'>
                     <div className='conv-name'>{translate(currentReport.type)}</div>
-                    <div  className="report-status">{currentReport.status === "seen" ? 'La requête a été traitée' : (
+                    <div className='report-status'>{currentReport.status === 'seen'
+                      ? 'La requête a été traitée'
+                      : (
                         <button onClick={() => handleReportProcessing(currentReport._id, true)}>Traiter la requête</button>
-                    )}
+                        )}
                       <button onClick={() => handleReportProcessing(currentReport._id, false)}>Supprimer la requête</button>
                     </div>
                   </div>
