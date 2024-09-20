@@ -17,6 +17,7 @@ describe('ChatRoomSidebar', () => {
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
+    const setCurrentParticipants = jest.fn()
 
     await act(async () => {
       render(
@@ -26,6 +27,7 @@ describe('ChatRoomSidebar', () => {
               conversations={conversations}
               currentConversation={currentConversation}
               setCurrentConversation={setCurrentConversation}
+              setCurrentParticipants={setCurrentParticipants}
               clearMessageAndError={clearMessageAndError}
               openCreateConversationPopup={openCreateConversationPopup}
             />
@@ -44,8 +46,8 @@ describe('ChatRoomSidebar', () => {
     // const activeConversationElement = screen.getByText(currentConversation.name)
     // expect(activeConversationElement).toHaveClass('conversation active-conversation')
 
-    // Check if the "Nouvelle conversation" button is present
-    const newConversationButton = screen.getByText('Nouvelle conversation')
+    // Check if the "+ Nouvelle conversation" button is present
+    const newConversationButton = screen.getByText('+ Nouvelle conversation')
     expect(newConversationButton).toBeInTheDocument()
   })
 
@@ -54,6 +56,7 @@ describe('ChatRoomSidebar', () => {
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
+    const setCurrentParticipants = jest.fn()
 
     await act(async () => {
       render(
@@ -63,6 +66,7 @@ describe('ChatRoomSidebar', () => {
               conversations={conversations}
               currentConversation={currentConversation}
               setCurrentConversation={setCurrentConversation}
+              setCurrentParticipants={setCurrentParticipants}
               clearMessageAndError={clearMessageAndError}
               openCreateConversationPopup={openCreateConversationPopup}
             />
@@ -82,7 +86,7 @@ describe('ChatRoomSidebar', () => {
     expect(clearMessageAndError).toHaveBeenCalled()
   })
 
-  it('calls openCreateConversationPopup when "Nouvelle conversation" button is clicked', async () => {
+  it('calls openCreateConversationPopup when "+ Nouvelle conversation" button is clicked', async () => {
     const setCurrentConversation = jest.fn()
     const clearMessageAndError = jest.fn()
     const openCreateConversationPopup = jest.fn()
@@ -103,8 +107,8 @@ describe('ChatRoomSidebar', () => {
       )
     })
 
-    // Click on the "Nouvelle conversation" button
-    const newConversationButton = screen.getByText('Nouvelle conversation')
+    // Click on the "+ Nouvelle conversation" button
+    const newConversationButton = screen.getByText('+ Nouvelle conversation')
     fireEvent.click(newConversationButton)
 
     // Check if openCreateConversationPopup was called

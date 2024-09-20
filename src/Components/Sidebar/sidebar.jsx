@@ -4,6 +4,7 @@ import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
+import logoSchood from '../../assets/logo_schood.png'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -45,20 +46,19 @@ import feelingIconSelected from '../../assets/sidenav/feeling-icon-selected.png'
 import alertsIcon from '../../assets/sidenav/alerts-icon.png'
 import alertsIconSelected from '../../assets/sidenav/alerts-icon-selected.png'
 
+import schoodIcon from '../../assets/sidenav/schood-icon.png'
+
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
-  // const [nbNotifications, setNbNotification] = useState(0)
-  // const [notification, setNotification] = useState({ message: false })
   const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
-  // const [isAnswered, setIsAnswered] = useState(false)
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
   const [notifications, setNotifications] = useState([])
   const role = (sessionStorage.getItem('role'))
 
-  const handleNotifications = () => /* istanbul ignore next */ {
+  const handleNotifications = () => {
     if (chats.value.notified) {
       if (location.pathname !== '/messages') {
         // setNotification({ message: true })
@@ -85,18 +85,16 @@ export default function Sidebar () {
         return response.json()
       })
       .then((data) => {
-        // setIsAnswered(false)
         setDailyMood(null)
         if (data.mood) {
-          // setIsAnswered(true)
           setDailyMood(data.mood)
         }
       })
-      .catch((e) => /* istanbul ignore next */ { console.error(e) })
+      .catch((e) => { console.error(e) })
   }
 
   const getUnseenNotifications = () => {
-
+    // Implement your logic here
   }
 
   useEffect(handleNotifications, [chats.value.notified, chats.value.unseenChats])
@@ -139,7 +137,7 @@ export default function Sidebar () {
 
   let pages = []
 
-  if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') /* istanbul ignore next */ {
+  if (sessionStorage.getItem('role') === 'administration' || sessionStorage.getItem('role') === 'admin') {
     pages = [
       { id: 'home', path: '/', icon: <img className='icons' src={homeIcon} />, iconSelected: <img className='icons' src={homeIconSelected} />, label: 'Accueil', title: 'Accueil', selected: IsCurrentPage('/', true) },
       { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage('/accounts', false) },
@@ -158,17 +156,17 @@ export default function Sidebar () {
       { id: 'statistiques', path: '/statistiques', icon: <img className='icons' src={statsIcon} />, iconSelected: <img className='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) },
       { id: 'messages', path: '/messages', icon: <img className='icons' src={chatIcon} />, iconSelected: <img className='icons' src={chatIconSelected} />, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage('/messages', false) },
       { id: 'aides', path: '/aides', icon: <img className='icons' src={helpIcon} />, iconSelected: <img className='icons' src={helpIconSelected} />, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage('/aides', false) },
-      { id: 'profile', path: '/profile', icon: <img className='icons' src={profileIcon} />, iconSelected: <img className='icons' src={profileIconSelected} />, label: 'Mon profile', title: 'Mon profile', selected: IsCurrentPage('/profile', false) },
+      { id: 'profile', path: '/profile', icon: <img className='icons' src={profileIcon} />, iconSelected: <img className='icons' src={profileIconSelected} />, label: 'Mon profil', title: 'Mon profil', selected: IsCurrentPage('/profile', false) },
       { id: 'alerts', path: '/alerts', icon: <img className='icons' src={alertsIcon} />, iconSelected: <img className='icons' src={alertsIconSelected} />, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage('/alerts', false) }
     ]
-    if (sessionStorage.getItem('role') === 'student') /* istanbul ignore next */ {
+    if (sessionStorage.getItem('role') === 'student') {
       const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(6, 0, feelingsObj)
     }
   }
 
-  const handleClick = (id) => /* istanbul ignore next */ {
-    // if (id === 'messages') setNotification({ message: false })
+  const handleClick = (id) => {
+    // Implement your logic here
   }
 
   const handleClickDailyMood = (mood) => {
@@ -184,13 +182,11 @@ export default function Sidebar () {
         if (response.status === 401) {
           disconnect()
         } else {
-          // setIsAnswered(true)
           setDailyMood(mood)
         }
       })
-      .catch((error) => /* istanbul ignore next */ {
+      .catch((error) => {
         console.error(error)
-        // setErrMessage('Erreur : ', error.message)
       })
   }
 
@@ -210,18 +206,15 @@ export default function Sidebar () {
       })
       .then((data) => {
         setNotifications(data)
-        // setNbNotification(data.length)
       })
-      .catch((error) => /* istanbul ignore next */ {
+      .catch((error) => {
         console.error(error)
-        // setErrMessage('Erreur : ', error.message)
       })
   }
 
   useEffect(() => {
     const intervalId = setInterval(handleGetNotifications, 30000)
 
-    // Clean up the interval when the component unmounts
     return () => {
       clearInterval(intervalId)
     }
@@ -260,15 +253,15 @@ export default function Sidebar () {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
             </div>
-            <div className='profile'>
-              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-            </div>
+            <Link to='/'>
+              <img style={{ width: '90%', paddingTop: '10px' }} id='logo' src={schoodIcon} alt='Schood' />
+            </Link>
             <span className='divider' />
           </div>
           <div className='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link className='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                <Link className='link' to={page.path} onClick={() => { handleClick(page.id) }}>
                   <div className='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon}
                   </div>
@@ -296,13 +289,9 @@ export default function Sidebar () {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
-            <div className='profile'>
-              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div className='firstname-lastname'>
-                <span>{profile?.firstname}</span>
-                <span>{profile?.lastname}</span>
-              </div>
-            </div>
+            <Link to='/'>
+              <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
+            </Link>
             <span className='divider' />
             {role === 'student' && (
               <div className='daily-mood'>
@@ -320,7 +309,7 @@ export default function Sidebar () {
           <div className='menu'>
             {pages.map((page, index) => (
               <div key={index} className={[page.selected ? 'menu-item-selected' : 'menu-item']}>
-                <Link className='link' to={page.path} onClick={() => /* istanbul ignore next */ { handleClick(page.id) }}>
+                <Link className='link' to={page.path} onClick={() => { handleClick(page.id) }}>
                   <div className='icon'>
                     {page.selected && page.iconSelected ? page.iconSelected : page.icon} <span className='label'>{page.label}</span>
                   </div>

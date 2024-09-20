@@ -5,21 +5,15 @@ import HeaderComp from '../../Components/Header/headerComp'
 import AidePage from '../../Components/Aides/aides'
 import CategoryCreationPopupContent from '../../Components/Popup/categoryCreation'
 import HelpNumberCreationPopupContent from '../../Components/Popup/helpNumberCreation'
+import HelpNumberAndCategoryEditPopupContent from '../../Components/Popup/helpNumberAndCategoryEditPopupContent'
 import '../../css/pages/homePage.scss'
 
 const HelpPage = () => {
   const role = sessionStorage.getItem('role')
-  const [position, setPosition] = useState(0)
   const [isOpenCategory, setIsOpenCategory] = useState(false)
   const [isOpenNumber, setIsOpenNumber] = useState(false)
-
-  const upPosition = () => {
-    setPosition(position + 1)
-  }
-
-  const minusPosition = () => {
-    setPosition(position - 1)
-  }
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [editType, setEditType] = useState('') // Pour stocker le type d'élément à modifier
 
   const handleCategoryCustomPopup = async () => {
     setIsOpenCategory(!isOpenCategory)
@@ -35,6 +29,12 @@ const HelpPage = () => {
     }
   }
 
+  // Fonction pour ouvrir la popup d'édition
+  const handleEditPopup = (type) => {
+    setEditType(type)
+    setIsOpenEdit(true)
+  }
+
   const buttonComponent = [
     {
       name: 'Ajouter une Catégorie',
@@ -43,6 +43,14 @@ const HelpPage = () => {
     {
       name: 'Ajouter un Numéro',
       handleFunction: handleNumberCustomPopup
+    },
+    {
+      name: 'Modifier une Catégorie',
+      handleFunction: () => handleEditPopup('category') // Ouvrir la popup de modification pour les catégories
+    },
+    {
+      name: 'Modifier un Numéro',
+      handleFunction: () => handleEditPopup('number') // Ouvrir la popup de modification pour les numéros
     }
   ]
 
@@ -52,9 +60,6 @@ const HelpPage = () => {
         <HeaderComp
           title='Mes Aides'
           withLogo
-          withReturnBtn={position > 0}
-          position={position}
-          returnCall={minusPosition}
           showButtons={!!(role === 'administration' || role === 'admin')}
           buttonComponent={buttonComponent}
         />
@@ -76,7 +81,15 @@ const HelpPage = () => {
             </div>
           )}
         </Popup>
-        <AidePage upPosition={upPosition} position={position} />
+        <Popup open={isOpenEdit} onClose={() => setIsOpenEdit(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <HelpNumberAndCategoryEditPopupContent type={editType} onClose={close} />
+            </div>
+          )}
+        </Popup>
+        <AidePage />
       </div>
     </div>
   )

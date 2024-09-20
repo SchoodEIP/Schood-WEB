@@ -25,12 +25,16 @@ import FormTeacherPage from './Users/Teacher/formTeacherPage'
 import ModifyFormTeacherPage from './Users/Teacher/modifyFormTeacherPage'
 import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
-import { WebsocketProvider } from './contexts/websocket'
+import TeacherProfilePage from './Users/Shared/TeacherProfilePage'
 import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
+import FeelingsAdminPage from './Users/Admin/feelingsAdminPage'
 import 'react-tooltip/dist/react-tooltip.css'
 import Sidebar from './Components/Sidebar/sidebar'
-import './css/index.scss'
+import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
+import './css/index.scss'
+import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
+
 const rootElement = document.getElementById('root')
 
 if (rootElement) {
@@ -84,6 +88,8 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
+                  <Route path='/feelings' element={<FeelingsAdminPage />} />
+                  <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
               )}
               {sessionStorage.getItem('role') === 'student' && (
@@ -110,6 +116,8 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
+                  <Route path='/accounts' element={<SchoolAccountsTable />} />
+                  <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
               )}
               <Route path='*' element={<NoPage />} />

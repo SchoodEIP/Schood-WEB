@@ -26,12 +26,12 @@ jobs:
       - name: Standard Fix
         working-directory: ./src
         continue-on-error: true
-        run: standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage
+        run: standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage --global FileReader --global alert --global File --global before
 
       - name: Get Non fixable auto
         working-directory: ./src
         continue-on-error: true
-        run: standard --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage > linter-nonfixable
+        run: standard --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll --global test --global jest --global localStorage --global cy --global sessionStorage --global FileReader --global alert --global File --global before > linter-nonfixable
 
       - name: Delete empty file linter-nonfixable
         working-directory: ./src

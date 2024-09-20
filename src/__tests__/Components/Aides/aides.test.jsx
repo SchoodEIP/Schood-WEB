@@ -15,6 +15,10 @@ describe('AidePage component', () => {
 
   const categories = [
     {
+      _id: 0,
+      name: 'Default'
+    },
+    {
       _id: '1',
       name: 'Aide contre le harcèlement'
     }
@@ -22,12 +26,20 @@ describe('AidePage component', () => {
 
   const helpNumbers = [
     {
-      _id: '1',
+      _id: '2',
       name: "Ligne d'urgence pour les victimes de violence familiale",
       telephone: '0289674512',
       email: 'example@schood.fr',
       description: 'lala',
-      helpNumbersCategory: '2'
+      helpNumbersCategory: '1'
+    },
+    {
+      _id: '3',
+      name: 'default number',
+      telephone: '0289634512',
+      email: 'exampele@schood.fr',
+      description: 'laleea',
+      helpNumbersCategory: '0'
     }
   ]
 
@@ -53,11 +65,6 @@ describe('AidePage component', () => {
         </BrowserRouter>
       )
     })
-
-    // Vérifie que les catégories sont affichées
-    // expect(screen.getByText('Catégories')).toBeTruthy()
-    // expect(screen.getByTestId('category-btn-1')).toBeInTheDocument()
-    // expect(screen.getByTestId('category-btn-2')).toBeInTheDocument()
 
     // Vérifie que les numéros de contact sont affichés
     expect(screen.getByText('Aide contre le harcèlement')).toBeInTheDocument()

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import HeaderComp from '../../Components/Header/headerComp'
-import  Chart  from 'chart.js/auto'
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { disconnect } from '../../functions/disconnect'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
+
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale)
 
 const TeacherStatPage = () => {
   const [moodData, setMoodData] = useState([])
@@ -23,8 +25,8 @@ const TeacherStatPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const moodUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/dailyMoods'
-      const answersUrl = process.env.REACT_APP_BACKEND_URL + '/shared/statistics/answers'
+      const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods`
+      const answersUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/answers`
       try {
         const [moodResponse, answersResponse] = await Promise.all([
           fetch(moodUrl, {
@@ -52,9 +54,7 @@ const TeacherStatPage = () => {
             })
           })
         ])
-        if (moodResponse.status === 401) {
-          disconnect()
-        } else if (answersResponse.status === 401) {
+        if (moodResponse.status === 401 || answersResponse.status === 401) {
           disconnect()
         }
         const mData = await moodResponse.json()
@@ -64,7 +64,7 @@ const TeacherStatPage = () => {
           setAveragePercentage(mData.averagePercentage)
         }
         const answerList = []
-        Object.keys(aData).forEach(date => {
+        Object.keys(aData).forEach((date) => {
           answerList.push({
             date,
             data: aData[date]
@@ -72,7 +72,7 @@ const TeacherStatPage = () => {
         })
 
         const moodList = []
-        Object.keys(mData).forEach(date => {
+        Object.keys(mData).forEach((date) => {
           moodList.push({
             date,
             data: mData[date].moods
@@ -87,7 +87,7 @@ const TeacherStatPage = () => {
     }
 
     const fetchClasses = async () => {
-      const classesUrl = process.env.REACT_APP_BACKEND_URL + '/shared/classes'
+      const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
       try {
         const response = await fetch(classesUrl, {
           method: 'GET',
@@ -134,23 +134,23 @@ const TeacherStatPage = () => {
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
     switch (filter) {
-      case 'Semaine':{
+      case 'Semaine': {
         const selectedDayOfWeek = selectedDate.getDay()
         const monday = new Date(selectedDate)
         monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1))
         return monday.toISOString().split('T')[0]
       }
-      case 'Mois':{
+      case 'Mois': {
         return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).toISOString().split('T')[0]
       }
-      case 'Semestre':{
+      case 'Semestre': {
         const semesterStartMonth = selectedDate.getMonth() < 8 ? 0 : 8
         return new Date(selectedDate.getFullYear(), semesterStartMonth, 1).toISOString().split('T')[0]
       }
-      case 'Année':{
+      case 'Année': {
         return new Date(selectedDate.getFullYear(), 0, 1).toISOString().split('T')[0]
       }
-      default:{
+      default: {
         return selectedDate.toISOString().split('T')[0]
       }
     }
@@ -159,26 +159,26 @@ const TeacherStatPage = () => {
   const calculateEndDate = (date, filter) => {
     const selectedDate = new Date(date)
     switch (filter) {
-      case 'Semaine':{
+      case 'Semaine': {
         const sunday = new Date(selectedDate)
         sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7)
         return sunday.toISOString().split('T')[0]
       }
-      case 'Mois':{
+      case 'Mois': {
         const nextMonth = new Date(selectedDate)
         nextMonth.setMonth(nextMonth.getMonth() + 1)
         nextMonth.setDate(nextMonth.getDate() - 1)
         return nextMonth.toISOString().split('T')[0]
       }
-      case 'Semestre':{
+      case 'Semestre': {
         const semesterEndMonth = selectedDate.getMonth() < 8 ? 6 : 11
         const endMonth = new Date(selectedDate.getFullYear(), semesterEndMonth + 1, 0)
         return endMonth.toISOString().split('T')[0]
       }
-      case 'Année':{
+      case 'Année': {
         return new Date(selectedDate.getFullYear(), 11, 31).toISOString().split('T')[0]
       }
-      default:{
+      default: {
         return selectedDate.toISOString().split('T')[0]
       }
     }
@@ -196,10 +196,10 @@ const TeacherStatPage = () => {
       newChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: Object.keys(moodData).filter(key => key !== 'averagePercentage'),
+          labels: moodData.map((mood) => mood.date),
           datasets: [{
             label: 'Humeur',
-            data: Object.values(moodData).filter(val => typeof val === 'number'),
+            data: moodData.map((mood) => calculateAverageMood(mood.data)),
             borderColor: 'white',
             pointBackgroundColor: 'white',
             pointBorderColor: 'white',
@@ -223,7 +223,7 @@ const TeacherStatPage = () => {
               min: 0,
               max: 4,
               ticks: {
-                callback: value => {
+                callback: (value) => {
                   switch (value) {
                     case 0:
                       return '\u{1F622}'
@@ -251,6 +251,37 @@ const TeacherStatPage = () => {
             legend: {
               labels: {
                 color: 'white'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                title: (tooltipItems) => {
+                  return tooltipItems[0].label // Date of the point
+                },
+                label: (tooltipItem) => {
+                  const moodValue = tooltipItem.raw
+                  let moodText = ''
+                  switch (moodValue) {
+                    case 0:
+                      moodText = 'Très Triste'
+                      break
+                    case 1:
+                      moodText = 'Triste'
+                      break
+                    case 2:
+                      moodText = 'Neutre'
+                      break
+                    case 3:
+                      moodText = 'Content'
+                      break
+                    case 4:
+                      moodText = 'Très Content'
+                      break
+                    default:
+                      moodText = 'Inconnu'
+                  }
+                  return `Humeur: ${moodText}`
+                }
               }
             }
           }
@@ -302,10 +333,10 @@ const TeacherStatPage = () => {
       const newChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: answerData.map(answer => answer.date),
+          labels: answerData.map((answer) => answer.date),
           datasets: [{
             label: 'Réponses',
-            data: answerData.map(answer => answer.data),
+            data: answerData.map((answer) => answer.data),
             backgroundColor: 'rgba(255, 255, 255, 0.8)',
             borderColor: 'rgba(255, 255, 255, 1)',
             borderWidth: 1

@@ -1,59 +1,78 @@
 .graph-box {
     width: 100%;
     height: 100%;
-    background-color: #4F23E2;
     border-radius: 26px;
+    box-shadow: 5px 5px 5px 0px lightgray;
+    border: 1px solid lightgrey;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
-
+  
     .graph-header {
-        width: calc(100% - 28px);
-        margin-top: 24px;
+      width: calc(100% - 28px);
+      margin-top: 24px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-left: 18px;
+      margin-right: 18px;
+      align-items: center;
+  
+      .title {
+        color: #4F23E2;
+        font-size: 30px;
+        font-weight: 600;
+        font-family: Inter;
+      }
+  
+      .see-more {
+        margin-top: 5px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        margin-left: 18px;
-        margin-right: 18px;
+        justify-content: start;
         align-items: center;
+        color: #4F23E2;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: Inter;
 
-        .title {
-            color: white;
-            font-size: 30px;
-            font-weight: 600;
-            font-family: Inter;
+        .img {
+          margin-left: 4px;
         }
-
-        .see-more {
-            margin-top: 5px;
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            font-family: Inter;
-
-            .img {
-                margin-left: 4px;
-            }
-        }
+      }
     }
-
+  
     .graph-body {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .graph-content {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            font-family: Inter;
+      width: 100%;
+      flex: 1; /* Utilisation de flex pour permettre à graph-content de prendre l'espace restant */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  
+      .graph-content {
+        color: #4F23E2;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: Inter;
+        width: 100%; /* Le graph-content prend toute la largeur disponible */
+  
+        .chart-container {
+          width: 100%;
+          max-height: calc(100% - 80px); /* Hauteur maximale pour le graphique (100% - taille du graph-header) */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+  
+          canvas {
+            max-width: 100%;
+            max-height: 100%;
+          }
+
         }
+      }
     }
-}
+  }
+  
