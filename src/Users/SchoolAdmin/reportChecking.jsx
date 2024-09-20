@@ -12,9 +12,9 @@ const ReportChecking = () => {
   const [currentReport, setCurrentReport] = useState('')
   // const [reportedConversation, setReportedConversation] = useState(null)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
-  const [isReportProcessed, setIsReportProcessed] = useState(false)
-  const [error, setError] = useState('')
-  const [reportRequest, setReportRequests] = useState([])
+  // const [isReportProcessed, setIsReportProcessed] = useState(false)
+  // const [error, setError] = useState('')
+  // const [reportRequest, setReportRequests] = useState([])
   const fetchReportRequests = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
@@ -117,12 +117,13 @@ const ReportChecking = () => {
             'Content-Type': 'application/json'
           }
         })
-        setReportRequests((prevReports) => prevReports.filter((report) => report._id !== reportId))
+        fetchReportRequests()
+        // setReports((prevReports) => prevReports.filter((report) => report._id !== reportId))
       }
 
-      setIsReportProcessed(isProcessed)
+      // setIsReportProcessed(isProcessed)
     } catch (error){
-      setError('Erreur lors du traitement de la demande.')
+      console.error('Erreur lors du traitement de la demande.')
     }
   }
 
@@ -209,7 +210,7 @@ const ReportChecking = () => {
                 </div>
                 )
               : (
-                <div>Aucun signalement sélectionné.</div>
+                <div style={{marginLeft: '10px'}}>Aucun signalement sélectionné.</div>
                 )}
           </div>
         </div>
