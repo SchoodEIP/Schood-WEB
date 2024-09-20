@@ -10,19 +10,10 @@ import '../../css/pages/homePage.scss'
 
 const HelpPage = () => {
   const role = sessionStorage.getItem('role')
-  const [position, setPosition] = useState(0)
   const [isOpenCategory, setIsOpenCategory] = useState(false)
   const [isOpenNumber, setIsOpenNumber] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [editType, setEditType] = useState('') // Pour stocker le type d'élément à modifier
-
-  const upPosition = () => {
-    setPosition(position + 1)
-  }
-
-  const minusPosition = () => {
-    setPosition(position - 1)
-  }
 
   const handleCategoryCustomPopup = async () => {
     setIsOpenCategory(!isOpenCategory)
@@ -69,9 +60,6 @@ const HelpPage = () => {
         <HeaderComp
           title='Mes Aides'
           withLogo
-          withReturnBtn={position > 0}
-          position={position}
-          returnCall={minusPosition}
           showButtons={!!(role === 'administration' || role === 'admin')}
           buttonComponent={buttonComponent}
         />

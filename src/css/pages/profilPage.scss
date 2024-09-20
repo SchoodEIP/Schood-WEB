@@ -51,3 +51,134 @@
       transform: scale(1.2);
   }
 }
+
+/**                                   profile components                           **/
+.profile-component-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  max-width: 550px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px 0px lightgray;
+  border: 1px solid lightgrey;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  min-width: 550px;
+
+
+  .profile-component-content-container {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    justify-content: space-between;
+
+    .profile-information-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .profile-content-container {
+        .profile-element-title {
+          color: #4F23E2;
+          margin: 0;
+          display: flex;
+        }
+
+        .profile-element-content {
+          margin: 0;
+          display: flex;
+        }
+      }
+    }
+
+    .profile-img-container {
+      width: fit-content;
+      padding-right: 25px;
+      .profile-component-img {
+        border-radius: 50%;
+        max-width: 200px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+  }
+
+  .profile-forms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 600px;
+    overflow-y: auto;
+
+    .profile-form-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-right: 25px;
+      padding-bottom: 10px;
+    }
+
+    .border-bottom {
+      border-bottom: 1px solid #4F23E2;
+    }
+  }
+
+  .report-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-left: -15px;
+    max-height: 600px;
+    overflow-y: auto;
+
+    .report-container {
+      display: flex;
+      flex-direction: column;
+      margin-left: 30px;
+      box-shadow: 5px 5px 5px 0px lightgray;
+      max-width: 500px;
+      border-radius: 15px;
+      border: 1px solid lightgrey;
+      padding-left: 10px;
+      padding-bottom: 10px;
+      margin-right: 25px;
+
+      .report-top-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid #4F23E2;
+        margin-right: 10px;
+
+        .bold-date {
+          font-weight: bold;
+        }
+
+        .top-profile-container {
+          padding-top: 10px;
+          padding-right: 15px;
+        }
+      }
+
+      .report-middle-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid #4F23E2;
+        margin-right: 10px;
+      }
+
+      .report-bottom-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .user-signaled-container {
+          margin-bottom: 10px;
+          width: 250px;
+        }
+      }
+    }
+  }
+}

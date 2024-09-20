@@ -15,6 +15,7 @@ import { disconnect } from '../../functions/disconnect';
 const Messages = () => {
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState('');
+  const [currentParticipants, setCurrentParticipants] = useState('')
   const { send, chats } = useContext(WebsocketContext);
   const inputFile = useRef(null);
 
@@ -92,9 +93,11 @@ const Messages = () => {
 
         const conversationData = data.map((conversation) => {
           const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'));
-          const convName = noUserParticipants.map((participant) => (
-            `${participant.firstname} ${participant.lastname}`
-          ));
+          const convName = []
+          noUserParticipants.map((participant) => (
+            convName.push(participant.firstname + ' ' + participant.lastname)
+          ))
+          setCurrentParticipants(convName.join(', '))
           return {
             _id: conversation._id,
             participants: conversation.participants,
@@ -440,6 +443,7 @@ const Messages = () => {
                 <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
                   Quitter la conversation
                 </button>
+                
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
                   <div className='popup-modal-container'>
                     <ReportButton

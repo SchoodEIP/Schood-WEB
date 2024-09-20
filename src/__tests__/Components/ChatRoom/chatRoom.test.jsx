@@ -210,7 +210,7 @@ describe('Messages Component', () => {
 
     // Click the button to open the popup
     await act(async () => {
-      fireEvent.click(screen.getByText('Nouvelle conversation'))
+      fireEvent.click(screen.getByText('+ Nouvelle conversation'))
     })
 
     // Wait for the popup to be displayed
@@ -431,7 +431,7 @@ describe('Messages Component', () => {
       )
     })
 
-    const newConversationButton = screen.getByText('Nouvelle conversation')
+    const newConversationButton = screen.getByText('+ Nouvelle conversation')
 
     await waitFor(() => {
       expect(newConversationButton).toBeInTheDocument()

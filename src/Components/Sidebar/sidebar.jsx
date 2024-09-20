@@ -4,6 +4,7 @@ import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
+import logoSchood from '../../assets/logo_schood.png'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -44,6 +45,8 @@ import feelingIcon from '../../assets/sidenav/feeling-icon.png'
 import feelingIconSelected from '../../assets/sidenav/feeling-icon-selected.png'
 import alertsIcon from '../../assets/sidenav/alerts-icon.png'
 import alertsIconSelected from '../../assets/sidenav/alerts-icon-selected.png'
+
+import schoodIcon from '../../assets/sidenav/schood-icon.png'
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true)
@@ -253,6 +256,9 @@ export default function Sidebar() {
             <Link to="/profile" className='profile'> {/* Wrap profile image with Link */}
               <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
             </Link>
+            <Link to='/'>
+              <img style={{ width: '90%', paddingTop: '10px' }} id='logo' src={schoodIcon} alt='Schood' />
+            </Link>
             <span className='divider' />
           </div>
           <div className='menu'>
@@ -292,6 +298,9 @@ export default function Sidebar() {
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>
               </div>
+            </Link>
+            <Link to='/'>
+              <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
             </Link>
             <span className='divider' />
             {role === 'student' && (

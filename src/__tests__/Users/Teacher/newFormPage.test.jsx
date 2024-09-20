@@ -133,11 +133,11 @@ describe('NewFormPage', () => {
     })
 
     await waitFor(async () => {
-      expect(screen.getByText('Sauvegarder les Modifications ?'))
+      expect(screen.getByText('Sauvegarder les modifications ?'))
     })
 
     await act(async () => {
-      fireEvent.click(screen.getByText('Annuler'))
+      fireEvent.click(screen.getByText("Continuer l'édition"))
     })
 
     const newPostBtn = screen.getByText('Retour')
@@ -161,7 +161,7 @@ describe('NewFormPage', () => {
     expect(screen.getByText("Création d'un Nouveau Questionnaire")).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Titre du questionnaire')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Quelle est votre question ?')).toBeInTheDocument()
-    expect(screen.getByText('Date de parution')).toBeInTheDocument()
+    expect(screen.getByText('Date de parution :')).toBeInTheDocument()
     expect(screen.getByText('Valider le Questionnaire')).toBeInTheDocument()
     expect(screen.getByDisplayValue(`${thisWeekMonday}`)).toBeInTheDocument()
   })
@@ -177,7 +177,7 @@ describe('NewFormPage', () => {
       )
     })
 
-    const addQuestionBtn = screen.getByText('Ajouter une Question')
+    const addQuestionBtn = screen.getByText('+ Ajouter une Question')
 
     await act(() => {
       fireEvent.click(addQuestionBtn)
@@ -189,7 +189,7 @@ describe('NewFormPage', () => {
     })
     expect(screen.getByText('3.')).toBeInTheDocument()
 
-    const removeQuestionBtn = screen.getByText('Enlever la Dernière Question')
+    const removeQuestionBtn = screen.getByText('- Enlever la Dernière Question')
 
     await act(() => {
       fireEvent.click(removeQuestionBtn)
@@ -200,7 +200,7 @@ describe('NewFormPage', () => {
     })
 
     expect(screen.queryByText('2.')).toBeNull()
-    expect(screen.queryByText('Enlever la Dernière Question')).toBeNull()
+    expect(screen.queryByText('- Enlever la Dernière Question')).toBeNull()
   })
 
   test('add and remove multiple answers', async () => {
@@ -214,7 +214,7 @@ describe('NewFormPage', () => {
       )
     })
 
-    const addQuestionBtn = screen.getByText('Ajouter une Question')
+    const addQuestionBtn = screen.getByText('+ Ajouter une Question')
 
     await act(() => {
       fireEvent.click(addQuestionBtn)
@@ -230,14 +230,14 @@ describe('NewFormPage', () => {
     })
     expect(selectType).toHaveValue('multiple')
 
-    const addAnswerBtn = screen.getByText('Ajouter une Réponse')
+    const addAnswerBtn = screen.getByText('+ Ajouter une Réponse')
     expect(addAnswerBtn).toBeInTheDocument()
 
     await act(() => {
       fireEvent.click(addAnswerBtn)
     })
 
-    const removeAnswerBtn = screen.getByText('Enlever la Dernière Réponse')
+    const removeAnswerBtn = screen.getByText('- Enlever la Dernière Réponse')
 
     const inputElements1 = screen.getAllByPlaceholderText('Ajoutez une Réponse')
 
@@ -476,7 +476,7 @@ describe('NewFormPage', () => {
       href: '/questionnaire'
     }
 
-    const addQuestionBtn = screen.getByText('Ajouter une Question')
+    const addQuestionBtn = screen.getByText('+ Ajouter une Question')
 
     await act(() => {
       fireEvent.click(addQuestionBtn)
