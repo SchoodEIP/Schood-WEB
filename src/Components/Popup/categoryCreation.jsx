@@ -67,8 +67,7 @@ const CategoryCreationPopupContent = () => {
       {notification.visible &&
         <div className={`notification ${notification.type}`}>
           {notification.message}
-        </div>
-      }
+        </div>}
       <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>
     </>
   )

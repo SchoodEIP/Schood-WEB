@@ -32,7 +32,6 @@ import 'react-tooltip/dist/react-tooltip.css'
 import Sidebar from './Components/Sidebar/sidebar'
 import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
-import 'react-tooltip/dist/react-tooltip.css'
 import './css/index.scss'
 import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
 

@@ -182,7 +182,7 @@ const FeelingsAdminPage = () => {
           {Array.isArray(feelings) && feelings.map((feeling) => (
             <div key={feeling._id} className='individual-feelings-container' onClick={() => handleFeelingsModification(feeling)}>
               <div className='publication-date'>{moment(feeling.date).format('DD/MM/YYYY')}</div>
-              <div className='horizontal-line'></div>
+              <div className='horizontal-line' />
               <div className='feelings-container-content'>
                 <div className='container-sidebar'>
                   <div className='emoticone-container'>

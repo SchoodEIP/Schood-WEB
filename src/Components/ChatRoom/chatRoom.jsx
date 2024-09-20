@@ -1,48 +1,48 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import '../../css/pages/chatRoomPage.scss';
-import ChatRoomSidebar from './chatRoomSidebar';
-import Message from './message';
-import ReportButton from './reportButton';
-import { WebsocketContext } from '../../contexts/websocket';
-import Popup from 'reactjs-popup';
-import UserProfile from '../userProfile/userProfile';
-import addFile from '../../assets/add_file.png';
-import ConversationCreationPopupContent from '../Popup/conversationCreation';
-import '../../css/Components/Popup/popup.scss';
-import cross from '../../assets/Cross.png';
-import { disconnect } from '../../functions/disconnect';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import '../../css/pages/chatRoomPage.scss'
+import ChatRoomSidebar from './chatRoomSidebar'
+import Message from './message'
+import ReportButton from './reportButton'
+import { WebsocketContext } from '../../contexts/websocket'
+import Popup from 'reactjs-popup'
+import UserProfile from '../userProfile/userProfile'
+import addFile from '../../assets/add_file.png'
+import ConversationCreationPopupContent from '../Popup/conversationCreation'
+import '../../css/Components/Popup/popup.scss'
+import cross from '../../assets/Cross.png'
+import { disconnect } from '../../functions/disconnect'
 
 const Messages = () => {
-  const [conversations, setConversations] = useState([]);
-  const [currentConversation, setCurrentConversation] = useState('');
+  const [conversations, setConversations] = useState([])
+  const [currentConversation, setCurrentConversation] = useState('')
   const [currentParticipants, setCurrentParticipants] = useState('')
-  const { send, chats } = useContext(WebsocketContext);
-  const inputFile = useRef(null);
+  const { send, chats } = useContext(WebsocketContext)
+  const inputFile = useRef(null)
 
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [error, setError] = useState('');
-  const [contacts, setContacts] = useState([]);
-  const [file, setFile] = useState(null);
-  const [fileType, setFileType] = useState('text');
+  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState('')
+  const [error, setError] = useState('')
+  const [contacts, setContacts] = useState([])
+  const [file, setFile] = useState(null)
+  const [fileType, setFileType] = useState('text')
 
-  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false);
-  const [notification, setNotification] = useState(null);
+  const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false)
+  const [notification, setNotification] = useState(null)
 
-  const [showAddParticipantsPopup, setShowAddParticipantsPopup] = useState(false);
-  const [showLeaveConversationPopup, setShowLeaveConversationPopup] = useState(false);
+  const [showAddParticipantsPopup, setShowAddParticipantsPopup] = useState(false)
+  const [showLeaveConversationPopup, setShowLeaveConversationPopup] = useState(false)
 
   useEffect(() => {
-    fetchConversations();
-  }, []);
+    fetchConversations()
+  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      fetchConversations();
-    }, 10000); // Mettre à jour toutes les 10 secondes (10000 ms)
+      fetchConversations()
+    }, 10000) // Mettre à jour toutes les 10 secondes (10000 ms)
 
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => clearInterval(intervalId)
+  }, [])
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -53,23 +53,23 @@ const Messages = () => {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           }
-        });
+        })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des contacts.');
+          throw new Error('Erreur lors de la récupération des contacts.')
         } else {
-          const data = await response.json();
-          setContacts(data);
+          const data = await response.json()
+          setContacts(data)
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts :', error);
+        console.error('Erreur lors de la récupération des contacts :', error)
       }
-    };
+    }
 
-    fetchContacts();
-  }, []);
+    fetchContacts()
+  }, [])
 
   const fetchConversations = async () => {
     try {
@@ -79,20 +79,20 @@ const Messages = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
-      });
+      })
 
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       } else {
-        const data = await response.json();
+        const data = await response.json()
 
         if (!Array.isArray(data)) {
-          console.error('Fetch conversations: Response data is not an array');
-          return;
+          console.error('Fetch conversations: Response data is not an array')
+          return
         }
 
         const conversationData = data.map((conversation) => {
-          const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'));
+          const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
           const convName = []
           noUserParticipants.map((participant) => (
             convName.push(participant.firstname + ' ' + participant.lastname)
@@ -102,23 +102,23 @@ const Messages = () => {
             _id: conversation._id,
             participants: conversation.participants,
             name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
-          };
-        });
+          }
+        })
 
         if (currentConversation === '' || !conversationData.some(conv => conv._id === currentConversation._id)) {
-          setCurrentConversation(conversationData.length > 0 ? conversationData[conversationData.length - 1] : '');
+          setCurrentConversation(conversationData.length > 0 ? conversationData[conversationData.length - 1] : '')
         }
-        setConversations(conversationData);
+        setConversations(conversationData)
       }
     } catch (error) {
-      console.error('Error fetching conversations:', error);
+      console.error('Error fetching conversations:', error)
     }
-  };
+  }
 
   const fetchMessages = async () => {
     try {
       if (!currentConversation) {
-        return;
+        return
       }
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/messages`,
@@ -129,55 +129,55 @@ const Messages = () => {
             'Content-Type': 'application/json'
           }
         }
-      );
+      )
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des messages.');
+        throw new Error('Erreur lors de la récupération des messages.')
       } else {
-        const data = await response.json();
+        const data = await response.json()
         const messageData = data.map((message) => ({
           contentType: !message.file ? 'text' : 'file',
           ...message
-        }));
-        setMessages(messageData);
+        }))
+        setMessages(messageData)
       }
     } catch (error) {
-      console.error('Erreur lors de la récupération des messages :', error);
+      console.error('Erreur lors de la récupération des messages :', error)
     }
-  };
+  }
 
   useEffect(() => {
-    if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages();
-  }, [chats?.value.unseenChats]);
+    if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
+  }, [chats?.value.unseenChats])
 
   useEffect(() => {
-    if (chats) fetchConversations(!chats.value.newChat);
-  }, [chats?.value.newChat]);
+    if (chats) fetchConversations(!chats.value.newChat)
+  }, [chats?.value.newChat])
 
   const sendMessage = async () => {
     if (newMessage.trim() === '' && !file) {
-      return;
+      return
     }
 
-    const currentTime = new Date();
+    const currentTime = new Date()
     const messageData = {
       user: localStorage.getItem('id'),
       time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: currentTime.toLocaleDateString(),
       content: newMessage,
       contentType: fileType
-    };
+    }
 
     try {
-      const formData = new FormData();
-      formData.append('messageData', JSON.stringify(messageData));
+      const formData = new FormData()
+      formData.append('messageData', JSON.stringify(messageData))
 
       if (file) {
-        const fileData = new FormData();
-        fileData.append('file', file);
-        fileData.append('content', newMessage);
+        const fileData = new FormData()
+        fileData.append('file', file)
+        fileData.append('content', newMessage)
 
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newFile`,
@@ -188,11 +188,11 @@ const Messages = () => {
             },
             body: fileData
           }
-        );
+        )
         if (response.status !== 200) {
-          throw new Error("Erreur lors de l'envoi du message.");
+          throw new Error("Erreur lors de l'envoi du message.")
         } else {
-          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') });
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       } else {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/newMessage`,
@@ -204,76 +204,76 @@ const Messages = () => {
             },
             body: JSON.stringify({ content: newMessage })
           }
-        );
+        )
 
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
 
         if (response.status !== 200) {
-          throw new Error("Erreur lors de l'envoi du message.");
+          throw new Error("Erreur lors de l'envoi du message.")
         } else {
-          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') });
+          send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
         }
       }
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
-      });
+      })
       const message = {
         user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
         error: true
-      };
-      const updatedMessages = [...messages, message];
-      setMessages(updatedMessages);
-      setNewMessage('');
-      setFileType('text');
-      setFile(null);
+      }
+      const updatedMessages = [...messages, message]
+      setMessages(updatedMessages)
+      setNewMessage('')
+      setFileType('text')
+      setFile(null)
     } catch (error) {
-      setError("Erreur lors de l'envoi du message. Veuillez réessayer.");
+      setError("Erreur lors de l'envoi du message. Veuillez réessayer.")
 
       const time = new Date().toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
-      });
+      })
       const message = {
         user: localStorage.getItem('id'),
         time,
         content: newMessage,
         contentType: fileType,
         error: true
-      };
-      const updatedMessages = [...messages, message];
-      setMessages(updatedMessages);
-      setNewMessage('');
-      setFileType('text');
-      setFile(null);
+      }
+      const updatedMessages = [...messages, message]
+      setMessages(updatedMessages)
+      setNewMessage('')
+      setFileType('text')
+      setFile(null)
     }
-  };
+  }
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      sendMessage();
+      sendMessage()
     }
-  };
+  }
 
   const clearMessageAndError = () => {
-    setMessages([]);
-    setError('');
-  };
+    setMessages([])
+    setError('')
+  }
 
   const openCreateConversationPopup = () => {
-    setShowCreateConversationPopup(!showCreateConversationPopup);
-  };
+    setShowCreateConversationPopup(!showCreateConversationPopup)
+  }
 
   const createConversation = async (convTitle, selectedContacts) => {
     try {
-      const userId = localStorage.getItem('id');
-      selectedContacts.unshift(userId);
+      const userId = localStorage.getItem('id')
+      selectedContacts.unshift(userId)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
         method: 'POST',
         headers: {
@@ -284,78 +284,78 @@ const Messages = () => {
           title: convTitle,
           participants: selectedContacts
         })
-      });
+      })
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
       if (!response.ok) {
-        throw new Error('Erreur lors de la création de la conversation.');
+        throw new Error('Erreur lors de la création de la conversation.')
       }
 
-      send('createChat', { ids: selectedContacts.filter((id) => id !== userId) });
-      fetchConversations();
-      setNotification({ type: 'success', message: 'Conversation créée avec succès' });
-      clearNotification(); // Effacer la notification après un certain temps
+      send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
+      fetchConversations()
+      setNotification({ type: 'success', message: 'Conversation créée avec succès' })
+      clearNotification() // Effacer la notification après un certain temps
     } catch (error) {
-      setError('Erreur lors de la création de la conversation');
-      setNotification({ type: 'error', message: 'Erreur lors de la création de la conversation' });
-      clearNotification(); // Effacer la notification après un certain temps
+      setError('Erreur lors de la création de la conversation')
+      setNotification({ type: 'error', message: 'Erreur lors de la création de la conversation' })
+      clearNotification() // Effacer la notification après un certain temps
     }
-  };
+  }
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
+    const selectedFile = e.target.files[0]
     if (selectedFile) {
-      setFile(selectedFile);
-      const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+      setFile(selectedFile)
+      const fileExtension = selectedFile.name.split('.').pop().toLowerCase()
       switch (fileExtension) {
         case 'jpg':
         case 'jpeg':
         case 'png':
-          setFileType('file');
-          break;
+          setFileType('file')
+          break
         case 'pdf':
-          setFileType('pdf');
-          break;
+          setFileType('pdf')
+          break
         case 'zip':
-          setFileType('zip');
-          break;
+          setFileType('zip')
+          break
         default:
-          setFileType('other');
+          setFileType('other')
       }
     }
-  };
+  }
 
   const openInputFile = () => {
-    inputFile.current.click();
-  };
+    inputFile.current.click()
+  }
 
   const handleClearFile = (e) => {
-    setFile(null);
-  };
+    setFile(null)
+  }
 
   const clearNotification = () => {
     setTimeout(() => {
-      setNotification(null);
-    }, 5000); // Efface la notification après 5 secondes
-  };
+      setNotification(null)
+    }, 5000) // Efface la notification après 5 secondes
+  }
 
   const renderNotification = () => {
-    if (!notification) return null;
+    if (!notification) return null
 
-    let notificationClass = 'notification';
+    let notificationClass = 'notification'
     if (notification.type === 'success') {
-      notificationClass += ' success'; // Ajouter une classe spécifique pour les notifications de succès
+      notificationClass += ' success' // Ajouter une classe spécifique pour les notifications de succès
     } else if (notification.type === 'error') {
-      notificationClass += ' error'; // Ajouter une classe spécifique pour les notifications d'erreur
+      notificationClass += ' error' // Ajouter une classe spécifique pour les notifications d'erreur
     }
 
     return (
       <div className={notificationClass}>
         {notification.message}
       </div>
-    );
-  };
+    )
+  }
 
   const addParticipants = async (selectedContacts) => {
     try {
@@ -368,26 +368,26 @@ const Messages = () => {
         body: JSON.stringify({
           participants: selectedContacts
         })
-      });
-      
+      })
+
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
 
       if (!response.ok) {
-        throw new Error('Erreur lors de l\'ajout des participants.');
+        throw new Error('Erreur lors de l\'ajout des participants.')
       }
 
-      setNotification({ type: 'success', message: 'Participants ajoutés avec succès' });
-      fetchConversations(); // Met à jour les conversations
+      setNotification({ type: 'success', message: 'Participants ajoutés avec succès' })
+      fetchConversations() // Met à jour les conversations
     } catch (error) {
-      console.error('Erreur lors de l\'ajout des participants :', error);
-      setNotification({ type: 'error', message: 'Erreur lors de l\'ajout des participants' });
+      console.error('Erreur lors de l\'ajout des participants :', error)
+      setNotification({ type: 'error', message: 'Erreur lors de l\'ajout des participants' })
     } finally {
-      clearNotification(); // Efface la notification après un certain temps
-      setShowAddParticipantsPopup(false); // Ferme la popup après l'ajout
+      clearNotification() // Efface la notification après un certain temps
+      setShowAddParticipantsPopup(false) // Ferme la popup après l'ajout
     }
-  };
+  }
 
   // Fonction pour quitter la conversation
   const leaveConversation = async () => {
@@ -398,27 +398,27 @@ const Messages = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         }
-      });
+      })
 
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       }
 
       if (!response.ok) {
-        throw new Error('Erreur lors du départ de la conversation.');
+        throw new Error('Erreur lors du départ de la conversation.')
       }
 
-      setNotification({ type: 'success', message: 'Vous avez quitté la conversation.' });
-      setCurrentConversation(''); // Réinitialiser la conversation actuelle
-      fetchConversations(); // Mettre à jour la liste des conversations après avoir quitté
+      setNotification({ type: 'success', message: 'Vous avez quitté la conversation.' })
+      setCurrentConversation('') // Réinitialiser la conversation actuelle
+      fetchConversations() // Mettre à jour la liste des conversations après avoir quitté
     } catch (error) {
-      console.error('Erreur lors du départ de la conversation :', error);
-      setNotification({ type: 'error', message: 'Erreur lors du départ de la conversation.' });
+      console.error('Erreur lors du départ de la conversation :', error)
+      setNotification({ type: 'error', message: 'Erreur lors du départ de la conversation.' })
     } finally {
-      clearNotification(); // Efface la notification après un certain temps
-      setShowLeaveConversationPopup(false); // Ferme la popup après avoir quitté
+      clearNotification() // Efface la notification après un certain temps
+      setShowLeaveConversationPopup(false) // Ferme la popup après avoir quitté
     }
-  };
+  }
 
   return (
     <div className='messaging-page'>
@@ -443,7 +443,7 @@ const Messages = () => {
                 <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
                   Quitter la conversation
                 </button>
-                
+
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
                   <div className='popup-modal-container'>
                     <ReportButton
@@ -525,10 +525,10 @@ const Messages = () => {
         {(close) => (
           <div className='popup-modal-container'>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <ConversationCreationPopupContent 
-              contacts={contacts} 
-              createConversation={addParticipants} 
-              closeCreateConversationPopup={close} 
+            <ConversationCreationPopupContent
+              contacts={contacts}
+              createConversation={addParticipants}
+              closeCreateConversationPopup={close}
               isAddingParticipants
             />
           </div>
@@ -547,7 +547,7 @@ const Messages = () => {
         )}
       </Popup>
     </div>
-  );
-};
+  )
+}
 
-export default Messages;
+export default Messages

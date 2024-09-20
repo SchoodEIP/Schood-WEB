@@ -1,196 +1,196 @@
-import React, { useState, useEffect } from 'react';
-import HeaderComp from '../../Components/Header/headerComp';
-import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js';
-import '../../css/pages/homePage.scss';
-import '../../css/pages/statistiques.scss';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { disconnect } from '../../functions/disconnect';
+import React, { useState, useEffect } from 'react'
+import HeaderComp from '../../Components/Header/headerComp'
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js'
+import '../../css/pages/homePage.scss'
+import '../../css/pages/statistiques.scss'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { disconnect } from '../../functions/disconnect'
 
-library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam);
+library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale)
 
 const TeacherStatPage = () => {
-  const [moodData, setMoodData] = useState([]);
-  const [answerData, setAnswerData] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [activeFilter, setActiveFilter] = useState('Semaine');
-  const [selectedClass, setSelectedClass] = useState(null);
-  const [answerChart, setAnswerChart] = useState(null);
-  const [classes, setClasses] = useState([]);
-  const [averageMood, setAverageMood] = useState(0);
-  const [averagePercentage, setAveragePercentage] = useState(0);
+  const [moodData, setMoodData] = useState([])
+  const [answerData, setAnswerData] = useState([])
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [activeFilter, setActiveFilter] = useState('Semaine')
+  const [selectedClass, setSelectedClass] = useState(null)
+  const [answerChart, setAnswerChart] = useState(null)
+  const [classes, setClasses] = useState([])
+  const [averageMood, setAverageMood] = useState(0)
+  const [averagePercentage, setAveragePercentage] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
-      const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods`;
-      const answersUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/answers`;
+      const moodUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/dailyMoods`
+      const answersUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/statistics/answers`
       try {
         const [moodResponse, answersResponse] = await Promise.all([
           fetch(moodUrl, {
             method: 'POST',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               fromDate: calculateStartDate(selectedDate, activeFilter),
               toDate: calculateEndDate(selectedDate, activeFilter),
-              classFilter: selectedClass || 'all',
-            }),
+              classFilter: selectedClass || 'all'
+            })
           }),
           fetch(answersUrl, {
             method: 'POST',
             headers: {
               'x-auth-token': sessionStorage.getItem('token'),
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               fromDate: calculateStartDate(selectedDate, activeFilter),
               toDate: calculateEndDate(selectedDate, activeFilter),
-              classFilter: selectedClass || 'all',
-            }),
-          }),
-        ]);
+              classFilter: selectedClass || 'all'
+            })
+          })
+        ])
         if (moodResponse.status === 401 || answersResponse.status === 401) {
-          disconnect();
+          disconnect()
         }
-        const mData = await moodResponse.json();
-        const aData = await answersResponse.json();
+        const mData = await moodResponse.json()
+        const aData = await answersResponse.json()
 
         if (mData.averagePercentage !== undefined) {
-          setAveragePercentage(mData.averagePercentage);
+          setAveragePercentage(mData.averagePercentage)
         }
-        const answerList = [];
+        const answerList = []
         Object.keys(aData).forEach((date) => {
           answerList.push({
             date,
-            data: aData[date],
-          });
-        });
+            data: aData[date]
+          })
+        })
 
-        const moodList = [];
+        const moodList = []
         Object.keys(mData).forEach((date) => {
           moodList.push({
             date,
-            data: mData[date].moods,
-          });
-        });
+            data: mData[date].moods
+          })
+        })
 
-        setMoodData(moodList);
-        setAnswerData(answerList);
+        setMoodData(moodList)
+        setAnswerData(answerList)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
       }
-    };
+    }
 
     const fetchClasses = async () => {
-      const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`;
+      const classesUrl = `${process.env.REACT_APP_BACKEND_URL}/shared/classes`
       try {
         const response = await fetch(classesUrl, {
           method: 'GET',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json',
-          },
-        });
+            'Content-Type': 'application/json'
+          }
+        })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
-        const classesData = await response.json();
-        setClasses(classesData);
+        const classesData = await response.json()
+        setClasses(classesData)
       } catch (error) {
-        console.error('Error fetching classes:', error);
+        console.error('Error fetching classes:', error)
       }
-    };
+    }
 
-    fetchData();
-    fetchClasses();
-  }, [selectedDate, activeFilter, selectedClass]);
+    fetchData()
+    fetchClasses()
+  }, [selectedDate, activeFilter, selectedClass])
 
   useEffect(() => {
-    const average = calculateAverageMood(moodData, averagePercentage);
-    setAverageMood(average);
-  }, [moodData, averagePercentage]);
+    const average = calculateAverageMood(moodData, averagePercentage)
+    setAverageMood(average)
+  }, [moodData, averagePercentage])
 
   const calculateAverageMood = (data, averagePercentage) => {
-    let total = 0;
-    let count = 0;
+    let total = 0
+    let count = 0
     for (const key in data) {
       if (key !== 'averagePercentage') {
-        total += data[key];
-        count++;
+        total += data[key]
+        count++
       }
     }
-    if (count === 0) return 0;
+    if (count === 0) return 0
     if (averagePercentage !== undefined) {
-      return averagePercentage;
+      return averagePercentage
     }
-    return total / count;
-  };
+    return total / count
+  }
 
   const calculateStartDate = (date, filter) => {
-    const selectedDate = new Date(date);
+    const selectedDate = new Date(date)
     switch (filter) {
       case 'Semaine': {
-        const selectedDayOfWeek = selectedDate.getDay();
-        const monday = new Date(selectedDate);
-        monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1));
-        return monday.toISOString().split('T')[0];
+        const selectedDayOfWeek = selectedDate.getDay()
+        const monday = new Date(selectedDate)
+        monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1))
+        return monday.toISOString().split('T')[0]
       }
       case 'Mois': {
-        return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).toISOString().split('T')[0];
+        return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).toISOString().split('T')[0]
       }
       case 'Semestre': {
-        const semesterStartMonth = selectedDate.getMonth() < 8 ? 0 : 8;
-        return new Date(selectedDate.getFullYear(), semesterStartMonth, 1).toISOString().split('T')[0];
+        const semesterStartMonth = selectedDate.getMonth() < 8 ? 0 : 8
+        return new Date(selectedDate.getFullYear(), semesterStartMonth, 1).toISOString().split('T')[0]
       }
       case 'Année': {
-        return new Date(selectedDate.getFullYear(), 0, 1).toISOString().split('T')[0];
+        return new Date(selectedDate.getFullYear(), 0, 1).toISOString().split('T')[0]
       }
       default: {
-        return selectedDate.toISOString().split('T')[0];
+        return selectedDate.toISOString().split('T')[0]
       }
     }
-  };
+  }
 
   const calculateEndDate = (date, filter) => {
-    const selectedDate = new Date(date);
+    const selectedDate = new Date(date)
     switch (filter) {
       case 'Semaine': {
-        const sunday = new Date(selectedDate);
-        sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7);
-        return sunday.toISOString().split('T')[0];
+        const sunday = new Date(selectedDate)
+        sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7)
+        return sunday.toISOString().split('T')[0]
       }
       case 'Mois': {
-        const nextMonth = new Date(selectedDate);
-        nextMonth.setMonth(nextMonth.getMonth() + 1);
-        nextMonth.setDate(nextMonth.getDate() - 1);
-        return nextMonth.toISOString().split('T')[0];
+        const nextMonth = new Date(selectedDate)
+        nextMonth.setMonth(nextMonth.getMonth() + 1)
+        nextMonth.setDate(nextMonth.getDate() - 1)
+        return nextMonth.toISOString().split('T')[0]
       }
       case 'Semestre': {
-        const semesterEndMonth = selectedDate.getMonth() < 8 ? 6 : 11;
-        const endMonth = new Date(selectedDate.getFullYear(), semesterEndMonth + 1, 0);
-        return endMonth.toISOString().split('T')[0];
+        const semesterEndMonth = selectedDate.getMonth() < 8 ? 6 : 11
+        const endMonth = new Date(selectedDate.getFullYear(), semesterEndMonth + 1, 0)
+        return endMonth.toISOString().split('T')[0]
       }
       case 'Année': {
-        return new Date(selectedDate.getFullYear(), 11, 31).toISOString().split('T')[0];
+        return new Date(selectedDate.getFullYear(), 11, 31).toISOString().split('T')[0]
       }
       default: {
-        return selectedDate.toISOString().split('T')[0];
+        return selectedDate.toISOString().split('T')[0]
       }
     }
-  };
+  }
 
   useEffect(() => {
-    const ctx = document.getElementById('moodChart').getContext('2d');
-    let newChart = null;
+    const ctx = document.getElementById('moodChart').getContext('2d')
+    let newChart = null
 
     const createOrUpdateChart = () => {
       if (newChart && typeof newChart.destroy === 'function') {
-        newChart.destroy();
+        newChart.destroy()
       }
 
       newChart = new Chart(ctx, {
@@ -205,19 +205,19 @@ const TeacherStatPage = () => {
             pointBorderColor: 'white',
             pointHoverBackgroundColor: 'white',
             pointHoverBorderColor: 'white',
-            tension: 0.1,
-          }],
+            tension: 0.1
+          }]
         },
         options: {
           scales: {
             x: {
               ticks: {
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"',
+                fontFamily: '"Font Awesome 5 Free"'
               },
               grid: {
-                color: 'rgba(255, 255, 255, 0.1)',
-              },
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
             },
             y: {
               min: 0,
@@ -226,110 +226,110 @@ const TeacherStatPage = () => {
                 callback: (value) => {
                   switch (value) {
                     case 0:
-                      return '\u{1F622}';
+                      return '\u{1F622}'
                     case 1:
-                      return '\u{1f641}';
+                      return '\u{1f641}'
                     case 2:
-                      return '\u{1F610}';
+                      return '\u{1F610}'
                     case 3:
-                      return '\u{1F603}';
+                      return '\u{1F603}'
                     case 4:
-                      return '\u{1F604}';
+                      return '\u{1F604}'
                     default:
-                      return '';
+                      return ''
                   }
                 },
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"',
+                fontFamily: '"Font Awesome 5 Free"'
               },
               grid: {
-                color: 'rgba(255, 255, 255, 0.1)',
-              },
-            },
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            }
           },
           plugins: {
             legend: {
               labels: {
-                color: 'white',
-              },
+                color: 'white'
+              }
             },
             tooltip: {
               callbacks: {
                 title: (tooltipItems) => {
-                  return tooltipItems[0].label; // Date of the point
+                  return tooltipItems[0].label // Date of the point
                 },
                 label: (tooltipItem) => {
-                  const moodValue = tooltipItem.raw;
-                  let moodText = '';
+                  const moodValue = tooltipItem.raw
+                  let moodText = ''
                   switch (moodValue) {
                     case 0:
-                      moodText = 'Très Triste';
-                      break;
+                      moodText = 'Très Triste'
+                      break
                     case 1:
-                      moodText = 'Triste';
-                      break;
+                      moodText = 'Triste'
+                      break
                     case 2:
-                      moodText = 'Neutre';
-                      break;
+                      moodText = 'Neutre'
+                      break
                     case 3:
-                      moodText = 'Content';
-                      break;
+                      moodText = 'Content'
+                      break
                     case 4:
-                      moodText = 'Très Content';
-                      break;
+                      moodText = 'Très Content'
+                      break
                     default:
-                      moodText = 'Inconnu';
+                      moodText = 'Inconnu'
                   }
-                  return `Humeur: ${moodText}`;
-                },
-              },
-            },
-          },
-        },
-      });
+                  return `Humeur: ${moodText}`
+                }
+              }
+            }
+          }
+        }
+      })
 
       if (moodData.length > 1) {
-        const listData = [];
-        let labels = [];
+        const listData = []
+        let labels = []
 
         Object.entries(moodData)
           .filter(([_, val]) => Array.isArray(val.data) && val.data.length > 0)
-          .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)));
+          .forEach(([_, val]) => listData.push(calculateAverageMood(val.data)))
 
         for (const data of moodData) {
-          if (data.date !== 'averagePercentage') labels.push(data.date);
+          if (data.date !== 'averagePercentage') labels.push(data.date)
         }
         labels = labels.sort((a, b) => {
-          const aa = a.split('-');
-          const bb = b.split('-');
-          return aa < bb ? -1 : (aa > bb ? 1 : 0);
-        });
+          const aa = a.split('-')
+          const bb = b.split('-')
+          return aa < bb ? -1 : (aa > bb ? 1 : 0)
+        })
 
         if (newChart.data !== undefined) {
-          newChart.data.datasets[0].data = listData;
-          newChart.data.labels = labels;
-          newChart.options.scales.x.labels = labels;
+          newChart.data.datasets[0].data = listData
+          newChart.data.labels = labels
+          newChart.options.scales.x.labels = labels
 
-          newChart.update();
+          newChart.update()
         }
       }
-    };
+    }
 
-    createOrUpdateChart();
+    createOrUpdateChart()
 
     return () => {
       if (newChart && typeof newChart.destroy === 'function') {
-        newChart.destroy();
+        newChart.destroy()
       }
-    };
-  }, [moodData, selectedClass]);
+    }
+  }, [moodData, selectedClass])
 
   useEffect(() => {
     const createAnswerChart = () => {
       if (answerChart && typeof answerChart.destroy === 'function') {
-        answerChart.destroy();
+        answerChart.destroy()
       }
-      const ctx = document.getElementById('answerChart');
+      const ctx = document.getElementById('answerChart')
       const newChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -339,47 +339,47 @@ const TeacherStatPage = () => {
             data: answerData.map((answer) => answer.data),
             backgroundColor: 'rgba(255, 255, 255, 0.8)',
             borderColor: 'rgba(255, 255, 255, 1)',
-            borderWidth: 1,
-          }],
+            borderWidth: 1
+          }]
         },
         options: {
           scales: {
             y: {
-              beginAtZero: true,
-            },
+              beginAtZero: true
+            }
           },
           plugins: {
             legend: {
               labels: {
-                color: 'white',
-              },
-            },
-          },
-        },
-      });
+                color: 'white'
+              }
+            }
+          }
+        }
+      })
 
-      setAnswerChart(newChart);
-    };
+      setAnswerChart(newChart)
+    }
 
-    createAnswerChart();
+    createAnswerChart()
     return () => {
       if (answerChart && typeof answerChart.destroy === 'function') {
-        answerChart.destroy();
+        answerChart.destroy()
       }
-    };
-  }, [answerData, selectedClass]);
+    }
+  }, [answerData, selectedClass])
 
   const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
-  };
+    setSelectedDate(event.target.value)
+  }
 
   const handleFilterChange = (filter) => {
-    setActiveFilter(filter);
-  };
+    setActiveFilter(filter)
+  }
 
   const handleClassChange = (event) => {
-    setSelectedClass(event.target.value);
-  };
+    setSelectedClass(event.target.value)
+  }
 
   return (
     <div className='dashboard'>
@@ -420,7 +420,7 @@ const TeacherStatPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TeacherStatPage;
+export default TeacherStatPage

@@ -71,8 +71,7 @@ const CsvAccountCreationPopupContent = () => {
             <span className='close' onClick={closePopup}>&times;</span>
             <p>{popupContent}</p>
           </div>
-        </div>
-      }
+        </div>}
       <button className='popup-btn' onClick={csvAccountCreation}>Créer le(s) Compte(s)</button>
     </>
   )

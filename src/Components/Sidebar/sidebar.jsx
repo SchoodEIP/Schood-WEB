@@ -48,7 +48,7 @@ import alertsIconSelected from '../../assets/sidenav/alerts-icon-selected.png'
 
 import schoodIcon from '../../assets/sidenav/schood-icon.png'
 
-export default function Sidebar() {
+export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -190,7 +190,7 @@ export default function Sidebar() {
       })
   }
 
-  function handleGetNotifications() {
+  function handleGetNotifications () {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/notifications/`, {
       method: 'GET',
       headers: {
@@ -253,7 +253,7 @@ export default function Sidebar() {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
             </div>
-            <Link to="/profile" className='profile'> {/* Wrap profile image with Link */}
+            <Link to='/profile' className='profile'> {/* Wrap profile image with Link */}
               <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
             </Link>
             <Link to='/'>
@@ -292,7 +292,7 @@ export default function Sidebar() {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
-            <Link to="/profile" className='profile'> {/* Wrap profile image with Link */}
+            <Link to='/profile' className='profile'> {/* Wrap profile image with Link */}
               <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
               <div className='firstname-lastname'>
                 <span>{profile?.firstname}</span>

@@ -1,18 +1,18 @@
-import { React, useState, useEffect } from 'react';
-import '../../../css/Components/Accounts/accountsTable.css';
-import userIcon from '../../../assets/userIcon.png';
-import { disconnect } from '../../../functions/disconnect';
+import { React, useState, useEffect } from 'react'
+import '../../../css/Components/Accounts/accountsTable.css'
+import userIcon from '../../../assets/userIcon.png'
+import { disconnect } from '../../../functions/disconnect'
 import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
 import minusButton from '../../../assets/minus-button.png'
 
-export default function SchoolAccountsTable() {
-  const [teacherList, setTeacherList] = useState([]);
-  const [studentList, setStudentList] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+export default function SchoolAccountsTable () {
+  const [teacherList, setTeacherList] = useState([])
+  const [studentList, setStudentList] = useState([])
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [userId, setUserId] = useState('')
   const [updatedUser, setUpdatedUser] = useState({
@@ -20,11 +20,11 @@ export default function SchoolAccountsTable() {
     lastname: '',
     email: '',
     picture: null
-  });
+  })
 
-  async function getAccountList() {
-    const baseUrl = `${process.env.REACT_APP_BACKEND_URL}/user/all`;
-    const token = sessionStorage.getItem('token');
+  async function getAccountList () {
+    const baseUrl = `${process.env.REACT_APP_BACKEND_URL}/user/all`
+    const token = sessionStorage.getItem('token')
 
     const resp = await fetch(baseUrl, {
       method: 'GET',
@@ -32,28 +32,28 @@ export default function SchoolAccountsTable() {
         'x-auth-token': token,
         'Content-Type': 'application/json'
       }
-    });
+    })
 
     if (resp.status === 401) {
-      disconnect();
+      disconnect()
     } else {
-      const data = await resp.json();
+      const data = await resp.json()
 
-      const teacherAccounts = data.filter(account => account.role.name === 'teacher');
-      const studentAccounts = data.filter(account => account.role.name === 'student');
+      const teacherAccounts = data.filter(account => account.role.name === 'teacher')
+      const studentAccounts = data.filter(account => account.role.name === 'student')
 
-      setTeacherList(teacherAccounts);
-      setStudentList(studentAccounts);
+      setTeacherList(teacherAccounts)
+      setStudentList(studentAccounts)
     }
   }
 
   const showClasses = (classes) => {
     if (!Array.isArray(classes)) {
-      return '';
+      return ''
     }
-    const names = classes.map(obj => obj.name);
-    return names.join(', ');
-  };
+    const names = classes.map(obj => obj.name)
+    return names.join(', ')
+  }
 
   const handleShowProfile = (id) => {
     window.location.href = '/profile/' + id
@@ -61,44 +61,44 @@ export default function SchoolAccountsTable() {
 
   // account list request on mounted
   useEffect(() => {
-    getAccountList();
-  }, []);
+    getAccountList()
+  }, [])
 
   const handleEditClick = (user) => {
-    setSelectedUser(user);
+    setSelectedUser(user)
     setUpdatedUser({
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
       picture: user.picture
-    });
-    setIsEditing(true);
-  };
+    })
+    setIsEditing(true)
+  }
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setUpdatedUser(prevState => ({
       ...prevState,
       [name]: value
-    }));
-  };
+    }))
+  }
 
   const handleFileChange = (e) => {
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
-    }));
-  };
+    }))
+  }
 
   const handleUpdate = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const formData = new FormData();
-      formData.append('firstname', updatedUser.firstname);
-      formData.append('lastname', updatedUser.lastname);
-      formData.append('email', updatedUser.email);
+      const formData = new FormData()
+      formData.append('firstname', updatedUser.firstname)
+      formData.append('lastname', updatedUser.lastname)
+      formData.append('email', updatedUser.email)
       if (updatedUser.picture) {
-        formData.append('file', updatedUser.picture);
+        formData.append('file', updatedUser.picture)
       }
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${selectedUser._id}`, {
@@ -107,28 +107,28 @@ export default function SchoolAccountsTable() {
           'x-auth-token': sessionStorage.getItem('token')
         },
         body: formData
-      });
+      })
 
       if (response.status === 401) {
-        disconnect();
+        disconnect()
       } else if (response.ok) {
-        setIsEditing(false);
-        setSelectedUser(null);
+        setIsEditing(false)
+        setSelectedUser(null)
         setUpdatedUser({
           firstname: '',
           lastname: '',
           email: '',
           picture: null
-        });
-        getAccountList(); // Refresh the list
+        })
+        getAccountList() // Refresh the list
       } else {
-        const text = await response.text();
-        console.error('Erreur lors de la mise à jour du profil:', text);
+        const text = await response.text()
+        console.error('Erreur lors de la mise à jour du profil:', text)
       }
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du profil:', error.message);
+      console.error('Erreur lors de la mise à jour du profil:', error.message)
     }
-  };
+  }
 
   async function deleteAccount (deleteType, accountId) {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/deleteUser/' + accountId
@@ -205,7 +205,7 @@ export default function SchoolAccountsTable() {
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
                     <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
-                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                     <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                   </tr>
                 )
@@ -299,5 +299,5 @@ export default function SchoolAccountsTable() {
         </div>
       )}
     </div>
-  );
+  )
 }

@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import '../../css/Components/Alerts/lastAlerts.scss';
-import '../../css/pages/createAlerts.scss';
-import UserProfile from '../userProfile/userProfile';
+import React, { useState, useEffect } from 'react'
+import '../../css/Components/Alerts/lastAlerts.scss'
+import '../../css/pages/createAlerts.scss'
+import UserProfile from '../userProfile/userProfile'
 
-export default function ShowAlerts({ chosenAlert, onEditAlert, onDeleteAlert }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedAlert, setEditedAlert] = useState(chosenAlert);
+export default function ShowAlerts ({ chosenAlert, onEditAlert, onDeleteAlert }) {
+  const [isEditing, setIsEditing] = useState(false)
+  const [editedAlert, setEditedAlert] = useState(chosenAlert)
 
   useEffect(() => {
-    setEditedAlert(chosenAlert);
-  }, [chosenAlert]);
+    setEditedAlert(chosenAlert)
+  }, [chosenAlert])
 
   const handleEditChange = (e) => {
-    setEditedAlert({ ...editedAlert, [e.target.name]: e.target.value });
-  };
+    setEditedAlert({ ...editedAlert, [e.target.name]: e.target.value })
+  }
 
   const handleEditSubmit = (e) => {
-    e.preventDefault();
-    onEditAlert(editedAlert);
-    setIsEditing(false);
-  };
+    e.preventDefault()
+    onEditAlert(editedAlert)
+    setIsEditing(false)
+  }
 
   return (
     <div className='page-alert' style={{ overflowY: 'auto' }}>
@@ -57,25 +57,25 @@ export default function ShowAlerts({ chosenAlert, onEditAlert, onDeleteAlert }) 
               {isEditing && (
                 <form onSubmit={handleEditSubmit}>
                   <input
-                    type="text"
-                    name="title"
+                    type='text'
+                    name='title'
                     value={editedAlert.title}
                     onChange={handleEditChange}
-                    placeholder="Titre"
+                    placeholder='Titre'
                   />
                   <textarea
-                    name="message"
+                    name='message'
                     value={editedAlert.message}
                     onChange={handleEditChange}
-                    placeholder="Message"
+                    placeholder='Message'
                   />
-                  <button type="submit">Enregistrer les modifications</button>
+                  <button type='submit'>Enregistrer les modifications</button>
                 </form>
               )}
             </div>
-          )
+            )
           : <p>Cette alerte n'existe pas.</p>
       }
     </div>
-  );
+  )
 }

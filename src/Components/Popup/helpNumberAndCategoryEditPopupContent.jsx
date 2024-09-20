@@ -112,7 +112,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
           <label>
             Sélectionnez {type === 'number' ? 'le numéro d’aide' : 'la catégorie'} à modifier :
             <select onChange={handleSelectChange} value={selectedItem?._id || ''}>
-              <option value="">-- Sélectionnez --</option>
+              <option value=''>-- Sélectionnez --</option>
               {items.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}

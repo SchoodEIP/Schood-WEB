@@ -1,50 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import '../../css/Components/Graph/graphSpace.scss';
-import Chart from 'chart.js/auto';
-import { disconnect } from '../../functions/disconnect';
-import { Link } from 'react-router-dom'; // Import de Link
-import rightArrow from '../../assets/right-arrow.png'; // Import de rightArrow
+import React, { useEffect, useState } from 'react'
+import '../../css/Components/Graph/graphSpace.scss'
+import Chart from 'chart.js/auto'
+import { disconnect } from '../../functions/disconnect'
+import { Link } from 'react-router-dom' // Import de Link
+import rightArrow from '../../assets/right-arrow.png' // Import de rightArrow
 
-export function StudentGraphSpace() {
-  const [title, setTitle] = useState('Evolution de mon humeur');
-  const [moodData, setMoodData] = useState([]);
-  const [chart, setChart] = useState(null);
+export function StudentGraphSpace () {
+  const [title, setTitle] = useState('Evolution de mon humeur')
+  const [moodData, setMoodData] = useState([])
+  const [chart, setChart] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods';
+      const moodUrl = process.env.REACT_APP_BACKEND_URL + '/student/statistics/dailyMoods'
       const requestBody = {
         fromDate: calculateStartDate(),
-        toDate: calculateEndDate(),
-      };
+        toDate: calculateEndDate()
+      }
 
       try {
         const response = await fetch(moodUrl, {
           method: 'POST',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(requestBody),
-        });
+          body: JSON.stringify(requestBody)
+        })
         if (response.status === 401) {
-          disconnect();
+          disconnect()
         }
-        const moodData = await response.json();
-        setMoodData(moodData);
-        createOrUpdateChart(moodData);
+        const moodData = await response.json()
+        setMoodData(moodData)
+        createOrUpdateChart(moodData)
       } catch (error) {
-        console.error('Error fetching mood data:', error);
+        console.error('Error fetching mood data:', error)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const createOrUpdateChart = (moodData) => {
-    if (!moodData || Object.keys(moodData).length === 0) return;
+    if (!moodData || Object.keys(moodData).length === 0) return
 
-    const ctx = document.getElementById('moodChart').getContext('2d');
+    const ctx = document.getElementById('moodChart').getContext('2d')
     if (!chart) {
       const newChart = new Chart(ctx, {
         type: 'line',
@@ -59,9 +59,9 @@ export function StudentGraphSpace() {
               pointBorderColor: 'white',
               pointHoverBackgroundColor: 'white',
               pointHoverBorderColor: 'white',
-              tension: 0.1,
-            },
-          ],
+              tension: 0.1
+            }
+          ]
         },
         options: {
           responsive: true,
@@ -70,11 +70,11 @@ export function StudentGraphSpace() {
             x: {
               ticks: {
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"',
+                fontFamily: '"Font Awesome 5 Free"'
               },
               grid: {
-                color: 'rgba(255, 255, 255, 0.1)',
-              },
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
             },
             y: {
               min: 0,
@@ -83,85 +83,85 @@ export function StudentGraphSpace() {
                 callback: (value) => {
                   switch (value) {
                     case 0:
-                      return '\u{1F622}';
+                      return '\u{1F622}'
                     case 1:
-                      return '\u{1f641}';
+                      return '\u{1f641}'
                     case 2:
-                      return '\u{1F610}';
+                      return '\u{1F610}'
                     case 3:
-                      return '\u{1F603}';
+                      return '\u{1F603}'
                     case 4:
-                      return '\u{1F604}';
+                      return '\u{1F604}'
                     default:
-                      return '';
+                      return ''
                   }
                 },
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"',
+                fontFamily: '"Font Awesome 5 Free"'
               },
               grid: {
-                color: 'rgba(255, 255, 255, 0.1)',
-              },
-            },
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            }
           },
           plugins: {
             legend: {
               labels: {
-                color: 'white',
-              },
+                color: 'white'
+              }
             },
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  const moodValue = context.raw;
+                  const moodValue = context.raw
                   switch (moodValue) {
                     case 0:
-                      return 'Très mal';
+                      return 'Très mal'
                     case 1:
-                      return 'Mal';
+                      return 'Mal'
                     case 2:
-                      return 'Neutre';
+                      return 'Neutre'
                     case 3:
-                      return 'Bien';
+                      return 'Bien'
                     case 4:
-                      return 'Très bien';
+                      return 'Très bien'
                     default:
-                      return '';
+                      return ''
                   }
-                },
-              },
-            },
-          },
-        },
-      });
-      setChart(newChart);
+                }
+              }
+            }
+          }
+        }
+      })
+      setChart(newChart)
     } else {
-      const dates = Object.keys(moodData).filter((key) => key !== 'averagePercentage');
+      const dates = Object.keys(moodData).filter((key) => key !== 'averagePercentage')
       const data = dates.map((date) => ({
         x: date,
-        y: moodData[date],
-      }));
+        y: moodData[date]
+      }))
 
-      chart.data.labels = dates;
-      chart.data.datasets[0].data = data;
-      chart.update();
+      chart.data.labels = dates
+      chart.data.datasets[0].data = data
+      chart.update()
     }
-  };
+  }
 
   const calculateStartDate = () => {
-    const selectedDate = new Date();
-    const selectedDayOfWeek = selectedDate.getDay();
-    const monday = new Date(selectedDate);
-    monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1));
-    return monday.toISOString().split('T')[0];
-  };
+    const selectedDate = new Date()
+    const selectedDayOfWeek = selectedDate.getDay()
+    const monday = new Date(selectedDate)
+    monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1))
+    return monday.toISOString().split('T')[0]
+  }
 
   const calculateEndDate = () => {
-    const selectedDate = new Date();
-    const sunday = new Date(selectedDate);
-    sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7);
-    return sunday.toISOString().split('T')[0];
-  };
+    const selectedDate = new Date()
+    const sunday = new Date(selectedDate)
+    sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7)
+    return sunday.toISOString().split('T')[0]
+  }
 
   return (
     <div className='graph-box'>
@@ -180,5 +180,5 @@ export function StudentGraphSpace() {
         </div>
       </div>
     </div>
-  );
+  )
 }
