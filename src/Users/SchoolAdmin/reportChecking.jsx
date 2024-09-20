@@ -14,7 +14,7 @@ const ReportChecking = () => {
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
   // const [error, setError] = useState('')
-
+  // const [reportRequest, setReportRequests] = useState([])
   const fetchReportRequests = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
@@ -33,6 +33,7 @@ const ReportChecking = () => {
       if (data[data.length - 1].conversation) {
         handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
       }
+      console.log(data)
     } catch (error) /* istanbul ignore next */ {
       console.error('Erreur lors de la récupération des demandes de signalement.')
     }
@@ -96,17 +97,18 @@ const ReportChecking = () => {
     }
   } */
 
-  /* const handleReportProcessing = async (reportId, isProcessed) => {
+  const handleReportProcessing = async (reportId, isProcessed) => {
     try {
       if (isProcessed) {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
           method: 'POST',
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ processed: true })
+          body: JSON.stringify({ status: 'seen', responseMessage: 'ok' })
         })
+        fetchReportRequests()
       } else {
         await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
           method: 'DELETE',
@@ -115,14 +117,15 @@ const ReportChecking = () => {
             'Content-Type': 'application/json'
           }
         })
-        setReportRequests((prevReports) => prevReports.filter((report) => report._id !== reportId))
+        fetchReportRequests()
+        // setReports((prevReports) => prevReports.filter((report) => report._id !== reportId))
       }
 
-      setIsReportProcessed(isProcessed)
-    } catch (error){
-      setError('Erreur lors du traitement de la demande.')
+      // setIsReportProcessed(isProcessed)
+    } catch (error) {
+      console.error('Erreur lors du traitement de la demande.')
     }
-  } */
+  }
 
   const handleReportSelection = async (reportId, conversationId) => {
     // await fetchReportedConversation(conversationId)
@@ -156,6 +159,13 @@ const ReportChecking = () => {
                 <div className='chat-content'>
                   <div className='top'>
                     <div className='conv-name'>{translate(currentReport.type)}</div>
+                    <div className='report-status'>{currentReport.status === 'seen'
+                      ? 'La requête a été traitée'
+                      : (
+                        <button onClick={() => handleReportProcessing(currentReport._id, true)}>Traiter la requête</button>
+                        )}
+                      <button onClick={() => handleReportProcessing(currentReport._id, false)}>Supprimer la requête</button>
+                    </div>
                   </div>
                   <div className='bottom'>
                     <div className='left'>
@@ -174,14 +184,14 @@ const ReportChecking = () => {
                       </div>
                     </div>
                     <div className='right'>
-                      <h2>Signalé par:</h2>
+                      <h3>Signalé par:</h3>
                       <div className='user-profile'>
                         <UserProfile
                           fullname
                           profile={currentReport.signaledBy}
                         />
                       </div>
-                      <h2>À l'encontre de:</h2>
+                      <h3>À l'encontre de:</h3>
                       {
                         currentReport.usersSignaled.length > 0
                           ? currentReport.usersSignaled.map((user, index) => {
@@ -202,7 +212,7 @@ const ReportChecking = () => {
                 </div>
                 )
               : (
-                <div>Aucun signalement sélectionné.</div>
+                <div style={{ marginLeft: '10px' }}>Aucun signalement sélectionné.</div>
                 )}
           </div>
         </div>
