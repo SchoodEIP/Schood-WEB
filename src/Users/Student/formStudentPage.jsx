@@ -267,12 +267,12 @@ const FormStudentPage = () => {
             {(index !== (questions.length - 1)) ? <span className='divider' /> : ''}
           </div>
         ))}
+        {currentCheck && (
+          <div className='submit'>
+            <button onClick={sendAnswers} type='submit'>Envoyer le questionnaire</button>
+          </div>
+        )}
       </div>
-      {currentCheck && (
-        <div className='submit'>
-          <button onClick={sendAnswers} type='submit'>Envoyer le questionnaire</button>
-        </div>
-      )}
     </div>
   )
 }

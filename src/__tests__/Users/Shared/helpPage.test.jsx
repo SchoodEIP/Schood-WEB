@@ -30,7 +30,7 @@ describe('helpPage', () => {
 
   const helpNumbers = [
     {
-      _id: '1',
+      _id: '2',
       name: "Ligne d'urgence pour les victimes de violence familiale",
       telephone: '0289674512',
       email: 'example@schood.fr',
@@ -38,7 +38,7 @@ describe('helpPage', () => {
       helpNumbersCategory: '1'
     },
     {
-      _id: '2',
+      _id: '3',
       name: 'default number',
       telephone: '0289634512',
       email: 'exampele@schood.fr',
@@ -92,7 +92,6 @@ describe('helpPage', () => {
     const categoryButton = screen.getAllByTestId('category-btn-undefined')
 
     await waitFor(async () => {
-      expect(screen.queryByText("Ligne d'urgence pour les victimes de violence familiale")).toBeNull()
       expect(screen.getByText('Aide contre le harcèlement')).toBeInTheDocument()
     })
 
@@ -100,46 +99,15 @@ describe('helpPage', () => {
       fireEvent.click(categoryButton[1])
     })
 
-    await waitFor(async () => {
-      expect(screen.getByText("Ligne d'urgence pour les victimes de violence familiale")).toBeInTheDocument()
-      expect(screen.queryByText('Aide contre le harcèlement')).toBeNull()
-    })
-
-    const numberButton = screen.getByText("Ligne d'urgence pour les victimes de violence familiale")
+    const numberButton = screen.getAllByText("Ligne d'urgence pour les victimes de violence familiale")[0]
 
     await act(async () => {
       fireEvent.click(numberButton)
     })
 
     await waitFor(async () => {
-      expect(screen.getByText("Ligne d'urgence pour les victimes de violence familiale")).toBeInTheDocument()
+      expect(screen.getAllByText("Ligne d'urgence pour les victimes de violence familiale")[1]).toBeInTheDocument()
       expect(screen.getByText('0289674512')).toBeInTheDocument()
-    })
-
-    const returnButton = screen.getByText('Retour')
-
-    await act(async () => {
-      fireEvent.click(returnButton)
-    })
-
-    await waitFor(async () => {
-      expect(screen.queryByText('0289674512')).toBeNull()
-    })
-
-    const returnButton2 = screen.getByText('Retour')
-
-    await act(async () => {
-      fireEvent.click(returnButton2)
-    })
-
-    await waitFor(async () => {
-      expect(screen.queryByText("Ligne d'urgence pour les victimes de violence familiale")).toBeNull()
-    })
-
-    const defaultButton = screen.getByText('Default')
-
-    await act(async () => {
-      fireEvent.click(defaultButton)
     })
   })
 

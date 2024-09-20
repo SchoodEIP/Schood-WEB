@@ -13,7 +13,7 @@ const ReportChecking = () => {
   // const [reportedConversation, setReportedConversation] = useState(null)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
-  const [error, setError] = useState('')
+  // const [error, setError] = useState('')
 
   const fetchReportRequests = async () => {
     try {
@@ -34,7 +34,7 @@ const ReportChecking = () => {
         handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
       }
     } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors de la récupération des demandes de signalement.')
+      console.error('Erreur lors de la récupération des demandes de signalement.')
     }
   }
 

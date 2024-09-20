@@ -5,7 +5,6 @@ import Message from './message'
 import ReportButton from './reportButton'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
-import UserProfile from '../userProfile/userProfile'
 import addFile from '../../assets/add_file.png'
 import ConversationCreationPopupContent from '../Popup/conversationCreation'
 import '../../css/Components/Popup/popup.scss'
@@ -15,6 +14,7 @@ import { disconnect } from '../../functions/disconnect'
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
+  const [currentParticipants, setCurrentParticipants] = useState('')
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
   const inputFile = useRef(null)
 
@@ -38,6 +38,7 @@ const Messages = () => {
         noUserParticipants.map((participant) => (
           convName.push(participant.firstname + ' ' + participant.lastname)
         ))
+        setCurrentParticipants(convName.join(', '))
         return {
           _id: conversation._id,
           participants: conversation.participants,
@@ -317,16 +318,21 @@ const Messages = () => {
         conversations={conversations}
         currentConversation={currentConversation}
         setCurrentConversation={setCurrentConversation}
+        setCurrentParticipants={setCurrentParticipants}
         clearMessageAndError={clearMessageAndError}
         openCreateConversationPopup={openCreateConversationPopup}
       />
-
       <div className='chat'>
         {currentConversation
           ? (
             <div className='chat-content'>
               <div className='top'>
-                <div className='conv-name'>{currentConversation.name}</div>
+                <div className='top-info'>
+                  <div className='conv-name'>{currentConversation.name}</div>
+                  <div className='participants-container'>
+                    {currentParticipants}
+                  </div>
+                </div>
                 <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
                   <div className='popup-modal-container'>
                     <ReportButton
@@ -336,58 +342,46 @@ const Messages = () => {
                 </Popup>
               </div>
               <div className='bottom'>
-                <div className='left'>
-                  <div className='top2'>
-                    <div className='message-list'>
-                      {messages.map((message, index) => (
-                        <Message key={index} message={message} participants={currentConversation.participants} />
-                      ))}
-                      {error && <div className='error-message'>{error}</div>}
-                    </div>
+                <div className='top2'>
+                  <div className='message-list'>
+                    {messages.map((message, index) => (
+                      <Message key={index} next={messages[index + 1]} message={message} participants={currentConversation.participants} />
+                    ))}
+                    {error && <div className='error-message'>{error}</div>}
                   </div>
-                  <div className='bottom2'>
-                    <div className='column'>
-                      {file && (
-                        <div className='file-name'>
-                          <div>{file.name}</div>
-                          <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
-                        </div>
-                      )}
-                      <div className='message-input'>
-                        <div className='file-input'>
-                          <input
-                            type='file'
-                            accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
-                            onChange={handleFileChange}
-                            ref={inputFile}
-                          />
-                          <img src={addFile} onClick={openInputFile} alt='add file' />
-                        </div>
-                        <div className='message-area'>
-                          <input
-                            type='text'
-                            placeholder='Message...'
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                          />
-                          <button className='send-button' onClick={sendMessage}>
-                            Envoyer
-                          </button>
-                        </div>
+                </div>
+                <div className='bottom2'>
+                  <div className='column'>
+                    {file && (
+                      <div className='file-name'>
+                        <div>{file.name}</div>
+                        <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
+                      </div>
+                    )}
+                    <div className='message-input'>
+                      <div className='file-input'>
+                        <input
+                          type='file'
+                          accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
+                          onChange={handleFileChange}
+                          ref={inputFile}
+                        />
+                        <img src={addFile} onClick={openInputFile} alt='add file' />
+                      </div>
+                      <div className='message-area'>
+                        <input
+                          type='text'
+                          placeholder='Message...'
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          onKeyPress={handleKeyPress}
+                        />
+                        <button className='send-button' onClick={sendMessage}>
+                          Envoyer
+                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className='right'>
-                  {currentConversation.participants.map((participant, indexP) => (
-                    <div className='user-profile' key={indexP}>
-                      <UserProfile
-                        fullname
-                        profile={participant}
-                      />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>

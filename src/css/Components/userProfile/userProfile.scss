@@ -1,9 +1,7 @@
 .profile {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
-    width: 100%;
 
     .img {
         height: 35px;
@@ -13,12 +11,11 @@
 
     .profile-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: center;
         align-items: start;
-        margin-left: 5px;
-        width: calc(100% - 50px);
-        gap: 0;
+        margin-left: 10px;
+        gap: 10px;
 
         .lastname {
             font-family: Inter;
@@ -27,7 +24,6 @@
             color: #4F23E2;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 100%;
             overflow: hidden;
         }
 
@@ -38,22 +34,21 @@
             color: white;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 100%;
             overflow: hidden;
         }
 
         .title {
             font-family: Inter;
-            font-size: 10px;
+            font-size: 18px;
             font-weight: 400;
-            color: #4F23E2;
+            color: #9699FF;
         }
 
         .title-white {
             font-family: Inter;
-            font-size: 10px;
+            font-size: 18px;
             font-weight: 400;
-            color: white;
+            color: #9699FF;
         }
     }
 }
