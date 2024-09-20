@@ -210,6 +210,10 @@
               // justify-content: start;
               // align-items: start;
 
+              .left {
+                margin-bottom: 50px;
+              }
+
               .top2 {
                 // flex: 0.89;
                 width: 100%;
@@ -471,7 +475,7 @@
 
             .right {
               flex: 0.13;
-              width: 180px;
+              width: 100%;
               height: 100%;
               border-left: 4px #4F23E2 solid;
               overflow-y: auto;

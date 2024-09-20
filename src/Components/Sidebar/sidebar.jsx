@@ -253,9 +253,6 @@ export default function Sidebar () {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
             </div>
-            <Link to='/profile' className='profile'> {/* Wrap profile image with Link */}
-              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-            </Link>
             <Link to='/'>
               <img style={{ width: '90%', paddingTop: '10px' }} id='logo' src={schoodIcon} alt='Schood' />
             </Link>
@@ -292,13 +289,6 @@ export default function Sidebar () {
             <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
               <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
-            <Link to='/profile' className='profile'> {/* Wrap profile image with Link */}
-              <img src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div className='firstname-lastname'>
-                <span>{profile?.firstname}</span>
-                <span>{profile?.lastname}</span>
-              </div>
-            </Link>
             <Link to='/'>
               <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
             </Link>

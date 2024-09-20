@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import backButton from '../../assets/backButton.png'
 import '../../css/Components/Header/headerComp.scss'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
 import moment from 'moment'
@@ -145,16 +145,18 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             )
           : ''}
         {withLogo && (
-          <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
-            <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
-              <span>{profile?.firstname}</span>
-              <span>{profile?.lastname}</span>
+          <Link to='/profile' className='profile'>
+            <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
+              <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
+                <span>{profile?.firstname}</span>
+                <span>{profile?.lastname}</span>
+              </div>
+              <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
+              <div style={{ background: 'none' }} data-testId='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+                <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
+              </div>
             </div>
-            <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-            <div style={{ background: 'none' }} data-testId='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-              <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
-            </div>
-          </div>
+          </Link>
         )}
       </div>
     </div>

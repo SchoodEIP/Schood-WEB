@@ -123,30 +123,30 @@ const ProfilPage = () => {
           <p className='element-title'>Adresse email</p>
           <p className='element-content'>{userProfile.email}</p>
         </div>
-      </div>
 
-      <div className='profile-update'>
-        <h2>Mettre à jour le profil</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor='email'>Nouvelle adresse email:</label>
-            <input
-              type='email'
-              id='email'
-              value={newEmail}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div>
-            <label htmlFor='picture'>Nouvelle photo de profil:</label>
-            <input
-              type='file'
-              id='picture'
-              onChange={handlePictureChange}
-            />
-          </div>
-          <button type='submit'>Mettre à jour</button>
-        </form>
+        <div className='profile-update'>
+          <h2>Mettre à jour le profil</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor='email'>Nouvelle adresse email:</label>
+              <input
+                type='email'
+                id='email'
+                value={newEmail}
+                onChange={handleEmailChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='picture'>Nouvelle photo de profil:</label>
+              <input
+                type='file'
+                id='picture'
+                onChange={handlePictureChange}
+              />
+            </div>
+            <button type='submit'>Mettre à jour</button>
+          </form>
+        </div>
       </div>
     </div>
   )

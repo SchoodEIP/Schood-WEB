@@ -3,7 +3,7 @@ import '../../css/Components/Graph/graphSpace.scss'
 import Chart from 'chart.js/auto'
 import { disconnect } from '../../functions/disconnect'
 import { Link } from 'react-router-dom' // Import de Link
-import rightArrow from '../../assets/right-arrow.png' // Import de rightArrow
+import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 
 export function StudentGraphSpace () {
   const [chart, setChart] = useState(null)
@@ -166,7 +166,7 @@ export function StudentGraphSpace () {
         <span className='title'>Evolution de mon humeur</span>
         <Link to='/statistiques' className='see-more'>
           Voir plus
-          <img className='img' src={rightArrow} alt='Right arrow' />
+          <img className='img' src={rightArrowInverted} alt='Right arrow' />
         </Link>
       </div>
       <div className='graph-body'>

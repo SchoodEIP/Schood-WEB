@@ -50,10 +50,14 @@ export default function ShowAlerts ({ chosenAlert, onEditAlert, onDeleteAlert })
               <div id='alert-message-message'>
                 {chosenAlert?.message ? chosenAlert.message : ''}
               </div>
-              <button onClick={() => setIsEditing(!isEditing)}>
-                {isEditing ? 'Annuler' : 'Modifier'}
-              </button>
-              <button onClick={() => onDeleteAlert(chosenAlert.id)}>Supprimer</button>
+              {sessionStorage.getItem('role') !== 'student' && (
+                <div>
+                  <button onClick={() => setIsEditing(!isEditing)}>
+                    {isEditing ? 'Annuler' : 'Modifier'}
+                  </button>
+                  <button onClick={() => onDeleteAlert(chosenAlert.id)}>Supprimer</button>
+                </div>
+              )}
               {isEditing && (
                 <form onSubmit={handleEditSubmit}>
                   <input
