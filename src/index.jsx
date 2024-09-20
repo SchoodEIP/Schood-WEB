@@ -27,10 +27,11 @@ import ReportChecking from './Users/SchoolAdmin/reportChecking'
 import TeacherStatPage from './Users/Teacher/statisticsTeacher'
 import TeacherProfilePage from './Users/Shared/TeacherProfilePage'
 import FeelingsStudentPage from './Users/Student/feelingsStudentPage'
+import FeelingsAdminPage from './Users/Admin/feelingsAdminPage'
+import 'react-tooltip/dist/react-tooltip.css'
 import Sidebar from './Components/Sidebar/sidebar'
 import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
-import 'react-tooltip/dist/react-tooltip.css'
 import './css/index.scss'
 import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
 
@@ -87,6 +88,7 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
+                  <Route path='/feelings' element={<FeelingsAdminPage />} />
                   <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
               )}

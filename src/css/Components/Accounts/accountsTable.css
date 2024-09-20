@@ -36,7 +36,7 @@
     display: flex block;
 }
 
-.valHead1, .valHead1bis, .valHead2, .valHead3, .valHead3bis, .valHead4, .valHead5 {
+.valHead1, .valHead1bis, .valHead2, .valHead3, .valHead3bis, .valHead4, .valHead5, .valHead6 {
     color: white;
 }
 
@@ -106,3 +106,25 @@ table {
 .valHead3bis, .valHead5 {
     border-right-color: #4f23e2;
 }
+
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999;
+  }
+  
+  .success {
+    background-color: #4CAF50; /* Vert */
+  }
+  
+  .error {
+    background-color: #f44336; /* Rouge */
+  }
+  

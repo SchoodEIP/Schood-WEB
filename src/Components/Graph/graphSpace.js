@@ -1,39 +1,21 @@
-import { React, useEffect, useState } from 'react'
+import { React } from 'react'
+import { TeacherGraphSpace } from './teacherGraphSpace' // Assure-toi que le chemin est correct
+import { StudentGraphSpace } from './studentGraphSpace' // Assure-toi que ce composant est également créé
 import '../../css/Components/Graph/graphSpace.scss'
-import { Link } from 'react-router-dom'
-import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 
 export function GraphSpace () {
-  const [title, setTitle] = useState('')
   const role = sessionStorage.getItem('role')
-
-  useEffect(() => {
-    const setTitleByPerm = () => {
-      if (role === 'student') {
-        setTitle('Evolution de mon humeur')
-      } else if (role === 'teacher') {
-        setTitle("Evolution de l'humeur de mes classes")
-      } else {
-        setTitle("Evolution de l'humeur de mon établissement")
-      }
-    }
-    setTitleByPerm()
-  }, [role, title])
+  const isTeacherOrAdmin = role === 'teacher' || role === 'administration'
 
   return (
     <div className='graph-box'>
-      <div className='graph-header'>
-        <span className='title'>{title}</span>
-        <Link to='/statistiques' className='see-more'>
-          Voir plus
-          <img className='img' src={rightArrowInverted} alt='Right arrow' />
-        </Link>
-      </div>
-      <div className='graph-body'>
-        <div className='graph-content'>
-          <p>Pas d'évolution pour le moment.</p>
-        </div>
-      </div>
+      {isTeacherOrAdmin
+        ? (
+          <TeacherGraphSpace />
+          )
+        : (
+          <StudentGraphSpace />
+          )}
     </div>
   )
 }
