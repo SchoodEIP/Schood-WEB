@@ -212,7 +212,7 @@ const ReportChecking = () => {
                 </div>
                 )
               : (
-                <div style={{marginLeft: '10px'}}>Aucun signalement sélectionné.</div>
+                <div style={{ marginLeft: '10px' }}>Aucun signalement sélectionné.</div>
                 )}
           </div>
         </div>
