@@ -15,7 +15,7 @@ import { disconnect } from '../../functions/disconnect'
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
-  const [currentParticipants, setCurrentParticipants] = useState('')
+  // const [currentParticipants, setCurrentParticipants] = useState('')
   const { send, chats } = useContext(WebsocketContext)
   const inputFile = useRef(null)
 
@@ -97,7 +97,7 @@ const Messages = () => {
           noUserParticipants.map((participant) => (
             convName.push(participant.firstname + ' ' + participant.lastname)
           ))
-          setCurrentParticipants(convName.join(', '))
+          // setCurrentParticipants(convName.join(', '))
           return {
             _id: conversation._id,
             participants: conversation.participants,

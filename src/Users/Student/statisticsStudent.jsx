@@ -172,43 +172,53 @@ const StudentStatPage = () => {
   const calculateStartDate = (date, filter) => {
     const selectedDate = new Date(date)
     switch (filter) {
-      case 'Semaine':
+      case 'Semaine': {
         const selectedDayOfWeek = selectedDate.getDay()
         const monday = new Date(selectedDate)
         monday.setDate(monday.getDate() - selectedDayOfWeek + (selectedDayOfWeek === 0 ? -6 : 1))
         return monday.toISOString().split('T')[0]
-      case 'Mois':
+      }
+      case 'Mois': {
         return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).toISOString().split('T')[0]
-      case 'Semestre':
+      }
+      case 'Semestre': {
         const semesterStartMonth = selectedDate.getMonth() < 8 ? 0 : 8
         return new Date(selectedDate.getFullYear(), semesterStartMonth, 1).toISOString().split('T')[0]
-      case 'Année':
+      }
+      case 'Année': {
         return new Date(selectedDate.getFullYear(), 0, 1).toISOString().split('T')[0]
-      default:
+      }
+      default: {
         return selectedDate.toISOString().split('T')[0]
+      }
     }
   }
 
   const calculateEndDate = (date, filter) => {
     const selectedDate = new Date(date)
     switch (filter) {
-      case 'Semaine':
+      case 'Semaine': {
         const sunday = new Date(selectedDate)
         sunday.setDate(sunday.getDate() - selectedDate.getDay() + 7)
         return sunday.toISOString().split('T')[0]
-      case 'Mois':
+      }
+      case 'Mois': {
         const nextMonth = new Date(selectedDate)
         nextMonth.setMonth(nextMonth.getMonth() + 1)
         nextMonth.setDate(nextMonth.getDate() - 1)
         return nextMonth.toISOString().split('T')[0]
-      case 'Semestre':
+      }
+      case 'Semestre': {
         const semesterEndMonth = selectedDate.getMonth() < 8 ? 6 : 11
         const endMonth = new Date(selectedDate.getFullYear(), semesterEndMonth + 1, 0)
         return endMonth.toISOString().split('T')[0]
-      case 'Année':
+      }
+      case 'Année': {
         return new Date(selectedDate.getFullYear(), 11, 31).toISOString().split('T')[0]
-      default:
+      }
+      default: {
         return selectedDate.toISOString().split('T')[0]
+      }
     }
   }
 

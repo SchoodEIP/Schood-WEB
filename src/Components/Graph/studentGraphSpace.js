@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom' // Import de Link
 import rightArrow from '../../assets/right-arrow.png' // Import de rightArrow
 
 export function StudentGraphSpace () {
-  const [title, setTitle] = useState('Evolution de mon humeur')
-  const [moodData, setMoodData] = useState([])
   const [chart, setChart] = useState(null)
 
   useEffect(() => {
@@ -31,7 +29,6 @@ export function StudentGraphSpace () {
           disconnect()
         }
         const moodData = await response.json()
-        setMoodData(moodData)
         createOrUpdateChart(moodData)
       } catch (error) {
         console.error('Error fetching mood data:', error)
@@ -166,7 +163,7 @@ export function StudentGraphSpace () {
   return (
     <div className='graph-box'>
       <div className='graph-header'>
-        <span className='title'>{title}</span>
+        <span className='title'>Evolution de mon humeur</span>
         <Link to='/statistiques' className='see-more'>
           Voir plus
           <img className='img' src={rightArrow} alt='Right arrow' />

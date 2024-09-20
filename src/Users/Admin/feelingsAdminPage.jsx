@@ -15,9 +15,8 @@ import { disconnect } from '../../functions/disconnect'
 const FeelingsAdminPage = () => {
   const [errMessage, setErrMessage] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const [isPassed, setIsPassed] = useState(false)
   const [isModified, setIsModified] = useState(false)
-  const [selectedFeeling, setSelectedFeeling] = useState(null)
+  // const [selectedFeeling, setSelectedFeeling] = useState(null)
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
   const [newMessage, setNewMessage] = useState('')
@@ -127,7 +126,7 @@ const FeelingsAdminPage = () => {
   const handleFeelingsModification = (feeling) => {
     setIsCreateOpen(true)
     setIsModified(true)
-    setSelectedFeeling(feeling)
+    // setSelectedFeeling(feeling)
     setNewMood(feeling.mood)
     setNewAnonymous(feeling.annonymous)
     setNewMessage(feeling.comment)

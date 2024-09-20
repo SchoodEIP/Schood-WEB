@@ -4,20 +4,17 @@ import Chart from 'chart.js/auto'
 import { disconnect } from '../../functions/disconnect'
 import { Link } from 'react-router-dom'
 import rightArrow from '../../assets/right-arrow.png'
-import HeaderComp from '../../Components/Header/headerComp'
 import { LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale)
 
 export function TeacherGraphSpace () {
-  const [title, setTitle] = useState('Evolution de l\'humeur de mes classes')
   const [moodData, setMoodData] = useState([])
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [activeFilter, setActiveFilter] = useState('Semaine')
@@ -258,7 +255,7 @@ export function TeacherGraphSpace () {
   return (
     <div className='graph-box'>
       <div className='graph-header'>
-        <span className='title'>{title}</span>
+        <span className='title'>Evolution de l'humeur de mes classes</span>
         <Link to='/statistiques' className='see-more'>
           Voir plus
           <img className='img' src={rightArrow} alt='Right arrow' />

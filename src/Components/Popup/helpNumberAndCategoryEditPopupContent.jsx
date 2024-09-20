@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
 
 const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
   const [formData, setFormData] = useState({ name: '', phone: '' })
@@ -65,7 +66,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
 
   const handleSubmit = async () => {
     if (!selectedItem) {
-      alert('Veuillez sélectionner un élément à modifier.')
+      toast.error('Veuillez sélectionner un élément à modifier.')
       return
     }
 
@@ -92,11 +93,11 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
 
-      alert('Modification réussie !')
+      toast.error('Modification réussie !')
       onClose()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
-      alert(`Erreur lors de la requête: ${error.message}`)
+      toast.error(`Erreur lors de la requête: ${error.message}`)
     }
   }
 

@@ -89,7 +89,7 @@ const HelpPage = () => {
             </div>
           )}
         </Popup>
-        <AidePage upPosition={upPosition} position={position} />
+        <AidePage />
       </div>
     </div>
   )
