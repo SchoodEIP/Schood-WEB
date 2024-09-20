@@ -17,8 +17,9 @@
 
       .chat-sidebar {
         box-sizing: border-box;
-        border: 4px #4F23E2 solid;
-        border-radius: 26px;
+        border: 1px solid lightgrey;
+        box-shadow: 5px 5px 5px 0px lightgray;
+        border-radius: 5px;
         height: 100%;
         width: 250px;
 
@@ -143,7 +144,8 @@
       .chat {
         width: 100%;
         height: 100%;
-        border: 4px #4F23E2 solid;
+        border: 1px solid lightgrey;
+        box-shadow: 5px 5px 5px 0px lightgray;
         border-radius: 26px;
         margin-left: 50px;
         box-sizing: border-box;
@@ -157,16 +159,17 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            height: 64px;
-            background-color: #4F23E2;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            height: 80px;
+            background-color: white;
+            border-top-left-radius: 35px;
+            border-top-right-radius: 30px;
+            border-bottom: 1px solid #9699FF;
 
             .conv-name {
               font-size: 32px;
               font-family: Inter;
               font-weight: 600;
-              color: white;
+              color: black;
               margin-left: 20px;
             }
 
@@ -438,10 +441,10 @@
             }
 
             .right {
-              flex: 0.13;
-              width: 180px;
-              height: 100%;
-              border-left: 4px #4F23E2 solid;
+              flex: 0.25;
+              // width: 300px;
+              height: 95%;
+              border-left: 4px #9699FF solid;
               overflow-y: auto;
 
               .user-profile {
