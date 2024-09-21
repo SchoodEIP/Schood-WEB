@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
-const AlertModificationPopupContent = ({chosenAlert, handleEditAlert, errMessage}) => {
+const AlertModificationPopupContent = ({ chosenAlert, handleEditAlert, errMessage }) => {
   const [editedAlert, setEditedAlert] = useState(chosenAlert)
 
   useEffect(() => {

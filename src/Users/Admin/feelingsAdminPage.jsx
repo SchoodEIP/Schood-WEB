@@ -124,7 +124,7 @@ const FeelingsAdminPage = () => {
     setNewMessage(feeling.comment)
   }
 
-  async function getUserName(username) {
+  async function getUserName (username) {
     await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
       method: 'GET',
       headers: {
@@ -144,7 +144,7 @@ const FeelingsAdminPage = () => {
       .catch(error => /* istanbul ignore next */ {
         setErrMessage('Erreur lors de la récupération des ressentis', error)
       })
-      return 'Erreur'
+    return 'Erreur'
   }
 
   return (
@@ -195,7 +195,7 @@ const FeelingsAdminPage = () => {
         </Popup>
         <div id='feelings-container'>
           {Array.isArray(feelings) && feelings.map((feeling) => (
-            <div key={feeling._id} className='individual-feelings-container' >
+            <div key={feeling._id} className='individual-feelings-container'>
               <div className='publication-date'>{moment(feeling.date).format('DD/MM/YYYY')}</div>
               <div className='horizontal-line' />
               <div className='feelings-container-content'>

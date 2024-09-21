@@ -105,7 +105,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
         // Redirect to /profile
         navigate('/profile')
-
       } else {
         navigate('/profile')
         const text = await response.text()

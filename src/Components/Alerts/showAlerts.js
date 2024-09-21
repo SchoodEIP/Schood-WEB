@@ -4,7 +4,6 @@ import '../../css/pages/createAlerts.scss'
 import UserProfile from '../userProfile/userProfile'
 
 export default function ShowAlerts ({ chosenAlert }) {
-
   return (
     <div className='page-alert' style={{ overflowY: 'auto' }}>
       {

@@ -287,10 +287,10 @@ const Messages = () => {
       }
 
       send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
-      openNotification('Une nouvelle conversation a été créée avec succès', 'success' )
+      openNotification('Une nouvelle conversation a été créée avec succès', 'success')
       fetchConversations()
     } catch (error) /* istanbul ignore next */ {
-      openNotification('Erreur lors de la création de la conversation', 'error' )
+      openNotification('Erreur lors de la création de la conversation', 'error')
       setError('Erreur lors de la création de la conversation')
     }
   }
@@ -318,11 +318,11 @@ const Messages = () => {
         throw new Error('Erreur lors de l\'ajout des participants.')
       }
 
-      openNotification('Participants ajoutés avec succès', 'success' )
+      openNotification('Participants ajoutés avec succès', 'success')
       fetchConversations() // Met à jour les conversations
     } catch (error) {
       console.error('Erreur lors de l\'ajout des participants :', error)
-      openNotification('Erreur lors de l\'ajout des participants', 'error' )
+      openNotification('Erreur lors de l\'ajout des participants', 'error')
     } finally {
       setShowAddParticipantsPopup(false) // Ferme la popup après l'ajout
     }
@@ -347,12 +347,12 @@ const Messages = () => {
         throw new Error('Erreur lors du départ de la conversation.')
       }
 
-      openNotification('Vous avez quitté la conversation.', 'success' )
+      openNotification('Vous avez quitté la conversation.', 'success')
       setCurrentConversation('') // Réinitialiser la conversation actuelle
       fetchConversations() // Mettre à jour la liste des conversations après avoir quitté
     } catch (error) {
       console.error('Erreur lors du départ de la conversation :', error)
-      openNotification('Erreur lors du départ de la conversation.', 'error' )
+      openNotification('Erreur lors du départ de la conversation.', 'error')
     } finally {
       // clearNotification() // Efface la notification après un certain temps
       setShowLeaveConversationPopup(false) // Ferme la popup après avoir quitté
@@ -404,8 +404,7 @@ const Messages = () => {
         {notification.visible &&
           <div className={`notification ${notification.type}`}>
             {notification.message}
-          </div>
-        }
+          </div>}
         {currentConversation
           ? (
             <div className='chat-content'>
@@ -416,11 +415,11 @@ const Messages = () => {
                     {currentConversation.participants.length} membres
                   </div>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
                   <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
                     Gestion des membres
                   </button>
-                  <Popup trigger={<button style={{fontSize: '18px'}} className='report-btn'>Signaler</button>} modal>
+                  <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler</button>} modal>
                     <div className='popup-modal-container'>
                       <ReportButton
                         currentConversation={currentConversation}
@@ -439,39 +438,39 @@ const Messages = () => {
                       {error && <div className='error-message'>{error}</div>}
                     </div>
                   </div>
-                <div className='bottom2'>
-                  <div className='column'>
-                    {file && (
-                      <div className='file-name'>
-                        <div>{file.name}</div>
-                        <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
-                      </div>
-                    )}
-                    <div className='message-input'>
-                      <div className='file-input'>
-                        <input
-                          type='file'
-                          accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
-                          onChange={handleFileChange}
-                          ref={inputFile}
-                        />
-                        <img src={addFile} onClick={openInputFile} alt='add file' />
-                      </div>
-                      <div className='message-area'>
-                        <input
-                          type='text'
-                          placeholder='Message...'
-                          value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
-                          onKeyPress={handleKeyPress}
-                        />
-                        <button className='send-button' onClick={sendMessage}>
-                          Envoyer
-                        </button>
+                  <div className='bottom2'>
+                    <div className='column'>
+                      {file && (
+                        <div className='file-name'>
+                          <div>{file.name}</div>
+                          <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
+                        </div>
+                      )}
+                      <div className='message-input'>
+                        <div className='file-input'>
+                          <input
+                            type='file'
+                            accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
+                            onChange={handleFileChange}
+                            ref={inputFile}
+                          />
+                          <img src={addFile} onClick={openInputFile} alt='add file' />
+                        </div>
+                        <div className='message-area'>
+                          <input
+                            type='text'
+                            placeholder='Message...'
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                          />
+                          <button className='send-button' onClick={sendMessage}>
+                            Envoyer
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </div>
               </div>
             </div>

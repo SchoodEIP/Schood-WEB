@@ -74,7 +74,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     if (item && type === 'number') {
       setFormData({ name: item.name, telephone: item.telephone || '' })
     } else {
-      setFormData({ name: item.name})
+      setFormData({ name: item.name })
     }
   }
   console.log(type)
@@ -95,7 +95,8 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     const url = type === 'number' ? numberUpdateUrl : categoryUpdateUrl
 
     if (type === 'number') {
-delete formData.category    }
+      delete formData.category
+    }
 
     console.log('Données envoyées:', formData)
 
@@ -192,7 +193,7 @@ delete formData.category    }
                 <>
                   <label className='input-label'>
                     <span className='label-content'>Catégorie</span>
-                    <select data-testid='category-select' name="helpNumbersCategory" value={formData.helpNumbersCategory} onChange={handleInputChange}>
+                    <select data-testid='category-select' name='helpNumbersCategory' value={formData.helpNumbersCategory} onChange={handleInputChange}>
                       {categories.map((option, index) => (
                         <option key={index} value={option._id}>
                           {option.name}
@@ -206,7 +207,7 @@ delete formData.category    }
                   </label>
                   <label className='input-label'>
                     <span className='label-content'>Adresse Email</span>
-                    <input type='text' name='email' placeholder='prenom.nom.Schood1@schood.fr' value={formData.email}  onChange={handleInputChange} />
+                    <input type='text' name='email' placeholder='prenom.nom.Schood1@schood.fr' value={formData.email} onChange={handleInputChange} />
                   </label>
                   <label className='input-label'>
                     <span className='label-content'>Description</span>

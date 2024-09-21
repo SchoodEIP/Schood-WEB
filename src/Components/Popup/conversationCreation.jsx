@@ -11,7 +11,7 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
     if (members) {
       const c = contacts.filter(contact =>
         !members.some(member => member._id === contact._id)
-      );
+      )
       setFilteredContacts(c)
     }
   }, [])
@@ -56,7 +56,7 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
           getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
       </label>
-      { !isAddingParticipants && (
+      {!isAddingParticipants && (
         <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
           <span className='label-content'>Donner un nom à la conversation</span>
           <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
@@ -68,7 +68,7 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
       {isAddingParticipants && (
         <div>
           <h3>Membres actuels ({members.length})</h3>
-          {members && members.map((member,  index) => (
+          {members && members.map((member, index) => (
             <p key={index}>{member.firstname} {member.lastname}</p>
           ))}
         </div>

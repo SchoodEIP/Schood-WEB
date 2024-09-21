@@ -148,7 +148,6 @@ export default function Sidebar () {
       pages.splice(4, 0, reportObj)
       const feelingsModerationObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(4, 0, feelingsModerationObj)
-
     }
   } else {
     pages = [
