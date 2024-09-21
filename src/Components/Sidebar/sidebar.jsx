@@ -1,20 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { WebsocketContext } from '../../contexts/websocket'
-import Popup from 'reactjs-popup'
-import { Tooltip } from 'react-tooltip'
-import moment from 'moment'
 import logoSchood from '../../assets/logo_schood.png'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
 
-import userIcon from '../../assets/userIcon.png'
 import cross from '../../assets/Cross.png'
 
 import emoji1 from '../../assets/emojis/1.png'
@@ -227,32 +222,9 @@ export default function Sidebar () {
 
   return (
     <>
-      <Popup open={isShown} onClose={handleShowNotifications} modal>
-        {(close) => (
-          <div style={{ marginTop: '25px' }} className='popup-modal-container'>
-            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <div className='content'>
-              {notifications && notifications.map((notif, index) => (
-                <div key={index} className='notification-container'>
-                  <div className='notification-header'>
-                    <span>{notif.title}</span>
-                    <span>{moment(notif.date).format('HH:mm DD/MM')}</span>
-                  </div>
-                  <div className='notification-content'>
-                    <span>{notif.message}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </Popup>
       {isCollapsed && (
         <div data-testid='expanded' className='collapsed'>
           <div className='top'>
-            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-              <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
-            </div>
             <Link to='/'>
               <img style={{ width: '90%', paddingTop: '10px' }} id='logo' src={schoodIcon} alt='Schood' />
             </Link>
@@ -286,9 +258,6 @@ export default function Sidebar () {
       {!isCollapsed && (
         <div data-testid='expanded' className='expanded'>
           <div className='top'>
-            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-              <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
-            </div>
             <Link to='/'>
               <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
             </Link>
@@ -330,12 +299,6 @@ export default function Sidebar () {
           </div>
         </div>
       )}
-
-      <Tooltip
-        className='notification-tooltip'
-        place='right'
-        content='Notifications'
-      />
     </>
   )
 }

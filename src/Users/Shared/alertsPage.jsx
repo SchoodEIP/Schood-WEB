@@ -10,11 +10,14 @@ import cross from '../../assets/Cross.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
+import AlertModificationPopupContent from '../../Components/Popup/alertModification'
 import { disconnect } from '../../functions/disconnect'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
   const [isOpen, setIsOpen] = useState(false)
+  const [isModifOpen, setIsModifOpen] = useState(false)
+  const [modifType, setModifType] = useState(0)
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
@@ -172,10 +175,26 @@ const AlertsPage = () => {
     setIsOpen(!isOpen)
   }
 
+  const handleOpenModifAlert = (modifType) => {
+    setIsModifOpen(!isModifOpen)
+    setModifType(modifType)
+  }
+
   const buttonComponent = [
     {
       name: 'Créer une alerte',
       handleFunction: handleNewAlert
+    }
+  ]
+
+  const advancedButtonComponent = [
+    {
+      name: 'Modifier l\'alerte',
+      handleFunction: handleOpenModifAlert(0)
+    },
+    {
+      name: "Supprimer l'alerte",
+      handleFunction: handleOpenModifAlert(1)
     }
   ]
 
@@ -188,7 +207,7 @@ const AlertsPage = () => {
           withReturnBtn={!!id}
           returnCall={returnToAlertList}
           showButtons={roleProfile !== 'student'}
-          buttonComponent={buttonComponent}
+          buttonComponent={id ? advancedButtonComponent : buttonComponent}
         />
       </div>
       <div className='alert-page' style={{ marginLeft: '25px' }}>
@@ -197,6 +216,15 @@ const AlertsPage = () => {
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
               <AlertCreationPopupContent />
+            </div>
+          )}
+        </Popup>
+        <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
+              <AlertModificationPopupContent alertObject={chosenAlert} type={modifType} />
+              {modifType === 0 ? 'modifier' : 'supprimer'}
             </div>
           )}
         </Popup>
@@ -226,7 +254,7 @@ const AlertsPage = () => {
                 </div>
               </div>
             ))
-            : <ShowAlerts chosenAlert={chosenAlert} onEditAlert={handleEditAlert} onDeleteAlert={handleDeleteAlert} />
+            : <ShowAlerts chosenAlert={chosenAlert} />
         }
       </div>
     </div>
