@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
+import '../../css/pages/homePage.scss'
 
 const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
   const [formData, setFormData] = useState({ name: '', phone: '' })
