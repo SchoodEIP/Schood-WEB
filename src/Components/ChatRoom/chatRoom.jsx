@@ -500,7 +500,7 @@ const Messages = () => {
               createConversation={addParticipants}
               closeCreateConversationPopup={close}
               isAddingParticipants
-              members={currentConversation.participants}
+              members={currentConversation?.participants}
             />
           </div>
         )}
