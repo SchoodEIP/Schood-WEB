@@ -84,10 +84,25 @@ export default function SchoolAccountsTable () {
   }
 
   const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0]
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
     }))
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.readAsDataURL(selectedFile)
+      reader.onload = () => {
+        const base64Image = reader.result
+        setUpdatedUser(prevState => ({
+          ...prevState,
+          picture: base64Image
+        }))
+      }
+      reader.onerror = (error) => {
+        console.error('Error occurred while reading the file:', error)
+      }
+    }
   }
 
   const handleUpdate = async (e) => {
@@ -221,10 +236,10 @@ export default function SchoolAccountsTable () {
                   <input
                     type='file'
                     id='picture'
-                    onChange={handleFileChange}
+                    onChange={(e) => handleFileChange}
                   />
                 </div>
-                <button type='submit' onClick={close} >Mettre à jour</button>
+                <button type='submit' >Mettre à jour</button>
               </form>
             </div>
           </div>
