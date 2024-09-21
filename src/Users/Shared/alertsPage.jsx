@@ -10,14 +10,26 @@ import cross from '../../assets/Cross.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
+import AlertModificationPopupContent from '../../Components/Popup/alertModification.jsx'
 import { disconnect } from '../../functions/disconnect'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
   const [isOpen, setIsOpen] = useState(false)
+  const [isModifying, setIsModifying] = useState(false)
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
+  const [errMessage, setErrMessage] = useState('')
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
+
+
+  const openNotification = (message, type) => {
+    setNotification({ visible: true, message, type })
+    setTimeout(() => {
+      setNotification({ visible: false, message: '', type: '' })
+    }, 3000) // La notification sera visible pendant 3 secondes
+  }
 
   const fetchAlerts = async () => {
     try {
@@ -77,6 +89,9 @@ const AlertsPage = () => {
           id: data._id,
           title: data.title,
           message: data.message,
+          role: data.role,
+          forClasses: data.forClasses,
+          classes: data.classes,
           file: fileUrl,
           createdBy: data.createdBy,
           createdAt: moment(data.createdAt).format('DD/MM/YYYY')
@@ -113,22 +128,22 @@ const AlertsPage = () => {
   }
 
   const handleEditAlert = (alert) => {
+
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alert.id}`, {
       method: 'PATCH',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        title: alert.title,
-        message: alert.message
-      })
+      body: JSON.stringify(alert)
     })
       .then((response) => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
+          setIsModifying(false)
+          openNotification('L\'alerte a été modifiée avec succès.', 'success')
         } else {
-          console.error('Erreur lors de la mise à jour')
+          setErrMessage('Erreur lors de la mise à jour')
         }
       })
       .catch((error) => console.error('Erreur : ', error))
@@ -146,8 +161,10 @@ const AlertsPage = () => {
         .then((response) => {
           if (response.ok) {
             fetchAlerts() // Rafraîchir la liste des alertes après suppression
+            setChosenAlert('')
+            openNotification('L\'alerte a été supprimée avec succès.', 'success')
           } else {
-            console.error('Erreur lors de la suppression')
+            setErrMessage('Erreur lors de la suppression')
           }
         })
         .catch((error) => console.error('Erreur : ', error))
@@ -172,10 +189,25 @@ const AlertsPage = () => {
     setIsOpen(!isOpen)
   }
 
+  const handleModifying = () => {
+    setIsModifying(!isModifying)
+  }
+
   const buttonComponent = [
     {
       name: 'Créer une alerte',
       handleFunction: handleNewAlert
+    }
+  ]
+
+  const advancedButtonComponent =  [
+    {
+      name: 'Modifier',
+      handleFunction: handleModifying
+    },
+    {
+      name: 'Supprimer',
+      handleFunction: (() => handleDeleteAlert(chosenAlert.id))
     }
   ]
 
@@ -188,15 +220,28 @@ const AlertsPage = () => {
           withReturnBtn={!!id}
           returnCall={returnToAlertList}
           showButtons={roleProfile !== 'student'}
-          buttonComponent={buttonComponent}
+          buttonComponent={id && chosenAlert ? advancedButtonComponent : buttonComponent}
         />
       </div>
       <div className='alert-page' style={{ marginLeft: '25px' }}>
+        {notification.visible &&
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        }
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
               <AlertCreationPopupContent />
+            </div>
+          )}
+        </Popup>
+        <Popup open={isModifying} onClose={() => setIsModifying(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
+              <AlertModificationPopupContent chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} errMessage={errMessage} />
             </div>
           )}
         </Popup>
@@ -226,7 +271,7 @@ const AlertsPage = () => {
                 </div>
               </div>
             ))
-            : <ShowAlerts chosenAlert={chosenAlert} onEditAlert={handleEditAlert} onDeleteAlert={handleDeleteAlert} />
+            : <ShowAlerts chosenAlert={chosenAlert} />
         }
       </div>
     </div>

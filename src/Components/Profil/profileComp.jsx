@@ -6,6 +6,11 @@ import '../../css/pages/profilPage.scss'
 export default function ProfileComp ({ profile }) {
   const [classesList, setClassesList] = useState([])
   const [rolesList, setRolesList] = useState([])
+  const [isEditing, setIsEditing] = useState(false)
+  const [updatedUser, setUpdatedUser] = useState({
+    email: profile?.email || '',
+    picture: null
+  })
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -60,6 +65,53 @@ export default function ProfileComp ({ profile }) {
     fetchClasses()
   }, [])
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  const handleFileChange = (e) => {
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      picture: e.target.files[0]
+    }))
+  }
+
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    try {
+      const formData = new FormData()
+      formData.append('email', updatedUser.email)
+      if (updatedUser.picture) {
+        formData.append('file', updatedUser.picture)
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${profile._id}`, {
+        method: 'PATCH',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        },
+        body: formData
+      })
+
+      if (response.status === 401) {
+        disconnect()
+      } else if (response.ok) {
+        setIsEditing(false)
+        // Update the profile data if needed
+        window.location.reload()
+      } else {
+        const text = await response.text()
+        console.error('Erreur lors de la mise à jour du profil:', text)
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error.message)
+    }
+  }
+
   return (
     <div className='profile-component-container'>
       <h3 className='profile-component-title'>Informations</h3>
@@ -86,6 +138,38 @@ export default function ProfileComp ({ profile }) {
           <img className='profile-img' src={profile?.picture ? profile.picture : userIcon} alt='user_icon' />
         </div>
       </div>
+
+      {isEditing
+        ? (
+          <div className='editProfileForm'>
+            <h2>Modifier Profil</h2>
+            <form onSubmit={handleUpdate}>
+              <div>
+                <label htmlFor='email'>Email:</label>
+                <input
+                  type='email'
+                  id='email'
+                  name='email'
+                  value={updatedUser.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='picture'>Photo de profil:</label>
+                <input
+                  type='file'
+                  id='picture'
+                  onChange={handleFileChange}
+                />
+              </div>
+              <button type='submit'>Mettre à jour</button>
+              <button type='button' onClick={() => setIsEditing(false)}>Annuler</button>
+            </form>
+          </div>
+          )
+        : (
+          <button onClick={() => setIsEditing(true)}>Modifier Profil</button>
+          )}
     </div>
   )
 }

@@ -1,21 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 
-const ConversationCreationPopupContent = ({ contacts, createConversation, closeCreateConversationPopup }) => {
+const ConversationCreationPopupContent = ({ contacts, createConversation, closeCreateConversationPopup, isAddingParticipants, members = null }) => {
   const [selectedContacts, setSelectedContacts] = useState([])
   const [convTitle, setConvTitle] = useState('')
+  const [filteredContacts, setFilteredContacts] = useState(contacts)
 
+  useEffect(() => {
+    if (members) {
+      const c = contacts.filter(contact =>
+        !members.some(member => member._id === contact._id)
+      );
+      setFilteredContacts(c)
+    }
+  }, [])
   const handleCreateConversation = () => {
     const ids = []
-    selectedContacts.forEach((contact) => (
-      ids.push(contact._id)
+    selectedContacts.forEach((filteredContacts) => (
+      ids.push(filteredContacts._id)
     ))
     if (ids.length === 0) {
       return
     }
-    const title = convTitle !== '' ? convTitle : 'placeholder title'
-    createConversation(title, ids)
+    if (isAddingParticipants) {
+      createConversation(ids)
+    } else {
+      const title = convTitle !== '' ? convTitle : 'placeholder title'
+      createConversation(title, ids)
+    }
     closeCreateConversationPopup()
   }
 
@@ -30,26 +43,36 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
   return (
     <>
       <label className='input-label'>
-        <span className='label-content'>Rechercher un ou plusieurs contact(s) <span style={{ color: 'red' }}>*</span></span>
+        {isAddingParticipants ? <span className='label-content'>Sélectionner un/des utilisateur(s)</span> : <span className='label-content'>Rechercher un ou plusieurs membre(s) <span style={{ color: 'red' }}>*</span></span>}
         <Select
           isMulti
           data-testid='select-contacts'
           id='select-contacts'
           placeholder='Rechercher un contact'
-          options={contacts}
+          options={filteredContacts}
           value={selectedContacts}
           onChange={handleSelectChange}
           getOptionValue={(option) => option._id}
           getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
       </label>
-      <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
-        <span className='label-content'>Donner un nom à la conversation</span>
-        <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
-      </label>
+      { !isAddingParticipants && (
+        <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
+          <span className='label-content'>Donner un nom à la conversation</span>
+          <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+        </label>
+      )}
       <button className='popup-btn' onClick={handleCreateConversation}>
-        Créer la conversation
+        {isAddingParticipants ? 'Ajouter le membre' : 'Créer la conversation'}
       </button>
+      {isAddingParticipants && (
+        <div>
+          <h3>Membres actuels ({members.length})</h3>
+          {members && members.map((member,  index) => (
+            <p key={index}>{member.firstname} {member.lastname}</p>
+          ))}
+        </div>
+      )}
     </>
   )
 }

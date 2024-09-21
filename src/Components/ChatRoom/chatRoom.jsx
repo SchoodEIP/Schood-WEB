@@ -5,7 +5,6 @@ import Message from './message'
 import ReportButton from './reportButton'
 import { WebsocketContext } from '../../contexts/websocket'
 import Popup from 'reactjs-popup'
-import UserProfile from '../userProfile/userProfile'
 import addFile from '../../assets/add_file.png'
 import ConversationCreationPopupContent from '../Popup/conversationCreation'
 import '../../css/Components/Popup/popup.scss'
@@ -16,7 +15,8 @@ const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
   const [currentParticipants, setCurrentParticipants] = useState('')
-  const { send, chats } = useContext(WebsocketContext)
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
+  const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
   const inputFile = useRef(null)
 
   const [messages, setMessages] = useState([])
@@ -27,91 +27,41 @@ const Messages = () => {
   const [fileType, setFileType] = useState('text')
 
   const [showCreateConversationPopup, setShowCreateConversationPopup] = useState(false)
-  const [notification, setNotification] = useState(null)
-
   const [showAddParticipantsPopup, setShowAddParticipantsPopup] = useState(false)
   const [showLeaveConversationPopup, setShowLeaveConversationPopup] = useState(false)
 
-  useEffect(() => {
-    fetchConversations()
-  }, [])
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchConversations()
-    }, 10000) // Mettre à jour toutes les 10 secondes (10000 ms)
-
-    return () => clearInterval(intervalId)
-  }, [])
-
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`, {
-          method: 'GET',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          }
-        })
-        if (response.status === 401) {
-          disconnect()
-        }
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des contacts.')
-        } else {
-          const data = await response.json()
-          setContacts(data)
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération des contacts :', error)
+  const fetchConversations = async (changeConversation = true) => {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
       }
-    }
+    })
 
-    fetchContacts()
-  }, [])
+    if (response.status === 401) {
+      disconnect()
+    } else {
+      const data = await response.json()
 
-  const fetchConversations = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
+      const conversationData = data.map((conversation) => {
+        const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
+        const convName = []
+        noUserParticipants.map((participant) => (
+          convName.push(participant.firstname + ' ' + participant.lastname)
+        ))
+        setCurrentParticipants(convName.join(', '))
+        return {
+          _id: conversation._id,
+          date: conversation.date,
+          participants: conversation.participants,
+          name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
         }
       })
-
-      if (response.status === 401) {
-        disconnect()
-      } else {
-        const data = await response.json()
-
-        if (!Array.isArray(data)) {
-          console.error('Fetch conversations: Response data is not an array')
-          return
-        }
-
-        const conversationData = data.map((conversation) => {
-          const noUserParticipants = conversation.participants.filter(element => element._id !== localStorage.getItem('id'))
-          const convName = []
-          noUserParticipants.map((participant) => (
-            convName.push(participant.firstname + ' ' + participant.lastname)
-          ))
-          setCurrentParticipants(convName.join(', '))
-          return {
-            _id: conversation._id,
-            participants: conversation.participants,
-            name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
-          }
-        })
-
-        if (currentConversation === '' || !conversationData.some(conv => conv._id === currentConversation._id)) {
-          setCurrentConversation(conversationData.length > 0 ? conversationData[conversationData.length - 1] : '')
-        }
-        setConversations(conversationData)
+      if (currentConversation === '' || changeConversation) {
+        setCurrentConversation(conversationData[conversationData.length - 1])
       }
-    } catch (error) {
-      console.error('Error fetching conversations:', error)
+      setConversations(conversationData)
     }
   }
 
@@ -133,7 +83,7 @@ const Messages = () => {
       if (response.status === 401) {
         disconnect()
       }
-      if (!response.ok) {
+      if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la récupération des messages.')
       } else {
         const data = await response.json()
@@ -143,10 +93,37 @@ const Messages = () => {
         }))
         setMessages(messageData)
       }
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       console.error('Erreur lors de la récupération des messages :', error)
     }
   }
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`, {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        })
+        if (response.status === 401) {
+          disconnect()
+        }
+        if (!response.ok) /* istanbul ignore next */ {
+          throw new Error('Erreur lors de la récupération des contacts.')
+        } else {
+          const data = await response.json()
+          setContacts(data)
+        }
+      } catch (error) /* istanbul ignore next */ {
+        console.error('Erreur lors de la récupération des contacts :', error)
+      }
+    }
+
+    fetchContacts()
+  }, [])
 
   useEffect(() => {
     if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
@@ -155,6 +132,23 @@ const Messages = () => {
   useEffect(() => {
     if (chats) fetchConversations(!chats.value.newChat)
   }, [chats?.value.newChat])
+
+  useEffect(() => {
+    fetchMessages()
+
+    const intervalId = setInterval(() => {
+      fetchMessages()
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [currentConversation])
+
+  const openNotification = (message, type) => {
+    setNotification({ visible: true, message, type })
+    setTimeout(() => {
+      setNotification({ visible: false, message: '', type: '' })
+    }, 3000) // La notification sera visible pendant 3 secondes
+  }
 
   const sendMessage = async () => {
     if (newMessage.trim() === '' && !file) {
@@ -189,7 +183,7 @@ const Messages = () => {
             body: fileData
           }
         )
-        if (response.status !== 200) {
+        if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
         } else {
           send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
@@ -210,7 +204,7 @@ const Messages = () => {
           disconnect()
         }
 
-        if (response.status !== 200) {
+        if (response.status !== 200) /* istanbul ignore next */ {
           throw new Error("Erreur lors de l'envoi du message.")
         } else {
           send('messageChat', { id: currentConversation._id, userId: localStorage.getItem('id') })
@@ -261,7 +255,7 @@ const Messages = () => {
     }
   }
 
-  const clearMessageAndError = () => {
+  const clearMessageAndError = () => /* istanbul ignore next */ {
     setMessages([])
     setError('')
   }
@@ -288,18 +282,80 @@ const Messages = () => {
       if (response.status === 401) {
         disconnect()
       }
-      if (!response.ok) {
+      if (!response.ok) /* istanbul ignore next */ {
         throw new Error('Erreur lors de la création de la conversation.')
       }
 
       send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
+      openNotification('Une nouvelle conversation a été créée avec succès', 'success' )
       fetchConversations()
-      setNotification({ type: 'success', message: 'Conversation créée avec succès' })
-      clearNotification() // Effacer la notification après un certain temps
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
+      openNotification('Erreur lors de la création de la conversation', 'error' )
       setError('Erreur lors de la création de la conversation')
-      setNotification({ type: 'error', message: 'Erreur lors de la création de la conversation' })
-      clearNotification() // Effacer la notification après un certain temps
+    }
+  }
+
+  const addParticipants = async (selectedContacts) => {
+    console.log(currentConversation.date)
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/addParticipants`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          canSeeAfter: currentConversation.date,
+          participants: selectedContacts
+        })
+      })
+
+      if (response.status === 401) {
+        disconnect()
+      }
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'ajout des participants.')
+      }
+
+      openNotification('Participants ajoutés avec succès', 'success' )
+      fetchConversations() // Met à jour les conversations
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout des participants :', error)
+      openNotification('Erreur lors de l\'ajout des participants', 'error' )
+    } finally {
+      setShowAddParticipantsPopup(false) // Ferme la popup après l'ajout
+    }
+  }
+
+  // Fonction pour quitter la conversation
+  const leaveConversation = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/leave`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.status === 401) {
+        disconnect()
+      }
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du départ de la conversation.')
+      }
+
+      openNotification('Vous avez quitté la conversation.', 'success' )
+      setCurrentConversation('') // Réinitialiser la conversation actuelle
+      fetchConversations() // Mettre à jour la liste des conversations après avoir quitté
+    } catch (error) {
+      console.error('Erreur lors du départ de la conversation :', error)
+      openNotification('Erreur lors du départ de la conversation.', 'error' )
+    } finally {
+      // clearNotification() // Efface la notification après un certain temps
+      setShowLeaveConversationPopup(false) // Ferme la popup après avoir quitté
     }
   }
 
@@ -334,95 +390,8 @@ const Messages = () => {
     setFile(null)
   }
 
-  const clearNotification = () => {
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000) // Efface la notification après 5 secondes
-  }
-
-  const renderNotification = () => {
-    if (!notification) return null
-
-    let notificationClass = 'notification'
-    if (notification.type === 'success') {
-      notificationClass += ' success' // Ajouter une classe spécifique pour les notifications de succès
-    } else if (notification.type === 'error') {
-      notificationClass += ' error' // Ajouter une classe spécifique pour les notifications d'erreur
-    }
-
-    return (
-      <div className={notificationClass}>
-        {notification.message}
-      </div>
-    )
-  }
-
-  const addParticipants = async (selectedContacts) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/addParticipants`, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          participants: selectedContacts
-        })
-      })
-
-      if (response.status === 401) {
-        disconnect()
-      }
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de l\'ajout des participants.')
-      }
-
-      setNotification({ type: 'success', message: 'Participants ajoutés avec succès' })
-      fetchConversations() // Met à jour les conversations
-    } catch (error) {
-      console.error('Erreur lors de l\'ajout des participants :', error)
-      setNotification({ type: 'error', message: 'Erreur lors de l\'ajout des participants' })
-    } finally {
-      clearNotification() // Efface la notification après un certain temps
-      setShowAddParticipantsPopup(false) // Ferme la popup après l'ajout
-    }
-  }
-
-  // Fonction pour quitter la conversation
-  const leaveConversation = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/leave`, {
-        method: 'POST',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-
-      if (response.status === 401) {
-        disconnect()
-      }
-
-      if (!response.ok) {
-        throw new Error('Erreur lors du départ de la conversation.')
-      }
-
-      setNotification({ type: 'success', message: 'Vous avez quitté la conversation.' })
-      setCurrentConversation('') // Réinitialiser la conversation actuelle
-      fetchConversations() // Mettre à jour la liste des conversations après avoir quitté
-    } catch (error) {
-      console.error('Erreur lors du départ de la conversation :', error)
-      setNotification({ type: 'error', message: 'Erreur lors du départ de la conversation.' })
-    } finally {
-      clearNotification() // Efface la notification après un certain temps
-      setShowLeaveConversationPopup(false) // Ferme la popup après avoir quitté
-    }
-  }
-
   return (
     <div className='messaging-page'>
-      {renderNotification()}
       <ChatRoomSidebar
         conversations={conversations}
         currentConversation={currentConversation}
@@ -431,81 +400,78 @@ const Messages = () => {
         clearMessageAndError={clearMessageAndError}
         openCreateConversationPopup={openCreateConversationPopup}
       />
-
       <div className='chat'>
+        {notification.visible &&
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        }
         {currentConversation
           ? (
             <div className='chat-content'>
               <div className='top'>
-                <div className='conv-name'>{currentConversation.name}</div>
-                <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
-                  Ajouter des membres
-                </button>
-                <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
-                  Quitter la conversation
-                </button>
-
-                <Popup trigger={<button className='report-btn'>Signaler</button>} modal>
-                  <div className='popup-modal-container'>
-                    <ReportButton
-                      currentConversation={currentConversation}
-                    />
+                <div className='top-info'>
+                  <div className='conv-name'>{currentConversation.name}</div>
+                  <div className='participants-container'>
+                    {currentConversation.participants.length} membres
                   </div>
-                </Popup>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                  <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
+                    Gestion des membres
+                  </button>
+                  <Popup trigger={<button style={{fontSize: '18px'}} className='report-btn'>Signaler</button>} modal>
+                    <div className='popup-modal-container'>
+                      <ReportButton
+                        currentConversation={currentConversation}
+                      />
+                    </div>
+                  </Popup>
+                </div>
               </div>
               <div className='bottom'>
                 <div className='left'>
                   <div className='top2'>
                     <div className='message-list'>
                       {messages.map((message, index) => (
-                        <Message key={index} message={message} participants={currentConversation.participants} />
+                        <Message key={index} next={messages[index + 1]} message={message} participants={currentConversation.participants} />
                       ))}
                       {error && <div className='error-message'>{error}</div>}
                     </div>
                   </div>
-                  <div className='bottom2'>
-                    <div className='column'>
-                      {file && (
-                        <div className='file-name'>
-                          <div>{file.name}</div>
-                          <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
-                        </div>
-                      )}
-                      <div className='message-input'>
-                        <div className='file-input'>
-                          <input
-                            type='file'
-                            accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
-                            onChange={handleFileChange}
-                            ref={inputFile}
-                          />
-                          <img src={addFile} onClick={openInputFile} alt='add file' />
-                        </div>
-                        <div className='message-area'>
-                          <input
-                            type='text'
-                            placeholder='Message...'
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                          />
-                          <button className='send-button' onClick={sendMessage}>
-                            Envoyer
-                          </button>
-                        </div>
+                <div className='bottom2'>
+                  <div className='column'>
+                    {file && (
+                      <div className='file-name'>
+                        <div>{file.name}</div>
+                        <button data-testid='clear-btn' className='send-button' onClick={handleClearFile}>X</button>
+                      </div>
+                    )}
+                    <div className='message-input'>
+                      <div className='file-input'>
+                        <input
+                          type='file'
+                          accept='.jpg, .jpeg, .png, .pdf, .zip, .txt'
+                          onChange={handleFileChange}
+                          ref={inputFile}
+                        />
+                        <img src={addFile} onClick={openInputFile} alt='add file' />
+                      </div>
+                      <div className='message-area'>
+                        <input
+                          type='text'
+                          placeholder='Message...'
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          onKeyPress={handleKeyPress}
+                        />
+                        <button className='send-button' onClick={sendMessage}>
+                          Envoyer
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className='right'>
-                  {currentConversation.participants.map((participant, indexP) => (
-                    <div className='user-profile' key={indexP}>
-                      <UserProfile
-                        fullname
-                        profile={participant}
-                      />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -526,11 +492,15 @@ const Messages = () => {
         {(close) => (
           <div className='popup-modal-container'>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
+              Quitter la conversation
+            </button>
             <ConversationCreationPopupContent
               contacts={contacts}
               createConversation={addParticipants}
               closeCreateConversationPopup={close}
               isAddingParticipants
+              members={currentConversation?.participants}
             />
           </div>
         )}

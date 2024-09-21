@@ -84,10 +84,25 @@ export default function SchoolAccountsTable () {
   }
 
   const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0]
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
     }))
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.readAsDataURL(selectedFile)
+      reader.onload = () => {
+        const base64Image = reader.result
+        setUpdatedUser(prevState => ({
+          ...prevState,
+          picture: base64Image
+        }))
+      }
+      reader.onerror = (error) => {
+        console.error('Error occurred while reading the file:', error)
+      }
+    }
   }
 
   const handleUpdate = async (e) => {
@@ -112,21 +127,21 @@ export default function SchoolAccountsTable () {
       if (response.status === 401) {
         disconnect()
       } else if (response.ok) {
+        // setSelectedUser(null)
+        // setUpdatedUser({
+        //   firstname: '',
+        //   lastname: '',
+        //   email: '',
+        //   picture: null
+        // })
+        toast.success('Le profil a été mis à jour avec succès.')
         setIsEditing(false)
-        setSelectedUser(null)
-        setUpdatedUser({
-          firstname: '',
-          lastname: '',
-          email: '',
-          picture: null
-        })
         getAccountList() // Refresh the list
       } else {
-        const text = await response.text()
-        console.error('Erreur lors de la mise à jour du profil:', text)
+        toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
       }
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du profil:', error.message)
+      toast.error('Erreur lors de la mise à jour du profil: ', error.message)
     }
   }
 
@@ -160,6 +175,10 @@ export default function SchoolAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
+  const openEditing = () => {
+    setIsEditing(!isEditing)
+  }
+
   const callDeleteAccount = (userIdValue) => {
     setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
@@ -172,6 +191,57 @@ export default function SchoolAccountsTable () {
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+          </div>
+        )}
+      </Popup>
+      <Popup open={isEditing} onClose={openEditing} modal>
+        {(close) => (
+          <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+            <div className='editProfileForm'>
+              <h2>Modifier Profil</h2>
+              <form onSubmit={handleUpdate}>
+                <div>
+                  <label htmlFor='firstname'>Prénom:</label>
+                  <input
+                    type='text'
+                    id='firstname'
+                    name='firstname'
+                    value={updatedUser.firstname}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor='lastname'>Nom:</label>
+                  <input
+                    type='text'
+                    id='lastname'
+                    name='lastname'
+                    value={updatedUser.lastname}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor='email'>Email:</label>
+                  <input
+                    type='email'
+                    id='email'
+                    name='email'
+                    value={updatedUser.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor='picture'>Photo de profil:</label>
+                  <input
+                    type='file'
+                    id='picture'
+                    onChange={(e) => handleFileChange}
+                  />
+                </div>
+                <button type='submit' >Mettre à jour</button>
+              </form>
+            </div>
           </div>
         )}
       </Popup>
@@ -190,8 +260,6 @@ export default function SchoolAccountsTable () {
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe(s)</th>
                 <th className='valHead6'>Modifier</th>
-                {/* <th className='valHead2'>Titre</th> */}
-                <th className='valHead4'>Classe(s)</th>
                 {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
@@ -204,9 +272,8 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
+                    <td><button onClick={(e) => {e.stopPropagation(); handleEditClick(data)}} title="Modifier le profil">Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                   </tr>
                 )
               }
@@ -241,7 +308,7 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
+                    <td><button onClick={(e) => {e.stopPropagation(); handleEditClick(data)}} title="Modifier le Profil">Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
@@ -250,54 +317,6 @@ export default function SchoolAccountsTable () {
           </table>
         </div>
       </div>
-
-      {isEditing && selectedUser && (
-        <div className='editProfileForm'>
-          <h2>Modifier Profil</h2>
-          <form onSubmit={handleUpdate}>
-            <div>
-              <label htmlFor='firstname'>Prénom:</label>
-              <input
-                type='text'
-                id='firstname'
-                name='firstname'
-                value={updatedUser.firstname}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor='lastname'>Nom:</label>
-              <input
-                type='text'
-                id='lastname'
-                name='lastname'
-                value={updatedUser.lastname}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor='email'>Email:</label>
-              <input
-                type='email'
-                id='email'
-                name='email'
-                value={updatedUser.email}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor='picture'>Photo de profil:</label>
-              <input
-                type='file'
-                id='picture'
-                onChange={handleFileChange}
-              />
-            </div>
-            <button type='submit'>Mettre à jour</button>
-            <button type='button' onClick={() => setIsEditing(false)}>Annuler</button>
-          </form>
-        </div>
-      )}
     </div>
   )
 }
