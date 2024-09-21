@@ -190,8 +190,6 @@ export default function SchoolAccountsTable () {
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe(s)</th>
                 <th className='valHead6'>Modifier</th>
-                {/* <th className='valHead2'>Titre</th> */}
-                <th className='valHead4'>Classe(s)</th>
                 {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
@@ -204,9 +202,8 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
+                    <td><button onClick={(e) => {e.stopPropagation(); handleEditClick(data)}} title="Modifier le profil">Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
-                    <td><img style={{ width: '50px', borderRadius: '50%' }} src={data.picture ? data.picture : userIcon} alt='img de profil' /></td>
                   </tr>
                 )
               }
@@ -241,7 +238,7 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={() => handleEditClick(data)}>Modifier</button></td>
+                    <td><button onClick={(e) => {e.stopPropagation(); handleEditClick(data)}} title="Modifier le Profil">Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
