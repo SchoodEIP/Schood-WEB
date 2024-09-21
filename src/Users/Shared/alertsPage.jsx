@@ -21,6 +21,15 @@ const AlertsPage = () => {
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
   const [errMessage, setErrMessage] = useState('')
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
+
+
+  const openNotification = (message, type) => {
+    setNotification({ visible: true, message, type })
+    setTimeout(() => {
+      setNotification({ visible: false, message: '', type: '' })
+    }, 3000) // La notification sera visible pendant 3 secondes
+  }
 
   const fetchAlerts = async () => {
     try {
@@ -131,7 +140,8 @@ const AlertsPage = () => {
       .then((response) => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
-
+          setIsModifying(false)
+          openNotification('L\'alerte a été modifiée avec succès.', 'success')
         } else {
           setErrMessage('Erreur lors de la mise à jour')
         }
@@ -152,6 +162,7 @@ const AlertsPage = () => {
           if (response.ok) {
             fetchAlerts() // Rafraîchir la liste des alertes après suppression
             setChosenAlert('')
+            openNotification('L\'alerte a été supprimée avec succès.', 'success')
           } else {
             setErrMessage('Erreur lors de la suppression')
           }
@@ -213,6 +224,11 @@ const AlertsPage = () => {
         />
       </div>
       <div className='alert-page' style={{ marginLeft: '25px' }}>
+        {notification.visible &&
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        }
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
