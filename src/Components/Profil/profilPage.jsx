@@ -3,11 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
 import { disconnect } from '../../functions/disconnect'
-import Popup from 'reactjs-popup'
-import cross from '../../assets/Cross.png'
-import { toast } from 'react-toastify'
 
-const ProfilPage = ({ isModif, handleProfileModification }) => {
+const ProfilPage = () => {
   const [userProfile, setUserProfile] = useState({})
   const [negativeResponse, setNegativeResponse] = useState('')
   const [newEmail, setNewEmail] = useState('')
@@ -15,52 +12,37 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
   const navigate = useNavigate() // Hook for navigation
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-
-      if (response.status === 401) {
-        disconnect()
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      setUserProfile(data)
-    } catch (error) {
-      setNegativeResponse('Erreur lors de la récupération du profil: ' + error.message)
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile`, {
+          method: 'GET',
+          headers: {
+            'x-auth-token': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (response.status === 401) {
+          disconnect()
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        setUserProfile(data)
+      } catch (error) {
+        setNegativeResponse('Erreur lors de la récupération du profil: ' + error.message)
+      }
+    }
+
     fetchData()
   }, [])
 
   const handleEmailChange = (e) => setNewEmail(e.target.value)
-
-  const handlePictureChange = (event) => {
-    const selectedFile = event.target.files[0]
-    setNewPicture(event.target.files[0])
-    if (selectedFile) {
-      const reader = new FileReader()
-      reader.readAsDataURL(selectedFile)
-      reader.onload = () => {
-        const base64Image = reader.result
-        setNewPicture(base64Image)
-      }
-      reader.onerror = (error) => {
-        console.error('Error occurred while reading the file:', error)
-      }
-    }
-  }
+  const handlePictureChange = (e) => setNewPicture(e.target.files[0])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,11 +66,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
       }
 
       if (!response.ok) {
-        toast.error('La mise à jour du profile n\'as pas pu se faire.')
         throw new Error(`HTTP error! Status: ${response.status}`)
-      } else {
-        fetchData()
-        toast.success('Le profil a été mis à jour avec succès')
       }
 
       // Optionally handle non-JSON responses if needed
@@ -105,12 +83,11 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
         // Redirect to /profile
         navigate('/profile')
-
       } else {
         navigate('/profile')
         const text = await response.text()
         setNegativeResponse('')
-        console.log(`Erreur lors de la mise à jour du profil: ${response.statusText}`)
+        console.log(`Erreur lors de la mise à jour du profil: ${text}`)
       }
     } catch (error) {
       navigate('/profile')
@@ -121,36 +98,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
   return (
     <div className='page-height'>
-      <Popup open={isModif} onClose={handleProfileModification} modal>
-        {(close) => (
-          <div className='popup-modal-container' style={{ alignItems: 'center' }}>
-            <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <div className='profile-update'>
-              <h2>Mettre à jour le profil</h2>
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor='email'>Nouvelle adresse email:</label>
-                  <input
-                    type='email'
-                    id='email'
-                    value={newEmail}
-                    onChange={handleEmailChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor='picture'>Nouvelle photo de profil:</label>
-                  <input
-                    type='file'
-                    id='picture'
-                    onChange={(e) => handlePictureChange(e)}
-                  />
-                </div>
-                <button type='submit'>Mettre à jour</button>
-              </form>
-            </div>
-          </div>
-        )}
-      </Popup>
       {negativeResponse && <p className='error-message'>{negativeResponse}</p>}
       <div className='profile-content'>
         <div>
@@ -175,6 +122,30 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
         <div className='profile-content-container'>
           <p className='element-title'>Adresse email</p>
           <p className='element-content'>{userProfile.email}</p>
+        </div>
+
+        <div className='profile-update'>
+          <h2>Mettre à jour le profil</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor='email'>Nouvelle adresse email:</label>
+              <input
+                type='email'
+                id='email'
+                value={newEmail}
+                onChange={handleEmailChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='picture'>Nouvelle photo de profil:</label>
+              <input
+                type='file'
+                id='picture'
+                onChange={handlePictureChange}
+              />
+            </div>
+            <button type='submit'>Mettre à jour</button>
+          </form>
         </div>
       </div>
     </div>

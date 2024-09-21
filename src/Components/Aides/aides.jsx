@@ -13,6 +13,7 @@ export default function AidePage () {
   const [defaultID, setDefaultID] = useState(null)
   const [selectedCat, setSelectedCat] = useState(null)
   const [selectedContact, setSelectedContact] = useState(null)
+  const [isCategoryEmpty, setIsCategoryEmpty] = useState(false)  // New state for empty category
 
   useEffect(() => {
     const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -63,12 +64,21 @@ export default function AidePage () {
 
   const filterContactsByCategory = (category) => {
     const filtered = contacts.filter((contact) => category !== defaultID ? contact.helpNumbersCategory === category : contact)
+    
+    if (filtered.length === 0) {
+      setIsCategoryEmpty(true)  // Set category as empty if no contacts found
+    } else {
+      setIsCategoryEmpty(false) // Set category as not empty
+    }
+
     setFilteredContacts(filtered)
     setSelectedCat(category)
-    setSelectedContact(filtered[0]._id)
-    setChosenContact(filtered[0])
+    setSelectedContact(filtered.length > 0 ? filtered[0]._id : null)
+    setChosenContact(filtered.length > 0 ? filtered[0] : {})
+    
     if (defaultID && category === defaultID) {
       setFilteredContacts(contacts)
+      setIsCategoryEmpty(false)
     }
   }
 
@@ -97,28 +107,26 @@ export default function AidePage () {
           )}
         </div>
         <div className='contact-content-container' id='contact-profile'>
-          <h3 id='contact-title'>{chosenContact.name}</h3>
-          <p>{chosenContact.description}</p>
-          {
-            chosenContact.telephone
-              ? (
+          {isCategoryEmpty ? (   // Check if the category is empty
+            <p>Aucun numéro disponible dans cette catégorie.</p>
+          ) : (
+            <>
+              <h3 id='contact-title'>{chosenContact.name}</h3>
+              <p>{chosenContact.description}</p>
+              {chosenContact.telephone && (
                 <div className='contact-element-container'>
                   <img src={phoneIcon} alt='Telephone' className='contact-element-title' />
                   <p className='contact-element-content'>{chosenContact.telephone}</p>
                 </div>
-                )
-              : ''
-          }
-          {
-            chosenContact.email
-              ? (
+              )}
+              {chosenContact.email && (
                 <div className='contact-element-container'>
                   <img src={mailIcon} alt='Adresse Email' className='contact-element-title' />
                   <p className='contact-element-content'>{chosenContact.email}</p>
                 </div>
-                )
-              : ''
-          }
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
