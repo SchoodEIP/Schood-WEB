@@ -5,6 +5,23 @@
   justify-content: center;
 }
 
+button {
+  color: #4F23E2;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Changement de couleur lors du survol */
+button:hover {
+  background-color: #3a1ab3; /* Couleur de fond lorsque le bouton est survolé */
+  color: white;
+}
+
+/* Changement de couleur lors du clic */
+button:active {
+  background-color: #2c1380; /* Couleur de fond lorsque le bouton est cliqué */
+  transform: scale(0.98); /* Légère réduction de taille pour l'effet de clic */
+}
+
 .element-title {
   color: #4F23E2;
   margin: 0;
