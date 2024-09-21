@@ -152,7 +152,7 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
                 <span>{profile?.lastname}</span>
               </div>
               <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div style={{ background: 'none' }} data-testId='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+              <div style={{ background: 'none' }} data-testid='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
                 <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
               </div>
             </div>

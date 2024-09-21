@@ -224,7 +224,7 @@ export default function SchoolAccountsTable () {
                     onChange={handleFileChange}
                   />
                 </div>
-                <button type='submit' onClick={close}>Mettre à jour</button>
+                <button type='submit' onClick={close} >Mettre à jour</button>
               </form>
             </div>
           </div>
