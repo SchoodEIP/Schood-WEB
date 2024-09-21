@@ -110,7 +110,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
         navigate('/profile')
         const text = await response.text()
         setNegativeResponse('')
-        console.log(`Erreur lors de la mise à jour du profil: ${text}`)
+        console.log(`Erreur lors de la mise à jour du profil: ${response.statusText}`)
       }
     } catch (error) {
       navigate('/profile')
@@ -142,7 +142,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
                   <input
                     type='file'
                     id='picture'
-                    onChange={(e) => handlePictureChange}
+                    onChange={(e) => handlePictureChange(e)}
                   />
                 </div>
                 <button type='submit'>Mettre à jour</button>
