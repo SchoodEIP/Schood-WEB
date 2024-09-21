@@ -74,9 +74,6 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     const categoryUpdateUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumbersCategory/${selectedItem._id}`
     const url = type === 'number' ? numberUpdateUrl : categoryUpdateUrl
 
-    console.log('URL de requête:', url)
-    console.log('Données envoyées:', formData)
-
     try {
       const response = await fetch(url, {
         method: 'PATCH',
@@ -93,11 +90,45 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
 
-      toast.error('Modification réussie !')
+      toast.success('Modification réussie !')
       onClose()
+      window.location.reload()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
       toast.error(`Erreur lors de la requête: ${error.message}`)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!selectedItem) {
+      toast.error('Veuillez sélectionner un élément à supprimer.')
+      return
+    }
+
+    const numberDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumber/${selectedItem._id}`
+    const categoryDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumbersCategory/${selectedItem._id}`
+    const url = type === 'number' ? numberDeleteUrl : categoryDeleteUrl
+
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        }
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.log('Erreur renvoyée par le serveur:', errorData)
+        throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
+      }
+
+      toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
+      onClose()
+      window.location.reload() // Rafraîchir la page après suppression
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error)
+      toast.error(`Erreur lors de la suppression: ${error.message}`)
     }
   }
 
@@ -144,6 +175,9 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
                 </label>
               )}
               <button type='button' onClick={handleSubmit}>Sauvegarder</button>
+              <button type='button' onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white', marginLeft: '10px' }}>
+                Supprimer
+              </button>
             </>
           )}
         </form>
