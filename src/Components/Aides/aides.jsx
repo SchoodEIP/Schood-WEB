@@ -13,7 +13,7 @@ export default function AidePage () {
   const [defaultID, setDefaultID] = useState(null)
   const [selectedCat, setSelectedCat] = useState(null)
   const [selectedContact, setSelectedContact] = useState(null)
-  const [isCategoryEmpty, setIsCategoryEmpty] = useState(false)  // New state for empty category
+  const [isCategoryEmpty, setIsCategoryEmpty] = useState(false) // New state for empty category
 
   useEffect(() => {
     const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
@@ -64,9 +64,9 @@ export default function AidePage () {
 
   const filterContactsByCategory = (category) => {
     const filtered = contacts.filter((contact) => category !== defaultID ? contact.helpNumbersCategory === category : contact)
-    
+
     if (filtered.length === 0) {
-      setIsCategoryEmpty(true)  // Set category as empty if no contacts found
+      setIsCategoryEmpty(true) // Set category as empty if no contacts found
     } else {
       setIsCategoryEmpty(false) // Set category as not empty
     }
@@ -75,7 +75,7 @@ export default function AidePage () {
     setSelectedCat(category)
     setSelectedContact(filtered.length > 0 ? filtered[0]._id : null)
     setChosenContact(filtered.length > 0 ? filtered[0] : {})
-    
+
     if (defaultID && category === defaultID) {
       setFilteredContacts(contacts)
       setIsCategoryEmpty(false)
@@ -107,7 +107,7 @@ export default function AidePage () {
           )}
         </div>
         <div className='contact-content-container' id='contact-profile'>
-          {isCategoryEmpty ? (   // Check if the category is empty
+          {isCategoryEmpty ? ( // Check if the category is empty
             <p>Aucun numéro disponible dans cette catégorie.</p>
           ) : (
             <>
