@@ -139,35 +139,37 @@ export default function ProfileComp ({ profile }) {
         </div>
       </div>
 
-      {isEditing ? (
-        <div className='editProfileForm'>
-          <h2>Modifier Profil</h2>
-          <form onSubmit={handleUpdate}>
-            <div>
-              <label htmlFor='email'>Email:</label>
-              <input
-                type='email'
-                id='email'
-                name='email'
-                value={updatedUser.email}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor='picture'>Photo de profil:</label>
-              <input
-                type='file'
-                id='picture'
-                onChange={handleFileChange}
-              />
-            </div>
-            <button type='submit'>Mettre à jour</button>
-            <button type='button' onClick={() => setIsEditing(false)}>Annuler</button>
-          </form>
-        </div>
-      ) : (
-        <button onClick={() => setIsEditing(true)}>Modifier Profil</button>
-      )}
+      {isEditing
+        ? (
+          <div className='editProfileForm'>
+            <h2>Modifier Profil</h2>
+            <form onSubmit={handleUpdate}>
+              <div>
+                <label htmlFor='email'>Email:</label>
+                <input
+                  type='email'
+                  id='email'
+                  name='email'
+                  value={updatedUser.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='picture'>Photo de profil:</label>
+                <input
+                  type='file'
+                  id='picture'
+                  onChange={handleFileChange}
+                />
+              </div>
+              <button type='submit'>Mettre à jour</button>
+              <button type='button' onClick={() => setIsEditing(false)}>Annuler</button>
+            </form>
+          </div>
+          )
+        : (
+          <button onClick={() => setIsEditing(true)}>Modifier Profil</button>
+          )}
     </div>
   )
 }
