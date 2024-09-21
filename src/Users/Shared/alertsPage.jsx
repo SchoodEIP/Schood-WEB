@@ -80,6 +80,9 @@ const AlertsPage = () => {
           id: data._id,
           title: data.title,
           message: data.message,
+          role: data.role,
+          forClasses: data.forClasses,
+          classes: data.classes,
           file: fileUrl,
           createdBy: data.createdBy,
           createdAt: moment(data.createdAt).format('DD/MM/YYYY')
@@ -116,20 +119,19 @@ const AlertsPage = () => {
   }
 
   const handleEditAlert = (alert) => {
+
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alert.id}`, {
       method: 'PATCH',
       headers: {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        title: alert.title,
-        message: alert.message
-      })
+      body: JSON.stringify(alert)
     })
       .then((response) => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
+
         } else {
           setErrMessage('Erreur lors de la mise à jour')
         }
