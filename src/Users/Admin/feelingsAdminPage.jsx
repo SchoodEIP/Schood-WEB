@@ -20,15 +20,7 @@ const FeelingsAdminPage = () => {
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
   const [newMessage, setNewMessage] = useState('')
-  const [feelings, setFeelings] = useState([
-    {
-      _id: 'default',
-      date: new Date().toISOString(),
-      mood: 0,
-      annonymous: true,
-      comment: 'Ceci est un commentaire par défaut.'
-    }
-  ])
+  const [feelings, setFeelings] = useState([])
   const imagePaths = useMemo(() => {
     return [
       veryBadMood,
