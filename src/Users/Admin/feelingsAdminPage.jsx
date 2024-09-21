@@ -94,7 +94,7 @@ const FeelingsAdminPage = () => {
   }
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/mood`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/moods/all`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -108,6 +108,7 @@ const FeelingsAdminPage = () => {
         return response.json()
       })
       .then(data => {
+        console.log(data)
         if (Array.isArray(data)) {
           setFeelings(prevFeelings => [...prevFeelings, ...data])
         } else {
@@ -132,6 +133,30 @@ const FeelingsAdminPage = () => {
     setNewMessage(feeling.comment)
   }
 
+  async function getUserName(username) {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        return `${data.firstname} ${data.lastname}`
+      })
+      .catch(error => /* istanbul ignore next */ {
+        setErrMessage('Erreur lors de la récupération des ressentis', error)
+      })
+      return 'Erreur'
+  }
+
   return (
     <div>
       <div id='grey-filter' />
@@ -147,7 +172,8 @@ const FeelingsAdminPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+              {{/* here we can start a conv with the person who sent a feeling or indicate that it has been taken into account or ask for the person to identify who they are */}}
+              {/* <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
                 <div id='mood-container' className='horizontal-container'>
                   <div datid='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
                     <img src={veryBadMood} alt='Très Mauvaise Humeur' />
@@ -171,7 +197,7 @@ const FeelingsAdminPage = () => {
               <div className='horizontal-container'>
                 <input type='checkbox' id='anonymous-checkbox' checked={newAnonymous} onClick={handleAnonymous} />
                 <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
-              </div>
+              </div> */}
               {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
               <button className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
             </div>
@@ -179,7 +205,7 @@ const FeelingsAdminPage = () => {
         </Popup>
         <div id='feelings-container'>
           {Array.isArray(feelings) && feelings.map((feeling) => (
-            <div key={feeling._id} className='individual-feelings-container' onClick={() => handleFeelingsModification(feeling)}>
+            <div key={feeling._id} className='individual-feelings-container' >
               <div className='publication-date'>{moment(feeling.date).format('DD/MM/YYYY')}</div>
               <div className='horizontal-line' />
               <div className='feelings-container-content'>
