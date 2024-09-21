@@ -100,7 +100,6 @@ const FeelingsAdminPage = () => {
         return response.json()
       })
       .then(data => {
-        console.log(data)
         if (Array.isArray(data)) {
           setFeelings(prevFeelings => [...prevFeelings, ...data])
         } else {
@@ -140,7 +139,6 @@ const FeelingsAdminPage = () => {
         return response.json()
       })
       .then(data => {
-        console.log(data)
         return `${data.firstname} ${data.lastname}`
       })
       .catch(error => /* istanbul ignore next */ {
@@ -210,7 +208,7 @@ const FeelingsAdminPage = () => {
                     <p style={{ marginBottom: '0' }}>{feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                     <p style={{ marginTop: '0' }}>{feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''}</p>
                   </div>
-                  <div className='publication-author'>{feeling.annonymous ? 'Anonyme' : ''}</div>
+                  <div className='publication-author'>{feeling.annonymous ? 'Anonyme' : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
                 </div>
                 <div className='feelings-content'>
                   <p className='paragraph-style'>{feeling.comment}</p>
