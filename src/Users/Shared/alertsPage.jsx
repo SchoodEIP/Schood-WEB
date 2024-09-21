@@ -10,14 +10,17 @@ import cross from '../../assets/Cross.png'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
+import AlertModificationPopupContent from '../../Components/Popup/alertModification.jsx'
 import { disconnect } from '../../functions/disconnect'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
   const [isOpen, setIsOpen] = useState(false)
+  const [isModifying, setIsModifying] = useState(false)
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
+  const [errMessage, setErrMessage] = useState('')
 
   const fetchAlerts = async () => {
     try {
@@ -128,7 +131,7 @@ const AlertsPage = () => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
         } else {
-          console.error('Erreur lors de la mise à jour')
+          setErrMessage('Erreur lors de la mise à jour')
         }
       })
       .catch((error) => console.error('Erreur : ', error))
@@ -146,8 +149,9 @@ const AlertsPage = () => {
         .then((response) => {
           if (response.ok) {
             fetchAlerts() // Rafraîchir la liste des alertes après suppression
+            setChosenAlert('')
           } else {
-            console.error('Erreur lors de la suppression')
+            setErrMessage('Erreur lors de la suppression')
           }
         })
         .catch((error) => console.error('Erreur : ', error))
@@ -172,10 +176,25 @@ const AlertsPage = () => {
     setIsOpen(!isOpen)
   }
 
+  const handleModifying = () => {
+    setIsModifying(!isModifying)
+  }
+
   const buttonComponent = [
     {
       name: 'Créer une alerte',
       handleFunction: handleNewAlert
+    }
+  ]
+
+  const advancedButtonComponent =  [
+    {
+      name: 'Modifier',
+      handleFunction: handleModifying
+    },
+    {
+      name: 'Supprimer',
+      handleFunction: (() => handleDeleteAlert(chosenAlert.id))
     }
   ]
 
@@ -188,7 +207,7 @@ const AlertsPage = () => {
           withReturnBtn={!!id}
           returnCall={returnToAlertList}
           showButtons={roleProfile !== 'student'}
-          buttonComponent={buttonComponent}
+          buttonComponent={id && chosenAlert ? advancedButtonComponent : buttonComponent}
         />
       </div>
       <div className='alert-page' style={{ marginLeft: '25px' }}>
@@ -197,6 +216,14 @@ const AlertsPage = () => {
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
               <AlertCreationPopupContent />
+            </div>
+          )}
+        </Popup>
+        <Popup open={isModifying} onClose={() => setIsModifying(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
+              <AlertModificationPopupContent chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} errMessage={errMessage} />
             </div>
           )}
         </Popup>
@@ -226,7 +253,7 @@ const AlertsPage = () => {
                 </div>
               </div>
             ))
-            : <ShowAlerts chosenAlert={chosenAlert} onEditAlert={handleEditAlert} onDeleteAlert={handleDeleteAlert} />
+            : <ShowAlerts chosenAlert={chosenAlert} />
         }
       </div>
     </div>
