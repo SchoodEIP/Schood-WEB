@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 
-const ConversationCreationPopupContent = ({ contacts, createConversation, closeCreateConversationPopup }) => {
+const ConversationCreationPopupContent = ({ contacts, createConversation, closeCreateConversationPopup, isAddingParticipants }) => {
   const [selectedContacts, setSelectedContacts] = useState([])
   const [convTitle, setConvTitle] = useState('')
 
@@ -14,8 +14,12 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
     if (ids.length === 0) {
       return
     }
-    const title = convTitle !== '' ? convTitle : 'placeholder title'
-    createConversation(title, ids)
+    if (isAddingParticipants) {
+      createConversation(ids)
+    } else {
+      const title = convTitle !== '' ? convTitle : 'placeholder title'
+      createConversation(title, ids)
+    }
     closeCreateConversationPopup()
   }
 
@@ -30,7 +34,7 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
   return (
     <>
       <label className='input-label'>
-        <span className='label-content'>Rechercher un ou plusieurs contact(s) <span style={{ color: 'red' }}>*</span></span>
+        <span className='label-content'>Rechercher un ou plusieurs membre(s) <span style={{ color: 'red' }}>*</span></span>
         <Select
           isMulti
           data-testid='select-contacts'
@@ -43,12 +47,14 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
           getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
       </label>
-      <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
-        <span className='label-content'>Donner un nom à la conversation</span>
-        <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
-      </label>
+      { !isAddingParticipants && (
+        <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
+          <span className='label-content'>Donner un nom à la conversation</span>
+          <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+        </label>
+      )}
       <button className='popup-btn' onClick={handleCreateConversation}>
-        Créer la conversation
+        {isAddingParticipants ? 'Ajouter le membre' : 'Créer la conversation'}
       </button>
     </>
   )

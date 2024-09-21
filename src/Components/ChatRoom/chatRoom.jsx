@@ -35,6 +35,10 @@ const Messages = () => {
   useEffect(() => {
     fetchConversations()
   }, [])
+  
+  useEffect(() => {
+    fetchMessages()
+  }, [conversations])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -100,6 +104,7 @@ const Messages = () => {
           setCurrentParticipants(convName.join(', '))
           return {
             _id: conversation._id,
+            date: conversation.date,
             participants: conversation.participants,
             name: conversation.title !== 'placeholder title' ? conversation.title : convName.join(', ')
           }
@@ -147,10 +152,6 @@ const Messages = () => {
       console.error('Erreur lors de la récupération des messages :', error)
     }
   }
-
-  useEffect(() => {
-    if (chats?.value.unseenChats.includes(currentConversation._id)) fetchMessages()
-  }, [chats?.value.unseenChats])
 
   useEffect(() => {
     if (chats) fetchConversations(!chats.value.newChat)
@@ -359,6 +360,7 @@ const Messages = () => {
 
   const addParticipants = async (selectedContacts) => {
     try {
+      console.log(currentConversation)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${currentConversation._id}/addParticipants`, {
         method: 'POST',
         headers: {
@@ -366,6 +368,7 @@ const Messages = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          canSeeAfter: currentConversation.date,
           participants: selectedContacts
         })
       })
