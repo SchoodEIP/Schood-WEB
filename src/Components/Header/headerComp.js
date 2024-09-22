@@ -145,9 +145,9 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             )
           : ''}
         {withLogo && (
-          <Link to='/profile' className='profile' style={{textDecoration: "none"}}>
+          <Link to='/profile' className='profile' style={{ textDecoration: 'none' }}>
             <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
-              <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger'}}>
+              <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
                 <span>{profile?.firstname}</span>
                 <span>{profile?.lastname}</span>
               </div>

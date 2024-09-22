@@ -23,7 +23,6 @@ const AlertsPage = () => {
   const [errMessage, setErrMessage] = useState('')
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
 
-
   const openNotification = (message, type) => {
     setNotification({ visible: true, message, type })
     setTimeout(() => {
@@ -128,7 +127,6 @@ const AlertsPage = () => {
   }
 
   const handleEditAlert = (alert) => {
-
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alert.id}`, {
       method: 'PATCH',
       headers: {
@@ -200,14 +198,14 @@ const AlertsPage = () => {
     }
   ]
 
-  const advancedButtonComponent =  [
+  const advancedButtonComponent = [
     {
       name: 'Modifier',
       handleFunction: handleModifying
     },
     {
       name: 'Supprimer',
-      handleFunction: (() => handleDeleteAlert(chosenAlert.id))
+      handleFunction: () => handleDeleteAlert(chosenAlert.id)
     }
   ]
 
@@ -227,8 +225,7 @@ const AlertsPage = () => {
         {notification.visible &&
           <div className={`notification ${notification.type}`}>
             {notification.message}
-          </div>
-        }
+          </div>}
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
