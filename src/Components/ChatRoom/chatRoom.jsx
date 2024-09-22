@@ -411,7 +411,7 @@ const Messages = () => {
               <div className='top'>
                 <div className='top-info'>
                   <div className='conv-name'>{currentConversation.name}</div>
-                  <div className='participants-container' title={currentParticipants}>
+                  <div className='participants-container'>
                     {currentConversation.participants.length} membres
                   </div>
                 </div>
