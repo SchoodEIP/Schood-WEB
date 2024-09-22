@@ -139,39 +139,6 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     }
   }
 
-  const handleDelete = async () => {
-    if (!selectedItem) {
-      toast.error('Veuillez sélectionner un élément à supprimer.')
-      return
-    }
-
-    const numberDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumber/${selectedItem._id}`
-    const categoryDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumbersCategory/${selectedItem._id}`
-    const url = type === 'number' ? numberDeleteUrl : categoryDeleteUrl
-
-    try {
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        }
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        console.log('Erreur renvoyée par le serveur:', errorData)
-        throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
-      }
-
-      toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
-      onClose()
-      window.location.reload() // Rafraîchir la page après suppression
-    } catch (error) {
-      console.error('Erreur lors de la requête:', error)
-      toast.error(`Erreur lors de la suppression: ${error.message}`)
-    }
-  }
-
   return (
     <div className='edit-popup-content'>
       <h2>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h2>
@@ -208,7 +175,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
                   <label className='input-label'>
                     <span className='label-content'>Catégorie</span>
                     <select data-testid='category-select' name='helpNumbersCategory' value={formData.helpNumbersCategory} onChange={handleInputChange}>
-                      {categories.map((option, index) => (
+                      {items.map((option, index) => (
                         <option key={index} value={option._id}>
                           {option.name}
                         </option>
