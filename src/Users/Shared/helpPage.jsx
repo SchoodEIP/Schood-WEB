@@ -6,7 +6,7 @@ import AidePage from '../../Components/Aides/aides'
 import CategoryCreationPopupContent from '../../Components/Popup/categoryCreation'
 import HelpNumberCreationPopupContent from '../../Components/Popup/helpNumberCreation'
 import HelpNumberAndCategoryEditPopupContent from '../../Components/Popup/helpNumberAndCategoryEditPopupContent'
-import '../../css/pages/homePage.scss'
+import '../../css/Components/Aides/aides.scss'
 
 const HelpPage = () => {
   const role = sessionStorage.getItem('role')

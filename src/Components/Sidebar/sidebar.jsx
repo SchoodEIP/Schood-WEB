@@ -8,13 +8,11 @@ import logoSchood from '../../assets/logo_schood.png'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
 
-import userIcon from '../../assets/userIcon.png'
 import cross from '../../assets/Cross.png'
 
 import emoji1 from '../../assets/emojis/1.png'
@@ -146,8 +144,10 @@ export default function Sidebar () {
       { id: 'alertes', path: '/alerts', icon: <img className='icons' src={alertsIcon} />, iconSelected: <img className='icons' src={alertsIconSelected} />, label: 'Alertes', title: 'Alertes', selected: IsCurrentPage('/alerts', false) }
     ]
     if (sessionStorage.getItem('role') === 'administration') {
-      const reportObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalement', selected: IsCurrentPage('/reports', false) }
+      const reportObj = { id: 'reports', path: '/reports', icon: <FaExclamationCircle size={24} />, label: 'Signalements', title: 'Signalements', selected: IsCurrentPage('/reports', false) }
       pages.splice(4, 0, reportObj)
+      const feelingsModerationObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
+      pages.splice(4, 0, feelingsModerationObj)
     }
   } else {
     pages = [
@@ -250,9 +250,6 @@ export default function Sidebar () {
       {isCollapsed && (
         <div data-testid='expanded' className='collapsed'>
           <div className='top'>
-            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-              <FontAwesomeIcon icon={faBell} size='xl' style={{ color: '#4f23e2' }} />
-            </div>
             <Link to='/'>
               <img style={{ width: '90%', paddingTop: '10px' }} id='logo' src={schoodIcon} alt='Schood' />
             </Link>
@@ -286,9 +283,6 @@ export default function Sidebar () {
       {!isCollapsed && (
         <div data-testid='expanded' className='expanded'>
           <div className='top'>
-            <div style={{ background: 'none' }} onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-              <FontAwesomeIcon icon={faBell} size='2xl' style={{ color: '#4f23e2' }} />
-            </div>
             <Link to='/'>
               <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
             </Link>

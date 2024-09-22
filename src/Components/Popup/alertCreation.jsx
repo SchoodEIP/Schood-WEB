@@ -100,8 +100,11 @@ const AlertCreationPopupContent = () => {
       })
       .then((data) => {
         setErrMessage('Alerte envoyée avec succès')
-        if (file) { addFileToAlert(data._id) }
-        window.location.reload()
+        if (file) {
+          addFileToAlert(data._id)
+        } else {
+          window.location.reload()
+        }
       })
       .catch((error) => /* istanbul ignore next */ {
         setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
@@ -123,6 +126,7 @@ const AlertCreationPopupContent = () => {
             disconnect()
           }
           setErrMessage('Fichier envoyé avec l\'alerte avec succès')
+          window.location.reload()
         })
         .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
     }

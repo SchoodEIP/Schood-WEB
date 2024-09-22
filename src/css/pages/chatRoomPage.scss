@@ -195,24 +195,18 @@
           }
 
           .bottom {
-            // display: flex;
-            // flex-direction: row;
-            // justify-content: start;
-            // align-items: start;
-            display: grid;
-            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             width: 100%;
 
-            // .left {
-              // flex: 0.87;
-              // height: 100%;
-              // flex-direction: column;
-              // justify-content: start;
-              // align-items: start;
-
-              .left {
-                margin-bottom: 50px;
-              }
+            .left {
+              display: flex;
+              flex: 0.70;
+              flex-direction: column;
+              justify-content: start;
+              align-items: start;
+              max-height: 80%;
 
               .top2 {
                 // flex: 0.89;
@@ -471,14 +465,17 @@
                 }
 
               }
-            // }
+            }
 
             .right {
-              flex: 0.13;
+              flex: 0.20;
               width: 100%;
               height: 100%;
               border-left: 4px #4F23E2 solid;
               overflow-y: auto;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
 
               .user-profile {
                 border: 3px #4F23E2 solid;
@@ -486,7 +483,8 @@
                 margin-top: 6px;
                 margin-right: 2px;
                 margin-left: 2px;
-                width: calc(100% - 10px);
+                width: fit-content;
+                height: fit-content;
               }
             }
           }
@@ -525,6 +523,7 @@
   cursor: pointer;
   margin-left: 10px;
   border-radius: 5px;
+  height: 34px;
 
   &:hover {
     background-color: #45a049;
@@ -533,7 +532,7 @@
 
 .leave-conversation-btn {
   background-color: #f44336; /* Couleur rouge */
-  
+
   &:hover {
     background-color: #d32f2f;
   }
@@ -564,7 +563,7 @@
   .confirm-leave-btn {
     background-color: #f44336;
     color: white;
-    
+
     &:hover {
       background-color: #d32f2f;
     }
