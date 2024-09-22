@@ -4,40 +4,25 @@ import { toast } from 'react-toastify'
 import '../../css/pages/homePage.scss'
 
 const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', telephone: '' })
-  const [numbers, setNumbers] = useState([])
-  const [categories, setCategories] = useState([])
+  const [formData, setFormData] = useState({ name: '', phone: '' })
+  const [items, setItems] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
-      const response = await fetch(categoryUrl, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      if (response.status === 401) {
-        disconnect()
-      }
-      if (response.ok) {
-        const data = await response.json()
-        setCategories(data)
-      } else {
-        toast.error('Erreur lors de la récupération des catégories.')
-      }
-    }
-
-    const fetchNumbers = async () => {
+    const fetchItems = async () => {
       setLoading(true)
       setError('')
 
+      const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
+      const numberUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
+      const url = type === 'number' ? numberUrl : categoryUrl
+
+      console.log('Fetching data from:', url)
+
       try {
-        const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers', {
+        const response = await fetch(url, {
           headers: {
             'x-auth-token': sessionStorage.getItem('token'),
             'Content-Type': 'application/json'
@@ -54,7 +39,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         }
 
         const data = await response.json()
-        setNumbers(data)
+        setItems(data)
       } catch (error) {
         console.error('Error fetching data:', error)
         setError(error.message)
@@ -63,13 +48,45 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       }
     }
 
-    fetchNumbers()
-    fetchCategories()
+    fetchItems()
   }, [type])
+
+  const handleDelete = async () => {
+    if (!selectedItem) {
+      toast.error('Veuillez sélectionner un élément à supprimer.')
+      return
+    }
+
+    const numberDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumber/${selectedItem._id}`
+    const categoryDeleteUrl = `${process.env.REACT_APP_BACKEND_URL}/adm/helpNumbersCategory/${selectedItem._id}`
+    const url = type === 'number' ? numberDeleteUrl : categoryDeleteUrl
+
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token')
+        }
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.log('Erreur renvoyée par le serveur:', errorData)
+        throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
+      }
+
+      toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
+      onClose()
+      window.location.reload() // Rafraîchir la page après suppression
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error)
+      toast.error(`Erreur lors de la suppression: ${error.message}`)
+    }
+  }
 
   const handleSelectChange = (e) => {
     const selectedId = e.target.value
-    const item = numbers.find((item) => item._id === selectedId)
+    const item = items.find((item) => item._id === selectedId)
     setSelectedItem(item)
     if (item && type === 'number') {
       setFormData({ name: item.name, telephone: item.telephone || '' })
@@ -77,7 +94,6 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       setFormData({ name: item.name })
     }
   }
-  console.log(type)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -98,8 +114,6 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       delete formData.category
     }
 
-    console.log('Données envoyées:', formData)
-
     try {
       const response = await fetch(url, {
         method: 'PATCH',
@@ -116,7 +130,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
 
-      toast.success('Modification réussie !')
+      toast.error('Modification réussie !')
       onClose()
       window.location.reload()
     } catch (error) {
@@ -171,12 +185,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
             Sélectionnez {type === 'number' ? 'le numéro d’aide' : 'la catégorie'} à modifier :
             <select onChange={handleSelectChange} value={selectedItem?._id || ''}>
               <option value=''>-- Sélectionnez --</option>
-              {type === 'number' && numbers.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-              {type !== 'number' && categories.map((item) => (
+              {items.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
@@ -185,9 +194,14 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
           </label>
           {selectedItem && (
             <>
-              <label className='input-label'>
-                <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
-                <input type='text' name='name' placeholder='Nom' value={formData.name} onChange={handleInputChange} />
+              <label>
+                Nom:
+                <input
+                  type='text'
+                  name='name'
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
               </label>
               {type === 'number' && (
                 <>
