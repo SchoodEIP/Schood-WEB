@@ -14,6 +14,7 @@ export default function SchoolAccountsTable () {
   const [selectedUser, setSelectedUser] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [fileImage, setFileImage] = useState(null)
   const [userId, setUserId] = useState('')
   const [updatedUser, setUpdatedUser] = useState({
     firstname: '',
@@ -84,25 +85,26 @@ export default function SchoolAccountsTable () {
   }
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]
+    setFileImage(e.target.files[0])
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
     }))
-    if (selectedFile) {
-      const reader = new FileReader()
-      reader.readAsDataURL(selectedFile)
-      reader.onload = () => {
-        const base64Image = reader.result
-        setUpdatedUser(prevState => ({
-          ...prevState,
-          picture: base64Image
-        }))
-      }
-      reader.onerror = (error) => {
-        console.error('Error occurred while reading the file:', error)
-      }
-    }
+    // const selectedFile = e.target.files[0]
+    // if (selectedFile) {
+    //   const reader = new FileReader()
+    //   reader.readAsDataURL(selectedFile)
+    //   reader.onload = () => {
+    //     const base64Image = reader.result
+    //     setUpdatedUser(prevState => ({
+    //       ...prevState,
+    //       picture: base64Image
+    //     }))
+    //   }
+    //   reader.onerror = (error) => {
+    //     console.error('Error occurred while reading the file:', error)
+    //   }
+    // }
   }
 
   const handleUpdate = async (e) => {
@@ -112,8 +114,12 @@ export default function SchoolAccountsTable () {
       formData.append('firstname', updatedUser.firstname)
       formData.append('lastname', updatedUser.lastname)
       formData.append('email', updatedUser.email)
-      if (updatedUser.picture) {
-        formData.append('file', updatedUser.picture)
+      // if (updatedUser.picture) {
+      //   formData.append('file', updatedUser.picture)
+      // }
+      console.log(fileImage)
+      if (fileImage) {
+        formData.append('file', fileImage)
       }
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${selectedUser._id}`, {
@@ -134,6 +140,7 @@ export default function SchoolAccountsTable () {
         //   email: '',
         //   picture: null
         // })
+        setFileImage(null)
         toast.success('Le profil a été mis à jour avec succès.')
         setIsEditing(false)
         getAccountList() // Refresh the list
@@ -236,7 +243,7 @@ export default function SchoolAccountsTable () {
                   <input
                     type='file'
                     id='picture'
-                    onChange={(e) => handleFileChange}
+                    onChange={handleFileChange}
                   />
                 </div>
                 <button type='submit'>Mettre à jour</button>
