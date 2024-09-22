@@ -411,13 +411,13 @@ const Messages = () => {
               <div className='top'>
                 <div className='top-info'>
                   <div className='conv-name'>{currentConversation.name}</div>
-                  <div className='participants-container'>
+                  <div className='participants-container' title={currentParticipants}>
                     {currentConversation.participants.length} membres
                   </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                   <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
-                    Gestion des membres
+                    Gestion de la conversation
                   </button>
                   <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler</button>} modal>
                     <div className='popup-modal-container'>
