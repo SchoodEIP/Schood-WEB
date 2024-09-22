@@ -63,7 +63,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
   }
 
   const handleSubmit = async (e) => {
-
     e.preventDefault()
     try {
       const formData = new FormData()
@@ -128,7 +127,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
         // Redirect to /profile
         navigate('/profile')
-
       } else {
         navigate('/profile')
         const text = await response.text()
