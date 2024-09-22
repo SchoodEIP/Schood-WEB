@@ -10,6 +10,7 @@ import ConversationCreationPopupContent from '../Popup/conversationCreation'
 import '../../css/Components/Popup/popup.scss'
 import cross from '../../assets/Cross.png'
 import { disconnect } from '../../functions/disconnect'
+import UserProfile from '../../Components/userProfile/userProfile'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
@@ -471,6 +472,16 @@ const Messages = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className='right'>
+                  {currentConversation.participants.map((participant, indexP) => (
+                    <div className='user-profile' key={indexP}>
+                      <UserProfile
+                        fullname
+                        profile={participant}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
