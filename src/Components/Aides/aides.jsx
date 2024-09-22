@@ -66,7 +66,7 @@ export default function AidePage () {
     const filtered = contacts.filter((contact) => category !== defaultID ? contact.helpNumbersCategory === category : contact)
 
     if (filtered.length === 0) {
-      setIsCategoryEmpty(true)  // Set category as empty if no contacts found
+      setIsCategoryEmpty(true) // Set category as empty if no contacts found
     } else {
       setIsCategoryEmpty(false) // Set category as not empty
     }
