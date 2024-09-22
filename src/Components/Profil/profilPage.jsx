@@ -63,6 +63,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
   }
 
   const handleSubmit = async (e) => {
+
     e.preventDefault()
     try {
       const formData = new FormData()
@@ -89,6 +90,28 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
       } else {
         fetchData()
         toast.success('Le profil a été mis à jour avec succès')
+        const authUrl = process.env.REACT_APP_BACKEND_URL + '/user/profile'
+
+        try {
+          const response = await fetch(authUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-auth-token': sessionStorage.getItem('token')
+            }
+          })
+
+          const data = await response.json()
+          if (response.status === 200) {
+            localStorage.setItem('profile', JSON.stringify(data))
+            sessionStorage.setItem('profile', JSON.stringify(data))
+            window.location.reload()
+          } else {
+            console.error(`Error: ${data.message}`)
+          }
+        } catch (error) {
+          console.error(`Error: ${error}`)
+        }
       }
 
       // Optionally handle non-JSON responses if needed
