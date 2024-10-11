@@ -3,6 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 import userIcon from '../../assets/userIcon.png'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from "react-toastify"
 
 const SingleAccountCreationPopupContent = () => {
   const roleProfile = sessionStorage.getItem('role')
@@ -11,7 +12,6 @@ const SingleAccountCreationPopupContent = () => {
   const [lastname, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [rolesList, setRolesList] = useState([])
-  const [errMessage, setErrMessage] = useState('')
   const [role, setRole] = useState('')
   const [classes, setClasses] = useState([])
   const [classesList, setClassesList] = useState([])
@@ -19,7 +19,6 @@ const SingleAccountCreationPopupContent = () => {
   const [isMultiStatus, setIsMultiStatus] = useState(true)
   const [picture, setPicture] = useState(null)
   const [title, setTitle] = useState(null)
-  const [notification, setNotification] = useState(null) // Ajout de l'état de la notification
 
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value)
@@ -89,25 +88,25 @@ const SingleAccountCreationPopupContent = () => {
     }
 
     if (firstname === '') {
-      setErrMessage('Il manque le prénom.')
+      toast.error('Il manque le prénom.')
       return
     } else if (lastname === '') {
-      setErrMessage('Il manque le nom de famille.')
+      toast.error('Il manque le nom de famille.')
       return
     } else if (email === '') {
-      setErrMessage("Il manque l'adresse email.")
+      toast.error("Il manque l'adresse email.")
       return
     } else if (!validateEmail(email)) {
-      setErrMessage("L'adresse email n'est pas valide.")
+      toast.error("L'adresse email n'est pas valide.")
       return
     } else if (roleProfile !== 'admin' && picture === '') {
-      setErrMessage('Veuillez fournir une image de profil')
+      toast.error('Veuillez fournir une image de profil')
       return
     } else if (roleProfile !== 'admin' && classesArray.length === 0) {
       if (role.name === 'teacher') {
-        setErrMessage('Veuillez assigner une ou plusieurs classes à cet enseignant.')
+        toast.error('Veuillez assigner une ou plusieurs classes à cet enseignant.')
       } else {
-        setErrMessage('Veuillez assigner une classe à cet étudiant.')
+        toast.error('Veuillez assigner une classe à cet étudiant.')
       }
       return
     }
@@ -141,7 +140,7 @@ const SingleAccountCreationPopupContent = () => {
         if (response.status === 401) {
           disconnect()
         } else if (response.ok) {
-          setNotification({ type: 'success', message: 'Compte créé avec succès' }) // Déclencher la notification de succès
+          toast.success('Compte créé avec succès')
           window.location.reload()
         } else {
           return response.json()
@@ -149,11 +148,11 @@ const SingleAccountCreationPopupContent = () => {
       })
       .then((data) => {
         if (data) {
-          setNotification({ type: 'error', message: data.message }) // Déclencher la notification d'erreur si nécessaire
+          toast.error(data.message)
         }
       })
       .catch((e) => {
-        setNotification({ type: 'error', message: e.message }) // Déclencher la notification d'erreur en cas d'erreur
+        toast.error(e.message)
       })
   }
 
@@ -176,7 +175,7 @@ const SingleAccountCreationPopupContent = () => {
         setRole(data.roles.filter((user) => user.name === 'teacher')[0]._id)
       })
       .catch((error) => {
-        setErrMessage(error.message)
+        toast.error(error.message)
       })
 
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/classes', {
@@ -194,7 +193,7 @@ const SingleAccountCreationPopupContent = () => {
       })
       .then((data) => setClassesList(data))
       .catch((error) => {
-        setErrMessage(error.message)
+        toast.error(error.message)
       })
 
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/titles', {
@@ -214,30 +213,12 @@ const SingleAccountCreationPopupContent = () => {
         setTitlesList(data)
       })
       .catch((error) => {
-        setErrMessage(error.message)
+        toast.error(error.message)
       })
   }, [])
 
-  useEffect(() => {
-    // Effacer la notification après 5 secondes
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null)
-      }, 5000)
-
-      return () => clearTimeout(timer)
-    }
-  }, [notification])
-
   return (
     <>
-      {/* Affichage de la notification */}
-      {notification && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
-
       {/* Le reste du contenu du composant */}
       {roleProfile === 'admin'
         ? (
@@ -311,7 +292,6 @@ const SingleAccountCreationPopupContent = () => {
             </label>
           </label>
           )}
-      {errMessage ? <span data-testid='err-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
     </>
   )

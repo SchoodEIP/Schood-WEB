@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
+import {toast} from "react-toastify"
 
-const HelpNumberCreationPopupContent = () => {
-  const [errMessage, setErrMessage] = useState('')
+const HelpNumberCreationPopupContent = ({onClose}) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [categoryID, setCategoryID] = useState('')
@@ -49,7 +49,7 @@ const HelpNumberCreationPopupContent = () => {
         setCategories(data)
         setCategoryID(data.length > 0 ? data[0]._id : '')
       } else {
-        setErrMessage('Erreur lors de la récupération des catégories.')
+        toast.error('Erreur lors de la récupération des catégories.')
       }
     }
 
@@ -68,16 +68,16 @@ const HelpNumberCreationPopupContent = () => {
     let sendPost = true
 
     if (name === '') {
-      setErrMessage('Le nom est vide.')
+      toast.error('Le nom est vide.')
       sendPost = false
     } else if (!/^\d{10}$/.test(telephone) || telephone === '') {
-      setErrMessage('Veuillez fournir un numéro de téléphone valide (10 chiffres).')
+      toast.error('Veuillez fournir un numéro de téléphone valide (10 chiffres).')
       sendPost = false
     } else if (email === '' || !validateEmail(email)) {
-      setErrMessage('Veuillez fournir une adresse email valide.')
+      toast.error('Veuillez fournir une adresse email valide.')
       sendPost = false
     } else if (description === '') {
-      setErrMessage("Veuillez fournir une description de ce numéro d'aide.")
+      toast.error("Veuillez fournir une description de ce numéro d'aide.")
       sendPost = false
     }
 
@@ -100,14 +100,14 @@ const HelpNumberCreationPopupContent = () => {
           disconnect()
         }
         if (response.ok) {
-          setErrMessage("Numéro d'aide ajouté avec succès.")
-          window.location.reload()
+          toast.success("Numéro d'aide ajouté avec succès.")
+          onClose()
         } else /* istanbul ignore next */ {
           const data = response.json()
-          setErrMessage(data.message)
+          toast.error(data.message)
         }
       })
-        .catch((error) => /* istanbul ignore next */ { setErrMessage(error.message) })
+        .catch((error) => /* istanbul ignore next */ { toast.error(error.message) })
     }
   }
 
@@ -139,7 +139,6 @@ const HelpNumberCreationPopupContent = () => {
         <span className='label-content'>Description <span style={{ color: 'red' }}>*</span></span>
         <textarea name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
       </label>
-      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={fetchHelpNumberRegister}>Créer le Numéro</button>
     </>
   )

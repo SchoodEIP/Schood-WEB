@@ -9,6 +9,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [categoryList, setCategoryList] = useState([])
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -18,8 +19,6 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       const categoryUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbersCategories'
       const numberUrl = process.env.REACT_APP_BACKEND_URL + '/user/helpNumbers'
       const url = type === 'number' ? numberUrl : categoryUrl
-
-      console.log('Fetching data from:', url)
 
       try {
         const response = await fetch(url, {
@@ -31,18 +30,41 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
 
         if (response.status === 401) {
           disconnect()
-          throw new Error('Unauthorized access')
+          toast.error('Unauthorized access')
         }
 
         if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`)
+          toast.error(`Error ${response.status}: ${response.statusText}`)
         }
 
         const data = await response.json()
         setItems(data)
+        if (type === "number") {
+          try {
+            const response = await fetch(categoryUrl, {
+              headers: {
+                'x-auth-token': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
+              }
+            })
+
+            if (response.status === 401) {
+              disconnect()
+              toast.error('Unauthorized access')
+            }
+
+            if (!response.ok) {
+              toast.error(`Error ${response.status}: ${response.statusText}`)
+            }
+
+            const data = await response.json()
+            setCategoryList(data)
+          } catch (error) {
+            toast.error('Error fetching data:', error)
+          }
+        }
       } catch (error) {
-        console.error('Error fetching data:', error)
-        setError(error.message)
+        toast.error('Error fetching data:', error)
       } finally {
         setLoading(false)
       }
@@ -71,10 +93,8 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
 
       if (!response.ok) {
         const errorData = await response.json()
-        console.log('Erreur renvoyée par le serveur:', errorData)
-        throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
+        toast.error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
-
       toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
       onClose()
       window.location.reload() // Rafraîchir la page après suppression
@@ -89,7 +109,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     const item = items.find((item) => item._id === selectedId)
     setSelectedItem(item)
     if (item && type === 'number') {
-      setFormData({ name: item.name, telephone: item.telephone || '' })
+      setFormData({ name: item.name, telephone: item.telephone || '', helpNumbersCategory: item.helpNumbersCategory })
     } else {
       setFormData({ name: item.name })
     }
@@ -175,7 +195,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
                   <label className='input-label'>
                     <span className='label-content'>Catégorie</span>
                     <select data-testid='category-select' name='helpNumbersCategory' value={formData.helpNumbersCategory} onChange={handleInputChange}>
-                      {items.map((option, index) => (
+                      {categoryList.map((option, index) => (
                         <option key={index} value={option._id}>
                           {option.name}
                         </option>

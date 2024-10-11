@@ -7,8 +7,9 @@ import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
 import minusButton from '../../../assets/minus-button.png'
+import Select from 'react-select'
 
-export default function SchoolAccountsTable () {
+export default function SchoolAccountsTable ({ rolesList }) {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -16,11 +17,15 @@ export default function SchoolAccountsTable () {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [fileImage, setFileImage] = useState(null)
   const [userId, setUserId] = useState('')
+  const [isMultiStatus, setIsMultiStatus] = useState(true)
+  const [classesList, setClassesList] = useState([])
   const [updatedUser, setUpdatedUser] = useState({
     firstname: '',
     lastname: '',
     email: '',
-    picture: null
+    classes: [],
+    picture: null,
+    role: ''
   })
 
   async function getAccountList () {
@@ -46,6 +51,24 @@ export default function SchoolAccountsTable () {
       setTeacherList(teacherAccounts)
       setStudentList(studentAccounts)
     }
+
+    fetch(process.env.REACT_APP_BACKEND_URL + '/shared/classes', {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
+      .then((data) => setClassesList(data))
+      .catch((error) => {
+        toast.error(error.message)
+      })
   }
 
   const showClasses = (classes) => {
@@ -71,8 +94,11 @@ export default function SchoolAccountsTable () {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      picture: user.picture
+      classes: user.classes,
+      picture: user.picture,
+      role: user.role._id
     })
+    setIsMultiStatus(user.role.name === "teacher")
     setIsEditing(true)
   }
 
@@ -84,27 +110,20 @@ export default function SchoolAccountsTable () {
     }))
   }
 
+  const handleClassChange = (e) => {
+    console.log(e)
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      ["classes"]: e
+    }))
+  }
+
   const handleFileChange = (e) => {
     setFileImage(e.target.files[0])
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
     }))
-    // const selectedFile = e.target.files[0]
-    // if (selectedFile) {
-    //   const reader = new FileReader()
-    //   reader.readAsDataURL(selectedFile)
-    //   reader.onload = () => {
-    //     const base64Image = reader.result
-    //     setUpdatedUser(prevState => ({
-    //       ...prevState,
-    //       picture: base64Image
-    //     }))
-    //   }
-    //   reader.onerror = (error) => {
-    //     console.error('Error occurred while reading the file:', error)
-    //   }
-    // }
   }
 
   const handleUpdate = async (e) => {
@@ -113,11 +132,16 @@ export default function SchoolAccountsTable () {
       const formData = new FormData()
       formData.append('firstname', updatedUser.firstname)
       formData.append('lastname', updatedUser.lastname)
+      formData.append('role', updatedUser.role)
       formData.append('email', updatedUser.email)
-      // if (updatedUser.picture) {
-      //   formData.append('file', updatedUser.picture)
-      // }
-      console.log(fileImage)
+      if (isMultiStatus) {
+        formData.append('classes', JSON.stringify(updatedUser.classes))
+      } else {
+        const arrayClass = []
+        arrayClass.push(updatedUser.classes)
+        formData.append('classes', JSON.stringify(arrayClass))
+      }
+
       if (fileImage) {
         formData.append('file', fileImage)
       }
@@ -133,13 +157,6 @@ export default function SchoolAccountsTable () {
       if (response.status === 401) {
         disconnect()
       } else if (response.ok) {
-        // setSelectedUser(null)
-        // setUpdatedUser({
-        //   firstname: '',
-        //   lastname: '',
-        //   email: '',
-        //   picture: null
-        // })
         setFileImage(null)
         toast.success('Le profil a été mis à jour avec succès.')
         setIsEditing(false)
@@ -207,9 +224,9 @@ export default function SchoolAccountsTable () {
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='editProfileForm'>
               <h2>Modifier Profil</h2>
-              <form onSubmit={handleUpdate}>
+              <form className="form-profile-modif" onSubmit={handleUpdate}>
                 <div>
-                  <label htmlFor='firstname'>Prénom:</label>
+                  <label className='input-label' htmlFor='firstname'>Prénom:
                   <input
                     type='text'
                     id='firstname'
@@ -217,9 +234,10 @@ export default function SchoolAccountsTable () {
                     value={updatedUser.firstname}
                     onChange={handleInputChange}
                   />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='lastname'>Nom:</label>
+                  <label className='input-label' htmlFor='lastname'>Nom:
                   <input
                     type='text'
                     id='lastname'
@@ -227,9 +245,10 @@ export default function SchoolAccountsTable () {
                     value={updatedUser.lastname}
                     onChange={handleInputChange}
                   />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='email'>Email:</label>
+                  <label className='input-label' htmlFor='email'>Email:
                   <input
                     type='email'
                     id='email'
@@ -237,14 +256,31 @@ export default function SchoolAccountsTable () {
                     value={updatedUser.email}
                     onChange={handleInputChange}
                   />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='picture'>Photo de profil:</label>
+                  <label className='input-label' htmlFor='classes'>Classes:
+                  <Select
+                    isMulti={isMultiStatus}
+                    data-testid='classes'
+                    id='classes'
+                    placeholder='Sélectionner une ou plusieurs classes'
+                    options={classesList}
+                    value={updatedUser.classes}
+                    onChange={handleClassChange}
+                    getOptionValue={(option) => option._id}
+                    getOptionLabel={(option) => option.name}
+                  />
+                  </label>
+                </div>
+                <div>
+                  <label className='input-label' htmlFor='picture'>Photo de profil:
                   <input
                     type='file'
                     id='picture'
                     onChange={handleFileChange}
                   />
+                  </label>
                 </div>
                 <button type='submit'>Mettre à jour</button>
               </form>

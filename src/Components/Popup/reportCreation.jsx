@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 import Select from 'react-select'
+import { toast } from "react-toastify"
 
-const ReportCreationPopupContent = () => {
+const ReportCreationPopupContent = ({ onClose }) => {
   const userId = localStorage.getItem('id')
   const [reason, setReason] = useState('')
   const [error, setError] = useState('')
@@ -63,13 +64,13 @@ const ReportCreationPopupContent = () => {
       if (response.status === 401) {
         disconnect()
       } else if (response.status === 200) {
-        setError('Signalement en cours de traitement')
-        window.location.reload()
+        toast.success('Signalement en cours de traitement')
+        onClose()
       } else {
-        setError('Erreur lors du signalement de la conversation.')
+        toast.error('Erreur lors du signalement de la conversation.')
       }
     } catch (error) /* istanbul ignore next */ {
-      setError('Erreur lors du signalement de la conversation.')
+      toast.error('Erreur lors du signalement de la conversation.')
     }
   }
 

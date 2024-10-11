@@ -7,8 +7,9 @@ import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from "react-toastify"
 
-const MoodFormCreationPopupContent = () => {
+const MoodFormCreationPopupContent = ({ onClose }) => {
   const [errMessage, setErrMessage] = useState('')
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
@@ -47,14 +48,15 @@ const MoodFormCreationPopupContent = () => {
             disconnect()
           }
           if (response.status === 200) {
-            window.location.reload()
+            toast.success("Le ressenti a été créé avec succès.")
+            onClose()
           }
         })
         .catch(error => /* istanbul ignore next */ {
-          setErrMessage('Erreur lors de la récupération des ressentis', error)
+          toast.error('Erreur lors de la récupération des ressentis', error)
         })
     } else {
-      setErrMessage("L'humeur est manquante.")
+      toast.error("L'humeur est manquante.")
     }
   }
 
@@ -85,7 +87,7 @@ const MoodFormCreationPopupContent = () => {
         <input type='checkbox' id='anonymous-checkbox' defaultChecked onClick={handleAnonymous} />
         <label htmlFor='anonymous-checkbox' data-testid='anonymous-label' id='anonymous-label'>Anonyme</label>
       </div>
-      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+      {/* {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''} */}
       <button className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
     </>
   )

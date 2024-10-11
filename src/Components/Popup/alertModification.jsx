@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
-const AlertModificationPopupContent = ({ chosenAlert, handleEditAlert, errMessage }) => {
+const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, errMessage }) => {
   const [editedAlert, setEditedAlert] = useState(chosenAlert)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const AlertModificationPopupContent = ({ chosenAlert, handleEditAlert, errMessag
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label> */}
       {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-      <button className='popup-btn' onClick={() => handleEditAlert(editedAlert)}>Modifier l'Alerte</button>
+      <button className='popup-btn' onClick={() => handleEditAlert(editedAlert, onClose)}>Modifier l'Alerte</button>
     </>
   )
 }

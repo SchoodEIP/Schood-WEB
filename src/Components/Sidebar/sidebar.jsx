@@ -5,6 +5,7 @@ import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
 import logoSchood from '../../assets/logo_schood.png'
+import { toast } from "react-toastify"
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -88,7 +89,7 @@ export default function Sidebar () {
           setDailyMood(data.mood)
         }
       })
-      .catch((e) => { console.error(e) })
+      .catch((e) => { toast.error(e.statusText) })
   }
 
   const getUnseenNotifications = () => {
@@ -183,10 +184,11 @@ export default function Sidebar () {
           disconnect()
         } else {
           setDailyMood(mood)
+          toast.success('Votre humeur du jour a été prise en compte.')
         }
       })
       .catch((error) => {
-        console.error(error)
+        toast.error(error.statusText)
       })
   }
 
@@ -208,7 +210,7 @@ export default function Sidebar () {
         setNotifications(data)
       })
       .catch((error) => {
-        console.error(error)
+        toast.error(error)
       })
   }
 
