@@ -14,6 +14,7 @@ import AlertModificationPopupContent from '../../Components/Popup/alertModificat
 import { disconnect } from '../../functions/disconnect'
 import {toast} from "react-toastify"
 import AlertDeletionPopupContent from '../../Components/Popup/alertDeletion'
+
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
   const [isOpen, setIsOpen] = useState(false)

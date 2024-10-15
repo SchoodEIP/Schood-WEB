@@ -9,7 +9,7 @@ import cross from '../../../assets/Cross.png'
 import minusButton from '../../../assets/minus-button.png'
 import Select from 'react-select'
 
-export default function SchoolAccountsTable ({ rolesList }) {
+export default function SchoolAccountsTable ({ status }) {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -302,8 +302,8 @@ export default function SchoolAccountsTable ({ rolesList }) {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe(s)</th>
-                <th className='valHead6'>Modifier</th>
-                {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
+                {status && <th className='valHead6'>Modifier</th>}
+                {status ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -315,8 +315,8 @@ export default function SchoolAccountsTable ({ rolesList }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>
-                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
+                    {status && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
               }
@@ -338,8 +338,8 @@ export default function SchoolAccountsTable ({ rolesList }) {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe</th>
-                <th className='valHead6'>Modifier</th>
-                {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
+                {status && <th className='valHead6'>Modifier</th> }
+                {status ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -351,8 +351,8 @@ export default function SchoolAccountsTable ({ rolesList }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>
-                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    { status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td> }
+                    {status && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
               }

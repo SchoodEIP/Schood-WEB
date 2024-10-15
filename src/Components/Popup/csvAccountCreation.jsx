@@ -64,9 +64,9 @@ const CsvAccountCreationPopupContent = () => {
         <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: {role === 'admin' ?
         (
           <>
-            <p>firstname,lastname,email,role,class</p>
-            <p>exemple,exemple,exemple@exemple,administration,0</p>
-            <p>exemple,exemple,exemple@exemple,administration,0</p>
+            <p>firstname,lastname,email,role</p>
+            <p>exemple,exemple,exemple@exemple,administration</p>
+            <p>exemple,exemple,exemple@exemple,administration</p>
           </>
         ) :
         (
@@ -74,6 +74,7 @@ const CsvAccountCreationPopupContent = () => {
             <p>firstname,lastname,email,role,class</p>
             <p>exemple,exemple,exemple@exemple,teacher,0:1:2</p>
             <p>exemple,exemple,exemple@exemple,student,0</p>
+            <p>exemple,exemple,exemple@exemple,student,1</p>
           </>
         )}</span>
       </label>
