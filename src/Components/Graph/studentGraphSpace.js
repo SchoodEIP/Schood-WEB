@@ -28,8 +28,16 @@ export function StudentGraphSpace () {
         if (response.status === 401) {
           disconnect()
         }
-        const moodData = await response.json()
-        createOrUpdateChart(moodData)
+        
+        let moodData = await response.json()
+        const keys = Object.keys(moodData).filter(i => i !== "averagePercentage").sort((a, b) => {
+          const aDate = new Date(a)
+          const bDate = new Date(b)
+          return aDate - bDate
+        })
+        const sortedMoodData = {}
+        keys.forEach((key) => sortedMoodData[key] = moodData[key])
+        createOrUpdateChart(sortedMoodData)
       } catch (error) {
         console.error('Error fetching mood data:', error)
       }
