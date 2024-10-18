@@ -40,7 +40,6 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
     if (file !== null)
       addFileToAlert(chosenAlert.id)
     handleEditAlert(editedAlert, onClose)
-    // setEditedAlert({ ...editedAlert, ['fil']})
   }
 
   return (
