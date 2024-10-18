@@ -162,9 +162,9 @@ const ReportChecking = () => {
                     <div className='report-status'>{currentReport.status === 'seen'
                       ? 'La requête a été traitée'
                       : (
-                        <button onClick={() => handleReportProcessing(currentReport._id, true)}>Traiter la requête</button>
+                        <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, true)}>Traiter la requête</button>
                         )}
-                      <button onClick={() => handleReportProcessing(currentReport._id, false)}>Supprimer la requête</button>
+                      <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, false)}>Supprimer la requête</button>
                     </div>
                   </div>
                   <div className='bottom'>

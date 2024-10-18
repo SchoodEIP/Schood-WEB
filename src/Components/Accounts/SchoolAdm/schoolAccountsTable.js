@@ -279,7 +279,7 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>
+                    <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
@@ -315,7 +315,7 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>
+                    <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>
                     {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
                   </tr>
                 )
