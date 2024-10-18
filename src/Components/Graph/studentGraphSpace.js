@@ -28,9 +28,9 @@ export function StudentGraphSpace () {
         if (response.status === 401) {
           disconnect()
         }
-        
-        let moodData = await response.json()
-        const keys = Object.keys(moodData).filter(i => i !== "averagePercentage").sort((a, b) => {
+
+        const moodData = await response.json()
+        const keys = Object.keys(moodData).filter(i => i !== 'averagePercentage').sort((a, b) => {
           const aDate = new Date(a)
           const bDate = new Date(b)
           return aDate - bDate
