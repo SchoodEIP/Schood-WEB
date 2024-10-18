@@ -43,7 +43,7 @@ export function TeacherGraphSpace () {
         }
         const mData = await response.json()
         const moodList = []
-        Object.keys(mData).filter(o => o != "averagePercentage").forEach((date) => {
+        Object.keys(mData).filter(o => o != 'averagePercentage').forEach((date) => {
           moodList.push({
             date,
             data: mData[date].moods
