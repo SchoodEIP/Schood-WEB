@@ -209,7 +209,7 @@ const AlertCreationPopupContent = () => {
       </label>
       <label className='input-label'>
         <span className='label-content'>Fichier joint</span>
-        <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
+        <input style={{ fontFamily: 'Inter' }} id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
       {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
