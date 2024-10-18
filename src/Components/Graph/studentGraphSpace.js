@@ -28,8 +28,16 @@ export function StudentGraphSpace () {
         if (response.status === 401) {
           disconnect()
         }
-        const moodData = await response.json()
-        createOrUpdateChart(moodData)
+        
+        let moodData = await response.json()
+        const keys = Object.keys(moodData).filter(i => i !== "averagePercentage").sort((a, b) => {
+          const aDate = new Date(a)
+          const bDate = new Date(b)
+          return aDate - bDate
+        })
+        const sortedMoodData = {}
+        keys.forEach((key) => sortedMoodData[key] = moodData[key])
+        createOrUpdateChart(sortedMoodData)
       } catch (error) {
         console.error('Error fetching mood data:', error)
       }
@@ -74,20 +82,20 @@ export function StudentGraphSpace () {
               }
             },
             y: {
-              min: 1,
-              max: 5,
+              min: 0,
+              max: 4,
               ticks: {
                 callback: (value) => {
                   switch (value) {
-                    case 1:
+                    case 0:
                       return '\u{1F622}'
-                    case 2:
+                    case 1:
                       return '\u{1f641}'
-                    case 3:
+                    case 2:
                       return '\u{1F610}'
-                    case 4:
+                    case 3:
                       return '\u{1F603}'
-                    case 5:
+                    case 4:
                       return '\u{1F604}'
                     default:
                       return ''
@@ -112,15 +120,15 @@ export function StudentGraphSpace () {
                 label: function (context) {
                   const moodValue = context.raw
                   switch (moodValue) {
-                    case 1:
+                    case 0:
                       return 'Très mal'
-                    case 2:
+                    case 1:
                       return 'Mal'
-                    case 3:
+                    case 2:
                       return 'Neutre'
-                    case 4:
+                    case 3:
                       return 'Bien'
-                    case 5:
+                    case 4:
                       return 'Très bien'
                     default:
                       return ''

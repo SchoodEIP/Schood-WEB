@@ -161,20 +161,20 @@ export function TeacherGraphSpace () {
               }
             },
             y: {
-              min: 1,
-              max: 5,
+              min: 0,
+              max: 4,
               ticks: {
                 callback: (value) => {
                   switch (value) {
-                    case 1:
+                    case 0:
                       return '\u{1F622}'
-                    case 2:
+                    case 1:
                       return '\u{1f641}'
-                    case 3:
+                    case 2:
                       return '\u{1F610}'
-                    case 4:
+                    case 3:
                       return '\u{1F603}'
-                    case 5:
+                    case 4:
                       return '\u{1F604}'
                     default:
                       return ''
@@ -203,19 +203,19 @@ export function TeacherGraphSpace () {
                   const moodValue = tooltipItem.raw
                   let moodText = ''
                   switch (moodValue) {
-                    case 1:
+                    case 0:
                       moodText = 'Très Triste'
                       break
-                    case 2:
+                    case 1:
                       moodText = 'Triste'
                       break
-                    case 3:
+                    case 2:
                       moodText = 'Neutre'
                       break
-                    case 4:
+                    case 3:
                       moodText = 'Content'
                       break
-                    case 5:
+                    case 4:
                       moodText = 'Très Content'
                       break
                     default:
