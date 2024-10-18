@@ -74,20 +74,20 @@ export function StudentGraphSpace () {
               }
             },
             y: {
-              min: 0,
-              max: 4,
+              min: 1,
+              max: 5,
               ticks: {
                 callback: (value) => {
                   switch (value) {
-                    case 0:
-                      return '\u{1F622}'
                     case 1:
-                      return '\u{1f641}'
+                      return '\u{1F622}'
                     case 2:
-                      return '\u{1F610}'
+                      return '\u{1f641}'
                     case 3:
-                      return '\u{1F603}'
+                      return '\u{1F610}'
                     case 4:
+                      return '\u{1F603}'
+                    case 5:
                       return '\u{1F604}'
                     default:
                       return ''
@@ -112,15 +112,15 @@ export function StudentGraphSpace () {
                 label: function (context) {
                   const moodValue = context.raw
                   switch (moodValue) {
-                    case 0:
-                      return 'Très mal'
                     case 1:
-                      return 'Mal'
+                      return 'Très mal'
                     case 2:
-                      return 'Neutre'
+                      return 'Mal'
                     case 3:
-                      return 'Bien'
+                      return 'Neutre'
                     case 4:
+                      return 'Bien'
+                    case 5:
                       return 'Très bien'
                     default:
                       return ''
