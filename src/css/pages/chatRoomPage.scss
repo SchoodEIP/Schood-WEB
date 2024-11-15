@@ -45,11 +45,12 @@
 
             color: white;
             font-size: 14px;
-            font-family: Inter;
+            font-family: 'Inter';
+            font-weight: 500;
           }
 
           .new-conversation-button:hover {
-            text-decoration: underline;
+            background-color: #3b1ca9;
           }
 
           .divider {
@@ -97,7 +98,7 @@
           }
 
           .active-conversation:hover {
-            text-decoration: underline;
+            background-color: #3b1ca9;
             color: white;
           }
 
@@ -189,7 +190,7 @@
             }
 
             .report-btn:hover {
-              text-decoration: underline;
+              background-color: #3b1ca9;
             }
           }
 
@@ -457,7 +458,7 @@
                       }
 
                       .send-button:hover {
-                        text-decoration: underline;
+                        background-color: #3b1ca9;
                       }
                     }
                   }
@@ -516,13 +517,18 @@
 
 .add-participants-btn {
   background-color: #4CAF50; /* Couleur verte */
-  color: white;
-  padding: 10px 10px;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
   border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-family: Inter;
+  font-weight: 400;
   height: 34px;
+  margin-right: 12px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  font-family: 'Inter';
 
   &:hover {
     background-color: #45a049;
