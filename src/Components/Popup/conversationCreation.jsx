@@ -82,9 +82,9 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
         />
       </label>
       {!isAddingParticipants && (
-        <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
-          <span className='label-content'>Donner un nom à la conversation</span>
-          <input maxLength='50' style={{ width: '350px' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
+        <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'start', width: '100%' }}>
+          <span className='label-content' style={{fontWeight: '600'}}>Donner un nom à la conversation</span>
+          <input maxLength='50' style={{ width: 'calc(100% - 15px)' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
         </label>
       )}
       <div style={{display: 'flex', flexDirection: 'row', alignContent: 'space-between'}}>

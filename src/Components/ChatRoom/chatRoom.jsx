@@ -493,9 +493,10 @@ const Messages = () => {
             <div>Aucune conversation sélectionnée.</div>
             )}
       </div>
-      <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal>
+      <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal contentStyle={{width: '400px'}}>
         {(close) => (
-          <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+          <div className='popup-modal-container'>
+            <span className='popup-title'>Nouvelle conversation</span>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={close} />
           </div>
