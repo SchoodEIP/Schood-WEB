@@ -288,11 +288,11 @@ export default function Sidebar () {
               <div className='daily-mood'>
                 <span>Mon humeur quotidienne</span>
                 <div className='mood-icons'>
-                  <img data-testid='mood-0' src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
-                  <img data-testid='mood-1' src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
-                  <img data-testid='mood-2' src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
-                  <img data-testid='mood-3' src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)} />
-                  <img data-testid='mood-4' src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)} />
+                  <img data-testid='mood-0' alt='Très mauvaise humeur' src={dailyMood === 0 ? emoji1Selected : emoji1} onClick={() => handleClickDailyMood(0)} />
+                  <img data-testid='mood-1' alt='Mauvaise humeur' src={dailyMood === 1 ? emoji2Selected : emoji2} onClick={() => handleClickDailyMood(1)} />
+                  <img data-testid='mood-2' alt='Humeur neutre' src={dailyMood === 2 ? emoji3Selected : emoji3} onClick={() => handleClickDailyMood(2)} />
+                  <img data-testid='mood-3' alt='Bonne humeur' src={dailyMood === 3 ? emoji4Selected : emoji4} onClick={() => handleClickDailyMood(3)} />
+                  <img data-testid='mood-4' alt='Très bonne humeur' src={dailyMood === 4 ? emoji5Selected : emoji5} onClick={() => handleClickDailyMood(4)} />
                 </div>
               </div>
             )}
