@@ -115,6 +115,11 @@ textarea:-webkit-autofill:focus {
   font-size: 16px;
   font-family: Inter;
   font-weight: 600;
+  cursor: pointer;
+
+  label {
+    cursor: pointer;
+  }
 }
 
 #remember-me input {

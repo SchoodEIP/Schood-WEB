@@ -7,6 +7,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { disconnect } from '../../functions/disconnect'
+import emoji4 from '../../assets/emojis/4s.png'
+Chart.defaults.font.family = 'Inter'
+
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -72,7 +75,9 @@ const StudentStatPage = () => {
             x: {
               ticks: {
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -99,7 +104,9 @@ const StudentStatPage = () => {
                   }
                 },
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -109,7 +116,10 @@ const StudentStatPage = () => {
           plugins: {
             legend: {
               labels: {
-                color: 'white'
+                color: 'white',
+                font: {
+                  family: 'Inter'
+                }
               }
             },
             tooltip: {
@@ -264,7 +274,7 @@ const StudentStatPage = () => {
           <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
           <div className='button-container'>
             <div
-              className={`button-section ${activeFilter === 'Semaine' ? 'active' : ''}`}
+              className={`button-section button-left ${activeFilter === 'Semaine' ? 'active' : ''}`}
               onClick={() => handleFilterChange('Semaine')}
             >
               Semaine
@@ -282,7 +292,7 @@ const StudentStatPage = () => {
               Semestre
             </div>
             <div
-              className={`button-section ${activeFilter === 'Année' ? 'active' : ''}`}
+              className={`button-section button-right ${activeFilter === 'Année' ? 'active' : ''}`}
               onClick={() => handleFilterChange('Année')}
             >
               Année
@@ -301,15 +311,16 @@ const StudentStatPage = () => {
                 )
               : (
                 <div style={{ display: 'block', width: '40px', height: '10px' }}>
-                  <FontAwesomeIcon icon={faSmile} size='2x' style={{ marginRight: '10px' }} />
-                  <progress className='progress' value={averagePercentage} max='100' />
+                  <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
+                  <progress style={{ marginBottom: '15px' }} className='progress' value={averagePercentage} max='100' />
                   <div className='average-rectangle'>
                     <p data-testid='average-happiness-percentage'>
                       Vous êtes {averagePercentage}% plus heureux {filterText} que {filterTextSec}
                     </p>
                   </div>
                 </div>
-                )}
+                )
+            }
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
+Chart.defaults.font.family = 'Inter'
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale)
 
@@ -154,7 +155,9 @@ export function TeacherGraphSpace () {
             x: {
               ticks: {
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -181,7 +184,9 @@ export function TeacherGraphSpace () {
                   }
                 },
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -191,7 +196,10 @@ export function TeacherGraphSpace () {
           plugins: {
             legend: {
               labels: {
-                color: 'white'
+                color: 'white',
+                font: {
+                  family: 'Inter'
+                }
               }
             },
             tooltip: {

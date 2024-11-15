@@ -5,6 +5,8 @@ import { disconnect } from '../../functions/disconnect'
 import { Link } from 'react-router-dom' // Import de Link
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 
+Chart.defaults.font.family = 'Inter'
+
 export function StudentGraphSpace () {
   const [chart, setChart] = useState(null)
 
@@ -64,7 +66,7 @@ export function StudentGraphSpace () {
               pointBorderColor: 'white',
               pointHoverBackgroundColor: 'white',
               pointHoverBorderColor: 'white',
-              tension: 0.1
+              tension: 0.1,
             }
           ]
         },
@@ -75,7 +77,9 @@ export function StudentGraphSpace () {
             x: {
               ticks: {
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -102,7 +106,9 @@ export function StudentGraphSpace () {
                   }
                 },
                 color: 'white',
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
@@ -112,7 +118,10 @@ export function StudentGraphSpace () {
           plugins: {
             legend: {
               labels: {
-                color: 'white'
+                color: 'white',
+                font: {
+                  family: 'Inter'
+                }
               }
             },
             tooltip: {

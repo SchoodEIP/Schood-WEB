@@ -166,7 +166,7 @@
               .participants-container {
                 display: flex;
                 flex-direction: row;
-                color: #9699FF;
+                color: #4F23E2;
                 font-size: 18px;
                 font-family: Inter;
               }
@@ -181,7 +181,6 @@
               font-size: 22px;
               font-family: Inter;
               font-weight: 400;
-              width: 132px;
               height: 34px;
               margin-right: 12px;
               cursor: pointer;
@@ -217,7 +216,7 @@
 
                 .message-list {
                   width: calc(100% - 20px);
-                  height: 100%;
+                  height: calc(100% - 20px);
                   margin: 10px 0px 10px 10px;
 
                   .my-messages {
@@ -515,14 +514,29 @@
   background-color: #f44336; /* Rouge */
 }
 
-.add-participants-btn, .leave-conversation-btn {
+.add-participants-btn {
   background-color: #4CAF50; /* Couleur verte */
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: none;
   cursor: pointer;
   margin-left: 10px;
   border-radius: 5px;
+  height: 34px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.leave-conversation-btn {
+  background-color: #4CAF50; /* Couleur verte */
+  color: white;
+  padding: 10px 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 15px;
   height: 34px;
 
   &:hover {

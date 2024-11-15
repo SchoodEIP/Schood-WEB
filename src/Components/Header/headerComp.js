@@ -115,16 +115,6 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
         )}
       </Popup>
       <div id='left'>
-        {title && (
-          <div id='title'>
-            {title}
-          </div>
-        )}
-        {subtitle && (
-          <div id='subtitle'>
-            {subtitle}
-          </div>
-        )}
         {withReturnBtn && (
           <div id='withReturnBtn' onClick={position < 0 ? goBack : returnCall}>
             <img id='return-btn' src={backButton} alt='Return' />
@@ -133,6 +123,18 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             </div>
           </div>
         )}
+        <div id='title-subtitle'>
+          {title && (
+            <div id='title'>
+              {title}
+            </div>
+          )}
+          {subtitle && (
+            <div id='subtitle'>
+              {subtitle}
+            </div>
+          )}
+        </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px' }}>
         {showButtons
@@ -145,18 +147,20 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
             )
           : ''}
         {withLogo && (
-          <Link to='/profile' className='profile' style={{ textDecoration: 'none' }}>
-            <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
-              <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
-                <span>{profile?.firstname}</span>
-                <span>{profile?.lastname}</span>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+            <Link to='/profile' className='profile' style={{ textDecoration: 'none' }}>
+              <div className='profile' style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
+                <div className='firstname-lastname' style={{ display: 'flex', flexDirection: 'column', color: '#4f23e2', fontFamily: 'Inter', fontSize: 'larger' }}>
+                  <span>{profile?.firstname}</span>
+                  <span>{profile?.lastname}</span>
+                </div>
+                <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
               </div>
-              <img style={{ width: '60px', borderRadius: '50%' }} src={profile?.picture ? profile.picture : userIcon} alt='Image de profile' />
-              <div style={{ background: 'none' }} data-testid='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
-                <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
-              </div>
+            </Link>
+            <div style={{ background: 'none' }} data-testid='notif-btn' onClick={handleShowNotifications} className='notifications' data-tooltip-id='notification-tooltip'>
+              <FontAwesomeIcon icon={faBell} style={{ fontSize: '3em', cursor: 'pointer', color: '#4f23e2' }} />
             </div>
-          </Link>
+          </div>
         )}
       </div>
     </div>
