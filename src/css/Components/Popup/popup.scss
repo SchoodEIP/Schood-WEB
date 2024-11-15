@@ -82,8 +82,8 @@
         border: none;
         cursor: pointer;
         position: absolute;
-        top: 8px;
-        right: 8px;
+        top: 4px;
+        right: -8px;
         border-radius: 50%;
 
         img {
@@ -97,17 +97,29 @@
         flex-direction: column;
         gap: 10px;
 
-        input, select, textarea {
-            width: 90%;
+        input, select {
+            width: fit-content;
             border: 2px solid #4f23e2;
             border-radius: 15px;
             height: 25px;
             padding-left: 10px;
             background-color: white;
+            font-family: 'Inter';
+            font-size: 15px;
+
+            option {
+                font-family: 'Inter';
+                font-size: 15px;
+            }
         }
 
         textarea {
             height: 15%;
+            width: 100%;
+            border: 2px solid #4f23e2;
+            border-radius: 15px;
+            padding-left: 10px;
+            background-color: white;
         }
 
         #select-classes .css-13cymwt-control, #select-classes .react-select__menu {
@@ -129,7 +141,22 @@
         border-radius: 15px;
         color: white;
         font-family: Inter;
-        padding: 10px 25px 10px 25px;
+        padding: 5px 10px;
+    }
+
+    .popup-btn:disabled {
+        background-color: #b3b3b3;
+        cursor: not-allowed;
+        width: fit-content;
+        border: 1px solid #4b4b4b;
+        border-radius: 15px;
+        color: white;
+        font-family: Inter;
+        padding: 5px 10px;
+    }
+
+    .popup-btn:hover:enabled {
+        background-color: #3b1ca9; /* Darker color on hover */
     }
 
     .content {

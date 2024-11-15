@@ -7,6 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
+Chart.defaults.font.family = 'Inter'
 
 export default function StatComp ({ id, userClasses, userRole }) {
   const [moodData, setMoodData] = useState([])
@@ -157,7 +158,9 @@ export default function StatComp ({ id, userClasses, userRole }) {
             x: {
               ticks: {
                 color: 'white', // Couleur de l'axe des abscisses
-                fontFamily: '"Font Awesome 5 Free"'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des abscisses
@@ -185,7 +188,9 @@ export default function StatComp ({ id, userClasses, userRole }) {
                   }
                 },
                 color: 'white', // Couleur de l'axe des ordonnées
-                fontFamily: 'Font Awesome 5 Free'
+                font: {
+                  family: 'Inter'
+                }
               },
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)' // Couleur des lignes de la grille de l'axe des ordonnées
@@ -195,7 +200,10 @@ export default function StatComp ({ id, userClasses, userRole }) {
           plugins: {
             legend: {
               labels: {
-                color: 'white' // Couleur de la légende
+                color: 'white', // Couleur de la légende
+                font: {
+                  family: 'Inter'
+                }
               }
             },
             tooltip: {

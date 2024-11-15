@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import '../../css/pages/createAlerts.scss'
+import '../../css/pages/createReports.scss'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
-import Select from 'react-select'
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import cross from '../../assets/Cross.png'
 
-const ReportButton = ({ currentConversation }) => {
+const ReportButton = ({ currentConversation, close }) => {
   const userId = localStorage.getItem('id')
   const userList = currentConversation?.participants
     ? currentConversation.participants
       .filter((participant) => participant._id !== userId)
     : []
   const [reason, setReason] = useState('')
-  const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [signaledUserId, setSignaledUserId] = useState([''])
 
@@ -27,9 +28,28 @@ const ReportButton = ({ currentConversation }) => {
     setSignaledUserId(e)
   }
 
+  const colourStyles = {
+    control: (styles) => (
+      { ...styles,
+        backgroundColor: 'white',
+        height: '45px',
+      }
+    ),
+    multiValueLabel: (styles, { data }) => ({
+      ...styles,
+      fontWeight: '500'
+    }),
+  };
+
+  const handleCloseBtn = () => {
+    close();
+  }
+
   const handleConfirmClick = async () => {
     try {
       const users = signaledUserId.map(item => item._id)
+
+      toast.loading('Signalement en cours de création...')
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
         method: 'POST',
@@ -50,18 +70,25 @@ const ReportButton = ({ currentConversation }) => {
       }
 
       if (response.status === 200) {
-        setError('Signalement en cours de traitement')
-        window.location.reload()
+        toast.dismiss()
+        toast.success('Signalement créé avec succès')
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       } else {
-        setError('Erreur lors du signalement de la conversation.')
+        toast.error('Erreur lors du signalement de la conversation.')
       }
     } catch (error) {
-      setError('Erreur lors du signalement de la conversation.')
+      toast.error('Erreur lors du signalement de la conversation.')
     }
   }
 
   return (
     <>
+      <div style={{width: '100%'}}>
+        <span className='popup-title'>Créer un Signalement</span>
+        <button className='close-btn' onClick={handleCloseBtn}><img src={cross} alt='Close' /></button>
+      </div>
       <label className='input-label'>
         <span className='label-content'>Raison <span style={{ color: 'red' }}>*</span></span>
         <select value={reason} onChange={handleReasonChange}>
@@ -74,8 +101,6 @@ const ReportButton = ({ currentConversation }) => {
       </label>
       <label className='input-label'>
         <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
-        {/* <select value={signaledUserId} onChange={handleSignaledUserIdChange}>
-          <option value=''>Sélectionnez un des membres de la conversation</option> */}
         <Select
           isMulti
           data-testid='user-select'
@@ -83,23 +108,18 @@ const ReportButton = ({ currentConversation }) => {
           placeholder='Sélectionnez un des membres de la conversation'
           options={userList}
           value={signaledUserId}
+          isClearable={false}
           onChange={handleSignaledUserIdChange}
+          styles={colourStyles}
           getOptionValue={(option) => (option._id)}
           getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
-        {/* {
-            userList.map((user, index) => {
-              return <option key={index} value={user._id}>{user.firstname} {user.lastname}</option>
-            })
-          } */}
-        {/* </select> */}
       </label>
-      <label className='input-label'>
+      <label className='input-label' style={{width: '100%'}}>
         <span className='label-content'>Description</span>
-        <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.' />
+        <textarea style={{height: '100px', resize: 'none'}} value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer la raison de votre signalement ici.' />
       </label>
-      {error && <div className='error-message'>{error}</div>}
-      <button onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>
+      <button disabled={reason === '' || signaledUserId.length <= 0} onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>
     </>
   )
 }

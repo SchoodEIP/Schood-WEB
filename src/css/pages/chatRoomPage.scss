@@ -45,11 +45,12 @@
 
             color: white;
             font-size: 14px;
-            font-family: Inter;
+            font-family: 'Inter';
+            font-weight: 500;
           }
 
           .new-conversation-button:hover {
-            text-decoration: underline;
+            background-color: #3b1ca9;
           }
 
           .divider {
@@ -97,7 +98,7 @@
           }
 
           .active-conversation:hover {
-            text-decoration: underline;
+            background-color: #3b1ca9;
             color: white;
           }
 
@@ -166,7 +167,7 @@
               .participants-container {
                 display: flex;
                 flex-direction: row;
-                color: #9699FF;
+                color: #4F23E2;
                 font-size: 18px;
                 font-family: Inter;
               }
@@ -181,7 +182,6 @@
               font-size: 22px;
               font-family: Inter;
               font-weight: 400;
-              width: 132px;
               height: 34px;
               margin-right: 12px;
               cursor: pointer;
@@ -190,7 +190,7 @@
             }
 
             .report-btn:hover {
-              text-decoration: underline;
+              background-color: #3b1ca9;
             }
           }
 
@@ -217,7 +217,7 @@
 
                 .message-list {
                   width: calc(100% - 20px);
-                  height: 100%;
+                  height: calc(100% - 20px);
                   margin: 10px 0px 10px 10px;
 
                   .my-messages {
@@ -458,7 +458,7 @@
                       }
 
                       .send-button:hover {
-                        text-decoration: underline;
+                        background-color: #3b1ca9;
                       }
                     }
                   }
@@ -515,14 +515,34 @@
   background-color: #f44336; /* Rouge */
 }
 
-.add-participants-btn, .leave-conversation-btn {
+.add-participants-btn {
+  background-color: #4CAF50; /* Couleur verte */
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-family: Inter;
+  font-weight: 400;
+  height: 34px;
+  margin-right: 12px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  font-family: 'Inter';
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.leave-conversation-btn {
   background-color: #4CAF50; /* Couleur verte */
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: none;
   cursor: pointer;
   margin-left: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   height: 34px;
 
   &:hover {
