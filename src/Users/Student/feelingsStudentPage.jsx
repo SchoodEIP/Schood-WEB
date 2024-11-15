@@ -269,7 +269,7 @@ const FeelingsStudentPage = () => {
                 <label for="remember-me-input">Anonyme</label>
               </div>
               {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-              <button className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
+              <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
             </div>
           )}
         </Popup>

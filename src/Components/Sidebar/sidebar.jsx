@@ -281,7 +281,8 @@ export default function Sidebar () {
         <div data-testid='expanded' className='expanded'>
           <div className='top'>
             <Link to='/'>
-              <img style={{ width: '90%', padding: '20px' }} id='logo' src={logoSchood} alt='Schood' />
+              <img style={{ width: '90%', padding: '20px', height: '83px'
+               }} id='logo' src={logoSchood} alt='Schood' />
             </Link>
             <span className='divider' />
             {role === 'student' && (
