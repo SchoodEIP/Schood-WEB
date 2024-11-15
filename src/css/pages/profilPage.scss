@@ -10,6 +10,19 @@ button {
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
+.item {
+  margin-bottom: 5px;
+  color: #4F23E2;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: Inter;
+  cursor: pointer;
+}
+
+.item:hover {
+  text-decoration: underline;
+}
+
 /* Changement de couleur lors du survol */
 button:hover {
   background-color: #3a1ab3; /* Couleur de fond lorsque le bouton est survolé */
@@ -198,4 +211,16 @@ button:active {
       }
     }
   }
+}
+
+#email {
+  border-radius: 15px;
+  color: rgb(41, 41, 41, 52%);
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -273,9 +273,6 @@ export default function Sidebar () {
             <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
-            <div onClick={() => disconnect()} className='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
-            </div>
           </div>
         </div>
       )}
@@ -317,9 +314,6 @@ export default function Sidebar () {
             <span className='divider' />
             <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
-            </div>
-            <div onClick={() => disconnect()} className='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
             </div>
           </div>
         </div>
