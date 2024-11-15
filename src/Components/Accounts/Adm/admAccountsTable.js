@@ -64,7 +64,7 @@ export default function AdmAccountsTable () {
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
       getAccountList()
     } else {
-      toast.error("une alerte s'est produite")
+      toast.error("une erreur s'est produite")
       getAccountList()
     }
   }

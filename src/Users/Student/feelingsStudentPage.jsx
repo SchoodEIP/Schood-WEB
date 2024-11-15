@@ -259,7 +259,7 @@ const FeelingsStudentPage = () => {
                   </div>
                 </div>
               </label>
-              <label id='message-label' htmlFor='message-input'>Message</label>
+              <label id='message-label' htmlFor='message-input'>As-tu rencontré des difficultés ? Veux-tu nous les confier ?</label>
               <textarea id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={isModified ? lastFeeling.comment : ''} />
               <div className='horizontal-container'>
                 <input type='checkbox' id='anonymous-checkbox' defaultChecked={isModified ? lastFeeling.annonymous : true} onClick={handleAnonymous} />

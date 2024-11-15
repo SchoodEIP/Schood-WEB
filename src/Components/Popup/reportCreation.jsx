@@ -86,7 +86,7 @@ const ReportCreationPopupContent = () => {
         </select>
       </label>
       <label className='input-label'>
-        <span className='label-content'>Utilisateur/Utilisatrice signalé(e) <span style={{ color: 'red' }}>*</span></span>
+        <span className='label-content'>Avec quelle personne as-tu eu des problèmes ?<span style={{ color: 'red' }}>*</span></span>
         <Select
           isMulti
           data-testid='user-select'
@@ -100,11 +100,11 @@ const ReportCreationPopupContent = () => {
         />
       </label>
       <label className='input-label'>
-        <span className='label-content'>Description</span>
+        <span className='label-content'>Décris-nous ce qui t'es arrivé</span>
         <textarea value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer votre raison ici.' />
       </label>
       {error && <div className='error-message'>{error}</div>}
-      <button onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>
+      <button onClick={handleConfirmClick} className='popup-btn'>Envoyer le signalement</button>
     </>
   )
 }

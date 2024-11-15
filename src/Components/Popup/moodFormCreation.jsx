@@ -79,7 +79,7 @@ const MoodFormCreationPopupContent = () => {
           </div>
         </div>
       </label>
-      <label id='message-label' htmlFor='message-input'>Message</label>
+      <label id='message-label' htmlFor='message-input'>As-tu rencontré des difficultés ? Veux-tu nous les confier ?</label>
       <textarea id='message-input' placeholder='Message...' onChange={handleMessage} />
       <div className='horizontal-container'>
         <input type='checkbox' id='anonymous-checkbox' defaultChecked onClick={handleAnonymous} />

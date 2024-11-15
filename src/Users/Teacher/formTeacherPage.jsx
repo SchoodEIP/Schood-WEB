@@ -180,7 +180,7 @@ const FormTeacherPage = () => {
 
   const buttonComponent = [
     {
-      name: 'Modifier le Questionnaire',
+      name: 'Modifier l\'évaluation',
       handleFunction: handleRedirect
     }
   ]

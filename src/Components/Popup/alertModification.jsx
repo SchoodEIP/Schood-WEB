@@ -28,7 +28,7 @@ const AlertModificationPopupContent = ({ chosenAlert, handleEditAlert, errMessag
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label> */}
       {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-      <button className='popup-btn' onClick={() => handleEditAlert(editedAlert)}>Modifier l'Alerte</button>
+      <button className='popup-btn' onClick={() => handleEditAlert(editedAlert)}>Modifier l'Information</button>
     </>
   )
 }

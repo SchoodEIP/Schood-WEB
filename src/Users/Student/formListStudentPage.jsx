@@ -38,13 +38,13 @@ const FormListStudentPage = () => {
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes Questionnaires'
+        title='Mes humeurs'
         withLogo
       />
       <div className='content'>
         {questionnaires.length === 0 && (
           <div className='no-questionnaire'>
-            Aucun questionnaire disponible
+            Aucune évaluation de l'humeur disponible
           </div>
         )}
         {questionnaires.length > 0 && questionnaires.map((dateRange, index) => (

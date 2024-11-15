@@ -37,7 +37,7 @@ const FormListTeacherPage = () => {
 
   const buttonComponent = [
     {
-      name: 'Créer un Questionnaire',
+      name: 'Créer une évaluation de l\'humeur',
       handleFunction: createNewForm
     }
   ]
@@ -45,7 +45,7 @@ const FormListTeacherPage = () => {
   return (
     <div className='form-page'>
       <HeaderComp
-        title='Mes Questionnaires'
+        title="Mes évaluations d'humeur"
         withLogo
         showButtons
         buttonComponent={buttonComponent}
@@ -53,7 +53,7 @@ const FormListTeacherPage = () => {
       <div className='content'>
         {questionnaires.length === 0 && (
           <div className='no-questionnaire'>
-            Aucun questionnaire disponible
+            Aucune évaluation d'humeur disponible
           </div>
         )}
         {questionnaires.length > 0 && questionnaires.map((dateRange, index) => (

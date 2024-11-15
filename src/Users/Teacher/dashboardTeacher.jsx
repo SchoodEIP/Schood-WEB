@@ -52,7 +52,7 @@ const TeacherHomePage = () => {
             <LastAlerts />
           </div>
           <div className='buttons'>
-            <button className='popup-call-btn' onClick={handleGoToNewForm}>Créer un Questionnaire</button>
+            <button className='popup-call-btn' onClick={handleGoToNewForm}>Créer une évaluation d'humeur</button>
             <button className='popup-call-btn' onClick={handleReportPopup}>Créer un Signalement</button>
           </div>
         </div>

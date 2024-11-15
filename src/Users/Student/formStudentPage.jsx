@@ -269,7 +269,7 @@ const FormStudentPage = () => {
         ))}
         {currentCheck && (
           <div className='submit'>
-            <button onClick={sendAnswers} type='submit'>Envoyer le questionnaire</button>
+            <button onClick={sendAnswers} type='submit'>Envoyer l'humeur'</button>
           </div>
         )}
       </div>

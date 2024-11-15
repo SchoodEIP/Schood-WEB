@@ -420,7 +420,7 @@ const Messages = () => {
                   <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
                     Gestion de la conversation
                   </button>
-                  <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler</button>} modal>
+                  <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler un problème</button>} modal>
                     <div className='popup-modal-container'>
                       <ReportButton
                         currentConversation={currentConversation}

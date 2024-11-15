@@ -139,7 +139,7 @@ const AlertsPage = () => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
           setIsModifying(false)
-          openNotification('L\'alerte a été modifiée avec succès.', 'success')
+          openNotification('L\'information a été modifiée avec succès.', 'success')
         } else {
           setErrMessage('Erreur lors de la mise à jour')
         }
@@ -148,7 +148,7 @@ const AlertsPage = () => {
   }
 
   const handleDeleteAlert = (alertId) => {
-    const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer cette alerte ?')
+    const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer cette information ?')
     if (confirmDelete) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alertId}`, {
         method: 'DELETE',
@@ -160,7 +160,7 @@ const AlertsPage = () => {
           if (response.ok) {
             fetchAlerts() // Rafraîchir la liste des alertes après suppression
             setChosenAlert('')
-            openNotification('L\'alerte a été supprimée avec succès.', 'success')
+            openNotification('L\'information a été supprimée avec succès.', 'success')
           } else {
             setErrMessage('Erreur lors de la suppression')
           }
@@ -193,7 +193,7 @@ const AlertsPage = () => {
 
   const buttonComponent = [
     {
-      name: 'Créer une alerte',
+      name: 'Créer une information',
       handleFunction: handleNewAlert
     }
   ]
@@ -213,7 +213,7 @@ const AlertsPage = () => {
     <div>
       <div>
         <HeaderComp
-          title='Mes Alertes'
+          title='Mes Informations'
           withLogo
           withReturnBtn={!!id}
           returnCall={returnToAlertList}

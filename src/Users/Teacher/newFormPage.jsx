@@ -44,7 +44,7 @@ const NewFormPage = () => {
       }
     } else {
       proceed = false
-      setErrMessage('Le questionnaire n\'a pas de titre.')
+      setErrMessage('L\'évaluation d\'humeur n\'a pas de titre.')
     }
 
     if (proceed) {
@@ -162,7 +162,7 @@ const NewFormPage = () => {
 
   const buttonComponent = [
     {
-      name: 'Valider le Questionnaire',
+      name: 'Valider l\'évaluation',
       handleFunction: postQuestions
     }
   ]
@@ -171,7 +171,7 @@ const NewFormPage = () => {
     <div className='form-page'>
       <div>
         <HeaderComp
-          title="Création d'un Nouveau Questionnaire"
+          title="Création d'une Nouvelle Evaluation d'Humeur"
           withReturnBtn
           withLogo
           showButtons
@@ -205,8 +205,8 @@ const NewFormPage = () => {
         <div className='form-content-container'>
           <div className='head-form'>
             <div className='input-container'>
-              <span className='label-content'>Titre du questionnaire : </span>
-              <input className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
+              <span className='label-content'>Titre de l'évaluation d'humeur : </span>
+              <input className='form-input default-input' name='form-title' id='form-title' placeholder="Titre de l'évaluation d'humeur" />
             </div>
             <div className='label-container'>
               <label id='parution-date-container' className='input-label'>

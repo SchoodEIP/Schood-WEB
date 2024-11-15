@@ -82,7 +82,7 @@ export function LastAlerts () {
   return (
     <div className='alert-box'>
       <div className='alert-header'>
-        <p className='title'>Mes Dernières Alertes</p>
+        <p className='title'>Mes Informations et Support de Cours</p>
         <Link to='/alerts' className='see-more'>
           Voir plus
           <img className='img' src={rightArrowInverted} alt='Right arrow' />
@@ -115,7 +115,7 @@ export function LastAlerts () {
                 ))}
               </div>
               )
-            : (<p>Vous n'avez pas de nouvelle alerte.</p>)
+            : (<p>Vous n'avez pas de nouvelles informations.</p>)
         }
         {
           errMessage ? <p style={{ color: 'red' }}>{errMessage}</p> : ''

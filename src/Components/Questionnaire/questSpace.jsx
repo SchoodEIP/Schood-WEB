@@ -43,7 +43,7 @@ export function QuestSpace () {
   return (
     <div data-testid='quest-space' className='quest-box'>
       <div className='quest-header'>
-        <span className='title'>Mes Questionnaires</span>
+        <span className='title'>Mes évaluations de l'humeur</span>
         <Link to='/questionnaires' className='see-more'>
           Voir plus
           <img className='img' src={rightArrowInverted} alt='Right arrow' />
@@ -51,7 +51,7 @@ export function QuestSpace () {
       </div>
       <div className='quest-body'>
         {((!previousQuestStatus && !currentQuestStatus)) && (
-          <div className='no-quest'><p>Aucun questionnaire n'est disponible</p></div>
+          <div className='no-quest'><p>Aucune évaluation de l'humeur n'est disponible</p></div>
         )}
         {(previousQuestStatus?.id && previousQuestStatus?.id.length > 0) && (!currentQuestStatus?.id || currentQuestStatus?.id.length === 0) && (
           <div className='questionnaires'>

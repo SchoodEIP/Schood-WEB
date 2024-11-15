@@ -35,7 +35,7 @@ export default function ShowAlerts ({ chosenAlert }) {
               </div>
             </div>
             )
-          : <p>Cette alerte n'existe pas.</p>
+          : <p>Cette information n'existe pas.</p>
       }
     </div>
   )

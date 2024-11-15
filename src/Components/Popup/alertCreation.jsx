@@ -99,7 +99,7 @@ const AlertCreationPopupContent = () => {
         return response.json()
       })
       .then((data) => {
-        setErrMessage('Alerte envoyée avec succès')
+        setErrMessage('Information envoyée avec succès')
         if (file) {
           addFileToAlert(data._id)
         } else {
@@ -107,7 +107,7 @@ const AlertCreationPopupContent = () => {
         }
       })
       .catch((error) => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
+        setErrMessage('Erreur lors de l\'envoi de l\'information', error)
       })
 
     function addFileToAlert (id) {
@@ -125,10 +125,10 @@ const AlertCreationPopupContent = () => {
           if (response.status === 401) {
             disconnect()
           }
-          setErrMessage('Fichier envoyé avec l\'alerte avec succès')
+          setErrMessage('Fichier envoyé avec l\'information avec succès')
           window.location.reload()
         })
-        .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
+        .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'information', error) })
     }
   }
 
@@ -212,7 +212,7 @@ const AlertCreationPopupContent = () => {
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
       {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-      <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
+      <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Information</button>
     </>
   )
 }
