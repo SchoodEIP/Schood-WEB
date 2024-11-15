@@ -247,14 +247,14 @@ const FeelingsStudentPage = () => {
         />
       </div>
       <div className='feelings-page'>
-        <Popup open={isCreateOpen} onClose={handleClosePopup} modal contentStyle={{width: '400px'}}>
+        <Popup open={isCreateOpen} onClose={handleClosePopup} modal contentStyle={{ width: '400px' }}>
           {(close) => (
-            <div className='popup-modal-container' style={{gap: '5px'}}>
-              <span className='popup-title'>{!isModified ? 'Créer un ressenti': 'Modifier le dernier ressenti'}</span>
+            <div className='popup-modal-container' style={{ gap: '5px' }}>
+              <span className='popup-title'>{!isModified ? 'Créer un ressenti' : 'Modifier le dernier ressenti'}</span>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               <label id='mood-label' htmlFor='mood-container' className='input-label'>
-                <span style={{fontWeight: '600', marginBottom: '5px', marginTop: '15px'}} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-                <div id='mood-container' className='horizontal-container' style={{gap: '10px'}}>
+                <span style={{ fontWeight: '600', marginBottom: '5px', marginTop: '15px' }} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+                <div id='mood-container' className='horizontal-container' style={{ gap: '10px' }}>
                   <img data-testid='mood-0' alt='Très mauvaise humeur' className='emoticone-container' src={newMood === 0 ? emoji1Selected : emoji1} onClick={() => handleMood(0)} />
                   <img data-testid='mood-1' alt='Mauvaise humeur' className='emoticone-container' src={newMood === 1 ? emoji2Selected : emoji2} onClick={() => handleMood(1)} />
                   <img data-testid='mood-2' alt='Humeur neutre' className='emoticone-container' src={newMood === 2 ? emoji3Selected : emoji3} onClick={() => handleMood(2)} />
@@ -262,11 +262,11 @@ const FeelingsStudentPage = () => {
                   <img data-testid='mood-4' alt='Très bonne humeur' className='emoticone-container' src={newMood === 4 ? emoji5Selected : emoji5} onClick={() => handleMood(4)} />
                 </div>
               </label>
-              <label style={{fontWeight: '600'}} id='message-label' htmlFor='message-input'>Message</label>
-              <textarea style={{height: '100px', resize: 'none'}} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={isModified ? lastFeeling.comment : ''} />
+              <label style={{ fontWeight: '600' }} id='message-label' htmlFor='message-input'>Message</label>
+              <textarea style={{ height: '100px', resize: 'none' }} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={isModified ? lastFeeling.comment : ''} />
               <div id='remember-me'>
                 <input id='remember-me-input' type='checkbox' defaultChecked={isModified ? lastFeeling.annonymous : true} onClick={handleAnonymous} />
-                <label for="remember-me-input">Anonyme</label>
+                <label for='remember-me-input'>Anonyme</label>
               </div>
               {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
               <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>

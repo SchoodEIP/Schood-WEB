@@ -10,7 +10,6 @@ import { disconnect } from '../../functions/disconnect'
 import emoji4 from '../../assets/emojis/4s.png'
 Chart.defaults.font.family = 'Inter'
 
-
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
 const StudentStatPage = () => {
@@ -319,8 +318,7 @@ const StudentStatPage = () => {
                     </p>
                   </div>
                 </div>
-                )
-            }
+                )}
           </div>
         </div>
       </div>

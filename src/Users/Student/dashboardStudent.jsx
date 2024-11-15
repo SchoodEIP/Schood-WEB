@@ -35,15 +35,15 @@ const StudentHomePage = () => {
         withLogo
       />
       <div className='page-content'>
-        <Popup open={isCreateOpen} onClose={handleFeelingsCreation} modal contentStyle={{width: '400px'}}>
+        <Popup open={isCreateOpen} onClose={handleFeelingsCreation} modal contentStyle={{ width: '400px' }}>
           {(close) => (
-            <div className='popup-modal-container' style={{gap: '5px'}}>
+            <div className='popup-modal-container' style={{ gap: '5px' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <MoodFormCreationPopupContent/>
+              <MoodFormCreationPopupContent />
             </div>
           )}
         </Popup>
-        <Popup open={isOpen} onClose={handleReportPopup} modal contentStyle={{width: '400px'}}>
+        <Popup open={isOpen} onClose={handleReportPopup} modal contentStyle={{ width: '400px' }}>
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>

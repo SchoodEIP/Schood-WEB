@@ -168,7 +168,7 @@ export default function Login () {
         </div>
         <div className={message.length > 0 ? 'remember-me-error' : 'remember-me-normal'} id='remember-me'>
           <input id='remember-me-input' type='checkbox' onClick={handleRememberMe} value={rememberMe} />
-          <label for="remember-me-input">Se rappeler de moi</label>
+          <label for='remember-me-input'>Se rappeler de moi</label>
         </div>
         <div>
           <p id='error-message'>{message}</p>

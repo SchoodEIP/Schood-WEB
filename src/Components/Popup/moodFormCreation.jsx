@@ -71,25 +71,25 @@ const MoodFormCreationPopupContent = () => {
 
   return (
     <>
-        <span className='popup-title'>Créer un ressenti</span>
-        <label id='mood-label' htmlFor='mood-container' className='input-label'>
-          <span style={{fontWeight: '600', marginBottom: '5px', marginTop: '15px'}} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-          <div id='mood-container' className='horizontal-container' style={{gap: '10px'}}>
-            <img data-testid='mood-0' alt='Très mauvaise humeur' className='emoticone-container' src={newMood === 0 ? emoji1Selected : emoji1} onClick={() => handleMood(0)} />
-            <img data-testid='mood-1' alt='Mauvaise humeur' className='emoticone-container' src={newMood === 1 ? emoji2Selected : emoji2} onClick={() => handleMood(1)} />
-            <img data-testid='mood-2' alt='Humeur neutre' className='emoticone-container' src={newMood === 2 ? emoji3Selected : emoji3} onClick={() => handleMood(2)} />
-            <img data-testid='mood-3' alt='Bonne humeur' className='emoticone-container' src={newMood === 3 ? emoji4Selected : emoji4} onClick={() => handleMood(3)} />
-            <img data-testid='mood-4' alt='Très bonne humeur' className='emoticone-container' src={newMood === 4 ? emoji5Selected : emoji5} onClick={() => handleMood(4)} />
-          </div>
-        </label>
-        <label style={{fontWeight: '600'}} id='message-label' htmlFor='message-input'>Message</label>
-        <textarea style={{height: '100px', resize: 'none'}} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={''} />
-        <div id='remember-me'>
-          <input id='remember-me-input' type='checkbox' defaultChecked={true} onClick={handleAnonymous} />
-          <label for="remember-me-input">Anonyme</label>
+      <span className='popup-title'>Créer un ressenti</span>
+      <label id='mood-label' htmlFor='mood-container' className='input-label'>
+        <span style={{ fontWeight: '600', marginBottom: '5px', marginTop: '15px' }} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+        <div id='mood-container' className='horizontal-container' style={{ gap: '10px' }}>
+          <img data-testid='mood-0' alt='Très mauvaise humeur' className='emoticone-container' src={newMood === 0 ? emoji1Selected : emoji1} onClick={() => handleMood(0)} />
+          <img data-testid='mood-1' alt='Mauvaise humeur' className='emoticone-container' src={newMood === 1 ? emoji2Selected : emoji2} onClick={() => handleMood(1)} />
+          <img data-testid='mood-2' alt='Humeur neutre' className='emoticone-container' src={newMood === 2 ? emoji3Selected : emoji3} onClick={() => handleMood(2)} />
+          <img data-testid='mood-3' alt='Bonne humeur' className='emoticone-container' src={newMood === 3 ? emoji4Selected : emoji4} onClick={() => handleMood(3)} />
+          <img data-testid='mood-4' alt='Très bonne humeur' className='emoticone-container' src={newMood === 4 ? emoji5Selected : emoji5} onClick={() => handleMood(4)} />
         </div>
-        {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-        <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
+      </label>
+      <label style={{ fontWeight: '600' }} id='message-label' htmlFor='message-input'>Message</label>
+      <textarea style={{ height: '100px', resize: 'none' }} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue='' />
+      <div id='remember-me'>
+        <input id='remember-me-input' type='checkbox' defaultChecked onClick={handleAnonymous} />
+        <label for='remember-me-input'>Anonyme</label>
+      </div>
+      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
+      <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
     </>
   )
 }

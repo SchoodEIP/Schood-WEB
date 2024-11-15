@@ -66,7 +66,7 @@ export function StudentGraphSpace () {
               pointBorderColor: 'white',
               pointHoverBackgroundColor: 'white',
               pointHoverBorderColor: 'white',
-              tension: 0.1,
+              tension: 0.1
             }
           ]
         },
