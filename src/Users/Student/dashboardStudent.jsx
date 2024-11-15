@@ -43,7 +43,7 @@ const StudentHomePage = () => {
             </div>
           )}
         </Popup>
-        <Popup open={isOpen} onClose={handleReportPopup} modal>
+        <Popup open={isOpen} onClose={handleReportPopup} modal contentStyle={{width: '400px'}}>
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
