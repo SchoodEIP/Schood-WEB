@@ -401,37 +401,47 @@ const TeacherStatPage = () => {
       <HeaderComp title='Mes statistiques' />
       <div className='page-content'>
         <div>
-          <label htmlFor='dateFilter'>Sélectionner une date:</label>
-          <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
-          <div className='button-container'>
-            <div className={`button-section button-left ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
-              Semaine
+          <div>
+            <label htmlFor='dateFilter'>Sélectionner une date:</label>
+            <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
+            <div className='button-container'>
+              <div className={`button-section button-left ${activeFilter === 'Semaine' ? 'active' : ''}`} onClick={() => handleFilterChange('Semaine')}>
+                Semaine
+              </div>
+              <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
+                Mois
+              </div>
+              <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
+                Semestre
+              </div>
+              <div className={`button-section button-right ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
+                Année
+              </div>
             </div>
-            <div className={`button-section ${activeFilter === 'Mois' ? 'active' : ''}`} onClick={() => handleFilterChange('Mois')}>
-              Mois
-            </div>
-            <div className={`button-section ${activeFilter === 'Semestre' ? 'active' : ''}`} onClick={() => handleFilterChange('Semestre')}>
-              Semestre
-            </div>
-            <div className={`button-section button-right ${activeFilter === 'Année' ? 'active' : ''}`} onClick={() => handleFilterChange('Année')}>
-              Année
+            <div style={{marginTop: '5px'}}>
+              <label htmlFor='classFilter'>Filtrer par classe:</label>
+              <select style={{marginLeft: '5px', padding: '10px'}} id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
+                <option key='all' value=''>Toutes les classes</option>
+                {classes.map((classItem) => (
+                  <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
+                ))}
+              </select>
             </div>
           </div>
-          <label htmlFor='classFilter'>Filtrer par classe:</label>
-          <select id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
-            <option key='all' value=''>Toutes les classes</option>
-            {classes.map((classItem) => (
-              <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
-            ))}
-          </select>
-          <h1>Evolution de l'humeur</h1>
-          <canvas id='moodChart' width='400' height='400' />
-          <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
-          <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
-            <progress className='progress' value={averageMood} max='100' />
+          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '50px'}}>
+            <div>
+              <h1>Evolution de l'humeur</h1>
+              <canvas id='moodChart' width='400' height='400' />
+              <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
+              <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
+                <progress className='progress' value={averageMood} max='100' />
+              </div>
+            </div>
+            <div>
+              <h1>Problèmes</h1>
+              <canvas id='answerChart' width='400' height='400' />
+            </div>
           </div>
-          <h1>Problèmes</h1>
-          <canvas id='answerChart' width='400' height='400' />
         </div>
       </div>
     </div>
