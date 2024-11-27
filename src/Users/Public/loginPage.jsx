@@ -11,6 +11,7 @@ export default function Login () {
   const [loading, setLoading] = useState(false)
   const [isButtonActive, setIsButtonActive] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -67,7 +68,7 @@ export default function Login () {
       return
     }
 
-    const payload = { email, password }
+    const payload = { email, password, rememberMe }
     setLoading(true)
 
     try {
@@ -121,6 +122,10 @@ export default function Login () {
     setShowPassword(!showPassword)
   }
 
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe)
+  }
+
   return (
     <div id='auth' className='page-height'>
       <div id='auth-form'>
@@ -130,7 +135,7 @@ export default function Login () {
             <div id='label'>Email</div>
             <input
               type='text'
-              placeholder='email'
+              placeholder='example@example.fr'
               onChange={handleEmailChange}
               value={email}
               ref={emailRef}
@@ -162,7 +167,8 @@ export default function Login () {
           <a href='/forgot'>Mot de passe oublié ? Cliquez ici</a>
         </div>
         <div className={message.length > 0 ? 'remember-me-error' : 'remember-me-normal'} id='remember-me'>
-          <input type='checkbox' />Se rappeler de moi
+          <input id='remember-me-input' type='checkbox' onClick={handleRememberMe} value={rememberMe} />
+          <label for='remember-me-input'>Se rappeler de moi</label>
         </div>
         <div>
           <p id='error-message'>{message}</p>

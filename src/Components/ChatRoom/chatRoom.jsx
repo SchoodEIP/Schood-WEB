@@ -413,19 +413,22 @@ const Messages = () => {
                 <div className='top-info'>
                   <div className='conv-name'>{currentConversation.name}</div>
                   <div className='participants-container'>
-                    {currentConversation.participants.length} membres
+                    {currentConversation.participants.length} {currentConversation.participants.length > 1 ? 'membres' : 'membre'}
                   </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                   <button className='add-participants-btn' onClick={() => setShowAddParticipantsPopup(true)}>
                     Gestion de la conversation
                   </button>
-                  <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler</button>} modal>
-                    <div className='popup-modal-container'>
-                      <ReportButton
-                        currentConversation={currentConversation}
-                      />
-                    </div>
+                  <Popup trigger={<button style={{ fontSize: '18px' }} className='report-btn'>Signaler</button>} modal contentStyle={{ width: '400px' }}>
+                    {(close) => (
+                      <div className='popup-modal-container'>
+                        <ReportButton
+                          currentConversation={currentConversation}
+                          close={close}
+                        />
+                      </div>
+                    )}
                   </Popup>
                 </div>
               </div>
@@ -490,25 +493,25 @@ const Messages = () => {
             <div>Aucune conversation sélectionnée.</div>
             )}
       </div>
-      <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal>
+      <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal contentStyle={{ width: '400px' }}>
         {(close) => (
-          <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+          <div className='popup-modal-container'>
+            <span className='popup-title'>Nouvelle conversation</span>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <ConversationCreationPopupContent contacts={contacts} createConversation={createConversation} closeCreateConversationPopup={close} />
           </div>
         )}
       </Popup>
-      <Popup open={showAddParticipantsPopup} onClose={() => setShowAddParticipantsPopup(false)} modal>
+      <Popup open={showAddParticipantsPopup} onClose={() => setShowAddParticipantsPopup(false)} modal contentStyle={{ width: '400px' }}>
         {(close) => (
           <div className='popup-modal-container'>
+            <span className='popup-title'>Gestion de la conversation</span>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <button className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
-              Quitter la conversation
-            </button>
             <ConversationCreationPopupContent
               contacts={contacts}
               createConversation={addParticipants}
               closeCreateConversationPopup={close}
+              setShowLeaveConversationPopup={setShowLeaveConversationPopup}
               isAddingParticipants
               members={currentConversation?.participants}
             />

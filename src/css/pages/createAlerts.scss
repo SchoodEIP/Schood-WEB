@@ -1,9 +1,9 @@
 .alert-page {
     background-color: white;
     border-radius: 5px;
-    width: calc(100vw - 225px);
+    width: 100%;
     min-width: 490px;
-    display: grid;
+    display: flex;
     flex-direction: column;
     margin-top: 15px;
     padding: 20px; /* Ajout du padding */
@@ -83,37 +83,29 @@
 
 @media screen and (max-width: 925px) {
   .breakline {
-    position: absolute;
     border: none;
     border-bottom: 2px solid #4f23e2;
     height: 5px;
     width: calc(100% - 170px);
-    margin-left: 140px;
-    margin-right: 25px;
-    top: 5%;
-    transform: translateY(-50%);
+    margin-left: 10px;
   }
 }
 
 
 @media screen and (min-width: 925px) {
   .breakline {
-    position: absolute;
     border: none;
     border-bottom: 2px solid #4f23e2;
     height: 5px;
-    width: calc(100% - 170px);
-    margin-left: 140px;
-    margin-right: 25px;
-    top: 8%;
-    transform: translateY(-50%);
+    width: 100%;
+    margin-left: 10px;
   }
 }
 
 .alert-page {
   height: calc(100vh - 150px);
   overflow-y: auto;
-  width: calc(100vw - 240px);
+  width: calc(100% - 80px);
 }
 
 .alert-page-container {
@@ -132,19 +124,20 @@
     background-color: white;
     border-radius: 26px;
     height: 112px;
-    width: 350px;
+    width: fit-content;
     border: 2px solid #4F23E2;
 
     .content {
-        width: calc(100% - 20px);
+        width: 100%;
         height: 100%;
-        margin: 5px 10px 5px 10px;
+        margin: 5px 5px 5px 10px;
 
         .header {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            width: fit-content;
 
             .see-more-inverted {
                 display: flex;
@@ -158,6 +151,7 @@
                 cursor: pointer;
                 border: none;
                 background-color: white;
+                padding: 0px;
 
                 .img {
                     margin-left: 4px;
@@ -171,6 +165,7 @@
             font-weight: 600;
             color: black;
             margin-top: 3px;
+            width: fit-content;
         }
     }
 

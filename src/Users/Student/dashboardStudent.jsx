@@ -35,15 +35,15 @@ const StudentHomePage = () => {
         withLogo
       />
       <div className='page-content'>
-        <Popup open={isCreateOpen} onClose={handleFeelingsCreation} modal>
+        <Popup open={isCreateOpen} onClose={handleFeelingsCreation} modal contentStyle={{ width: '400px' }}>
           {(close) => (
-            <div className='popup-modal-container'>
+            <div className='popup-modal-container' style={{ gap: '5px' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               <MoodFormCreationPopupContent onClose={close}/>
             </div>
           )}
         </Popup>
-        <Popup open={isOpen} onClose={handleReportPopup} modal>
+        <Popup open={isOpen} onClose={handleReportPopup} modal contentStyle={{ width: '400px' }}>
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
@@ -64,8 +64,8 @@ const StudentHomePage = () => {
             <LastAlerts />
           </div>
           <div className='buttons'>
-            <button onClick={handleFeelingsCreation} className='popup-call-btn'>Créer un Ressenti</button>
-            <button className='popup-call-btn' onClick={handleReportPopup}>Créer un Signalement</button>
+            <button onClick={handleFeelingsCreation} className='popup-call-btn'>Créer un ressenti</button>
+            <button className='popup-call-btn' onClick={handleReportPopup}>Créer un signalement</button>
           </div>
         </div>
       </div>

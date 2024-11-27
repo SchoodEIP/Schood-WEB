@@ -13,18 +13,24 @@
         justify-content: center;
         align-items: start;
 
-        #title {
-            font-size: 30px;
-            font-family: Inter;
-            font-weight: 600;
-            color: black;
-        }
-
-        #subtitle {
-            font-size: 17px;
-            font-family: Inter;
-            font-weight: 600;
-            color: black;
+        #title-subtitle {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            #title {
+                font-size: 30px;
+                font-weight: 600;
+                color: black;
+                margin-right: 10px;
+            }
+    
+            #subtitle {
+                font-size: 17px;
+                font-weight: 600;
+                color: black;
+                margin-top: 4px;
+            }
         }
 
         #withReturnBtn {
@@ -33,14 +39,16 @@
             flex-direction: row;
             justify-content: start;
             align-items: center;
+            margin-top: -21px;
 
             #return-btn {
                 margin-right: 6px;
+                height: 20px;
+                width: 20px;
             }
 
             #back-text {
                 font-size: 18px;
-                font-family: Inter;
                 font-weight: 600;
                 color: #4F23E2;
             }

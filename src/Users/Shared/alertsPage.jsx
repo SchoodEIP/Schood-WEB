@@ -248,8 +248,10 @@ const AlertsPage = () => {
           id === undefined
             ? Object.entries(alerts).map(([day, items]) => (
               <div className='alert-page-container' key={day}>
-                <div className='breakline' />
-                <h2 className='day-title'>{day}</h2>
+                <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'start', alignItems: 'center' }}>
+                  <h2 className='day-title'>{day}</h2>
+                  <div className='breakline' />
+                </div>
                 <div className='day-container'>
                   {items.map((alert) => (
                     <div key={alert.id} className='alert-container'>

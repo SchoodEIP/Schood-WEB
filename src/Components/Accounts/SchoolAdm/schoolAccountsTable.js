@@ -321,7 +321,7 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    {status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
+                    {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
                     {status &&
                       <td>
                         <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
@@ -362,7 +362,7 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    { status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td> }
+                    { status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td> }
                     {status &&
                       <td>
                         <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />

@@ -6,6 +6,8 @@ import { disconnect } from '../../functions/disconnect'
 import Popup from 'reactjs-popup'
 import cross from '../../assets/Cross.png'
 import { toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 const ProfilPage = ({ isModif, handleProfileModification }) => {
   const [userProfile, setUserProfile] = useState({})
@@ -140,62 +142,81 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
     }
   }
 
+  const disconnect = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    localStorage.removeItem('id')
+    localStorage.removeItem('profile')
+    sessionStorage.removeItem('id')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('role')
+    sessionStorage.removeItem('profile')
+    window.location.href = '/'
+  }
+
   return (
-    <div className='page-height'>
-      <Popup open={isModif} onClose={handleProfileModification} modal>
+    <div className='page-height' style={{ height: '100%' }}>
+      <Popup open={isModif} onClose={handleProfileModification} modal contentStyle={{ width: '400px' }}>
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+            <span className='popup-title'>Mettre à jour le profil</span>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='profile-update'>
-              <h2>Mettre à jour le profil</h2>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor='email'>Nouvelle adresse email:</label>
+                  <label style={{ fontWeight: '600', marginBottom: '5px' }} htmlFor='email'>Nouvelle adresse email:</label>
                   <input
                     type='email'
                     id='email'
+                    placeholder='example@example.fr'
                     value={newEmail}
                     onChange={handleEmailChange}
                   />
                 </div>
                 <div>
-                  <label htmlFor='picture'>Nouvelle photo de profil:</label>
+                  <label style={{ marginTop: '20px', fontWeight: '600', marginBottom: '5px' }} htmlFor='picture'>Nouvelle photo de profil:</label>
                   <input
                     type='file'
                     id='picture'
+                    accept='.jpg, .jpeg, .png'
                     onChange={(e) => handlePictureChange(e)}
                   />
                 </div>
-                <button type='submit'>Mettre à jour</button>
+                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px' }} type='submit'>Mettre à jour</button>
               </form>
             </div>
           </div>
         )}
       </Popup>
       {negativeResponse && <p className='error-message'>{negativeResponse}</p>}
-      <div className='profile-content'>
-        <div>
-          <img className='profile-img' src={userProfile?.picture ? userProfile.picture : userIcon} alt='Image de profil' />
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', alignContent: 'center', height: '100%' }}>
+        <div className='profile-content'>
+          <div>
+            <img className='profile-img' src={userProfile?.picture ? userProfile.picture : userIcon} alt='Image de profil' />
+          </div>
+          <div className='profile-content-container'>
+            <p className='element-title'>Prénom</p>
+            <p className='element-content'>{userProfile.firstname}</p>
+          </div>
+          <div className='profile-content-container'>
+            <p className='element-title'>Nom de Famille</p>
+            <p className='element-content'>{userProfile.lastname}</p>
+          </div>
+          <div className='profile-content-container'>
+            <p className='element-title'>Rôle</p>
+            <p className='element-content'>{userProfile.role?.name || 'Rôle Inconnu'}</p>
+          </div>
+          <div className='profile-content-container'>
+            <p className='element-title'>{userProfile.classes?.length > 1 ? 'Classes' : 'Classe'}</p>
+            <p className='element-content'>{userProfile.classes ? userProfile.classes.map(classe => classe.name).join(', ') : 'Aucune classe trouvée'}</p>
+          </div>
+          <div className='profile-content-container'>
+            <p className='element-title'>Adresse email</p>
+            <p className='element-content'>{userProfile.email}</p>
+          </div>
         </div>
-        <div className='profile-content-container'>
-          <p className='element-title'>Prénom</p>
-          <p className='element-content'>{userProfile.firstname}</p>
-        </div>
-        <div className='profile-content-container'>
-          <p className='element-title'>Nom de Famille</p>
-          <p className='element-content'>{userProfile.lastname}</p>
-        </div>
-        <div className='profile-content-container'>
-          <p className='element-title'>Rôle</p>
-          <p className='element-content'>{userProfile.role?.name || 'Rôle Inconnu'}</p>
-        </div>
-        <div className='profile-content-container'>
-          <p className='element-title'>{userProfile.classes?.length > 1 ? 'Classes' : 'Classe'}</p>
-          <p className='element-content'>{userProfile.classes ? userProfile.classes.map(classe => classe.name).join(', ') : 'Aucune classe trouvée'}</p>
-        </div>
-        <div className='profile-content-container'>
-          <p className='element-title'>Adresse email</p>
-          <p className='element-content'>{userProfile.email}</p>
+        <div style={{ marginTop: '20px' }} onClick={() => disconnect()} className='item'>
+          <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
         </div>
       </div>
     </div>

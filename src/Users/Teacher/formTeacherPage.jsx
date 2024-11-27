@@ -55,6 +55,14 @@ const FormTeacherPage = () => {
             position: 2,
             count: 0
           })
+          quest.answers.push({
+            position: 3,
+            count: 0
+          })
+          quest.answers.push({
+            position: 4,
+            count: 0
+          })
         }
         ultimateResponse.questions.push(quest)
         return ultimateResponse

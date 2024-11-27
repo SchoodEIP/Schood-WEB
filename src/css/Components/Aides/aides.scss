@@ -10,10 +10,9 @@
   box-shadow: 5px 5px 5px 0px lightgray;
   border: 1px solid lightgrey;
   border-radius: 15px;
+  font-size: 22px;
   background-color: white;
   color: #4F23E2;
-  font-size: 22px;
-  font-family: Inter;
   cursor: pointer;
 }
 
@@ -23,7 +22,6 @@
   background-color: #4F23E2;
   color: white;
   font-size: 22px;
-  font-family: Inter;
   cursor: pointer;
 }
 
@@ -33,7 +31,6 @@
   background-color: #4F23E2;
   color: white;
   font-size: 22px;
-  font-family: Inter;
   cursor: pointer;
 }
 
@@ -41,6 +38,7 @@
   display: flex;
   flex-direction: row;
   margin-top: 25px;
+  justify-content: space-between;
 }
 
 #filtered-contacts-container {
@@ -60,13 +58,13 @@
   width: 95%;
   min-height: 50px;
   align-items: center;
+  border: 1px solid transparent;
   padding-left: 20px;
   display: flex;
   background-color: white;
   color: #4F23E2;
   border-radius: 15px;
   font-size: 22px;
-  font-family: Inter;
   cursor: pointer;
   padding: 10px;
 }
@@ -109,7 +107,7 @@
   border: 1px solid lightgrey;
   border-radius: 15px;
   background-color: white;
-  width: 50%;
+  width: 56%;
   height: 100%;
   padding: 15px;
   margin-left: 25px;
