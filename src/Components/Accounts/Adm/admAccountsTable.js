@@ -11,6 +11,7 @@ export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [userId, setUserId] = useState('')
+  const [actionType, setActionType] = useState('delete')
 
   async function getAccountList () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
@@ -39,9 +40,14 @@ export default function AdmAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (userIdValue) => {
+  const callDeleteAccount = (userIdValue, action) => {
+    setActionType(action)
     setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
+  }
+
+  async function returnAccount (accountId) {
+    console.log("account restored", accountId)
   }
 
   async function deleteAccount (deleteType, accountId) {
@@ -75,7 +81,7 @@ export default function AdmAccountsTable () {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} returnUserAccount={returnAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>
@@ -96,7 +102,10 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
+                  <td>
+                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
+                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={minusButton} alt='delete' title='Suspendre le compte' />
+                  </td>
                 </tr>
               )
             }

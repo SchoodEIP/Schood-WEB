@@ -19,6 +19,7 @@ export default function SchoolAccountsTable ({ status }) {
   const [userId, setUserId] = useState('')
   const [isMultiStatus, setIsMultiStatus] = useState(true)
   const [classesList, setClassesList] = useState([])
+  const [actionType, setActionType] = useState('delete')
   const [updatedUser, setUpdatedUser] = useState({
     firstname: '',
     lastname: '',
@@ -194,6 +195,10 @@ export default function SchoolAccountsTable ({ status }) {
     }
   }
 
+  async function returnAccount (accountId) {
+    console.log("account restored", accountId)
+  }
+
   const openPopup = () => {
     setUserId('')
     setIsPopupOpen(!isPopupOpen)
@@ -203,7 +208,8 @@ export default function SchoolAccountsTable ({ status }) {
     setIsEditing(!isEditing)
   }
 
-  const callDeleteAccount = (userIdValue) => {
+  const callDeleteAccount = (userIdValue, action) => {
+    setActionType(action)
     setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
   }
@@ -214,7 +220,7 @@ export default function SchoolAccountsTable ({ status }) {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} returnUserAccount={returnAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>
@@ -316,7 +322,12 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
                     {status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
-                    {status && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {status &&
+                      <td>
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={minusButton} alt='delete' title='Suspendre le compte' />
+                      </td>
+                    }
                   </tr>
                 )
               }
@@ -352,7 +363,12 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
                     { status && <td><button onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td> }
-                    {status && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {status &&
+                      <td>
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={minusButton} alt='delete' title='Suspendre le compte' />
+                      </td>
+                    }
                   </tr>
                 )
               }
