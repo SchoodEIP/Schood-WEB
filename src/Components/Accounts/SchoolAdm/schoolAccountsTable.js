@@ -6,7 +6,9 @@ import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
-import minusButton from '../../../assets/minus-button.png'
+import deleteButton from '../../../assets/deleteIcon.png'
+import suspendButton from '../../../assets/suspendIcon.png'
+import restoreButton from '../../../assets/restoreIcon.png'
 import Select from 'react-select'
 
 export default function SchoolAccountsTable ({ status }) {
@@ -324,8 +326,8 @@ export default function SchoolAccountsTable ({ status }) {
                     {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
                     {status &&
                       <td>
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={minusButton} alt='delete' title='Suspendre le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' />
                       </td>
                     }
                   </tr>
@@ -365,8 +367,8 @@ export default function SchoolAccountsTable ({ status }) {
                     { status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td> }
                     {status &&
                       <td>
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={minusButton} alt='delete' title='Supprimer le compte' />
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={minusButton} alt='delete' title='Suspendre le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' />
                       </td>
                     }
                   </tr>
