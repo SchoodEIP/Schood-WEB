@@ -191,14 +191,34 @@ export default function SchoolAccountsTable ({ status }) {
     } else if (resp.status === 200) {
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
       getAccountList()
+      setIsPopupOpen(!isPopupOpen)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()
     }
   }
 
-  async function returnAccount (accountId) {
-    console.log("account restored", accountId)
+  async function activateAccount (accountId) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/activateUser/' + accountId
+    const token = sessionStorage.getItem('token')
+
+    const resp = await fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else if (resp.status === 200) {
+      toast.success('Le compte a été restauré')
+      getAccountList()
+      setIsPopupOpen(!isPopupOpen)
+    } else {
+      toast.error("une alerte s'est produite")
+      getAccountList()
+    }
   }
 
   const openPopup = () => {
@@ -222,7 +242,7 @@ export default function SchoolAccountsTable ({ status }) {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} returnUserAccount={returnAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} activateAccount={activateAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>
@@ -327,8 +347,11 @@ export default function SchoolAccountsTable ({ status }) {
                     {status &&
                       <td>
                         <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={deleteButton} alt='delete' title='Supprimer le compte' />
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' />
-                      </td>
+{
+                      data.active ?
+                      <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' /> :
+                      <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "restore") }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                    }                      </td>
                     }
                   </tr>
                 )
@@ -368,7 +391,11 @@ export default function SchoolAccountsTable ({ status }) {
                     {status &&
                       <td>
                         <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={deleteButton} alt='delete' title='Supprimer le compte' />
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                        {
+                          data.active ?
+                          <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' /> :
+                          <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "restore") }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                        }
                       </td>
                     }
                   </tr>

@@ -2,7 +2,7 @@ import React from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
-const DeleteAccountPopupContent = ({ userIdValue, actionType, deleteUserAccount, returnUserAccount, closeDeleteAccountPopup }) => {
+const DeleteAccountPopupContent = ({ userIdValue, actionType, deleteUserAccount, activateAccount, closeDeleteAccountPopup }) => {
   return (
     <>
       <div>
@@ -15,7 +15,7 @@ const DeleteAccountPopupContent = ({ userIdValue, actionType, deleteUserAccount,
           <button className='popup-btn' style={{ backgroundColor: 'red', borderColor: 'red' }} onClick={() => deleteUserAccount(true, userIdValue)}>Supprimer</button>
           : actionType === "suspend" ?
             <button className='popup-text-btn' onClick={() => deleteUserAccount(false, userIdValue)}>Suspendre</button>
-              : <button className='popup-text-btn' onClick={() => returnUserAccount(userIdValue)}>Restaurer</button>
+              : <button className='popup-text-btn' onClick={() => activateAccount(userIdValue)}>Restaurer</button>
       }
       <button className='popup-btn' onClick={closeDeleteAccountPopup}>Annuler</button>
     </>
