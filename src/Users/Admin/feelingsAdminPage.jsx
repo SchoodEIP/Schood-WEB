@@ -11,7 +11,7 @@ import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import { disconnect } from '../../functions/disconnect'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 
 const FeelingsAdminPage = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false)

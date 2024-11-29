@@ -107,24 +107,26 @@ export default function AidePage () {
           )}
         </div>
         <div className='contact-content-container' id='contact-profile'>
-          {isCategoryEmpty ? (<p>Aucun numéro disponible dans cette catégorie.</p>) : (
-            <>
-              <h3 id='contact-title'>{chosenContact.name}</h3>
-              <p>{chosenContact.description}</p>
-              {chosenContact.telephone && (
-                <div className='contact-element-container'>
-                  <img src={phoneIcon} alt='Telephone' className='contact-element-title' />
-                  <p className='contact-element-content'>{chosenContact.telephone}</p>
-                </div>
+          {isCategoryEmpty
+            ? (<p>Aucun numéro disponible dans cette catégorie.</p>)
+            : (
+              <>
+                <h3 id='contact-title'>{chosenContact.name}</h3>
+                <p>{chosenContact.description}</p>
+                {chosenContact.telephone && (
+                  <div className='contact-element-container'>
+                    <img src={phoneIcon} alt='Telephone' className='contact-element-title' />
+                    <p className='contact-element-content'>{chosenContact.telephone}</p>
+                  </div>
+                )}
+                {chosenContact.email && (
+                  <div className='contact-element-container'>
+                    <img src={mailIcon} alt='Adresse Email' className='contact-element-title' />
+                    <p className='contact-element-content'>{chosenContact.email}</p>
+                  </div>
+                )}
+              </>
               )}
-              {chosenContact.email && (
-                <div className='contact-element-container'>
-                  <img src={mailIcon} alt='Adresse Email' className='contact-element-title' />
-                  <p className='contact-element-content'>{chosenContact.email}</p>
-                </div>
-              )}
-            </>
-          )}
         </div>
       </div>
     </div>
