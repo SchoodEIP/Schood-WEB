@@ -144,12 +144,12 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td className="action-td">
-                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "delete") }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                  <td className='action-td'>
+                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                     {
-                      data.active ?
-                      <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "suspend") }} src={suspendButton} alt='delete' title='Suspendre le compte' /> :
-                      <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, "restore") }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                      data.active
+                        ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                        : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
                     }
                   </td>
                 </tr>

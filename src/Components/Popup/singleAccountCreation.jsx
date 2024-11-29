@@ -3,7 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import Select from 'react-select'
 import userIcon from '../../assets/userIcon.png'
 import { disconnect } from '../../functions/disconnect'
-import { toast } from "react-toastify"
+import { toast } from 'react-toastify'
 
 const SingleAccountCreationPopupContent = () => {
   const roleProfile = sessionStorage.getItem('role')

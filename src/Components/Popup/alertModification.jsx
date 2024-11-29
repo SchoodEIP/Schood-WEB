@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 import { disconnect } from '../../functions/disconnect'
 
 const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, errMessage }) => {
@@ -37,8 +37,7 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
   }
 
   const editAlert = (e) => {
-    if (file !== null)
-      addFileToAlert(chosenAlert.id)
+    if (file !== null) { addFileToAlert(chosenAlert.id) }
     handleEditAlert(editedAlert, onClose)
   }
 

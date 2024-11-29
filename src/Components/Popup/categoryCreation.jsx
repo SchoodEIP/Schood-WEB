@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 
-const CategoryCreationPopupContent = ({onClose}) => {
+const CategoryCreationPopupContent = ({ onClose }) => {
   const [name, setName] = useState('')
 
   const handleNameChange = (event) => {

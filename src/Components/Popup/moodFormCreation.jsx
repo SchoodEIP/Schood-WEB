@@ -18,7 +18,7 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
-import { toast } from "react-toastify"
+import { toast } from 'react-toastify'
 
 const MoodFormCreationPopupContent = ({ onClose }) => {
   const [errMessage, setErrMessage] = useState('')
@@ -59,7 +59,7 @@ const MoodFormCreationPopupContent = ({ onClose }) => {
             disconnect()
           }
           if (response.status === 200) {
-            toast.success("Le ressenti a été créé avec succès.")
+            toast.success('Le ressenti a été créé avec succès.')
             onClose()
           }
         })

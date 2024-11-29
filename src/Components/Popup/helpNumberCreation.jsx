@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 
-const HelpNumberCreationPopupContent = ({onClose}) => {
+const HelpNumberCreationPopupContent = ({ onClose }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [categoryID, setCategoryID] = useState('')

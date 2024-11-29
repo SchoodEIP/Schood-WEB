@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
 import logoSchood from '../../assets/logo_schood.png'
-import { toast } from "react-toastify"
+import { toast } from 'react-toastify'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

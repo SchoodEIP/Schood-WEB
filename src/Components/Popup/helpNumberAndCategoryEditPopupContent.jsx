@@ -39,7 +39,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
 
         const data = await response.json()
         setItems(data)
-        if (type === "number") {
+        if (type === 'number') {
           try {
             const response = await fetch(categoryUrl, {
               headers: {

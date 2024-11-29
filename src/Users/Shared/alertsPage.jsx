@@ -12,7 +12,7 @@ import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
 import AlertModificationPopupContent from '../../Components/Popup/alertModification.jsx'
 import { disconnect } from '../../functions/disconnect'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 import AlertDeletionPopupContent from '../../Components/Popup/alertDeletion'
 
 const AlertsPage = () => {
@@ -23,7 +23,7 @@ const AlertsPage = () => {
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
   const [errMessage, setErrMessage] = useState('')
-  const  [isDeleting, setIsDeleting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const fetchAlerts = async () => {
     try {

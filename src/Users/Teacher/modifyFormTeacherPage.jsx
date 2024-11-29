@@ -236,7 +236,7 @@ const ModifyFormTeacherPage = () => {
           </div>
         </div>
         <div className='form-content-container'>
-        <div className='head-form'>
+          <div className='head-form'>
             <div className='input-container'>
               <input value={title} onChange={(e) => handleChangeFormTitle(e)} className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
             </div>

@@ -61,22 +61,23 @@ const CsvAccountCreationPopupContent = () => {
     <>
       <label style={{ alignItems: 'center', gap: '25px' }}>
         <input className='input-csv' placeholder='exemple.csv' onChange={handleFileChange} type='file' accept='.csv' />
-        <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: {role === 'admin' ?
-        (
-          <>
-            <p>firstname,lastname,email,role</p>
-            <p>exemple,exemple,exemple@exemple,administration</p>
-            <p>exemple,exemple,exemple@exemple,administration</p>
-          </>
-        ) :
-        (
-          <>
-            <p>firstname,lastname,email,role,class</p>
-            <p>exemple,exemple,exemple@exemple,teacher,0:1:2</p>
-            <p>exemple,exemple,exemple@exemple,student,0</p>
-            <p>exemple,exemple,exemple@exemple,student,1</p>
-          </>
-        )}</span>
+        <span className='label-content-warning'>Le fichier attendu est un fichier .csv suivant le format: {role === 'admin'
+          ? (
+            <>
+              <p>firstname,lastname,email,role</p>
+              <p>exemple,exemple,exemple@exemple,administration</p>
+              <p>exemple,exemple,exemple@exemple,administration</p>
+            </>
+            )
+          : (
+            <>
+              <p>firstname,lastname,email,role,class</p>
+              <p>exemple,exemple,exemple@exemple,teacher,0:1:2</p>
+              <p>exemple,exemple,exemple@exemple,student,0</p>
+              <p>exemple,exemple,exemple@exemple,student,1</p>
+            </>
+            )}
+        </span>
       </label>
       {errMessage ? <span data-testid='err-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
       {successMessage ? <span style={{ color: 'green' }}>{successMessage}</span> : ''}
