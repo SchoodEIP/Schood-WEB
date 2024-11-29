@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesDown } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
@@ -277,6 +277,9 @@ export default function Sidebar () {
             <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
+            <div onClick={() => disconnect()} className='item'>
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
+            </div>
           </div>
         </div>
       )}
@@ -320,6 +323,9 @@ export default function Sidebar () {
             <span className='divider' />
             <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
+            </div>
+            <div onClick={() => disconnect()} className='item'>
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
           </div>
         </div>
