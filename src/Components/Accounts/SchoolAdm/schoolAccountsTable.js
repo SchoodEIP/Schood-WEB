@@ -6,9 +6,12 @@ import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
-import minusButton from '../../../assets/minus-button.png'
+import deleteButton from '../../../assets/deleteIcon.png'
+import suspendButton from '../../../assets/suspendIcon.png'
+import restoreButton from '../../../assets/restoreIcon.png'
+import Select from 'react-select'
 
-export default function SchoolAccountsTable () {
+export default function SchoolAccountsTable ({ status }) {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -16,11 +19,16 @@ export default function SchoolAccountsTable () {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [fileImage, setFileImage] = useState(null)
   const [userId, setUserId] = useState('')
+  const [isMultiStatus, setIsMultiStatus] = useState(true)
+  const [classesList, setClassesList] = useState([])
+  const [actionType, setActionType] = useState('delete')
   const [updatedUser, setUpdatedUser] = useState({
     firstname: '',
     lastname: '',
     email: '',
-    picture: null
+    classes: [],
+    picture: null,
+    role: ''
   })
 
   async function getAccountList () {
@@ -46,6 +54,24 @@ export default function SchoolAccountsTable () {
       setTeacherList(teacherAccounts)
       setStudentList(studentAccounts)
     }
+
+    fetch(process.env.REACT_APP_BACKEND_URL + '/shared/classes', {
+      method: 'GET',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
+      })
+      .then((data) => setClassesList(data))
+      .catch((error) => {
+        toast.error(error.message)
+      })
   }
 
   const showClasses = (classes) => {
@@ -71,8 +97,11 @@ export default function SchoolAccountsTable () {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      picture: user.picture
+      classes: user.classes,
+      picture: user.picture,
+      role: user.role._id
     })
+    setIsMultiStatus(user.role.name === 'teacher')
     setIsEditing(true)
   }
 
@@ -84,27 +113,20 @@ export default function SchoolAccountsTable () {
     }))
   }
 
+  const handleClassChange = (e) => {
+    console.log(e)
+    setUpdatedUser(prevState => ({
+      ...prevState,
+      classes: e
+    }))
+  }
+
   const handleFileChange = (e) => {
     setFileImage(e.target.files[0])
     setUpdatedUser(prevState => ({
       ...prevState,
       picture: e.target.files[0]
     }))
-    // const selectedFile = e.target.files[0]
-    // if (selectedFile) {
-    //   const reader = new FileReader()
-    //   reader.readAsDataURL(selectedFile)
-    //   reader.onload = () => {
-    //     const base64Image = reader.result
-    //     setUpdatedUser(prevState => ({
-    //       ...prevState,
-    //       picture: base64Image
-    //     }))
-    //   }
-    //   reader.onerror = (error) => {
-    //     console.error('Error occurred while reading the file:', error)
-    //   }
-    // }
   }
 
   const handleUpdate = async (e) => {
@@ -113,11 +135,16 @@ export default function SchoolAccountsTable () {
       const formData = new FormData()
       formData.append('firstname', updatedUser.firstname)
       formData.append('lastname', updatedUser.lastname)
+      formData.append('role', updatedUser.role)
       formData.append('email', updatedUser.email)
-      // if (updatedUser.picture) {
-      //   formData.append('file', updatedUser.picture)
-      // }
-      console.log(fileImage)
+      if (isMultiStatus) {
+        formData.append('classes', JSON.stringify(updatedUser.classes))
+      } else {
+        const arrayClass = []
+        arrayClass.push(updatedUser.classes)
+        formData.append('classes', JSON.stringify(arrayClass))
+      }
+
       if (fileImage) {
         formData.append('file', fileImage)
       }
@@ -133,13 +160,6 @@ export default function SchoolAccountsTable () {
       if (response.status === 401) {
         disconnect()
       } else if (response.ok) {
-        // setSelectedUser(null)
-        // setUpdatedUser({
-        //   firstname: '',
-        //   lastname: '',
-        //   email: '',
-        //   picture: null
-        // })
         setFileImage(null)
         toast.success('Le profil a été mis à jour avec succès.')
         setIsEditing(false)
@@ -171,6 +191,30 @@ export default function SchoolAccountsTable () {
     } else if (resp.status === 200) {
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
       getAccountList()
+      setIsPopupOpen(!isPopupOpen)
+    } else {
+      toast.error("une alerte s'est produite")
+      getAccountList()
+    }
+  }
+
+  async function activateAccount (accountId) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/activateUser/' + accountId
+    const token = sessionStorage.getItem('token')
+
+    const resp = await fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else if (resp.status === 200) {
+      toast.success('Le compte a été restauré')
+      getAccountList()
+      setIsPopupOpen(!isPopupOpen)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()
@@ -186,7 +230,8 @@ export default function SchoolAccountsTable () {
     setIsEditing(!isEditing)
   }
 
-  const callDeleteAccount = (userIdValue) => {
+  const callDeleteAccount = (userIdValue, action) => {
+    setActionType(action)
     setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
   }
@@ -197,7 +242,7 @@ export default function SchoolAccountsTable () {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} activateAccount={activateAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>
@@ -207,44 +252,63 @@ export default function SchoolAccountsTable () {
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='editProfileForm'>
               <h2>Modifier Profil</h2>
-              <form onSubmit={handleUpdate}>
+              <form className='form-profile-modif' onSubmit={handleUpdate}>
                 <div>
-                  <label htmlFor='firstname'>Prénom:</label>
-                  <input
-                    type='text'
-                    id='firstname'
-                    name='firstname'
-                    value={updatedUser.firstname}
-                    onChange={handleInputChange}
-                  />
+                  <label className='input-label' htmlFor='firstname'>Prénom:
+                    <input
+                      type='text'
+                      id='firstname'
+                      name='firstname'
+                      value={updatedUser.firstname}
+                      onChange={handleInputChange}
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='lastname'>Nom:</label>
-                  <input
-                    type='text'
-                    id='lastname'
-                    name='lastname'
-                    value={updatedUser.lastname}
-                    onChange={handleInputChange}
-                  />
+                  <label className='input-label' htmlFor='lastname'>Nom:
+                    <input
+                      type='text'
+                      id='lastname'
+                      name='lastname'
+                      value={updatedUser.lastname}
+                      onChange={handleInputChange}
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='email'>Email:</label>
-                  <input
-                    type='email'
-                    id='email'
-                    name='email'
-                    value={updatedUser.email}
-                    onChange={handleInputChange}
-                  />
+                  <label className='input-label' htmlFor='email'>Email:
+                    <input
+                      type='email'
+                      id='email'
+                      name='email'
+                      value={updatedUser.email}
+                      onChange={handleInputChange}
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label htmlFor='picture'>Photo de profil:</label>
-                  <input
-                    type='file'
-                    id='picture'
-                    onChange={handleFileChange}
-                  />
+                  <label className='input-label' htmlFor='classes'>Classes:
+                    <Select
+                      isMulti={isMultiStatus}
+                      data-testid='classes'
+                      id='classes'
+                      placeholder='Sélectionner une ou plusieurs classes'
+                      options={classesList}
+                      value={updatedUser.classes}
+                      onChange={handleClassChange}
+                      getOptionValue={(option) => option._id}
+                      getOptionLabel={(option) => option.name}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label className='input-label' htmlFor='picture'>Photo de profil:
+                    <input
+                      type='file'
+                      id='picture'
+                      onChange={handleFileChange}
+                    />
+                  </label>
                 </div>
                 <button type='submit'>Mettre à jour</button>
               </form>
@@ -266,8 +330,8 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe(s)</th>
-                <th className='valHead6'>Modifier</th>
-                {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
+                {status && <th className='valHead6'>Modifier</th>}
+                {status ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -279,8 +343,16 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>
-                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
+                    {status &&
+                      <td>
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                        {
+                      data.active
+                        ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                        : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                    }
+                      </td>}
                   </tr>
                 )
               }
@@ -302,8 +374,8 @@ export default function SchoolAccountsTable () {
                 <th className='valHead3'>Nom</th>
                 <th className='valHead4'>Email</th>
                 <th className='valHead5'>Classe</th>
-                <th className='valHead6'>Modifier</th>
-                {sessionStorage.getItem('role') !== 'teacher' ? <th className='valHead5' /> : ''}
+                {status && <th className='valHead6'>Modifier</th>}
+                {status ? <th className='valHead5' /> : ''}
               </tr>
             </thead>
             <tbody className='tableBody'>
@@ -315,8 +387,16 @@ export default function SchoolAccountsTable () {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>
-                    {sessionStorage.getItem('role') !== 'teacher' && <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>}
+                    {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>}
+                    {status &&
+                      <td>
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                        {
+                          data.active
+                            ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                            : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                        }
+                      </td>}
                   </tr>
                 )
               }

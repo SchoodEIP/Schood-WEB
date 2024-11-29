@@ -76,8 +76,8 @@ export default function ForgottenPasswordPage () {
               <p>{redirectMessage}</p>
               )
             : (
-              <form>
-                <label style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: '20px', margin: '20px' }}>
+              <form className='auth-form'>
+                <label style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', fontFamily: 'Inter', fontSize: '22px', gap: '20px', margin: '20px' }}>
                   <input style={{ border: 'none', width: '283px', height: '46px', paddingLeft: '25px', borderRadius: '26px', backgroundColor: '#FFD2D5' }} id='mailInput' type='text' placeholder='Adresse Email' onChange={handleEmailChange} value={email} required />
                 </label>
                 <button style={{ width: '100%', paddingLeft: '25px', paddingRight: '25px' }} onClick={handleRequest} type='submit' id='submit-button'>Demander un nouveau mot de passe</button>

@@ -33,7 +33,6 @@ import Sidebar from './Components/Sidebar/sidebar'
 import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
 import './css/index.scss'
-import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
 
 const rootElement = document.getElementById('root')
 
@@ -64,30 +63,21 @@ if (rootElement) {
                   <Route path='/alerts' element={<AlertsPage />} />
                   <Route path='/alerts/:id' element={<AlertsPage />} />
                   <Route path='/profile' element={<ProfilPage />} />
+                  <Route path='/aides' element={<HelpPage />} />
                 </>
               )}
               {sessionStorage.getItem('role') === 'admin' && (
                 <>
                   <Route path='/' element={<AdmHomePage />} />
                   <Route path='/accounts' element={<AdmAccountsPage />} />
-                  <Route path='/aides' element={<HelpPage />} />
-                  <Route path='/messages' element={<ChatRoomPage />} />
-                  <Route path='/alerts' element={<AlertsPage />} />
-                  <Route path='/alerts/:id' element={<AlertsPage />} />
-                  <Route path='/profile' element={<ProfilPage />} />
                 </>
               )}
               {sessionStorage.getItem('role') === 'administration' && (
                 <>
                   <Route path='/' element={<SchoolAdmHomePage />} />
                   <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
-                  <Route path='/aides' element={<HelpPage />} />
-                  <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
                   <Route path='/reports' element={<ReportChecking />} />
-                  <Route path='/alerts' element={<AlertsPage />} />
-                  <Route path='/alerts/:id' element={<AlertsPage />} />
-                  <Route path='/profile' element={<ProfilPage />} />
                   <Route path='/feelings' element={<FeelingsAdminPage />} />
                   <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
@@ -98,25 +88,18 @@ if (rootElement) {
                   <Route path='/questionnaires' element={<FormListStudentPage />} />
                   <Route path='/questionnaire/:id' element={<FormStudentPage />} />
                   <Route path='/statistiques' element={<StudentStatPage />} />
-                  <Route path='/aides' element={<HelpPage />} />
-                  <Route path='/profile' element={<ProfilPage />} />
                   <Route path='/feelings' element={<FeelingsStudentPage />} />
                 </>
               )}
               {sessionStorage.getItem('role') === 'teacher' && (
                 <>
                   <Route path='/' element={<TeacherHomePage />} />
-                  <Route path='/messages' element={<ChatRoomPage />} />
                   <Route path='/questionnaires' element={<FormListTeacherPage />} />
                   <Route path='/questionnaire' element={<NewFormPage />} />
                   <Route path='/questionnaire/:id' element={<FormTeacherPage />} />
                   <Route path='/questionnaire/:id/modify' element={<ModifyFormTeacherPage />} />
                   <Route path='/statistiques' element={<TeacherStatPage />} />
-                  <Route path='/aides' element={<HelpPage />} />
-                  <Route path='/alerts' element={<AlertsPage />} />
-                  <Route path='/alerts/:id' element={<AlertsPage />} />
-                  <Route path='/profile' element={<ProfilPage />} />
-                  <Route path='/accounts' element={<SchoolAccountsTable />} />
+                  <Route path='/accounts' element={<SchoolAdmAccountsPage />} />
                   <Route path='/profile/:id' element={<TeacherProfilePage />} />
                 </>
               )}

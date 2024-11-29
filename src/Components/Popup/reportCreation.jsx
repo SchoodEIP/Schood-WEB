@@ -5,7 +5,7 @@ import { disconnect } from '../../functions/disconnect'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
 
-const ReportCreationPopupContent = () => {
+const ReportCreationPopupContent = ({ onClose }) => {
   const userId = localStorage.getItem('id')
   const [reason, setReason] = useState('')
   const [message, setMessage] = useState('')

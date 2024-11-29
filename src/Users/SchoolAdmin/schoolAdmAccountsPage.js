@@ -41,9 +41,9 @@ export default function SchoolAdmAccountsPage () {
     <div>
       <div>
         <HeaderComp
-          title='Gestion de Comptes'
+          title={sessionStorage.getItem('role') !== 'teacher' ? 'Gestion des Comptes' : 'Comptes'}
           withLogo
-          showButtons
+          showButtons={sessionStorage.getItem('role') !== 'teacher'}
           buttonComponent={buttonComponent}
         />
       </div>
@@ -64,7 +64,7 @@ export default function SchoolAdmAccountsPage () {
             </div>
           )}
         </Popup>
-        <SchoolAccountsTable />
+        <SchoolAccountsTable status={sessionStorage.getItem('role') !== 'teacher'} />
       </div>
     </div>
   )

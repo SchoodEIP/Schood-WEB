@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
-import veryBadMood from '../../assets/newVeryBadMood.png'
-import badMood from '../../assets/newBadMood.png'
-import averageMood from '../../assets/newAverageMood.png'
-import happyMood from '../../assets/newHappyMood.png'
-import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import { disconnect } from '../../functions/disconnect'
 import emoji1 from '../../assets/emojis/1.png'
@@ -18,9 +13,9 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
+import { toast } from 'react-toastify'
 
-const MoodFormCreationPopupContent = () => {
-  const [errMessage, setErrMessage] = useState('')
+const MoodFormCreationPopupContent = ({ onClose }) => {
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
   const [newMessage, setNewMessage] = useState('')
@@ -58,14 +53,15 @@ const MoodFormCreationPopupContent = () => {
             disconnect()
           }
           if (response.status === 200) {
-            window.location.reload()
+            toast.success('Le ressenti a été créé avec succès.')
+            onClose()
           }
         })
         .catch(error => /* istanbul ignore next */ {
-          setErrMessage('Erreur lors de la récupération des ressentis', error)
+          toast.error('Erreur lors de la récupération des ressentis', error)
         })
     } else {
-      setErrMessage("L'humeur est manquante.")
+      toast.error("L'humeur est manquante.")
     }
   }
 
@@ -88,7 +84,6 @@ const MoodFormCreationPopupContent = () => {
         <input id='remember-me-input' type='checkbox' defaultChecked onClick={handleAnonymous} />
         <label for='remember-me-input'>Anonyme</label>
       </div>
-      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
     </>
   )

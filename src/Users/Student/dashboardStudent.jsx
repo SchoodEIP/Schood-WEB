@@ -39,7 +39,7 @@ const StudentHomePage = () => {
           {(close) => (
             <div className='popup-modal-container' style={{ gap: '5px' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <MoodFormCreationPopupContent />
+              <MoodFormCreationPopupContent onClose={close} />
             </div>
           )}
         </Popup>
@@ -47,7 +47,7 @@ const StudentHomePage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <ReportCreationPopupContent />
+              <ReportCreationPopupContent onClose={close} />
             </div>
           )}
         </Popup>

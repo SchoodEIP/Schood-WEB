@@ -231,6 +231,11 @@ const ModifyFormTeacherPage = () => {
           )}
         </Popup>
         <div className='form'>
+          <div className='error-message-container'>
+            <p className='error-message' data-testid='error-message'>{errMessage}</p>
+          </div>
+        </div>
+        <div className='form-content-container'>
           <div className='head-form'>
             <div className='input-container'>
               <input value={title} onChange={(e) => handleChangeFormTitle(e)} className='form-input default-input' name='form-title' id='form-title' placeholder='Titre du questionnaire' />
@@ -250,11 +255,6 @@ const ModifyFormTeacherPage = () => {
               </label>
             </div>
           </div>
-          <div className='error-message-container'>
-            <p className='error-message' data-testid='error-message'>{errMessage}</p>
-          </div>
-        </div>
-        <div className='form-content-container'>
           {
               (questionInc > 0 && questions) && questions.map((question, index) =>
                 <div key={index} className='question'>

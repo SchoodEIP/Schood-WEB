@@ -11,9 +11,9 @@ import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
 
 const FeelingsAdminPage = () => {
-  const [errMessage, setErrMessage] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isModified, setIsModified] = useState(false)
   // const [selectedFeeling, setSelectedFeeling] = useState(null)
@@ -42,7 +42,7 @@ const FeelingsAdminPage = () => {
       veryHappyMood: 'Heureux'
     }
   }, [])
-
+  // A Vérifier dans branche désanonymisation
   const handleMood = (moodNumber) => {
     setNewMood(moodNumber)
   }
@@ -78,10 +78,10 @@ const FeelingsAdminPage = () => {
           if (response.status === 200) { window.location.reload() }
         })
         .catch(error => /* istanbul ignore next */ {
-          setErrMessage('Erreur lors de la récupération des ressentis', error)
+          toast.error('Erreur lors de la récupération des ressentis', error)
         })
     } else {
-      setErrMessage('L\'humeur n\'est pas indiquée.')
+      toast.error('L\'humeur n\'est pas indiquée.')
     }
   }
 
@@ -103,11 +103,11 @@ const FeelingsAdminPage = () => {
         if (Array.isArray(data)) {
           setFeelings(prevFeelings => [...prevFeelings, ...data])
         } else {
-          setErrMessage('Les données reçues ne sont pas valides.')
+          toast.error('Les données reçues ne sont pas valides.')
         }
       })
       .catch(error => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de la récupération des ressentis', error)
+        toast.error('Erreur lors de la récupération des ressentis', error)
       })
   }, [])
 
@@ -115,37 +115,39 @@ const FeelingsAdminPage = () => {
     setIsCreateOpen(false)
   }
 
-  const handleFeelingsModification = (feeling) => {
-    setIsCreateOpen(true)
-    setIsModified(true)
-    // setSelectedFeeling(feeling)
-    setNewMood(feeling.mood)
-    setNewAnonymous(feeling.annonymous)
-    setNewMessage(feeling.comment)
-  }
+  // A Vérifier dans branche désanonymisation
+  // const handleFeelingsModification = (feeling) => {
+  //   setIsCreateOpen(true)
+  //   setIsModified(true)
+  //   // setSelectedFeeling(feeling)
+  //   setNewMood(feeling.mood)
+  //   setNewAnonymous(feeling.annonymous)
+  //   setNewMessage(feeling.comment)
+  // }
 
-  async function getUserName (username) {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': sessionStorage.getItem('token')
-      }
-    })
-      .then(response => {
-        if (response.status === 401) {
-          disconnect()
-        }
-        return response.json()
-      })
-      .then(data => {
-        return `${data.firstname} ${data.lastname}`
-      })
-      .catch(error => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de la récupération des ressentis', error)
-      })
-    return 'Erreur'
-  }
+  // A Vérifier dans branche désanonymisation
+  // async function getUserName (username) {
+  //   await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'x-auth-token': sessionStorage.getItem('token')
+  //     }
+  //   })
+  //     .then(response => {
+  //       if (response.status === 401) {
+  //         disconnect()
+  //       }
+  //       return response.json()
+  //     })
+  //     .then(data => {
+  //       return `${data.firstname} ${data.lastname}`
+  //     })
+  //     .catch(error => /* istanbul ignore next */ {
+  //       toast.error('Erreur lors de la récupération des ressentis', error)
+  //     })
+  //   return 'Erreur'
+  // }
 
   return (
     <div>
@@ -188,7 +190,6 @@ const FeelingsAdminPage = () => {
                 <input type='checkbox' id='anonymous-checkbox' checked={newAnonymous} onClick={handleAnonymous} />
                 <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
               </div> */}
-              {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
               <button className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
             </div>
           )}

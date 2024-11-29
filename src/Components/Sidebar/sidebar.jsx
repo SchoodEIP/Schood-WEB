@@ -5,6 +5,7 @@ import Popup from 'reactjs-popup'
 import { Tooltip } from 'react-tooltip'
 import moment from 'moment'
 import logoSchood from '../../assets/logo_schood.png'
+import { toast } from 'react-toastify'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -49,7 +50,6 @@ import schoodIcon from '../../assets/sidenav/schood-icon.png'
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
-  const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)
@@ -88,7 +88,7 @@ export default function Sidebar () {
           setDailyMood(data.mood)
         }
       })
-      .catch((e) => { console.error(e) })
+      .catch((e) => { toast.error(e.statusText) })
   }
 
   const getUnseenNotifications = () => {
@@ -130,7 +130,7 @@ export default function Sidebar () {
     if (role === 'student') {
       getDailyMood()
     }
-    setProfile(JSON.parse(sessionStorage.getItem('profile')))
+    // setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
   let pages = []
@@ -162,6 +162,9 @@ export default function Sidebar () {
     if (sessionStorage.getItem('role') === 'student') {
       const feelingsObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(6, 0, feelingsObj)
+    } else {
+      const accountsObj = { id: 'accounts', path: '/accounts', icon: <FaUsers size={24} />, label: 'Comptes', title: 'Comptes', selected: IsCurrentPage('/accounts', false) }
+      pages.splice(6, 0, accountsObj)
     }
   }
 
@@ -183,10 +186,11 @@ export default function Sidebar () {
           disconnect()
         } else {
           setDailyMood(mood)
+          toast.success('Votre humeur du jour a été prise en compte.')
         }
       })
       .catch((error) => {
-        console.error(error)
+        toast.error(error.statusText)
       })
   }
 
@@ -208,7 +212,7 @@ export default function Sidebar () {
         setNotifications(data)
       })
       .catch((error) => {
-        console.error(error)
+        toast.error(error)
       })
   }
 
@@ -273,6 +277,9 @@ export default function Sidebar () {
             <div data-testid='sidebar-expander' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={270} style={{ color: '#4f23e2' }} />
             </div>
+            <div onClick={() => disconnect()} className='item'>
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
+            </div>
           </div>
         </div>
       )}
@@ -316,6 +323,9 @@ export default function Sidebar () {
             <span className='divider' />
             <div data-testid='sidebar-collapser' onClick={() => toggleSidebar()} className='item'>
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
+            </div>
+            <div onClick={() => disconnect()} className='item'>
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
             </div>
           </div>
         </div>
