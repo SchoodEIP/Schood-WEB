@@ -50,7 +50,6 @@ import schoodIcon from '../../assets/sidenav/schood-icon.png'
 export default function Sidebar () {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [dailyMood, setDailyMood] = useState(null)
-  const [profile, setProfile] = useState(null)
   const { chats } = useContext(WebsocketContext)
   const location = useLocation()
   const [isShown, setIsShown] = useState(false)

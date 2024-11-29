@@ -51,7 +51,7 @@ const Messages = () => {
         noUserParticipants.map((participant) => (
           convName.push(participant.firstname + ' ' + participant.lastname)
         ))
-        setCurrentParticipants(convName.join(', '))
+        // setCurrentParticipants(convName.join(', '))
         return {
           _id: conversation._id,
           date: conversation.date,

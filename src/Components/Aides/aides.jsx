@@ -107,9 +107,7 @@ export default function AidePage () {
           )}
         </div>
         <div className='contact-content-container' id='contact-profile'>
-          {isCategoryEmpty ? ( // Check if the category is empty
-            <p>Aucun numéro disponible dans cette catégorie.</p>
-          ) : (
+          {isCategoryEmpty ? (<p>Aucun numéro disponible dans cette catégorie.</p>) : (
             <>
               <h3 id='contact-title'>{chosenContact.name}</h3>
               <p>{chosenContact.description}</p>
