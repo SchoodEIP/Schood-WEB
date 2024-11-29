@@ -33,7 +33,6 @@ import Sidebar from './Components/Sidebar/sidebar'
 import { WebsocketProvider } from './contexts/websocket'
 import { Slide, ToastContainer } from 'react-toastify'
 import './css/index.scss'
-import SchoolAccountsTable from './Components/Accounts/SchoolAdm/schoolAccountsTable'
 
 const rootElement = document.getElementById('root')
 

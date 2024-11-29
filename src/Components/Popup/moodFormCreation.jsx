@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
-import veryBadMood from '../../assets/newVeryBadMood.png'
-import badMood from '../../assets/newBadMood.png'
-import averageMood from '../../assets/newAverageMood.png'
-import happyMood from '../../assets/newHappyMood.png'
-import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import { disconnect } from '../../functions/disconnect'
 import emoji1 from '../../assets/emojis/1.png'
@@ -21,7 +16,6 @@ import emoji5Selected from '../../assets/emojis/5s.png'
 import { toast } from 'react-toastify'
 
 const MoodFormCreationPopupContent = ({ onClose }) => {
-  const [errMessage, setErrMessage] = useState('')
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
   const [newMessage, setNewMessage] = useState('')

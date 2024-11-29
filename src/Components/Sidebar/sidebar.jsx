@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 
 import { FaUsers, FaExclamationCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesDown } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/Components/Popup/popup.scss'
 import '../../css/Components/Sidebar/sidebar.scss'
@@ -131,7 +131,7 @@ export default function Sidebar () {
     if (role === 'student') {
       getDailyMood()
     }
-    setProfile(JSON.parse(sessionStorage.getItem('profile')))
+    // setProfile(JSON.parse(sessionStorage.getItem('profile')))
   }, [])
 
   let pages = []

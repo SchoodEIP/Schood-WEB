@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
-import { disconnect } from '../../functions/disconnect'
 import Popup from 'reactjs-popup'
 import cross from '../../assets/Cross.png'
 import { toast } from 'react-toastify'
@@ -131,7 +130,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
         navigate('/profile')
       } else {
         navigate('/profile')
-        const text = await response.text()
+        // const text = await response.text()
         setNegativeResponse('')
         console.log(`Erreur lors de la mise à jour du profil: ${response.statusText}`)
       }

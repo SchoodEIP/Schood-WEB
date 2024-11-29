@@ -42,18 +42,18 @@ const FeelingsAdminPage = () => {
       veryHappyMood: 'Heureux'
     }
   }, [])
+  // A Vérifier dans branche désanonymisation
+  // const handleMood = (moodNumber) => {
+  //   setNewMood(moodNumber)
+  // }
 
-  const handleMood = (moodNumber) => {
-    setNewMood(moodNumber)
-  }
+  // const handleAnonymous = () => {
+  //   setNewAnonymous(!newAnonymous)
+  // }
 
-  const handleAnonymous = () => {
-    setNewAnonymous(!newAnonymous)
-  }
-
-  const handleMessage = (event) => {
-    setNewMessage(event.target.value)
-  }
+  // const handleMessage = (event) => {
+  //   setNewMessage(event.target.value)
+  // }
 
   const handleUpdateFeelings = () => {
     const dataPayload = {
@@ -115,37 +115,39 @@ const FeelingsAdminPage = () => {
     setIsCreateOpen(false)
   }
 
-  const handleFeelingsModification = (feeling) => {
-    setIsCreateOpen(true)
-    setIsModified(true)
-    // setSelectedFeeling(feeling)
-    setNewMood(feeling.mood)
-    setNewAnonymous(feeling.annonymous)
-    setNewMessage(feeling.comment)
-  }
+  // A Vérifier dans branche désanonymisation
+  // const handleFeelingsModification = (feeling) => {
+  //   setIsCreateOpen(true)
+  //   setIsModified(true)
+  //   // setSelectedFeeling(feeling)
+  //   setNewMood(feeling.mood)
+  //   setNewAnonymous(feeling.annonymous)
+  //   setNewMessage(feeling.comment)
+  // }
 
-  async function getUserName (username) {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': sessionStorage.getItem('token')
-      }
-    })
-      .then(response => {
-        if (response.status === 401) {
-          disconnect()
-        }
-        return response.json()
-      })
-      .then(data => {
-        return `${data.firstname} ${data.lastname}`
-      })
-      .catch(error => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de la récupération des ressentis', error)
-      })
-    return 'Erreur'
-  }
+  // A Vérifier dans branche désanonymisation
+  // async function getUserName (username) {
+  //   await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'x-auth-token': sessionStorage.getItem('token')
+  //     }
+  //   })
+  //     .then(response => {
+  //       if (response.status === 401) {
+  //         disconnect()
+  //       }
+  //       return response.json()
+  //     })
+  //     .then(data => {
+  //       return `${data.firstname} ${data.lastname}`
+  //     })
+  //     .catch(error => /* istanbul ignore next */ {
+  //       setErrMessage('Erreur lors de la récupération des ressentis', error)
+  //     })
+  //   return 'Erreur'
+  // }
 
   return (
     <div>

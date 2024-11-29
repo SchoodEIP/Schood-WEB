@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
