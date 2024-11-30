@@ -129,7 +129,7 @@ const FeelingsAdminPage = () => {
           getDesanonym()
           setIsOpen(!isOpen)
         } else {
-          toast.error("Erreur serveur.")
+          toast.error('Erreur serveur.')
         }
         return response
       })
@@ -153,7 +153,7 @@ const FeelingsAdminPage = () => {
           toast.success('La demande de désanonymisation supprimée.')
           getDesanonym()
         } else {
-          toast.error("Erreur serveur.")
+          toast.error('Erreur serveur.')
         }
         return response
       })
