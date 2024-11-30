@@ -6,7 +6,6 @@ const ChatRoomSidebar = ({
   conversations,
   currentConversation,
   setCurrentConversation,
-  setCurrentParticipants,
   clearMessageAndError,
   openCreateConversationPopup
 }) => {
@@ -23,7 +22,6 @@ const ChatRoomSidebar = ({
     conversation.participants?.map((participant) => (
       conv.push(participant.firstname + ' ' + participant.lastname)
     ))
-    setCurrentParticipants(conv.join(', '))
   }
 
   return (
@@ -33,7 +31,6 @@ const ChatRoomSidebar = ({
           <img className='img-cross' src={cross} alt='cross' />
           <span>+ Nouvelle conversation</span>
         </button>
-        {/* <span className='divider' /> */}
       </div>
       <div className='content'>
         {conversations.map((conversation, index) => (

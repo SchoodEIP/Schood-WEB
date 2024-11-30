@@ -15,7 +15,6 @@ import UserProfile from '../../Components/userProfile/userProfile'
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
-  const [currentParticipants, setCurrentParticipants] = useState('')
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
   const inputFile = useRef(null)
@@ -397,7 +396,6 @@ const Messages = () => {
         conversations={conversations}
         currentConversation={currentConversation}
         setCurrentConversation={setCurrentConversation}
-        setCurrentParticipants={setCurrentParticipants}
         clearMessageAndError={clearMessageAndError}
         openCreateConversationPopup={openCreateConversationPopup}
       />
