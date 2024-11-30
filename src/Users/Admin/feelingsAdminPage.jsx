@@ -54,10 +54,7 @@ const FeelingsAdminPage = () => {
     demand.reason = feelingId
     setDemand(demand)
     const toFind = demands.find(item => item.reason === feelingId)
-    if (toFind)
-      toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.')
-    else
-      setIsOpen(!isOpen)
+    if (toFind) { toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.') } else { setIsOpen(!isOpen) }
   }
 
   async function getDesanonym () {
@@ -106,7 +103,7 @@ const FeelingsAdminPage = () => {
       .catch(error => /* istanbul ignore next */ {
         toast.error('Erreur lors de la récupération des ressentis', error)
       })
-      getDesanonym()
+    getDesanonym()
   }, [])
 
   const handleClosePopup = () => {
@@ -114,7 +111,7 @@ const FeelingsAdminPage = () => {
   }
 
   const handleAskDesanonym = (message) => {
-    demand.message = (message ? message : "Vous n'avez pas de message associé à cette demande")
+    demand.message = (message || "Vous n\'avez pas de message associé à cette demande")
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
       headers: {
@@ -161,7 +158,7 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
-        toast.error("Erreur lors de la suppression de la demande.")
+        toast.error('Erreur lors de la suppression de la demande.')
       })
   }
 
@@ -190,53 +187,55 @@ const FeelingsAdminPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <DesanonymFeelingPopupContent handleAskDesanonym={handleAskDesanonym}/>
+              <DesanonymFeelingPopupContent handleAskDesanonym={handleAskDesanonym} />
             </div>
           )}
         </Popup>
         <Popup open={isShown} onClose={handleCloseFeelingPopup} modal>
           {(close) => (
-            <div className='popup-modal-container' style={{alignItems: "inherit"}}>
+            <div className='popup-modal-container' style={{ alignItems: 'inherit' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <div key={shownFeeling._id} style={{marginBottom: "0", width: "95%"}} className='individual-feelings-container'>
-              <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
-              <div className='horizontal-line' />
-              <div className='feelings-container-content' style={{width: "100%"}}>
-                <div className='container-sidebar' style={{width: "45%"}}>
-                  <div className='emoticone-container'>
-                    <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
-                    <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
+              <div key={shownFeeling._id} style={{ marginBottom: '0', width: '95%' }} className='individual-feelings-container'>
+                <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
+                <div className='horizontal-line' />
+                <div className='feelings-container-content' style={{ width: '100%' }}>
+                  <div className='container-sidebar' style={{ width: '45%' }}>
+                    <div className='emoticone-container'>
+                      <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
+                      <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
+                    </div>
+                    <div className='review-status'>
+                      <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
+                      <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
+                    </div>
+                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>Anonyme</div>
                   </div>
-                  <div className='review-status'>
-                    <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
-                    <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
+                  <div className='feelings-content' style={{ width: '100%' }}>
+                    <p className='paragraph-style'>{shownFeeling.comment}</p>
                   </div>
-                  <div className='publication-author' style={{alignItems:"center",display:"flex",gap:"5px"}}>Anonyme</div>
-                </div>
-                <div className='feelings-content' style={{width: "100%"}}>
-                  <p className='paragraph-style' >{shownFeeling.comment}</p>
                 </div>
               </div>
             </div>
-            </div>
           )}
         </Popup>
-        <div className="demands-container">
-            <h3 style={{paddingLeft: "15px"}}>Vos demandes de désanonymisation</h3>
-            <div className="demand-container-content">
-              {
-                demands.length !== 0 ? (
-                  demands.map((dem) => (
-                    <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                      <p className="demand-content">{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
-                      <button className='demand-close-btn' onClick={(e) => { e.stopPropagation(); deleteDemand(dem._id)}}><img className="close-img" src={closeBlack} alt='DeleteDemand' /></button>
-                    </div>
-                ))
-                ) : (
-                  <p>Aucune demande en cours</p>
-                )
+        <div className='demands-container'>
+          <h3 style={{ paddingLeft: '15px' }}>Vos demandes de désanonymisation</h3>
+          <div className='demand-container-content'>
+            {
+                demands.length !== 0
+                  ? (
+                      demands.map((dem) => (
+                        <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                          <p className='demand-content'>{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
+                          <button className='demand-close-btn' onClick={(e) => { e.stopPropagation(); deleteDemand(dem._id) }}><img className='close-img' src={closeBlack} alt='DeleteDemand' /></button>
+                        </div>
+                      ))
+                    )
+                  : (
+                    <p>Aucune demande en cours</p>
+                    )
               }
-            </div>
+          </div>
         </div>
         <div id='feelings-container'>
           {feelings.length !== 0 && feelings.map((feeling) => (
@@ -253,7 +252,7 @@ const FeelingsAdminPage = () => {
                     <p style={{ marginBottom: '0' }}>{feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                     <p style={{ marginTop: '0' }}>{feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''}</p>
                   </div>
-                  <div className='publication-author' style={{alignItems:"center",display:"flex",gap:"5px"}}>{feeling.annonymous ? (<>Anonyme <img style={{height: "15px", cursor:"pointer"}} onClick={() => handleDemandPopup(feeling.user._id, feeling._id)} src={questionIcon} alt='Demander à désanonymiser' title="Faire une demande de désanonymisation" /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
+                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
                 </div>
                 <div className='feelings-content'>
                   <p className='paragraph-style'>{feeling.comment}</p>

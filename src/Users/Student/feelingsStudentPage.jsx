@@ -13,7 +13,7 @@ import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import { disconnect } from '../../functions/disconnect'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 import emoji1 from '../../assets/emojis/1.png'
 import emoji2 from '../../assets/emojis/2.png'
 import emoji3 from '../../assets/emojis/3.png'
@@ -207,7 +207,7 @@ const FeelingsStudentPage = () => {
       .catch(error => /* istanbul ignore next */ {
         toast.error('Erreur lors de la récupération des ressentis', error)
       })
-      getDesanonym()
+    getDesanonym()
   }, [setLastFeeling, emotions, moods, imagePaths, lastFeeling.length])
 
   const handleClosePopup = () => {
@@ -340,54 +340,56 @@ const FeelingsStudentPage = () => {
         </Popup>
         <Popup open={isShown} onClose={handleCloseFeelingPopup} modal>
           {(close) => (
-            <div className='popup-modal-container' style={{alignItems: "inherit"}}>
+            <div className='popup-modal-container' style={{ alignItems: 'inherit' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <div key={shownFeeling._id} style={{marginBottom: "0", width: "95%"}} className='individual-feelings-container'>
-              <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
-              <div className='horizontal-line' />
-              <div className='feelings-container-content' style={{width: "100%"}}>
-                <div className='container-sidebar' style={{width: "45%"}}>
-                  <div className='emoticone-container'>
-                    <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
-                    <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
+              <div key={shownFeeling._id} style={{ marginBottom: '0', width: '95%' }} className='individual-feelings-container'>
+                <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
+                <div className='horizontal-line' />
+                <div className='feelings-container-content' style={{ width: '100%' }}>
+                  <div className='container-sidebar' style={{ width: '45%' }}>
+                    <div className='emoticone-container'>
+                      <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
+                      <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
+                    </div>
+                    <div className='review-status'>
+                      <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
+                      <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
+                    </div>
+                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{shownFeeling.annonymous ? 'Anonyme' : userProfile.firstname + ' ' + userProfile.lastname}</div>
                   </div>
-                  <div className='review-status'>
-                    <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
-                    <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
+                  <div className='feelings-content' style={{ width: '100%' }}>
+                    <p className='paragraph-style'>{shownFeeling.comment}</p>
                   </div>
-                  <div className='publication-author' style={{alignItems:"center",display:"flex",gap:"5px"}}>{shownFeeling.annonymous ? "Anonyme" : userProfile.firstname + " " + userProfile.lastname}</div>
-                </div>
-                <div className='feelings-content' style={{width: "100%"}}>
-                  <p className='paragraph-style' >{shownFeeling.comment}</p>
                 </div>
               </div>
             </div>
-            </div>
           )}
         </Popup>
-        <div className="demands-container">
-            <h3 style={{paddingLeft: "15px"}}>Vos demandes de désanonymisation</h3>
-            <div className="demand-container-content">
-              {
-                demands.length !== 0 ? (
-                  demands.map((dem) => (
-                    <div title={dem.message} onClick={() => handleShowFeeling(dem.reason, dem.user)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                      <p className="demand-content">{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
-                      <span>
-                        {
-                          dem.status !== 'accepted' && <button title="Accepter" className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, "accepted")}}><img className="close-img" src={acceptIcon} alt='AcceptDemand' /></button>
+        <div className='demands-container'>
+          <h3 style={{ paddingLeft: '15px' }}>Vos demandes de désanonymisation</h3>
+          <div className='demand-container-content'>
+            {
+                demands.length !== 0
+                  ? (
+                      demands.map((dem) => (
+                        <div title={dem.message} onClick={() => handleShowFeeling(dem.reason, dem.user)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                          <p className='demand-content'>{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
+                          <span>
+                            {
+                          dem.status !== 'accepted' && <button title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='close-img' src={acceptIcon} alt='AcceptDemand' /></button>
                         }
-                        {
-                          dem.status !== 'refused' && <button title="Refuser" className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, "refused")}}><img className="close-img" src={refuseIcon} alt='RefuseDemand' /></button>
+                            {
+                          dem.status !== 'refused' && <button title='Refuser' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'refused') }}><img className='close-img' src={refuseIcon} alt='RefuseDemand' /></button>
                         }
-                      </span>
-                    </div>
-                ))
-                ) : (
-                  <p>Aucune demande en cours</p>
-                )
+                          </span>
+                        </div>
+                      ))
+                    )
+                  : (
+                    <p>Aucune demande en cours</p>
+                    )
               }
-            </div>
+          </div>
         </div>
         <div id='feelings-container' />
       </div>

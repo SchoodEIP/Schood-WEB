@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
-const DesanonymFeelingPopupContent = ({ handleAskDesanonym}) => {
+const DesanonymFeelingPopupContent = ({ handleAskDesanonym }) => {
   const [message, setMessage] = useState('')
 
   const handleMessage = (event) => {
@@ -12,7 +12,7 @@ const DesanonymFeelingPopupContent = ({ handleAskDesanonym}) => {
 
   return (
     <>
-      <input placeholder="Message pour l'Élève..." onChange={handleMessage} type="text" value={message}/>
+      <input placeholder="Message pour l'Élève..." onChange={handleMessage} type='text' value={message} />
 
       <button className='popup-btn' onClick={() => handleAskDesanonym(message)}>Faire la demande</button>
     </>
