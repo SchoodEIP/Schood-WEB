@@ -111,7 +111,7 @@ const FeelingsAdminPage = () => {
   }
 
   const handleAskDesanonym = (message) => {
-    demand.message = (message || "Vous n\'avez pas de message associé à cette demande")
+    demand.message = (message || "Vous n'avez pas de message associé à cette demande")
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
       headers: {
@@ -134,6 +134,7 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
+        console.error("Network or unexpected error:", error);
         toast.error("Erreur lors de l'envoi de la demande")
       })
   }
@@ -158,6 +159,7 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
+        console.error("Network or unexpected error:", error);
         toast.error('Erreur lors de la suppression de la demande.')
       })
   }

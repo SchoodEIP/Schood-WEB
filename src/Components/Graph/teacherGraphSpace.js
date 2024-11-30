@@ -17,9 +17,9 @@ Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Ca
 
 export function TeacherGraphSpace () {
   const [moodData, setMoodData] = useState([])
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
-  const [activeFilter, setActiveFilter] = useState('Semaine')
-  const [selectedClass, setSelectedClass] = useState(null)
+  const selectedDate = useState(new Date().toISOString().split('T')[0])
+  const activeFilter = useState('Semaine')
+  const selectedClass = useState(null)
 
   const moodChartRef = useRef(null)
 
@@ -44,7 +44,7 @@ export function TeacherGraphSpace () {
         }
         const mData = await response.json()
         const moodList = []
-        Object.keys(mData).filter(o => o != 'averagePercentage').forEach((date) => {
+        Object.keys(mData).filter(o => o !== 'averagePercentage').forEach((date) => {
           moodList.push({
             date,
             data: mData[date].moods
