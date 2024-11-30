@@ -34,7 +34,7 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
         toast.success('Fichier envoyé avec l\'alerte avec succès')
       })
       .catch((error) => /* istanbul ignore next */ {
-        toast.error(`Erreur lors de l\'envoi du fichier avec l\'alerte ${error.message}`)
+        toast.error(`Erreur lors de l'envoi du fichier avec l'alerte ${error.message}`);
       })
   }
 

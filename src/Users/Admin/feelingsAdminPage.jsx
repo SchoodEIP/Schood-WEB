@@ -114,7 +114,7 @@ const FeelingsAdminPage = () => {
   }
 
   const handleAskDesanonym = (message) => {
-    demand.message = (message ? message : "Vous n\'avez pas de message associé à cette demande")
+    demand.message = (message ? message : "Vous n'avez pas de message associé à cette demande")
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
       headers: {
@@ -131,6 +131,8 @@ const FeelingsAdminPage = () => {
           toast.success('La demande de désanonymisation a été effectuée.')
           getDesanonym()
           setIsOpen(!isOpen)
+        } else {
+          toast.error("Erreur serveur.")
         }
         return response
       })
@@ -153,6 +155,8 @@ const FeelingsAdminPage = () => {
         } else if (response.status === 200) {
           toast.success('La demande de désanonymisation supprimée.')
           getDesanonym()
+        } else {
+          toast.error("Erreur serveur.")
         }
         return response
       })
