@@ -76,7 +76,6 @@ const FeelingsAdminPage = () => {
       })
       .then(data => {
         setDemands(data)
-        console.log(data)
       })
       .catch(error => /* istanbul ignore next */ {
         toast.error('Erreur lors de la récupération des ressentis', error)
@@ -115,7 +114,6 @@ const FeelingsAdminPage = () => {
   }
 
   const handleAskDesanonym = (message) => {
-    console.log(message)
     demand.message = (message ? message : "Vous n\'avez pas de message associé à cette demande")
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
@@ -137,7 +135,6 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
-        console.log(error)
         toast.error("Erreur lors de l'envoi de la demande")
       })
   }
@@ -160,7 +157,6 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
-        console.log(error)
         toast.error("Erreur lors de la suppression de la demande.")
       })
   }
@@ -227,9 +223,9 @@ const FeelingsAdminPage = () => {
               {
                 demands.length !== 0 ? (
                   demands.map((dem) => (
-                    <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'rejected' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                      <p className="demand-content">{dem.status === 'rejected' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
-                      <button className='demand-close-btn' onClick={() => deleteDemand(dem._id)}><img className="close-img" src={closeBlack} alt='DeleteDemand' /></button>
+                    <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                      <p className="demand-content">{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
+                      <button className='demand-close-btn' onClick={(e) => { e.stopPropagation(); deleteDemand(dem._id)}}><img className="close-img" src={closeBlack} alt='DeleteDemand' /></button>
                     </div>
                 ))
                 ) : (
