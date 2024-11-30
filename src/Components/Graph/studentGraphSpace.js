@@ -39,8 +39,8 @@ export function StudentGraphSpace () {
         })
         const sortedMoodData = {}
         keys.forEach((key) => {
-          sortedMoodData[key] = moodData[key];
-        });
+          sortedMoodData[key] = moodData[key]
+        })
         createOrUpdateChart(sortedMoodData)
       } catch (error) {
         console.error('Error fetching mood data:', error)
