@@ -196,13 +196,13 @@ const FeelingsAdminPage = () => {
         </Popup>
         <Popup open={isShown} onClose={handleCloseFeelingPopup} modal>
           {(close) => (
-            <div className='popup-modal-container'>
+            <div className='popup-modal-container' style={{alignItems: "inherit"}}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <div key={shownFeeling._id} style={{marginBottom: "0"}} className='individual-feelings-container'>
+              <div key={shownFeeling._id} style={{marginBottom: "0", width: "95%"}} className='individual-feelings-container'>
               <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
               <div className='horizontal-line' />
-              <div className='feelings-container-content'>
-                <div className='container-sidebar' style={{width: "100%"}}>
+              <div className='feelings-container-content' style={{width: "100%"}}>
+                <div className='container-sidebar' style={{width: "45%"}}>
                   <div className='emoticone-container'>
                     <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
                     <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
@@ -213,8 +213,8 @@ const FeelingsAdminPage = () => {
                   </div>
                   <div className='publication-author' style={{alignItems:"center",display:"flex",gap:"5px"}}>Anonyme</div>
                 </div>
-                <div className='feelings-content'>
-                  <p className='paragraph-style'>{shownFeeling.comment}</p>
+                <div className='feelings-content' style={{width: "100%"}}>
+                  <p className='paragraph-style' >{shownFeeling.comment}</p>
                 </div>
               </div>
             </div>
