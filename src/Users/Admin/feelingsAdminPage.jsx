@@ -134,7 +134,7 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
-        console.error("Network or unexpected error:", error);
+        console.error('Network or unexpected error:', error)
         toast.error("Erreur lors de l'envoi de la demande")
       })
   }
@@ -159,7 +159,7 @@ const FeelingsAdminPage = () => {
         return response
       })
       .catch(error => /* istanbul ignore next */ {
-        console.error("Network or unexpected error:", error);
+        console.error('Network or unexpected error:', error)
         toast.error('Erreur lors de la suppression de la demande.')
       })
   }
