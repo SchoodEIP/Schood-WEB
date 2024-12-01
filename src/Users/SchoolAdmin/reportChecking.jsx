@@ -10,11 +10,18 @@ import { translate } from '../../functions/translate'
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
+  const [showTreated, setShowTreated] = useState(true)
   // const [reportedConversation, setReportedConversation] = useState(null)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
   // const [error, setError] = useState('')
   // const [reportRequest, setReportRequests] = useState([])
+
+  const handleShowTreated = (result) => {
+    setShowTreated(result)
+    console.log(result)
+  }
+
   const fetchReportRequests = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report`, {
@@ -151,6 +158,8 @@ const ReportChecking = () => {
             currentReport={currentReport}
             setCurrentReport={setCurrentReport}
             handleReportSelection={handleReportSelection}
+            showTreated={showTreated}
+            handleShowTreated={handleShowTreated}
           />
 
           <div className='chat'>
