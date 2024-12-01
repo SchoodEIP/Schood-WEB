@@ -10,12 +10,12 @@ const DesanonymFeelingPopupContent = ({ handleAskDesanonym }) => {
   }
 
   return (
-    <div className="edit-poup-content desanonym-popup-content">
+    <div className='edit-poup-content desanonym-popup-content'>
       <h3>Demande de désanonymisation d'un ressenti</h3>
-      <label className='input-label' style={{alignItems: "center"}}>
+      <label className='input-label' style={{ alignItems: 'center' }}>
         <input placeholder="Message pour l'Élève..." onChange={handleMessage} type='text' value={message} />
       </label>
-      <button className='popup-btn' style={{alignSelf: "center"}} onClick={() => handleAskDesanonym(message)}>Faire la demande</button>
+      <button className='popup-btn' style={{ alignSelf: 'center' }} onClick={() => handleAskDesanonym(message)}>Faire la demande</button>
     </div>
   )
 }

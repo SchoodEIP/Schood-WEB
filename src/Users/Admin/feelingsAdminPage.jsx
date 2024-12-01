@@ -111,7 +111,7 @@ const FeelingsAdminPage = () => {
   }
 
   const handleAskDesanonym = (message) => {
-    demand.message = (message || "Pas de message")
+    demand.message = (message || 'Pas de message')
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
       headers: {
@@ -187,7 +187,7 @@ const FeelingsAdminPage = () => {
       <div className='feelings-page'>
         <Popup open={isOpen} onClose={handleClosePopup} modal>
           {(close) => (
-            <div className='popup-modal-container' style={{alignItems: "center"}}>
+            <div className='popup-modal-container' style={{ alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               <DesanonymFeelingPopupContent handleAskDesanonym={handleAskDesanonym} />
             </div>
