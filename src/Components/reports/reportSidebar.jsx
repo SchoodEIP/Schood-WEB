@@ -9,7 +9,6 @@ const ReportSidebar = ({
   showTreated,
   handleShowTreated
 }) => {
-
   const handleClick = (report) => {
     setCurrentReport(report)
     if (report.conversation) {
@@ -19,9 +18,9 @@ const ReportSidebar = ({
 
   return (
     <div className='chat-sidebar'>
-      <div className="report-sidebar-header">
-        <div className={`report-sidebar-button ${showTreated ? 'blue-filler' : ''}`} style={{width: '40%'}} onClick={() => handleShowTreated(true)}>Traités</div>
-        <div className={`report-sidebar-button ${showTreated ? '' : 'blue-filler'}`} style={{width: '60%'}} onClick={() => handleShowTreated(false)}>En Attente</div>
+      <div className='report-sidebar-header'>
+        <div className={`report-sidebar-button ${showTreated ? 'blue-filler' : ''}`} style={{ width: '40%' }} onClick={() => handleShowTreated(true)}>Traités</div>
+        <div className={`report-sidebar-button ${showTreated ? '' : 'blue-filler'}`} style={{ width: '60%' }} onClick={() => handleShowTreated(false)}>En Attente</div>
       </div>
       <div className='content'>
         {reports
@@ -33,8 +32,7 @@ const ReportSidebar = ({
                 {translate(report.type)}
               </div>
             </div>
-          ))
-        }
+          ))}
       </div>
     </div>
   )
