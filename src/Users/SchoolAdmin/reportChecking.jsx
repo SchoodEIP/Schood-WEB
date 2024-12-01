@@ -10,7 +10,7 @@ import { translate } from '../../functions/translate'
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
-  const [showTreated, setShowTreated] = useState(true)
+  const [showTreated, setShowTreated] = useState(false)
   // const [reportedConversation, setReportedConversation] = useState(null)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
