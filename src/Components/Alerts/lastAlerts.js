@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 import rightArrowInverted from '../../assets/right-arrow-inverted.png'
 import UserProfile from '../userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
 
 export function LastAlerts () {
-  const [errMessage, setErrMessage] = useState('')
   const [alerts, setAlerts] = useState([])
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function LastAlerts () {
         promisedList.then((alertList) => setAlerts(alertList))
       })
       .catch((error) => {
-        setErrMessage('Erreur : ', error.message)
+        toast.error('Erreur : ', error.message)
       })
   }, [])
 
@@ -116,9 +116,6 @@ export function LastAlerts () {
               </div>
               )
             : (<p>Vous n'avez pas de nouvelle alerte.</p>)
-        }
-        {
-          errMessage ? <p style={{ color: 'red' }}>{errMessage}</p> : ''
         }
       </div>
     </div>

@@ -70,11 +70,9 @@ export default function HeaderComp ({ title, withLogo = true, subtitle, withRetu
       })
       .then((data) => {
         setNotifications(data)
-        // setNbNotification(data.length)
       })
       .catch((error) => /* istanbul ignore next */ {
         console.error(error)
-        // setErrMessage('Erreur : ', error.message)
       })
   }
 
