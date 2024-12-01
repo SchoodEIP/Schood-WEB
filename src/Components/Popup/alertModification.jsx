@@ -4,7 +4,7 @@ import '../../css/pages/createAlerts.scss'
 import { toast } from 'react-toastify'
 import { disconnect } from '../../functions/disconnect'
 
-const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, errMessage }) => {
+const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert }) => {
   const [editedAlert, setEditedAlert] = useState(chosenAlert)
   const [file, setFile] = useState(null)
 
@@ -57,7 +57,6 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
         <span className='label-content'>Fichier joint</span>
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
-      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={() => editAlert()}>Modifier l'Alerte</button>
     </>
   )
