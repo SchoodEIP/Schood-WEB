@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 import Message from '../../Components/ChatRoom/message'
-import { disconnect } from '../../functions/disconnect'
 import UserProfile from '../../Components/userProfile/userProfile'
 import '../../css/pages/chatRoomPage.scss'
 
 const AccessingReportedConversationPopupContent = ({ signaledBy, reportedConversation }) => {
   const [currentConversation, setCurrentConversation] = useState('')
-  const [isFetched, setIsFetched] = useState(false)
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
