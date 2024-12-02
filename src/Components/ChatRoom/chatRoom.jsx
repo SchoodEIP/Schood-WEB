@@ -265,8 +265,8 @@ const Messages = () => {
   }
 
   const truncateString = (str) => {
-    return str.length > 25 ? str.slice(0, 30) + '...' : str;
-  };
+    return str.length > 25 ? str.slice(0, 30) + '...' : str
+  }
 
   const createConversation = async (convTitle, selectedContacts) => {
     try {
@@ -413,7 +413,7 @@ const Messages = () => {
             <div className='chat-content'>
               <div className='top'>
                 <div className='top-info'>
-                <div className='conv-name' title={currentConversation.name}>{truncateString(currentConversation.name)}</div>
+                  <div className='conv-name' title={currentConversation.name}>{truncateString(currentConversation.name)}</div>
                   <div className='participants-container'>
                     {currentConversation.participants.length} {currentConversation.participants.length > 1 ? 'membres' : 'membre'}
                   </div>

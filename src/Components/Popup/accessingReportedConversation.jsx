@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
-import Message from "../../Components/ChatRoom/message"
+import Message from '../../Components/ChatRoom/message'
 import { disconnect } from '../../functions/disconnect'
 import UserProfile from '../../Components/userProfile/userProfile'
 import '../../css/pages/chatRoomPage.scss'
@@ -43,7 +43,6 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
   }
 
   const fetchMessages = async () => {
-
     try {
       if (!currentConversation) {
         return
@@ -85,8 +84,8 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
   }, [fetchConversations])
 
   const truncateString = (str) => {
-    return str.length > 25 ? str.slice(0, 30) + '...' : str;
-  };
+    return str.length > 25 ? str.slice(0, 30) + '...' : str
+  }
 
   return (
     <div className='messaging-popup'>

@@ -6,12 +6,11 @@ import ReportSidebar from '../../Components/reports/reportSidebar'
 import UserProfile from '../../Components/userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
 import { translate } from '../../functions/translate'
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify'
 import Popup from 'reactjs-popup'
 import cross from '../../assets/Cross.png'
-import chatIcon from "../../assets/chatIcon.png"
-import AccessingReportedConversationPopupContent from "../../Components/Popup/accessingReportedConversation"
-
+import chatIcon from '../../assets/chatIcon.png'
+import AccessingReportedConversationPopupContent from '../../Components/Popup/accessingReportedConversation'
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
@@ -179,11 +178,11 @@ const ReportChecking = () => {
             showTreated={showTreated}
             handleShowTreated={handleShowTreated}
           />
-          <Popup className="conversation-popup" open={isAccessing} onClose={() => setIsAccessing(false)} modal>
+          <Popup className='conversation-popup' open={isAccessing} onClose={() => setIsAccessing(false)} modal>
             {(close) => (
               <div className='popup-modal-container' style={{ alignItems: 'center' }}>
                 <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-                <AccessingReportedConversationPopupContent reportedConversationId={reportedConversation} onClose={close}/>
+                <AccessingReportedConversationPopupContent reportedConversationId={reportedConversation} onClose={close} />
               </div>
             )}
           </Popup>
@@ -194,9 +193,10 @@ const ReportChecking = () => {
                   <div className='top'>
                     <div className='conv-name'>{translate(currentReport.type)} {
                           reportedConversation && (
-                            <img src={chatIcon} className="report-chat-icon" alt="chat" onClick={handleAccessReportedChat} title="Voir la conversation signalée"/>
+                            <img src={chatIcon} className='report-chat-icon' alt='chat' onClick={handleAccessReportedChat} title='Voir la conversation signalée' />
                           )
-                        }</div>
+                        }
+                    </div>
                     <div className='report-status'>{currentReport.status === 'seen'
                       ? 'La requête a été traitée'
                       : (
