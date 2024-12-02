@@ -18,11 +18,13 @@ const ReportChecking = () => {
   const [showTreated, setShowTreated] = useState(false)
   const [reportedConversation, setReportedConversation] = useState(null)
   const [isAccessing, setIsAccessing] = useState(false)
+  const [signaledBy, setSignaledBy] = useState([])
 
   const handleCurrentReport = (report) => {
     setCurrentReport(report)
+    setSignaledBy(report.signaledBy)
     if (report.conversation) {
-      setReportedConversation(report.conversation._id)
+      setReportedConversation(report.conversation)
     } else {
       setReportedConversation(null)
     }
@@ -48,7 +50,8 @@ const ReportChecking = () => {
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
-        setReportedConversation(data[data.length - 1].conversation._id)
+        setReportedConversation(data[data.length - 1].conversation)
+        setSignaledBy(data[data.length - 1].signaledBy)
       }
     } catch (error) /* istanbul ignore next */ {
       toast.error('Erreur lors de la récupération des demandes de signalement.')
@@ -110,7 +113,7 @@ const ReportChecking = () => {
             {(close) => (
               <div className='popup-modal-container' style={{ alignItems: 'center' }}>
                 <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-                <AccessingReportedConversationPopupContent reportedConversationId={reportedConversation} onClose={close} />
+                <AccessingReportedConversationPopupContent signaledBy={signaledBy} reportedConversation={reportedConversation} />
               </div>
             )}
           </Popup>

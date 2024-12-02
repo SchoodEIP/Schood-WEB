@@ -6,81 +6,30 @@ import { disconnect } from '../../functions/disconnect'
 import UserProfile from '../../Components/userProfile/userProfile'
 import '../../css/pages/chatRoomPage.scss'
 
-const AccessingReportedConversationPopupContent = ({ reportedConversationId }) => {
+const AccessingReportedConversationPopupContent = ({ signaledBy, reportedConversation }) => {
   const [currentConversation, setCurrentConversation] = useState('')
   const [isFetched, setIsFetched] = useState(false)
   const [messages, setMessages] = useState([])
 
-  const fetchConversations = async (changeConversation = true) => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat`, {
-      method: 'GET',
-      headers: {
-        'x-auth-token': sessionStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    })
-    if (response.status === 401) {
-      disconnect()
-    } else {
-      const data = await response.json()
-      const conv = data.find(item => item._id === reportedConversationId)
-      if (conv) {
-        const convParticipants = conv.participants
-        const convName = []
-        convParticipants.map((participant) => (
-          convName.push(participant.firstname + ' ' + participant.lastname)
-        ))
-        setCurrentConversation({
-          _id: conv._id,
-          date: conv.date,
-          participants: conv.participants,
-          name: conv.title !== 'placeholder title' ? conv.title : convName.join(', ')
-        })
-      }
-      fetchMessages()
-    }
-  }
-
-  const fetchMessages = async () => {
-    try {
-      if (!currentConversation) {
-        return
-      }
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/chat/${reportedConversationId}/messages`,
-        {
-          method: 'GET',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      setIsFetched(true)
-
-      if (response.status === 401) {
-        disconnect()
-      }
-      if (!response.ok) /* istanbul ignore next */ {
-        throw new Error('Erreur lors de la récupération des messages.')
-      } else {
-        const data = await response.json()
-        const messageData = data.map((message) => ({
-          contentType: !message.file ? 'text' : 'file',
-          ...message
-        }))
-        setMessages(messageData)
-      }
-    } catch (error) /* istanbul ignore next */ {
-      console.error('Erreur lors de la récupération des messages :', error)
-    }
-  }
-
   useEffect(() => {
-    if (!isFetched) {
-      fetchConversations()
-    }
-  }, [fetchConversations])
+    const convParticipants = reportedConversation.participants.map(participant => participant.user)
+    const convName = []
+    convParticipants.map((participant) => (
+      convName.push(participant.firstname + ' ' + participant.lastname)
+    ))
+    setCurrentConversation({
+      _id: reportedConversation._id,
+      date: reportedConversation.date,
+      participants: convParticipants,
+      name: reportedConversation.title !== 'placeholder title' ? reportedConversation.title : convName.join(', ')
+    })
+
+    const messageData = reportedConversation.messages.map((message) => ({
+      contentType: !message.file ? 'text' : 'file',
+      ...message
+    }))
+    setMessages(messageData)
+  }, [reportedConversation, signaledBy])
 
   const truncateString = (str) => {
     return str.length > 25 ? str.slice(0, 30) + '...' : str
@@ -105,7 +54,7 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
                   <div className='top2'>
                     <div className='message-list'>
                       {messages.map((message, index) => (
-                        <Message key={index} next={messages[index + 1]} message={message} participants={currentConversation.participants} />
+                        <Message key={index} message={message} participants={currentConversation.participants} next={messages[index + 1]} />
                       ))}
                     </div>
                   </div>
