@@ -49,7 +49,6 @@ const ReportChecking = () => {
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
         setReportedConversation(data[data.length - 1].conversation._id)
-        handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
       }
     } catch (error) /* istanbul ignore next */ {
       toast.error('Erreur lors de la récupération des demandes de signalement.')
