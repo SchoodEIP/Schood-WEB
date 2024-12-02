@@ -5,15 +5,11 @@ const ReportSidebar = ({
   reports,
   currentReport,
   handleCurrentReport,
-  handleReportSelection,
   showTreated,
   handleShowTreated
 }) => {
   const handleClick = (report) => {
     handleCurrentReport(report)
-    if (report.conversation) {
-      handleReportSelection(report._id, report.conversation)
-    }
   }
 
   return (

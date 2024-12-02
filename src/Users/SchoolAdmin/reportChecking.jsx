@@ -18,9 +18,6 @@ const ReportChecking = () => {
   const [showTreated, setShowTreated] = useState(false)
   const [reportedConversation, setReportedConversation] = useState(null)
   const [isAccessing, setIsAccessing] = useState(false)
-  // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
-  // const [isReportProcessed, setIsReportProcessed] = useState(false)
-  // const [reportRequest, setReportRequests] = useState([])
 
   const handleCurrentReport = (report) => {
     setCurrentReport(report)
@@ -54,69 +51,10 @@ const ReportChecking = () => {
         setReportedConversation(data[data.length - 1].conversation._id)
         handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
       }
-      console.log(data)
     } catch (error) /* istanbul ignore next */ {
       toast.error('Erreur lors de la récupération des demandes de signalement.')
     }
   }
-
-  // const fetchReportedConversation = async (conversationId) => {
-  //   try {
-  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'x-auth-token': sessionStorage.getItem('token'),
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     if (response.status === 401) {
-  //       disconnect();
-  //     }
-  //     const data = await response.json()
-  //     setReportedConversation(data)
-  //   } catch (error) /* istanbul ignore next */ {
-  //     setError('Erreur lors de la récupération de la conversation signalée.')
-  //   }
-  // }
-
-  // const fetchReportedConversationMessages = async (conversationId) => {
-  //   try {
-  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/${conversationId}/messages`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'x-auth-token': sessionStorage.getItem('token'),
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     if (response.status === 401) {
-  //       disconnect()
-  //     }
-  //     const data = await response.json()
-  //     setReportedConversationMessages(data)
-  //   } catch (error) /* istanbul ignore next */ {
-  //     setError('Erreur lors de la récupération de la conversation signalée.')
-  //   }
-  // }
-
-  /* const checkReportProcessingStatus = async (reportId) => {
-    // on a pas moyen de vérifier le status d'un report, la route ci dessous n'est pas valide
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      })
-      if (response.status === 401) {
-        disconnect();
-      }
-      const data = await response.json()
-      setIsReportProcessed(data.processed)
-    } catch (error) {
-      setError('Erreur lors de la vérification du statut de traitement.')
-    }
-  } */
 
   const handleReportProcessing = async (reportId, isProcessed) => {
     try {
@@ -139,20 +77,13 @@ const ReportChecking = () => {
           }
         })
         fetchReportRequests()
-        // setReports((prevReports) => prevReports.filter((report) => report._id !== reportId))
       }
 
-      // setIsReportProcessed(isProcessed)
     } catch (error) {
       toast.error('Erreur lors du traitement de la demande.')
     }
   }
 
-  const handleReportSelection = async (reportId, conversationId) => {
-    // await fetchReportedConversation(conversationId)
-    // await fetchReportedConversationMessages(conversationId)
-    // await checkReportProcessingStatus(reportId)
-  }
   const handleAccessReportedChat = () => {
     setIsAccessing(!isAccessing)
   }
@@ -174,7 +105,6 @@ const ReportChecking = () => {
             reports={reports}
             currentReport={currentReport}
             handleCurrentReport={handleCurrentReport}
-            handleReportSelection={handleReportSelection}
             showTreated={showTreated}
             handleShowTreated={handleShowTreated}
           />
@@ -213,11 +143,6 @@ const ReportChecking = () => {
                             <div className='report-message'>{currentReport.message}</div>
                           )
                         }
-                        {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
-                        {/* {reportedConversationMessages.map((message, index) => (
-                              <Message key={index} message={message} participants={reportedConversation.participants} />
-                            ))} */}
-                        {/* </div> */}
                       </div>
                     </div>
                     <div className='right'>

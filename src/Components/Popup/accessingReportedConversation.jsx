@@ -19,7 +19,6 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
         'Content-Type': 'application/json'
       }
     })
-    console.log(response.status)
     if (response.status === 401) {
       disconnect()
     } else {
