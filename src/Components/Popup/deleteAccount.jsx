@@ -3,7 +3,6 @@ import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 
 const DeleteAccountPopupContent = ({ userIdValue, actionType, deleteUserAccount, activateAccount, closeDeleteAccountPopup }) => {
-
   const handleAction = (action) => {
     if (!action) {
       deleteUserAccount(false, userIdValue)
