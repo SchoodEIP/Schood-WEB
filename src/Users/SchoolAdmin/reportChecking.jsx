@@ -78,7 +78,6 @@ const ReportChecking = () => {
         })
         fetchReportRequests()
       }
-
     } catch (error) {
       toast.error('Erreur lors du traitement de la demande.')
     }
