@@ -25,17 +25,19 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
     } else {
       const data = await response.json()
       const conv = data.find(item => item._id === reportedConversationId)
-      const convParticipants = conv.participants
-      const convName = []
-      convParticipants.map((participant) => (
-        convName.push(participant.firstname + ' ' + participant.lastname)
-      ))
-      setCurrentConversation({
-        _id: conv._id,
-        date: conv.date,
-        participants: conv.participants,
-        name: conv.title !== 'placeholder title' ? conv.title : convName.join(', ')
-      })
+      if (conv) {
+        const convParticipants = conv.participants
+        const convName = []
+        convParticipants.map((participant) => (
+          convName.push(participant.firstname + ' ' + participant.lastname)
+        ))
+        setCurrentConversation({
+          _id: conv._id,
+          date: conv.date,
+          participants: conv.participants,
+          name: conv.title !== 'placeholder title' ? conv.title : convName.join(', ')
+        })
+      }
       fetchMessages()
     }
   }
@@ -124,7 +126,7 @@ const AccessingReportedConversationPopupContent = ({ reportedConversationId }) =
             </div>
             )
           : (
-            <div>Aucune conversation sélectionnée.</div>
+            <div>Cette converssation n'est pas disponible actuellement.</div>
             )}
       </div>
     </div>
