@@ -4,13 +4,13 @@ import { translate } from '../../functions/translate'
 const ReportSidebar = ({
   reports,
   currentReport,
-  setCurrentReport,
+  handleCurrentReport,
   handleReportSelection,
   showTreated,
   handleShowTreated
 }) => {
   const handleClick = (report) => {
-    setCurrentReport(report)
+    handleCurrentReport(report)
     if (report.conversation) {
       handleReportSelection(report._id, report.conversation)
     }

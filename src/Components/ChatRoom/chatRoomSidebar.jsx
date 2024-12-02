@@ -24,6 +24,10 @@ const ChatRoomSidebar = ({
     ))
   }
 
+  const truncateString = (str) => {
+    return str.length > 25 ? str.slice(0, 30) + '...' : str;
+  };
+
   return (
     <div className='chat-sidebar'>
       <div className='top'>
@@ -35,8 +39,8 @@ const ChatRoomSidebar = ({
       <div className='content'>
         {conversations.map((conversation, index) => (
           <div key={index} className={`${conversation === currentConversation ? 'active-conversation' : 'conversation'}`} onClick={() => handleClick(conversation)}>
-            <div className='text'>
-              {conversation.name}
+            <div className='text' title={conversation.name}>
+            {truncateString(conversation.name)}
             </div>
             {
               (chats.value.unseenChats.includes(conversation._id)) &&

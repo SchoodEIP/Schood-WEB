@@ -6,20 +6,34 @@ import ReportSidebar from '../../Components/reports/reportSidebar'
 import UserProfile from '../../Components/userProfile/userProfile'
 import { disconnect } from '../../functions/disconnect'
 import { translate } from '../../functions/translate'
+import {toast} from "react-toastify"
+import Popup from 'reactjs-popup'
+import cross from '../../assets/Cross.png'
+import chatIcon from "../../assets/chatIcon.png"
+import AccessingReportedConversationPopupContent from "../../Components/Popup/accessingReportedConversation"
+
 
 const ReportChecking = () => {
   const [reports, setReports] = useState([])
   const [currentReport, setCurrentReport] = useState('')
   const [showTreated, setShowTreated] = useState(false)
-  // const [reportedConversation, setReportedConversation] = useState(null)
+  const [reportedConversation, setReportedConversation] = useState(null)
+  const [isAccessing, setIsAccessing] = useState(false)
   // const [reportedConversationMessages, setReportedConversationMessages] = useState(null)
   // const [isReportProcessed, setIsReportProcessed] = useState(false)
-  // const [error, setError] = useState('')
   // const [reportRequest, setReportRequests] = useState([])
+
+  const handleCurrentReport = (report) => {
+    setCurrentReport(report)
+    if (report.conversation) {
+      setReportedConversation(report.conversation._id)
+    } else {
+      setReportedConversation(null)
+    }
+  }
 
   const handleShowTreated = (result) => {
     setShowTreated(result)
-    console.log(result)
   }
 
   const fetchReportRequests = async () => {
@@ -38,11 +52,12 @@ const ReportChecking = () => {
       setReports(data)
       setCurrentReport(data[data.length - 1])
       if (data[data.length - 1].conversation) {
+        setReportedConversation(data[data.length - 1].conversation._id)
         handleReportSelection(data[data.length - 1]._id, data[data.length - 1].conversation)
       }
       console.log(data)
     } catch (error) /* istanbul ignore next */ {
-      console.error('Erreur lors de la récupération des demandes de signalement.')
+      toast.error('Erreur lors de la récupération des demandes de signalement.')
     }
   }
 
@@ -130,7 +145,7 @@ const ReportChecking = () => {
 
       // setIsReportProcessed(isProcessed)
     } catch (error) {
-      console.error('Erreur lors du traitement de la demande.')
+      toast.error('Erreur lors du traitement de la demande.')
     }
   }
 
@@ -138,6 +153,9 @@ const ReportChecking = () => {
     // await fetchReportedConversation(conversationId)
     // await fetchReportedConversationMessages(conversationId)
     // await checkReportProcessingStatus(reportId)
+  }
+  const handleAccessReportedChat = () => {
+    setIsAccessing(!isAccessing)
   }
 
   useEffect(() => {
@@ -156,18 +174,29 @@ const ReportChecking = () => {
           <ReportSidebar
             reports={reports}
             currentReport={currentReport}
-            setCurrentReport={setCurrentReport}
+            handleCurrentReport={handleCurrentReport}
             handleReportSelection={handleReportSelection}
             showTreated={showTreated}
             handleShowTreated={handleShowTreated}
           />
-
+          <Popup className="conversation-popup" open={isAccessing} onClose={() => setIsAccessing(false)} modal>
+            {(close) => (
+              <div className='popup-modal-container' style={{ alignItems: 'center' }}>
+                <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+                <AccessingReportedConversationPopupContent reportedConversationId={reportedConversation} onClose={close}/>
+              </div>
+            )}
+          </Popup>
           <div className='chat'>
             {currentReport
               ? (
                 <div className='chat-content'>
                   <div className='top'>
-                    <div className='conv-name'>{translate(currentReport.type)}</div>
+                    <div className='conv-name'>{translate(currentReport.type)} {
+                          reportedConversation && (
+                            <img src={chatIcon} className="report-chat-icon" alt="chat" onClick={handleAccessReportedChat} title="Voir la conversation signalée"/>
+                          )
+                        }</div>
                     <div className='report-status'>{currentReport.status === 'seen'
                       ? 'La requête a été traitée'
                       : (
@@ -180,15 +209,14 @@ const ReportChecking = () => {
                     <div className='left'>
                       <div className='top2'>
                         {
-                            currentReport.message && (
-                              <div className='report-message'>{currentReport.message}</div>
-                            )
-                          }
+                          currentReport.message && (
+                            <div className='report-message'>{currentReport.message}</div>
+                          )
+                        }
                         {/* <div className='message-list'> // waiting for conversation routes to be fixed */}
                         {/* {reportedConversationMessages.map((message, index) => (
                               <Message key={index} message={message} participants={reportedConversation.participants} />
                             ))} */}
-                        {/* {error && <div className='error-message'>{error}</div>} */}
                         {/* </div> */}
                       </div>
                     </div>
