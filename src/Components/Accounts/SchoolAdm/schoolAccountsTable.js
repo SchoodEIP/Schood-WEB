@@ -170,7 +170,7 @@ export default function SchoolAccountsTable ({ status }) {
       })
       .catch((error) => {
         setClassError(true)
-        toast.error('Un problème est survenu avec la classe.')
+        toast.error('Un problème est survenu avec la classe.', error.message)
       })
   }
 
@@ -187,13 +187,13 @@ export default function SchoolAccountsTable ({ status }) {
 
       removeClasses.push(...selectedUserClasses.filter((cls) => !updatedUserClasses.includes(cls)))
 
-      removeClasses.map((classe) => { callAction(classe, '/removeTeacher') })
-      addClasses.map(classe => { callAction(classe, '/addTeacher') })
+      removeClasses.map((classe) => { return callAction(classe, '/removeTeacher') })
+      addClasses.map(classe => { return callAction(classe, '/addTeacher') })
     } else {
       const studentClass = []
       studentClass.push(updatedUser.classes)
 
-      studentClass.map(classe => { callAction(classe, '/updateStudent') })
+      studentClass.map(classe => { return callAction(classe, '/updateStudent') })
     }
     if (!classError) { toast.success('Le profil a été mis à jour avec succès.') }
   }
