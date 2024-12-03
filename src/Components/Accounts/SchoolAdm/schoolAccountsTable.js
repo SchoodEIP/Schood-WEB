@@ -47,7 +47,6 @@ export default function SchoolAccountsTable ({ status }) {
     } else {
       const data = await resp.json()
       const array = [...accounts, ...data]
-      console.log(array)
 
       const teacherAccounts = array.filter(account => account.role.name === 'teacher')
       const studentAccounts = array.filter(account => account.role.name === 'student')
@@ -140,7 +139,6 @@ export default function SchoolAccountsTable ({ status }) {
   }
 
   const handleClassChange = (e) => {
-    console.log(e)
     setUpdatedUser(prevState => ({
       ...prevState,
       classes: e
@@ -186,9 +184,9 @@ export default function SchoolAccountsTable ({ status }) {
       if (response.status === 401) {
         disconnect()
       } else if (response.ok) {
+        setIsEditing(false)
         setFileImage(null)
         toast.success('Le profil a été mis à jour avec succès.')
-        setIsEditing(false)
         getAccountList() // Refresh the list
       } else {
         toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
@@ -217,7 +215,7 @@ export default function SchoolAccountsTable ({ status }) {
     } else if (resp.status === 200) {
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
       getAccountList()
-      setIsPopupOpen(!isPopupOpen)
+      setIsPopupOpen(false)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()
@@ -240,7 +238,7 @@ export default function SchoolAccountsTable ({ status }) {
     } else if (resp.status === 200) {
       toast.success('Le compte a été restauré')
       getAccountList()
-      setIsPopupOpen(!isPopupOpen)
+      setIsPopupOpen(false)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()

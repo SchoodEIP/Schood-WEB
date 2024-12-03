@@ -271,7 +271,6 @@ const FeelingsStudentPage = () => {
         'x-auth-token': sessionStorage.getItem('token')
       },
       body: JSON.stringify({
-        message: 'this is a test',
         status: answer
       })
     })
