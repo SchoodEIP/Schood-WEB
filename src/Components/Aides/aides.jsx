@@ -3,13 +3,13 @@ import '../../css/Components/Aides/aides.scss'
 import { disconnect } from '../../functions/disconnect'
 import phoneIcon from '../../assets/phoneIcon.png'
 import mailIcon from '../../assets/mailIcon.png'
+import { toast } from 'react-toastify'
 
 export default function AidePage () {
   const [categories, setCategories] = useState([])
   const [contacts, setContacts] = useState([])
   const [chosenContact, setChosenContact] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
-  const [errMessage, setErrMessage] = useState('')
   const [defaultID, setDefaultID] = useState(null)
   const [selectedCat, setSelectedCat] = useState(null)
   const [selectedContact, setSelectedContact] = useState(null)
@@ -39,7 +39,7 @@ export default function AidePage () {
           setSelectedCat(filterID[0]._id)
         }
       })
-      .catch(error => setErrMessage(error.message))
+      .catch(error => toast.error(error.message))
 
     fetch(helpNumbersUrl, {
       method: 'GET',
@@ -59,7 +59,7 @@ export default function AidePage () {
         setChosenContact(data[0])
         setSelectedContact(data[0]._id)
       })
-      .catch(error => setErrMessage('Erreur ' + error.status + ': ' + error.message))
+      .catch(error => toast.error('Erreur ' + error.status + ': ' + error.message))
   }, [])
 
   const filterContactsByCategory = (category) => {
@@ -90,7 +90,6 @@ export default function AidePage () {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <p>{errMessage || ''}</p>
       <div id='category-container'>
         {categories.map((category) => (
           <button key={category._id} className={selectedCat === category._id ? 'selected-btn category-btn' : 'category-btn'} data-testid={'category-btn-' + category.id} onClick={() => filterContactsByCategory(category._id)}>

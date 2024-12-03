@@ -4,22 +4,28 @@ import Popup from 'reactjs-popup'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/Components/Feelings/feelings.scss'
 import '../../css/Components/Popup/popup.scss'
+import DesanonymFeelingPopupContent from '../../Components/Popup/desanonymFeeling'
 import cross from '../../assets/Cross.png'
+import closeBlack from '../../assets/closeBlack.png'
 import veryBadMood from '../../assets/newVeryBadMood.png'
 import badMood from '../../assets/newBadMood.png'
 import averageMood from '../../assets/newAverageMood.png'
 import happyMood from '../../assets/newHappyMood.png'
 import veryHappyMood from '../../assets/newVeryHappyMood.png'
+import questionIcon from '../../assets/questionIcon.png'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
 const FeelingsAdminPage = () => {
-  const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const [isModified, setIsModified] = useState(false)
-  // const [selectedFeeling, setSelectedFeeling] = useState(null)
-  const [newMood, setNewMood] = useState('')
-  const [newAnonymous, setNewAnonymous] = useState(true)
-  const [newMessage, setNewMessage] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [isShown, setIsShown] = useState(false)
+  const [shownFeeling, setShownFeeling] = useState([])
+  const [demand, setDemand] = useState({
+    user: '',
+    reason: '',
+    message: 'Pas de message'
+  })
+  const [demands, setDemands] = useState([])
   const [feelings, setFeelings] = useState([])
   const imagePaths = useMemo(() => {
     return [
@@ -42,47 +48,35 @@ const FeelingsAdminPage = () => {
       veryHappyMood: 'Heureux'
     }
   }, [])
-  // A Vérifier dans branche désanonymisation
-  const handleMood = (moodNumber) => {
-    setNewMood(moodNumber)
+
+  const handleDemandPopup = (userId, feelingId) => {
+    demand.user = userId
+    demand.reason = feelingId
+    setDemand(demand)
+    const toFind = demands.find(item => item.reason === feelingId)
+    if (toFind) { toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.') } else { setIsOpen(!isOpen) }
   }
 
-  const handleAnonymous = () => {
-    setNewAnonymous(!newAnonymous)
-  }
-
-  const handleMessage = (event) => {
-    setNewMessage(event.target.value)
-  }
-
-  const handleUpdateFeelings = () => {
-    const dataPayload = {
-      comment: newMessage,
-      mood: newMood,
-      annonymous: newAnonymous
-    }
-
-    if (newMood !== '') {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/mood`, {
-        method: isModified ? 'PATCH' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: JSON.stringify(dataPayload)
+  async function getDesanonym () {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        return response.json()
       })
-        .then(response => {
-          if (response.status === 401) {
-            disconnect()
-          }
-          if (response.status === 200) { window.location.reload() }
-        })
-        .catch(error => /* istanbul ignore next */ {
-          toast.error('Erreur lors de la récupération des ressentis', error)
-        })
-    } else {
-      toast.error('L\'humeur n\'est pas indiquée.')
-    }
+      .then(data => {
+        setDemands(data)
+      })
+      .catch(error => /* istanbul ignore next */ {
+        toast.error('Erreur lors de la récupération des ressentis', error)
+      })
   }
 
   useEffect(() => {
@@ -109,45 +103,76 @@ const FeelingsAdminPage = () => {
       .catch(error => /* istanbul ignore next */ {
         toast.error('Erreur lors de la récupération des ressentis', error)
       })
+    getDesanonym()
   }, [])
 
   const handleClosePopup = () => {
-    setIsCreateOpen(false)
+    setIsOpen(false)
   }
 
-  // A Vérifier dans branche désanonymisation
-  // const handleFeelingsModification = (feeling) => {
-  //   setIsCreateOpen(true)
-  //   setIsModified(true)
-  //   // setSelectedFeeling(feeling)
-  //   setNewMood(feeling.mood)
-  //   setNewAnonymous(feeling.annonymous)
-  //   setNewMessage(feeling.comment)
-  // }
+  const handleAskDesanonym = (message) => {
+    demand.message = (message || 'Pas de message')
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify(demand)
+    })
+      .then(response => {
+        if (response.status === 401) {
+          disconnect()
+        } else if (response.status === 200) {
+          // set feeling.status to waiting !
+          toast.success('La demande de désanonymisation a été effectuée.')
+          getDesanonym()
+          setIsOpen(!isOpen)
+        } else {
+          toast.error('Erreur serveur.')
+        }
+        return response
+      })
+      .catch(error => /* istanbul ignore next */ {
+        console.error('Network or unexpected error:', error)
+        toast.error("Erreur lors de l'envoi de la demande")
+      })
+  }
 
-  // A Vérifier dans branche désanonymisation
-  // async function getUserName (username) {
-  //   await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile/${username}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'x-auth-token': sessionStorage.getItem('token')
-  //     }
-  //   })
-  //     .then(response => {
-  //       if (response.status === 401) {
-  //         disconnect()
-  //       }
-  //       return response.json()
-  //     })
-  //     .then(data => {
-  //       return `${data.firstname} ${data.lastname}`
-  //     })
-  //     .catch(error => /* istanbul ignore next */ {
-  //       toast.error('Erreur lors de la récupération des ressentis', error)
-  //     })
-  //   return 'Erreur'
-  // }
+  const deleteDemand = (demandId) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/` + demandId, {
+      method: 'Delete',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          disconnect()
+        } else if (response.status === 200) {
+          toast.success('La demande de désanonymisation supprimée.')
+          getDesanonym()
+        } else {
+          toast.error('Erreur serveur.')
+        }
+        return response
+      })
+      .catch(error => /* istanbul ignore next */ {
+        console.error('Network or unexpected error:', error)
+        toast.error('Erreur lors de la suppression de la demande.')
+      })
+  }
+
+  const handleCloseFeelingPopup = () => {
+    setIsShown(!isShown)
+  }
+
+  const handleShowFeeling = (feelingId) => {
+    const feeling = feelings.find(item => item._id === feelingId)
+    setShownFeeling(feeling)
+    handleCloseFeelingPopup()
+  }
 
   return (
     <div>
@@ -160,42 +185,62 @@ const FeelingsAdminPage = () => {
         />
       </div>
       <div className='feelings-page'>
-        <Popup open={isCreateOpen} onClose={handleClosePopup} modal>
+        <Popup open={isOpen} onClose={handleClosePopup} modal>
           {(close) => (
-            <div className='popup-modal-container'>
+            <div className='popup-modal-container' style={{ alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              {{/* here we can start a conv with the person who sent a feeling or indicate that it has been taken into account or ask for the person to identify who they are */}}
-              {/* <label id='mood-label' htmlFor='mood-container' className='input-label'><span className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-                <div id='mood-container' className='horizontal-container'>
-                  <div datid='mood-container-0' className='emoticone-container' style={{ border: newMood === 0 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 0 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(0)} title='Très Mauvaise Humeur'>
-                    <img src={veryBadMood} alt='Très Mauvaise Humeur' />
-                  </div>
-                  <div datid='mood-container-1' className='emoticone-container' style={{ border: newMood === 1 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 1 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(1)} title='Mauvaise Humeur'>
-                    <img src={badMood} alt='Mauvaise Humeur' />
-                  </div>
-                  <div datid='mood-container-2' className='emoticone-container' style={{ border: newMood === 2 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 2 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(2)} title='Humeur Neutre'>
-                    <img src={averageMood} alt='Humeur Neutre' />
-                  </div>
-                  <div datid='mood-container-3' className='emoticone-container' style={{ border: newMood === 3 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 3 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(3)} title='Bonne Humeur'>
-                    <img src={happyMood} alt='Bonne Humeur' />
-                  </div>
-                  <div datid='mood-container-4' className='emoticone-container' style={{ border: newMood === 4 ? '2px #4F23E2 solid' : '2px white solid', backgroundColor: newMood === 4 ? 'rgb(211, 200, 200)' : 'white' }} onClick={() => handleMood(4)} title='Très Bonne Humeur'>
-                    <img src={veryHappyMood} alt='Très Bonne Humeur' />
-                  </div>
-                </div>
-              </label>
-              <label id='message-label' htmlFor='message-input'>Message</label>
-              <textarea id='message-input' placeholder='Message...' onChange={handleMessage} value={newMessage} />
-              <div className='horizontal-container'>
-                <input type='checkbox' id='anonymous-checkbox' checked={newAnonymous} onClick={handleAnonymous} />
-                <label htmlFor='anonymous-checkbox' id='anonymous-label'>Anonyme</label>
-              </div> */}
-              <button className='popup-btn' onClick={handleUpdateFeelings}>{!isModified ? 'Créer le Ressenti' : 'Modifier le Ressenti'}</button>
+              <DesanonymFeelingPopupContent handleAskDesanonym={handleAskDesanonym} />
             </div>
           )}
         </Popup>
+        <Popup open={isShown} onClose={handleCloseFeelingPopup} modal>
+          {(close) => (
+            <div className='popup-modal-container' style={{ alignItems: 'inherit' }}>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <div key={shownFeeling._id} style={{ marginBottom: '0', width: '95%' }} className='individual-feelings-container'>
+                <div className='publication-date'>{moment(shownFeeling.date).format('DD/MM/YYYY')}</div>
+                <div className='horizontal-line' />
+                <div className='feelings-container-content' style={{ width: '100%' }}>
+                  <div className='container-sidebar' style={{ width: '45%' }}>
+                    <div className='emoticone-container'>
+                      <img className='emoticone-image' style={{ height: '50px' }} src={imagePaths[shownFeeling.mood]} alt={moods[shownFeeling.mood]} />
+                      <span className='emoticone-feeling'>{emotions[moods[shownFeeling.mood]]}</span>
+                    </div>
+                    <div className='review-status'>
+                      <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
+                      <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
+                    </div>
+                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>Anonyme</div>
+                  </div>
+                  <div className='feelings-content' style={{ width: '100%' }}>
+                    <p className='paragraph-style'>{shownFeeling.comment}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Popup>
+        <div className='demands-container'>
+          <h3 style={{ paddingLeft: '15px' }}>Vos demandes de désanonymisation</h3>
+          <div className='demand-container-content'>
+            {
+                demands.length !== 0
+                  ? (
+                      demands.map((dem) => (
+                        <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                          <p className='demand-content'>{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
+                          <button className='demand-close-btn' onClick={(e) => { e.stopPropagation(); deleteDemand(dem._id) }}><img className='close-img' src={closeBlack} alt='DeleteDemand' /></button>
+                        </div>
+                      ))
+                    )
+                  : (
+                    <p>Aucune demande en cours</p>
+                    )
+              }
+          </div>
+        </div>
         <div id='feelings-container'>
-          {Array.isArray(feelings) && feelings.map((feeling) => (
+          {feelings.length !== 0 && feelings.map((feeling) => (
             <div key={feeling._id} className='individual-feelings-container'>
               <div className='publication-date'>{moment(feeling.date).format('DD/MM/YYYY')}</div>
               <div className='horizontal-line' />
@@ -209,7 +254,7 @@ const FeelingsAdminPage = () => {
                     <p style={{ marginBottom: '0' }}>{feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                     <p style={{ marginTop: '0' }}>{feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''}</p>
                   </div>
-                  <div className='publication-author'>{feeling.annonymous ? 'Anonyme' : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
+                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
                 </div>
                 <div className='feelings-content'>
                   <p className='paragraph-style'>{feeling.comment}</p>

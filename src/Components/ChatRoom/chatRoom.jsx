@@ -15,7 +15,6 @@ import UserProfile from '../../Components/userProfile/userProfile'
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
-  const [currentParticipants, setCurrentParticipants] = useState('')
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
   const inputFile = useRef(null)
@@ -265,6 +264,10 @@ const Messages = () => {
     setShowCreateConversationPopup(!showCreateConversationPopup)
   }
 
+  const truncateString = (str) => {
+    return str.length > 25 ? str.slice(0, 30) + '...' : str
+  }
+
   const createConversation = async (convTitle, selectedContacts) => {
     try {
       const userId = localStorage.getItem('id')
@@ -397,7 +400,6 @@ const Messages = () => {
         conversations={conversations}
         currentConversation={currentConversation}
         setCurrentConversation={setCurrentConversation}
-        setCurrentParticipants={setCurrentParticipants}
         clearMessageAndError={clearMessageAndError}
         openCreateConversationPopup={openCreateConversationPopup}
       />
@@ -411,7 +413,7 @@ const Messages = () => {
             <div className='chat-content'>
               <div className='top'>
                 <div className='top-info'>
-                  <div className='conv-name'>{currentConversation.name}</div>
+                  <div className='conv-name' title={currentConversation.name}>{truncateString(currentConversation.name)}</div>
                   <div className='participants-container'>
                     {currentConversation.participants.length} {currentConversation.participants.length > 1 ? 'membres' : 'membre'}
                   </div>

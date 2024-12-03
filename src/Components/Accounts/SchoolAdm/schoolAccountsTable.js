@@ -31,6 +31,31 @@ export default function SchoolAccountsTable ({ status }) {
     role: ''
   })
 
+  async function getSuspendedAccountList (accounts) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/getDisabled'
+    const token = sessionStorage.getItem('token')
+
+    const resp = await fetch(baseUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else {
+      const data = await resp.json()
+      const array = [...accounts, ...data]
+      console.log(array)
+
+      const teacherAccounts = array.filter(account => account.role.name === 'teacher')
+      const studentAccounts = array.filter(account => account.role.name === 'student')
+      setTeacherList(teacherAccounts)
+      setStudentList(studentAccounts)
+    }
+  }
+
   async function getAccountList () {
     const baseUrl = `${process.env.REACT_APP_BACKEND_URL}/user/all`
     const token = sessionStorage.getItem('token')
@@ -53,6 +78,7 @@ export default function SchoolAccountsTable ({ status }) {
 
       setTeacherList(teacherAccounts)
       setStudentList(studentAccounts)
+      getSuspendedAccountList(data)
     }
 
     fetch(process.env.REACT_APP_BACKEND_URL + '/shared/classes', {
@@ -346,12 +372,12 @@ export default function SchoolAccountsTable ({ status }) {
                     {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
                     {status &&
                       <td>
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                         {
-                      data.active
-                        ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
-                        : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
-                    }
+                          data.active
+                            ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                            : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                        }
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                       </td>}
                   </tr>
                 )
@@ -390,12 +416,12 @@ export default function SchoolAccountsTable ({ status }) {
                     {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>}
                     {status &&
                       <td>
-                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                         {
                           data.active
                             ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
                             : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
                         }
+                        <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                       </td>}
                   </tr>
                 )

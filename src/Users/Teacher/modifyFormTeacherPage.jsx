@@ -9,10 +9,10 @@ import '../../css/Components/Buttons/questionnaireButtons.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
 
 const ModifyFormTeacherPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
-  const [errMessage, setErrMessage] = useState('')
   const [questions, setQuestions] = useState([])
   const [position, setPosition] = useState(-1)
   const [isOpen, setIsOpen] = useState(false)
@@ -42,10 +42,10 @@ const ModifyFormTeacherPage = () => {
           setQuestionInc(data.questions.length)
           setParutionDate(moment(data.fromDate).format('YYYY-MM-DD'))
         } else {
-          setErrMessage(data.message)
+          toast.error(data.message)
         }
       })
-      .catch(error => /* istanbul ignore next */ { setErrMessage(error.message) })
+      .catch(error => /* istanbul ignore next */ { toast.error(error.message) })
   }, [id])
 
   function postQuestions () {
@@ -57,14 +57,14 @@ const ModifyFormTeacherPage = () => {
     if (title !== '') {
       for (let i = 0; i < questions.length; i++) {
         if (questions[i].title === '') {
-          setErrMessage(`Question n°${i + 1} n'a pas été renseignée.`)
+          toast.error(`Question n°${i + 1} n'a pas été renseignée.`)
           proceed = false
           break
         } else if (questions[i].type === 'multiple') {
           for (let j = 0; j < questions[i].answers.length; j++) {
             if (questions[i].answers[j].title === '') {
               proceed = false
-              setErrMessage(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
+              toast.error(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
               break
             }
           }
@@ -72,7 +72,7 @@ const ModifyFormTeacherPage = () => {
       }
     } else {
       proceed = false
-      setErrMessage('Le questionnaire n\'a pas de titre.')
+      toast.error('Le questionnaire n\'a pas de titre.')
     }
 
     if (proceed) {
@@ -91,12 +91,13 @@ const ModifyFormTeacherPage = () => {
         if (response.status === 401) {
           disconnect()
         } else if (response.status !== 200) {
-          setErrMessage(response.status + ' error : ' + response.statusText)
+          toast.error(response.status + ' error : ' + response.statusText)
         } else {
+          toast.success('Le questionnaire a été modifié avec succcès.')
           window.location.href = '/questionnaire/' + id
         }
       })
-        .catch(error => setErrMessage(error.message))
+        .catch(error => toast.error(error.message))
     }
   }
 
@@ -219,7 +220,6 @@ const ModifyFormTeacherPage = () => {
             <div className='popup-modal-container'>
               <span className='title-popup'>Sauvegarder les Modifications ?</span>
               <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toute vos modifications.</span>
-              {errMessage ? <span className='error-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
               <div className='btn-container'>
                 <button className='popup-btn' onClick={close}>Annuler</button>
                 <div className='save-btn-container'>
@@ -230,11 +230,6 @@ const ModifyFormTeacherPage = () => {
             </div>
           )}
         </Popup>
-        <div className='form'>
-          <div className='error-message-container'>
-            <p className='error-message' data-testid='error-message'>{errMessage}</p>
-          </div>
-        </div>
         <div className='form-content-container'>
           <div className='head-form'>
             <div className='input-container'>

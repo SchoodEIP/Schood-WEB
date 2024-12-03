@@ -31,11 +31,12 @@ export default function AdmAccountsTable () {
     } else {
       const data = await resp.json()
       setAccountList(data)
+      getSuspendedAccountList(data)
     }
   }
 
-  async function getSuspendedAccountList () {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
+  async function getSuspendedAccountList (list) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/getDisabled'
     const token = sessionStorage.getItem('token')
 
     const resp = await fetch(baseUrl, {
@@ -49,13 +50,13 @@ export default function AdmAccountsTable () {
       disconnect()
     } else {
       const data = await resp.json()
-      console.log(data)
+      const array = [...list, ...data]
+      setAccountList(array)
     }
   }
 
   useEffect(() => {
     getAccountList()
-    getSuspendedAccountList()
   }, [])
 
   const openPopup = () => {
@@ -85,9 +86,9 @@ export default function AdmAccountsTable () {
     if (resp.status === 401) {
       disconnect()
     } else if (resp.status === 200) {
+      setIsPopupOpen(false)
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
       getAccountList()
-      setIsPopupOpen(!isPopupOpen)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()
@@ -108,9 +109,9 @@ export default function AdmAccountsTable () {
     if (resp.status === 401) {
       disconnect()
     } else if (resp.status === 200) {
+      setIsPopupOpen(false)
       toast.success('Le compte a été restauré')
       getAccountList()
-      setIsPopupOpen(!isPopupOpen)
     } else {
       toast.error("une alerte s'est produite")
       getAccountList()
@@ -145,12 +146,12 @@ export default function AdmAccountsTable () {
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
                   <td className='action-td'>
-                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                     {
                       data.active
                         ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
                         : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
                     }
+                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
                   </td>
                 </tr>
               )

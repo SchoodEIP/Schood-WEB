@@ -22,7 +22,6 @@ const AlertsPage = () => {
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
-  const [errMessage, setErrMessage] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
 
   const fetchAlerts = async () => {
@@ -137,7 +136,7 @@ const AlertsPage = () => {
           toast.success('L\'alerte a été modifiée avec succès.')
           onClose()
         } else {
-          setErrMessage('Erreur lors de la mise à jour')
+          toast.error('Erreur lors de la mise à jour')
         }
       })
       .catch((error) => console.error('Erreur : ', error))
@@ -232,7 +231,7 @@ const AlertsPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
-              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} errMessage={errMessage} />
+              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} />
             </div>
           )}
         </Popup>

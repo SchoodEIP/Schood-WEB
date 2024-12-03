@@ -7,10 +7,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 import '../../css/pages/formPage.scss'
 import '../../css/Components/Buttons/questionnaireButtons.css'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
 
 const NewFormPage = () => {
   const [questionInc, setQuestionInc] = useState(1)
-  const [errMessage, setErrMessage] = useState('')
   const [questions, setQuestions] = useState([{
     title: '',
     type: 'text',
@@ -29,14 +29,14 @@ const NewFormPage = () => {
     if (title !== '') {
       for (let i = 0; i < questions.length; i++) {
         if (questions[i].title === '') {
-          setErrMessage(`Question n°${i + 1} n'a pas été renseignée.`)
+          toast.error(`Question n°${i + 1} n'a pas été renseignée.`)
           proceed = false
           break
         } else if (questions[i].type === 'multiple') {
           for (let j = 0; j < questions[i].answers.length; j++) {
             if (questions[i].answers[j].title === '') {
               proceed = false
-              setErrMessage(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
+              toast.error(`La réponse n°${j + 1} de la question n°${i + 1} n'a pas été renseignée.`)
               break
             }
           }
@@ -44,7 +44,7 @@ const NewFormPage = () => {
       }
     } else {
       proceed = false
-      setErrMessage('Le questionnaire n\'a pas de titre.')
+      toast.error('Le questionnaire n\'a pas de titre.')
     }
 
     if (proceed) {
@@ -64,12 +64,13 @@ const NewFormPage = () => {
           disconnect()
         }
         if (response.status !== 200) {
-          setErrMessage(response.status + ' error : ' + response.statusText)
+          toast.error(response.status + ' error : ' + response.statusText)
         } else {
+          toast.success('Le questionnaire a été créé avec succès')
           window.location.href = '/questionnaires'
         }
       })
-        .catch(error => setErrMessage(error.message))
+        .catch(error => toast.error(error.message))
     }
   }
 
@@ -186,7 +187,6 @@ const NewFormPage = () => {
             <div style={{ maxWidth: '500px', height: '600px' }} className='popup-modal-container'>
               <span className='title-popup'>Sauvegarder les modifications ?</span>
               <span className='content-popup'>Vous êtes sur le point de quitter la page et vous avez des modifications en cours qui ne sont pas sauvegardées. En quittant sans sauvegarder, vous perdrez toutes vos modifications.</span>
-              {errMessage ? <span className='error-message' style={{ color: 'red' }}>{errMessage}</span> : ''}
               <div className='btn-container'>
                 <div className='save-btn-container'>
                   <button className='popup-text-btn' onClick={close}>Continuer l'édition</button>
@@ -197,11 +197,6 @@ const NewFormPage = () => {
             </div>
           )}
         </Popup>
-        <div className='form'>
-          <div className='error-message-container'>
-            <p className='error-message' data-testid='error-message'>{errMessage}</p>
-          </div>
-        </div>
         <div className='form-content-container'>
           <div className='head-form'>
             <div className='input-container'>
