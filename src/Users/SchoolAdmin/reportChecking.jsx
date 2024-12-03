@@ -59,7 +59,7 @@ const ReportChecking = () => {
   }
 
   const handleReportProcessing = async (reportId, isProcessed) => {
-    if (isProcessed === "processed") {
+    if (isProcessed === 'processed') {
       await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
         method: 'POST',
         headers: {
@@ -71,13 +71,13 @@ const ReportChecking = () => {
         if (response.status === 401) {
           disconnect()
         }
-        if (response.status=== 200) {
+        if (response.status === 200) {
           toast.success('Le signalement est traité.')
         }
       })
-      .catch((error) => {
-        toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
-      })
+        .catch((error) => {
+          toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
+        })
     } else if (isProcessed === 'waiting') {
       await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
         method: 'POST',
@@ -90,13 +90,13 @@ const ReportChecking = () => {
         if (response.status === 401) {
           disconnect()
         }
-        if (response.status=== 200) {
+        if (response.status === 200) {
           toast.success('Le signalement a été mis en attente.')
         }
       })
-      .catch((error) => {
-        toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
-      })
+        .catch((error) => {
+          toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
+        })
     } else {
       await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
         method: 'DELETE',
@@ -108,13 +108,13 @@ const ReportChecking = () => {
         if (response.status === 401) {
           disconnect()
         }
-        if (response.status=== 200) {
+        if (response.status === 200) {
           toast.success('Le signalement est supprimé.')
         }
       })
-      .catch((error) => {
-        toast.error('Un problème est survenu, le signalement ne peut être supprimé.', error.message)
-      })
+        .catch((error) => {
+          toast.error('Un problème est survenu, le signalement ne peut être supprimé.', error.message)
+        })
     }
     fetchReportRequests()
   }
@@ -165,7 +165,7 @@ const ReportChecking = () => {
                     <div className='report-status'>{currentReport.status === 'seen'
                       ? (
                         <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'waiting')}>Mettre en attente</button>
-                      )
+                        )
                       : (
                         <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'processed')}>Traiter la requête</button>
                         )}
