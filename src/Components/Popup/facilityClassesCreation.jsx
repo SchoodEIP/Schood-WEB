@@ -101,6 +101,9 @@ const FacilityClassesCreationPopupContent = () => {
           if (response.status === 401) {
             disconnect()
           }
+          if (response.status === 422) {
+            toast.warn('Une classe possède déjà ce nom.')
+          }
           if (response.status === 200) {
             getClasses()
             setIsRename(null)
@@ -125,14 +128,25 @@ const FacilityClassesCreationPopupContent = () => {
     setNewClass(e.target.value)
   }
 
+  const handleKeyPress = (e, classId, className, isNewName) => {
+    if (e.key === 'Enter') {
+      if (isNewName) {
+        handleCreateClass()
+      } else {
+        handleRenameClass(classId, className)
+      }
+
+    }
+  }
+
   return (
     <div className="classes-gestion-container">
       <h3>Gérer les classes de l'Établissement</h3>
-      <div className="class-input-container">
+      <div className="class-input-container" style={{justifyContent: "center"}}>
         <label>
-          <input value={newClass} onChange={handleChangeNewClassName} placeholder="Première A" />
+          <input value={newClass} onKeyPress={(e) => handleKeyPress(e, null, null, true)} onChange={handleChangeNewClassName} placeholder="Ajouter une classe ..." />
         </label>
-        <FontAwesomeIcon icon={faSquarePlus} title="Ajouter la classe" onClick={handleCreateClass}/>
+        <FontAwesomeIcon className="icon-popup" icon={faSquarePlus} title="Ajouter la classe" onClick={handleCreateClass}/>
       </div>
       <div className="class-list-container">
         {
@@ -141,12 +155,12 @@ const FacilityClassesCreationPopupContent = () => {
               {isRename === classe._id ?
                 (
                   <label>
-                    <input value={name} onChange={handleChangeClassName} />
+                    <input value={name} onKeyPress={(e) => handleKeyPress(e, classe._id, classe.name, false)} onChange={handleChangeClassName} />
                   </label>
                 ) : <span>{classe.name}</span>}
-              <div>
-                <FontAwesomeIcon icon={faPenToSquare} title="Renommer la classe" onClick={() => handleRenameClass(classe._id, classe.name)}/>
-                <FontAwesomeIcon icon={faTrashCan} title="Supprimer la classe" onClick={() => handleDeleteClass(classe._id)}/>
+              <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <FontAwesomeIcon className="icon-popup" icon={faPenToSquare} title="Renommer la classe" onClick={() => handleRenameClass(classe._id, classe.name)}/>
+                <FontAwesomeIcon className="icon-popup" icon={faTrashCan} title="Supprimer la classe" onClick={() => handleDeleteClass(classe._id)}/>
               </div>
             </div>
           ))

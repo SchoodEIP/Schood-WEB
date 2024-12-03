@@ -277,7 +277,8 @@
     flex-direction: row;
     gap: 10px;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
+    padding: 0 20px  0 20px ;
 }
 
 .class-list-container {
@@ -302,4 +303,15 @@
     box-shadow: 5px 5px 5px 0px lightgray;
     border-radius: 5px;
     padding: 10px;
+}
+
+.icon-popup {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-popup:hover {
+    transition: 0.2s;
+    height: 23px;
 }
