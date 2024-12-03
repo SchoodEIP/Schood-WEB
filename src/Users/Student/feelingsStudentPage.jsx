@@ -211,12 +211,10 @@ const FeelingsStudentPage = () => {
   }, [setLastFeeling, emotions, moods, imagePaths, lastFeeling.length])
 
   const handleClosePopup = () => {
-    // document.getElementById('grey-filter').style.display = 'none'
     setIsCreateOpen(false)
   }
 
   const handleFeelingsModification = () => {
-    // document.getElementById('grey-filter').style.display = 'flex'
     setIsCreateOpen(!isCreateOpen)
     setIsModified(true)
     setNewMood(lastFeeling.mood)
@@ -225,7 +223,6 @@ const FeelingsStudentPage = () => {
   }
 
   const handleFeelingsCreation = () => {
-    // document.getElementById('grey-filter').style.display = 'flex'
     setIsCreateOpen(!isCreateOpen)
     setIsModified(false)
     setNewMood('')
