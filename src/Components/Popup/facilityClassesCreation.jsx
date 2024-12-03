@@ -36,8 +36,7 @@ const FacilityClassesCreationPopupContent = () => {
   }, [])
 
   const handleCreateClass = () => {
-    if (newClass === '')
-      return
+    if (newClass === '') { return }
     fetch(process.env.REACT_APP_BACKEND_URL + '/adm/classes/register', {
       method: 'POST',
       headers: {
@@ -71,18 +70,18 @@ const FacilityClassesCreationPopupContent = () => {
         'Content-Type': 'application/json'
       }
     })
-    .then((response) => {
-      if (response.status === 401) {
-        disconnect()
-      }
-      if (response.status === 200) {
-        getClasses()
-        toast.success('La classe a été supprimée avec succès.')
-      }
-    })
-    .catch((error) => {
-      toast.error(error.message)
-    })
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        if (response.status === 200) {
+          getClasses()
+          toast.success('La classe a été supprimée avec succès.')
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message)
+      })
   }
 
   const handleRenameClass = (classId, className) => {
@@ -94,7 +93,7 @@ const FacilityClassesCreationPopupContent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name
+          name
         })
       })
         .then((response) => {
@@ -135,32 +134,32 @@ const FacilityClassesCreationPopupContent = () => {
       } else {
         handleRenameClass(classId, className)
       }
-
     }
   }
 
   return (
-    <div className="classes-gestion-container">
+    <div className='classes-gestion-container'>
       <h3>Gérer les classes de l'Établissement</h3>
-      <div className="class-input-container" style={{justifyContent: "center"}}>
+      <div className='class-input-container' style={{ justifyContent: 'center' }}>
         <label>
-          <input value={newClass} onKeyPress={(e) => handleKeyPress(e, null, null, true)} onChange={handleChangeNewClassName} placeholder="Ajouter une classe ..." />
+          <input value={newClass} onKeyPress={(e) => handleKeyPress(e, null, null, true)} onChange={handleChangeNewClassName} placeholder='Ajouter une classe ...' />
         </label>
-        <FontAwesomeIcon className="icon-popup" icon={faSquarePlus} title="Ajouter la classe" onClick={handleCreateClass}/>
+        <FontAwesomeIcon className='icon-popup' icon={faSquarePlus} title='Ajouter la classe' onClick={handleCreateClass} />
       </div>
-      <div className="class-list-container">
+      <div className='class-list-container'>
         {
           classList.length > 0 && classList.map((classe, index) => (
-            <div className="class-container" key={index}>
-              {isRename === classe._id ?
-                (
+            <div className='class-container' key={index}>
+              {isRename === classe._id
+                ? (
                   <label>
                     <input value={name} onKeyPress={(e) => handleKeyPress(e, classe._id, classe.name, false)} onChange={handleChangeClassName} />
                   </label>
-                ) : <span>{classe.name}</span>}
-              <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
-                <FontAwesomeIcon className="icon-popup" icon={faPenToSquare} title="Renommer la classe" onClick={() => handleRenameClass(classe._id, classe.name)}/>
-                <FontAwesomeIcon className="icon-popup" icon={faTrashCan} title="Supprimer la classe" onClick={() => handleDeleteClass(classe._id)}/>
+                  )
+                : <span>{classe.name}</span>}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+                <FontAwesomeIcon className='icon-popup' icon={faPenToSquare} title='Renommer la classe' onClick={() => handleRenameClass(classe._id, classe.name)} />
+                <FontAwesomeIcon className='icon-popup' icon={faTrashCan} title='Supprimer la classe' onClick={() => handleDeleteClass(classe._id)} />
               </div>
             </div>
           ))

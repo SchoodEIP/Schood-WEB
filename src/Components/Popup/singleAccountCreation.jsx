@@ -5,7 +5,7 @@ import userIcon from '../../assets/userIcon.png'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const SingleAccountCreationPopupContent = ({close}) => {
+const SingleAccountCreationPopupContent = ({ close }) => {
   const roleProfile = sessionStorage.getItem('role')
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const [firstname, setFirstName] = useState('')
