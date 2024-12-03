@@ -161,7 +161,7 @@ export default function SchoolAccountsTable ({ status }) {
         'x-auth-token': sessionStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(action === "/updateStudent" ? {studentId: selectedUser._id} : {teacherId: selectedUser._id})
+      body: JSON.stringify(action === '/updateStudent' ? { studentId: selectedUser._id } : { teacherId: selectedUser._id })
     })
       .then((response) => {
         if (response.status === 401) {
@@ -170,24 +170,24 @@ export default function SchoolAccountsTable ({ status }) {
       })
       .catch((error) => {
         setClassError(true)
-        toast.error("Un problème est survenu avec la classe.")
+        toast.error('Un problème est survenu avec la classe.')
       })
   }
 
   const handleUltimateClassChange = () => {
-    if (selectedUser.role.name === "teacher") {
-      const removeClasses = [];
-      const addClasses = [];
+    if (selectedUser.role.name === 'teacher') {
+      const removeClasses = []
+      const addClasses = []
 
       // Assuming selectedUser and updatedUser have a `classes` property that is an array
-      const selectedUserClasses = selectedUser.classes || [];
-      const updatedUserClasses = updatedUser.classes || [];
+      const selectedUserClasses = selectedUser.classes || []
+      const updatedUserClasses = updatedUser.classes || []
 
-      addClasses.push(...updatedUserClasses.filter((cls) => !selectedUserClasses.includes(cls)));
+      addClasses.push(...updatedUserClasses.filter((cls) => !selectedUserClasses.includes(cls)))
 
-      removeClasses.push(...selectedUserClasses.filter((cls) => !updatedUserClasses.includes(cls)));
+      removeClasses.push(...selectedUserClasses.filter((cls) => !updatedUserClasses.includes(cls)))
 
-      removeClasses.map((classe) => { callAction(classe, '/removeTeacher')})
+      removeClasses.map((classe) => { callAction(classe, '/removeTeacher') })
       addClasses.map(classe => { callAction(classe, '/addTeacher') })
     } else {
       const studentClass = []
@@ -195,8 +195,7 @@ export default function SchoolAccountsTable ({ status }) {
 
       studentClass.map(classe => { callAction(classe, '/updateStudent') })
     }
-    if (!classError)
-      toast.success('Le profil a été mis à jour avec succès.')
+    if (!classError) { toast.success('Le profil a été mis à jour avec succès.') }
   }
 
   const handleUpdate = async (e) => {
