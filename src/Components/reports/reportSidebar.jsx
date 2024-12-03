@@ -21,7 +21,7 @@ const ReportSidebar = ({
       <div className='content'>
         {reports
           .filter((report) =>
-            showTreated ? report.status === 'seen' : !report.status
+            showTreated ? report.status === 'seen' : (!report.status || report.status === "unseen")
           ).map((report, index) => (
             <div key={index} className={`${report === currentReport ? 'active-conversation' : 'conversation'}`} onClick={() => handleClick(report)}>
               <div className='text'>

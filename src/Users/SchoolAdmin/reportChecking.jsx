@@ -59,30 +59,64 @@ const ReportChecking = () => {
   }
 
   const handleReportProcessing = async (reportId, isProcessed) => {
-    try {
-      if (isProcessed) {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
-          method: 'POST',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ status: 'seen', responseMessage: 'ok' })
-        })
-        fetchReportRequests()
-      } else {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
-          method: 'DELETE',
-          headers: {
-            'x-auth-token': sessionStorage.getItem('token'),
-            'Content-Type': 'application/json'
-          }
-        })
-        fetchReportRequests()
-      }
-    } catch (error) {
-      toast.error('Erreur lors du traitement de la demande.')
+    if (isProcessed === "processed") {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'seen', responseMessage: 'ok' })
+      }).then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        if (response.status=== 200) {
+          toast.success('Le signalement est traité.')
+        }
+      })
+      .catch((error) => {
+        toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
+      })
+    } else if (isProcessed === 'waiting') {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/processing/${reportId}`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'unseen', responseMessage: 'ok' })
+      }).then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        if (response.status=== 200) {
+          toast.success('Le signalement a été mis en attente.')
+        }
+      })
+      .catch((error) => {
+        toast.error('Un problème est survenu, le signalement ne peut être traité.', error.message)
+      })
+    } else {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/report/${reportId}`, {
+        method: 'DELETE',
+        headers: {
+          'x-auth-token': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+        if (response.status=== 200) {
+          toast.success('Le signalement est supprimé.')
+        }
+      })
+      .catch((error) => {
+        toast.error('Un problème est survenu, le signalement ne peut être supprimé.', error.message)
+      })
     }
+    fetchReportRequests()
   }
 
   const handleAccessReportedChat = () => {
@@ -129,11 +163,13 @@ const ReportChecking = () => {
                         }
                     </div>
                     <div className='report-status'>{currentReport.status === 'seen'
-                      ? 'La requête a été traitée'
+                      ? (
+                        <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'waiting')}>Mettre en attente</button>
+                      )
                       : (
-                        <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, true)}>Traiter la requête</button>
+                        <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'processed')}>Traiter la requête</button>
                         )}
-                      <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, false)}>Supprimer la requête</button>
+                      <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'deleted')}>Supprimer la requête</button>
                     </div>
                   </div>
                   <div className='bottom'>
