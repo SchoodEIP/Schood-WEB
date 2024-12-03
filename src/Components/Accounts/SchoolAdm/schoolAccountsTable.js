@@ -22,6 +22,7 @@ export default function SchoolAccountsTable ({ status }) {
   const [isMultiStatus, setIsMultiStatus] = useState(true)
   const [classesList, setClassesList] = useState([])
   const [actionType, setActionType] = useState('delete')
+  const [classError, setClassError] = useState(false)
   const [updatedUser, setUpdatedUser] = useState({
     firstname: '',
     lastname: '',
@@ -153,21 +154,60 @@ export default function SchoolAccountsTable ({ status }) {
     }))
   }
 
+  function callAction (classe, action) {
+    fetch(process.env.REACT_APP_BACKEND_URL + '/adm/classes/' + classe._id + action, {
+      method: 'PATCH',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(action === "/updateStudent" ? {studentId: selectedUser._id} : {teacherId: selectedUser._id})
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          disconnect()
+        }
+      })
+      .catch((error) => {
+        setClassError(true)
+        toast.error("Un problème est survenu avec la classe.")
+      })
+  }
+
+  const handleUltimateClassChange = () => {
+    if (selectedUser.role.name === "teacher") {
+      const removeClasses = [];
+      const addClasses = [];
+
+      // Assuming selectedUser and updatedUser have a `classes` property that is an array
+      const selectedUserClasses = selectedUser.classes || [];
+      const updatedUserClasses = updatedUser.classes || [];
+
+      addClasses.push(...updatedUserClasses.filter((cls) => !selectedUserClasses.includes(cls)));
+
+      removeClasses.push(...selectedUserClasses.filter((cls) => !updatedUserClasses.includes(cls)));
+
+      removeClasses.map((classe) => { callAction(classe, '/removeTeacher')})
+      addClasses.map(classe => { callAction(classe, '/addTeacher') })
+    } else {
+      const studentClass = []
+      studentClass.push(updatedUser.classes)
+
+      studentClass.map(classe => { callAction(classe, '/updateStudent') })
+    }
+    if (!classError)
+      toast.success('Le profil a été mis à jour avec succès.')
+  }
+
   const handleUpdate = async (e) => {
     e.preventDefault()
+
     try {
       const formData = new FormData()
       formData.append('firstname', updatedUser.firstname)
       formData.append('lastname', updatedUser.lastname)
       formData.append('role', updatedUser.role)
       formData.append('email', updatedUser.email)
-      if (isMultiStatus) {
-        formData.append('classes', JSON.stringify(updatedUser.classes))
-      } else {
-        const arrayClass = []
-        arrayClass.push(updatedUser.classes)
-        formData.append('classes', JSON.stringify(arrayClass))
-      }
 
       if (fileImage) {
         formData.append('file', fileImage)
@@ -186,8 +226,9 @@ export default function SchoolAccountsTable ({ status }) {
       } else if (response.ok) {
         setIsEditing(false)
         setFileImage(null)
-        toast.success('Le profil a été mis à jour avec succès.')
+        handleUltimateClassChange()
         getAccountList() // Refresh the list
+        setClassError(false)
       } else {
         toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
       }
