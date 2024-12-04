@@ -3,6 +3,7 @@ import HeaderComp from '../../Components/Header/headerComp'
 import SchoolAccountsTable from '../../Components/Accounts/SchoolAdm/schoolAccountsTable'
 import CsvAccountCreationPopupContent from '../../Components/Popup/csvAccountCreation'
 import SingleAccountCreationPopupContent from '../../Components/Popup/singleAccountCreation'
+import FacilityClassesCreationPopupContent from '../../Components/Popup/facilityClassesCreation'
 import '../../css/pages/accountsPage.scss'
 import '../../css/Components/Popup/popup.scss'
 import Popup from 'reactjs-popup'
@@ -11,16 +12,33 @@ import cross from '../../assets/Cross.png'
 export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
   const [isOpenMany, setIsOpenMany] = useState(false)
+  const [isOpenClasses, setIsOpenClasses] = useState(false)
 
   const handleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle)
     if (isOpenMany) {
       setIsOpenMany(!isOpenMany)
     }
+    if (isOpenClasses) {
+      setIsOpenClasses(!isOpenClasses)
+    }
   }
 
   const handleManyAccounts = () => {
     setIsOpenMany(!isOpenMany)
+    if (isOpenSingle) {
+      setIsOpenSingle(!isOpenSingle)
+    }
+    if (isOpenClasses) {
+      setIsOpenClasses(!isOpenClasses)
+    }
+  }
+
+  const handleClasses = () => {
+    setIsOpenClasses(!isOpenClasses)
+    if (isOpenMany) {
+      setIsOpenMany(!isOpenMany)
+    }
     if (isOpenSingle) {
       setIsOpenSingle(!isOpenSingle)
     }
@@ -34,6 +52,10 @@ export default function SchoolAdmAccountsPage () {
     {
       name: 'Ajouter une Liste de Comptes',
       handleFunction: handleManyAccounts
+    },
+    {
+      name: 'Gérer les classes',
+      handleFunction: handleClasses
     }
   ]
 
@@ -61,6 +83,14 @@ export default function SchoolAdmAccountsPage () {
             <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
               <CsvAccountCreationPopupContent />
+            </div>
+          )}
+        </Popup>
+        <Popup open={isOpenClasses} onClose={() => setIsOpenClasses(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container' style={{ padding: '50px', gap: '50px', alignItems: 'center' }}>
+              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
+              <FacilityClassesCreationPopupContent />
             </div>
           )}
         </Popup>
