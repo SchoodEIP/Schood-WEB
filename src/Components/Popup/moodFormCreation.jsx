@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
 import '../../css/Components/Popup/popup.scss'
-import veryBadMood from '../../assets/newVeryBadMood.png'
-import badMood from '../../assets/newBadMood.png'
-import averageMood from '../../assets/newAverageMood.png'
-import happyMood from '../../assets/newHappyMood.png'
-import veryHappyMood from '../../assets/newVeryHappyMood.png'
 import '../../css/Components/Feelings/feelings.scss'
 import { disconnect } from '../../functions/disconnect'
 import emoji1 from '../../assets/emojis/1.png'
@@ -18,9 +13,9 @@ import emoji2Selected from '../../assets/emojis/2s.png'
 import emoji3Selected from '../../assets/emojis/3s.png'
 import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
+import { toast } from 'react-toastify'
 
-const MoodFormCreationPopupContent = () => {
-  const [errMessage, setErrMessage] = useState('')
+const MoodFormCreationPopupContent = ({ onClose }) => {
   const [newMood, setNewMood] = useState('')
   const [newAnonymous, setNewAnonymous] = useState(true)
   const [newMessage, setNewMessage] = useState('')
@@ -58,38 +53,38 @@ const MoodFormCreationPopupContent = () => {
             disconnect()
           }
           if (response.status === 200) {
-            window.location.reload()
+            toast.success('Le ressenti a été créé avec succès.')
+            onClose()
           }
         })
         .catch(error => /* istanbul ignore next */ {
-          setErrMessage('Erreur lors de la récupération des ressentis', error)
+          toast.error('Erreur lors de la récupération des ressentis', error)
         })
     } else {
-      setErrMessage("L'humeur est manquante.")
+      toast.error("L'humeur est manquante.")
     }
   }
 
   return (
     <>
-        <span className='popup-title'>Créer un ressenti</span>
-        <label id='mood-label' htmlFor='mood-container' className='input-label'>
-          <span style={{fontWeight: '600', marginBottom: '5px', marginTop: '15px'}} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
-          <div id='mood-container' className='horizontal-container' style={{gap: '10px'}}>
-            <img data-testid='mood-0' alt='Très mauvaise humeur' className='emoticone-container' src={newMood === 0 ? emoji1Selected : emoji1} onClick={() => handleMood(0)} />
-            <img data-testid='mood-1' alt='Mauvaise humeur' className='emoticone-container' src={newMood === 1 ? emoji2Selected : emoji2} onClick={() => handleMood(1)} />
-            <img data-testid='mood-2' alt='Humeur neutre' className='emoticone-container' src={newMood === 2 ? emoji3Selected : emoji3} onClick={() => handleMood(2)} />
-            <img data-testid='mood-3' alt='Bonne humeur' className='emoticone-container' src={newMood === 3 ? emoji4Selected : emoji4} onClick={() => handleMood(3)} />
-            <img data-testid='mood-4' alt='Très bonne humeur' className='emoticone-container' src={newMood === 4 ? emoji5Selected : emoji5} onClick={() => handleMood(4)} />
-          </div>
-        </label>
-        <label style={{fontWeight: '600'}} id='message-label' htmlFor='message-input'>Message</label>
-        <textarea style={{height: '100px', resize: 'none'}} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue={''} />
-        <div id='remember-me'>
-          <input id='remember-me-input' type='checkbox' defaultChecked={true} onClick={handleAnonymous} />
-          <label for="remember-me-input">Anonyme</label>
+      <span className='popup-title'>Créer un ressenti</span>
+      <label id='mood-label' htmlFor='mood-container' className='input-label'>
+        <span style={{ fontWeight: '600', marginBottom: '5px', marginTop: '15px' }} className='label-content'>Mon humeur <span style={{ color: 'red' }}>*</span></span>
+        <div id='mood-container' className='horizontal-container' style={{ gap: '10px' }}>
+          <img data-testid='mood-0' alt='Très mauvaise humeur' className='emoticone-container' src={newMood === 0 ? emoji1Selected : emoji1} onClick={() => handleMood(0)} />
+          <img data-testid='mood-1' alt='Mauvaise humeur' className='emoticone-container' src={newMood === 1 ? emoji2Selected : emoji2} onClick={() => handleMood(1)} />
+          <img data-testid='mood-2' alt='Humeur neutre' className='emoticone-container' src={newMood === 2 ? emoji3Selected : emoji3} onClick={() => handleMood(2)} />
+          <img data-testid='mood-3' alt='Bonne humeur' className='emoticone-container' src={newMood === 3 ? emoji4Selected : emoji4} onClick={() => handleMood(3)} />
+          <img data-testid='mood-4' alt='Très bonne humeur' className='emoticone-container' src={newMood === 4 ? emoji5Selected : emoji5} onClick={() => handleMood(4)} />
         </div>
-        {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
-        <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
+      </label>
+      <label style={{ fontWeight: '600' }} id='message-label' htmlFor='message-input'>Message</label>
+      <textarea style={{ height: '100px', resize: 'none' }} id='message-input' placeholder='Message...' onChange={handleMessage} defaultValue='' />
+      <div id='remember-me'>
+        <input id='remember-me-input' type='checkbox' defaultChecked onClick={handleAnonymous} />
+        <label for='remember-me-input'>Anonyme</label>
+      </div>
+      <button disabled={newMood === ''} className='popup-btn' onClick={handleUpdateFeelings}>Créer le Ressenti</button>
     </>
   )
 }

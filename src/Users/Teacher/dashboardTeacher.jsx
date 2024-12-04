@@ -30,7 +30,7 @@ const TeacherHomePage = () => {
         {(close) => (
           <div className='popup-modal-container'>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <ReportCreationPopupContent />
+            <ReportCreationPopupContent onClose={close} />
           </div>
         )}
       </Popup>

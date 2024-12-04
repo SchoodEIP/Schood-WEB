@@ -4,12 +4,10 @@ import { Chart } from 'chart.js'
 import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
 import { disconnect } from '../../functions/disconnect'
 import emoji4 from '../../assets/emojis/4s.png'
 Chart.defaults.font.family = 'Inter'
-
 
 library.add(faSadTear, faFrown, faMeh, faSmile, faLaughBeam)
 
@@ -319,8 +317,7 @@ const StudentStatPage = () => {
                     </p>
                   </div>
                 </div>
-                )
-            }
+                )}
           </div>
         </div>
       </div>

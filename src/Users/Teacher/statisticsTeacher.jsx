@@ -5,7 +5,6 @@ import '../../css/pages/homePage.scss'
 import '../../css/pages/statistiques.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSadTear, faFrown, faMeh, faSmile, faLaughBeam } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { disconnect } from '../../functions/disconnect'
 import emoji4 from '../../assets/emojis/4s.png'
 Chart.defaults.font.family = 'Inter'
@@ -418,9 +417,9 @@ const TeacherStatPage = () => {
                 Année
               </div>
             </div>
-            <div style={{marginTop: '5px'}}>
+            <div style={{ marginTop: '5px' }}>
               <label htmlFor='classFilter'>Filtrer par classe:</label>
-              <select style={{marginLeft: '5px', padding: '10px'}} id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
+              <select style={{ marginLeft: '5px', padding: '10px' }} id='classFilter' value={selectedClass || ''} onChange={handleClassChange}>
                 <option key='all' value=''>Toutes les classes</option>
                 {classes.map((classItem) => (
                   <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
@@ -428,12 +427,12 @@ const TeacherStatPage = () => {
               </select>
             </div>
           </div>
-          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '50px'}}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '50px' }}>
             <div>
               <h1>Evolution de l'humeur</h1>
               <canvas id='moodChart' width='400' height='400' />
               <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
-              <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
+                <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
                 <progress className='progress' value={averageMood} max='100' />
               </div>
             </div>

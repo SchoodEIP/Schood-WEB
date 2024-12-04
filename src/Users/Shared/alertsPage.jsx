@@ -12,6 +12,8 @@ import UserProfile from '../../Components/userProfile/userProfile'
 import AlertCreationPopupContent from '../../Components/Popup/alertCreation'
 import AlertModificationPopupContent from '../../Components/Popup/alertModification.jsx'
 import { disconnect } from '../../functions/disconnect'
+import { toast } from 'react-toastify'
+import AlertDeletionPopupContent from '../../Components/Popup/alertDeletion'
 
 const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
@@ -20,15 +22,7 @@ const AlertsPage = () => {
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
-  const [errMessage, setErrMessage] = useState('')
-  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
-
-  const openNotification = (message, type) => {
-    setNotification({ visible: true, message, type })
-    setTimeout(() => {
-      setNotification({ visible: false, message: '', type: '' })
-    }, 3000) // La notification sera visible pendant 3 secondes
-  }
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const fetchAlerts = async () => {
     try {
@@ -126,7 +120,7 @@ const AlertsPage = () => {
     }
   }
 
-  const handleEditAlert = (alert) => {
+  const handleEditAlert = (alert, onClose) => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alert.id}`, {
       method: 'PATCH',
       headers: {
@@ -139,34 +133,33 @@ const AlertsPage = () => {
         if (response.ok) {
           fetchAlerts() // Rafraîchir la liste des alertes après modification
           setIsModifying(false)
-          openNotification('L\'alerte a été modifiée avec succès.', 'success')
+          toast.success('L\'alerte a été modifiée avec succès.')
+          onClose()
         } else {
-          setErrMessage('Erreur lors de la mise à jour')
+          toast.error('Erreur lors de la mise à jour')
         }
       })
       .catch((error) => console.error('Erreur : ', error))
   }
 
-  const handleDeleteAlert = (alertId) => {
-    const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer cette alerte ?')
-    if (confirmDelete) {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alertId}`, {
-        method: 'DELETE',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
+  const handleDeleteAlert = (alertId, close) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/alert/${alertId}`, {
+      method: 'DELETE',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      }
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetchAlerts() // Rafraîchir la liste des alertes après suppression
+          setChosenAlert('')
+          toast.success('L\'alerte a été supprimée avec succès.')
+          close()
+        } else {
+          toast.error('Erreur lors de la suppression')
         }
       })
-        .then((response) => {
-          if (response.ok) {
-            fetchAlerts() // Rafraîchir la liste des alertes après suppression
-            setChosenAlert('')
-            openNotification('L\'alerte a été supprimée avec succès.', 'success')
-          } else {
-            setErrMessage('Erreur lors de la suppression')
-          }
-        })
-        .catch((error) => console.error('Erreur : ', error))
-    }
+      .catch((error) => toast.error('Erreur : ', error))
   }
 
   useEffect(() => {
@@ -191,6 +184,10 @@ const AlertsPage = () => {
     setIsModifying(!isModifying)
   }
 
+  const handleDeleting = () => {
+    setIsDeleting(!isDeleting)
+  }
+
   const buttonComponent = [
     {
       name: 'Créer une alerte',
@@ -205,7 +202,7 @@ const AlertsPage = () => {
     },
     {
       name: 'Supprimer',
-      handleFunction: () => handleDeleteAlert(chosenAlert.id)
+      handleFunction: handleDeleting
     }
   ]
 
@@ -222,15 +219,11 @@ const AlertsPage = () => {
         />
       </div>
       <div className='alert-page' style={{ marginLeft: '25px' }}>
-        {notification.visible &&
-          <div className={`notification ${notification.type}`}>
-            {notification.message}
-          </div>}
         <Popup open={isOpen} onClose={() => setIsOpen(false)} modal>
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
-              <AlertCreationPopupContent />
+              <AlertCreationPopupContent onClose={close} />
             </div>
           )}
         </Popup>
@@ -238,7 +231,15 @@ const AlertsPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
-              <AlertModificationPopupContent chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} errMessage={errMessage} />
+              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} />
+            </div>
+          )}
+        </Popup>
+        <Popup open={isDeleting} onClose={() => setIsDeleting(false)} modal>
+          {(close) => (
+            <div className='popup-modal-container'>
+              <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
+              <AlertDeletionPopupContent onClose={close} chosenAlert={chosenAlert} handleDeleteAlert={handleDeleteAlert} />
             </div>
           )}
         </Popup>
@@ -246,7 +247,7 @@ const AlertsPage = () => {
           id === undefined
             ? Object.entries(alerts).map(([day, items]) => (
               <div className='alert-page-container' key={day}>
-                <div style={{display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'start', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'start', alignItems: 'center' }}>
                   <h2 className='day-title'>{day}</h2>
                   <div className='breakline' />
                 </div>

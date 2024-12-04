@@ -5,12 +5,15 @@ import { toast } from 'react-toastify'
 import DeleteAccountPopupContent from '../../Popup/deleteAccount'
 import Popup from 'reactjs-popup'
 import cross from '../../../assets/Cross.png'
-import minusButton from '../../../assets/minus-button.png'
+import deleteButton from '../../../assets/deleteIcon.png'
+import suspendButton from '../../../assets/suspendIcon.png'
+import restoreButton from '../../../assets/restoreIcon.png'
 
 export default function AdmAccountsTable () {
   const [accountList, setAccountList] = useState([]) // list of accounts
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [userId, setUserId] = useState('')
+  const [actionType, setActionType] = useState('delete')
 
   async function getAccountList () {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/all'
@@ -28,6 +31,27 @@ export default function AdmAccountsTable () {
     } else {
       const data = await resp.json()
       setAccountList(data)
+      getSuspendedAccountList(data)
+    }
+  }
+
+  async function getSuspendedAccountList (list) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/getDisabled'
+    const token = sessionStorage.getItem('token')
+
+    const resp = await fetch(baseUrl, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else {
+      const data = await resp.json()
+      const array = [...list, ...data]
+      setAccountList(array)
     }
   }
 
@@ -39,7 +63,8 @@ export default function AdmAccountsTable () {
     setIsPopupOpen(!isPopupOpen)
   }
 
-  const callDeleteAccount = (userIdValue) => {
+  const callDeleteAccount = (userIdValue, action) => {
+    setActionType(action)
     setUserId(userIdValue)
     setIsPopupOpen(!isPopupOpen)
   }
@@ -61,7 +86,31 @@ export default function AdmAccountsTable () {
     if (resp.status === 401) {
       disconnect()
     } else if (resp.status === 200) {
+      setIsPopupOpen(false)
       toast.success(deleteType ? 'Le compte a été supprimé' : 'Le compte a été suspendu')
+      getAccountList()
+    } else {
+      toast.error("une alerte s'est produite")
+      getAccountList()
+    }
+  }
+
+  async function activateAccount (accountId) {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL + '/adm/activateUser/' + accountId
+    const token = sessionStorage.getItem('token')
+
+    const resp = await fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (resp.status === 401) {
+      disconnect()
+    } else if (resp.status === 200) {
+      setIsPopupOpen(false)
+      toast.success('Le compte a été restauré')
       getAccountList()
     } else {
       toast.error("une alerte s'est produite")
@@ -75,7 +124,7 @@ export default function AdmAccountsTable () {
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <DeleteAccountPopupContent userIdValue={userId} deleteUserAccount={deleteAccount} closeDeleteAccountPopup={close} />
+            <DeleteAccountPopupContent userIdValue={userId} actionType={actionType} deleteUserAccount={deleteAccount} activateAccount={activateAccount} closeDeleteAccountPopup={close} />
           </div>
         )}
       </Popup>
@@ -96,7 +145,14 @@ export default function AdmAccountsTable () {
                   <td>{data.firstname}</td>
                   <td>{data.lastname}</td>
                   <td>{data.email}</td>
-                  <td><img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id) }} src={minusButton} alt='delete' title='Supprimer ou suspendre le compte' /></td>
+                  <td className='action-td'>
+                    {
+                      data.active
+                        ? <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'suspend') }} src={suspendButton} alt='delete' title='Suspendre le compte' />
+                        : <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'restore') }} src={restoreButton} alt='delete' title='Restaurer le compte' />
+                    }
+                    <img data-testid='suspendBtn' className='suspendBtn' onClick={(e) => { e.stopPropagation(); callDeleteAccount(data._id, 'delete') }} src={deleteButton} alt='delete' title='Supprimer le compte' />
+                  </td>
                 </tr>
               )
             }

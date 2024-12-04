@@ -6,7 +6,6 @@ const ChatRoomSidebar = ({
   conversations,
   currentConversation,
   setCurrentConversation,
-  setCurrentParticipants,
   clearMessageAndError,
   openCreateConversationPopup
 }) => {
@@ -23,7 +22,10 @@ const ChatRoomSidebar = ({
     conversation.participants?.map((participant) => (
       conv.push(participant.firstname + ' ' + participant.lastname)
     ))
-    setCurrentParticipants(conv.join(', '))
+  }
+
+  const truncateString = (str) => {
+    return str.length > 25 ? str.slice(0, 30) + '...' : str
   }
 
   return (
@@ -33,13 +35,12 @@ const ChatRoomSidebar = ({
           <img className='img-cross' src={cross} alt='cross' />
           <span>+ Nouvelle conversation</span>
         </button>
-        {/* <span className='divider' /> */}
       </div>
       <div className='content'>
         {conversations.map((conversation, index) => (
           <div key={index} className={`${conversation === currentConversation ? 'active-conversation' : 'conversation'}`} onClick={() => handleClick(conversation)}>
-            <div className='text'>
-              {conversation.name}
+            <div className='text' title={conversation.name}>
+              {truncateString(conversation.name)}
             </div>
             {
               (chats.value.unseenChats.includes(conversation._id)) &&

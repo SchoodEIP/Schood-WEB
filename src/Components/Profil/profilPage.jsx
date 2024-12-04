@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../css/pages/profilPage.scss'
 import userIcon from '../../assets/userIcon.png'
-import { disconnect } from '../../functions/disconnect'
 import Popup from 'reactjs-popup'
 import cross from '../../assets/Cross.png'
 import { toast } from 'react-toastify'
@@ -131,7 +130,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
         navigate('/profile')
       } else {
         navigate('/profile')
-        const text = await response.text()
+        // const text = await response.text()
         setNegativeResponse('')
         console.log(`Erreur lors de la mise à jour du profil: ${response.statusText}`)
       }
@@ -155,8 +154,8 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
   }
 
   return (
-    <div className='page-height' style={{height: '100%'}}>
-      <Popup open={isModif} onClose={handleProfileModification} modal contentStyle={{width: '400px'}}>
+    <div className='page-height' style={{ height: '100%' }}>
+      <Popup open={isModif} onClose={handleProfileModification} modal contentStyle={{ width: '400px' }}>
         {(close) => (
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <span className='popup-title'>Mettre à jour le profil</span>
@@ -164,7 +163,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
             <div className='profile-update'>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <label style={{fontWeight: '600', marginBottom: '5px'}} htmlFor='email'>Nouvelle adresse email:</label>
+                  <label style={{ fontWeight: '600', marginBottom: '5px' }} htmlFor='email'>Nouvelle adresse email:</label>
                   <input
                     type='email'
                     id='email'
@@ -174,7 +173,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
                   />
                 </div>
                 <div>
-                  <label style={{marginTop: '20px', fontWeight: '600', marginBottom: '5px'}} htmlFor='picture'>Nouvelle photo de profil:</label>
+                  <label style={{ marginTop: '20px', fontWeight: '600', marginBottom: '5px' }} htmlFor='picture'>Nouvelle photo de profil:</label>
                   <input
                     type='file'
                     id='picture'
@@ -182,14 +181,14 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
                     onChange={(e) => handlePictureChange(e)}
                   />
                 </div>
-                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{marginTop: '20px'}} type='submit'>Mettre à jour</button>
+                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px' }} type='submit'>Mettre à jour</button>
               </form>
             </div>
           </div>
         )}
       </Popup>
       {negativeResponse && <p className='error-message'>{negativeResponse}</p>}
-      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', alignContent: 'center', height: '100%'}}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', alignContent: 'center', height: '100%' }}>
         <div className='profile-content'>
           <div>
             <img className='profile-img' src={userProfile?.picture ? userProfile.picture : userIcon} alt='Image de profil' />
@@ -215,7 +214,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
             <p className='element-content'>{userProfile.email}</p>
           </div>
         </div>
-        <div style={{marginTop: '20px'}} onClick={() => disconnect()} className='item'>
+        <div style={{ marginTop: '20px' }} onClick={() => disconnect()} className='item'>
           <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
         </div>
       </div>

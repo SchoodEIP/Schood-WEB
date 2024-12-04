@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createAlerts.scss'
 import { disconnect } from '../../functions/disconnect'
@@ -13,7 +14,6 @@ const AlertCreationPopupContent = () => {
   const [selectedClasses, setSelectedClasses] = useState([])
   const [file, setFile] = useState(null)
   const [isClass, setIsClass] = useState(true)
-  const [errMessage, setErrMessage] = useState('')
 
   useEffect(() => {
     // Requête GET : récupération de la liste des types d’utilisateurs
@@ -34,7 +34,7 @@ const AlertCreationPopupContent = () => {
         setRole(data.roles[0]._id)
         setUserRoles(data.roles)
       })
-      .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de la récupération des roles', error.message) })
+      .catch((error) => /* istanbul ignore next */ { toast.error('Erreur lors de la récupération des roles', error.message) })
 
     // Requête GET : récupération des classes dont l’utilisateur est en charge
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/classes`, {
@@ -51,7 +51,7 @@ const AlertCreationPopupContent = () => {
         return response.json()
       })
       .then((data) => (data.message === 'Access Forbidden' ? setUserClasses([]) : setUserClasses(data)))
-      .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de la récupération des classes', error.message) })
+      .catch((error) => /* istanbul ignore next */ { toast.error('Erreur lors de la récupération des classes', error.message) })
   }, [])
 
   const handleAlertSubmit = async (e) => {
@@ -71,16 +71,16 @@ const AlertCreationPopupContent = () => {
     }
 
     if (title === '') {
-      setErrMessage('Le titre est vide.')
+      toast.error('Le titre est vide.')
       return
     } else if (message === '') {
-      setErrMessage('Le message est vide.')
+      toast.error('Le message est vide.')
       return
     } else if (isClass && selectedClasses.length === 0) {
-      setErrMessage("Aucune classe n'a été sélectionnée.")
+      toast.error("Aucune classe n'a été sélectionnée.")
       return
     } else if (!isClass && role === '') {
-      setErrMessage("Aucun rôle n'a été sélectionné.")
+      toast.error("Aucun rôle n'a été sélectionné.")
       return
     }
 
@@ -99,7 +99,7 @@ const AlertCreationPopupContent = () => {
         return response.json()
       })
       .then((data) => {
-        setErrMessage('Alerte envoyée avec succès')
+        toast.success('Alerte envoyée avec succès')
         if (file) {
           addFileToAlert(data._id)
         } else {
@@ -107,7 +107,7 @@ const AlertCreationPopupContent = () => {
         }
       })
       .catch((error) => /* istanbul ignore next */ {
-        setErrMessage('Erreur lors de l\'envoi de l\'alerte', error)
+        toast.error('Erreur lors de l\'envoi de l\'alerte', error)
       })
 
     function addFileToAlert (id) {
@@ -125,10 +125,10 @@ const AlertCreationPopupContent = () => {
           if (response.status === 401) {
             disconnect()
           }
-          setErrMessage('Fichier envoyé avec l\'alerte avec succès')
+          toast.success('Fichier envoyé avec l\'alerte avec succès')
           window.location.reload()
         })
-        .catch((error) => /* istanbul ignore next */ { setErrMessage('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
+        .catch((error) => /* istanbul ignore next */ { toast.error('Erreur lors de l\'envoi du fichier avec l\'alerte', error) })
     }
   }
 
@@ -211,7 +211,6 @@ const AlertCreationPopupContent = () => {
         <span className='label-content'>Fichier joint</span>
         <input style={{ fontFamily: 'Inter' }} id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
-      {errMessage ? <span style={{ color: 'red' }}>{errMessage}</span> : ''}
       <button className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
     </>
   )

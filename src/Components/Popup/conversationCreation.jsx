@@ -42,31 +42,32 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
 
   const colourStyles = {
     control: (styles) => (
-      { ...styles,
+      {
+        ...styles,
         backgroundColor: 'white',
-        height: '45px',
+        height: '45px'
       }
     ),
     multiValueLabel: (styles, { data }) => ({
       ...styles,
       fontWeight: '500'
-    }),
-  };
+    })
+  }
 
   return (
     <>
       <label className='input-label'>
         {isAddingParticipants && (
           <div>
-            <h3 style={{marginTop: '0px'}}>Membres actuels ({members.length})</h3>
-            <div style={{display: 'flex', flexWrap: 'wrap', flexDirection: 'row', gap: '10px'}}>
+            <h3 style={{ marginTop: '0px' }}>Membres actuels ({members.length})</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', gap: '10px' }}>
               {members && members.map((member, index) => (
-                <p style={{marginTop: '0px', marginBottom: '0px'}} key={index}>{member.firstname} {member.lastname}</p>
+                <p style={{ marginTop: '0px', marginBottom: '0px' }} key={index}>{member.firstname} {member.lastname}</p>
               ))}
             </div>
           </div>
         )}
-        {isAddingParticipants ? <span style={{marginTop: '10px', fontWeight: '600'}} className='label-content'>Sélectionner un/des utilisateur(s)</span> : <span style={{marginTop: '0px', fontWeight: '600'}} className='label-content'>Rechercher un ou plusieurs membre(s) <span style={{ color: 'red' }}>*</span></span>}
+        {isAddingParticipants ? <span style={{ marginTop: '10px', fontWeight: '600' }} className='label-content'>Sélectionner un/des utilisateur(s)</span> : <span style={{ marginTop: '0px', fontWeight: '600' }} className='label-content'>Rechercher un ou plusieurs membre(s) <span style={{ color: 'red' }}>*</span></span>}
         <Select
           isMulti
           data-testid='select-contacts'
@@ -83,16 +84,16 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
       </label>
       {!isAddingParticipants && (
         <label className='input-label' style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'start', width: '100%' }}>
-          <span className='label-content' style={{fontWeight: '600'}}>Donner un nom à la conversation</span>
+          <span className='label-content' style={{ fontWeight: '600' }}>Donner un nom à la conversation</span>
           <input maxLength='50' style={{ width: 'calc(100% - 15px)' }} type='text' placeholder='Nom de la conversation' value={convTitle} onChange={handleSetConvTitle} />
         </label>
       )}
-      <div style={{display: 'flex', flexDirection: 'row', alignContent: 'space-between'}}>
-        <button style={{textWrap: 'nowrap'}} disabled={selectedContacts.length <= 0} className='popup-btn' onClick={handleCreateConversation}>
+      <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'space-between' }}>
+        <button style={{ textWrap: 'nowrap' }} disabled={selectedContacts.length <= 0} className='popup-btn' onClick={handleCreateConversation}>
           {isAddingParticipants ? 'Ajouter le membre' : 'Créer la conversation'}
         </button>
         {isAddingParticipants && (
-          <button style={{textWrap: 'nowrap'}} className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
+          <button style={{ textWrap: 'nowrap' }} className='leave-conversation-btn' onClick={() => setShowLeaveConversationPopup(true)}>
             Quitter la conversation
           </button>
         )}

@@ -210,12 +210,108 @@
     font-weight: bold;
     z-index: 999;
   }
-  
+
   .success {
     background-color: #4CAF50; /* Vert */
   }
-  
+
   .error {
     background-color: #f44336; /* Rouge */
   }
-  
+
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    input, select, textarea {
+        width: 90%;
+        border: 2px solid #4f23e2;
+        border-radius: 15px;
+        height: 25px;
+        padding-left: 10px;
+        background-color: white;
+    }
+
+    textarea {
+        height: 15%;
+    }
+
+    #select-classes .css-13cymwt-control, #select-classes .react-select__menu {
+        border: 2px solid #4f23e2;
+        border-radius: 15px;
+    }
+
+    .label-content-warning {
+        text-align: center;
+        width: 450px;
+    }
+}
+
+.form-profile-modif {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+.desanonym-popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+.classes-gestion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+.class-input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px  0 20px ;
+}
+
+.class-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    align-content: center;
+    overflow-y: scroll;
+    height: 55vh;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.class-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-content: center;
+    justify-content: space-between;
+    border: 1px solid lightgrey;
+    box-shadow: 5px 5px 5px 0px lightgray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.icon-popup {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-popup:hover {
+    transition: 0.2s;
+    height: 23px;
+}

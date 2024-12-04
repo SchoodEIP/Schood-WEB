@@ -3,9 +3,9 @@ import '../../css/Components/Popup/popup.scss'
 import '../../css/pages/createReports.scss'
 import { disconnect } from '../../functions/disconnect'
 import Select from 'react-select'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
-const ReportCreationPopupContent = () => {
+const ReportCreationPopupContent = ({ onClose }) => {
   const userId = localStorage.getItem('id')
   const [reason, setReason] = useState('')
   const [message, setMessage] = useState('')
@@ -14,16 +14,17 @@ const ReportCreationPopupContent = () => {
 
   const colourStyles = {
     control: (styles) => (
-      { ...styles,
+      {
+        ...styles,
         backgroundColor: 'white',
-        height: '45px',
+        height: '45px'
       }
     ),
     multiValueLabel: (styles, { data }) => ({
       ...styles,
       fontWeight: '500'
-    }),
-  };
+    })
+  }
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/user/chat/users`, {
@@ -93,7 +94,7 @@ const ReportCreationPopupContent = () => {
 
   return (
     <>
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         <span className='popup-title'>Créer un Signalement</span>
       </div>
       <label className='input-label'>
@@ -122,9 +123,9 @@ const ReportCreationPopupContent = () => {
           getOptionLabel={(option) => (option.firstname + ' ' + option.lastname)}
         />
       </label>
-      <label className='input-label' style={{width: '100%'}}>
+      <label className='input-label' style={{ width: '100%' }}>
         <span className='label-content'>Description</span>
-        <textarea style={{height: '100px', resize: 'none'}} value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer la raison de votre signalement ici.' />
+        <textarea style={{ height: '100px', resize: 'none' }} value={message} onChange={handleMessageChange} placeholder='Veuillez expliquer la raison de votre signalement ici.' />
       </label>
       <button disabled={reason === '' || signaledUserId.length <= 0} onClick={handleConfirmClick} className='popup-btn'>Confirmer le signalement</button>
     </>
