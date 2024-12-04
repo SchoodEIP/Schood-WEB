@@ -37,7 +37,7 @@
     "reactjs-popup": "^2.0.6",
     "sass": "^1.71.1",
     "standard": "^17.1.2",
-    "styled-components": "^6.1.6",
+    "styled-components": "^6.1.13",
     "web-vitals": "^4.0.1"
   },
   "jest": {
