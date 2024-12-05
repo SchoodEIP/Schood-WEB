@@ -70,8 +70,8 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
     if (name === '') {
       toast.error('Le nom est vide.')
       sendPost = false
-    } else if (!/^\d{10}$/.test(telephone) || telephone === '') {
-      toast.error('Veuillez fournir un numéro de téléphone valide (10 chiffres).')
+    } else if (!/^[0-9]+$/.test(telephone) || telephone === '') {
+      toast.error('Veuillez fournir un numéro de téléphone valide.')
       sendPost = false
     } else if (email === '' || !validateEmail(email)) {
       toast.error('Veuillez fournir une adresse email valide.')

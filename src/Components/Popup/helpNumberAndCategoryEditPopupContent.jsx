@@ -109,7 +109,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     const item = items.find((item) => item._id === selectedId)
     setSelectedItem(item)
     if (item && type === 'number') {
-      setFormData({ name: item.name, telephone: item.telephone || '', helpNumbersCategory: item.helpNumbersCategory })
+      setFormData({ name: item.name, telephone: item.telephone, email: item.email, description: item.description || '', helpNumbersCategory: item.helpNumbersCategory })
     } else {
       setFormData({ name: item.name })
     }
