@@ -149,25 +149,27 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
             <div className='profile-update'>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <label style={{ fontWeight: '600', marginBottom: '5px' }} htmlFor='email'>Nouvelle adresse email:</label>
-                  <input
-                    type='email'
-                    id='email'
-                    placeholder='example@example.fr'
-                    value={newEmail}
-                    onChange={handleEmailChange}
-                  />
+                  <label style={{ fontWeight: '600', marginBottom: '5px' }} htmlFor='email'>Nouvelle adresse email:
+                    <input
+                      type='email'
+                      id='email'
+                      placeholder='example@example.fr'
+                      value={newEmail}
+                      onChange={handleEmailChange}
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label style={{ marginTop: '20px', fontWeight: '600', marginBottom: '5px' }} htmlFor='picture'>Nouvelle photo de profil:</label>
-                  <input
-                    type='file'
-                    id='picture'
-                    accept='.jpg, .jpeg, .png'
-                    onChange={(e) => handlePictureChange(e)}
-                  />
+                  <label style={{ marginTop: '20px', fontWeight: '600', marginBottom: '5px' }} htmlFor='picture'>Nouvelle photo de profil:
+                    <input
+                      type='file'
+                      id='picture'
+                      accept='.jpg, .jpeg, .png'
+                      onChange={(e) => handlePictureChange(e)}
+                    />
+                  </label>
                 </div>
-                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px' }} type='submit'>Mettre à jour</button>
+                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px'}} type='submit'>Mettre à jour</button>
               </form>
             </div>
           </div>

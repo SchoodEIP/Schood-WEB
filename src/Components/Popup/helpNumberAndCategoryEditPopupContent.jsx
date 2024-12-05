@@ -162,7 +162,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ handleUpdateContent, type, onCl
   return (
     <div style={{display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", alignSelf:"center"}}>
 
-      <h2>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h2>
+      <h3>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h3>
 
       {loading && <p>Chargement des données...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -19,6 +19,7 @@ const AlertsPage = () => {
   const roleProfile = sessionStorage.getItem('role')
   const [isOpen, setIsOpen] = useState(false)
   const [isModifying, setIsModifying] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
   const [alerts, setAlerts] = useState([])
   const [chosenAlert, setChosenAlert] = useState({})
   const { id } = useParams()
@@ -69,6 +70,14 @@ const AlertsPage = () => {
       console.error('Erreur : ', error.message)
     }
   }
+
+  useEffect(() => {
+    if (isUpdated) {
+      fetchAlerts()
+      window.location.reload()
+      handleUpdateContent()
+    }
+  }, {isUpdated})
 
   const buildList = async (dataList) => {
     const alertList = []
@@ -188,6 +197,11 @@ const AlertsPage = () => {
     setIsDeleting(!isDeleting)
   }
 
+  const handleUpdateContent = () => {
+    setIsModifying(false)
+    setIsUpdated(!isUpdated)
+  }
+
   const buttonComponent = [
     {
       name: 'Créer une alerte',
@@ -231,7 +245,7 @@ const AlertsPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
-              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} />
+              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} handleUpdateContent={handleUpdateContent}/>
             </div>
           )}
         </Popup>
@@ -271,7 +285,7 @@ const AlertsPage = () => {
                 </div>
               </div>
             ))
-            : <ShowAlerts chosenAlert={chosenAlert} />
+            : <ShowAlerts isUpdated={isUpdated} handleUpdateContent={handleUpdateContent} chosenAlert={chosenAlert} />
         }
       </div>
     </div>
