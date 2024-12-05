@@ -322,7 +322,7 @@ export default function Sidebar () {
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
             </div>
             <div onClick={() => disconnect()} className='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnection
             </div>
           </div>
         </div>
