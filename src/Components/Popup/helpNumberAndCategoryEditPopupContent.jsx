@@ -3,8 +3,8 @@ import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 import '../../css/pages/homePage.scss'
 
-const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', phone: '' })
+const HelpNumberAndCategoryEditPopupContent = ({ handleUpdateContent, type, onClose }) => {
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', description: '' })
   const [items, setItems] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -97,7 +97,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       }
       toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
       onClose()
-      window.location.reload() // Rafraîchir la page après suppression
+      handleUpdateContent()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
       toast.error(`Erreur lors de la suppression: ${error.message}`)
@@ -150,9 +150,9 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
 
-      toast.error('Modification réussie !')
+      toast.success('Modification réussie !')
       onClose()
-      window.location.reload()
+      handleUpdateContent()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
       toast.error(`Erreur lors de la requête: ${error.message}`)

@@ -14,6 +14,7 @@ const HelpPage = () => {
   const [isOpenNumber, setIsOpenNumber] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [editType, setEditType] = useState('') // Pour stocker le type d'élément à modifier
+  const [updateContent, setUpdateContent] = useState(true)
 
   const handleCategoryCustomPopup = async () => {
     setIsOpenCategory(!isOpenCategory)
@@ -33,6 +34,13 @@ const HelpPage = () => {
   const handleEditPopup = (type) => {
     setEditType(type)
     setIsOpenEdit(true)
+  }
+
+  const handleUpdateContent = () => {
+    setUpdateContent(!updateContent)
+    setIsOpenCategory(false)
+    setIsOpenNumber(false)
+    setIsOpenEdit(false)
   }
 
   const buttonComponent = [
@@ -69,7 +77,7 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container' style={{ padding: '50px', gap: '50px' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <CategoryCreationPopupContent onClose={close} />
+              <CategoryCreationPopupContent handleUpdateContent={handleUpdateContent} onClose={close} />
             </div>
           )}
         </Popup>
@@ -77,7 +85,7 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <HelpNumberCreationPopupContent onClose={close} />
+              <HelpNumberCreationPopupContent handleUpdateContent={handleUpdateContent}  onClose={close} />
             </div>
           )}
         </Popup>
@@ -85,11 +93,11 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <HelpNumberAndCategoryEditPopupContent type={editType} onClose={close} />
+              <HelpNumberAndCategoryEditPopupContent handleUpdateContent={handleUpdateContent} type={editType} onClose={close} />
             </div>
           )}
         </Popup>
-        <AidePage />
+        <AidePage updateContent={updateContent} handleUpdateContent={handleUpdateContent} />
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const CategoryCreationPopupContent = ({ onClose }) => {
+const CategoryCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   const [name, setName] = useState('')
 
   const handleNameChange = (event) => {
@@ -29,6 +29,7 @@ const CategoryCreationPopupContent = ({ onClose }) => {
         }
         if (response.ok) {
           toast.success('Catégorie créée avec succès.')
+          handleUpdateContent()
         } else {
           const data = await response.json()
           toast.error(data.message)

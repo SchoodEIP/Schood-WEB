@@ -3,7 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const HelpNumberCreationPopupContent = ({ onClose }) => {
+const HelpNumberCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [categoryID, setCategoryID] = useState('')
@@ -101,7 +101,7 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
         }
         if (response.ok) {
           toast.success("Numéro d'aide ajouté avec succès.")
-          onClose()
+          handleUpdateContent()
         } else /* istanbul ignore next */ {
           const data = response.json()
           toast.error(data.message)
