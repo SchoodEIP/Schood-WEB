@@ -11,11 +11,11 @@ import '../../css/Components/Popup/popup.scss'
 import cross from '../../assets/Cross.png'
 import { disconnect } from '../../functions/disconnect'
 import UserProfile from '../../Components/userProfile/userProfile'
+import { toast } from 'react-toastify'
 
 const Messages = () => {
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState('')
-  const [notification, setNotification] = useState({ visible: false, message: '', type: '' })
   const { send, chats } = useContext(WebsocketContext) // eslint-disable-line
   const inputFile = useRef(null)
 
@@ -142,13 +142,6 @@ const Messages = () => {
 
     return () => clearInterval(intervalId)
   }, [currentConversation])
-
-  const openNotification = (message, type) => {
-    setNotification({ visible: true, message, type })
-    setTimeout(() => {
-      setNotification({ visible: false, message: '', type: '' })
-    }, 3000) // La notification sera visible pendant 3 secondes
-  }
 
   const sendMessage = async () => {
     if (newMessage.trim() === '' && !file) {
@@ -291,10 +284,10 @@ const Messages = () => {
       }
 
       send('createChat', { ids: selectedContacts.filter((id) => id !== userId) })
-      openNotification('Une nouvelle conversation a été créée avec succès', 'success')
+      toast.success('Une nouvelle conversation a été créée avec succès')
       fetchConversations()
     } catch (error) /* istanbul ignore next */ {
-      openNotification('Erreur lors de la création de la conversation', 'error')
+      toast.error('Erreur lors de la création de la conversation')
       setError('Erreur lors de la création de la conversation')
     }
   }
@@ -322,11 +315,11 @@ const Messages = () => {
         throw new Error('Erreur lors de l\'ajout des participants.')
       }
 
-      openNotification('Participants ajoutés avec succès', 'success')
+      toast.success('Participants ajoutés avec succès')
       fetchConversations() // Met à jour les conversations
     } catch (error) {
       console.error('Erreur lors de l\'ajout des participants :', error)
-      openNotification('Erreur lors de l\'ajout des participants', 'error')
+      toast.error('Erreur lors de l\'ajout des participants')
     } finally {
       setShowAddParticipantsPopup(false) // Ferme la popup après l'ajout
     }
@@ -351,12 +344,12 @@ const Messages = () => {
         throw new Error('Erreur lors du départ de la conversation.')
       }
 
-      openNotification('Vous avez quitté la conversation.', 'success')
+      toast.success('Vous avez quitté la conversation.')
       setCurrentConversation('') // Réinitialiser la conversation actuelle
       fetchConversations() // Mettre à jour la liste des conversations après avoir quitté
     } catch (error) {
       console.error('Erreur lors du départ de la conversation :', error)
-      openNotification('Erreur lors du départ de la conversation.', 'error')
+      toast.error('Erreur lors du départ de la conversation.')
     } finally {
       // clearNotification() // Efface la notification après un certain temps
       setShowLeaveConversationPopup(false) // Ferme la popup après avoir quitté
@@ -404,10 +397,6 @@ const Messages = () => {
         openCreateConversationPopup={openCreateConversationPopup}
       />
       <div className='chat'>
-        {notification.visible &&
-          <div className={`notification ${notification.type}`}>
-            {notification.message}
-          </div>}
         {currentConversation
           ? (
             <div className='chat-content'>
@@ -492,7 +481,7 @@ const Messages = () => {
             </div>
             )
           : (
-            <div>Aucune conversation sélectionnée.</div>
+            <div style={{marginTop: "20px", marginLeft: "20px"}}>Aucune conversation sélectionnée.</div>
             )}
       </div>
       <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal contentStyle={{ width: '400px' }}>
