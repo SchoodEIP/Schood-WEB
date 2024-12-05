@@ -62,33 +62,33 @@ const SingleAccountCreationPopupContent = ({ handleUpdateContent }) => {
     return regEx.test(email)
   }
 
-  async function modifyAccount(updatedUser, userId) {
+  async function modifyAccount (updatedUser, userId) {
     const formData = new FormData()
-      formData.append('firstname', updatedUser.firstname)
-      formData.append('lastname', updatedUser.lastname)
-      formData.append('role', updatedUser.role)
-      formData.append('email', updatedUser.email)
+    formData.append('firstname', updatedUser.firstname)
+    formData.append('lastname', updatedUser.lastname)
+    formData.append('role', updatedUser.role)
+    formData.append('email', updatedUser.email)
 
-      if (picture) {
-        formData.append('file', picture)
-      }
+    if (picture) {
+      formData.append('file', picture)
+    }
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'x-auth-token': sessionStorage.getItem('token')
-        },
-        body: formData
-      })
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    })
 
-      if (response.status === 401) {
-        disconnect()
-      } else if (response.ok) {
-        toast.success('Compte créé avec succès')
-        handleUpdateContent()
-      } else {
-        toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
-      }
+    if (response.status === 401) {
+      disconnect()
+    } else if (response.ok) {
+      toast.success('Compte créé avec succès')
+      handleUpdateContent()
+    } else {
+      toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
+    }
   }
 
   const singleAccountCreation = async (event) => {

@@ -169,7 +169,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
                     />
                   </label>
                 </div>
-                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px'}} type='submit'>Mettre à jour</button>
+                <button className='popup-btn' disabled={newEmail.length === 0 && !newPicture} style={{ marginTop: '20px' }} type='submit'>Mettre à jour</button>
               </form>
             </div>
           </div>

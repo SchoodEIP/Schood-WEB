@@ -85,7 +85,7 @@ const HelpPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <HelpNumberCreationPopupContent handleUpdateContent={handleUpdateContent}  onClose={close} />
+              <HelpNumberCreationPopupContent handleUpdateContent={handleUpdateContent} onClose={close} />
             </div>
           )}
         </Popup>

@@ -112,7 +112,7 @@ const HelpNumberCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", alignSelf:"center"}}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', alignSelf: 'center' }}>
       <h3>Création d'un nouveau numéro d'aide</h3>
       <label className='input-label'>
         <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>

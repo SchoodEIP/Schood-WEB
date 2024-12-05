@@ -82,7 +82,7 @@ export default function SchoolAdmAccountsPage () {
           {(close) => (
             <div className='popup-modal-container' style={{ alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <SingleAccountCreationPopupContent handleUpdateContent={handleUpdateContent}/>
+              <SingleAccountCreationPopupContent handleUpdateContent={handleUpdateContent} />
             </div>
           )}
         </Popup>

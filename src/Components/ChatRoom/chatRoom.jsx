@@ -481,7 +481,7 @@ const Messages = () => {
             </div>
             )
           : (
-            <div style={{marginTop: "20px", marginLeft: "20px"}}>Aucune conversation sélectionnée.</div>
+            <div style={{ marginTop: '20px', marginLeft: '20px' }}>Aucune conversation sélectionnée.</div>
             )}
       </div>
       <Popup open={showCreateConversationPopup} onClose={openCreateConversationPopup} modal contentStyle={{ width: '400px' }}>

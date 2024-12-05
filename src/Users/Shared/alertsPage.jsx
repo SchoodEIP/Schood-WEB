@@ -77,7 +77,7 @@ const AlertsPage = () => {
       window.location.reload()
       handleUpdateContent()
     }
-  }, {isUpdated})
+  }, { isUpdated })
 
   const buildList = async (dataList) => {
     const alertList = []
@@ -245,7 +245,7 @@ const AlertsPage = () => {
           {(close) => (
             <div className='popup-modal-container'>
               <button className='close-btn' onClick={close}><img data-testid='close-img' src={cross} alt='Close' /></button>
-              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} handleUpdateContent={handleUpdateContent}/>
+              <AlertModificationPopupContent onClose={close} chosenAlert={chosenAlert} handleEditAlert={handleEditAlert} handleUpdateContent={handleUpdateContent} />
             </div>
           )}
         </Popup>

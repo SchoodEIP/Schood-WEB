@@ -9,7 +9,7 @@ import deleteButton from '../../../assets/deleteIcon.png'
 import suspendButton from '../../../assets/suspendIcon.png'
 import restoreButton from '../../../assets/restoreIcon.png'
 
-export default function AdmAccountsTable ({handleUpdateContent, isUpdated}) {
+export default function AdmAccountsTable ({ handleUpdateContent, isUpdated }) {
   const [accountList, setAccountList] = useState([]) // list of accounts
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [userId, setUserId] = useState('')

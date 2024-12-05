@@ -160,7 +160,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ handleUpdateContent, type, onCl
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", alignSelf:"center"}}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', alignSelf: 'center' }}>
 
       <h3>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h3>
 
@@ -217,7 +217,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ handleUpdateContent, type, onCl
                   </label>
                 </>
               )}
-              <div style={{display: "flex", flexDirection: "row", paddingTop: "10px"}}>
+              <div style={{ display: 'flex', flexDirection: 'row', paddingTop: '10px' }}>
                 <button type='button' onClick={handleSubmit}>Sauvegarder</button>
                 <button type='button' onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white', marginLeft: '10px' }}>Supprimer</button>
               </div>

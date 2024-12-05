@@ -22,7 +22,7 @@ const FeelingsAdminPage = () => {
     user: '',
     mood: '',
     reason: '',
-    message: "Afin de te trouver des solutions ensemble, acceptes tu de lever ton anonymat pour que nous nous rencontrions, mais celà tout en préservant la confidentialité de ce qui sera échangé ?"
+    message: 'Afin de te trouver des solutions ensemble, acceptes tu de lever ton anonymat pour que nous nous rencontrions, mais celà tout en préservant la confidentialité de ce qui sera échangé ?'
   })
   const [demands, setDemands] = useState([])
   const [feelings, setFeelings] = useState([])
@@ -214,7 +214,7 @@ const FeelingsAdminPage = () => {
                   ? (
                       demands.map((dem) => (
                         <div title={dem.status === 'refused' ? 'Refus de la demande' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'En attente d\'un retour'} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                          <div className="demand-content">
+                          <div className='demand-content'>
                             <img className='emoticone-image' style={{ height: '25px' }} src={imagePaths[dem.mood.mood]} alt={moods[dem.mood.mood]} />
                             <p>{dem.mood.comment}</p>
                           </div>

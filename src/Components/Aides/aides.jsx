@@ -60,7 +60,7 @@ export default function AidePage ({ updateContent, handleUpdateContent }) {
           setSelectedContact(data[0]._id)
         })
         .catch(error => toast.error('Erreur ' + error.status + ': ' + error.message))
-        handleUpdateContent()
+      handleUpdateContent()
     }
   }, [updateContent])
 

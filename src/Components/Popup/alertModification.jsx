@@ -45,8 +45,8 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignSelf:"center"}}>
-      <h3 style={{alignSelf: "center"}}>Modifier l'alerte</h3>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignSelf: 'center' }}>
+      <h3 style={{ alignSelf: 'center' }}>Modifier l'alerte</h3>
       <label className='input-label'>
         <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
         <input type='text' name='title' placeholder='Titre' value={editedAlert.title} onChange={handleEditChange} />
@@ -59,7 +59,7 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, 
         <span className='label-content'>Fichier joint</span>
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
-      <button style={{alignSelf: "center"}} className='popup-btn' onClick={() => editAlert()}>Modifier l'Alerte</button>
+      <button style={{ alignSelf: 'center' }} className='popup-btn' onClick={() => editAlert()}>Modifier l'Alerte</button>
     </div>
   )
 }

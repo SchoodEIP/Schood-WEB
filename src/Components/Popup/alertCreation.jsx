@@ -147,7 +147,7 @@ const AlertCreationPopupContent = () => {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignSelf:"center"}}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignSelf: 'center' }}>
       {
             roleProfile === 'teacher'
               ? null
@@ -211,7 +211,7 @@ const AlertCreationPopupContent = () => {
         <span className='label-content'>Fichier joint</span>
         <input style={{ fontFamily: 'Inter' }} id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
-      <button style={{alignSelf: "center"}} className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
+      <button style={{ alignSelf: 'center' }} className='popup-btn' onClick={handleAlertSubmit}>Créer l'Alerte</button>
     </div>
   )
 }
