@@ -11,7 +11,7 @@ import suspendButton from '../../../assets/suspendIcon.png'
 import restoreButton from '../../../assets/restoreIcon.png'
 import Select from 'react-select'
 
-export default function SchoolAccountsTable ({ status }) {
+export default function SchoolAccountsTable ({ isUpdated, handleUpdateContent, status }) {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -102,6 +102,13 @@ export default function SchoolAccountsTable ({ status }) {
         toast.error(error.message)
       })
   }
+
+  useEffect(() => {
+    if (isUpdated) {
+      getAccountList()
+      handleUpdateContent()
+    }
+  }, [isUpdated])
 
   const showClasses = (classes) => {
     if (!Array.isArray(classes)) {

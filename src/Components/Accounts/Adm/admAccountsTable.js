@@ -9,7 +9,7 @@ import deleteButton from '../../../assets/deleteIcon.png'
 import suspendButton from '../../../assets/suspendIcon.png'
 import restoreButton from '../../../assets/restoreIcon.png'
 
-export default function AdmAccountsTable () {
+export default function AdmAccountsTable ({handleUpdateContent, isUpdated}) {
   const [accountList, setAccountList] = useState([]) // list of accounts
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [userId, setUserId] = useState('')
@@ -34,6 +34,13 @@ export default function AdmAccountsTable () {
       getSuspendedAccountList(data)
     }
   }
+
+  useEffect(() => {
+    if (isUpdated) {
+      getAccountList()
+      handleUpdateContent()
+    }
+  }, [isUpdated])
 
   async function getSuspendedAccountList (list) {
     const baseUrl = process.env.REACT_APP_BACKEND_URL + '/user/getDisabled'
