@@ -22,7 +22,7 @@ const FeelingsAdminPage = () => {
     user: '',
     mood: '',
     reason: '',
-    message: ''
+    message: "Afin de te trouver des solutions ensemble, acceptes tu de lever ton anonymat pour que nous nous rencontrions, mais celà tout en préservant la confidentialité de ce qui sera échangé ?"
   })
   const [demands, setDemands] = useState([])
   const [feelings, setFeelings] = useState([])
@@ -48,11 +48,10 @@ const FeelingsAdminPage = () => {
     }
   }, [])
 
-  const handleDemandPopup = (userId, feelingId, feelingMood, message) => {
+  const handleDemandPopup = (userId, feelingId, feelingMood) => {
     demand.user = userId
     demand.reason = feelingId
     demand.mood = feelings.find(item => item.mood === feelingMood)._id
-    demand.message = message
     setDemand(demand)
     const toFind = demands.find(item => item.reason === feelingId)
     if (toFind) { toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.') } else { handleAskDesanonym() }
@@ -244,7 +243,7 @@ const FeelingsAdminPage = () => {
                     <p style={{ marginBottom: '0' }}>{feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                     <p style={{ marginTop: '0' }}>{feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''}</p>
                   </div>
-                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id, feeling.mood, feeling.comment)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
+                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id, feeling.mood)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
                 </div>
                 <div className='feelings-content'>
                   <p className='paragraph-style'>{feeling.comment}</p>

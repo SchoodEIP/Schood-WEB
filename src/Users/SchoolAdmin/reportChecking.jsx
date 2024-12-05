@@ -66,7 +66,7 @@ const ReportChecking = () => {
           'x-auth-token': sessionStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: 'seen', responseMessage: 'ok' })
+        body: JSON.stringify({ status: 'responded', responseMessage: 'ok' })
       }).then((response) => {
         if (response.status === 401) {
           disconnect()
@@ -162,7 +162,7 @@ const ReportChecking = () => {
                           )
                         }
                     </div>
-                    <div className='report-status'>{currentReport.status === 'seen'
+                    <div className='report-status'>{currentReport.status === 'responded'
                       ? (
                         <button style={{ fontFamily: 'Inter' }} onClick={() => handleReportProcessing(currentReport._id, 'waiting')}>Mettre en attente</button>
                         )

@@ -205,7 +205,11 @@ export default function SchoolAccountsTable ({ isUpdated, handleUpdateContent, s
 
       studentClass.map(classe => { return callAction(classe, '/updateStudent') })
     }
-    if (!classError) { toast.success('Le profil a été mis à jour avec succès.') }
+    if (!classError) {
+      toast.success('Le profil a été mis à jour avec succès.')
+      handleUpdateContent()
+      openEditing()
+    }
   }
 
   const handleUpdate = async (e) => {
@@ -325,7 +329,7 @@ export default function SchoolAccountsTable ({ isUpdated, handleUpdateContent, s
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='editProfileForm'>
-              <h2>Modifier Profil</h2>
+              <h2>Modifier le profil</h2>
               <form className='form-profile-modif' onSubmit={handleUpdate}>
                 <div>
                   <label className='input-label' htmlFor='firstname'>Prénom:
