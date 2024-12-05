@@ -4,7 +4,6 @@ import Popup from 'reactjs-popup'
 import HeaderComp from '../../Components/Header/headerComp'
 import '../../css/Components/Feelings/feelings.scss'
 import '../../css/Components/Popup/popup.scss'
-import DesanonymFeelingPopupContent from '../../Components/Popup/desanonymFeeling'
 import cross from '../../assets/Cross.png'
 import closeBlack from '../../assets/closeBlack.png'
 import veryBadMood from '../../assets/newVeryBadMood.png'
@@ -17,14 +16,13 @@ import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
 const FeelingsAdminPage = () => {
-  const [isOpen, setIsOpen] = useState(false)
   const [isShown, setIsShown] = useState(false)
   const [shownFeeling, setShownFeeling] = useState([])
   const [demand, setDemand] = useState({
     user: '',
-    mood: '0',
+    mood: '',
     reason: '',
-    message: 'Pas de message'
+    message: ''
   })
   const [demands, setDemands] = useState([])
   const [feelings, setFeelings] = useState([])
@@ -50,13 +48,14 @@ const FeelingsAdminPage = () => {
     }
   }, [])
 
-  const handleDemandPopup = (userId, feelingId, feelingMood) => {
+  const handleDemandPopup = (userId, feelingId, feelingMood, message) => {
     demand.user = userId
     demand.reason = feelingId
     demand.mood = feelings.find(item => item.mood === feelingMood)._id
+    demand.message = message
     setDemand(demand)
     const toFind = demands.find(item => item.reason === feelingId)
-    if (toFind) { toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.') } else { setIsOpen(!isOpen) }
+    if (toFind) { toast.warn('Vous avez déjà effectué une demande de désanonymisation pour ce ressenti.') } else { handleAskDesanonym() }
   }
 
   async function getDesanonym () {
@@ -97,7 +96,6 @@ const FeelingsAdminPage = () => {
       })
       .then(data => {
         if (Array.isArray(data)) {
-          console.log(data)
           setFeelings(prevFeelings => [...prevFeelings, ...data])
         } else {
           toast.error('Les données reçues ne sont pas valides.')
@@ -109,12 +107,7 @@ const FeelingsAdminPage = () => {
     getDesanonym()
   }, [])
 
-  const handleClosePopup = () => {
-    setIsOpen(false)
-  }
-
-  const handleAskDesanonym = (message) => {
-    demand.message = (message || 'Pas de message')
+  const handleAskDesanonym = () => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shared/desanonym/`, {
       method: 'POST',
       headers: {
@@ -130,7 +123,6 @@ const FeelingsAdminPage = () => {
           // set feeling.status to waiting !
           toast.success('La demande de désanonymisation a été effectuée.')
           getDesanonym()
-          setIsOpen(!isOpen)
         } else {
           toast.error('Erreur serveur.')
         }
@@ -188,14 +180,6 @@ const FeelingsAdminPage = () => {
         />
       </div>
       <div className='feelings-page'>
-        <Popup open={isOpen} onClose={handleClosePopup} modal>
-          {(close) => (
-            <div className='popup-modal-container' style={{ alignItems: 'center' }}>
-              <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <DesanonymFeelingPopupContent handleAskDesanonym={handleAskDesanonym} />
-            </div>
-          )}
-        </Popup>
         <Popup open={isShown} onClose={handleCloseFeelingPopup} modal>
           {(close) => (
             <div className='popup-modal-container' style={{ alignItems: 'inherit' }}>
@@ -230,8 +214,11 @@ const FeelingsAdminPage = () => {
                 demands.length !== 0
                   ? (
                       demands.map((dem) => (
-                        <div title={dem.message} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                          <p className='demand-content'>{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
+                        <div title={dem.status === 'refused' ? 'Refus de la demande' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'En attente d\'un retour'} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                          <div className="demand-content">
+                            <img className='emoticone-image' style={{ height: '25px' }} src={imagePaths[dem.mood.mood]} alt={moods[dem.mood.mood]} />
+                            <p>{dem.mood.comment}</p>
+                          </div>
                           <button className='demand-close-btn' onClick={(e) => { e.stopPropagation(); deleteDemand(dem._id) }}><img className='close-img' src={closeBlack} alt='DeleteDemand' /></button>
                         </div>
                       ))
@@ -257,7 +244,7 @@ const FeelingsAdminPage = () => {
                     <p style={{ marginBottom: '0' }}>{feeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                     <p style={{ marginTop: '0' }}>{feeling.date !== '' ? `${moment(feeling.date).format('DD/MM/YYYY')}` : ''}</p>
                   </div>
-                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id, feeling.mood)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
+                  <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{feeling.annonymous ? (<>Anonyme <img style={{ height: '15px', cursor: 'pointer' }} onClick={() => handleDemandPopup(feeling.user._id, feeling._id, feeling.mood, feeling.comment)} src={questionIcon} alt='Demander à désanonymiser' title='Faire une demande de désanonymisation' /> </>) : `${feeling.user.firstname} ${feeling.user.lastname}`}</div>
                 </div>
                 <div className='feelings-content'>
                   <p className='paragraph-style'>{feeling.comment}</p>

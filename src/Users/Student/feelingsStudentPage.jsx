@@ -278,6 +278,11 @@ const FeelingsStudentPage = () => {
         if (response.status === 401) {
           disconnect()
         } else if (response.status === 200) {
+          if (answer === 'accepted') {
+            toast.success('Votre ressenti a été désanonymisé')
+          } else {
+            toast.success('Votre ressenti reste anonyme.')
+          }
           getDesanonym()
         }
       })
@@ -368,16 +373,19 @@ const FeelingsStudentPage = () => {
                 demands.length !== 0
                   ? (
                       demands.map((dem) => (
-                        <div title={dem.message} onClick={() => handleShowFeeling(dem.reason, dem.user)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
-                          <p className='demand-content'>{dem.status === 'refused' ? 'Refus de désanonymisation d\'un ressenti' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'Demande de désanonymisation d\'un ressenti en attente d\'une réponse'}</p>
-                          <span>
-                            {
-                          dem.status !== 'accepted' && <button title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='close-img' src={acceptIcon} alt='AcceptDemand' /></button>
-                        }
-                            {
-                          dem.status !== 'refused' && <button title='Refuser' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'refused') }}><img className='close-img' src={refuseIcon} alt='RefuseDemand' /></button>
-                        }
-                          </span>
+                        <div title={dem.status === 'refused' ? 'Refus de la demande' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'En attente d\'un retour'} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                          <div className="demand-content">
+                            <img className='emoticone-image' style={{ height: '25px' }} src={imagePaths[dem.mood.mood]} alt={moods[dem.mood.mood]} />
+                            <p style={{flexWrap: "wrap"}}>{dem.mood.comment}</p>
+                          </div>
+                          <div className="demand-button-container">
+                              {
+                                dem.status !== 'accepted' && <button  title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='open-img' src={acceptIcon} alt='AcceptDemand' /></button>
+                              }
+                              {
+                                dem.status !== 'refused' && <button title='Refuser' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'refused') }}><img className='close-img' src={refuseIcon} alt='RefuseDemand' /></button>
+                              }
+                          </div>
                         </div>
                       ))
                     )

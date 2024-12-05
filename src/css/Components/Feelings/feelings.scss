@@ -206,13 +206,29 @@ textarea {
   background: none;
 }
 
+.demand-button-container {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .close-img {
   width: 30px;
 }
 
 .close-img:hover {
   transition: 0.5;
-  width: 31px;
+  width: 40px;
+}
+
+.open-img {
+  width: 25px;
+}
+
+.open-img:hover {
+  transition: 0.5;
+  width: 35px;
 }
 
 .demand-close-btn:hover {
@@ -221,18 +237,26 @@ textarea {
 }
 
 .demand-content {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   margin-left: 10px;
   margin-right: 10px;
 }
 
 .green-filler {
-  background-color: green;
+  margin-bottom: 10px;
+  border-color: green;
 }
 
 .orange-filler {
-  background-color: orange;
+  margin-bottom: 10px;
+  border-color: orange;
 }
 
 .red-filler {
-  background-color: red;
+  margin-bottom: 10px;
+  border-color: red;
 }
