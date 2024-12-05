@@ -5,8 +5,6 @@ import userIcon from '../../assets/userIcon.png'
 import Popup from 'reactjs-popup'
 import cross from '../../assets/Cross.png'
 import { toast } from 'react-toastify'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 const ProfilPage = ({ isModif, handleProfileModification }) => {
   const [userProfile, setUserProfile] = useState({})
@@ -49,18 +47,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
 
   const handlePictureChange = (event) => {
     setNewPicture(event.target.files[0])
-    // const selectedFile = event.target.files[0]
-    // if (selectedFile) {
-    //   const reader = new FileReader()
-    //   reader.readAsDataURL(selectedFile)
-    //   reader.onload = () => {
-    //     const base64Image = reader.result
-    //     setNewPicture(base64Image)
-    //   }
-    //   reader.onerror = (error) => {
-    //     console.error('Error occurred while reading the file:', error)
-    //   }
-    // }
   }
 
   const handleSubmit = async (e) => {
@@ -107,10 +93,10 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
             sessionStorage.setItem('profile', JSON.stringify(data))
             window.location.reload()
           } else {
-            console.error(`Error: ${data.message}`)
+            toast.eror(`Error: ${data.message}`)
           }
         } catch (error) {
-          console.error(`Error: ${error}`)
+          toast.eror(`Error: ${error}`)
         }
       }
 
@@ -137,7 +123,7 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
     } catch (error) {
       navigate('/profile')
       setNegativeResponse('')
-      console.log('Erreur lors de la mise à jour du profil: ' + error.message)
+      toast.error('Erreur lors de la mise à jour du profil: ' + error.message)
     }
   }
 
@@ -213,9 +199,6 @@ const ProfilPage = ({ isModif, handleProfileModification }) => {
             <p className='element-title'>Adresse email</p>
             <p className='element-content'>{userProfile.email}</p>
           </div>
-        </div>
-        <div style={{ marginTop: '20px' }} onClick={() => disconnect()} className='item'>
-          <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnexion
         </div>
       </div>
     </div>
