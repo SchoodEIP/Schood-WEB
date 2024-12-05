@@ -44,13 +44,14 @@ const CategoryCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   }
 
   return (
-    <>
+    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", alignSelf:"center"}}>
+      <h3>Création d'une nouvelle catégorie d'aide</h3>
       <label className='input-label'>
         <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
         <input type='text' name='category' placeholder='Nom' onChange={handleNameChange} />
       </label>
       <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>
-    </>
+    </div>
   )
 }
 

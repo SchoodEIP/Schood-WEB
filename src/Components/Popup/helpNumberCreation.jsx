@@ -112,7 +112,8 @@ const HelpNumberCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   }
 
   return (
-    <>
+    <div style={{display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", alignSelf:"center"}}>
+      <h3>Création d'un nouveau numéro d'aide</h3>
       <label className='input-label'>
         <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
         <select data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
@@ -140,7 +141,7 @@ const HelpNumberCreationPopupContent = ({ handleUpdateContent, onClose }) => {
         <textarea name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
       </label>
       <button className='popup-btn' onClick={fetchHelpNumberRegister}>Créer le Numéro</button>
-    </>
+    </div>
   )
 }
 
