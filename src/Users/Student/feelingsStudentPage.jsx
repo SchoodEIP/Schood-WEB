@@ -27,7 +27,6 @@ import emoji4Selected from '../../assets/emojis/4s.png'
 import emoji5Selected from '../../assets/emojis/5s.png'
 
 const FeelingsStudentPage = () => {
-  const [userProfile, setUserProfile] = useState([])
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isPassed, setIsPassed] = useState(false)
   const [isModified, setIsModified] = useState(false)
@@ -258,7 +257,6 @@ const FeelingsStudentPage = () => {
 
   const handleShowFeeling = (feelingId, user) => {
     const feeling = feelings.find(item => item._id === feelingId)
-    setUserProfile(user)
     setShownFeeling(feeling)
     handleCloseFeelingPopup()
   }
@@ -356,7 +354,7 @@ const FeelingsStudentPage = () => {
                       <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                       <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
                     </div>
-                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{shownFeeling.annonymous ? 'Anonyme' : userProfile.firstname + ' ' + userProfile.lastname}</div>
+                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{shownFeeling.annonymous ? 'Anonyme' : ' '}</div>
                   </div>
                   <div className='feelings-content' style={{ width: '100%' }}>
                     <p className='paragraph-style'>{shownFeeling.comment}</p>
@@ -373,19 +371,19 @@ const FeelingsStudentPage = () => {
                 demands.length !== 0
                   ? (
                       demands.map((dem) => (
-                        <div title={dem.status === 'refused' ? 'Refus de la demande' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'En attente d\'un retour'} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={dem._id}>
+                        <div title={dem.status === 'refused' ? 'Refus de la demande' : dem.status === 'accepted' ? 'Ressenti désanonymisé' : 'En attente d\'un retour'} onClick={() => handleShowFeeling(dem.reason)} className={`demand-container ${dem.status === 'refused' ? 'red-filler' : dem.status === 'accepted' ? 'green-filler' : 'orange-filler'}`} key={`demand-${dem._id}`}>
                           <div className='demand-content'>
                             <img className='emoticone-image' style={{ height: '25px' }} src={imagePaths[dem.mood.mood]} alt={moods[dem.mood.mood]} />
                             <p style={{ flexWrap: 'wrap' }}>{dem.mood.comment}</p>
                           </div>
-                          <div className='demand-button-container'>
-                            {
-                                dem.status !== 'accepted' && <button title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='open-img' src={acceptIcon} alt='AcceptDemand' /></button>
-                              }
-                            {
-                                dem.status !== 'refused' && <button title='Refuser' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'refused') }}><img className='close-img' src={refuseIcon} alt='RefuseDemand' /></button>
-                              }
-                          </div>
+                          {
+                              (!dem.status || dem.status === 'waiting') && (
+                                <div className='demand-button-container'>
+                                  <button title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='open-img' src={acceptIcon} alt='AcceptDemand' /></button>
+                                  <button title='Refuser' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'refused') }}><img className='close-img' src={refuseIcon} alt='RefuseDemand' /></button>
+                                </div>
+                              )
+                            }
                         </div>
                       ))
                     )
