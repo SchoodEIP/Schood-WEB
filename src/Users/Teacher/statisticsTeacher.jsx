@@ -398,7 +398,7 @@ const TeacherStatPage = () => {
   return (
     <div className='dashboard'>
       <HeaderComp title='Mes statistiques' />
-      <div className='page-content'>
+      <div className='page-content' style={{height: "calc(100% - 130px)"}}>
         <div>
           <div>
             <label htmlFor='dateFilter'>Sélectionner une date:</label>

@@ -266,8 +266,8 @@ const StudentStatPage = () => {
   return (
     <div className='dashboard'>
       <HeaderComp title='Mes statistiques' />
-      <div className='page-content'>
-        <div>
+      <div className='page-content' style={{height: "calc(100% - 130px)"}}>
+        <div className="stat-page-content">
           <label htmlFor='dateFilter'>Sélectionner une date:</label>
           <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
           <div className='button-container'>
@@ -297,7 +297,7 @@ const StudentStatPage = () => {
             </div>
           </div>
           <h1>Evolution de mon humeur</h1>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', width: '500px' }}>
             <canvas id='moodChart' width='400' height='400' />
             {isNaN(averagePercentage)
               ? (

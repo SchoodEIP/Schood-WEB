@@ -26,6 +26,12 @@
       font-family: Inter;
     }
 
+    @media (max-height: 600px) {
+      .title {
+        font-size: 25px;
+      }
+    }
+
     .see-more {
       margin-top: 5px;
       display: flex;
@@ -40,6 +46,13 @@
       .img {
         margin-left: 4px;
       }
+    }
+
+  }
+
+  @media (max-height: 600px) {
+    .quest-header {
+      margin-top: 0;
     }
   }
 
@@ -86,6 +99,12 @@
           font-weight: 600;
           font-family: Inter;
           text-overflow: ellipsis;
+        }
+
+        @media (max-height: 600px) {
+          .header {
+            font-size: 18px;
+          }
         }
 
         .body {
