@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: row;
     gap: 25px;
+    overflow: auto;
+    white-space: nowrap;
+    height: 10vh;
+    align-items: center;
 }
 
 .category-btn {

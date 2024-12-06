@@ -11,6 +11,7 @@ import '../../css/Components/Popup/popup.scss'
 export default function AdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
   const [isOpenMany, setIsOpenMany] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
   const handleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle)
@@ -24,6 +25,12 @@ export default function AdmAccountsPage () {
     if (isOpenSingle) {
       setIsOpenSingle(false)
     }
+  }
+
+  const handleUpdateContent = () => {
+    setIsOpenMany(false)
+    setIsOpenSingle(false)
+    setIsUpdated(!isUpdated)
   }
 
   const buttonComponent = [
@@ -48,13 +55,13 @@ export default function AdmAccountsPage () {
         />
       </div>
       <div className='page-content' style={{ alignContent: 'center', justifyContent: 'center' }}>
-        <AdmAccountsTable />
+        <AdmAccountsTable handleUpdateContent={handleUpdateContent} isUpdated={isUpdated} />
       </div>
       <Popup open={isOpenSingle} onClose={handleSingleAccount} modal>
         {(close) => (
           <div className='popup-modal-container' style={{ padding: '50px', gap: '20px', alignItems: 'center' }}>
             <button data-testid='close-single' className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-            <SingleAccountCreationPopupContent />
+            <SingleAccountCreationPopupContent handleUpdateContent={handleUpdateContent} />
           </div>
         )}
       </Popup>

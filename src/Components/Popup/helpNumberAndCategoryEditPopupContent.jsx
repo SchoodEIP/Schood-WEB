@@ -3,8 +3,8 @@ import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 import '../../css/pages/homePage.scss'
 
-const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', phone: '' })
+const HelpNumberAndCategoryEditPopupContent = ({ handleUpdateContent, type, onClose }) => {
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', description: '' })
   const [items, setItems] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -97,7 +97,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
       }
       toast.success(`${type === 'number' ? 'Numéro' : 'Catégorie'} supprimé avec succès !`)
       onClose()
-      window.location.reload() // Rafraîchir la page après suppression
+      handleUpdateContent()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
       toast.error(`Erreur lors de la suppression: ${error.message}`)
@@ -109,7 +109,7 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
     const item = items.find((item) => item._id === selectedId)
     setSelectedItem(item)
     if (item && type === 'number') {
-      setFormData({ name: item.name, telephone: item.telephone || '', helpNumbersCategory: item.helpNumbersCategory })
+      setFormData({ name: item.name, telephone: item.telephone, email: item.email, description: item.description || '', helpNumbersCategory: item.helpNumbersCategory })
     } else {
       setFormData({ name: item.name })
     }
@@ -150,9 +150,9 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
         throw new Error(`Error ${response.status}: ${errorData.message || 'Unknown error'}`)
       }
 
-      toast.error('Modification réussie !')
+      toast.success('Modification réussie !')
       onClose()
-      window.location.reload()
+      handleUpdateContent()
     } catch (error) {
       console.error('Erreur lors de la requête:', error)
       toast.error(`Erreur lors de la requête: ${error.message}`)
@@ -160,8 +160,9 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
   }
 
   return (
-    <div className='edit-popup-content'>
-      <h2>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h2>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', alignSelf: 'center' }}>
+
+      <h3>Modifier {type === 'number' ? 'le numéro d’aide' : 'la catégorie d’aide'}</h3>
 
       {loading && <p>Chargement des données...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -216,10 +217,10 @@ const HelpNumberAndCategoryEditPopupContent = ({ type, onClose }) => {
                   </label>
                 </>
               )}
-              <button type='button' onClick={handleSubmit}>Sauvegarder</button>
-              <button type='button' onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white', marginLeft: '10px' }}>
-                Supprimer
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'row', paddingTop: '10px' }}>
+                <button type='button' onClick={handleSubmit}>Sauvegarder</button>
+                <button type='button' onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white', marginLeft: '10px' }}>Supprimer</button>
+              </div>
             </>
           )}
         </form>

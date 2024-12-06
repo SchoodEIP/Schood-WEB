@@ -38,8 +38,6 @@ import chatIcon from '../../assets/sidenav/chat-icon.png'
 import chatIconSelected from '../../assets/sidenav/chat-icon-selected.png'
 import helpIcon from '../../assets/sidenav/help-icon.png'
 import helpIconSelected from '../../assets/sidenav/help-icon-selected.png'
-import profileIcon from '../../assets/sidenav/profile-icon.png'
-import profileIconSelected from '../../assets/sidenav/profile-icon-selected.png'
 import feelingIcon from '../../assets/sidenav/feeling-icon.png'
 import feelingIconSelected from '../../assets/sidenav/feeling-icon-selected.png'
 import alertsIcon from '../../assets/sidenav/alerts-icon.png'
@@ -156,7 +154,6 @@ export default function Sidebar () {
       { id: 'statistiques', path: '/statistiques', icon: <img className='icons' src={statsIcon} />, iconSelected: <img className='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) },
       { id: 'messages', path: '/messages', icon: <img className='icons' src={chatIcon} />, iconSelected: <img className='icons' src={chatIconSelected} />, label: 'Mes messages', title: 'Mes messages', selected: IsCurrentPage('/messages', false) },
       { id: 'aides', path: '/aides', icon: <img className='icons' src={helpIcon} />, iconSelected: <img className='icons' src={helpIconSelected} />, label: 'Mes aides', title: 'Mes aides', selected: IsCurrentPage('/aides', false) },
-      { id: 'profile', path: '/profile', icon: <img className='icons' src={profileIcon} />, iconSelected: <img className='icons' src={profileIconSelected} />, label: 'Mon profil', title: 'Mon profil', selected: IsCurrentPage('/profile', false) },
       { id: 'alerts', path: '/alerts', icon: <img className='icons' src={alertsIcon} />, iconSelected: <img className='icons' src={alertsIconSelected} />, label: 'Mes alertes', title: 'Mes alertes', selected: IsCurrentPage('/alerts', false) }
     ]
     if (sessionStorage.getItem('role') === 'student') {
@@ -325,7 +322,7 @@ export default function Sidebar () {
               <FontAwesomeIcon size='2xl' icon={faAnglesDown} rotation={90} style={{ color: '#4f23e2' }} /> Réduire
             </div>
             <div onClick={() => disconnect()} className='item'>
-              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} />
+              <FontAwesomeIcon icon={faRightFromBracket} size='2xl' style={{ color: '#4f23e2' }} /> Déconnection
             </div>
           </div>
         </div>

@@ -57,16 +57,6 @@ const ConversationCreationPopupContent = ({ contacts, createConversation, closeC
   return (
     <>
       <label className='input-label'>
-        {isAddingParticipants && (
-          <div>
-            <h3 style={{ marginTop: '0px' }}>Membres actuels ({members.length})</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', gap: '10px' }}>
-              {members && members.map((member, index) => (
-                <p style={{ marginTop: '0px', marginBottom: '0px' }} key={index}>{member.firstname} {member.lastname}</p>
-              ))}
-            </div>
-          </div>
-        )}
         {isAddingParticipants ? <span style={{ marginTop: '10px', fontWeight: '600' }} className='label-content'>Sélectionner un/des utilisateur(s)</span> : <span style={{ marginTop: '0px', fontWeight: '600' }} className='label-content'>Rechercher un ou plusieurs membre(s) <span style={{ color: 'red' }}>*</span></span>}
         <Select
           isMulti

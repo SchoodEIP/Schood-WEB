@@ -3,7 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const CategoryCreationPopupContent = ({ onClose }) => {
+const CategoryCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   const [name, setName] = useState('')
 
   const handleNameChange = (event) => {
@@ -29,6 +29,7 @@ const CategoryCreationPopupContent = ({ onClose }) => {
         }
         if (response.ok) {
           toast.success('Catégorie créée avec succès.')
+          handleUpdateContent()
         } else {
           const data = await response.json()
           toast.error(data.message)
@@ -43,13 +44,14 @@ const CategoryCreationPopupContent = ({ onClose }) => {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', alignSelf: 'center' }}>
+      <h3>Création d'une nouvelle catégorie d'aide</h3>
       <label className='input-label'>
         <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
         <input type='text' name='category' placeholder='Nom' onChange={handleNameChange} />
       </label>
       <button className='popup-btn' onClick={fetchCategoryRegister}>Créer la Catégorie</button>
-    </>
+    </div>
   )
 }
 

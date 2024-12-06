@@ -3,7 +3,7 @@ import '../../css/Components/Popup/popup.scss'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const HelpNumberCreationPopupContent = ({ onClose }) => {
+const HelpNumberCreationPopupContent = ({ handleUpdateContent, onClose }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [categoryID, setCategoryID] = useState('')
@@ -70,8 +70,8 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
     if (name === '') {
       toast.error('Le nom est vide.')
       sendPost = false
-    } else if (!/^\d{10}$/.test(telephone) || telephone === '') {
-      toast.error('Veuillez fournir un numéro de téléphone valide (10 chiffres).')
+    } else if (!/^[0-9]+$/.test(telephone) || telephone === '') {
+      toast.error('Veuillez fournir un numéro de téléphone valide.')
       sendPost = false
     } else if (email === '' || !validateEmail(email)) {
       toast.error('Veuillez fournir une adresse email valide.')
@@ -101,7 +101,7 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
         }
         if (response.ok) {
           toast.success("Numéro d'aide ajouté avec succès.")
-          onClose()
+          handleUpdateContent()
         } else /* istanbul ignore next */ {
           const data = response.json()
           toast.error(data.message)
@@ -112,7 +112,8 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', alignSelf: 'center' }}>
+      <h3>Création d'un nouveau numéro d'aide</h3>
       <label className='input-label'>
         <span className='label-content'>Catégorie <span style={{ color: 'red' }}>*</span></span>
         <select data-testid='category-select' value={categoryID} onChange={handleCategoryChange}>
@@ -140,7 +141,7 @@ const HelpNumberCreationPopupContent = ({ onClose }) => {
         <textarea name='description' placeholder="Une description à propos de l'aide fournie" onChange={handleDescriptionChange} />
       </label>
       <button className='popup-btn' onClick={fetchHelpNumberRegister}>Créer le Numéro</button>
-    </>
+    </div>
   )
 }
 
