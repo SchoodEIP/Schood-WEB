@@ -20,7 +20,7 @@ export function TeacherGraphSpace () {
   const selectedDate = useState(new Date().toISOString().split('T')[0])
   const activeFilter = useState('Semaine')
   const selectedClass = useState(null)
-  const role = sessionStorage.getItem('role')
+
   const moodChartRef = useRef(null)
 
   useEffect(() => {
@@ -263,7 +263,7 @@ export function TeacherGraphSpace () {
   return (
     <div className='graph-box'>
       <div className='graph-header'>
-        <span className='title'>Evolution de l'humeur de {role === 'administration' ? 'mon établissement' : 'mes classes'}</span>
+        <span className='title'>Evolution de l'humeur de mes classes</span>
         <Link to='/statistiques' className='see-more'>
           Voir plus
           <img className='img' src={rightArrow} alt='Right arrow' />
