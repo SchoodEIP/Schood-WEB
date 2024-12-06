@@ -345,31 +345,17 @@ const TeacherStatPage = () => {
           datasets: [{
             label: 'Réponses',
             data: answerData.map((answer) => answer.data),
-            backgroundColor: 'white',
-            borderColor: 'white',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            borderColor: 'rgba(255, 255, 255, 1)',
             borderWidth: 1
           }]
         },
         options: {
           scales: {
-            x: {
-              ticks: {
-                color: 'white',
-                font: {
-                  family: 'Inter'
-                }
-              },
-              grid: {
-                color: 'rgba(255, 255, 255, 0.1)'
-              }
-            },
             y: {
               beginAtZero: true,
-              ticks: {
-                color: 'white',
-                font: {
-                  family: 'Inter'
-                }
+              font: {
+                family: 'Inter'
               }
             }
           },
@@ -412,7 +398,7 @@ const TeacherStatPage = () => {
   return (
     <div className='dashboard'>
       <HeaderComp title='Mes statistiques' />
-      <div className='page-content' style={{ height: 'calc(100% - 130px)' }}>
+      <div className='page-content'>
         <div>
           <div>
             <label htmlFor='dateFilter'>Sélectionner une date:</label>
@@ -445,7 +431,7 @@ const TeacherStatPage = () => {
             <div>
               <h1>Evolution de l'humeur</h1>
               <canvas id='moodChart' width='400' height='400' />
-              <div style={{ width: '200px', margin: 'auto', marginTop: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
                 <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
                 <progress className='progress' value={averageMood} max='100' />
               </div>

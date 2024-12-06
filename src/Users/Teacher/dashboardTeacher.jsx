@@ -40,10 +40,10 @@ const TeacherHomePage = () => {
       />
       <div className='page-content'>
         <div className='left-half'>
-          <div className='graph-space'>
+          <div className='graph-space' style={{ height: '70%' }}>
             <GraphSpace />
           </div>
-          <div className='quest-space'>
+          <div className='quest-space' style={{ height: '35%' }}>
             <QuestSpace />
           </div>
         </div>
