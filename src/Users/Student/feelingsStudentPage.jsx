@@ -376,7 +376,7 @@ const FeelingsStudentPage = () => {
                             <img className='emoticone-image' style={{ height: '25px' }} src={imagePaths[dem.mood.mood]} alt={moods[dem.mood.mood]} />
                             <p style={{ flexWrap: 'wrap' }}>{dem.mood.comment}</p>
                           </div>
-                            {
+                          {
                               (!dem.status || dem.status === 'waiting') && (
                                 <div className='demand-button-container'>
                                   <button title='Accepter' className='demand-close-btn' onClick={(e) => { e.stopPropagation(); handleDemand(dem._id, 'accepted') }}><img className='open-img' src={acceptIcon} alt='AcceptDemand' /></button>

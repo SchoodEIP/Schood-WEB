@@ -18,7 +18,7 @@ import { toast } from 'react-toastify'
 const FeelingsAdminPage = () => {
   const [isShown, setIsShown] = useState(false)
   const [shownFeeling, setShownFeeling] = useState([])
-  const [shownUser, setShownUser] = useState({firstname: '', lastname: ''})
+  const [shownUser, setShownUser] = useState({ firstname: '', lastname: '' })
   const [demand, setDemand] = useState({
     user: '',
     mood: '',
@@ -200,7 +200,7 @@ const FeelingsAdminPage = () => {
                       <p style={{ marginBottom: '0' }}>{shownFeeling.date !== '' ? 'Pris en compte le:' : 'En attente de prise en compte'}</p>
                       <p style={{ marginTop: '0' }}>{shownFeeling.date !== '' ? `${moment(shownFeeling.date).format('DD/MM/YYYY')}` : ''}</p>
                     </div>
-                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{(shownFeeling.annonymous && shownUser !== null)? 'Anonyme' : `${shownUser.firstname} ${shownUser.lastname}`}</div>
+                    <div className='publication-author' style={{ alignItems: 'center', display: 'flex', gap: '5px' }}>{(shownFeeling.annonymous && shownUser !== null) ? 'Anonyme' : `${shownUser.firstname} ${shownUser.lastname}`}</div>
                   </div>
                   <div className='feelings-content' style={{ width: '100%' }}>
                     <p className='paragraph-style'>{shownFeeling.comment}</p>

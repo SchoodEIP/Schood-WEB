@@ -266,8 +266,8 @@ const StudentStatPage = () => {
   return (
     <div className='dashboard'>
       <HeaderComp title='Mes statistiques' />
-      <div className='page-content' style={{height: "calc(100% - 130px)"}}>
-        <div className="stat-page-content">
+      <div className='page-content' style={{ height: 'calc(100% - 130px)' }}>
+        <div className='stat-page-content'>
           <label htmlFor='dateFilter'>Sélectionner une date:</label>
           <input type='date' id='dateFilter' value={selectedDate} onChange={handleDateChange} />
           <div className='button-container'>
