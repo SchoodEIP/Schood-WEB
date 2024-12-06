@@ -445,7 +445,7 @@ const TeacherStatPage = () => {
             <div>
               <h1>Evolution de l'humeur</h1>
               <canvas id='moodChart' width='400' height='400' />
-              <div style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>
+              <div style={{ width: '200px', margin: 'auto', marginTop: '20px', display: "flex", flexDirection:"row", alignItems: 'center' }}>
                 <img src={emoji4} size='2x' style={{ marginRight: '10px', marginBottom: '10px' }} />
                 <progress className='progress' value={averageMood} max='100' />
               </div>
