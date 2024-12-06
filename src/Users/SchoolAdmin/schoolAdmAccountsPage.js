@@ -13,6 +13,7 @@ export default function SchoolAdmAccountsPage () {
   const [isOpenSingle, setIsOpenSingle] = useState(false)
   const [isOpenMany, setIsOpenMany] = useState(false)
   const [isOpenClasses, setIsOpenClasses] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
   const handleSingleAccount = () => {
     setIsOpenSingle(!isOpenSingle)
@@ -42,6 +43,13 @@ export default function SchoolAdmAccountsPage () {
     if (isOpenSingle) {
       setIsOpenSingle(!isOpenSingle)
     }
+  }
+
+  const handleUpdateContent = () => {
+    setIsOpenMany(false)
+    setIsOpenSingle(false)
+    setIsOpenClasses(false)
+    setIsUpdated(!isUpdated)
   }
 
   const buttonComponent = [
@@ -74,7 +82,7 @@ export default function SchoolAdmAccountsPage () {
           {(close) => (
             <div className='popup-modal-container' style={{ alignItems: 'center' }}>
               <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
-              <SingleAccountCreationPopupContent />
+              <SingleAccountCreationPopupContent handleUpdateContent={handleUpdateContent} />
             </div>
           )}
         </Popup>
@@ -94,7 +102,7 @@ export default function SchoolAdmAccountsPage () {
             </div>
           )}
         </Popup>
-        <SchoolAccountsTable status={sessionStorage.getItem('role') !== 'teacher'} />
+        <SchoolAccountsTable handleUpdateContent={handleUpdateContent} isUpdated={isUpdated} status={sessionStorage.getItem('role') !== 'teacher'} />
       </div>
     </div>
   )

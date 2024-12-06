@@ -5,7 +5,7 @@ import userIcon from '../../assets/userIcon.png'
 import { disconnect } from '../../functions/disconnect'
 import { toast } from 'react-toastify'
 
-const SingleAccountCreationPopupContent = ({ close }) => {
+const SingleAccountCreationPopupContent = ({ handleUpdateContent }) => {
   const roleProfile = sessionStorage.getItem('role')
   const singleCreationUrl = process.env.REACT_APP_BACKEND_URL + '/adm/register'
   const [firstname, setFirstName] = useState('')
@@ -54,24 +54,41 @@ const SingleAccountCreationPopupContent = ({ close }) => {
   }
 
   const handlePictureChange = (event) => {
-    const selectedFile = event.target.files[0]
     setPicture(event.target.files[0])
-    if (selectedFile) {
-      const reader = new FileReader()
-      reader.readAsDataURL(selectedFile)
-      reader.onload = () => {
-        const base64Image = reader.result
-        setPicture(base64Image)
-      }
-      reader.onerror = (error) => {
-        console.error('Error occurred while reading the file:', error)
-      }
-    }
   }
 
   const validateEmail = (email) => {
     const regEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi
     return regEx.test(email)
+  }
+
+  async function modifyAccount (updatedUser, userId) {
+    const formData = new FormData()
+    formData.append('firstname', updatedUser.firstname)
+    formData.append('lastname', updatedUser.lastname)
+    formData.append('role', updatedUser.role)
+    formData.append('email', updatedUser.email)
+
+    if (picture) {
+      formData.append('file', picture)
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/modifyProfile/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'x-auth-token': sessionStorage.getItem('token')
+      },
+      body: formData
+    })
+
+    if (response.status === 401) {
+      disconnect()
+    } else if (response.ok) {
+      toast.success('Compte créé avec succès')
+      handleUpdateContent()
+    } else {
+      toast.error('Erreur lors de la mise à jour du profil: ' + response.statusText)
+    }
   }
 
   const singleAccountCreation = async (event) => {
@@ -125,7 +142,7 @@ const SingleAccountCreationPopupContent = ({ close }) => {
       email,
       role,
       classes: classesArray,
-      picture: picture || userIcon
+      picture: userIcon
     }
 
     await fetch(singleCreationUrl, {
@@ -140,15 +157,24 @@ const SingleAccountCreationPopupContent = ({ close }) => {
         if (response.status === 401) {
           disconnect()
         } else if (response.ok) {
-          toast.success('Compte créé avec succès')
-          window.location.reload()
+          if (!picture) {
+            toast.success('Compte créé avec succès')
+            handleUpdateContent()
+          } else {
+            return response.json()
+          }
+          // window.location.reload()
         } else {
           return response.json()
         }
       })
       .then((data) => {
         if (data) {
-          toast.error(data.message)
+          if (picture) {
+            modifyAccount(schoolAdminPayload, data.id)
+          } else {
+            toast.error(data.message)
+          }
         }
       })
       .catch((e) => {
@@ -218,7 +244,7 @@ const SingleAccountCreationPopupContent = ({ close }) => {
   }, [])
 
   return (
-    <>
+    <div>
       {/* Le reste du contenu du composant */}
       {roleProfile === 'admin'
         ? (
@@ -233,18 +259,6 @@ const SingleAccountCreationPopupContent = ({ close }) => {
             </label>
           </div>
           )}
-      <label className='input-label' style={{ gap: '10px' }}>
-        <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
-        <input style={{ width: '350px' }} placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
-      </label>
-      <label className='input-label' style={{ gap: '10px' }}>
-        <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
-        <input style={{ width: '350px' }} placeholder='Nom' value={lastname} onChange={handleLastNameChange} type='text' />
-      </label>
-      <label className='input-label' style={{ gap: '10px' }}>
-        <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
-        <input style={{ width: '350px' }} placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
-      </label>
       {roleProfile === 'admin'
         ? (
             ''
@@ -292,8 +306,22 @@ const SingleAccountCreationPopupContent = ({ close }) => {
             </label>
           </label>
           )}
+      <div>
+        <label className='input-label' style={{ gap: '10px' }}>
+          <span className='label-content'>Prénom <span style={{ color: 'red' }}>*</span></span>
+          <input style={{ width: '350px' }} placeholder='Prénom' value={firstname} onChange={handleFirstNameChange} type='text' />
+        </label>
+        <label className='input-label' style={{ gap: '10px' }}>
+          <span className='label-content'>Nom <span style={{ color: 'red' }}>*</span></span>
+          <input style={{ width: '350px' }} placeholder='Nom' value={lastname} onChange={handleLastNameChange} type='text' />
+        </label>
+        <label className='input-label' style={{ gap: '10px' }}>
+          <span className='label-content'>Adresse Email <span style={{ color: 'red' }}>*</span></span>
+          <input style={{ width: '350px' }} placeholder='Email' value={email} onChange={handleEmailChange} type='text' />
+        </label>
+      </div>
       <button className='popup-btn' onClick={singleAccountCreation}>Créer le Compte</button>
-    </>
+    </div>
   )
 }
 

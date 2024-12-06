@@ -11,7 +11,7 @@ import suspendButton from '../../../assets/suspendIcon.png'
 import restoreButton from '../../../assets/restoreIcon.png'
 import Select from 'react-select'
 
-export default function SchoolAccountsTable ({ status }) {
+export default function SchoolAccountsTable ({ isUpdated, handleUpdateContent, status }) {
   const [teacherList, setTeacherList] = useState([])
   const [studentList, setStudentList] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -47,12 +47,15 @@ export default function SchoolAccountsTable ({ status }) {
       disconnect()
     } else {
       const data = await resp.json()
-      const array = [...accounts, ...data]
 
-      const teacherAccounts = array.filter(account => account.role.name === 'teacher')
-      const studentAccounts = array.filter(account => account.role.name === 'student')
-      setTeacherList(teacherAccounts)
-      setStudentList(studentAccounts)
+      if (data.message !== 'Access Forbidden') {
+        const array = [...accounts, ...data]
+
+        const teacherAccounts = array.filter(account => account.role.name === 'teacher')
+        const studentAccounts = array.filter(account => account.role.name === 'student')
+        setTeacherList(teacherAccounts)
+        setStudentList(studentAccounts)
+      }
     }
   }
 
@@ -99,6 +102,13 @@ export default function SchoolAccountsTable ({ status }) {
         toast.error(error.message)
       })
   }
+
+  useEffect(() => {
+    if (isUpdated) {
+      getAccountList()
+      handleUpdateContent()
+    }
+  }, [isUpdated])
 
   const showClasses = (classes) => {
     if (!Array.isArray(classes)) {
@@ -195,7 +205,11 @@ export default function SchoolAccountsTable ({ status }) {
 
       studentClass.map(classe => { return callAction(classe, '/updateStudent') })
     }
-    if (!classError) { toast.success('Le profil a été mis à jour avec succès.') }
+    if (!classError) {
+      toast.success('Le profil a été mis à jour avec succès.')
+      handleUpdateContent()
+      openEditing()
+    }
   }
 
   const handleUpdate = async (e) => {
@@ -315,7 +329,7 @@ export default function SchoolAccountsTable ({ status }) {
           <div className='popup-modal-container' style={{ alignItems: 'center' }}>
             <button className='close-btn' onClick={close}><img src={cross} alt='Close' /></button>
             <div className='editProfileForm'>
-              <h2>Modifier Profil</h2>
+              <h2>Modifier le profil</h2>
               <form className='form-profile-modif' onSubmit={handleUpdate}>
                 <div>
                   <label className='input-label' htmlFor='firstname'>Prénom:
@@ -407,7 +421,7 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button></td>}
+                    {status && <td>{data.active && <button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button>}</td>}
                     {status &&
                       <td>
                         {
@@ -451,7 +465,7 @@ export default function SchoolAccountsTable ({ status }) {
                     <td title={`${data.firstname} ${data.lastname}`}>{data.lastname}</td>
                     <td title={`${data.email}`}>{data.email}</td>
                     <td>{showClasses(data.classes)}</td>
-                    {status && <td><button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le Profil'>Modifier</button></td>}
+                    {status && <td>{data.active && <button style={{ fontFamily: 'Inter' }} onClick={(e) => { e.stopPropagation(); handleEditClick(data) }} title='Modifier le profil'>Modifier</button>}</td>}
                     {status &&
                       <td>
                         {

@@ -4,7 +4,7 @@ import '../../css/pages/createAlerts.scss'
 import { toast } from 'react-toastify'
 import { disconnect } from '../../functions/disconnect'
 
-const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert }) => {
+const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert, handleUpdateContent }) => {
   const [editedAlert, setEditedAlert] = useState(chosenAlert)
   const [file, setFile] = useState(null)
 
@@ -31,6 +31,7 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert }
         if (response.status === 401) {
           disconnect()
         }
+        handleUpdateContent()
         toast.success('Fichier envoyé avec l\'alerte avec succès')
       })
       .catch((error) => /* istanbul ignore next */ {
@@ -44,7 +45,8 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert }
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignSelf: 'center' }}>
+      <h3 style={{ alignSelf: 'center' }}>Modifier l'alerte</h3>
       <label className='input-label'>
         <span className='label-content'>Titre <span style={{ color: 'red' }}>*</span></span>
         <input type='text' name='title' placeholder='Titre' value={editedAlert.title} onChange={handleEditChange} />
@@ -57,8 +59,8 @@ const AlertModificationPopupContent = ({ onClose, chosenAlert, handleEditAlert }
         <span className='label-content'>Fichier joint</span>
         <input id='file-input' data-testid='alert-file-input' type='file' onChange={(e) => setFile(e.target.files[0])} />
       </label>
-      <button className='popup-btn' onClick={() => editAlert()}>Modifier l'Alerte</button>
-    </>
+      <button style={{ alignSelf: 'center' }} className='popup-btn' onClick={() => editAlert()}>Modifier l'Alerte</button>
+    </div>
   )
 }
 
