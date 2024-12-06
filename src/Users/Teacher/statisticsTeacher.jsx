@@ -345,17 +345,31 @@ const TeacherStatPage = () => {
           datasets: [{
             label: 'Réponses',
             data: answerData.map((answer) => answer.data),
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            borderColor: 'rgba(255, 255, 255, 1)',
+            backgroundColor: 'white',
+            borderColor: 'white',
             borderWidth: 1
           }]
         },
         options: {
           scales: {
+            x: {
+              ticks: {
+                color: 'white',
+                font: {
+                  family: 'Inter'
+                }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
             y: {
               beginAtZero: true,
-              font: {
-                family: 'Inter'
+              ticks: {
+                color: 'white',
+                font: {
+                  family: 'Inter'
+                }
               }
             }
           },
