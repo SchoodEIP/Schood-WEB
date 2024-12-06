@@ -146,6 +146,8 @@ export default function Sidebar () {
       pages.splice(4, 0, reportObj)
       const feelingsModerationObj = { id: 'ressentis', path: '/feelings', icon: <img className='icons' src={feelingIcon} />, iconSelected: <img className='icons' src={feelingIconSelected} />, label: 'Mes ressentis', title: 'Mes ressentis', selected: IsCurrentPage('/feelings', false) }
       pages.splice(4, 0, feelingsModerationObj)
+      const statObj = { id: 'statistiques', path: '/statistiques', icon: <img className='icons' src={statsIcon} />, iconSelected: <img className='icons' src={statsIconSelected} />, label: 'Mes statistiques', title: 'Mes statistiques', selected: IsCurrentPage('/statistiques', false) }
+      pages.splice(4, 0, statObj)
     }
   } else {
     pages = [
